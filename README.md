@@ -1,5 +1,7 @@
 # AODS v3
 
+[English](./README.md) | [简体中文](./README.zh-CN.md)
+
 Agent-Optimized Documentation System: a spec-first documentation standard for corpora that must be readable by agents, governable by validators and hooks, and still bridge back to human-facing surfaces.
 
 ## The problem
