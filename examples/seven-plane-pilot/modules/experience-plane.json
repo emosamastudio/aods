@@ -1,0 +1,39 @@
+{
+  "aods_v": 3,
+  "module_id": "experience-plane",
+  "v": 1,
+  "context": "Experience Plane detail for the seven-plane operating system. Covers human-facing entry surfaces across web, desktop, mobile, and future voice clients.",
+  "sections": [
+    {
+      "sid": "plane-role",
+      "topic": "experience plane role",
+      "content": "Experience Plane owns human-facing entry surfaces across web, desktop, mobile, and future voice. Experience Plane optimizes interaction UX; Experience Plane does not hold system-of-record state.",
+      "content_type": "rules",
+      "refs": [
+        "gateway-plane:plane-role",
+        "control-plane:plane-role",
+        "knowledge-resources-plane:plane-role"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "current-posture",
+      "topic": "experience plane posture and boundaries",
+      "content": "Must_not = platform truth, dispatch truth, or durable resource truth. Current posture = required-unassigned. openclaw is partial candidate for mobile or device interaction surfaces.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot module for Experience Plane."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

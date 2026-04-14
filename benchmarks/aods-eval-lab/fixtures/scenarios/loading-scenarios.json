@@ -1,0 +1,97 @@
+[
+  {
+    "id": "orientation-summary",
+    "description": "Cold-start reader asks for benchmark orientation.",
+    "role": "product-manager",
+    "intent": "read",
+    "concepts": [
+      "overview",
+      "summary",
+      "routes"
+    ],
+    "requiredModules": [
+      "atlas-root",
+      "atlas-capsule"
+    ]
+  },
+  {
+    "id": "product-doc-edit",
+    "description": "Doc author edits the product lifecycle human surface.",
+    "role": "doc-author",
+    "intent": "write",
+    "touch": "docs/01-product-lifecycle.md",
+    "concepts": [
+      "goals",
+      "roadmap",
+      "adr"
+    ],
+    "requiredModules": [
+      "product-lifecycle",
+      "atlas-capsule"
+    ]
+  },
+  {
+    "id": "architecture-module-edit",
+    "description": "Architect edits the architecture contract module.",
+    "role": "architect",
+    "intent": "write",
+    "touch": "modules/architecture-contracts.json",
+    "concepts": [
+      "api",
+      "schema",
+      "config"
+    ],
+    "requiredModules": [
+      "atlas-root",
+      "atlas-capsule",
+      "architecture-contracts"
+    ]
+  },
+  {
+    "id": "workflow-debug",
+    "description": "Architect debugs rollout policy and rollback behavior.",
+    "role": "architect",
+    "intent": "read",
+    "concepts": [
+      "workflow",
+      "rollback",
+      "risk"
+    ],
+    "requiredModules": [
+      "delivery-workflows",
+      "operations-governance"
+    ]
+  },
+  {
+    "id": "ops-doc-edit",
+    "description": "Operator edits the operations and governance human surface.",
+    "role": "operator",
+    "intent": "write",
+    "touch": "docs/04-operations-and-governance.md",
+    "concepts": [
+      "incident",
+      "policy",
+      "slo"
+    ],
+    "requiredModules": [
+      "atlas-capsule",
+      "operations-governance",
+      "evidence-reference"
+    ]
+  },
+  {
+    "id": "release-contract-read",
+    "description": "Product manager asks about release packet schema and example payloads.",
+    "role": "product-manager",
+    "intent": "read",
+    "concepts": [
+      "release",
+      "schema",
+      "api",
+      "packet"
+    ],
+    "requiredModules": [
+      "architecture-contracts"
+    ]
+  }
+]

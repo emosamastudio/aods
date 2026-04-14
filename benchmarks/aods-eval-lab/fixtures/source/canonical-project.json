@@ -1,0 +1,1864 @@
+{
+  "system": {
+    "id": "atlas-release-ops",
+    "name": "Atlas Release Ops",
+    "purpose": "Independent benchmark corpus for a multi-tenant release coordination and incident-ready rollout system.",
+    "glossary": {
+      "system": "Atlas Release Ops benchmark corpus",
+      "release_packet": "Canonical release unit with owner, risk tier, rollback plan, communication plan, and rollout window.",
+      "paired_surface": "Human-facing file linked to one or more authoritative agent-primary modules.",
+      "rollout_lane": "One deployment cohort used for canary, staged, or full release decisions."
+    }
+  },
+  "modules": [
+    {
+      "id": "atlas-root",
+      "path": "modules/atlas-root.json",
+      "scope": "Cold-start routing for the benchmark corpus. Use for first-hop orientation.",
+      "category": "architecture",
+      "layer": "root",
+      "deps": [],
+      "tags": [
+        "root",
+        "routing",
+        "overview",
+        "benchmark"
+      ],
+      "priority": "critical"
+    },
+    {
+      "id": "atlas-capsule",
+      "path": "modules/atlas-capsule.json",
+      "scope": "Capsule summary and route fanout across product, architecture, workflow, and operations slices.",
+      "category": "capsule",
+      "layer": "capsule",
+      "deps": [],
+      "tags": [
+        "capsule",
+        "summary",
+        "routes",
+        "benchmark"
+      ],
+      "priority": "critical"
+    },
+    {
+      "id": "product-lifecycle",
+      "path": "modules/product-lifecycle.json",
+      "scope": "Goals, non-goals, discovery findings, milestones, authoring prompts, and design rationale.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "product",
+        "goals",
+        "roadmap",
+        "adr",
+        "prompt"
+      ],
+      "priority": "standard"
+    },
+    {
+      "id": "architecture-contracts",
+      "path": "modules/architecture-contracts.json",
+      "scope": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role enums.",
+      "category": "reference",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "architecture",
+        "api",
+        "schema",
+        "contracts",
+        "config"
+      ],
+      "priority": "standard"
+    },
+    {
+      "id": "delivery-workflows",
+      "path": "modules/delivery-workflows.json",
+      "scope": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analytics pipeline.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [
+        "architecture-contracts"
+      ],
+      "tags": [
+        "workflow",
+        "rollout",
+        "state",
+        "sequence",
+        "pipeline"
+      ],
+      "priority": "standard"
+    },
+    {
+      "id": "operations-governance",
+      "path": "modules/operations-governance.json",
+      "scope": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and validation guidance.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [
+        "delivery-workflows"
+      ],
+      "tags": [
+        "operations",
+        "governance",
+        "incident",
+        "policy",
+        "slo"
+      ],
+      "priority": "standard"
+    },
+    {
+      "id": "evidence-reference",
+      "path": "modules/evidence-reference.json",
+      "scope": "Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets.",
+      "category": "reference",
+      "layer": "evidence",
+      "deps": [
+        "operations-governance"
+      ],
+      "tags": [
+        "evidence",
+        "raw",
+        "sql",
+        "escape-hatch"
+      ],
+      "priority": "standard"
+    }
+  ],
+  "docs": [
+    {
+      "path": "README.md",
+      "title": "Atlas Release Ops overview",
+      "moduleIds": [
+        "atlas-root",
+        "atlas-capsule"
+      ]
+    },
+    {
+      "path": "docs/01-product-lifecycle.md",
+      "title": "Product lifecycle",
+      "moduleIds": [
+        "product-lifecycle"
+      ]
+    },
+    {
+      "path": "docs/02-architecture-and-contracts.md",
+      "title": "Architecture and contracts",
+      "moduleIds": [
+        "architecture-contracts"
+      ]
+    },
+    {
+      "path": "docs/03-delivery-workflows.md",
+      "title": "Delivery workflows",
+      "moduleIds": [
+        "delivery-workflows"
+      ]
+    },
+    {
+      "path": "docs/04-operations-and-governance.md",
+      "title": "Operations and governance",
+      "moduleIds": [
+        "operations-governance",
+        "evidence-reference"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "system-overview",
+      "phase": "vision",
+      "humanDoc": "README.md",
+      "moduleId": "atlas-root",
+      "kind": "section",
+      "title": "System overview",
+      "summary": "Use the root layer for system purpose, authority posture, and first-hop routing.",
+      "section": {
+        "sid": "system-overview",
+        "topic": "system purpose and authority posture",
+        "content_type": "prose",
+        "criticality": "must"
+      },
+      "facts": [
+        {
+          "id": "overview-system",
+          "text": "Atlas Release Ops is a multi-tenant release coordination system for product launches and incident-ready rollouts.",
+          "critical": true
+        },
+        {
+          "id": "overview-authority",
+          "text": "Authoritative semantics live in agent-primary AODS modules and human docs are paired explanatory surfaces.",
+          "critical": true
+        },
+        {
+          "id": "overview-first-hop",
+          "text": "Cold-start routing begins at atlas-root and summary routing continues through atlas-capsule.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "capsule-routing",
+      "phase": "governance",
+      "humanDoc": "README.md",
+      "moduleId": "atlas-capsule",
+      "kind": "section",
+      "title": "Capsule routing",
+      "summary": "Use the capsule when a reader needs quick orientation before loading detail modules.",
+      "section": {
+        "sid": "capsule-routing",
+        "topic": "capsule routes to detailed authority",
+        "content_type": "rules",
+        "criticality": "must"
+      },
+      "facts": [
+        {
+          "id": "capsule-product",
+          "text": "Use product-lifecycle for goals, roadmap checkpoints, verification intent, and ADR rationale.",
+          "critical": true
+        },
+        {
+          "id": "capsule-architecture",
+          "text": "Use architecture-contracts for topology, APIs, schemas, examples, templates, identifiers, and enums.",
+          "critical": true
+        },
+        {
+          "id": "capsule-workflows",
+          "text": "Use delivery-workflows for approval flow, publish sequence, rollout decisions, lifecycle states, and analytics lineage.",
+          "critical": true
+        },
+        {
+          "id": "capsule-ops",
+          "text": "Use operations-governance for policy, events, error handling, temporal controls, and paired-surface discipline.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "vision-brief",
+      "phase": "vision",
+      "humanDoc": "docs/01-product-lifecycle.md",
+      "moduleId": "product-lifecycle",
+      "kind": "section",
+      "title": "Vision brief",
+      "summary": "State business outcome, release packet requirements, and explicit non-goals.",
+      "section": {
+        "sid": "vision-brief",
+        "topic": "goals and non-goals",
+        "content_type": "prose",
+        "criticality": "must"
+      },
+      "facts": [
+        {
+          "id": "vision-cycle-time",
+          "text": "Atlas Release Ops reduces release readiness coordination from two days to under thirty minutes.",
+          "critical": true
+        },
+        {
+          "id": "vision-packet",
+          "text": "Every approved release must include an owner, a risk tier, a rollback plan, and a communication plan.",
+          "critical": true
+        },
+        {
+          "id": "vision-non-goal",
+          "text": "Atlas Release Ops does not replace CI/CD executors or incident paging vendors.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "competitor-matrix",
+      "phase": "discovery",
+      "humanDoc": "docs/01-product-lifecycle.md",
+      "moduleId": "product-lifecycle",
+      "kind": "artifact",
+      "title": "Competitor matrix",
+      "summary": "Capture why existing alternatives fail under release-day pressure.",
+      "artifact": {
+        "artifact_id": "competitor-matrix",
+        "type": "mapping-table",
+        "usage": "Competitive analysis and discovery findings."
+      },
+      "facts": [
+        {
+          "id": "discovery-spreadsheets",
+          "text": "Spreadsheets fail because approval state and rollback ownership drift during release day.",
+          "critical": true
+        },
+        {
+          "id": "discovery-chatops",
+          "text": "ChatOps bots fail because they do not produce durable release packets with explicit authority.",
+          "critical": true
+        },
+        {
+          "id": "discovery-alm",
+          "text": "Traditional ALM suites are too heavyweight for release-day coordination across product, engineering, and support.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "key_columns": [
+          "alternative"
+        ],
+        "columns": [
+          "alternative",
+          "strength",
+          "gap"
+        ],
+        "rows": [
+          [
+            "spreadsheets",
+            "Fast to adopt for ad hoc tracking.",
+            "Spreadsheets fail because approval state and rollback ownership drift during release day."
+          ],
+          [
+            "chatops bots",
+            "Fast commands for narrow release checks.",
+            "ChatOps bots fail because they do not produce durable release packets with explicit authority."
+          ],
+          [
+            "traditional alm suites",
+            "Strong audit history for long projects.",
+            "Traditional ALM suites are too heavyweight for release-day coordination across product, engineering, and support."
+          ]
+        ]
+      }
+    },
+    {
+      "id": "delivery-plan",
+      "phase": "planning",
+      "humanDoc": "docs/01-product-lifecycle.md",
+      "moduleId": "product-lifecycle",
+      "kind": "section",
+      "title": "Delivery plan",
+      "summary": "Set milestones that tie design readiness, controlled rollout, and operating readiness together.",
+      "section": {
+        "sid": "delivery-plan",
+        "topic": "milestones and acceptance gates",
+        "content_type": "logic",
+        "criticality": "should"
+      },
+      "facts": [
+        {
+          "id": "plan-alpha",
+          "text": "Alpha exit requires the release packet API, release state machine, and paired README governance to validate cleanly.",
+          "critical": true
+        },
+        {
+          "id": "plan-beta",
+          "text": "Beta exit requires staged rollout policy, event catalog coverage, and rollback drills to complete without manual coordinator notes.",
+          "critical": true
+        },
+        {
+          "id": "plan-ga",
+          "text": "General availability requires the sev1 escalation path, p99 publish latency budget, and change-history audit trail to be active.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "verification-plan",
+      "phase": "test",
+      "humanDoc": "docs/01-product-lifecycle.md",
+      "moduleId": "product-lifecycle",
+      "kind": "section",
+      "title": "Verification plan",
+      "summary": "Define what must be proven before rollout automation is trusted.",
+      "section": {
+        "sid": "verification-plan",
+        "topic": "verification scope",
+        "content_type": "rules",
+        "criticality": "should"
+      },
+      "facts": [
+        {
+          "id": "test-paired-surfaces",
+          "text": "Each paired human surface must fail a human-only change under agent-primary sync.",
+          "critical": true
+        },
+        {
+          "id": "test-rollout-tree",
+          "text": "Each rollout risk tier must hit a deterministic branch in the rollout policy tree.",
+          "critical": true
+        },
+        {
+          "id": "test-rollback-sim",
+          "text": "Each rollback strategy class must be replayed in simulation before general availability.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "decision-log",
+      "phase": "design",
+      "humanDoc": "docs/01-product-lifecycle.md",
+      "moduleId": "product-lifecycle",
+      "kind": "section",
+      "title": "Decision log",
+      "summary": "Persist design rationale in explicit statements instead of implicit habits.",
+      "section": {
+        "sid": "decision-log",
+        "topic": "frozen design decisions",
+        "content_type": "rules",
+        "criticality": "must"
+      },
+      "facts": [
+        {
+          "id": "adr-agent-primary",
+          "text": "Agent-primary modules remain authoritative even when paired human docs are easier for operators to scan.",
+          "critical": true
+        },
+        {
+          "id": "adr-risk-tree",
+          "text": "Release risk scoring lives in the rollout decision tree instead of freeform checklist prose.",
+          "critical": true
+        },
+        {
+          "id": "adr-evidence-layer",
+          "text": "Raw SQL and low-level migration evidence stay in the evidence layer and do not lead cold-start boot.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "release-topology",
+      "phase": "design",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Release topology",
+      "summary": "Expose the services and data boundaries needed for release coordination.",
+      "artifact": {
+        "artifact_id": "release-topology",
+        "type": "topology",
+        "usage": "System structure for the release coordination benchmark."
+      },
+      "facts": [
+        {
+          "id": "topology-gateway",
+          "text": "API Gateway accepts release packet writes and forwards them to the release service.",
+          "critical": true
+        },
+        {
+          "id": "topology-workflow",
+          "text": "Workflow Engine evaluates approval state and staged rollout policy for each release packet.",
+          "critical": true
+        },
+        {
+          "id": "topology-events",
+          "text": "Notification Service consumes release and incident events before messaging product, engineering, and support leads.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "nodes": [
+          {
+            "id": "web-console",
+            "type": "gateway",
+            "desc": "Web Console captures release packet edits from release managers."
+          },
+          {
+            "id": "api-gateway",
+            "type": "gateway",
+            "desc": "API Gateway accepts release packet writes and forwards them to the release service."
+          },
+          {
+            "id": "release-service",
+            "type": "service",
+            "desc": "Release Service stores release packets and current lifecycle state."
+          },
+          {
+            "id": "workflow-engine",
+            "type": "service",
+            "desc": "Workflow Engine evaluates approval state and staged rollout policy for each release packet."
+          },
+          {
+            "id": "event-bus",
+            "type": "queue",
+            "desc": "Event Bus fans release and incident events to downstream consumers."
+          },
+          {
+            "id": "notification-service",
+            "type": "service",
+            "desc": "Notification Service consumes release and incident events before messaging product, engineering, and support leads."
+          },
+          {
+            "id": "primary-db",
+            "type": "database",
+            "desc": "Primary DB stores release packets, approvals, and change history."
+          }
+        ],
+        "edges": [
+          {
+            "from": "web-console",
+            "to": "api-gateway",
+            "type": "control",
+            "protocol": "https",
+            "desc": "Release managers submit or edit release packets."
+          },
+          {
+            "from": "api-gateway",
+            "to": "release-service",
+            "type": "data",
+            "protocol": "https",
+            "desc": "API Gateway accepts release packet writes and forwards them to the release service."
+          },
+          {
+            "from": "release-service",
+            "to": "workflow-engine",
+            "type": "control",
+            "protocol": "internal-rpc",
+            "desc": "Release Service requests approval and rollout evaluation."
+          },
+          {
+            "from": "release-service",
+            "to": "primary-db",
+            "type": "data",
+            "protocol": "postgres",
+            "desc": "Release Service persists canonical packet and state history."
+          },
+          {
+            "from": "workflow-engine",
+            "to": "event-bus",
+            "type": "event",
+            "protocol": "kafka",
+            "async": true,
+            "desc": "Workflow Engine emits approval and rollout outcomes."
+          },
+          {
+            "from": "event-bus",
+            "to": "notification-service",
+            "type": "event",
+            "protocol": "kafka",
+            "async": true,
+            "desc": "Notification Service consumes release and incident events before messaging product, engineering, and support leads."
+          }
+        ],
+        "groups": [
+          {
+            "id": "control-plane",
+            "label": "Control plane",
+            "node_ids": [
+              "api-gateway",
+              "release-service",
+              "workflow-engine"
+            ],
+            "boundary": "logical"
+          },
+          {
+            "id": "delivery-plane",
+            "label": "Delivery plane",
+            "node_ids": [
+              "event-bus",
+              "notification-service"
+            ],
+            "boundary": "logical"
+          }
+        ]
+      }
+    },
+    {
+      "id": "release-api-contract",
+      "phase": "design",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Release API contract",
+      "summary": "Define write, read, and incident creation endpoints against the release service.",
+      "artifact": {
+        "artifact_id": "release-api-contract",
+        "type": "api-contract",
+        "usage": "Release packet service contract."
+      },
+      "facts": [
+        {
+          "id": "api-create-release",
+          "text": "POST /v1/releases creates a release packet and returns the packet id.",
+          "critical": true
+        },
+        {
+          "id": "api-read-release",
+          "text": "GET /v1/releases/{releaseId} returns the latest release packet, approval state, and rollout lane.",
+          "critical": true
+        },
+        {
+          "id": "api-create-incident",
+          "text": "POST /v1/incidents creates a linked incident record when rollout health degrades.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "provider": "release-service",
+        "consumers": [
+          "web-console",
+          "workflow-engine",
+          "support-ops"
+        ],
+        "protocol": "http",
+        "base_url": "https://atlas.example.internal",
+        "auth": "oauth2 bearer token",
+        "version": "2026-04",
+        "endpoints": [
+          {
+            "id": "create-release",
+            "method": "POST",
+            "path": "/v1/releases",
+            "desc": "POST /v1/releases creates a release packet and returns the packet id.",
+            "input": "release-payload-schema",
+            "output": {
+              "releaseId": "rel_2026_0420_checkout",
+              "status": "draft"
+            },
+            "errors": [
+              {
+                "code": "400",
+                "meaning": "Request failed schema validation.",
+                "recovery": "Return field-level errors."
+              },
+              {
+                "code": "409",
+                "meaning": "Release packet key already exists.",
+                "recovery": "Use the existing packet or a new key."
+              }
+            ],
+            "sla": {
+              "latency_p99": "250ms",
+              "throughput": "50 rps",
+              "availability": "99.95%"
+            },
+            "idempotent": false,
+            "rate_limit": "30 rpm"
+          },
+          {
+            "id": "get-release",
+            "method": "GET",
+            "path": "/v1/releases/{releaseId}",
+            "desc": "GET /v1/releases/{releaseId} returns the latest release packet, approval state, and rollout lane.",
+            "output": "release-created-example",
+            "idempotent": true,
+            "rate_limit": "120 rpm"
+          },
+          {
+            "id": "create-incident",
+            "method": "POST",
+            "path": "/v1/incidents",
+            "desc": "POST /v1/incidents creates a linked incident record when rollout health degrades.",
+            "input": {
+              "type": "object",
+              "required": [
+                "releaseId",
+                "severity",
+                "summary"
+              ],
+              "properties": {
+                "releaseId": {
+                  "type": "string"
+                },
+                "severity": {
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string"
+                }
+              }
+            },
+            "output": {
+              "incidentId": "inc_2026_0420_checkout",
+              "linked": true
+            },
+            "idempotent": false,
+            "rate_limit": "20 rpm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "release-payload-schema",
+      "phase": "build",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Release payload schema",
+      "summary": "Pin the canonical structure for a release packet.",
+      "artifact": {
+        "artifact_id": "release-payload-schema",
+        "type": "json-schema",
+        "usage": "Canonical release packet input."
+      },
+      "facts": [
+        {
+          "id": "schema-owner",
+          "text": "Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan.",
+          "critical": true
+        },
+        {
+          "id": "schema-window",
+          "text": "Release packet schema requires rolloutWindow.start and rolloutWindow.end in RFC3339 format.",
+          "critical": true
+        },
+        {
+          "id": "schema-lanes",
+          "text": "Release packet schema restricts rollout lanes to canary, staged, or full.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "type": "object",
+        "required": [
+          "releaseKey",
+          "owner",
+          "riskTier",
+          "rollbackPlan",
+          "communicationPlan",
+          "rolloutWindow",
+          "lanes"
+        ],
+        "properties": {
+          "releaseKey": {
+            "type": "string",
+            "description": "Release packet identifier. Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan."
+          },
+          "owner": {
+            "type": "string",
+            "description": "Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan."
+          },
+          "riskTier": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "description": "Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan."
+          },
+          "rollbackPlan": {
+            "type": "string",
+            "description": "Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan."
+          },
+          "communicationPlan": {
+            "type": "string",
+            "description": "Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan."
+          },
+          "rolloutWindow": {
+            "type": "object",
+            "required": [
+              "start",
+              "end"
+            ],
+            "description": "Release packet schema requires rolloutWindow.start and rolloutWindow.end in RFC3339 format.",
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "lanes": {
+            "type": "array",
+            "description": "Release packet schema restricts rollout lanes to canary, staged, or full.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "canary",
+                "staged",
+                "full"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "release-created-example",
+      "phase": "build",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Release packet example",
+      "summary": "Provide a concrete release packet instance for tests and integrations.",
+      "artifact": {
+        "artifact_id": "release-created-example",
+        "type": "json-example",
+        "usage": "Concrete release packet instance."
+      },
+      "facts": [
+        {
+          "id": "example-owner",
+          "text": "Example packet owner is release-manager@atlas.dev.",
+          "critical": true
+        },
+        {
+          "id": "example-risk",
+          "text": "Example packet risk tier is medium and starts with canary before staged rollout.",
+          "critical": true
+        },
+        {
+          "id": "example-window",
+          "text": "Example packet rollout window starts at 2026-04-20T09:00:00Z and ends at 2026-04-20T10:00:00Z.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "releaseKey": "REL-2026-0420-CHECKOUT",
+        "owner": "release-manager@atlas.dev",
+        "riskTier": "medium",
+        "rollbackPlan": "Flip checkout flag and drain queued publish jobs.",
+        "communicationPlan": "Post to launch room and support status channel.",
+        "rolloutWindow": {
+          "start": "2026-04-20T09:00:00Z",
+          "end": "2026-04-20T10:00:00Z"
+        },
+        "lanes": [
+          "canary",
+          "staged"
+        ],
+        "notes": [
+          "Example packet owner is release-manager@atlas.dev.",
+          "Example packet risk tier is medium and starts with canary before staged rollout.",
+          "Example packet rollout window starts at 2026-04-20T09:00:00Z and ends at 2026-04-20T10:00:00Z."
+        ]
+      }
+    },
+    {
+      "id": "client-sdk-template",
+      "phase": "build",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Client SDK template",
+      "summary": "Show the minimum code needed to create a release packet from a client.",
+      "artifact": {
+        "artifact_id": "client-sdk-template",
+        "type": "code-template",
+        "usage": "Minimal Node.js client example."
+      },
+      "facts": [
+        {
+          "id": "code-template-key",
+          "text": "Client template sends releaseKey REL-2026-0420-CHECKOUT to POST /v1/releases.",
+          "critical": true
+        },
+        {
+          "id": "code-template-fields",
+          "text": "Client template includes owner, riskTier, rollbackPlan, communicationPlan, rolloutWindow, and lanes.",
+          "critical": true
+        },
+        {
+          "id": "code-template-auth",
+          "text": "Client template sends an Authorization bearer token.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "lang": "javascript",
+        "template": "const payload = {\n  releaseKey: 'REL-2026-0420-CHECKOUT',\n  owner: 'release-manager@atlas.dev',\n  riskTier: 'medium',\n  rollbackPlan: 'Flip checkout flag and drain queued publish jobs.',\n  communicationPlan: 'Post to launch room and support status channel.',\n  rolloutWindow: { start: '2026-04-20T09:00:00Z', end: '2026-04-20T10:00:00Z' },\n  lanes: ['canary', 'staged']\n};\nawait fetch('https://atlas.example.internal/v1/releases', {\n  method: 'POST',\n  headers: { Authorization: 'Bearer ${TOKEN}', 'Content-Type': 'application/json' },\n  body: JSON.stringify(payload)\n});",
+        "notes": [
+          "Client template sends releaseKey REL-2026-0420-CHECKOUT to POST /v1/releases.",
+          "Client template includes owner, riskTier, rollbackPlan, communicationPlan, rolloutWindow, and lanes.",
+          "Client template sends an Authorization bearer token."
+        ]
+      }
+    },
+    {
+      "id": "ops-config-template",
+      "phase": "build",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Ops config template",
+      "summary": "Pin the environment settings required by the benchmark system.",
+      "artifact": {
+        "artifact_id": "ops-config-template",
+        "type": "config-template",
+        "usage": "Structured release-service environment template."
+      },
+      "facts": [
+        {
+          "id": "config-webhook",
+          "text": "Config template requires RELEASE_EVENT_TOPIC and NOTIFY_WEBHOOK_URL.",
+          "critical": true
+        },
+        {
+          "id": "config-window",
+          "text": "Config template requires ROLLOUT_WINDOW_TIMEZONE set to UTC.",
+          "critical": true
+        },
+        {
+          "id": "config-guard",
+          "text": "Config template requires PAIR_SYNC_MODE set to agent-primary.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "RELEASE_EVENT_TOPIC": "atlas.release.events",
+        "NOTIFY_WEBHOOK_URL": "https://notify.example.internal/hooks/releases",
+        "ROLLOUT_WINDOW_TIMEZONE": "UTC",
+        "PAIR_SYNC_MODE": "agent-primary",
+        "notes": [
+          "Config template requires RELEASE_EVENT_TOPIC and NOTIFY_WEBHOOK_URL.",
+          "Config template requires ROLLOUT_WINDOW_TIMEZONE set to UTC.",
+          "Config template requires PAIR_SYNC_MODE set to agent-primary."
+        ]
+      }
+    },
+    {
+      "id": "release-summary-prompt",
+      "phase": "build",
+      "humanDoc": "docs/01-product-lifecycle.md",
+      "moduleId": "product-lifecycle",
+      "kind": "artifact",
+      "title": "Release summary prompt",
+      "summary": "Prompt template for generating rollout summaries without changing authority rules.",
+      "artifact": {
+        "artifact_id": "release-summary-prompt",
+        "type": "prompt-template",
+        "usage": "LLM prompt for concise release summaries."
+      },
+      "facts": [
+        {
+          "id": "prompt-grounding",
+          "text": "Prompt template grounds summaries in owner, risk tier, rollout lanes, and rollback plan.",
+          "critical": true
+        },
+        {
+          "id": "prompt-authority",
+          "text": "Prompt template forbids inventing approval state that is absent from the release packet.",
+          "critical": true
+        },
+        {
+          "id": "prompt-audience",
+          "text": "Prompt template produces one summary for product, engineering, and support audiences.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "system": "Summarize release packets without inventing state.",
+        "template": "Summarize the release packet for product, engineering, and support. Include owner, risk tier, rollout lanes, and rollback plan. Do not invent approval state that is absent from the packet.",
+        "variables": [
+          "owner",
+          "riskTier",
+          "lanes",
+          "rollbackPlan"
+        ],
+        "notes": [
+          "Prompt template grounds summaries in owner, risk tier, rollout lanes, and rollback plan.",
+          "Prompt template forbids inventing approval state that is absent from the release packet.",
+          "Prompt template produces one summary for product, engineering, and support audiences."
+        ]
+      }
+    },
+    {
+      "id": "release-key-regex",
+      "phase": "design",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Release key regex",
+      "summary": "Keep release identifiers stable across docs, APIs, and runbooks.",
+      "artifact": {
+        "artifact_id": "release-key-regex",
+        "type": "regex",
+        "usage": "Canonical release key matcher."
+      },
+      "facts": [
+        {
+          "id": "regex-pattern",
+          "text": "Release keys match REL-YYYY-MMDD-SLUG in uppercase.",
+          "critical": true
+        },
+        {
+          "id": "regex-sample",
+          "text": "Release key sample REL-2026-0420-CHECKOUT must validate cleanly.",
+          "critical": true
+        },
+        {
+          "id": "regex-purpose",
+          "text": "Release key regex prevents ambiguous packet identifiers in docs and APIs.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "pattern": "^REL-[0-9]{4}-[0-9]{4}-[A-Z0-9-]+$",
+        "flags": "",
+        "sample": "REL-2026-0420-CHECKOUT"
+      }
+    },
+    {
+      "id": "role-enum",
+      "phase": "design",
+      "humanDoc": "docs/02-architecture-and-contracts.md",
+      "moduleId": "architecture-contracts",
+      "kind": "artifact",
+      "title": "Role enum",
+      "summary": "Expose the minimum stable actor set used across approvals and notifications.",
+      "artifact": {
+        "artifact_id": "role-enum",
+        "type": "enum-def",
+        "usage": "Canonical release roles."
+      },
+      "facts": [
+        {
+          "id": "enum-release-manager",
+          "text": "release-manager owns packet quality and approval completeness.",
+          "critical": true
+        },
+        {
+          "id": "enum-engineering-lead",
+          "text": "engineering-lead owns rollout safety and rollback execution.",
+          "critical": true
+        },
+        {
+          "id": "enum-support-lead",
+          "text": "support-lead owns customer-impact communication during release and incident flow.",
+          "critical": true
+        }
+      ],
+      "content": [
+        {
+          "id": "release-manager",
+          "desc": "release-manager owns packet quality and approval completeness."
+        },
+        {
+          "id": "engineering-lead",
+          "desc": "engineering-lead owns rollout safety and rollback execution."
+        },
+        {
+          "id": "support-lead",
+          "desc": "support-lead owns customer-impact communication during release and incident flow."
+        }
+      ]
+    },
+    {
+      "id": "release-approval-flow",
+      "phase": "build",
+      "humanDoc": "docs/03-delivery-workflows.md",
+      "moduleId": "delivery-workflows",
+      "kind": "artifact",
+      "title": "Release approval flow",
+      "summary": "Define how a release moves from draft to approved rollout preparation.",
+      "artifact": {
+        "artifact_id": "release-approval-flow",
+        "type": "process-flow",
+        "usage": "Canonical release approval workflow."
+      },
+      "facts": [
+        {
+          "id": "flow-draft",
+          "text": "Draft review checks packet completeness before any risk evaluation runs.",
+          "critical": true
+        },
+        {
+          "id": "flow-risk",
+          "text": "Risk evaluation branches low and medium tiers to fast review and high tier to extended review.",
+          "critical": true
+        },
+        {
+          "id": "flow-approval",
+          "text": "Approved packets emit a release.packet.approved event and enter scheduled state.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "entry": "draft-review",
+        "terminals": [
+          "approved",
+          "held"
+        ],
+        "actors": [
+          "release-manager",
+          "workflow-engine",
+          "engineering-lead"
+        ],
+        "steps": [
+          {
+            "id": "draft-review",
+            "type": "action",
+            "actor": "release-manager",
+            "action": "Draft review checks packet completeness before any risk evaluation runs.",
+            "next": "risk-evaluation"
+          },
+          {
+            "id": "risk-evaluation",
+            "type": "decision",
+            "actor": "workflow-engine",
+            "action": "Risk evaluation branches low and medium tiers to fast review and high tier to extended review.",
+            "next": {
+              "low-or-medium": "fast-review",
+              "high": "extended-review"
+            }
+          },
+          {
+            "id": "fast-review",
+            "type": "action",
+            "actor": "engineering-lead",
+            "action": "Confirm packet and rollback readiness in one review pass.",
+            "next": "approved"
+          },
+          {
+            "id": "extended-review",
+            "type": "action",
+            "actor": "engineering-lead",
+            "action": "Escalate for broader review and attach mitigation notes.",
+            "next": "approved"
+          },
+          {
+            "id": "approved",
+            "type": "emit",
+            "actor": "workflow-engine",
+            "action": "Approved packets emit a release.packet.approved event and enter scheduled state.",
+            "event": "release.packet.approved",
+            "payload_schema": "architecture-contracts:release-payload-schema",
+            "next": null
+          },
+          {
+            "id": "held",
+            "type": "action",
+            "actor": "workflow-engine",
+            "action": "Stop rollout until packet defects or missing approvals are resolved.",
+            "next": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "publish-sequence",
+      "phase": "release",
+      "humanDoc": "docs/03-delivery-workflows.md",
+      "moduleId": "delivery-workflows",
+      "kind": "artifact",
+      "title": "Publish sequence",
+      "summary": "Show the temporal exchange during release publication.",
+      "artifact": {
+        "artifact_id": "publish-sequence",
+        "type": "sequence",
+        "usage": "Temporal message exchange for publish."
+      },
+      "facts": [
+        {
+          "id": "sequence-submit",
+          "text": "Release manager submits the approved packet to the release service.",
+          "critical": true
+        },
+        {
+          "id": "sequence-evaluate",
+          "text": "Workflow engine evaluates rollout lane health before the release service advances state.",
+          "critical": true
+        },
+        {
+          "id": "sequence-notify",
+          "text": "Notification service posts publish status after the release service confirms lane advancement.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "actors": [
+          {
+            "id": "release-manager",
+            "type": "user",
+            "desc": "Human coordinator."
+          },
+          {
+            "id": "release-service",
+            "type": "service",
+            "desc": "Canonical packet service."
+          },
+          {
+            "id": "workflow-engine",
+            "type": "service",
+            "desc": "Policy engine."
+          },
+          {
+            "id": "notification-service",
+            "type": "service",
+            "desc": "Outbound messaging service."
+          }
+        ],
+        "messages": [
+          {
+            "seq": 1,
+            "from": "release-manager",
+            "to": "release-service",
+            "action": "submit approved packet",
+            "type": "sync",
+            "note": "Release manager submits the approved packet to the release service."
+          },
+          {
+            "seq": 2,
+            "from": "release-service",
+            "to": "workflow-engine",
+            "action": "evaluate rollout lane",
+            "type": "sync",
+            "note": "Workflow engine evaluates rollout lane health before the release service advances state."
+          },
+          {
+            "seq": 3,
+            "from": "workflow-engine",
+            "to": "release-service",
+            "action": "lane approved",
+            "type": "response"
+          },
+          {
+            "seq": 4,
+            "from": "release-service",
+            "to": "notification-service",
+            "action": "publish status update",
+            "type": "event",
+            "note": "Notification service posts publish status after the release service confirms lane advancement."
+          }
+        ]
+      }
+    },
+    {
+      "id": "rollout-policy-tree",
+      "phase": "release",
+      "humanDoc": "docs/03-delivery-workflows.md",
+      "moduleId": "delivery-workflows",
+      "kind": "artifact",
+      "title": "Rollout policy tree",
+      "summary": "Map risk signals to rollout lane decisions.",
+      "artifact": {
+        "artifact_id": "rollout-policy-tree",
+        "type": "decision-tree",
+        "usage": "Release rollout policy classifier."
+      },
+      "facts": [
+        {
+          "id": "tree-low",
+          "text": "Low risk releases start in canary and auto-promote to staged after fifteen healthy minutes.",
+          "critical": true
+        },
+        {
+          "id": "tree-medium",
+          "text": "Medium risk releases require manual staged promotion after support lead confirmation.",
+          "critical": true
+        },
+        {
+          "id": "tree-high",
+          "text": "High risk releases stop after canary unless engineering lead approves expanded rollout.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "root": "risk-tier",
+        "nodes": [
+          {
+            "id": "risk-tier",
+            "type": "condition",
+            "eval": "risk tier?",
+            "branches": [
+              {
+                "value": "low",
+                "next": "low-path"
+              },
+              {
+                "value": "medium",
+                "next": "medium-path"
+              },
+              {
+                "value": "high",
+                "next": "high-path"
+              }
+            ]
+          },
+          {
+            "id": "low-path",
+            "type": "action",
+            "action": "Low risk releases start in canary and auto-promote to staged after fifteen healthy minutes."
+          },
+          {
+            "id": "medium-path",
+            "type": "action",
+            "action": "Medium risk releases require manual staged promotion after support lead confirmation."
+          },
+          {
+            "id": "high-path",
+            "type": "action",
+            "action": "High risk releases stop after canary unless engineering lead approves expanded rollout."
+          }
+        ]
+      }
+    },
+    {
+      "id": "release-state-machine",
+      "phase": "release",
+      "humanDoc": "docs/03-delivery-workflows.md",
+      "moduleId": "delivery-workflows",
+      "kind": "artifact",
+      "title": "Release state machine",
+      "summary": "Model the lifecycle states for a release packet.",
+      "artifact": {
+        "artifact_id": "release-state-machine",
+        "type": "state-machine",
+        "usage": "Release packet lifecycle."
+      },
+      "facts": [
+        {
+          "id": "state-draft",
+          "text": "Release packets start in draft until packet completeness review passes.",
+          "critical": true
+        },
+        {
+          "id": "state-approved",
+          "text": "Approved packets can move to scheduled only after release.packet.approved is emitted.",
+          "critical": true
+        },
+        {
+          "id": "state-rollback",
+          "text": "Released packets enter rolled_back when rollback execution succeeds.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "initial": "draft",
+        "terminal": [
+          "released",
+          "rolled_back"
+        ],
+        "states": [
+          {
+            "id": "draft",
+            "desc": "Release packets start in draft until packet completeness review passes."
+          },
+          {
+            "id": "in_review",
+            "desc": "Packet is under active approval review."
+          },
+          {
+            "id": "approved",
+            "desc": "Approved packets can move to scheduled only after release.packet.approved is emitted."
+          },
+          {
+            "id": "scheduled",
+            "desc": "Packet is ready for the rollout window."
+          },
+          {
+            "id": "released",
+            "desc": "Packet has completed rollout successfully."
+          },
+          {
+            "id": "rolled_back",
+            "desc": "Released packets enter rolled_back when rollback execution succeeds."
+          }
+        ],
+        "transitions": [
+          {
+            "from": "draft",
+            "to": "in_review",
+            "trigger": "submit_for_review"
+          },
+          {
+            "from": "in_review",
+            "to": "approved",
+            "trigger": "release.packet.approved"
+          },
+          {
+            "from": "approved",
+            "to": "scheduled",
+            "trigger": "rollout_window_open"
+          },
+          {
+            "from": "scheduled",
+            "to": "released",
+            "trigger": "lane_health_green"
+          },
+          {
+            "from": "released",
+            "to": "rolled_back",
+            "trigger": "rollback_executed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "analytics-pipeline",
+      "phase": "operate",
+      "humanDoc": "docs/03-delivery-workflows.md",
+      "moduleId": "delivery-workflows",
+      "kind": "artifact",
+      "title": "Analytics pipeline",
+      "summary": "Track how rollout and incident data become dashboards.",
+      "artifact": {
+        "artifact_id": "analytics-pipeline",
+        "type": "data-pipeline",
+        "usage": "Release and incident analytics lineage."
+      },
+      "facts": [
+        {
+          "id": "pipeline-source",
+          "text": "Analytics pipeline consumes release.packet.approved and incident.created events from the event bus.",
+          "critical": true
+        },
+        {
+          "id": "pipeline-normalize",
+          "text": "Analytics pipeline normalizes packet owner, risk tier, rollout lane, and incident severity before storage.",
+          "critical": true
+        },
+        {
+          "id": "pipeline-sink",
+          "text": "Analytics pipeline writes dashboard-ready facts into warehouse.release_health.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "source": {
+          "id": "event-bus",
+          "type": "queue",
+          "desc": "Analytics pipeline consumes release.packet.approved and incident.created events from the event bus."
+        },
+        "sink": {
+          "id": "warehouse.release_health",
+          "type": "db",
+          "desc": "Analytics pipeline writes dashboard-ready facts into warehouse.release_health."
+        },
+        "stages": [
+          {
+            "id": "ingest-events",
+            "transform": "read release.packet.approved and incident.created payloads",
+            "actor": "analytics-worker"
+          },
+          {
+            "id": "normalize-fields",
+            "transform": "Analytics pipeline normalizes packet owner, risk tier, rollout lane, and incident severity before storage.",
+            "actor": "analytics-worker"
+          },
+          {
+            "id": "load-warehouse",
+            "transform": "write dashboard-ready release health facts",
+            "actor": "analytics-worker"
+          }
+        ],
+        "ordering": "sequential"
+      }
+    },
+    {
+      "id": "approval-rules",
+      "phase": "governance",
+      "humanDoc": "docs/04-operations-and-governance.md",
+      "moduleId": "operations-governance",
+      "kind": "artifact",
+      "title": "Approval rules",
+      "summary": "Make approval authority explicit instead of social convention.",
+      "artifact": {
+        "artifact_id": "approval-rules",
+        "type": "rule-set",
+        "usage": "Release approval and paired-surface governance policy."
+      },
+      "facts": [
+        {
+          "id": "rules-high-risk",
+          "text": "High risk releases require engineering lead approval and support lead acknowledgement.",
+          "critical": true
+        },
+        {
+          "id": "rules-pair-sync",
+          "text": "Human docs cannot change alone when sync_source is agent-primary.",
+          "critical": true
+        },
+        {
+          "id": "rules-window",
+          "text": "No release may enter scheduled outside the declared rollout window.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "evaluation_mode": "priority-ordered",
+        "default_action": "pass",
+        "conflict_resolution": "most-restrictive-wins",
+        "rules": [
+          {
+            "id": "high-risk-approvals",
+            "condition": "release.riskTier == 'high'",
+            "action": "High risk releases require engineering lead approval and support lead acknowledgement.",
+            "priority": 10,
+            "source": "governance"
+          },
+          {
+            "id": "paired-surface-sync",
+            "condition": "surface_pair.sync_source == 'agent-primary' AND human.changed == true AND agent.changed == false",
+            "action": "Human docs cannot change alone when sync_source is agent-primary.",
+            "priority": 20,
+            "source": "governance"
+          },
+          {
+            "id": "window-guard",
+            "condition": "now not_in release.rolloutWindow",
+            "action": "No release may enter scheduled outside the declared rollout window.",
+            "priority": 30,
+            "source": "governance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "oncall-routing",
+      "phase": "operate",
+      "humanDoc": "docs/04-operations-and-governance.md",
+      "moduleId": "operations-governance",
+      "kind": "artifact",
+      "title": "On-call routing",
+      "summary": "Map incident severity to response ownership.",
+      "artifact": {
+        "artifact_id": "oncall-routing",
+        "type": "mapping-table",
+        "usage": "Incident severity and owner lookup."
+      },
+      "facts": [
+        {
+          "id": "routing-sev1",
+          "text": "sev1 pages primary and secondary on-call within five minutes.",
+          "critical": true
+        },
+        {
+          "id": "routing-sev2",
+          "text": "sev2 pages primary on-call and support lead within fifteen minutes.",
+          "critical": true
+        },
+        {
+          "id": "routing-sev3",
+          "text": "sev3 creates a queued task for business-hours triage.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "key_columns": [
+          "severity"
+        ],
+        "columns": [
+          "severity",
+          "owner",
+          "response"
+        ],
+        "rows": [
+          [
+            "sev1",
+            "primary+secondary on-call",
+            "sev1 pages primary and secondary on-call within five minutes."
+          ],
+          [
+            "sev2",
+            "primary on-call + support lead",
+            "sev2 pages primary on-call and support lead within fifteen minutes."
+          ],
+          [
+            "sev3",
+            "support rotation",
+            "sev3 creates a queued task for business-hours triage."
+          ]
+        ]
+      }
+    },
+    {
+      "id": "event-catalog",
+      "phase": "operate",
+      "humanDoc": "docs/04-operations-and-governance.md",
+      "moduleId": "operations-governance",
+      "kind": "artifact",
+      "title": "Event catalog",
+      "summary": "Track durable events and their consumers.",
+      "artifact": {
+        "artifact_id": "event-catalog",
+        "type": "event-catalog",
+        "usage": "Release and incident event inventory."
+      },
+      "facts": [
+        {
+          "id": "event-approved",
+          "text": "release.packet.approved is emitted by workflow-engine and consumed by release-service and analytics-worker.",
+          "critical": true
+        },
+        {
+          "id": "event-published",
+          "text": "release.packet.published is emitted by release-service and consumed by notification-service.",
+          "critical": true
+        },
+        {
+          "id": "event-incident",
+          "text": "incident.created is emitted by release-service when rollout health degrades.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "events": [
+          {
+            "name": "release.packet.approved",
+            "emitter": "workflow-engine",
+            "consumers": [
+              "release-service",
+              "analytics-worker"
+            ],
+            "desc": "release.packet.approved is emitted by workflow-engine and consumed by release-service and analytics-worker.",
+            "ordering": "ordered"
+          },
+          {
+            "name": "release.packet.published",
+            "emitter": "release-service",
+            "consumers": [
+              "notification-service",
+              "analytics-worker"
+            ],
+            "desc": "release.packet.published is emitted by release-service and consumed by notification-service.",
+            "ordering": "ordered"
+          },
+          {
+            "name": "incident.created",
+            "emitter": "release-service",
+            "consumers": [
+              "notification-service",
+              "support-ops"
+            ],
+            "desc": "incident.created is emitted by release-service when rollout health degrades.",
+            "ordering": "idempotent"
+          }
+        ],
+        "channels": [
+          {
+            "id": "atlas.release.events",
+            "transport": "kafka",
+            "events": [
+              "release.packet.approved",
+              "release.packet.published",
+              "incident.created"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "rollback-strategy",
+      "phase": "operate",
+      "humanDoc": "docs/04-operations-and-governance.md",
+      "moduleId": "operations-governance",
+      "kind": "artifact",
+      "title": "Rollback strategy",
+      "summary": "Define what happens under failure classes.",
+      "artifact": {
+        "artifact_id": "rollback-strategy",
+        "type": "error-strategy",
+        "usage": "Failure-handling plan for publish and rollback paths."
+      },
+      "facts": [
+        {
+          "id": "error-webhook",
+          "text": "Webhook delivery failures retry three times with exponential backoff before escalation.",
+          "critical": true
+        },
+        {
+          "id": "error-db",
+          "text": "Primary database write failures abort publish and escalate to platform-oncall.",
+          "critical": true
+        },
+        {
+          "id": "error-health",
+          "text": "Negative rollout health triggers compensate by executing the rollback plan.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "default_strategy": "escalate",
+        "error_classes": [
+          {
+            "class": "webhook-delivery-failure",
+            "severity": "medium",
+            "strategy": {
+              "type": "retry",
+              "retry_max": 3,
+              "retry_delay": "30s",
+              "retry_backoff": "exponential"
+            },
+            "alerts": [
+              {
+                "channel": "ops-alerts",
+                "condition": "after third failure"
+              }
+            ],
+            "match": "notify.*"
+          },
+          {
+            "class": "primary-db-write-failure",
+            "severity": "critical",
+            "strategy": {
+              "type": "abort"
+            },
+            "alerts": [
+              {
+                "channel": "platform-oncall",
+                "condition": "on first failure"
+              }
+            ],
+            "match": "db.write.*"
+          },
+          {
+            "class": "negative-rollout-health",
+            "severity": "high",
+            "strategy": {
+              "type": "compensate",
+              "compensate_action": "execute rollback plan"
+            },
+            "match": "health.red"
+          }
+        ],
+        "fallback_chain": [
+          "Webhook delivery failures retry three times with exponential backoff before escalation.",
+          "Primary database write failures abort publish and escalate to platform-oncall.",
+          "Negative rollout health triggers compensate by executing the rollback plan."
+        ]
+      }
+    },
+    {
+      "id": "temporal-controls",
+      "phase": "release",
+      "humanDoc": "docs/04-operations-and-governance.md",
+      "moduleId": "operations-governance",
+      "kind": "artifact",
+      "title": "Temporal controls",
+      "summary": "Represent windows, deadlines, and SLO timers.",
+      "artifact": {
+        "artifact_id": "temporal-controls",
+        "type": "temporal-pattern",
+        "usage": "Rollout time and SLO behavior."
+      },
+      "facts": [
+        {
+          "id": "temporal-window",
+          "text": "Rollout window is a UTC deadline window from 09:00 to 10:00.",
+          "critical": true
+        },
+        {
+          "id": "temporal-canary",
+          "text": "Canary health is evaluated every five minutes.",
+          "critical": true
+        },
+        {
+          "id": "temporal-publish",
+          "text": "Publish status must reach notification-service within sixty seconds.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "timezone": "UTC",
+        "patterns": [
+          {
+            "id": "rollout-window",
+            "type": "window",
+            "expression": "09:00-10:00",
+            "target": "release rollout",
+            "on_trigger": "allow scheduled releases",
+            "on_violation": "hold publish"
+          },
+          {
+            "id": "canary-health-check",
+            "type": "interval",
+            "expression": "5m",
+            "target": "canary lane",
+            "on_trigger": "evaluate lane health"
+          },
+          {
+            "id": "publish-sla",
+            "type": "sla-timer",
+            "expression": "60s",
+            "target": "notification-service publish status",
+            "on_violation": "open sev2 incident"
+          }
+        ]
+      }
+    },
+    {
+      "id": "migration-raw",
+      "phase": "operate",
+      "humanDoc": "docs/04-operations-and-governance.md",
+      "moduleId": "evidence-reference",
+      "kind": "artifact",
+      "title": "Raw migration evidence",
+      "summary": "Keep low-level evidence without pretending it is structured lifecycle guidance.",
+      "artifact": {
+        "artifact_id": "migration-raw",
+        "type": "raw",
+        "usage": "Escape hatch for SQL migration evidence."
+      },
+      "facts": [
+        {
+          "id": "raw-sql",
+          "text": "Raw migration adds release_packets.approval_snapshot as immutable JSONB evidence.",
+          "critical": true
+        },
+        {
+          "id": "raw-layer",
+          "text": "Raw SQL evidence stays in the evidence layer and is not loaded on cold start.",
+          "critical": true
+        },
+        {
+          "id": "raw-limit",
+          "text": "Raw artifacts preserve facts but reduce structured traversability.",
+          "critical": true
+        }
+      ],
+      "content": "ALTER TABLE release_packets ADD COLUMN approval_snapshot JSONB NOT NULL DEFAULT '{}'::jsonb;\n-- Raw migration adds release_packets.approval_snapshot as immutable JSONB evidence.\n-- Raw SQL evidence stays in the evidence layer and is not loaded on cold start.\n-- Raw artifacts preserve facts but reduce structured traversability.\n"
+    }
+  ],
+  "roles": [
+    {
+      "id": "product-manager",
+      "scope": "Needs goals, roadmap, verification, and summary routing.",
+      "capabilities": [
+        "read-modules",
+        "edit-human-surfaces"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle"
+      ]
+    },
+    {
+      "id": "architect",
+      "scope": "Needs topology, APIs, workflow semantics, and impact analysis.",
+      "capabilities": [
+        "read-modules",
+        "edit-agent-surfaces"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "architecture-contracts",
+        "delivery-workflows"
+      ]
+    },
+    {
+      "id": "operator",
+      "scope": "Needs policy, incidents, temporal controls, and evidence references.",
+      "capabilities": [
+        "read-modules",
+        "operate-system"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "operations-governance",
+        "evidence-reference"
+      ]
+    },
+    {
+      "id": "doc-author",
+      "scope": "Needs broad authoring context across every paired surface.",
+      "capabilities": [
+        "write-modules",
+        "validate-corpus"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle",
+        "architecture-contracts",
+        "delivery-workflows",
+        "operations-governance",
+        "evidence-reference"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,320 @@
+{
+  "aods_v": 3,
+  "module_id": "spec-validation",
+  "v": 5,
+  "context": "Defines validation rules for AODS corpus integrity. AODS v3 adds surface-pair, layer, capsule, touch-route, artifact-semantic, and experimental bidirectional-sync checks on top of schema, referential integrity, completeness, and AOP compliance.",
+  "assumptions": [
+    "Validator has access to all files in corpus",
+    "JSON Schema draft-07 validation is available"
+  ],
+  "sections": [
+    {
+      "sid": "structural",
+      "topic": "structural validation rules",
+      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative. surface_pairs records match schema.",
+      "content_type": "rules",
+      "refs": [
+        "referential",
+        "surface-governance"
+      ],
+      "artifact_refs": [
+        "validation-level-matrix",
+        "surface-governance-rules"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "referential",
+      "topic": "referential integrity rules",
+      "content": "L2 MUST: deps[] resolve to manifest.modules[].id. section.refs[] resolve. section.artifact_refs[] resolve. role.required_modules[] resolve. meta.capsule.routes_to resolve. boot_by_touch.load_modules[] resolve. surface_pairs.agent_primary and agent_supporting resolve. human_primary and human_supporting paths exist relative to corpus root. Artifact-internal references also resolve: process-flow next targets, subprocess_ref, payload_schema, decision-tree node targets, topology endpoints, group node IDs, and mapping-table row width against declared columns. Circular module deps forbidden; circular section refs allowed with warning.",
+      "content_type": "rules",
+      "refs": [
+        "structural"
+      ],
+      "artifact_refs": [
+        "surface-governance-rules"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "surface-governance",
+      "topic": "surface pair layer and capsule checks",
+      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer may reject human-only edits for paired surfaces when sync_source=agent-primary and no paired agent module changed in the same change set. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "surface-governance-rules"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "aop-compliance",
+      "topic": "AOP writing quality checks",
+      "content": "L4 SHOULD: no markdown syntax in content fields. No filler phrases. No conversational tone. No positional refs. Regex-based checks should ignore quoted anti-pattern examples when spec modules cite forbidden strings literally. Token density score > 3.5. No section content exceeds 2000 tokens. Capsule summaries stay shorter than detail modules they route to.",
+      "content_type": "rules",
+      "refs": [
+        "spec-aop:core-rules",
+        "spec-aop:anti-patterns"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "validation-output",
+      "topic": "validation report format",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}}. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str}.",
+      "content_type": "prose",
+      "refs": [],
+      "artifact_refs": [
+        "validation-report-schema",
+        "validation-level-matrix"
+      ],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "validation-level-matrix",
+      "type": "mapping-table",
+      "usage": "Lookup table for validation level semantics.",
+      "content": {
+        "key_columns": [
+          "level"
+        ],
+        "columns": [
+          "level",
+          "focus",
+          "severity",
+          "examples"
+        ],
+        "rows": [
+          [
+            "L1",
+            "schema and file existence",
+            "error",
+            "missing manifest; invalid module schema; invalid surface_pairs shape"
+          ],
+          [
+            "L2",
+            "reference integrity",
+            "error",
+            "broken refs; broken routes_to; missing human path; invalid process-flow targets; invalid topology endpoints; mapping-table row mismatch"
+          ],
+          [
+            "L3",
+            "coverage and governance discipline",
+            "warning",
+            "capsule missing meta.capsule; boot order starts with detail; missing tokens_approx"
+          ],
+          [
+            "L4",
+            "AOP quality",
+            "warning",
+            "markdown in content; filler prose; oversized section"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-governance-rules",
+      "type": "rule-set",
+      "usage": "Surface-pair, layer, and capsule validation rules.",
+      "content": {
+        "evaluation_mode": "all",
+        "default_action": "pass",
+        "conflict_resolution": "most-restrictive-wins",
+        "rules": [
+          {
+            "id": "pair-agent-primary-exists",
+            "condition": "surface_pair.exists == true AND resolve(surface_pair.agent_primary) == false",
+            "action": "L1 error: agent_primary missing",
+            "priority": 10,
+            "source": "validation"
+          },
+          {
+            "id": "pair-human-primary-relative",
+            "condition": "surface_pair.exists == true AND is_relative_path(surface_pair.human_primary) == false",
+            "action": "L1 error: human_primary must be relative path",
+            "priority": 20,
+            "source": "validation"
+          },
+          {
+            "id": "capsule-meta-required",
+            "condition": "module.category == 'capsule' AND has(module.meta.capsule) == false",
+            "action": "L2 error: capsule metadata missing",
+            "priority": 30,
+            "source": "validation"
+          },
+          {
+            "id": "capsule-routes-resolve",
+            "condition": "module.category == 'capsule' AND any_unresolved(module.meta.capsule.routes_to)",
+            "action": "L2 error: capsule routes_to unresolved",
+            "priority": 40,
+            "source": "validation"
+          },
+          {
+            "id": "boot-starts-with-root",
+            "condition": "first_layer(boot_sequence) != 'root'",
+            "action": "L3 warning: boot should start with root layer",
+            "priority": 50,
+            "source": "validation"
+          },
+          {
+            "id": "touch-route-modules-resolve",
+            "condition": "any_unresolved(boot_by_touch.load_modules)",
+            "action": "L2 error: boot_by_touch load_modules unresolved",
+            "priority": 55,
+            "source": "validation"
+          },
+          {
+            "id": "evidence-not-initial-boot",
+            "condition": "contains_initial_layer(boot_sequence, 'evidence')",
+            "action": "L3 warning: evidence should not participate in initial boot",
+            "priority": 60,
+            "source": "validation"
+          },
+          {
+            "id": "bidirectional-sync-experimental",
+            "condition": "surface_pair.sync_source == 'bidirectional'",
+            "action": "L3 warning: bidirectional sync remains experimental until merge protocol exists",
+            "priority": 70,
+            "source": "validation"
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "validation-report-schema",
+      "type": "json-schema",
+      "usage": "Schema for validation tool output.",
+      "content": {
+        "type": "object",
+        "required": [
+          "corpus",
+          "timestamp",
+          "levels",
+          "summary"
+        ],
+        "properties": {
+          "corpus": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "levels": {
+            "type": "object",
+            "properties": {
+              "L1": {
+                "$ref": "#/definitions/level_result"
+              },
+              "L2": {
+                "$ref": "#/definitions/level_result"
+              },
+              "L3": {
+                "$ref": "#/definitions/level_result"
+              },
+              "L4": {
+                "$ref": "#/definitions/level_result"
+              }
+            }
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "total_modules": {
+                "type": "integer"
+              },
+              "total_sections": {
+                "type": "integer"
+              },
+              "total_artifacts": {
+                "type": "integer"
+              },
+              "total_tokens": {
+                "type": "integer"
+              },
+              "total_surface_pairs": {
+                "type": "integer"
+              },
+              "errors": {
+                "type": "integer"
+              },
+              "warnings": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "definitions": {
+          "level_result": {
+            "type": "object",
+            "properties": {
+              "pass": {
+                "type": "boolean"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/issue"
+                }
+              },
+              "warnings": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/issue"
+                }
+              }
+            }
+          },
+          "issue": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "string"
+              },
+              "module_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sid": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "rule": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial validation specification."
+    },
+    {
+      "v": 2,
+      "delta": "Added surface-pair, layer, capsule, and boot-order validation rules plus total_surface_pairs in validation output.",
+      "breaking": false
+    },
+    {
+      "v": 3,
+      "delta": "Clarified capsule layer/category identity and added explicit bidirectional-sync warning semantics.",
+      "breaking": false
+    }
+  ],
+  "meta": {
+    "stability": "stable",
+    "review_cycle": "on-change"
+  }
+}

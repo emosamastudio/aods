@@ -1,0 +1,140 @@
+{
+  "aods_v": 3,
+  "module_id": "work-graph-backbone",
+  "v": 1,
+  "context": "Cross-plane work-graph backbone connecting business intent, controlled execution, and durable assets across the seven-plane operating system.",
+  "sections": [
+    {
+      "sid": "backbone-chain",
+      "topic": "canonical object chain",
+      "content": "Chain = Workspace -> ProjectLine -> Project -> Objective -> WorkOrder -> Session -> Run -> Event -> Artifact|MemoryRecord|KnowledgeRecord|AttentionItem|ApprovalRequest. Backbone connects business intent to execution and durable assets. Backbone does not replace planes.",
+      "content_type": "rules",
+      "refs": [
+        "portfolio-project-plane:plane-role",
+        "control-plane:plane-role",
+        "knowledge-resources-plane:plane-role",
+        "governance-spine:spine-role"
+      ],
+      "artifact_refs": [
+        "object-chain"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "backbone-boundaries",
+      "topic": "backbone boundaries",
+      "content": "Use backbone to connect planes. Do not collapse Portfolio Project Plane into generic workflow plumbing. Do not treat Work Graph as eighth business plane.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "object-chain",
+      "type": "mapping-table",
+      "usage": "Ordered chain of canonical cross-plane objects.",
+      "content": {
+        "key_columns": [
+          "position"
+        ],
+        "columns": [
+          "position",
+          "object",
+          "primary_plane",
+          "note"
+        ],
+        "rows": [
+          [
+            "1",
+            "Workspace",
+            "governance-spine",
+            "execution context boundary"
+          ],
+          [
+            "2",
+            "ProjectLine",
+            "portfolio-project-plane",
+            "business line ownership"
+          ],
+          [
+            "3",
+            "Project",
+            "portfolio-project-plane",
+            "durable project identity"
+          ],
+          [
+            "4",
+            "Objective",
+            "portfolio-project-plane",
+            "goal-level intent"
+          ],
+          [
+            "5",
+            "WorkOrder",
+            "portfolio-project-plane",
+            "routable unit of business work"
+          ],
+          [
+            "6",
+            "Session",
+            "control-plane",
+            "controlled execution envelope"
+          ],
+          [
+            "7",
+            "Run",
+            "control-plane",
+            "runtime execution instance"
+          ],
+          [
+            "8",
+            "Event",
+            "control-plane",
+            "timeline and status signal"
+          ],
+          [
+            "9",
+            "Artifact",
+            "knowledge-resources-plane",
+            "produced durable output"
+          ],
+          [
+            "10",
+            "MemoryRecord",
+            "knowledge-resources-plane",
+            "durable episodic or semantic memory"
+          ],
+          [
+            "11",
+            "KnowledgeRecord",
+            "knowledge-resources-plane",
+            "canonical knowledge object"
+          ],
+          [
+            "12",
+            "AttentionItem",
+            "control-plane",
+            "human intervention queue item"
+          ],
+          [
+            "13",
+            "ApprovalRequest",
+            "governance-spine",
+            "gate decision request"
+          ]
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot module for Work Graph Backbone."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

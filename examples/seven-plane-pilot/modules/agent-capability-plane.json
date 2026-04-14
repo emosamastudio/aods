@@ -1,0 +1,40 @@
+{
+  "aods_v": 3,
+  "module_id": "agent-capability-plane",
+  "v": 1,
+  "context": "Agent Capability Plane detail for the seven-plane operating system. Covers agent catalog, skill composition, assignment, evaluation, and feedback loops.",
+  "sections": [
+    {
+      "sid": "plane-role",
+      "topic": "agent capability plane role",
+      "content": "Agent Capability Plane owns agent catalog, skill composition, assignment, evaluation, and feedback loops. Agent Capability Plane decides which agent shape should handle which work.",
+      "content_type": "rules",
+      "refs": [
+        "control-plane:plane-role",
+        "harness-runtime-plane:plane-role",
+        "portfolio-project-plane:plane-role",
+        "knowledge-resources-plane:plane-role"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "current-posture",
+      "topic": "agent capability posture and boundaries",
+      "content": "Must_not = raw runtime lifecycle or operator registry truth. Current posture = required-unassigned. Future implementation should stay distinct from Control Plane and Harness Runtime Plane.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot module for Agent Capability Plane."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "aods_v": 3,
+  "module_id": "portfolio-project-plane",
+  "v": 1,
+  "context": "Portfolio Project Plane detail for the seven-plane operating system. Covers project lines, projects, objectives, and work orders with business meaning.",
+  "sections": [
+    {
+      "sid": "plane-role",
+      "topic": "portfolio project plane role",
+      "content": "Portfolio Project Plane owns ProjectLine, Project, Objective, and WorkOrder semantics. Portfolio Project Plane keeps product, research, and efficiency work meaningful instead of reducing work to generic task plumbing.",
+      "content_type": "rules",
+      "refs": [
+        "control-plane:plane-role",
+        "agent-capability-plane:plane-role",
+        "knowledge-resources-plane:plane-role",
+        "work-graph-backbone:backbone-chain"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "current-posture",
+      "topic": "portfolio project posture and boundaries",
+      "content": "Must_not = duplicate Control Plane state or generic task board without business meaning. Current posture = required-unassigned.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot module for Portfolio Project Plane."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

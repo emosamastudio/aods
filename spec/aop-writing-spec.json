@@ -1,0 +1,85 @@
+{
+  "aods_v": 3,
+  "module_id": "spec-aop",
+  "v": 2,
+  "context": "Defines Agent-Optimized Prose (AOP) writing rules. All content fields in AODS modules, including capsule summaries and governance sections, must follow these rules.",
+  "assumptions": [
+    "Reader is an LLM agent, not a human",
+    "Every token costs context window budget",
+    "Agent can infer standard programming concepts without explanation"
+  ],
+  "sections": [
+    {
+      "sid": "core-rules",
+      "topic": "AOP core writing rules",
+      "content": "1) No articles (a, an, the) unless omission creates ambiguity. 2) No filler phrases: 'it is important to', 'note that', 'please be aware', 'in order to' -> delete. 3) No transition words: 'however', 'moreover', 'furthermore', 'additionally' -> start with point. 4) No passive voice unless active voice is longer. 5) No synonyms for variety -> use same term for same concept every time. 6) No hedging: 'might', 'could potentially', 'it seems' -> state facts or mark uncertainty explicitly as 'UNCERTAIN:'. 7) Prefer symbols over words where unambiguous: ->, |, &, =, !=, >, <, >=, <=.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "structure-patterns",
+      "topic": "content structure patterns",
+      "content": "Use patterns by content_type. prose: compressed sentences; semicolons chain related facts. rules: numbered list in one string; each rule = 'N) statement'. enum: 'name: val1|val2|val3' or 'name: val1=desc, val2=desc'. table: 'col1|col2; row1a|row1b; row2a|row2b'. logic: 'if COND -> ACTION; elif COND -> ACTION; else -> ACTION'. example: 'IN: {data} -> OUT: {data}'.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "naming-conventions",
+      "topic": "identifier and term naming",
+      "content": "All domain concepts get canonical ID; use consistently across modules. Format: lowercase; hyphen for multi-word. Never abbreviate ambiguously. Field refs use dot notation (envelope.trace_id). Section refs use sid or cross-module form (module_id:sid).",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "numeric-constraints",
+      "topic": "expressing numbers and constraints",
+      "content": "Always explicit. Never 'several', 'many', 'few'. State exact values or ranges. Format: max=100, min=1, default=10, range=[1,100], timeout=30s, retry=3, interval=5m. Units always attached: 10ms, 5MB, 100req/s. Nullable fields explicit: deadline:iso8601|null.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "error-uncertainty",
+      "topic": "expressing errors edge cases uncertainty",
+      "content": "Edge cases explicit after main logic: 'Edge: if X occurs -> Y'. Error handling: 'on_error: ACTION' or 'fail_mode: silent|retry|escalate'. Uncertainty prefix: 'UNCERTAIN: ...'. Incomplete content prefix: 'TODO: ...'. Undefined behavior prefix: 'UNDEFINED: reason'. Never leave implicit gaps.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "cross-ref-rules",
+      "topic": "cross-referencing between sections and modules",
+      "content": "Intra-module ref: sid in refs[]. Cross-module ref: module_id:sid. Never use positional refs: 'see above', 'previous section', 'below'. Never use cross-section anaphora: 'it', 'this', 'that' without noun repetition.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "anti-patterns",
+      "topic": "patterns to avoid in AOP",
+      "content": "NEVER: 1) Markdown formatting in content fields. 2) Conversational tone: 'Let's look at', 'Here's how', 'You should'. 3) Redundant definitions. 4) Implied knowledge without deps or refs. 5) Meta-commentary: 'This section describes...'. 6) Unlabeled examples.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial AOP specification."
+    },
+    {
+      "v": 2,
+      "delta": "Rebased onto AODS v3 schema; clarified applicability to capsule and governance modules.",
+      "breaking": false
+    }
+  ],
+  "meta": {
+    "stability": "stable",
+    "review_cycle": "on-change"
+  }
+}

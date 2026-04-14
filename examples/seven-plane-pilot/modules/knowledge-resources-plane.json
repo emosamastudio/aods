@@ -1,0 +1,40 @@
+{
+  "aods_v": 3,
+  "module_id": "knowledge-resources-plane",
+  "v": 1,
+  "context": "Knowledge Resources Plane detail for the seven-plane operating system. Covers memory, knowledge, vault, repo, source, and world-model assets with explicit source-of-record boundaries.",
+  "sections": [
+    {
+      "sid": "plane-role",
+      "topic": "knowledge resources plane role",
+      "content": "Knowledge Resources Plane owns memory, knowledge, vault, repo, source, and world-model assets with explicit source-of-record boundaries. Knowledge Resources Plane separates operational console from canonical truth.",
+      "content_type": "rules",
+      "refs": [
+        "control-plane:plane-role",
+        "agent-capability-plane:plane-role",
+        "portfolio-project-plane:plane-role",
+        "governance-spine:spine-role"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "current-posture",
+      "topic": "knowledge resources posture and boundaries",
+      "content": "Must_not = undifferentiated store or duplicate portfolio semantics. Current posture = active-source-of-record. knowledge/ is admitted seed. llm-wiki is operational console candidate, not default source-of-record.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot module for Knowledge Resources Plane."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

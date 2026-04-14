@@ -1,0 +1,39 @@
+{
+  "aods_v": 3,
+  "module_id": "gateway-plane",
+  "v": 1,
+  "context": "Gateway Plane detail for the seven-plane operating system. Covers ingress, authentication, notification routing, message normalization, and conversation gateway behavior.",
+  "sections": [
+    {
+      "sid": "plane-role",
+      "topic": "gateway plane role",
+      "content": "Gateway Plane owns ingress, authentication, notification routing, message normalization, and conversation gateway behavior. Gateway Plane translates external input into controlled internal requests.",
+      "content_type": "rules",
+      "refs": [
+        "experience-plane:plane-role",
+        "control-plane:plane-role",
+        "harness-runtime-plane:plane-role"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "current-posture",
+      "topic": "gateway plane posture and boundaries",
+      "content": "Must_not = scheduling truth or business-domain decisions. Current posture = required-unassigned. openclaw is bridge-oriented candidate for gateway-facing interaction seams.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot module for Gateway Plane."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

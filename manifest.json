@@ -1,0 +1,316 @@
+{
+  "aods_v": 3,
+  "sys": "aods-spec",
+  "sys_v": 6,
+  "created": "2026-04-13T00:00:00Z",
+  "updated": "2026-04-14T07:31:54Z",
+  "purpose": "AODS v3 self-referential specification. Adds dual-surface pairing, layer-aware progressive disclosure, capsule modules, and structured governance patterns without introducing new artifact classes.",
+  "glossary": {
+    "aods": "Agent-Optimized Documentation System — format and conventions for agent-first documentation",
+    "aop": "Agent-Optimized Prose — writing style maximizing information density per token",
+    "module": "Self-contained knowledge unit; one JSON file; loaded atomically into agent context",
+    "section": "Subdivision within module; has unique sid; smallest addressable knowledge unit",
+    "artifact": "Typed resource embedded in module: structured artifact, generic artifact, or raw payload",
+    "manifest": "Root index file; agent reads first to discover corpus structure",
+    "cold-start": "Agent bootstrap from zero prior knowledge",
+    "warm-restart": "Agent resume with cached knowledge from prior session",
+    "sid": "Section identifier; unique within module; used for cross-referencing",
+    "corpus": "Complete set of AODS files constituting one system's documentation",
+    "context-budget": "Token allocation agent reserves for documentation vs. task processing",
+    "surface-pair": "Declared link between agent-primary modules and human-facing surfaces",
+    "layer": "Progressive-disclosure load tier: root, capsule, detail, or evidence",
+    "capsule": "Short routing module summarizing one slice and pointing toward deeper authority modules"
+  },
+  "roles": [
+    {
+      "id": "doc-author",
+      "scope": "Creates and maintains AODS modules. Needs schema, AOP, artifact types, surface governance, and validation.",
+      "capabilities": [
+        "write-modules",
+        "validate-corpus",
+        "update-manifest"
+      ],
+      "required_modules": [
+        "spec-aop",
+        "spec-artifact-types",
+        "spec-boot-protocol",
+        "spec-surface-governance",
+        "spec-validation"
+      ]
+    },
+    {
+      "id": "doc-consumer",
+      "scope": "Agent that reads AODS corpus to gain system knowledge. Needs boot protocol, artifact types, and surface governance.",
+      "capabilities": [
+        "read-modules",
+        "resolve-refs",
+        "traverse-artifacts"
+      ],
+      "required_modules": [
+        "spec-boot-protocol",
+        "spec-artifact-types",
+        "spec-surface-governance"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "spec-aop",
+      "path": "spec/aop-writing-spec.json",
+      "scope": "AOP writing rules: token-efficient prose, structure patterns, naming, anti-patterns.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "writing",
+        "style",
+        "authoring"
+      ],
+      "tokens_approx": 1090,
+      "priority": "critical"
+    },
+    {
+      "id": "spec-boot-protocol",
+      "path": "spec/boot-protocol.json",
+      "scope": "Zero-knowledge bootstrap: cold start, warm restart, context budget, on-demand loading, layer-aware progressive disclosure.",
+      "category": "protocol",
+      "layer": "root",
+      "deps": [],
+      "tags": [
+        "bootstrap",
+        "loading",
+        "context-management",
+        "progressive-disclosure"
+      ],
+      "tokens_approx": 2968,
+      "priority": "critical"
+    },
+    {
+      "id": "spec-artifact-types",
+      "path": "spec/artifact-types.json",
+      "scope": "Artifact type catalog: 12 structured types, 8 generic types, governance selection patterns, and capsule-vs-artifact guidance.",
+      "category": "reference",
+      "layer": "root",
+      "deps": [
+        "spec-aop"
+      ],
+      "tags": [
+        "artifact",
+        "types",
+        "selection",
+        "structured"
+      ],
+      "tokens_approx": 2982,
+      "priority": "critical"
+    },
+    {
+      "id": "spec-surface-governance",
+      "path": "spec/surface-governance.json",
+      "scope": "Dual-surface pairing, authority resolution, capsule routing, and sync discipline for corpora that mix agent and human surfaces.",
+      "category": "capsule",
+      "layer": "capsule",
+      "deps": [
+        "spec-boot-protocol",
+        "spec-artifact-types"
+      ],
+      "tags": [
+        "surface",
+        "pairing",
+        "authority",
+        "routing"
+      ],
+      "tokens_approx": 2870,
+      "priority": "critical"
+    },
+    {
+      "id": "spec-validation",
+      "path": "spec/validation-rules.json",
+      "scope": "Corpus validation: structural checks, referential integrity, surface-governance coverage, completeness, AOP compliance.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [
+        "spec-aop",
+        "spec-surface-governance"
+      ],
+      "tags": [
+        "validation",
+        "quality",
+        "integrity"
+      ],
+      "tokens_approx": 2917,
+      "priority": "standard"
+    }
+  ],
+  "boot_sequence": [
+    "spec-boot-protocol",
+    "spec-artifact-types",
+    "spec-surface-governance"
+  ],
+  "boot_by_role": {
+    "doc-author": [
+      "spec-aop",
+      "spec-artifact-types",
+      "spec-boot-protocol",
+      "spec-surface-governance",
+      "spec-validation"
+    ],
+    "doc-consumer": [
+      "spec-boot-protocol",
+      "spec-artifact-types",
+      "spec-surface-governance"
+    ]
+  },
+  "boot_by_touch": [
+    {
+      "match": "manifest.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-boot-protocol",
+        "spec-surface-governance",
+        "spec-validation"
+      ],
+      "reason": "manifest edits change corpus routing, role boot, or surface governance."
+    },
+    {
+      "match": "README.md",
+      "intent": "write",
+      "load_modules": [
+        "spec-surface-governance",
+        "spec-boot-protocol"
+      ],
+      "reason": "README is a human surface; pair it against agent authority first."
+    },
+    {
+      "match": "spec/aop-writing-spec.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-aop",
+        "spec-validation"
+      ],
+      "reason": "AOP edits need style authority and validation coupling."
+    },
+    {
+      "match": "spec/boot-protocol.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-boot-protocol",
+        "spec-surface-governance",
+        "spec-validation"
+      ],
+      "reason": "boot protocol edits affect progressive disclosure and validation posture."
+    },
+    {
+      "match": "spec/artifact-types.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-artifact-types",
+        "spec-aop",
+        "spec-validation"
+      ],
+      "reason": "artifact catalog edits affect authoring patterns and validation expectations."
+    },
+    {
+      "match": "spec/surface-governance.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-surface-governance",
+        "spec-boot-protocol",
+        "spec-validation"
+      ],
+      "reason": "surface governance edits affect pairing, authority, and bootstrap discipline."
+    },
+    {
+      "match": "spec/validation-rules.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-validation",
+        "spec-aop",
+        "spec-surface-governance"
+      ],
+      "reason": "validation spec edits must stay aligned with AOP and surface governance rules."
+    },
+    {
+      "match": "schema/*.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-validation",
+        "spec-artifact-types",
+        "spec-surface-governance"
+      ],
+      "reason": "schema edits change what validation and artifact semantics can enforce."
+    },
+    {
+      "match": "bin/aods.mjs",
+      "intent": "write",
+      "load_modules": [
+        "spec-boot-protocol",
+        "spec-validation"
+      ],
+      "reason": "CLI dispatch edits affect authoring and validation entrypoints."
+    },
+    {
+      "match": "lib/validate.mjs",
+      "intent": "write",
+      "load_modules": [
+        "spec-validation",
+        "spec-surface-governance",
+        "spec-artifact-types"
+      ],
+      "reason": "validator edits must stay aligned with declared governance and artifact rules."
+    },
+    {
+      "match": "lib/scaffold.mjs",
+      "intent": "write",
+      "load_modules": [
+        "spec-boot-protocol",
+        "spec-artifact-types",
+        "spec-validation"
+      ],
+      "reason": "scaffold edits should preserve bootstrap structure and validation assumptions."
+    },
+    {
+      "match": "lib/route.mjs",
+      "intent": "write",
+      "load_modules": [
+        "spec-boot-protocol",
+        "spec-surface-governance",
+        "spec-validation"
+      ],
+      "reason": "route logic controls file-scoped progressive disclosure."
+    },
+    {
+      "match": "lib/hook.mjs",
+      "intent": "write",
+      "load_modules": [
+        "spec-validation",
+        "spec-boot-protocol",
+        "spec-surface-governance"
+      ],
+      "reason": "hook logic operationalizes enforcement and scoped validation."
+    },
+    {
+      "match": ".githooks/pre-commit",
+      "intent": "write",
+      "load_modules": [
+        "spec-validation",
+        "spec-boot-protocol"
+      ],
+      "reason": "pre-commit hook should stay narrow and validation-oriented."
+    }
+  ],
+  "surface_pairs": [
+    {
+      "pair_id": "pair-system-readme",
+      "scope": "system",
+      "agent_primary": "spec-surface-governance",
+      "agent_supporting": [
+        "spec-boot-protocol",
+        "spec-artifact-types",
+        "spec-validation"
+      ],
+      "human_primary": "README.md",
+      "sync_source": "agent-primary",
+      "status": "paired"
+    }
+  ]
+}

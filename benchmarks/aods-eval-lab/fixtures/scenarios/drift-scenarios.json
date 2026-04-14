@@ -1,0 +1,148 @@
+[
+  {
+    "id": "control-neutral-sync-edit",
+    "description": "Paired surfaces get a neutral note without changing benchmark facts.",
+    "changedFiles": [
+      "README.md",
+      "modules/atlas-capsule.json"
+    ],
+    "isControl": true,
+    "expectBuiltInDetection": false,
+    "expectSemanticDetection": false,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "README.md",
+        "find": "Cold-start routing begins at atlas-root and summary routing continues through atlas-capsule.",
+        "replace": "Cold-start routing begins at atlas-root and summary routing continues through atlas-capsule. This note clarifies the same routing rule without changing benchmark facts."
+      },
+      {
+        "type": "replace",
+        "file": "modules/atlas-capsule.json",
+        "find": "Use product-lifecycle for goals, roadmap checkpoints, verification intent, and ADR rationale.",
+        "replace": "Use product-lifecycle for goals, roadmap checkpoints, verification intent, and ADR rationale. This note clarifies the same routing rule without changing benchmark facts."
+      }
+    ]
+  },
+  {
+    "id": "readme-human-only-drift",
+    "description": "README changes alone under agent-primary sync.",
+    "changedFiles": [
+      "README.md"
+    ],
+    "expectBuiltInDetection": true,
+    "expectSemanticDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "README.md",
+        "find": "Atlas Release Ops is a multi-tenant release coordination system for product launches and incident-ready rollouts.",
+        "replace": "Atlas Release Ops is a weekly reporting portal for passive release status summaries."
+      }
+    ]
+  },
+  {
+    "id": "manifest-bypass-readme",
+    "description": "README changes together with manifest metadata but no paired module update.",
+    "changedFiles": [
+      "README.md",
+      "manifest.json"
+    ],
+    "expectBuiltInDetection": false,
+    "expectSemanticDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "README.md",
+        "find": "Authoritative semantics live in agent-primary AODS modules and human docs are paired explanatory surfaces.",
+        "replace": "Authoritative semantics live in whichever human document was edited most recently."
+      },
+      {
+        "type": "replace",
+        "file": "manifest.json",
+        "find": "\"updated\": \"2026-04-14T00:00:00Z\"",
+        "replace": "\"updated\": \"2026-04-14T00:05:00Z\""
+      }
+    ]
+  },
+  {
+    "id": "semantic-pair-conflict",
+    "description": "Paired human and agent files both change, but to contradictory meanings.",
+    "changedFiles": [
+      "docs/01-product-lifecycle.md",
+      "modules/product-lifecycle.json"
+    ],
+    "expectBuiltInDetection": false,
+    "expectSemanticDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "docs/01-product-lifecycle.md",
+        "find": "Atlas Release Ops reduces release readiness coordination from two days to under thirty minutes.",
+        "replace": "Atlas Release Ops reduces release readiness coordination from two days to under two hours."
+      },
+      {
+        "type": "replace",
+        "file": "modules/product-lifecycle.json",
+        "find": "Atlas Release Ops reduces release readiness coordination from two days to under thirty minutes.",
+        "replace": "Atlas Release Ops reduces release readiness coordination from two days to under forty-five minutes."
+      }
+    ]
+  },
+  {
+    "id": "ops-human-only-drift",
+    "description": "Operations human surface changes alone.",
+    "changedFiles": [
+      "docs/04-operations-and-governance.md"
+    ],
+    "expectBuiltInDetection": true,
+    "expectSemanticDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "docs/04-operations-and-governance.md",
+        "find": "sev1 pages primary and secondary on-call within five minutes.",
+        "replace": "sev1 pages only the primary on-call after thirty minutes."
+      }
+    ]
+  },
+  {
+    "id": "broken-touch-route",
+    "description": "Manifest points a touch route at a missing module.",
+    "changedFiles": [
+      "manifest.json"
+    ],
+    "expectBuiltInDetection": true,
+    "expectSemanticDetection": false,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "manifest.json",
+        "find": "\"load_modules\": [\n        \"atlas-root\",\n        \"atlas-capsule\",\n        \"architecture-contracts\"\n      ],\n      \"reason\": \"Architecture edits need route and contract context.\"",
+        "replace": "\"load_modules\": [\n        \"atlas-root\",\n        \"atlas-capsule\",\n        \"missing-architecture-contracts\"\n      ],\n      \"reason\": \"Architecture edits need route and contract context.\""
+      }
+    ]
+  },
+  {
+    "id": "path-escape-pair",
+    "description": "Manifest points a paired human surface outside the corpus root.",
+    "changedFiles": [
+      "manifest.json"
+    ],
+    "expectBuiltInDetection": false,
+    "expectSemanticDetection": false,
+    "operations": [
+      {
+        "type": "writeSiblingFile",
+        "siblingPath": "escaped-architecture.md",
+        "content": "# Escaped architecture doc\n\nAPI Gateway accepts release packet writes and forwards them to the release service.\n"
+      },
+      {
+        "type": "replace",
+        "file": "manifest.json",
+        "find": "\"human_primary\": \"docs/02-architecture-and-contracts.md\"",
+        "replace": "\"human_primary\": \"../escaped-architecture.md\""
+      }
+    ]
+  }
+]

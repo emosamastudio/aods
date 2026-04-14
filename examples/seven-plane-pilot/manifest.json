@@ -1,0 +1,256 @@
+{
+  "aods_v": 3,
+  "sys": "north-star-os",
+  "sys_v": 3,
+  "created": "2026-04-14T01:06:10Z",
+  "updated": "2026-04-14T07:31:54Z",
+  "purpose": "AODS v3 pilot corpus for a seven-plane agent operating system with governance spine and work-graph backbone.",
+  "glossary": {
+    "system": "north-star-os documentation corpus",
+    "plane": "Top-level capability boundary in the operating system",
+    "governance-spine": "Cross-cutting policy, gates, approvals, lineage, and anti-drift layer",
+    "work-graph": "Cross-plane object chain connecting business intent, execution, and durable assets"
+  },
+  "modules": [
+    {
+      "id": "north-star-os-root",
+      "path": "modules/north-star-os-root.json",
+      "scope": "Root routing for the seven-plane operating model. Use for cold-start orientation and first-hop routing.",
+      "category": "architecture",
+      "layer": "root",
+      "deps": [],
+      "tags": [
+        "root",
+        "routing",
+        "north-star"
+      ],
+      "tokens_approx": 546,
+      "priority": "critical"
+    },
+    {
+      "id": "north-star-os-capsule",
+      "path": "modules/north-star-os-capsule.json",
+      "scope": "System capsule summarizing seven planes, governance spine, and work-graph backbone.",
+      "category": "capsule",
+      "layer": "capsule",
+      "deps": [],
+      "tags": [
+        "capsule",
+        "planes",
+        "north-star"
+      ],
+      "tokens_approx": 1256,
+      "priority": "critical"
+    },
+    {
+      "id": "north-star-os-detail",
+      "path": "modules/north-star-os-detail.json",
+      "scope": "Canonical seven-plane roster, resource posture, and backbone distinctions.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "detail",
+        "roster",
+        "backbone"
+      ],
+      "tokens_approx": 1986,
+      "priority": "standard"
+    },
+    {
+      "id": "experience-plane",
+      "path": "modules/experience-plane.json",
+      "scope": "Experience Plane semantics: human-facing entry surfaces across web, desktop, mobile, and future voice clients.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "experience",
+        "plane"
+      ],
+      "tokens_approx": 339,
+      "priority": "standard"
+    },
+    {
+      "id": "gateway-plane",
+      "path": "modules/gateway-plane.json",
+      "scope": "Gateway Plane semantics: ingress, authentication, notification routing, message normalization, and conversation gateway behavior.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "gateway",
+        "plane"
+      ],
+      "tokens_approx": 340,
+      "priority": "standard"
+    },
+    {
+      "id": "control-plane",
+      "path": "modules/control-plane.json",
+      "scope": "Control Plane semantics: session, run, event, dispatch, attention, and approval truth.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "control",
+        "plane"
+      ],
+      "tokens_approx": 701,
+      "priority": "standard"
+    },
+    {
+      "id": "harness-runtime-plane",
+      "path": "modules/harness-runtime-plane.json",
+      "scope": "Harness Runtime Plane semantics: runtime broker, adapter host, truthful attach, topology, and execution fabric control.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "runtime",
+        "plane"
+      ],
+      "tokens_approx": 823,
+      "priority": "standard"
+    },
+    {
+      "id": "agent-capability-plane",
+      "path": "modules/agent-capability-plane.json",
+      "scope": "Agent Capability Plane semantics: agent catalog, skill composition, assignment, evaluation, and feedback loops.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "agent",
+        "plane"
+      ],
+      "tokens_approx": 356,
+      "priority": "standard"
+    },
+    {
+      "id": "portfolio-project-plane",
+      "path": "modules/portfolio-project-plane.json",
+      "scope": "Portfolio Project Plane semantics: project lines, projects, objectives, and work orders with business meaning.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "portfolio",
+        "plane"
+      ],
+      "tokens_approx": 351,
+      "priority": "standard"
+    },
+    {
+      "id": "knowledge-resources-plane",
+      "path": "modules/knowledge-resources-plane.json",
+      "scope": "Knowledge Resources Plane semantics: memory, knowledge, vault, repo, source, and world model assets with explicit source-of-record boundaries.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "knowledge",
+        "plane"
+      ],
+      "tokens_approx": 379,
+      "priority": "standard"
+    },
+    {
+      "id": "governance-spine",
+      "path": "modules/governance-spine.json",
+      "scope": "Governance Spine semantics: policy, gates, delegation packets, lineage, approvals, and anti-drift controls across every plane.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "governance",
+        "spine"
+      ],
+      "tokens_approx": 1012,
+      "priority": "standard"
+    },
+    {
+      "id": "work-graph-backbone",
+      "path": "modules/work-graph-backbone.json",
+      "scope": "Cross-plane work graph backbone connecting workspace, project, objective, work order, session, run, event, artifact, memory, knowledge, attention, and approval.",
+      "category": "reference",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "work-graph",
+        "backbone"
+      ],
+      "tokens_approx": 936,
+      "priority": "standard"
+    }
+  ],
+  "boot_sequence": [
+    "north-star-os-root",
+    "north-star-os-capsule"
+  ],
+  "boot_by_touch": [
+    {
+      "match": "manifest.json",
+      "intent": "write",
+      "load_modules": [
+        "north-star-os-root",
+        "north-star-os-capsule",
+        "north-star-os-detail"
+      ],
+      "reason": "manifest edits affect routing and plane coverage."
+    },
+    {
+      "match": "README.md",
+      "intent": "write",
+      "load_modules": [
+        "north-star-os-capsule",
+        "north-star-os-detail"
+      ],
+      "reason": "README is the paired human surface for the pilot corpus."
+    },
+    {
+      "match": "modules/north-star-os-root.json",
+      "intent": "write",
+      "load_modules": [
+        "north-star-os-root",
+        "north-star-os-capsule"
+      ],
+      "reason": "root module edits should stay route-oriented."
+    },
+    {
+      "match": "modules/north-star-os-capsule.json",
+      "intent": "write",
+      "load_modules": [
+        "north-star-os-root",
+        "north-star-os-capsule",
+        "north-star-os-detail"
+      ],
+      "reason": "capsule edits affect summary routing across the full system."
+    },
+    {
+      "match": "modules/*.json",
+      "intent": "write",
+      "load_modules": [
+        "north-star-os-root",
+        "north-star-os-capsule",
+        "north-star-os-detail"
+      ],
+      "reason": "plane-module edits should load root, capsule, and canonical roster context first."
+    }
+  ],
+  "surface_pairs": [
+    {
+      "pair_id": "pair-north-star-os-readme",
+      "scope": "system",
+      "agent_primary": "north-star-os-capsule",
+      "agent_supporting": [
+        "north-star-os-root",
+        "north-star-os-detail",
+        "work-graph-backbone"
+      ],
+      "human_primary": "README.md",
+      "sync_source": "agent-primary",
+      "status": "paired"
+    }
+  ]
+}

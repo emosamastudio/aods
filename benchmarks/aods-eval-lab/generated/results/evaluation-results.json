@@ -1,0 +1,380 @@
+{
+  "generated_at": "2026-04-14T17:29:54.809Z",
+  "system_under_test": ".",
+  "benchmark_project": "benchmarks/aods-eval-lab",
+  "validation": {
+    "corpus": "aods-corpus",
+    "timestamp": "2026-04-14T17:29:53.081Z",
+    "levels": {
+      "L1": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      },
+      "L2": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      },
+      "L3": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      },
+      "L4": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    "summary": {
+      "total_modules": 7,
+      "total_sections": 10,
+      "total_artifacts": 21,
+      "total_tokens": 10894,
+      "total_surface_pairs": 5,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "coverage": {
+    "total_items": 27,
+    "total_sections": 6,
+    "total_typed_artifacts": 21,
+    "lifecycle_phase_coverage": 1,
+    "phase_breakdown": {
+      "vision": {
+        "artifacts": 2,
+        "representable": 2,
+        "representable_rate": 1
+      },
+      "discovery": {
+        "artifacts": 1,
+        "representable": 1,
+        "representable_rate": 1
+      },
+      "planning": {
+        "artifacts": 1,
+        "representable": 1,
+        "representable_rate": 1
+      },
+      "design": {
+        "artifacts": 5,
+        "representable": 5,
+        "representable_rate": 1
+      },
+      "build": {
+        "artifacts": 6,
+        "representable": 6,
+        "representable_rate": 1
+      },
+      "test": {
+        "artifacts": 1,
+        "representable": 1,
+        "representable_rate": 1
+      },
+      "release": {
+        "artifacts": 4,
+        "representable": 4,
+        "representable_rate": 1
+      },
+      "operate": {
+        "artifacts": 5,
+        "representable": 5,
+        "representable_rate": 1
+      },
+      "governance": {
+        "artifacts": 2,
+        "representable": 2,
+        "representable_rate": 1
+      }
+    },
+    "structured_type_coverage": 1,
+    "generic_type_coverage": 1,
+    "raw_fallback_rate": 0.047619047619047616,
+    "unsupported_items": 0,
+    "paired_surface_count": 5
+  },
+  "fidelity": {
+    "total_facts": 82,
+    "critical_facts": 82,
+    "fact_preservation_rate": 1,
+    "critical_fact_preservation_rate": 1,
+    "human_doc_tokens_estimated": 9016,
+    "aods_tokens_estimated": 13662,
+    "compression_ratio_human_to_aods": 0.6599326599326599,
+    "token_reduction_vs_human": -0.5153061224489797,
+    "facts_per_1k_human_tokens": 9.094942324755989,
+    "facts_per_1k_aods_tokens": 6.002049480310349,
+    "median_artifact_compression_ratio": 1.233644859813084
+  },
+  "loading": {
+    "full_load_tokens_estimated": 13662,
+    "scenario_results": [
+      {
+        "id": "orientation-summary",
+        "description": "Cold-start reader asks for benchmark orientation.",
+        "mode": "semantic-load",
+        "loaded_modules": [
+          "atlas-root",
+          "atlas-capsule",
+          "product-lifecycle"
+        ],
+        "required_modules": [
+          "atlas-root",
+          "atlas-capsule"
+        ],
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "exact_hit": true,
+        "route_tokens_estimated": 4655,
+        "oracle_tokens_estimated": 3426,
+        "token_savings_vs_full_load": 0.6592738984043331,
+        "overfetch_ratio": 1.3587273788674838
+      },
+      {
+        "id": "product-doc-edit",
+        "description": "Doc author edits the product lifecycle human surface.",
+        "mode": "touch-route",
+        "loaded_modules": [
+          "atlas-capsule",
+          "product-lifecycle"
+        ],
+        "required_modules": [
+          "product-lifecycle",
+          "atlas-capsule"
+        ],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_tokens_estimated": 4418,
+        "oracle_tokens_estimated": 4418,
+        "token_savings_vs_full_load": 0.6766212853169375,
+        "overfetch_ratio": 1
+      },
+      {
+        "id": "architecture-module-edit",
+        "description": "Architect edits the architecture contract module.",
+        "mode": "touch-route",
+        "loaded_modules": [
+          "atlas-root",
+          "atlas-capsule",
+          "architecture-contracts"
+        ],
+        "required_modules": [
+          "atlas-root",
+          "atlas-capsule",
+          "architecture-contracts"
+        ],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_tokens_estimated": 7282,
+        "oracle_tokens_estimated": 7282,
+        "token_savings_vs_full_load": 0.46698872785829304,
+        "overfetch_ratio": 1
+      },
+      {
+        "id": "workflow-debug",
+        "description": "Architect debugs rollout policy and rollback behavior.",
+        "mode": "semantic-load",
+        "loaded_modules": [
+          "atlas-root",
+          "atlas-capsule",
+          "architecture-contracts",
+          "delivery-workflows",
+          "operations-governance"
+        ],
+        "required_modules": [
+          "delivery-workflows",
+          "operations-governance"
+        ],
+        "precision": 0.4,
+        "recall": 1,
+        "exact_hit": true,
+        "route_tokens_estimated": 12064,
+        "oracle_tokens_estimated": 7550,
+        "token_savings_vs_full_load": 0.11696676914068216,
+        "overfetch_ratio": 1.5978807947019869
+      },
+      {
+        "id": "ops-doc-edit",
+        "description": "Operator edits the operations and governance human surface.",
+        "mode": "touch-route",
+        "loaded_modules": [
+          "atlas-capsule",
+          "operations-governance",
+          "evidence-reference"
+        ],
+        "required_modules": [
+          "atlas-capsule",
+          "operations-governance",
+          "evidence-reference"
+        ],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_tokens_estimated": 5668,
+        "oracle_tokens_estimated": 5668,
+        "token_savings_vs_full_load": 0.5851266286048895,
+        "overfetch_ratio": 1
+      },
+      {
+        "id": "release-contract-read",
+        "description": "Product manager asks about release packet schema and example payloads.",
+        "mode": "semantic-load",
+        "loaded_modules": [
+          "atlas-root",
+          "atlas-capsule",
+          "product-lifecycle",
+          "architecture-contracts"
+        ],
+        "required_modules": [
+          "architecture-contracts"
+        ],
+        "precision": 0.25,
+        "recall": 1,
+        "exact_hit": true,
+        "route_tokens_estimated": 8511,
+        "oracle_tokens_estimated": 6624,
+        "token_savings_vs_full_load": 0.3770311813790075,
+        "overfetch_ratio": 1.2848731884057971
+      }
+    ],
+    "hit_rate": 1,
+    "average_precision": 0.7194444444444444,
+    "average_recall": 1,
+    "median_token_savings_vs_full_load": 0.5260576782315913,
+    "median_overfetch_ratio": 1.1424365942028984
+  },
+  "drift": {
+    "scenario_results": [
+      {
+        "id": "control-neutral-sync-edit",
+        "description": "Paired surfaces get a neutral note without changing benchmark facts.",
+        "is_control": true,
+        "changed_files": [
+          "README.md",
+          "modules/atlas-capsule.json"
+        ],
+        "built_in_detected": false,
+        "semantic_detected": false,
+        "expected_built_in_detection": false,
+        "expected_semantic_detection": false,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "pass"
+      },
+      {
+        "id": "readme-human-only-drift",
+        "description": "README changes alone under agent-primary sync.",
+        "is_control": false,
+        "changed_files": [
+          "README.md"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "manifest-bypass-readme",
+        "description": "README changes together with manifest metadata but no paired module update.",
+        "is_control": false,
+        "changed_files": [
+          "README.md",
+          "manifest.json"
+        ],
+        "built_in_detected": false,
+        "semantic_detected": true,
+        "expected_built_in_detection": false,
+        "expected_semantic_detection": true,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "pass"
+      },
+      {
+        "id": "semantic-pair-conflict",
+        "description": "Paired human and agent files both change, but to contradictory meanings.",
+        "is_control": false,
+        "changed_files": [
+          "docs/01-product-lifecycle.md",
+          "modules/product-lifecycle.json"
+        ],
+        "built_in_detected": false,
+        "semantic_detected": true,
+        "expected_built_in_detection": false,
+        "expected_semantic_detection": true,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "pass"
+      },
+      {
+        "id": "ops-human-only-drift",
+        "description": "Operations human surface changes alone.",
+        "is_control": false,
+        "changed_files": [
+          "docs/04-operations-and-governance.md"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "broken-touch-route",
+        "description": "Manifest points a touch route at a missing module.",
+        "is_control": false,
+        "changed_files": [
+          "manifest.json"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": false,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": false,
+        "validate_errors": 1,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "path-escape-pair",
+        "description": "Manifest points a paired human surface outside the corpus root.",
+        "is_control": false,
+        "changed_files": [
+          "manifest.json"
+        ],
+        "built_in_detected": false,
+        "semantic_detected": false,
+        "expected_built_in_detection": false,
+        "expected_semantic_detection": false,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "pass"
+      }
+    ],
+    "built_in_recall": 0.5,
+    "semantic_recall": 0.6666666666666666,
+    "combined_recall": 0.8333333333333334,
+    "built_in_false_positive_rate": 0,
+    "semantic_false_positive_rate": 0
+  },
+  "overhead": {
+    "module_count": 7,
+    "surface_pair_count": 5,
+    "touch_route_count": 13,
+    "role_count": 4,
+    "bookkeeping_entries": 29,
+    "bookkeeping_entries_per_artifact": 1.0740740740740742
+  },
+  "limitations": [
+    "Token counts use a deterministic chars-per-token estimate, not a model-native tokenizer.",
+    "Non-touch semantic loading uses an independent scope-and-tag heuristic because the reference CLI only implements touch-oriented routing.",
+    "The benchmark corpus is synthetic but lifecycle-complete; it should be treated as a strong laboratory signal rather than a universal external sample."
+  ]
+}

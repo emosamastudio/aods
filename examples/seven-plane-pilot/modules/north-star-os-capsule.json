@@ -1,0 +1,161 @@
+{
+  "aods_v": 3,
+  "module_id": "north-star-os-capsule",
+  "v": 1,
+  "context": "Capsule for the seven-plane operating model. Use after root load to select target plane or backbone detail.",
+  "sections": [
+    {
+      "sid": "system-capsule",
+      "topic": "capsule summary and route selection",
+      "content": "System = Experience|Gateway|Control|Harness Runtime|Agent Capability|Portfolio Project|Knowledge Resources + Governance Spine. Work Graph is backbone, not plane. Use plane-selector for target routing.",
+      "content_type": "rules",
+      "refs": [
+        "north-star-os-detail:plane-roster"
+      ],
+      "artifact_refs": [
+        "plane-selector"
+      ],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "plane-selector",
+      "type": "decision-tree",
+      "usage": "Select the correct plane or backbone detail from summary routing.",
+      "content": {
+        "root": "q-task",
+        "nodes": [
+          {
+            "id": "q-task",
+            "type": "condition",
+            "eval": "task focus?",
+            "branches": [
+              {
+                "value": "human entry or interaction UX",
+                "next": "a-experience"
+              },
+              {
+                "value": "ingress auth notification or message normalization",
+                "next": "a-gateway"
+              },
+              {
+                "value": "session run attention approval or dispatch truth",
+                "next": "a-control"
+              },
+              {
+                "value": "runtime broker attach adapter or topology",
+                "next": "a-runtime"
+              },
+              {
+                "value": "agent catalog composition assignment or evaluation",
+                "next": "a-agent"
+              },
+              {
+                "value": "project objective work-order or business line semantics",
+                "next": "a-portfolio"
+              },
+              {
+                "value": "memory knowledge repo vault or world model",
+                "next": "a-knowledge"
+              },
+              {
+                "value": "policy gate approval delegation or lineage",
+                "next": "a-governance"
+              },
+              {
+                "value": "cross-plane object chain",
+                "next": "a-backbone"
+              }
+            ],
+            "default": "a-roster"
+          },
+          {
+            "id": "a-experience",
+            "type": "action",
+            "action": "load experience-plane:plane-role"
+          },
+          {
+            "id": "a-gateway",
+            "type": "action",
+            "action": "load gateway-plane:plane-role"
+          },
+          {
+            "id": "a-control",
+            "type": "action",
+            "action": "load control-plane:plane-role"
+          },
+          {
+            "id": "a-runtime",
+            "type": "action",
+            "action": "load harness-runtime-plane:plane-role"
+          },
+          {
+            "id": "a-agent",
+            "type": "action",
+            "action": "load agent-capability-plane:plane-role"
+          },
+          {
+            "id": "a-portfolio",
+            "type": "action",
+            "action": "load portfolio-project-plane:plane-role"
+          },
+          {
+            "id": "a-knowledge",
+            "type": "action",
+            "action": "load knowledge-resources-plane:plane-role"
+          },
+          {
+            "id": "a-governance",
+            "type": "action",
+            "action": "load governance-spine:spine-role"
+          },
+          {
+            "id": "a-backbone",
+            "type": "action",
+            "action": "load work-graph-backbone:backbone-chain"
+          },
+          {
+            "id": "a-roster",
+            "type": "action",
+            "action": "load north-star-os-detail:plane-roster"
+          }
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot capsule module."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change",
+    "capsule": {
+        "read_when": [
+          "Need summary routing after cold-start",
+          "Need to choose target plane for current task"
+        ],
+        "core_question": "Which plane or backbone should handle the current task?",
+        "routes_to": [
+          "north-star-os-detail:plane-roster",
+          "experience-plane:plane-role",
+          "gateway-plane:plane-role",
+          "control-plane:plane-role",
+          "harness-runtime-plane:plane-role",
+          "agent-capability-plane:plane-role",
+          "portfolio-project-plane:plane-role",
+          "knowledge-resources-plane:plane-role",
+          "governance-spine:spine-role",
+          "work-graph-backbone:backbone-chain"
+        ],
+        "frozen_decisions": [
+          "Capsule stays short",
+          "Detail modules hold semantic authority",
+          "Work Graph is backbone, not plane"
+        ]
+      }
+    }
+  }

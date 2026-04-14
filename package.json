@@ -1,0 +1,30 @@
+{
+  "name": "aods",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AODS standard, reference CLI, and benchmark regression baseline",
+  "type": "module",
+  "bin": {
+    "aods": "./bin/aods.mjs"
+  },
+  "scripts": {
+    "validate": "node ./bin/aods.mjs validate .",
+    "validate:json": "node ./bin/aods.mjs validate . --json",
+    "validate:strict": "node ./bin/aods.mjs validate . --strict",
+    "validate:pilot": "node ./bin/aods.mjs validate ./examples/seven-plane-pilot --strict",
+    "validate:all": "npm run validate:strict && npm run validate:pilot",
+    "route": "node ./bin/aods.mjs route .",
+    "hook:pre-commit": "node ./bin/aods.mjs hook pre-commit . --staged",
+    "help": "node ./bin/aods.mjs --help",
+    "upgrade": "node ./bin/aods.mjs upgrade .",
+    "benchmark:generate": "npm --prefix ./benchmarks/aods-eval-lab run generate",
+    "benchmark:evaluate": "npm --prefix ./benchmarks/aods-eval-lab run evaluate",
+    "benchmark:test": "npm --prefix ./benchmarks/aods-eval-lab run test",
+    "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:test",
+    "validate:repo": "npm run validate:all && npm run benchmark:all"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

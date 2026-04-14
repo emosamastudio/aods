@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+repo_root="$(git rev-parse --show-toplevel)"
+
+if [ -f "$repo_root/bin/aods.mjs" ] && [ -f "$repo_root/package.json" ]; then
+  cd "$repo_root"
+  exec node ./bin/aods.mjs hook pre-commit . --staged --repo-root "$repo_root"
+fi
+
+if [ -f "$repo_root/agent-doc-schema/bin/aods.mjs" ] && [ -f "$repo_root/agent-doc-schema/package.json" ]; then
+  cd "$repo_root/agent-doc-schema"
+  exec node ./bin/aods.mjs hook pre-commit . --staged --repo-root "$repo_root"
+fi
+
+echo "AODS hook: could not locate agent-doc-schema root" >&2
+exit 1

@@ -1,0 +1,368 @@
+{
+  "aods_v": 3,
+  "module_id": "spec-surface-governance",
+  "v": 2,
+  "context": "Defines dual-surface pairing, authority resolution, capsule routing, and sync discipline for corpora where agent-primary modules coexist with human-facing surfaces. bidirectional sync remains experimental until merge protocol exists.",
+  "assumptions": [
+    "Corpus may include human-facing surfaces outside JSON module registry",
+    "manifest.surface_pairs is global pairing registry",
+    "module.layer drives progressive disclosure and authority posture"
+  ],
+  "sections": [
+    {
+      "sid": "surface-model",
+      "topic": "surface layer model",
+      "content": "Manifest is corpus root. layer=root -> boot and routing. layer=capsule -> short summary + route fanout. layer=detail -> semantic authority. layer=evidence -> proof|draft only. Human surfaces stay outside module registry; manifest.surface_pairs links them back to agent-primary modules.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "surface-layer-matrix"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "authority-resolution",
+      "topic": "authority conflict resolution",
+      "content": "detail beats capsule on semantic conflict. root beats downstream layers on routing conflict. evidence may annotate but not override. Human surface may explain; cannot become sole machine authority unless sync_source=human-primary is declared explicitly.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "authority-rules"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "pairing-contract",
+      "topic": "dual surface pairing contract",
+      "content": "Each pair has pair_id, scope, agent_primary, human_primary, sync_source, status. agent_supporting and human_supporting are optional. Paths must be relative. Pair does not imply human surface has semantic authority; sync_source controls update direction. bidirectional sync is experimental until merge/conflict protocol is defined.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "surface-pairing-table",
+        "pair-sync-flow"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "capsule-contract",
+      "topic": "capsule module contract",
+      "content": "category=capsule <-> layer=capsule. meta.capsule required when capsule identity is used. read_when explains trigger. core_question explains decision focus. routes_to lists next modules or sections. frozen_decisions records compact invariants. Capsule stays short; detail modules hold durable semantics.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "capsule-contract-table"
+      ],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "surface-layer-matrix",
+      "type": "mapping-table",
+      "usage": "Lookup table for layer semantics and authority role.",
+      "content": {
+        "key_columns": [
+          "layer"
+        ],
+        "columns": [
+          "layer",
+          "intent",
+          "default_load",
+          "authority_role",
+          "notes"
+        ],
+        "rows": [
+          [
+            "root",
+            "boot and route",
+            "cold-start",
+            "routing authority",
+            "manifest or root module"
+          ],
+          [
+            "capsule",
+            "summary and fanout",
+            "post-root",
+            "summary authority",
+            "short module; points to detail"
+          ],
+          [
+            "detail",
+            "durable semantics",
+            "on-demand or role boot",
+            "semantic authority",
+            "wins semantic conflict vs capsule"
+          ],
+          [
+            "evidence",
+            "proof draft debug",
+            "explicit review only",
+            "non-authoritative",
+            "never sole semantic source"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "authority-rules",
+      "type": "rule-set",
+      "usage": "Evaluate conflict resolution between layers and human-agent pairs.",
+      "content": {
+        "evaluation_mode": "priority-ordered",
+        "default_action": "keep current authority source",
+        "conflict_resolution": "highest-priority-wins",
+        "rules": [
+          {
+            "id": "routing-root-wins",
+            "condition": "conflict_domain == 'routing' AND source.layer == 'root'",
+            "action": "prefer source",
+            "priority": 10,
+            "source": "surface-governance"
+          },
+          {
+            "id": "detail-beats-capsule",
+            "condition": "conflict_domain == 'semantic' AND source.layer == 'detail' AND target.layer == 'capsule'",
+            "action": "prefer source",
+            "priority": 20,
+            "source": "surface-governance"
+          },
+          {
+            "id": "evidence-cannot-override",
+            "condition": "source.layer == 'evidence' AND target.layer != 'evidence'",
+            "action": "annotate-only",
+            "priority": 30,
+            "source": "surface-governance"
+          },
+          {
+            "id": "agent-primary-default-sync",
+            "condition": "pair.exists == true AND pair.sync_source == 'agent-primary'",
+            "action": "update human from agent",
+            "priority": 40,
+            "source": "surface-governance"
+          },
+          {
+            "id": "human-primary-exception",
+            "condition": "pair.exists == true AND pair.sync_source == 'human-primary'",
+            "action": "allow human-led sync but keep pair explicit",
+            "priority": 50,
+            "source": "surface-governance"
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-pairing-table",
+      "type": "mapping-table",
+      "usage": "Field guide for manifest.surface_pairs records.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "required",
+          "type",
+          "meaning"
+        ],
+        "rows": [
+          [
+            "pair_id",
+            "yes",
+            "string",
+            "stable identifier for one pairing"
+          ],
+          [
+            "scope",
+            "yes",
+            "system|phase|feature|module",
+            "granularity of pairing"
+          ],
+          [
+            "agent_primary",
+            "yes",
+            "module_id",
+            "primary agent-owned semantic source"
+          ],
+          [
+            "agent_supporting",
+            "no",
+            "module_id[]",
+            "supporting agent modules"
+          ],
+          [
+            "human_primary",
+            "yes",
+            "relative path",
+            "primary human-facing surface"
+          ],
+          [
+            "human_supporting",
+            "no",
+            "relative path[]",
+            "supporting human-facing surfaces"
+          ],
+          [
+            "sync_source",
+            "yes",
+            "agent-primary|human-primary|bidirectional",
+            "declared update direction; bidirectional remains experimental"
+          ],
+          [
+            "status",
+            "yes",
+            "paired|draft|deprecated",
+            "pair lifecycle state"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "pair-sync-flow",
+      "type": "process-flow",
+      "usage": "Canonical update order for paired agent and human surfaces.",
+      "content": {
+        "entry": "detect-change",
+        "actors": [
+          "agent",
+          "validator"
+        ],
+        "terminals": [
+          "done"
+        ],
+        "steps": [
+          {
+            "id": "detect-change",
+            "type": "action",
+            "actor": "agent",
+            "action": "detect semantic or routing change",
+            "next": "check-pair"
+          },
+          {
+            "id": "check-pair",
+            "type": "decision",
+            "actor": "agent",
+            "action": "paired surface exists?",
+            "next": {
+              "yes": "update-agent-primary",
+              "no": "done"
+            }
+          },
+          {
+            "id": "update-agent-primary",
+            "type": "action",
+            "actor": "agent",
+            "action": "update agent-primary module first",
+            "next": "sync-direction"
+          },
+          {
+            "id": "sync-direction",
+            "type": "decision",
+            "actor": "agent",
+            "action": "sync_source == agent-primary?",
+            "next": {
+              "yes": "update-human",
+              "no": "validate-pair"
+            }
+          },
+          {
+            "id": "update-human",
+            "type": "action",
+            "actor": "agent",
+            "action": "update paired human surface after agent semantic source is current",
+            "next": "validate-pair"
+          },
+          {
+            "id": "validate-pair",
+            "type": "action",
+            "actor": "validator",
+            "action": "check pair paths, refs, and authority invariants",
+            "next": "done"
+          },
+          {
+            "id": "done",
+            "type": "action",
+            "actor": "agent",
+            "action": "pair synchronized",
+            "next": null
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "capsule-contract-table",
+      "type": "mapping-table",
+      "usage": "Required meta.capsule fields for category=capsule modules.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "required",
+          "meaning",
+          "notes"
+        ],
+        "rows": [
+          [
+            "read_when",
+            "yes",
+            "loading trigger list",
+            "short phrases; task-facing"
+          ],
+          [
+            "core_question",
+            "yes",
+            "decision focus of capsule",
+            "single question"
+          ],
+          [
+            "routes_to",
+            "yes",
+            "next modules or sections",
+            "module_id or module_id:sid"
+          ],
+          [
+            "frozen_decisions",
+            "no",
+            "compact invariants or commitments",
+            "keep short; detail lives elsewhere"
+          ]
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial AODS v3 surface governance module."
+    },
+    {
+      "v": 2,
+      "delta": "Marked bidirectional sync experimental and made capsule layer/category identity explicit.",
+      "breaking": false
+    }
+  ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change",
+    "capsule": {
+      "read_when": [
+        "Need to choose surface layer for loading",
+        "Need to resolve agent-human documentation pairing",
+        "Need authority rule before reading human surface"
+      ],
+      "core_question": "How should agent-primary and human-facing surfaces stay paired, layered, and authority-safe?",
+      "routes_to": [
+        "spec-boot-protocol:cold-start",
+        "spec-artifact-types:surface-governance-patterns",
+        "spec-validation:structural"
+      ],
+      "frozen_decisions": [
+        "detail beats capsule on semantic conflict",
+        "evidence never becomes sole semantic source",
+        "manifest.surface_pairs is global pairing registry",
+        "bidirectional sync is experimental until merge protocol exists"
+      ]
+    }
+  }
+}

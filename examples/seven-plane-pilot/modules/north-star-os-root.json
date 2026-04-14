@@ -1,0 +1,78 @@
+{
+  "aods_v": 3,
+  "module_id": "north-star-os-root",
+  "v": 1,
+  "context": "Root routing for the seven-plane operating model. Use during cold-start before capsule or plane detail loads.",
+  "sections": [
+    {
+      "sid": "system-root",
+      "topic": "root routing overview",
+      "content": "System shape = seven planes + governance spine + cross-plane work-graph backbone. Load north-star-os-capsule:system-capsule for summary routing. Load north-star-os-detail:plane-roster for canonical plane roster. Load target plane module only after task scope is clear.",
+      "content_type": "rules",
+      "refs": [
+        "north-star-os-capsule:system-capsule",
+        "north-star-os-detail:plane-roster"
+      ],
+      "artifact_refs": [
+        "route-table"
+      ],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "route-table",
+      "type": "mapping-table",
+        "usage": "Lookup table for first-hop routing from root layer.",
+        "content": {
+          "key_columns": [
+            "need"
+          ],
+          "columns": [
+            "need",
+            "load"
+          ],
+          "rows": [
+            [
+              "summary routing",
+              "north-star-os-capsule:system-capsule"
+            ],
+            [
+              "canonical plane roster",
+              "north-star-os-detail:plane-roster"
+            ],
+            [
+              "business execution objects",
+              "work-graph-backbone:backbone-chain"
+            ],
+            [
+              "control truth",
+              "control-plane:plane-role"
+            ],
+            [
+              "runtime attach and topology",
+              "harness-runtime-plane:plane-role"
+            ],
+            [
+              "governance gates",
+              "governance-spine:spine-role"
+            ],
+            [
+              "human narrative",
+              "README.md via manifest.surface_pairs"
+            ]
+          ]
+        }
+      }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot root routing module."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

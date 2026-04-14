@@ -1,0 +1,108 @@
+{
+  "aods_v": 3,
+  "module_id": "harness-runtime-plane",
+  "v": 1,
+  "context": "Harness Runtime Plane detail for the seven-plane operating system. Covers runtime broker, adapter host, truthful attach, topology, and execution fabric control.",
+  "sections": [
+    {
+      "sid": "plane-role",
+      "topic": "harness runtime plane role",
+      "content": "Harness Runtime Plane owns runtime broker, adapter host, truthful attach, topology, and execution fabric control. Harness Runtime Plane binds runtime facts to Control Plane without owning project meaning or agent-catalog meaning.",
+      "content_type": "rules",
+      "refs": [
+        "control-plane:plane-role",
+        "agent-capability-plane:plane-role"
+      ],
+      "artifact_refs": [
+        "runtime-topology"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "current-posture",
+      "topic": "harness runtime posture and boundaries",
+      "content": "Must_not = project semantics or agent-catalog policy. Current posture = required-provisional. terminal-control-plane is candidate seed pending overlap reconciliation and role-fit confirmation.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "runtime-topology",
+      "type": "topology",
+      "usage": "Topology for core runtime-fabric components and edges back to Control Plane.",
+      "content": {
+        "nodes": [
+          {
+            "id": "control-plane",
+            "type": "external",
+            "desc": "Control Plane"
+          },
+          {
+            "id": "runtime-broker",
+            "type": "service",
+            "desc": "Runtime Broker"
+          },
+          {
+            "id": "adapter-host",
+            "type": "service",
+            "desc": "Adapter Host"
+          },
+          {
+            "id": "attach-bridge",
+            "type": "service",
+            "desc": "Truthful Attach Bridge"
+          },
+          {
+            "id": "topology-service",
+            "type": "service",
+            "desc": "Runtime Topology Service"
+          }
+        ],
+        "edges": [
+          {
+            "from": "control-plane",
+            "to": "runtime-broker",
+            "type": "control",
+            "desc": "dispatch and session action requests"
+          },
+          {
+            "from": "runtime-broker",
+            "to": "adapter-host",
+            "type": "control",
+            "desc": "runtime-specific orchestration"
+          },
+          {
+            "from": "adapter-host",
+            "to": "attach-bridge",
+            "type": "data",
+            "desc": "truthful attach and live stream binding"
+          },
+          {
+            "from": "adapter-host",
+            "to": "topology-service",
+            "type": "event",
+            "desc": "runtime state and topology updates"
+          },
+          {
+            "from": "topology-service",
+            "to": "control-plane",
+            "type": "event",
+            "desc": "live topology and health signals"
+          }
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot module for Harness Runtime Plane."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}

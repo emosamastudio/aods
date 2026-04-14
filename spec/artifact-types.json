@@ -1,0 +1,320 @@
+{
+  "aods_v": 3,
+  "module_id": "spec-artifact-types",
+  "v": 2,
+  "context": "Catalog of all AODS artifact types. Adds governance selection patterns for dual-surface pairing, authority rules, progressive disclosure, and capsule-vs-artifact decisions.",
+  "assumptions": [
+    "Agent has loaded spec-aop for writing content fields",
+    "Agent understands JSON Schema basics"
+  ],
+  "sections": [
+    {
+      "sid": "type-selection-guide",
+      "topic": "artifact type selection decision logic",
+      "content": "Match documentation need to artifact type. entity lifecycle|status -> state-machine. multi-step process with actors -> process-flow. temporal message exchange -> sequence. conditional branching|classification -> decision-tree. data transformation chain -> data-pipeline. system structure|component graph -> topology. constraints|policies|authority -> rule-set. routing tables|pairing matrices|permission maps -> mapping-table. event-driven interactions -> event-catalog. failure recovery -> error-strategy. interfaces|contracts -> api-contract. schedules|deadlines|rate limits -> temporal-pattern. documentation surface governance -> rule-set + mapping-table + process-flow. short routing summary -> module.category=capsule, not new artifact type. none match -> generic type or raw.",
+      "content_type": "logic",
+      "refs": [
+        "surface-governance-patterns"
+      ],
+      "artifact_refs": [
+        "type-selection-tree",
+        "surface-governance-pattern-table"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "structured-types-overview",
+      "topic": "12 structured artifact types summary",
+      "content": "state-machine: states + transitions; use for lifecycles. process-flow: steps + next links; use for workflows. sequence: actors + ordered messages; use for protocols. decision-tree: condition nodes -> action leaves; use for routing or diagnosis. data-pipeline: source -> stages -> sink; use for ETL/data movement. topology: nodes + edges + groups; use for architecture. rule-set: condition -> action with evaluation mode + conflict resolution; use for policies. mapping-table: columns + rows + key_columns; use for lookup or routing tables. event-catalog: events + channels; use for event-driven design. error-strategy: error class -> strategy; use for fault tolerance. api-contract: provider + endpoints; use for interface specs. temporal-pattern: cron|interval|deadline|window|rate-limit|cooldown|sla-timer|debounce|throttle; use for time behavior.",
+      "content_type": "prose",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "generic-types-overview",
+      "topic": "8 generic artifact types summary",
+      "content": "json-schema: JSON Schema object for validating data. json-example: concrete JSON instance. code-template: source template; set lang when relevant. config-template: configuration template; set lang when relevant. prompt-template: prompt string or prompt object with variables. regex: pattern definition. enum-def: enumeration values and descriptions. raw: unstructured payload; avoid if possible.",
+      "content_type": "prose",
+      "refs": [],
+      "criticality": "should"
+    },
+    {
+      "sid": "surface-governance-patterns",
+      "topic": "dual surface authority and disclosure patterns",
+      "content": "surface_pairs manifest field links agent-primary modules to human surfaces. authority resolution -> rule-set. progressive disclosure routing -> decision-tree + mapping-table. sync workflow -> process-flow. layer model -> mapping-table or topology. capsule summary -> module.category=capsule + meta.capsule.{read_when, core_question, routes_to, frozen_decisions}. Do not invent prose-only governance when agent must traverse or evaluate it.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "surface-governance-pattern-table"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "composition-patterns",
+      "topic": "combining multiple artifact types in one module",
+      "content": "Architecture module: topology + api-contract + event-catalog. Workflow module: process-flow + error-strategy + decision-tree + state-machine. Integration module: api-contract + json-schema + sequence + mapping-table. Operations module: temporal-pattern + rule-set + error-strategy + mapping-table. Surface-governance module: mapping-table + rule-set + process-flow + decision-tree.",
+      "content_type": "prose",
+      "refs": [
+        "type-selection-guide"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "prose-vs-artifact",
+      "topic": "when to use AOP prose vs structured artifact",
+      "content": "Use prose for rationale, intent, caveats, and context. Use artifact for anything agent must traverse, evaluate, execute, compare, or validate. If agent needs to follow path through states, steps, branches, lookups, or policy precedence -> artifact. If module only summarizes route to deeper modules -> capsule module + short prose + refs.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "type-selection-tree",
+      "type": "decision-tree",
+      "usage": "Traverse to select artifact type or capsule module pattern.",
+      "content": {
+        "root": "q-what",
+        "nodes": [
+          {
+            "id": "q-what",
+            "type": "condition",
+            "eval": "what is being documented?",
+            "branches": [
+              {
+                "value": "entity lifecycle or status",
+                "next": "a-sm"
+              },
+              {
+                "value": "multi-step process with actors",
+                "next": "q-temporal"
+              },
+              {
+                "value": "conditional logic or classification",
+                "next": "a-dt"
+              },
+              {
+                "value": "data transformation",
+                "next": "a-dp"
+              },
+              {
+                "value": "system structure",
+                "next": "a-topo"
+              },
+              {
+                "value": "business rules or policy",
+                "next": "q-rule-type"
+              },
+              {
+                "value": "events and reactions",
+                "next": "a-ec"
+              },
+              {
+                "value": "failure handling",
+                "next": "a-es"
+              },
+              {
+                "value": "component interface",
+                "next": "a-ac"
+              },
+              {
+                "value": "time-based behavior",
+                "next": "a-tp"
+              },
+              {
+                "value": "documentation surface governance",
+                "next": "q-doc-gov"
+              }
+            ],
+            "default": "a-generic"
+          },
+          {
+            "id": "q-temporal",
+            "type": "condition",
+            "eval": "focus on message ordering between actors?",
+            "branches": [
+              {
+                "value": "yes",
+                "next": "a-seq"
+              },
+              {
+                "value": "no",
+                "next": "a-pf"
+              }
+            ]
+          },
+          {
+            "id": "q-rule-type",
+            "type": "condition",
+            "eval": "is it key-value lookup or conditional evaluation?",
+            "branches": [
+              {
+                "value": "lookup",
+                "next": "a-mt"
+              },
+              {
+                "value": "conditional",
+                "next": "a-rs"
+              }
+            ]
+          },
+          {
+            "id": "q-doc-gov",
+            "type": "condition",
+            "eval": "need traversal or just summary routing?",
+            "branches": [
+              {
+                "value": "summary routing",
+                "next": "a-capsule"
+              },
+              {
+                "value": "pairing matrix",
+                "next": "a-mt"
+              },
+              {
+                "value": "authority policy",
+                "next": "a-rs"
+              },
+              {
+                "value": "sync workflow",
+                "next": "a-pf"
+              },
+              {
+                "value": "load routing",
+                "next": "a-dt"
+              }
+            ],
+            "default": "a-rs"
+          },
+          {
+            "id": "a-sm",
+            "type": "action",
+            "action": "use state-machine"
+          },
+          {
+            "id": "a-pf",
+            "type": "action",
+            "action": "use process-flow"
+          },
+          {
+            "id": "a-seq",
+            "type": "action",
+            "action": "use sequence"
+          },
+          {
+            "id": "a-dt",
+            "type": "action",
+            "action": "use decision-tree"
+          },
+          {
+            "id": "a-dp",
+            "type": "action",
+            "action": "use data-pipeline"
+          },
+          {
+            "id": "a-topo",
+            "type": "action",
+            "action": "use topology"
+          },
+          {
+            "id": "a-rs",
+            "type": "action",
+            "action": "use rule-set"
+          },
+          {
+            "id": "a-mt",
+            "type": "action",
+            "action": "use mapping-table"
+          },
+          {
+            "id": "a-ec",
+            "type": "action",
+            "action": "use event-catalog"
+          },
+          {
+            "id": "a-es",
+            "type": "action",
+            "action": "use error-strategy"
+          },
+          {
+            "id": "a-ac",
+            "type": "action",
+            "action": "use api-contract"
+          },
+          {
+            "id": "a-tp",
+            "type": "action",
+            "action": "use temporal-pattern"
+          },
+          {
+            "id": "a-capsule",
+            "type": "action",
+            "action": "use module.category=capsule plus meta.capsule fields; do not invent capsule artifact type"
+          },
+          {
+            "id": "a-generic",
+            "type": "action",
+            "action": "use json-schema, code-template, prompt-template, or raw depending on content nature"
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-governance-pattern-table",
+      "type": "mapping-table",
+      "usage": "Lookup table mapping governance concept -> canonical AODS representation.",
+      "content": {
+        "key_columns": [
+          "concept"
+        ],
+        "columns": [
+          "concept",
+          "representation",
+          "notes"
+        ],
+        "rows": [
+          [
+            "dual-surface pairing",
+            "manifest.surface_pairs + mapping-table",
+            "manifest holds global pair registry; module may add local field guide"
+          ],
+          [
+            "authority resolution",
+            "rule-set",
+            "priority-ordered rules handle conflict resolution"
+          ],
+          [
+            "progressive disclosure routing",
+            "decision-tree + mapping-table",
+            "decision-tree picks layer; mapping-table carries layer policy"
+          ],
+          [
+            "sync workflow",
+            "process-flow",
+            "use explicit step graph for update order"
+          ],
+          [
+            "capsule summary",
+            "module.category=capsule + meta.capsule",
+            "capsule is module pattern, not artifact type"
+          ]
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial artifact type catalog with 20 types and selection guide."
+    },
+    {
+      "v": 2,
+      "delta": "Added governance selection patterns, capsule-module guidance, and dual-surface mapping guidance.",
+      "breaking": false
+    }
+  ],
+  "meta": {
+    "stability": "stable",
+    "review_cycle": "on-change"
+  }
+}

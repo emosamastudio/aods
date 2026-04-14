@@ -1,0 +1,11 @@
+{
+  "name": "aods-eval-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node ./src/generate-fixtures.mjs",
+    "evaluate": "node ./src/evaluate.mjs",
+    "test": "node --test"
+  }
+}

@@ -1,0 +1,413 @@
+{
+  "aods_v": 3,
+  "sys": "atlas-release-ops",
+  "sys_v": 1,
+  "created": "2026-04-14T00:00:00Z",
+  "updated": "2026-04-14T00:00:00Z",
+  "purpose": "Independent benchmark corpus for a multi-tenant release coordination and incident-ready rollout system.",
+  "glossary": {
+    "system": "Atlas Release Ops benchmark corpus",
+    "release_packet": "Canonical release unit with owner, risk tier, rollback plan, communication plan, and rollout window.",
+    "paired_surface": "Human-facing file linked to one or more authoritative agent-primary modules.",
+    "rollout_lane": "One deployment cohort used for canary, staged, or full release decisions."
+  },
+  "roles": [
+    {
+      "id": "product-manager",
+      "scope": "Needs goals, roadmap, verification, and summary routing.",
+      "capabilities": [
+        "read-modules",
+        "edit-human-surfaces"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle"
+      ]
+    },
+    {
+      "id": "architect",
+      "scope": "Needs topology, APIs, workflow semantics, and impact analysis.",
+      "capabilities": [
+        "read-modules",
+        "edit-agent-surfaces"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "architecture-contracts",
+        "delivery-workflows"
+      ]
+    },
+    {
+      "id": "operator",
+      "scope": "Needs policy, incidents, temporal controls, and evidence references.",
+      "capabilities": [
+        "read-modules",
+        "operate-system"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "operations-governance",
+        "evidence-reference"
+      ]
+    },
+    {
+      "id": "doc-author",
+      "scope": "Needs broad authoring context across every paired surface.",
+      "capabilities": [
+        "write-modules",
+        "validate-corpus"
+      ],
+      "required_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle",
+        "architecture-contracts",
+        "delivery-workflows",
+        "operations-governance",
+        "evidence-reference"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "atlas-root",
+      "path": "modules/atlas-root.json",
+      "scope": "Cold-start routing for the benchmark corpus. Use for first-hop orientation.",
+      "category": "architecture",
+      "layer": "root",
+      "deps": [],
+      "tags": [
+        "root",
+        "routing",
+        "overview",
+        "benchmark"
+      ],
+      "tokens_approx": 237,
+      "priority": "critical"
+    },
+    {
+      "id": "atlas-capsule",
+      "path": "modules/atlas-capsule.json",
+      "scope": "Capsule summary and route fanout across product, architecture, workflow, and operations slices.",
+      "category": "capsule",
+      "layer": "capsule",
+      "deps": [],
+      "tags": [
+        "capsule",
+        "summary",
+        "routes",
+        "benchmark"
+      ],
+      "tokens_approx": 421,
+      "priority": "critical"
+    },
+    {
+      "id": "product-lifecycle",
+      "path": "modules/product-lifecycle.json",
+      "scope": "Goals, non-goals, discovery findings, milestones, authoring prompts, and design rationale.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "product",
+        "goals",
+        "roadmap",
+        "adr",
+        "prompt"
+      ],
+      "tokens_approx": 1229,
+      "priority": "standard"
+    },
+    {
+      "id": "architecture-contracts",
+      "path": "modules/architecture-contracts.json",
+      "scope": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role enums.",
+      "category": "reference",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "architecture",
+        "api",
+        "schema",
+        "contracts",
+        "config"
+      ],
+      "tokens_approx": 3856,
+      "priority": "standard"
+    },
+    {
+      "id": "delivery-workflows",
+      "path": "modules/delivery-workflows.json",
+      "scope": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analytics pipeline.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [
+        "architecture-contracts"
+      ],
+      "tags": [
+        "workflow",
+        "rollout",
+        "state",
+        "sequence",
+        "pipeline"
+      ],
+      "tokens_approx": 2672,
+      "priority": "standard"
+    },
+    {
+      "id": "operations-governance",
+      "path": "modules/operations-governance.json",
+      "scope": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and validation guidance.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [
+        "delivery-workflows"
+      ],
+      "tags": [
+        "operations",
+        "governance",
+        "incident",
+        "policy",
+        "slo"
+      ],
+      "tokens_approx": 2110,
+      "priority": "standard"
+    },
+    {
+      "id": "evidence-reference",
+      "path": "modules/evidence-reference.json",
+      "scope": "Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets.",
+      "category": "reference",
+      "layer": "evidence",
+      "deps": [
+        "operations-governance"
+      ],
+      "tags": [
+        "evidence",
+        "raw",
+        "sql",
+        "escape-hatch"
+      ],
+      "tokens_approx": 369,
+      "priority": "standard"
+    }
+  ],
+  "boot_sequence": [
+    "atlas-root",
+    "atlas-capsule"
+  ],
+  "boot_by_role": {
+    "product-manager": [
+      "atlas-root",
+      "atlas-capsule",
+      "product-lifecycle"
+    ],
+    "architect": [
+      "atlas-root",
+      "atlas-capsule",
+      "architecture-contracts",
+      "delivery-workflows"
+    ],
+    "operator": [
+      "atlas-root",
+      "atlas-capsule",
+      "operations-governance",
+      "evidence-reference"
+    ],
+    "doc-author": [
+      "atlas-root",
+      "atlas-capsule",
+      "product-lifecycle",
+      "architecture-contracts",
+      "delivery-workflows",
+      "operations-governance",
+      "evidence-reference"
+    ]
+  },
+  "boot_by_touch": [
+    {
+      "match": "manifest.json",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle",
+        "architecture-contracts",
+        "delivery-workflows",
+        "operations-governance"
+      ],
+      "reason": "Manifest edits affect routing, pairing, and benchmark scope."
+    },
+    {
+      "match": "README.md",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule"
+      ],
+      "reason": "README is the paired system surface."
+    },
+    {
+      "match": "docs/01-product-lifecycle.md",
+      "intent": "write",
+      "load_modules": [
+        "atlas-capsule",
+        "product-lifecycle"
+      ],
+      "reason": "Product lifecycle edits need paired product authority plus capsule context."
+    },
+    {
+      "match": "docs/02-architecture-and-contracts.md",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "architecture-contracts"
+      ],
+      "reason": "Architecture doc edits need topology and contract authority."
+    },
+    {
+      "match": "docs/03-delivery-workflows.md",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "delivery-workflows"
+      ],
+      "reason": "Workflow doc edits need rollout and lifecycle authority."
+    },
+    {
+      "match": "docs/04-operations-and-governance.md",
+      "intent": "write",
+      "load_modules": [
+        "atlas-capsule",
+        "operations-governance",
+        "evidence-reference"
+      ],
+      "reason": "Operations doc edits need policy and evidence authority."
+    },
+    {
+      "match": "modules/atlas-root.json",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule"
+      ],
+      "reason": "Root edits should stay routing-oriented."
+    },
+    {
+      "match": "modules/atlas-capsule.json",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle",
+        "architecture-contracts",
+        "delivery-workflows",
+        "operations-governance"
+      ],
+      "reason": "Capsule edits affect summary routing across the corpus."
+    },
+    {
+      "match": "modules/product-lifecycle.json",
+      "intent": "write",
+      "load_modules": [
+        "atlas-capsule",
+        "product-lifecycle"
+      ],
+      "reason": "Product module edits need paired summary context."
+    },
+    {
+      "match": "modules/architecture-contracts.json",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "architecture-contracts"
+      ],
+      "reason": "Architecture edits need route and contract context."
+    },
+    {
+      "match": "modules/delivery-workflows.json",
+      "intent": "write",
+      "load_modules": [
+        "atlas-root",
+        "atlas-capsule",
+        "delivery-workflows",
+        "architecture-contracts"
+      ],
+      "reason": "Workflow edits depend on API and schema context."
+    },
+    {
+      "match": "modules/operations-governance.json",
+      "intent": "write",
+      "load_modules": [
+        "atlas-capsule",
+        "delivery-workflows",
+        "operations-governance",
+        "evidence-reference"
+      ],
+      "reason": "Operations edits need policy, workflow, and evidence context."
+    },
+    {
+      "match": "modules/evidence-reference.json",
+      "intent": "write",
+      "load_modules": [
+        "operations-governance",
+        "evidence-reference"
+      ],
+      "reason": "Evidence edits should stay narrow."
+    }
+  ],
+  "surface_pairs": [
+    {
+      "pair_id": "pair-atlas-readme",
+      "scope": "system",
+      "agent_primary": "atlas-capsule",
+      "agent_supporting": [
+        "atlas-root"
+      ],
+      "human_primary": "README.md",
+      "sync_source": "agent-primary",
+      "status": "paired"
+    },
+    {
+      "pair_id": "pair-product-lifecycle",
+      "scope": "module",
+      "agent_primary": "product-lifecycle",
+      "human_primary": "docs/01-product-lifecycle.md",
+      "sync_source": "agent-primary",
+      "status": "paired"
+    },
+    {
+      "pair_id": "pair-architecture-contracts",
+      "scope": "module",
+      "agent_primary": "architecture-contracts",
+      "human_primary": "docs/02-architecture-and-contracts.md",
+      "sync_source": "agent-primary",
+      "status": "paired"
+    },
+    {
+      "pair_id": "pair-delivery-workflows",
+      "scope": "module",
+      "agent_primary": "delivery-workflows",
+      "human_primary": "docs/03-delivery-workflows.md",
+      "sync_source": "agent-primary",
+      "status": "paired"
+    },
+    {
+      "pair_id": "pair-operations-governance",
+      "scope": "module",
+      "agent_primary": "operations-governance",
+      "agent_supporting": [
+        "evidence-reference"
+      ],
+      "human_primary": "docs/04-operations-and-governance.md",
+      "sync_source": "agent-primary",
+      "status": "paired"
+    }
+  ]
+}

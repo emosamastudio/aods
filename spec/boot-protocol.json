@@ -1,0 +1,360 @@
+{
+  "aods_v": 3,
+  "module_id": "spec-boot-protocol",
+  "v": 3,
+  "context": "Defines zero-knowledge bootstrap protocol. AODS v3 adds layer-aware progressive disclosure: root first, capsule next, detail on demand, evidence only on explicit review or debugging paths. Large corpora may also expose boot_by_touch for file-scoped authoring routes.",
+  "assumptions": [
+    "Agent has filesystem access to corpus root directory",
+    "Agent can parse JSON",
+    "Agent has finite context window with known token budget"
+  ],
+  "sections": [
+    {
+      "sid": "cold-start",
+      "topic": "cold start sequence",
+      "content": "Read manifest.json. Choose boot list: boot_by_role[role_id] if role assigned else boot_sequence. Load root modules first. If budget remains and task needs routing summary -> load capsule module. Load detail modules only when root+capsule insufficient. Load evidence only for explicit review, debugging, or proof tasks.",
+      "content_type": "logic",
+      "refs": [
+        "budget-management",
+        "on-demand-loading"
+      ],
+      "artifact_refs": [
+        "cold-start-flow",
+        "load-decision-tree",
+        "layer-budget-table"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "warm-restart",
+      "topic": "warm restart with cached state",
+      "content": "Read manifest.json. Compare manifest.sys_v against cached sys_v. If equal -> resume. If different -> diff changed modules. breaking=true -> full reload of affected module plus dependents. breaking=false -> read delta plus affected artifacts only. If changed module.layer=root|capsule -> refresh routing cache before task resume.",
+      "content_type": "logic",
+      "refs": [
+        "cold-start"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "budget-management",
+      "topic": "context window budget management during boot",
+      "content": "Reserve task budget first. Use modules[].tokens_approx + modules[].priority + modules[].layer to schedule loads. Prefer root over capsule over detail over evidence when budget pressure exists. Evidence layer is first eviction target. Detail is second. Root stays pinned while task active.",
+      "content_type": "logic",
+      "refs": [
+        "cold-start"
+      ],
+      "artifact_refs": [
+        "layer-budget-table"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "touch-routing",
+      "topic": "file scoped authoring routes",
+      "content": "If task is anchored to one touched file and manifest.boot_by_touch contains matching route -> prefer route.load_modules over broad role boot. Exact path beats glob. Higher-specificity glob beats lower-specificity glob. Always include touched module itself when touched path equals modules[].path. Use boot_by_role or boot_sequence only when no touch route exists.",
+      "content_type": "logic",
+      "refs": [
+        "cold-start",
+        "on-demand-loading"
+      ],
+      "artifact_refs": [
+        "touch-route-table"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "on-demand-loading",
+      "topic": "lazy module loading during task execution",
+      "content": "Extract task concepts. Match against modules[].scope and modules[].tags. Use layer first: root for routing, capsule for summary, detail for semantic authority, evidence for proof. If touch path exists and boot_by_touch route matches -> load route modules before heuristic scope matching. Load deps before target. Human surfaces never replace agent-primary semantic source; use manifest.surface_pairs only to locate paired human narrative when needed.",
+      "content_type": "logic",
+      "refs": [
+        "budget-management",
+        "resolution-rules",
+        "touch-routing"
+      ],
+      "artifact_refs": [
+        "load-decision-tree"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "resolution-rules",
+      "topic": "cross-reference resolution",
+      "content": "ref=sid -> resolve in current module. ref=module_id:sid -> load target module if needed, then resolve section. meta.capsule.routes_to may contain module_id or module_id:sid; resolve same way. Missing target -> warning. Circular refs allowed; visited set required.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cold-start-flow",
+      "type": "process-flow",
+      "usage": "Canonical boot workflow for AODS v3 readers.",
+      "content": {
+        "entry": "read-manifest",
+        "actors": [
+          "agent"
+        ],
+        "terminals": [
+          "ready"
+        ],
+        "steps": [
+          {
+            "id": "read-manifest",
+            "type": "action",
+            "actor": "agent",
+            "action": "read manifest.json; cache sys|purpose|modules|boot_sequence|surface_pairs",
+            "next": "select-boot-list"
+          },
+          {
+            "id": "select-boot-list",
+            "type": "decision",
+            "actor": "agent",
+            "action": "role assigned?",
+            "next": {
+              "yes": "load-role-sequence",
+              "no": "load-default-sequence"
+            }
+          },
+          {
+            "id": "load-role-sequence",
+            "type": "action",
+            "actor": "agent",
+            "action": "set candidate_modules = boot_by_role[role_id]",
+            "next": "load-root"
+          },
+          {
+            "id": "load-default-sequence",
+            "type": "action",
+            "actor": "agent",
+            "action": "set candidate_modules = boot_sequence",
+            "next": "load-root"
+          },
+          {
+            "id": "load-root",
+            "type": "action",
+            "actor": "agent",
+            "action": "load candidate_modules where layer=root in listed order",
+            "next": "budget-check"
+          },
+          {
+            "id": "budget-check",
+            "type": "decision",
+            "actor": "agent",
+            "action": "budget remains for capsule layer?",
+            "next": {
+              "yes": "load-capsule",
+              "no": "ready"
+            }
+          },
+          {
+            "id": "load-capsule",
+            "type": "action",
+            "actor": "agent",
+            "action": "load best-fit capsule module from boot list or semantic match",
+            "next": "detail-check"
+          },
+          {
+            "id": "detail-check",
+            "type": "decision",
+            "actor": "agent",
+            "action": "root+capsule sufficient for current task?",
+            "next": {
+              "yes": "ready",
+              "no": "load-detail"
+            }
+          },
+          {
+            "id": "load-detail",
+            "type": "action",
+            "actor": "agent",
+            "action": "load best-match detail modules via scope|tags|deps",
+            "next": "evidence-check"
+          },
+          {
+            "id": "evidence-check",
+            "type": "decision",
+            "actor": "agent",
+            "action": "review|debug|proof required?",
+            "next": {
+              "yes": "load-evidence",
+              "no": "ready"
+            }
+          },
+          {
+            "id": "load-evidence",
+            "type": "action",
+            "actor": "agent",
+            "action": "load evidence modules only for explicit validation or adjudication",
+            "next": "ready"
+          },
+          {
+            "id": "ready",
+            "type": "action",
+            "actor": "agent",
+            "action": "begin task execution with active working set",
+            "next": null
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "load-decision-tree",
+      "type": "decision-tree",
+      "usage": "Select next layer during task-time loading.",
+      "content": {
+        "root": "q-need",
+        "nodes": [
+          {
+            "id": "q-need",
+            "type": "condition",
+            "eval": "what is missing?",
+            "branches": [
+              {
+                "value": "routing or corpus orientation",
+                "next": "a-root"
+              },
+              {
+                "value": "summary of one slice",
+                "next": "a-capsule"
+              },
+              {
+                "value": "authoritative semantics",
+                "next": "a-detail"
+              },
+              {
+                "value": "proof, draft, or debug evidence",
+                "next": "a-evidence"
+              },
+              {
+                "value": "human narrative or visual explanation",
+                "next": "a-human"
+              }
+            ],
+            "default": "a-detail"
+          },
+          {
+            "id": "a-root",
+            "type": "action",
+            "action": "load root-layer module from boot list"
+          },
+          {
+            "id": "a-capsule",
+            "type": "action",
+            "action": "load capsule module; inspect meta.capsule.routes_to"
+          },
+          {
+            "id": "a-detail",
+            "type": "action",
+            "action": "load detail module matched by scope|tags; detail wins semantic conflicts"
+          },
+          {
+            "id": "a-evidence",
+            "type": "action",
+            "action": "load evidence module only after authority module already loaded"
+          },
+          {
+            "id": "a-human",
+            "type": "action",
+            "action": "check manifest.surface_pairs; keep agent-primary module as semantic source"
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "layer-budget-table",
+      "type": "mapping-table",
+      "usage": "Lookup table for load tier, budget priority, and eviction order.",
+      "content": {
+        "key_columns": [
+          "layer"
+        ],
+        "columns": [
+          "layer",
+          "default_load_phase",
+          "priority_bias",
+          "budget_policy",
+          "eviction_order"
+        ],
+        "rows": [
+          [
+            "root",
+            "cold-start",
+            "highest",
+            "pin while task active",
+            "last"
+          ],
+          [
+            "capsule",
+            "post-root",
+            "high",
+            "load when summary routing needed",
+            "after detail"
+          ],
+          [
+            "detail",
+            "on-demand",
+            "medium",
+            "load only for semantic authority",
+            "before capsule"
+          ],
+          [
+            "evidence",
+            "explicit-review-only",
+            "lowest",
+            "skip under budget pressure",
+            "first"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "touch-route-table",
+      "type": "mapping-table",
+      "usage": "Lookup table for when boot_by_touch should override broader boot lists.",
+      "content": {
+        "key_columns": [
+          "situation"
+        ],
+        "columns": [
+          "situation",
+          "preferred_source",
+          "reason"
+        ],
+        "rows": [
+          [
+            "single known file is being edited",
+            "boot_by_touch",
+            "minimize loaded rules to the touched authoring surface"
+          ],
+          [
+            "role known but no file-specific route exists",
+            "boot_by_role",
+            "load role-specific authority set"
+          ],
+          [
+            "no role and no file-specific route exist",
+            "boot_sequence",
+            "fallback cold-start routing"
+          ]
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial boot protocol specification."
+    },
+    {
+      "v": 2,
+      "delta": "Added layer-aware progressive disclosure, capsule loading, evidence gate, and human-surface lookup rules.",
+      "breaking": false
+    }
+  ],
+  "meta": {
+    "stability": "stable",
+    "review_cycle": "on-change"
+  }
+}

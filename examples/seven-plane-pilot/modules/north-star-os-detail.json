@@ -1,0 +1,251 @@
+{
+  "aods_v": 3,
+  "module_id": "north-star-os-detail",
+  "v": 1,
+  "context": "Canonical operating model for the seven-plane agent operating system. Holds plane roster, resource posture, and backbone distinctions.",
+  "sections": [
+    {
+      "sid": "operating-model",
+      "topic": "operating model boundaries",
+      "content": "System is multi-entry multi-runtime multi-business-line agent operating system. System is not super-chatbot, not single orchestrator, not undifferentiated memory store. Seven planes stay distinct. Governance Spine cuts across all planes. Work Graph connects planes without replacing planes.",
+      "content_type": "rules",
+      "refs": [],
+      "criticality": "must"
+    },
+    {
+      "sid": "plane-roster",
+      "topic": "canonical plane roster",
+      "content": "Plane roster = experience-plane|gateway-plane|control-plane|harness-runtime-plane|agent-capability-plane|portfolio-project-plane|knowledge-resources-plane|governance-spine. Load work-graph-backbone for cross-plane object chain. Load target plane module only after task scope is classified.",
+      "content_type": "rules",
+      "refs": [
+        "experience-plane:plane-role",
+        "gateway-plane:plane-role",
+        "control-plane:plane-role",
+        "harness-runtime-plane:plane-role",
+        "agent-capability-plane:plane-role",
+        "portfolio-project-plane:plane-role",
+        "knowledge-resources-plane:plane-role",
+        "governance-spine:spine-role",
+        "work-graph-backbone:backbone-chain"
+      ],
+      "artifact_refs": [
+        "plane-roster-table",
+        "plane-topology"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "resource-posture",
+      "topic": "resource posture snapshot",
+      "content": "Admitted seeds = agent-hub -> control-plane; knowledge/ -> knowledge-resources-plane. Provisional candidate = terminal-control-plane -> harness-runtime-plane. Supporting signal producer = harness-doctor -> control-plane. Adjacent bridge candidate = openclaw -> experience-plane|gateway-plane|harness-runtime-plane. Exploratory only = x402-gateway.",
+      "content_type": "rules",
+      "refs": [
+        "control-plane:current-posture",
+        "harness-runtime-plane:current-posture",
+        "knowledge-resources-plane:current-posture"
+      ],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "plane-roster-table",
+      "type": "mapping-table",
+      "usage": "Lookup table mapping canonical planes to module IDs and current posture.",
+      "content": {
+        "key_columns": [
+          "plane"
+        ],
+        "columns": [
+          "plane",
+          "module",
+          "role",
+          "posture"
+        ],
+        "rows": [
+          [
+            "experience",
+            "experience-plane",
+            "human entry and interaction surfaces",
+            "required-unassigned"
+          ],
+          [
+            "gateway",
+            "gateway-plane",
+            "ingress auth notifications and message normalization",
+            "required-unassigned"
+          ],
+          [
+            "control",
+            "control-plane",
+            "session run event attention approval dispatch truth",
+            "active-seed"
+          ],
+          [
+            "harness-runtime",
+            "harness-runtime-plane",
+            "runtime broker attach topology execution fabric",
+            "required-provisional"
+          ],
+          [
+            "agent-capability",
+            "agent-capability-plane",
+            "agent catalog composition assignment evaluation",
+            "required-unassigned"
+          ],
+          [
+            "portfolio-project",
+            "portfolio-project-plane",
+            "project line project objective work-order semantics",
+            "required-unassigned"
+          ],
+          [
+            "knowledge-resources",
+            "knowledge-resources-plane",
+            "memory knowledge repo vault world model assets",
+            "active-source-of-record"
+          ],
+          [
+            "governance-spine",
+            "governance-spine",
+            "gates approvals lineage delegation anti-drift",
+            "active"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "plane-topology",
+      "type": "topology",
+      "usage": "Top-level topology showing plane boundaries and primary interaction edges.",
+      "content": {
+        "nodes": [
+          {
+            "id": "experience",
+            "type": "service",
+            "desc": "Experience Plane"
+          },
+          {
+            "id": "gateway",
+            "type": "service",
+            "desc": "Gateway Plane"
+          },
+          {
+            "id": "control",
+            "type": "service",
+            "desc": "Control Plane"
+          },
+          {
+            "id": "runtime",
+            "type": "service",
+            "desc": "Harness Runtime Plane"
+          },
+          {
+            "id": "agent",
+            "type": "service",
+            "desc": "Agent Capability Plane"
+          },
+          {
+            "id": "portfolio",
+            "type": "service",
+            "desc": "Portfolio Project Plane"
+          },
+          {
+            "id": "knowledge",
+            "type": "service",
+            "desc": "Knowledge Resources Plane"
+          },
+          {
+            "id": "governance",
+            "type": "service",
+            "desc": "Governance Spine"
+          }
+        ],
+        "edges": [
+          {
+            "from": "experience",
+            "to": "gateway",
+            "type": "control",
+            "desc": "human requests enter through gateway"
+          },
+          {
+            "from": "gateway",
+            "to": "control",
+            "type": "control",
+            "desc": "normalized requests become controlled work"
+          },
+          {
+            "from": "gateway",
+            "to": "runtime",
+            "type": "control",
+            "desc": "gateway requests runtime action or bridge work"
+          },
+          {
+            "from": "control",
+            "to": "runtime",
+            "type": "control",
+            "desc": "dispatch binds to runtime execution"
+          },
+          {
+            "from": "runtime",
+            "to": "agent",
+            "type": "dependency",
+            "desc": "runtime hosts agent execution"
+          },
+          {
+            "from": "control",
+            "to": "portfolio",
+            "type": "dependency",
+            "desc": "controlled execution maps to business work"
+          },
+          {
+            "from": "agent",
+            "to": "portfolio",
+            "type": "dependency",
+            "desc": "agent assignment depends on project intent"
+          },
+          {
+            "from": "portfolio",
+            "to": "knowledge",
+            "type": "dependency",
+            "desc": "project outcomes promote into durable assets"
+          },
+          {
+            "from": "control",
+            "to": "knowledge",
+            "type": "event",
+            "desc": "execution emits attention and artifact records"
+          },
+          {
+            "from": "governance",
+            "to": "control",
+            "type": "control",
+            "desc": "gates and approvals constrain control-plane actions"
+          },
+          {
+            "from": "governance",
+            "to": "portfolio",
+            "type": "control",
+            "desc": "governance constrains launch and promotion decisions"
+          },
+          {
+            "from": "governance",
+            "to": "knowledge",
+            "type": "control",
+            "desc": "governance constrains publication and source-of-record mutation"
+          }
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+        "delta": "Initial seven-plane pilot operating-model detail module."
+      }
+    ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change"
+  }
+}
