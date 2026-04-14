@@ -33,6 +33,7 @@ import {
   writeJson,
   writeText
 } from "./helpers.mjs";
+import { measureBenchmarkPromptEnvelope } from "./prompt-envelope.mjs";
 
 const AODS_CLI = path.join(REPO_ROOT, "bin", "aods.mjs");
 const PHASES = ["vision", "discovery", "planning", "design", "build", "test", "release", "operate", "governance"];
@@ -177,12 +178,17 @@ function evaluateFidelity(paths, manifest, factMap) {
 
 function evaluateLoading(paths, manifest) {
   const manifestPath = path.join(paths.corpusRoot, "manifest.json");
-  const manifestMetrics = measureText(fs.readFileSync(manifestPath, "utf8"));
-  const moduleMetricMap = new Map(
+  const manifestContent = fs.readFileSync(manifestPath, "utf8");
+  const manifestMetrics = measureText(manifestContent);
+  const moduleRefMap = new Map(manifest.modules.map((module) => [module.id, module]));
+  const moduleContentMap = new Map(
     manifest.modules.map((module) => {
       const filePath = path.join(paths.corpusRoot, module.path);
-      return [module.id, measureText(fs.readFileSync(filePath, "utf8"))];
+      return [module.id, fs.readFileSync(filePath, "utf8")];
     })
+  );
+  const moduleMetricMap = new Map(
+    [...moduleContentMap].map(([moduleId, content]) => [moduleId, measureText(content)])
   );
   const fullLoadTokens =
     manifestMetrics.tokens_estimated +
@@ -190,6 +196,7 @@ function evaluateLoading(paths, manifest) {
   const fullLoadBytes =
     manifestMetrics.bytes +
     manifest.modules.reduce((sum, module) => sum + (moduleMetricMap.get(module.id)?.bytes ?? 0), 0);
+  const fullPromptResources = buildAodsPromptResources(manifestContent, moduleRefMap, moduleContentMap, manifest.modules);
 
   const scenarioResults = LOADING_SCENARIOS.map((scenario) => {
     const loadedModules = scenario.touch
@@ -215,6 +222,21 @@ function evaluateLoading(paths, manifest) {
     const oracleBytes =
       manifestMetrics.bytes +
       scenario.requiredModules.reduce((sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.bytes ?? 0), 0);
+    const promptEnvelope = measureBenchmarkPromptEnvelope({
+      formatLabel: "AODS",
+      scenario,
+      resources: buildAodsPromptResources(
+        manifestContent,
+        moduleRefMap,
+        moduleContentMap,
+        loadedModules.map((moduleId) => moduleRefMap.get(moduleId)).filter(Boolean)
+      )
+    });
+    const fullPromptEnvelope = measureBenchmarkPromptEnvelope({
+      formatLabel: "AODS",
+      scenario,
+      resources: fullPromptResources
+    });
     return {
       id: scenario.id,
       description: scenario.description,
@@ -231,6 +253,13 @@ function evaluateLoading(paths, manifest) {
       byte_savings_vs_full_load: 1 - routeBytes / fullLoadBytes,
       route_tokens_estimated: routeTokens,
       oracle_tokens_estimated: oracleTokens,
+      prompt_envelope_bytes: promptEnvelope.bytes,
+      prompt_envelope_tokens_estimated: promptEnvelope.tokens_estimated,
+      full_prompt_envelope_bytes: fullPromptEnvelope.bytes,
+      full_prompt_envelope_tokens_estimated: fullPromptEnvelope.tokens_estimated,
+      prompt_envelope_overhead_bytes: promptEnvelope.bytes - routeBytes,
+      prompt_envelope_overhead_tokens_estimated: promptEnvelope.tokens_estimated - routeTokens,
+      prompt_envelope_savings_vs_full_prompt: 1 - promptEnvelope.bytes / fullPromptEnvelope.bytes,
       token_savings_vs_full_load: 1 - routeTokens / fullLoadTokens,
       token_overfetch_ratio: routeTokens / oracleTokens,
       byte_overfetch_ratio: routeBytes / oracleBytes
@@ -267,6 +296,13 @@ function summarizeLoadingResults(scenarioResults) {
       hit_rate: 0,
       average_precision: 0,
       average_recall: 0,
+      median_prompt_envelope_tokens_estimated: 0,
+      median_prompt_envelope_bytes: 0,
+      max_prompt_envelope_tokens_estimated: 0,
+      max_prompt_envelope_bytes: 0,
+      median_prompt_envelope_overhead_tokens_estimated: 0,
+      median_prompt_envelope_overhead_bytes: 0,
+      median_prompt_envelope_savings_vs_full_prompt: 0,
       median_route_tokens_estimated: 0,
       median_route_bytes: 0,
       max_route_tokens_estimated: 0,
@@ -283,6 +319,21 @@ function summarizeLoadingResults(scenarioResults) {
     hit_rate: scenarioResults.filter((result) => result.exact_hit).length / scenarioResults.length,
     average_precision: scenarioResults.reduce((sum, result) => sum + result.precision, 0) / scenarioResults.length,
     average_recall: scenarioResults.reduce((sum, result) => sum + result.recall, 0) / scenarioResults.length,
+    median_prompt_envelope_tokens_estimated: median(
+      scenarioResults.map((result) => result.prompt_envelope_tokens_estimated)
+    ),
+    median_prompt_envelope_bytes: median(scenarioResults.map((result) => result.prompt_envelope_bytes)),
+    max_prompt_envelope_tokens_estimated: Math.max(...scenarioResults.map((result) => result.prompt_envelope_tokens_estimated)),
+    max_prompt_envelope_bytes: Math.max(...scenarioResults.map((result) => result.prompt_envelope_bytes)),
+    median_prompt_envelope_overhead_tokens_estimated: median(
+      scenarioResults.map((result) => result.prompt_envelope_overhead_tokens_estimated)
+    ),
+    median_prompt_envelope_overhead_bytes: median(
+      scenarioResults.map((result) => result.prompt_envelope_overhead_bytes)
+    ),
+    median_prompt_envelope_savings_vs_full_prompt: median(
+      scenarioResults.map((result) => result.prompt_envelope_savings_vs_full_prompt)
+    ),
     median_route_tokens_estimated: median(scenarioResults.map((result) => result.route_tokens_estimated)),
     median_route_bytes: median(scenarioResults.map((result) => result.route_bytes)),
     max_route_tokens_estimated: Math.max(...scenarioResults.map((result) => result.route_tokens_estimated)),
@@ -296,6 +347,24 @@ function summarizeLoadingResults(scenarioResults) {
     median_token_overfetch_ratio: median(scenarioResults.map((result) => result.token_overfetch_ratio)),
     median_byte_overfetch_ratio: median(scenarioResults.map((result) => result.byte_overfetch_ratio))
   };
+}
+
+function buildAodsPromptResources(manifestContent, moduleRefMap, moduleContentMap, moduleRefs) {
+  return [
+    {
+      path: "manifest.json",
+      title: "AODS manifest",
+      kind: "manifest",
+      content: manifestContent
+    },
+    ...moduleRefs.map((moduleRef) => ({
+      path: moduleRef.path,
+      title: moduleRef.id,
+      kind: "module",
+      module_ids: [moduleRef.id],
+      content: moduleContentMap.get(moduleRef.id)
+    }))
+  ];
 }
 
 function routeModules(corpusRoot, scenario) {
@@ -615,7 +684,7 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 - **Coverage:** lifecycle phase coverage ${formatPercent(coverage.lifecycle_phase_coverage)}, structured type coverage ${formatPercent(coverage.structured_type_coverage)}, generic type coverage ${formatPercent(coverage.generic_type_coverage)}.
 - **Fidelity:** critical fact preservation ${formatPercent(fidelity.critical_fact_preservation_rate)} with overall fact preservation ${formatPercent(fidelity.fact_preservation_rate)}.
 - **Exact corpus size:** human docs ${fidelity.exact_size.human_docs.byte_count} bytes across ${fidelity.exact_size.human_docs.file_count} files; AODS corpus ${fidelity.exact_size.aods_corpus.byte_count} bytes across ${fidelity.exact_size.aods_corpus.file_count} files.
-- **Task-time context footprint:** objective touch-route median loaded working set ${loading.objective_touch.median_route_bytes} bytes and ${loading.objective_touch.median_route_tokens_estimated} estimated tokens.
+- **Task-time context footprint:** objective touch-route median rendered prompt envelope ${loading.objective_touch.median_prompt_envelope_bytes} bytes and ${loading.objective_touch.median_prompt_envelope_tokens_estimated} estimated tokens.
 - **Objective loading gate:** touch-route hit rate ${formatPercent(loading.objective_touch.hit_rate)}, average recall ${formatPercent(loading.objective_touch.average_recall)}, median byte savings ${formatPercent(loading.objective_touch.median_byte_savings_vs_full_load)}.
 - **Drift prevention:** built-in recall ${formatPercent(drift.built_in_recall)}, combined recall ${formatPercent(drift.combined_recall)}, built-in false-positive rate ${formatPercent(drift.built_in_false_positive_rate)}.
 - **Advisory metrics:** token estimates and semantic-load scenarios remain exploratory rather than release-gating signals.
@@ -675,11 +744,16 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 - Hit rate across objective touch-route scenarios: **${formatPercent(loading.objective_touch.hit_rate)}**
 - Average precision: **${formatPercent(loading.objective_touch.average_precision)}**
 - Average recall: **${formatPercent(loading.objective_touch.average_recall)}**
-- Median loaded working set: **${loading.objective_touch.median_route_bytes} bytes**, **${loading.objective_touch.median_route_tokens_estimated} estimated tokens**
-- Max loaded working set: **${loading.objective_touch.max_route_bytes} bytes**, **${loading.objective_touch.max_route_tokens_estimated} estimated tokens**
+- Median loaded payload: **${loading.objective_touch.median_route_bytes} bytes**, **${loading.objective_touch.median_route_tokens_estimated} estimated tokens**
+- Median rendered prompt envelope: **${loading.objective_touch.median_prompt_envelope_bytes} bytes**, **${loading.objective_touch.median_prompt_envelope_tokens_estimated} estimated tokens**
+- Median prompt-envelope overhead: **${loading.objective_touch.median_prompt_envelope_overhead_bytes} bytes**, **${loading.objective_touch.median_prompt_envelope_overhead_tokens_estimated} estimated tokens**
+- Max rendered prompt envelope: **${loading.objective_touch.max_prompt_envelope_bytes} bytes**, **${loading.objective_touch.max_prompt_envelope_tokens_estimated} estimated tokens**
 - Median byte savings vs full load: **${formatPercent(loading.objective_touch.median_byte_savings_vs_full_load)}**
 - Median token savings vs full load: **${formatPercent(loading.objective_touch.median_token_savings_vs_full_load)}**
-- Interpretation: **route_bytes and route_tokens_estimated are the current benchmark proxy for actual task-time context occupancy. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
+- Median prompt-envelope savings vs fully rendered full-load prompt: **${formatPercent(
+    loading.objective_touch.median_prompt_envelope_savings_vs_full_prompt
+  )}**
+- Interpretation: **loaded payload measures routed file content only. Rendered prompt envelope adds separators, path labels, and scaffold text, so it is the closer benchmark proxy to actual context-window occupation. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
 
 | Objective scenario | Class | Hit | Byte savings |
 | --- | --- | --- | ---: |
@@ -700,8 +774,9 @@ ${loading.scenario_results
 - Average precision: **${formatPercent(loading.exploratory_semantic.average_precision)}**
 - Average recall: **${formatPercent(loading.exploratory_semantic.average_recall)}**
 - Median loaded working set: **${loading.exploratory_semantic.median_route_bytes} bytes**, **${loading.exploratory_semantic.median_route_tokens_estimated} estimated tokens**
+- Median rendered prompt envelope: **${loading.exploratory_semantic.median_prompt_envelope_bytes} bytes**, **${loading.exploratory_semantic.median_prompt_envelope_tokens_estimated} estimated tokens**
 - Median byte savings vs full load: **${formatPercent(loading.exploratory_semantic.median_byte_savings_vs_full_load)}**
-- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their loaded working-set numbers are therefore informative, not authoritative.**
+- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their rendered prompt-envelope numbers are therefore informative, not authoritative.**
 
 ### 5. Drift prevention
 
@@ -751,7 +826,7 @@ ${drift.scenario_results
 1. AODS can represent the full benchmark lifecycle without unsupported gaps.
 2. The structured artifact catalog is broad enough to cover architecture, workflow, contract, policy, and operations material in one corpus.
 3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only heuristic token and semantic-load signals.
-4. The benchmark now makes repository-scale corpus weight and task-time working-set context footprint explicit instead of conflating them.
+4. The benchmark now makes repository-scale corpus weight, raw loaded payload size, and rendered prompt-envelope size explicit instead of conflating them.
 
 ### Limits and failure modes
 
@@ -760,6 +835,7 @@ ${strongestBlindSpots.map((item) => `- ${item}`).join("\n")}
 - The reference implementation now validates declared cross-surface invariants, but it still does not prove semantic equivalence beyond declared anchors.
 - Progressive loading is strongest for touch-routed authoring flows; semantic query loading still depends on corpus metadata quality and remains exploratory.
 - Compression is not automatically positive at corpus scale; routing and pairing metadata can erase local gains even when artifact-local compression exists.
+- Prompt-envelope metrics are a deterministic benchmark renderer, not a direct capture from a live agent runtime.
 - Sample diversity is still limited because the current benchmark remains synthetic, English-only, and narrower than a true multi-toolchain field sample.
 
 ## Bottom line

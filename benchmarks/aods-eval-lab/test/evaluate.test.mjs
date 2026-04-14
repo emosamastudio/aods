@@ -19,6 +19,8 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   assert.equal(results.loading.exploratory_semantic.scenario_count, 4);
   assert.equal(results.loading.objective_touch.hit_rate, 1);
   assert.ok(results.loading.objective_touch.median_route_bytes > 0);
+  assert.ok(results.loading.objective_touch.median_prompt_envelope_bytes > results.loading.objective_touch.median_route_bytes);
+  assert.ok(results.loading.objective_touch.median_prompt_envelope_overhead_bytes > 0);
   assert.ok(
     results.loading.objective_touch.max_route_bytes >= results.loading.objective_touch.median_route_bytes
   );
@@ -46,7 +48,7 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   const report = fs.readFileSync(reportPath, "utf8");
   assert.match(report, /AODS evaluation report/);
   assert.match(report, /Objective touch-route loading gate/);
-  assert.match(report, /Task-time context footprint/);
+  assert.match(report, /rendered prompt envelope/);
   assert.match(report, /Sample diversity and coverage audit/);
 });
 
@@ -66,13 +68,14 @@ test("round-one external comparison generates a horizontal report", () => {
   assert.ok(llms.advisory.corpus_tokens_estimated > 0);
   assert.ok(results.fairness_contract.common_metrics.includes("corpus byte count"));
   assert.ok(results.fairness_contract.common_metrics.includes("objective median loaded bytes"));
+  assert.ok(results.fairness_contract.common_metrics.includes("objective median prompt-envelope bytes"));
 
   const reportPath = path.join(PROJECT_ROOT, "reports", "round1-comparator-report.md");
   assert.ok(fs.existsSync(reportPath));
   const report = fs.readFileSync(reportPath, "utf8");
   assert.match(report, /AODS round-one benchmark evaluation report/);
   assert.match(report, /Why these comparators/);
-  assert.match(report, /Median loaded bytes/);
+  assert.match(report, /Median prompt-envelope bytes/);
   assert.match(report, /Objective common metric scoreboard/);
   assert.match(report, /Benchmark objectivity and diversity audit/);
 });

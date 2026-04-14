@@ -7,7 +7,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - **Coverage:** lifecycle phase coverage 100.0%, structured type coverage 100.0%, generic type coverage 100.0%.
 - **Fidelity:** critical fact preservation 100.0% with overall fact preservation 100.0%.
 - **Exact corpus size:** human docs 44915 bytes across 8 files; AODS corpus 71309 bytes across 12 files.
-- **Task-time context footprint:** objective touch-route median loaded working set 24360 bytes and 6091 estimated tokens.
+- **Task-time context footprint:** objective touch-route median rendered prompt envelope 25216 bytes and 6304 estimated tokens.
 - **Objective loading gate:** touch-route hit rate 100.0%, average recall 100.0%, median byte savings 65.8%.
 - **Drift prevention:** built-in recall 100.0%, combined recall 100.0%, built-in false-positive rate 0.0%.
 - **Advisory metrics:** token estimates and semantic-load scenarios remain exploratory rather than release-gating signals.
@@ -67,11 +67,14 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - Hit rate across objective touch-route scenarios: **100.0%**
 - Average precision: **100.0%**
 - Average recall: **100.0%**
-- Median loaded working set: **24360 bytes**, **6091 estimated tokens**
-- Max loaded working set: **35817 bytes**, **8955 estimated tokens**
+- Median loaded payload: **24360 bytes**, **6091 estimated tokens**
+- Median rendered prompt envelope: **25216 bytes**, **6304 estimated tokens**
+- Median prompt-envelope overhead: **909 bytes**, **226 estimated tokens**
+- Max rendered prompt envelope: **36826 bytes**, **9207 estimated tokens**
 - Median byte savings vs full load: **65.8%**
 - Median token savings vs full load: **65.8%**
-- Interpretation: **route_bytes and route_tokens_estimated are the current benchmark proxy for actual task-time context occupancy. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
+- Median prompt-envelope savings vs fully rendered full-load prompt: **65.7%**
+- Interpretation: **loaded payload measures routed file content only. Rendered prompt envelope adds separators, path labels, and scaffold text, so it is the closer benchmark proxy to actual context-window occupation. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
 
 | Objective scenario | Class | Hit | Byte savings |
 | --- | --- | --- | ---: |
@@ -88,8 +91,9 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - Average precision: **33.3%**
 - Average recall: **100.0%**
 - Median loaded working set: **50332 bytes**, **12584 estimated tokens**
+- Median rendered prompt envelope: **51649.5 bytes**, **12912.5 estimated tokens**
 - Median byte savings vs full load: **29.4%**
-- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their loaded working-set numbers are therefore informative, not authoritative.**
+- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their rendered prompt-envelope numbers are therefore informative, not authoritative.**
 
 ### 5. Drift prevention
 
@@ -137,7 +141,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 1. AODS can represent the full benchmark lifecycle without unsupported gaps.
 2. The structured artifact catalog is broad enough to cover architecture, workflow, contract, policy, and operations material in one corpus.
 3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only heuristic token and semantic-load signals.
-4. The benchmark now makes repository-scale corpus weight and task-time working-set context footprint explicit instead of conflating them.
+4. The benchmark now makes repository-scale corpus weight, raw loaded payload size, and rendered prompt-envelope size explicit instead of conflating them.
 
 ### Limits and failure modes
 
@@ -146,6 +150,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - The reference implementation now validates declared cross-surface invariants, but it still does not prove semantic equivalence beyond declared anchors.
 - Progressive loading is strongest for touch-routed authoring flows; semantic query loading still depends on corpus metadata quality and remains exploratory.
 - Compression is not automatically positive at corpus scale; routing and pairing metadata can erase local gains even when artifact-local compression exists.
+- Prompt-envelope metrics are a deterministic benchmark renderer, not a direct capture from a live agent runtime.
 - Sample diversity is still limited because the current benchmark remains synthetic, English-only, and narrower than a true multi-toolchain field sample.
 
 ## Bottom line

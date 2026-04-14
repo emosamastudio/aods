@@ -24,6 +24,7 @@ import {
   writeJson,
   writeText
 } from "./helpers.mjs";
+import { measureBenchmarkPromptEnvelope } from "./prompt-envelope.mjs";
 
 export function runRoundOneComparison() {
   const aodsResults = runEvaluation();
@@ -95,6 +96,7 @@ export function runRoundOneComparison() {
         "files per corpus",
         "bytes per benchmark item",
         "objective median loaded bytes",
+        "objective median prompt-envelope bytes",
         "objective touch-route hit rate",
         "objective touch-route precision",
         "objective touch-route byte savings"
@@ -204,20 +206,32 @@ function evaluateProfile(profile, facts, humanTokens, humanBytes) {
 
 function evaluateProfileLoading(profile) {
   const corpusRoot = path.join(PROJECT_ROOT, profile.corpus_root);
+  const unitContentMap = new Map(
+    profile.units.map((unit) => [unit.id, fs.readFileSync(path.join(corpusRoot, unit.path), "utf8")])
+  );
   const unitMetricMap = new Map(
-    profile.units.map((unit) => [unit.id, measureText(fs.readFileSync(path.join(corpusRoot, unit.path), "utf8"))])
+    [...unitContentMap].map(([unitId, content]) => [unitId, measureText(content)])
   );
   const unitPaths = new Set(profile.units.map((unit) => unit.path));
-  const indexFiles = profile.counted_files.filter((filePath) => !unitPaths.has(filePath));
-  const indexBytes = indexFiles.reduce(
-    (sum, filePath) => sum + measureText(fs.readFileSync(path.join(corpusRoot, filePath), "utf8")).bytes,
-    0
-  );
+  const indexResources = profile.counted_files
+    .filter((filePath) => !unitPaths.has(filePath))
+    .map((filePath) => {
+      const content = fs.readFileSync(path.join(corpusRoot, filePath), "utf8");
+      return {
+        path: filePath,
+        title: path.basename(filePath),
+        kind: "index",
+        content,
+        measured: measureText(content)
+      };
+    });
+  const indexBytes = indexResources.reduce((sum, resource) => sum + resource.measured.bytes, 0);
   const fullLoadTokens =
     profile.index_tokens_estimated + profile.units.reduce((sum, unit) => sum + unit.tokens_estimated, 0);
   const unitById = new Map(profile.units.map((unit) => [unit.id, unit]));
   const fullLoadBytes =
     indexBytes + profile.units.reduce((sum, unit) => sum + (unitMetricMap.get(unit.id)?.bytes ?? 0), 0);
+  const fullPromptResources = buildProfilePromptResources(indexResources, unitContentMap, profile.units);
 
   const scenarioResults = LOADING_SCENARIOS.map((scenario) => {
     const loadedUnitIds = scenario.touch ? loadTouchUnits(profile, scenario) : loadSemanticUnits(profile, scenario);
@@ -234,6 +248,16 @@ function evaluateProfileLoading(profile) {
     const routeBytes = indexBytes + loadedUnits.reduce((sum, unit) => sum + (unitMetricMap.get(unit.id)?.bytes ?? 0), 0);
     const oracleBytes =
       indexBytes + oracleUnits.reduce((sum, unit) => sum + (unitMetricMap.get(unit.id)?.bytes ?? 0), 0);
+    const promptEnvelope = measureBenchmarkPromptEnvelope({
+      formatLabel: profile.label,
+      scenario,
+      resources: buildProfilePromptResources(indexResources, unitContentMap, loadedUnits)
+    });
+    const fullPromptEnvelope = measureBenchmarkPromptEnvelope({
+      formatLabel: profile.label,
+      scenario,
+      resources: fullPromptResources
+    });
 
     return {
       id: scenario.id,
@@ -252,6 +276,13 @@ function evaluateProfileLoading(profile) {
       byte_savings_vs_full_load: 1 - routeBytes / fullLoadBytes,
       route_tokens_estimated: routeTokens,
       oracle_tokens_estimated: oracleTokens,
+      prompt_envelope_bytes: promptEnvelope.bytes,
+      prompt_envelope_tokens_estimated: promptEnvelope.tokens_estimated,
+      full_prompt_envelope_bytes: fullPromptEnvelope.bytes,
+      full_prompt_envelope_tokens_estimated: fullPromptEnvelope.tokens_estimated,
+      prompt_envelope_overhead_bytes: promptEnvelope.bytes - routeBytes,
+      prompt_envelope_overhead_tokens_estimated: promptEnvelope.tokens_estimated - routeTokens,
+      prompt_envelope_savings_vs_full_prompt: 1 - promptEnvelope.bytes / fullPromptEnvelope.bytes,
       token_savings_vs_full_load: 1 - routeTokens / fullLoadTokens,
       token_overfetch_ratio: routeTokens / oracleTokens,
       byte_overfetch_ratio: routeBytes / oracleBytes
@@ -277,6 +308,13 @@ function summarizeLoadingResults(scenarioResults) {
       hit_rate: 0,
       average_precision: 0,
       average_recall: 0,
+      median_prompt_envelope_tokens_estimated: 0,
+      median_prompt_envelope_bytes: 0,
+      max_prompt_envelope_tokens_estimated: 0,
+      max_prompt_envelope_bytes: 0,
+      median_prompt_envelope_overhead_tokens_estimated: 0,
+      median_prompt_envelope_overhead_bytes: 0,
+      median_prompt_envelope_savings_vs_full_prompt: 0,
       median_route_tokens_estimated: 0,
       median_route_bytes: 0,
       max_route_tokens_estimated: 0,
@@ -293,6 +331,21 @@ function summarizeLoadingResults(scenarioResults) {
     hit_rate: scenarioResults.filter((result) => result.exact_hit).length / scenarioResults.length,
     average_precision: scenarioResults.reduce((sum, result) => sum + result.precision, 0) / scenarioResults.length,
     average_recall: scenarioResults.reduce((sum, result) => sum + result.recall, 0) / scenarioResults.length,
+    median_prompt_envelope_tokens_estimated: median(
+      scenarioResults.map((result) => result.prompt_envelope_tokens_estimated)
+    ),
+    median_prompt_envelope_bytes: median(scenarioResults.map((result) => result.prompt_envelope_bytes)),
+    max_prompt_envelope_tokens_estimated: Math.max(...scenarioResults.map((result) => result.prompt_envelope_tokens_estimated)),
+    max_prompt_envelope_bytes: Math.max(...scenarioResults.map((result) => result.prompt_envelope_bytes)),
+    median_prompt_envelope_overhead_tokens_estimated: median(
+      scenarioResults.map((result) => result.prompt_envelope_overhead_tokens_estimated)
+    ),
+    median_prompt_envelope_overhead_bytes: median(
+      scenarioResults.map((result) => result.prompt_envelope_overhead_bytes)
+    ),
+    median_prompt_envelope_savings_vs_full_prompt: median(
+      scenarioResults.map((result) => result.prompt_envelope_savings_vs_full_prompt)
+    ),
     median_route_tokens_estimated: median(scenarioResults.map((result) => result.route_tokens_estimated)),
     median_route_bytes: median(scenarioResults.map((result) => result.route_bytes)),
     max_route_tokens_estimated: Math.max(...scenarioResults.map((result) => result.route_tokens_estimated)),
@@ -306,6 +359,24 @@ function summarizeLoadingResults(scenarioResults) {
     median_token_overfetch_ratio: median(scenarioResults.map((result) => result.token_overfetch_ratio)),
     median_byte_overfetch_ratio: median(scenarioResults.map((result) => result.byte_overfetch_ratio))
   };
+}
+
+function buildProfilePromptResources(indexResources, unitContentMap, units) {
+  return [
+    ...indexResources.map((resource) => ({
+      path: resource.path,
+      title: resource.title,
+      kind: resource.kind,
+      content: resource.content
+    })),
+    ...units.map((unit) => ({
+      path: unit.path,
+      title: unit.title,
+      kind: "unit",
+      module_ids: unit.module_ids,
+      content: unitContentMap.get(unit.id)
+    }))
+  ];
 }
 
 function loadTouchUnits(profile, scenario) {
@@ -424,7 +495,9 @@ function renderComparisonReport(results) {
       (baseline) =>
         `| ${baseline.label} | ${baseline.common.corpus_bytes} | ${baseline.common.file_count} | ${formatRatio(
           baseline.common.bytes_per_benchmark_item
-        )} | ${formatPercent(baseline.common.fact_preservation_rate)} | ${baseline.common.loading.median_route_bytes} | ${formatPercent(
+        )} | ${formatPercent(baseline.common.fact_preservation_rate)} | ${baseline.common.loading.median_route_bytes} | ${
+          baseline.common.loading.median_prompt_envelope_bytes
+        } | ${formatPercent(
           baseline.common.loading.hit_rate
         )} | ${formatPercent(baseline.common.loading.average_precision)} | ${formatPercent(
           baseline.common.loading.median_byte_savings_vs_full_load
@@ -489,7 +562,7 @@ function renderComparisonReport(results) {
 - **Dataset:** ${corpus.system_name} benchmark corpus with **${corpus.total_modules}** modules, **${corpus.total_human_surfaces}** human surfaces, **${corpus.total_items}** lifecycle items, **${corpus.shared_loading_queries}** shared loading queries, and **${corpus.drift_scenarios}** drift scenarios
 - **Internal AODS result:** full lifecycle coverage, full fact preservation, **${byteSizeDelta}** by exact bytes, **${formatPercent(
     aodsBaseline.loading.objective_touch.hit_rate
-  )}** objective touch-route hit rate, objective median loaded working set **${aodsBaseline.loading.objective_touch.median_route_bytes} bytes**, and **${formatPercent(aodsBaseline.drift.combined_recall)}** combined drift recall
+  )}** objective touch-route hit rate, objective median rendered prompt envelope **${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} bytes**, and **${formatPercent(aodsBaseline.drift.combined_recall)}** combined drift recall
 - **External comparison headline:** AODS is the only baseline in round one with **${formatPercent(
     strongestGovernance.governance.native_drift_recall
   )}** native drift recall, while **${smallestCorpus.label}** is the smallest corpus by exact bytes and **${bestPrecision.label}** has the highest objective loading precision
@@ -544,6 +617,7 @@ All four baselines use the same canonical dataset and the same shared query set.
 - file count
 - bytes per benchmark item
 - objective median loaded bytes
+- objective median prompt-envelope bytes
 - objective touch-route hit rate
 - objective touch-route precision
 - objective touch-route byte savings
@@ -568,19 +642,20 @@ AODS-native governance signals remain separate because the other archetypes do n
 | Fidelity | ${formatPercent(aodsBaseline.fidelity.fact_preservation_rate)} fact preservation, ${formatPercent(aodsBaseline.fidelity.critical_fact_preservation_rate)} critical fact preservation |
 | Corpus size (objective) | ${aodsBaseline.fidelity.exact_size.human_docs.byte_count} human-doc bytes vs ${aodsBaseline.fidelity.exact_size.aods_corpus.byte_count} AODS bytes, ${byteSizeDelta} |
 | Corpus size (advisory) | ${aodsBaseline.fidelity.human_doc_tokens_estimated} estimated human-doc tokens vs ${aodsBaseline.fidelity.aods_tokens_estimated} estimated AODS tokens, ${tokenSizeDelta} |
-| Task-time context footprint (objective) | ${aodsBaseline.loading.objective_touch.median_route_bytes} median loaded bytes, ${aodsBaseline.loading.objective_touch.median_route_tokens_estimated} median loaded estimated tokens, ${aodsBaseline.loading.objective_touch.max_route_bytes} max loaded bytes |
+| Task-time context footprint (payload) | ${aodsBaseline.loading.objective_touch.median_route_bytes} median loaded bytes, ${aodsBaseline.loading.objective_touch.median_route_tokens_estimated} median loaded estimated tokens, ${aodsBaseline.loading.objective_touch.max_route_bytes} max loaded bytes |
+| Task-time context footprint (rendered prompt) | ${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} median prompt-envelope bytes, ${aodsBaseline.loading.objective_touch.median_prompt_envelope_tokens_estimated} median prompt-envelope estimated tokens, ${aodsBaseline.loading.objective_touch.median_prompt_envelope_overhead_bytes} median overhead bytes |
 | Loading (objective) | ${formatPercent(aodsBaseline.loading.objective_touch.hit_rate)} hit rate, ${formatPercent(aodsBaseline.loading.objective_touch.average_precision)} average precision, ${formatPercent(aodsBaseline.loading.objective_touch.average_recall)} average recall, ${formatPercent(aodsBaseline.loading.objective_touch.median_byte_savings_vs_full_load)} median byte savings |
 | Loading (advisory) | ${formatPercent(aodsBaseline.loading.exploratory_semantic.hit_rate)} hit rate, ${formatPercent(aodsBaseline.loading.exploratory_semantic.average_precision)} average precision, ${formatPercent(aodsBaseline.loading.exploratory_semantic.average_recall)} average recall, ${formatPercent(aodsBaseline.loading.exploratory_semantic.median_token_savings_vs_full_load)} median token savings |
 | Drift | ${formatPercent(aodsBaseline.drift.built_in_recall)} built-in recall, ${formatPercent(aodsBaseline.drift.semantic_recall)} semantic recall, ${formatPercent(aodsBaseline.drift.combined_recall)} combined recall |
 | Diversity audit | ${diversity.dataset_count} dataset, domains ${diversity.domains.join(", ")}, languages ${diversity.languages.join(", ")}, sync modes ${diversity.sync_modes.present.join(", ") || "none"} |
 | Overhead | ${aodsBaseline.overhead.bookkeeping_entries} bookkeeping entries, ${formatRatio(aodsBaseline.overhead.bookkeeping_entries_per_artifact)} per artifact, ${aodsBaseline.overhead.touch_route_count} touch routes, ${aodsBaseline.overhead.role_count} roles |
 
-**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight and benchmark diversity that is still narrower than a true field sample. The benchmark now treats repository-scale corpus bytes and task-time loaded working-set bytes as separate measurements.
+**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight and benchmark diversity that is still narrower than a true field sample. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, and rendered prompt-envelope bytes as separate measurements.
 
 ## Benchmark objectivity and diversity audit
 
 - **Primary scoreboard basis:** exact bytes + objective touch-route scenarios
-- **Context-footprint basis:** objective median loaded bytes approximates task-time context occupancy and is tracked separately from full-corpus bytes
+- **Context-footprint basis:** objective median rendered prompt-envelope bytes approximates task-time context occupancy, while median loaded bytes remain the lower-level payload counter underneath it
 - **Advisory-only signals:** estimated token counts + exploratory semantic-load scenarios
 - **Dataset count:** ${diversity.dataset_count}
 - **Domains:** ${diversity.domains.join(", ")}
@@ -603,8 +678,8 @@ This makes the round-one judgment more objective than the earlier benchmark pass
 
 ### Objective common metric scoreboard
 
-| Baseline | Corpus bytes | Files | Bytes / benchmark item | Fact preservation | Median loaded bytes | Objective hit rate | Objective avg precision | Median byte savings |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baseline | Corpus bytes | Files | Bytes / benchmark item | Fact preservation | Median loaded bytes | Median prompt-envelope bytes | Objective hit rate | Objective avg precision | Median byte savings |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 ${objectiveRows}
 
 ### Advisory metric scoreboard
@@ -627,7 +702,7 @@ ${governanceRows}
 
 - AODS remains the strongest option when the target problem includes **native authority modeling**, **paired human+agent surfaces**, and **drift-aware governance**.
 - AODS is no longer being judged only against itself; it now has external archetype baselines on the same dataset and scenario set.
-- AODS is now being judged on an objective scoreboard built from exact size metrics, task-time loaded working-set size, and touch-route behavior rather than on heuristic token-only summaries.
+- AODS is now being judged on an objective scoreboard built from exact size metrics, loaded payload size, rendered prompt-envelope size, and touch-route behavior rather than on heuristic token-only summaries.
 
 ### What the competitors prove against AODS
 
@@ -649,7 +724,7 @@ For large projects today, the benchmark supports this practical reading:
 
 - These corpora are **benchmark archetypes**, not full upstream toolchain integrations.
 - Advisory metrics still include deterministic chars-per-token estimates and semantic-load heuristics.
-- Objective loaded bytes are still a routed-file proxy, not a capture of the exact final prompt envelope of a live agent runtime.
+- Rendered prompt-envelope bytes are still a benchmark renderer, not a capture of the exact final prompt envelope of a live agent runtime.
 - The benchmark corpus is synthetic but lifecycle-complete, so this is a strong laboratory signal rather than a universal field sample.
 - The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed toolchain samples.
 - Round two should add Backstage or TechDocs runtime execution, plus narrower spec-first comparators such as OpenAPI, AsyncAPI, or TypeSpec for partial-domain benchmarking.

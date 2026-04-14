@@ -167,9 +167,9 @@ It answers these questions:
 Two size signals are intentionally separated:
 
 - **full-corpus size:** the on-disk weight of the whole documentation system
-- **task-time context footprint:** the bytes and estimated tokens actually loaded for one routed task
+- **task-time context footprint:** the bytes and estimated tokens actually loaded for one routed task, measured both as raw loaded payload and as a rendered prompt-envelope proxy
 
-AODS can lose on full-corpus size and still win on task-time context if routing keeps the working set small. The benchmark tracks both because only the second signal approximates real context-window pressure during work.
+AODS can lose on full-corpus size and still win on task-time context if routing keeps the working set small. The benchmark tracks both because only the second signal approximates real context-window pressure during work, and the rendered prompt-envelope view is the closer proxy.
 
 Validation comes first, then benchmarking:
 
@@ -201,7 +201,7 @@ At the current baseline, the benchmark shows:
 - **fidelity:** strong
 - **objective loading gate:** strong
 - **exact corpus size:** mixed at corpus scale; AODS is larger than the human-doc baseline on this corpus
-- **task-time context footprint:** the more decision-relevant signal; routed working sets stay much smaller than full-load size under objective touch-route scenarios
+- **task-time context footprint:** the more decision-relevant signal; both routed payload size and rendered prompt-envelope size stay much smaller than full-load size under objective touch-route scenarios
 - **anti-drift:** strong for declared invariants and paired-surface governance; semantic equivalence is still only partially native beyond declared anchors
 - **benchmark objectivity:** materially improved because the main scoreboards now use exact bytes and touch-route scenarios
 - **benchmark diversity:** materially improved; the current pack is multi-domain and includes both agent-primary and human-primary sync, but it is still synthetic and English-only

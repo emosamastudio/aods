@@ -3,7 +3,7 @@
 ## Executive summary
 
 - **Dataset:** AODS Benchmark Pack benchmark corpus with **11** modules, **8** human surfaces, **36** lifecycle items, **9** shared loading queries, and **8** drift scenarios
-- **Internal AODS result:** full lifecycle coverage, full fact preservation, **58.8% larger than the human-doc baseline** by exact bytes, **100.0%** objective touch-route hit rate, objective median loaded working set **24360 bytes**, and **100.0%** combined drift recall
+- **Internal AODS result:** full lifecycle coverage, full fact preservation, **58.8% larger than the human-doc baseline** by exact bytes, **100.0%** objective touch-route hit rate, objective median rendered prompt envelope **25216 bytes**, and **100.0%** combined drift recall
 - **External comparison headline:** AODS is the only baseline in round one with **100.0%** native drift recall, while **llms.txt** is the smallest corpus by exact bytes and **AODS** has the highest objective loading precision
 
 **Round-one verdict:** AODS now has a defensible benchmark position. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That means its value proposition is real for agent-heavy, drift-sensitive programs, but its corpus cost still needs optimization before it can replace lower-friction defaults everywhere.
@@ -58,6 +58,7 @@ All four baselines use the same canonical dataset and the same shared query set.
 - file count
 - bytes per benchmark item
 - objective median loaded bytes
+- objective median prompt-envelope bytes
 - objective touch-route hit rate
 - objective touch-route precision
 - objective touch-route byte savings
@@ -82,19 +83,20 @@ AODS-native governance signals remain separate because the other archetypes do n
 | Fidelity | 100.0% fact preservation, 100.0% critical fact preservation |
 | Corpus size (objective) | 44915 human-doc bytes vs 71309 AODS bytes, 58.8% larger than the human-doc baseline |
 | Corpus size (advisory) | 11232 estimated human-doc tokens vs 17829 estimated AODS tokens, 58.7% larger than the human-doc baseline |
-| Task-time context footprint (objective) | 24360 median loaded bytes, 6091 median loaded estimated tokens, 35817 max loaded bytes |
+| Task-time context footprint (payload) | 24360 median loaded bytes, 6091 median loaded estimated tokens, 35817 max loaded bytes |
+| Task-time context footprint (rendered prompt) | 25216 median prompt-envelope bytes, 6304 median prompt-envelope estimated tokens, 909 median overhead bytes |
 | Loading (objective) | 100.0% hit rate, 100.0% average precision, 100.0% average recall, 65.8% median byte savings |
 | Loading (advisory) | 100.0% hit rate, 33.3% average precision, 100.0% average recall, 29.4% median token savings |
 | Drift | 100.0% built-in recall, 71.4% semantic recall, 100.0% combined recall |
 | Diversity audit | 2 dataset, domains release-ops, regulated-change-control, languages en, sync modes agent-primary, human-primary |
 | Overhead | 44 bookkeeping entries, 1.22 per artifact, 20 touch routes, 5 roles |
 
-**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight and benchmark diversity that is still narrower than a true field sample. The benchmark now treats repository-scale corpus bytes and task-time loaded working-set bytes as separate measurements.
+**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight and benchmark diversity that is still narrower than a true field sample. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, and rendered prompt-envelope bytes as separate measurements.
 
 ## Benchmark objectivity and diversity audit
 
 - **Primary scoreboard basis:** exact bytes + objective touch-route scenarios
-- **Context-footprint basis:** objective median loaded bytes approximates task-time context occupancy and is tracked separately from full-corpus bytes
+- **Context-footprint basis:** objective median rendered prompt-envelope bytes approximates task-time context occupancy, while median loaded bytes remain the lower-level payload counter underneath it
 - **Advisory-only signals:** estimated token counts + exploratory semantic-load scenarios
 - **Dataset count:** 2
 - **Domains:** release-ops, regulated-change-control
@@ -115,12 +117,12 @@ This makes the round-one judgment more objective than the earlier benchmark pass
 
 ### Objective common metric scoreboard
 
-| Baseline | Corpus bytes | Files | Bytes / benchmark item | Fact preservation | Median loaded bytes | Objective hit rate | Objective avg precision | Median byte savings |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| AODS | 71309 | 12 | 1980.81 | 100.0% | 24360 | 100.0% | 100.0% | 65.8% |
-| Markdown + YAML | 47437 | 8 | 1317.69 | 100.0% | 5234 | 0.0% | 100.0% | 89.0% |
-| llms.txt | 46520 | 9 | 1292.22 | 100.0% | 6480 | 0.0% | 100.0% | 86.1% |
-| DITA topic corpus | 65038 | 12 | 1806.61 | 100.0% | 718 | 0.0% | 0.0% | 98.9% |
+| Baseline | Corpus bytes | Files | Bytes / benchmark item | Fact preservation | Median loaded bytes | Median prompt-envelope bytes | Objective hit rate | Objective avg precision | Median byte savings |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| AODS | 71309 | 12 | 1980.81 | 100.0% | 24360 | 25216 | 100.0% | 100.0% | 65.8% |
+| Markdown + YAML | 47437 | 8 | 1317.69 | 100.0% | 5234 | 5844 | 0.0% | 100.0% | 89.0% |
+| llms.txt | 46520 | 9 | 1292.22 | 100.0% | 6480 | 7178 | 0.0% | 100.0% | 86.1% |
+| DITA topic corpus | 65038 | 12 | 1806.61 | 100.0% | 718 | 1320 | 0.0% | 0.0% | 98.9% |
 
 ### Advisory metric scoreboard
 
@@ -148,7 +150,7 @@ These are **not** fair common metrics. They are shown separately because only AO
 
 - AODS remains the strongest option when the target problem includes **native authority modeling**, **paired human+agent surfaces**, and **drift-aware governance**.
 - AODS is no longer being judged only against itself; it now has external archetype baselines on the same dataset and scenario set.
-- AODS is now being judged on an objective scoreboard built from exact size metrics, task-time loaded working-set size, and touch-route behavior rather than on heuristic token-only summaries.
+- AODS is now being judged on an objective scoreboard built from exact size metrics, loaded payload size, rendered prompt-envelope size, and touch-route behavior rather than on heuristic token-only summaries.
 
 ### What the competitors prove against AODS
 
@@ -170,7 +172,7 @@ For large projects today, the benchmark supports this practical reading:
 
 - These corpora are **benchmark archetypes**, not full upstream toolchain integrations.
 - Advisory metrics still include deterministic chars-per-token estimates and semantic-load heuristics.
-- Objective loaded bytes are still a routed-file proxy, not a capture of the exact final prompt envelope of a live agent runtime.
+- Rendered prompt-envelope bytes are still a benchmark renderer, not a capture of the exact final prompt envelope of a live agent runtime.
 - The benchmark corpus is synthetic but lifecycle-complete, so this is a strong laboratory signal rather than a universal field sample.
 - The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed toolchain samples.
 - Round two should add Backstage or TechDocs runtime execution, plus narrower spec-first comparators such as OpenAPI, AsyncAPI, or TypeSpec for partial-domain benchmarking.
