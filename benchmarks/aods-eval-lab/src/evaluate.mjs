@@ -267,6 +267,10 @@ function summarizeLoadingResults(scenarioResults) {
       hit_rate: 0,
       average_precision: 0,
       average_recall: 0,
+      median_route_tokens_estimated: 0,
+      median_route_bytes: 0,
+      max_route_tokens_estimated: 0,
+      max_route_bytes: 0,
       median_token_savings_vs_full_load: 0,
       median_byte_savings_vs_full_load: 0,
       median_token_overfetch_ratio: 0,
@@ -279,6 +283,10 @@ function summarizeLoadingResults(scenarioResults) {
     hit_rate: scenarioResults.filter((result) => result.exact_hit).length / scenarioResults.length,
     average_precision: scenarioResults.reduce((sum, result) => sum + result.precision, 0) / scenarioResults.length,
     average_recall: scenarioResults.reduce((sum, result) => sum + result.recall, 0) / scenarioResults.length,
+    median_route_tokens_estimated: median(scenarioResults.map((result) => result.route_tokens_estimated)),
+    median_route_bytes: median(scenarioResults.map((result) => result.route_bytes)),
+    max_route_tokens_estimated: Math.max(...scenarioResults.map((result) => result.route_tokens_estimated)),
+    max_route_bytes: Math.max(...scenarioResults.map((result) => result.route_bytes)),
     median_token_savings_vs_full_load: median(
       scenarioResults.map((result) => result.token_savings_vs_full_load)
     ),
@@ -607,6 +615,7 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 - **Coverage:** lifecycle phase coverage ${formatPercent(coverage.lifecycle_phase_coverage)}, structured type coverage ${formatPercent(coverage.structured_type_coverage)}, generic type coverage ${formatPercent(coverage.generic_type_coverage)}.
 - **Fidelity:** critical fact preservation ${formatPercent(fidelity.critical_fact_preservation_rate)} with overall fact preservation ${formatPercent(fidelity.fact_preservation_rate)}.
 - **Exact corpus size:** human docs ${fidelity.exact_size.human_docs.byte_count} bytes across ${fidelity.exact_size.human_docs.file_count} files; AODS corpus ${fidelity.exact_size.aods_corpus.byte_count} bytes across ${fidelity.exact_size.aods_corpus.file_count} files.
+- **Task-time context footprint:** objective touch-route median loaded working set ${loading.objective_touch.median_route_bytes} bytes and ${loading.objective_touch.median_route_tokens_estimated} estimated tokens.
 - **Objective loading gate:** touch-route hit rate ${formatPercent(loading.objective_touch.hit_rate)}, average recall ${formatPercent(loading.objective_touch.average_recall)}, median byte savings ${formatPercent(loading.objective_touch.median_byte_savings_vs_full_load)}.
 - **Drift prevention:** built-in recall ${formatPercent(drift.built_in_recall)}, combined recall ${formatPercent(drift.combined_recall)}, built-in false-positive rate ${formatPercent(drift.built_in_false_positive_rate)}.
 - **Advisory metrics:** token estimates and semantic-load scenarios remain exploratory rather than release-gating signals.
@@ -657,17 +666,20 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 - Compression ratio (human/AODS): **${formatRatio(fidelity.compression_ratio_human_to_aods)}**
 - Token reduction vs human docs: **${formatPercent(fidelity.token_reduction_vs_human)}**
 - Median per-artifact compression ratio: **${formatRatio(fidelity.median_artifact_compression_ratio)}**
-- Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark.**
+- Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark. This is a repository-scale measurement, not a direct reading of task-time context pressure.**
 
-### 3. Objective touch-route loading gate
+### 3. Objective touch-route loading gate and working-set context footprint
 
 - Full-load exact corpus size: **${loading.full_load_bytes} bytes**
 - Objective scenarios: **${loading.objective_touch.scenario_count}**
 - Hit rate across objective touch-route scenarios: **${formatPercent(loading.objective_touch.hit_rate)}**
 - Average precision: **${formatPercent(loading.objective_touch.average_precision)}**
 - Average recall: **${formatPercent(loading.objective_touch.average_recall)}**
+- Median loaded working set: **${loading.objective_touch.median_route_bytes} bytes**, **${loading.objective_touch.median_route_tokens_estimated} estimated tokens**
+- Max loaded working set: **${loading.objective_touch.max_route_bytes} bytes**, **${loading.objective_touch.max_route_tokens_estimated} estimated tokens**
 - Median byte savings vs full load: **${formatPercent(loading.objective_touch.median_byte_savings_vs_full_load)}**
 - Median token savings vs full load: **${formatPercent(loading.objective_touch.median_token_savings_vs_full_load)}**
+- Interpretation: **route_bytes and route_tokens_estimated are the current benchmark proxy for actual task-time context occupancy. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
 
 | Objective scenario | Class | Hit | Byte savings |
 | --- | --- | --- | ---: |
@@ -687,8 +699,9 @@ ${loading.scenario_results
 - Hit rate across exploratory semantic scenarios: **${formatPercent(loading.exploratory_semantic.hit_rate)}**
 - Average precision: **${formatPercent(loading.exploratory_semantic.average_precision)}**
 - Average recall: **${formatPercent(loading.exploratory_semantic.average_recall)}**
+- Median loaded working set: **${loading.exploratory_semantic.median_route_bytes} bytes**, **${loading.exploratory_semantic.median_route_tokens_estimated} estimated tokens**
 - Median byte savings vs full load: **${formatPercent(loading.exploratory_semantic.median_byte_savings_vs_full_load)}**
-- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing.**
+- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their loaded working-set numbers are therefore informative, not authoritative.**
 
 ### 5. Drift prevention
 
@@ -738,6 +751,7 @@ ${drift.scenario_results
 1. AODS can represent the full benchmark lifecycle without unsupported gaps.
 2. The structured artifact catalog is broad enough to cover architecture, workflow, contract, policy, and operations material in one corpus.
 3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only heuristic token and semantic-load signals.
+4. The benchmark now makes repository-scale corpus weight and task-time working-set context footprint explicit instead of conflating them.
 
 ### Limits and failure modes
 

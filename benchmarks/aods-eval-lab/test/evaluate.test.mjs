@@ -18,6 +18,10 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   assert.equal(results.loading.objective_touch.scenario_count, 5);
   assert.equal(results.loading.exploratory_semantic.scenario_count, 4);
   assert.equal(results.loading.objective_touch.hit_rate, 1);
+  assert.ok(results.loading.objective_touch.median_route_bytes > 0);
+  assert.ok(
+    results.loading.objective_touch.max_route_bytes >= results.loading.objective_touch.median_route_bytes
+  );
   assert.equal(results.diversity.dataset_count, 2);
   assert.deepEqual(results.diversity.sync_modes.present, ["agent-primary", "human-primary"]);
   assert.deepEqual(results.diversity.domains, ["release-ops", "regulated-change-control"]);
@@ -42,6 +46,7 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   const report = fs.readFileSync(reportPath, "utf8");
   assert.match(report, /AODS evaluation report/);
   assert.match(report, /Objective touch-route loading gate/);
+  assert.match(report, /Task-time context footprint/);
   assert.match(report, /Sample diversity and coverage audit/);
 });
 
@@ -60,12 +65,14 @@ test("round-one external comparison generates a horizontal report", () => {
   assert.ok(llms.common.corpus_bytes > 0);
   assert.ok(llms.advisory.corpus_tokens_estimated > 0);
   assert.ok(results.fairness_contract.common_metrics.includes("corpus byte count"));
+  assert.ok(results.fairness_contract.common_metrics.includes("objective median loaded bytes"));
 
   const reportPath = path.join(PROJECT_ROOT, "reports", "round1-comparator-report.md");
   assert.ok(fs.existsSync(reportPath));
   const report = fs.readFileSync(reportPath, "utf8");
   assert.match(report, /AODS round-one benchmark evaluation report/);
   assert.match(report, /Why these comparators/);
+  assert.match(report, /Median loaded bytes/);
   assert.match(report, /Objective common metric scoreboard/);
   assert.match(report, /Benchmark objectivity and diversity audit/);
 });

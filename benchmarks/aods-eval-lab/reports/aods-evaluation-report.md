@@ -7,6 +7,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - **Coverage:** lifecycle phase coverage 100.0%, structured type coverage 100.0%, generic type coverage 100.0%.
 - **Fidelity:** critical fact preservation 100.0% with overall fact preservation 100.0%.
 - **Exact corpus size:** human docs 44915 bytes across 8 files; AODS corpus 71309 bytes across 12 files.
+- **Task-time context footprint:** objective touch-route median loaded working set 24360 bytes and 6091 estimated tokens.
 - **Objective loading gate:** touch-route hit rate 100.0%, average recall 100.0%, median byte savings 65.8%.
 - **Drift prevention:** built-in recall 100.0%, combined recall 100.0%, built-in false-positive rate 0.0%.
 - **Advisory metrics:** token estimates and semantic-load scenarios remain exploratory rather than release-gating signals.
@@ -57,17 +58,20 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - Compression ratio (human/AODS): **0.63**
 - Token reduction vs human docs: **-58.7%**
 - Median per-artifact compression ratio: **1.23**
-- Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark.**
+- Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark. This is a repository-scale measurement, not a direct reading of task-time context pressure.**
 
-### 3. Objective touch-route loading gate
+### 3. Objective touch-route loading gate and working-set context footprint
 
 - Full-load exact corpus size: **71309 bytes**
 - Objective scenarios: **5**
 - Hit rate across objective touch-route scenarios: **100.0%**
 - Average precision: **100.0%**
 - Average recall: **100.0%**
+- Median loaded working set: **24360 bytes**, **6091 estimated tokens**
+- Max loaded working set: **35817 bytes**, **8955 estimated tokens**
 - Median byte savings vs full load: **65.8%**
 - Median token savings vs full load: **65.8%**
+- Interpretation: **route_bytes and route_tokens_estimated are the current benchmark proxy for actual task-time context occupancy. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
 
 | Objective scenario | Class | Hit | Byte savings |
 | --- | --- | --- | ---: |
@@ -83,8 +87,9 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - Hit rate across exploratory semantic scenarios: **100.0%**
 - Average precision: **33.3%**
 - Average recall: **100.0%**
+- Median loaded working set: **50332 bytes**, **12584 estimated tokens**
 - Median byte savings vs full load: **29.4%**
-- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing.**
+- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their loaded working-set numbers are therefore informative, not authoritative.**
 
 ### 5. Drift prevention
 
@@ -132,6 +137,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 1. AODS can represent the full benchmark lifecycle without unsupported gaps.
 2. The structured artifact catalog is broad enough to cover architecture, workflow, contract, policy, and operations material in one corpus.
 3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only heuristic token and semantic-load signals.
+4. The benchmark now makes repository-scale corpus weight and task-time working-set context footprint explicit instead of conflating them.
 
 ### Limits and failure modes
 

@@ -158,11 +158,18 @@ It answers these questions:
 
 1. **coverage:** can AODS represent the full benchmark lifecycle?
 2. **fidelity:** do critical facts survive the rewrite into AODS?
-3. **corpus size:** does the corpus reduce or inflate exact on-disk size overall?
-4. **loading:** does objective touch-route disclosure hit the right modules with acceptable overfetch?
+3. **corpus size:** does the corpus reduce or inflate exact on-disk size overall at repository scale?
+4. **loading:** does objective touch-route disclosure hit the right modules with acceptable overfetch and a small task-time working set?
 5. **drift:** do validator and hook rules catch divergence between human and agent surfaces?
 6. **diversity:** how broad is the benchmark sample across domains, sync modes, roles, and scenario classes?
 7. **overhead:** how much governance bookkeeping is required?
+
+Two size signals are intentionally separated:
+
+- **full-corpus size:** the on-disk weight of the whole documentation system
+- **task-time context footprint:** the bytes and estimated tokens actually loaded for one routed task
+
+AODS can lose on full-corpus size and still win on task-time context if routing keeps the working set small. The benchmark tracks both because only the second signal approximates real context-window pressure during work.
 
 Validation comes first, then benchmarking:
 
@@ -194,11 +201,12 @@ At the current baseline, the benchmark shows:
 - **fidelity:** strong
 - **objective loading gate:** strong
 - **exact corpus size:** mixed at corpus scale; AODS is larger than the human-doc baseline on this corpus
+- **task-time context footprint:** the more decision-relevant signal; routed working sets stay much smaller than full-load size under objective touch-route scenarios
 - **anti-drift:** strong for declared invariants and paired-surface governance; semantic equivalence is still only partially native beyond declared anchors
 - **benchmark objectivity:** materially improved because the main scoreboards now use exact bytes and touch-route scenarios
 - **benchmark diversity:** materially improved; the current pack is multi-domain and includes both agent-primary and human-primary sync, but it is still synthetic and English-only
 
-That means AODS already behaves like a serious agent-first documentation format and routing system, with stronger built-in governance than the earlier baseline and a more objective, broader benchmark harness, but not yet like a fully proven semantic-equivalence system, guaranteed corpus-wide compression standard, or field-validated multi-language benchmark winner.
+That means AODS already behaves like a serious agent-first documentation format and routing system, with stronger built-in governance than the earlier baseline and a more objective, broader benchmark harness. It still does not look like a guaranteed corpus-wide compression standard, but the benchmark now makes clear that repository-scale size and task-time context occupation are different questions.
 
 ## Example corpus
 

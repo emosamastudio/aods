@@ -67,10 +67,18 @@ The most decision-relevant dimensions are:
 - **coverage:** whether AODS can represent the lifecycle breadth
 - **fidelity:** whether key facts survive compression
 - **exact corpus size:** whether governance overhead inflates or reduces the full corpus on disk
+- **task-time context footprint:** how many bytes and estimated tokens are actually loaded for one routed task
 - **objective loading:** whether runtime-backed touch routing narrows the working set without missing needed modules
 - **diversity audit:** how broad the benchmark is across domains, languages, sync modes, roles, and scenario classes
 - **drift:** whether validator and hook logic catch structural and semantic divergence
 - **overhead:** how much governance bookkeeping the corpus introduces
+
+Treat these two size signals separately:
+
+- **full-corpus size** answers repository-scale cost
+- **task-time context footprint** answers context-window pressure during work
+
+A larger AODS corpus does not automatically mean a larger task-time context if routing keeps the loaded working set small. The benchmark now reports both explicitly.
 
 ## Editing workflow
 
