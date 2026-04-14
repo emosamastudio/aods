@@ -1,0 +1,171 @@
+{
+  "aods_v": 3,
+  "sys": "shift-ops-pilot",
+  "sys_v": 1,
+  "created": "2026-04-14T20:40:35Z",
+  "updated": "2026-04-14T20:40:35Z",
+  "modules": [
+    {
+      "id": "shift-ops-root",
+      "path": "modules/shift-ops-root.json",
+      "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
+      "category": "architecture",
+      "layer": "root",
+      "deps": [],
+      "tags": [
+        "root",
+        "routing",
+        "operations"
+      ],
+      "tokens_approx": 367,
+      "priority": "critical"
+    },
+    {
+      "id": "shift-ops-capsule",
+      "path": "modules/shift-ops-capsule.json",
+      "scope": "Summary routing for shift operations. Use after root load to decide whether policy or runbook detail should open next.",
+      "category": "capsule",
+      "layer": "capsule",
+      "deps": [],
+      "tags": [
+        "capsule",
+        "routing",
+        "operations"
+      ],
+      "tokens_approx": 360,
+      "priority": "critical"
+    },
+    {
+      "id": "shift-ops-policy",
+      "path": "modules/shift-ops-policy.json",
+      "scope": "Authoritative approval policy for operational changes and production release windows.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "policy",
+        "change-control"
+      ],
+      "tokens_approx": 493,
+      "priority": "standard"
+    },
+    {
+      "id": "shift-ops-runbook",
+      "path": "modules/shift-ops-runbook.json",
+      "scope": "Authoritative incident runbook for sev1 response and immediate stabilization.",
+      "category": "workflow",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "runbook",
+        "incident"
+      ],
+      "tokens_approx": 563,
+      "priority": "standard"
+    }
+  ],
+  "boot_sequence": [
+    "shift-ops-root",
+    "shift-ops-capsule"
+  ],
+  "purpose": "Compiled-authoring pilot for a shift operations corpus with paired README governance and routed agent modules.",
+  "glossary": {
+    "system": "Shift operations documentation corpus",
+    "release-window": "Approved deployment window for production changes",
+    "sev1": "Highest-severity operational incident"
+  },
+  "roles": [
+    {
+      "id": "doc-author",
+      "scope": "Maintains paired human and agent-facing operational documentation.",
+      "required_modules": [
+        "shift-ops-root",
+        "shift-ops-capsule",
+        "shift-ops-policy"
+      ]
+    },
+    {
+      "id": "operator",
+      "scope": "Responds to incidents and prepares operational changes.",
+      "required_modules": [
+        "shift-ops-root",
+        "shift-ops-capsule",
+        "shift-ops-runbook"
+      ]
+    }
+  ],
+  "boot_by_role": {
+    "doc-author": [
+      "shift-ops-root",
+      "shift-ops-capsule",
+      "shift-ops-policy"
+    ],
+    "operator": [
+      "shift-ops-root",
+      "shift-ops-capsule",
+      "shift-ops-runbook"
+    ]
+  },
+  "boot_by_touch": [
+    {
+      "match": "manifest.json",
+      "load_modules": [
+        "shift-ops-root",
+        "shift-ops-capsule",
+        "shift-ops-policy",
+        "shift-ops-runbook"
+      ],
+      "intent": "write",
+      "reason": "Manifest edits affect routing, pair governance, and boot scope."
+    },
+    {
+      "match": "README.md",
+      "load_modules": [
+        "shift-ops-capsule",
+        "shift-ops-policy",
+        "shift-ops-runbook"
+      ],
+      "intent": "write",
+      "reason": "README is the paired human surface for the compiled pilot."
+    },
+    {
+      "match": "modules/shift-ops-policy.json",
+      "load_modules": [
+        "shift-ops-root",
+        "shift-ops-capsule",
+        "shift-ops-policy"
+      ],
+      "intent": "write",
+      "reason": "Policy edits require routing and approval authority."
+    },
+    {
+      "match": "modules/shift-ops-runbook.json",
+      "load_modules": [
+        "shift-ops-root",
+        "shift-ops-capsule",
+        "shift-ops-runbook"
+      ],
+      "intent": "write",
+      "reason": "Runbook edits require routing and incident authority."
+    }
+  ],
+  "surface_pairs": [
+    {
+      "pair_id": "pair-shift-ops-readme",
+      "scope": "system",
+      "agent_primary": "shift-ops-capsule",
+      "agent_supporting": [
+        "shift-ops-root",
+        "shift-ops-policy",
+        "shift-ops-runbook"
+      ],
+      "human_primary": "README.md",
+      "sync_source": "agent-primary",
+      "status": "paired",
+      "shared_invariants": [
+        "Production database schema changes require two approvers.",
+        "sev1 pages primary and secondary on-call within five minutes."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+{
+  "authoring_v": 1,
+  "corpus": {
+    "sys": "shift-ops-pilot",
+    "sys_v": 1,
+    "purpose": "Compiled-authoring pilot for a shift operations corpus with paired README governance and routed agent modules.",
+    "glossary": {
+      "system": "Shift operations documentation corpus",
+      "release-window": "Approved deployment window for production changes",
+      "sev1": "Highest-severity operational incident"
+    },
+    "roles": [
+      {
+        "id": "doc-author",
+        "scope": "Maintains paired human and agent-facing operational documentation.",
+        "required_modules": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy"
+        ]
+      },
+      {
+        "id": "operator",
+        "scope": "Responds to incidents and prepares operational changes.",
+        "required_modules": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-runbook"
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "source_path": "README.md"
+    }
+  ],
+  "modules": [
+    {
+      "id": "shift-ops-root",
+      "category": "architecture",
+      "layer": "root",
+      "priority": "critical",
+      "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing and the README for the human overview.",
+      "tags": [
+        "root",
+        "routing",
+        "operations"
+      ],
+      "boot": true,
+      "sections": [
+        {
+          "sid": "system-root",
+          "topic": "root routing overview",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Keep this root module short and route-oriented.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-capsule:system-capsule"
+          ],
+          "artifact_refs": [
+            "route-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "route-table",
+          "type": "mapping-table",
+          "usage": "First-hop routing from cold start.",
+          "content": {
+            "key_columns": [
+              "need"
+            ],
+            "columns": [
+              "need",
+              "load"
+            ],
+            "rows": [
+              [
+                "summary routing",
+                "shift-ops-capsule:system-capsule"
+              ],
+              [
+                "change approval policy",
+                "shift-ops-policy:approval-policy"
+              ],
+              [
+                "incident response",
+                "shift-ops-runbook:incident-response"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-capsule",
+      "category": "capsule",
+      "layer": "capsule",
+      "priority": "critical",
+      "scope": "Summary routing for shift operations. Use after root load to decide whether policy or runbook detail should open next.",
+      "context": "Capsule for shift-ops-pilot. Route toward approval policy or incident response authority depending on the active task.",
+      "tags": [
+        "capsule",
+        "routing",
+        "operations"
+      ],
+      "boot": true,
+      "capsule": {
+        "read_when": [
+          "Need summary routing after cold start",
+          "Need to choose between change policy and incident response detail"
+        ],
+        "core_question": "Which detail module should answer the current shift operations question?",
+        "routes_to": [
+          "shift-ops-policy",
+          "shift-ops-runbook"
+        ],
+        "frozen_decisions": [
+          "Capsule remains shorter than detail modules.",
+          "Detail modules own operational authority."
+        ]
+      },
+      "sections": [
+        {
+          "sid": "system-capsule",
+          "topic": "capsule summary and next routes",
+          "content": "Route change approval questions to shift-ops-policy:approval-policy. Route sev1 response questions to shift-ops-runbook:incident-response. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-policy:approval-policy",
+            "shift-ops-runbook:incident-response"
+          ],
+          "criticality": "must"
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-policy",
+      "category": "policy",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Authoritative approval policy for operational changes and production release windows.",
+      "context": "Detail authority for approvals, release windows, and required evidence before production changes.",
+      "tags": [
+        "policy",
+        "change-control"
+      ],
+      "sections": [
+        {
+          "sid": "approval-policy",
+          "topic": "approval gates and release windows",
+          "content": "Production database schema changes require two approvers. Standard changes may deploy only inside the published release window. Emergency changes require a written rollback owner and explicit incident linkage. Approval evidence names the release window, database owner, and rollback owner before execution closes.",
+          "content_type": "rules",
+          "artifact_refs": [
+            "approval-rules"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "approval-rules",
+          "type": "rule-set",
+          "usage": "Constraint set for approving production changes.",
+          "content": {
+            "evaluation_mode": "all",
+            "conflict_resolution": "most-restrictive-wins",
+            "rules": [
+              {
+                "id": "two-approvers-db-schema",
+                "condition": "change.type == 'db-schema'",
+                "action": "require two approvers",
+                "priority": 100,
+                "source": "approval-policy"
+              },
+              {
+                "id": "rollback-owner-required",
+                "condition": "change.mode == 'emergency'",
+                "action": "require rollback owner before execution",
+                "priority": 90,
+                "source": "approval-policy"
+              },
+              {
+                "id": "release-window-default",
+                "condition": "change.mode != 'emergency'",
+                "action": "require published release window",
+                "priority": 80,
+                "source": "approval-policy"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-runbook",
+      "category": "workflow",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Authoritative incident runbook for sev1 response and immediate stabilization.",
+      "context": "Detail authority for sev1 paging, triage, stabilization, and escalation.",
+      "tags": [
+        "runbook",
+        "incident"
+      ],
+      "sections": [
+        {
+          "sid": "incident-response",
+          "topic": "sev1 response path",
+          "content": "sev1 pages primary and secondary on-call within five minutes. The incident commander confirms customer impact, opens the bridge, and assigns rollback authority before mitigation begins. Recovery updates stay on the bridge until impact and rollback state are explicit. The bridge record names the rollback owner, active mitigation step, and next checkpoint before closure.",
+          "content_type": "rules",
+          "artifact_refs": [
+            "sev1-flow"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "sev1-flow",
+          "type": "process-flow",
+          "usage": "Ordered sev1 response workflow.",
+          "content": {
+            "entry": "page-on-call",
+            "terminals": [
+              "mitigate"
+            ],
+            "actors": [
+              "incident-automation",
+              "incident-commander",
+              "rollback-owner"
+            ],
+            "steps": [
+              {
+                "id": "page-on-call",
+                "type": "action",
+                "actor": "incident-automation",
+                "action": "Page primary and secondary on-call",
+                "next": "open-bridge"
+              },
+              {
+                "id": "open-bridge",
+                "type": "action",
+                "actor": "incident-commander",
+                "action": "Open incident bridge and assign commander",
+                "next": "confirm-impact"
+              },
+              {
+                "id": "confirm-impact",
+                "type": "action",
+                "actor": "incident-commander",
+                "action": "Confirm customer impact and recovery target",
+                "next": "mitigate"
+              },
+              {
+                "id": "mitigate",
+                "type": "action",
+                "actor": "rollback-owner",
+                "action": "Mitigate or roll back with named owner",
+                "next": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "boot": {
+    "by_touch": [
+      {
+        "match": "manifest.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy",
+          "shift-ops-runbook"
+        ],
+        "reason": "Manifest edits affect routing, pair governance, and boot scope."
+      },
+      {
+        "match": "README.md",
+        "intent": "write",
+        "load": [
+          "shift-ops-capsule",
+          "shift-ops-policy",
+          "shift-ops-runbook"
+        ],
+        "reason": "README is the paired human surface for the compiled pilot."
+      },
+      {
+        "match": "modules/shift-ops-policy.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy"
+        ],
+        "reason": "Policy edits require routing and approval authority."
+      },
+      {
+        "match": "modules/shift-ops-runbook.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-runbook"
+        ],
+        "reason": "Runbook edits require routing and incident authority."
+      }
+    ]
+  },
+  "surface_pairs": [
+    {
+      "pair_id": "pair-shift-ops-readme",
+      "scope": "system",
+      "agent_primary": "shift-ops-capsule",
+      "agent_supporting": [
+        "shift-ops-root",
+        "shift-ops-policy",
+        "shift-ops-runbook"
+      ],
+      "human_primary": "README.md",
+      "sync_source": "agent-primary",
+      "status": "paired",
+      "shared_invariants": [
+        "Production database schema changes require two approvers.",
+        "sev1 pages primary and secondary on-call within five minutes."
+      ]
+    }
+  ]
+}

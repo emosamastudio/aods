@@ -1,0 +1,1235 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "aods://schema/module/v3",
+  "title": "AODS Module v3",
+  "description": "Knowledge module with typed artifact payload enforcement, capsule metadata hooks, and structured governance support.",
+  "type": "object",
+  "required": ["aods_v", "module_id", "v", "context", "sections"],
+  "additionalProperties": false,
+  "properties": {
+    "aods_v": {
+      "type": "integer",
+      "const": 3
+    },
+    "module_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]{1,64}$",
+      "description": "Must match id in manifest.modules[]."
+    },
+    "v": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Module version. Monotonically increasing."
+    },
+    "context": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Module summary. Agent reads first to decide load/skip. Answers: what does this define, when to use it."
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Preconditions agent must accept as true when using this module."
+    },
+    "sections": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/section" },
+      "minItems": 1,
+      "description": "Flat array of knowledge sections. Semantic order. Agent may jump via refs."
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/artifact" },
+      "description": "Structured resources referenced by sections. Each artifact has a typed schema."
+    },
+    "changelog": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/changelog_entry" }
+    },
+    "meta": { "$ref": "#/definitions/module_meta" }
+  },
+
+  "definitions": {
+
+    "section": {
+      "type": "object",
+      "required": ["sid", "topic", "content"],
+      "additionalProperties": false,
+      "properties": {
+        "sid": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,48}$"
+        },
+        "topic": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Compressed noun phrase. Agent uses for section-level routing."
+        },
+        "content": {
+          "type": "string",
+          "description": "Knowledge payload in AOP. See spec-aop module."
+        },
+        "content_type": {
+          "type": "string",
+          "enum": ["prose", "rules", "enum", "table", "logic", "example", "glossary"],
+          "default": "prose",
+          "description": "prose=compressed natural language. rules=constraint list. enum=value enumeration. table=pipe-delimited rows. logic=conditional/branching. example=input-output pairs. glossary=term definitions."
+        },
+        "refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Section IDs (intra-module) or module_id:sid (cross-module)."
+        },
+        "artifact_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Artifact IDs in this module referenced by this section."
+        },
+        "criticality": {
+          "type": "string",
+          "enum": ["must", "should", "may"],
+          "default": "must"
+        }
+      }
+    },
+
+    "artifact": {
+      "type": "object",
+      "required": ["artifact_id", "type", "content"],
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "state-machine",
+            "process-flow",
+            "sequence",
+            "decision-tree",
+            "data-pipeline",
+            "topology",
+            "rule-set",
+            "mapping-table",
+            "event-catalog",
+            "error-strategy",
+            "api-contract",
+            "temporal-pattern",
+            "json-schema",
+            "json-example",
+            "code-template",
+            "config-template",
+            "prompt-template",
+            "regex",
+            "enum-def",
+            "raw"
+          ],
+          "description": "Artifact type. Determines schema of content field."
+        },
+        "lang": {
+          "type": "string",
+          "description": "Language/format hint for code-template, config-template."
+        },
+        "content": {
+          "description": "Typed payload. Structure depends on type field. See type-specific definitions."
+        },
+        "usage": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "When/how agent should use this artifact."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "state-machine"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/state_machine_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "process-flow"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/process_flow_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "sequence"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/sequence_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "decision-tree"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/decision_tree_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "data-pipeline"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/data_pipeline_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "topology"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/topology_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "rule-set"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/rule_set_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "mapping-table"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/mapping_table_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "event-catalog"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/event_catalog_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "error-strategy"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/error_strategy_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "api-contract"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/api_contract_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "temporal-pattern"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/temporal_pattern_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "json-schema"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/json_schema_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "json-example"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/json_example_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "code-template"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/code_template_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "config-template"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/config_template_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "prompt-template"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/prompt_template_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "regex"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/regex_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "enum-def"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/enum_def_content"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "raw"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "#/definitions/raw_content"
+              }
+            }
+          }
+        }
+      ]
+    },
+
+
+    "state_machine_content": {
+      "description": "TYPE: state-machine. Lifecycle modeling, status tracking, entity state management.",
+      "type": "object",
+      "required": ["initial", "states", "transitions"],
+      "additionalProperties": false,
+      "properties": {
+        "initial": { "type": "string", "description": "Entry state ID." },
+        "terminal": { "type": "array", "items": { "type": "string" }, "description": "End states." },
+        "states": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["id"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "desc": { "type": "string" },
+                  "on_enter": { "type": "string", "description": "Action on state entry." },
+                  "on_exit": { "type": "string", "description": "Action on state exit." },
+                  "timeout": { "type": "string", "description": "Auto-transition on timeout. Format: '30s -> state_id'." },
+                  "invariants": { "type": "array", "items": { "type": "string" }, "description": "Conditions that must hold while in this state." }
+                }
+              }
+            ]
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to", "trigger"],
+            "additionalProperties": false,
+            "properties": {
+              "from": { "type": "string" },
+              "to": { "type": "string" },
+              "trigger": { "type": "string", "description": "Event/condition. Pipe-delimited for multiple." },
+              "guard": { "type": ["string", "null"], "description": "Precondition expression." },
+              "action": { "type": "string", "description": "Side effect during transition." },
+              "priority": { "type": "integer", "description": "Conflict resolution. Lower = higher priority." }
+            }
+          }
+        },
+        "parallel_regions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["region_id", "initial", "states", "transitions"],
+            "properties": {
+              "region_id": { "type": "string" },
+              "initial": { "type": "string" },
+              "states": { "type": "array" },
+              "transitions": { "type": "array" }
+            }
+          },
+          "description": "Orthogonal regions for concurrent state tracking."
+        }
+      }
+    },
+
+
+    "process_flow_content": {
+      "description": "TYPE: process-flow. Multi-step workflows with branching, parallelism, loops, sub-processes.",
+      "type": "object",
+      "required": ["entry", "steps"],
+      "additionalProperties": false,
+      "properties": {
+        "entry": { "type": "string", "description": "First step ID." },
+        "terminals": { "type": "array", "items": { "type": "string" }, "description": "Terminal pseudo-step IDs." },
+        "actors": { "type": "array", "items": { "type": "string" }, "description": "All actors/roles in this flow." },
+        "steps": { "type": "array", "items": { "$ref": "#/definitions/flow_step" } }
+      }
+    },
+
+    "flow_step": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["action", "decision", "parallel", "loop", "subprocess", "wait", "emit", "receive"],
+          "description": "action=execute. decision=branch. parallel=concurrent. loop=iterate. subprocess=delegate. wait=pause. emit=send event. receive=await event."
+        },
+        "actor": { "type": "string" },
+        "action": { "type": "string", "description": "What happens. AOP." },
+        "desc": { "type": "string" },
+        "next": {
+          "description": "String=single next step. Object={condition: step_id} for branches. Null=terminal.",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "additionalProperties": { "type": "string" } },
+            { "type": "null" }
+          ]
+        },
+        "branches": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["branch_id", "steps"],
+            "properties": {
+              "branch_id": { "type": "string" },
+              "steps": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "description": "For type=parallel."
+        },
+        "join": { "type": "string", "enum": ["all", "any", "n_of_m"], "description": "For type=parallel." },
+        "join_threshold": { "type": "integer", "description": "For join=n_of_m." },
+        "loop_condition": { "type": "string", "description": "For type=loop. Continue while true." },
+        "loop_max": { "type": "integer", "description": "For type=loop. Hard iteration cap." },
+        "loop_body": { "type": "array", "items": { "type": "string" }, "description": "For type=loop. Step IDs per iteration." },
+        "subprocess_ref": { "type": "string", "description": "For type=subprocess. artifact_id or module_id:artifact_id." },
+        "wait_condition": { "type": "string", "description": "For type=wait." },
+        "wait_timeout": { "type": "string", "description": "For type=wait. e.g. '300s'." },
+        "on_timeout": { "type": "string", "description": "For type=wait. Step ID on timeout." },
+        "event": { "type": "string", "description": "For type=emit|receive." },
+        "payload_schema": { "type": "string", "description": "For type=emit|receive. Artifact ID." },
+        "error_handler": { "type": "string", "description": "Step ID on error." },
+        "retry": {
+          "type": "object",
+          "properties": {
+            "max": { "type": "integer" },
+            "delay": { "type": "string" },
+            "backoff": { "type": "string", "enum": ["fixed", "linear", "exponential"] }
+          }
+        }
+      }
+    },
+
+
+    "sequence_content": {
+      "description": "TYPE: sequence. Multi-actor temporal interaction. Message exchange protocols.",
+      "type": "object",
+      "required": ["actors", "messages"],
+      "additionalProperties": false,
+      "properties": {
+        "actors": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["id"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "type": { "type": "string", "description": "agent|service|user|system|external" },
+                  "desc": { "type": "string" }
+                }
+              }
+            ]
+          }
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to", "action"],
+            "additionalProperties": false,
+            "properties": {
+              "seq": { "type": "integer", "description": "Temporal order number." },
+              "from": { "type": "string" },
+              "to": { "type": "string" },
+              "action": { "type": "string", "description": "Message name or API call." },
+              "type": { "type": "string", "enum": ["sync", "async", "response", "event", "callback"] },
+              "payload": { "type": "string", "description": "Payload description or schema ref." },
+              "condition": { "type": "string", "description": "Guard condition." },
+              "note": { "type": "string" }
+            }
+          }
+        },
+        "fragments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "range"],
+            "properties": {
+              "type": { "type": "string", "enum": ["alt", "opt", "loop", "par", "critical", "break"] },
+              "condition": { "type": "string" },
+              "range": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2, "description": "[start_seq, end_seq]" },
+              "branches": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "condition": { "type": "string" },
+                    "range": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 }
+                  }
+                },
+                "description": "For type=alt."
+              }
+            }
+          },
+          "description": "Combined fragments over message ranges."
+        }
+      }
+    },
+
+
+    "decision_tree_content": {
+      "description": "TYPE: decision-tree. Complex conditional logic, diagnostic flows, classification, policy evaluation.",
+      "type": "object",
+      "required": ["root", "nodes"],
+      "additionalProperties": false,
+      "properties": {
+        "root": { "type": "string" },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string", "enum": ["condition", "action", "delegate"] },
+              "eval": { "type": "string", "description": "For condition. Expression to evaluate." },
+              "branches": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["value", "next"],
+                  "properties": {
+                    "value": { "type": "string" },
+                    "next": { "type": "string" }
+                  }
+                }
+              },
+              "default": { "type": "string", "description": "Fallback node if no branch matches." },
+              "action": { "type": "string", "description": "For action nodes." },
+              "output": { "description": "For action nodes. Structured result." },
+              "delegate_ref": { "type": "string", "description": "For delegate nodes. artifact_id or module_id:artifact_id." },
+              "note": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+
+    "data_pipeline_content": {
+      "description": "TYPE: data-pipeline. Data transformation chains. Data lineage and transformation logic.",
+      "type": "object",
+      "required": ["stages"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "type": { "type": "string", "description": "api|queue|db|file|stream|agent" },
+            "schema_ref": { "type": "string" },
+            "desc": { "type": "string" }
+          }
+        },
+        "sink": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "type": { "type": "string" },
+            "schema_ref": { "type": "string" },
+            "desc": { "type": "string" }
+          }
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "transform"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "transform": { "type": "string", "description": "e.g. 'filter status=active', 'map: extract [name, email]', 'aggregate: group by region, sum revenue'." },
+              "input_schema": { "type": "string" },
+              "output_schema": { "type": "string" },
+              "actor": { "type": "string" },
+              "error_mode": { "type": "string", "enum": ["skip", "fail", "dead-letter", "retry"] },
+              "fan": { "type": "string", "enum": ["1:1", "1:N", "N:1", "N:M"], "description": "Cardinality." }
+            }
+          }
+        },
+        "ordering": { "type": "string", "enum": ["sequential", "parallel", "dag"], "default": "sequential" },
+        "stage_deps": {
+          "type": "object",
+          "additionalProperties": { "type": "array", "items": { "type": "string" } },
+          "description": "For ordering=dag. {stage_id: [dep_stage_ids]}."
+        }
+      }
+    },
+
+
+    "topology_content": {
+      "description": "TYPE: topology. System architecture, component relationships, network structure, dependency graphs.",
+      "type": "object",
+      "required": ["nodes", "edges"],
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string", "description": "agent|service|database|queue|gateway|external|cache|loadbalancer" },
+              "desc": { "type": "string" },
+              "properties": { "type": "object", "additionalProperties": { "type": "string" } },
+              "interfaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "direction"],
+                  "properties": {
+                    "id": { "type": "string" },
+                    "direction": { "type": "string", "enum": ["in", "out", "bidirectional"] },
+                    "protocol": { "type": "string" },
+                    "desc": { "type": "string" }
+                  }
+                }
+              },
+              "children": { "type": "array", "items": { "type": "string" }, "description": "Nested node IDs for hierarchical topology." }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to"],
+            "additionalProperties": false,
+            "properties": {
+              "from": { "type": "string", "description": "node_id or node_id:interface_id" },
+              "to": { "type": "string" },
+              "type": { "type": "string", "enum": ["data", "control", "dependency", "event", "auth"] },
+              "protocol": { "type": "string" },
+              "async": { "type": "boolean", "default": false },
+              "desc": { "type": "string" },
+              "sla": { "type": "string", "description": "e.g. 'p99 < 100ms', '1000 req/s'." }
+            }
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "node_ids"],
+            "properties": {
+              "id": { "type": "string" },
+              "label": { "type": "string" },
+              "node_ids": { "type": "array", "items": { "type": "string" } },
+              "boundary": { "type": "string", "enum": ["trust", "network", "process", "logical"] }
+            }
+          }
+        }
+      }
+    },
+
+
+    "rule_set_content": {
+      "description": "TYPE: rule-set. Business rules, policies, constraints, SLAs, access control.",
+      "type": "object",
+      "required": ["rules"],
+      "additionalProperties": false,
+      "properties": {
+        "evaluation_mode": { "type": "string", "enum": ["all", "first-match", "priority-ordered", "weighted"], "default": "all" },
+        "default_action": { "type": "string" },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "condition", "action"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "condition": { "type": "string", "description": "Boolean expression. Dot-notation fields." },
+              "action": { "type": "string" },
+              "priority": { "type": "integer" },
+              "weight": { "type": "number" },
+              "exception": { "type": "string", "description": "Skip rule if this is true." },
+              "ttl": { "type": "string", "description": "Expiration: '2026-12-31' or '30d'." },
+              "source": { "type": "string" }
+            }
+          }
+        },
+        "conflict_resolution": { "type": "string", "description": "e.g. 'most-restrictive-wins', 'highest-priority-wins'." }
+      }
+    },
+
+
+    "mapping_table_content": {
+      "description": "TYPE: mapping-table. Routing tables, permission matrices, enum translations, config lookup.",
+      "type": "object",
+      "required": ["columns", "rows"],
+      "additionalProperties": false,
+      "properties": {
+        "key_columns": { "type": "array", "items": { "type": "string" }, "description": "Lookup key columns." },
+        "columns": { "type": "array", "items": { "type": "string" } },
+        "column_types": { "type": "object", "additionalProperties": { "type": "string" } },
+        "rows": { "type": "array", "items": { "type": "array" } },
+        "default_row": { "type": "array" }
+      }
+    },
+
+
+    "event_catalog_content": {
+      "description": "TYPE: event-catalog. Event-driven architecture: events, triggers, emitters, consumers, payloads.",
+      "type": "object",
+      "required": ["events"],
+      "additionalProperties": false,
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "emitter"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "description": "Dot-notation namespace: 'task.created'." },
+              "desc": { "type": "string" },
+              "emitter": { "type": "string" },
+              "consumers": { "type": "array", "items": { "type": "string" } },
+              "trigger": { "type": "string" },
+              "payload_schema": { "description": "Inline schema or artifact ref." },
+              "frequency": { "type": "string", "description": "'per-task', 'per-minute', 'rare', 'burst'." },
+              "ordering": { "type": "string", "enum": ["ordered", "unordered", "idempotent"] },
+              "side_effects": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "events"],
+            "properties": {
+              "id": { "type": "string" },
+              "transport": { "type": "string", "description": "kafka|rabbitmq|redis|http-webhook|in-process" },
+              "events": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+
+
+    "error_strategy_content": {
+      "description": "TYPE: error-strategy. Exception handling, recovery logic, fallback chains, circuit breakers.",
+      "type": "object",
+      "required": ["error_classes"],
+      "additionalProperties": false,
+      "properties": {
+        "default_strategy": { "type": "string" },
+        "error_classes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["class", "strategy"],
+            "additionalProperties": false,
+            "properties": {
+              "class": { "type": "string" },
+              "match": { "type": "string", "description": "Pattern: glob or regex." },
+              "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+              "strategy": {
+                "type": "object",
+                "required": ["type"],
+                "properties": {
+                  "type": { "type": "string", "enum": ["retry", "fallback", "circuit-breaker", "escalate", "ignore", "compensate", "abort"] },
+                  "retry_max": { "type": "integer" },
+                  "retry_delay": { "type": "string" },
+                  "retry_backoff": { "type": "string", "enum": ["fixed", "linear", "exponential"] },
+                  "fallback_action": { "type": "string" },
+                  "circuit_threshold": { "type": "integer" },
+                  "circuit_reset": { "type": "string" },
+                  "escalate_to": { "type": "string" },
+                  "compensate_action": { "type": "string" }
+                }
+              },
+              "alerts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "channel": { "type": "string" },
+                    "condition": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "fallback_chain": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+
+    "api_contract_content": {
+      "description": "TYPE: api-contract. Inter-component interface definitions: endpoints, schemas, errors, SLAs.",
+      "type": "object",
+      "required": ["provider", "endpoints"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": { "type": "string" },
+        "consumers": { "type": "array", "items": { "type": "string" } },
+        "protocol": { "type": "string", "description": "http|grpc|ws|amqp|function-call|mcp" },
+        "base_url": { "type": "string" },
+        "auth": { "type": "string" },
+        "version": { "type": "string" },
+        "endpoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "method"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "method": { "type": "string" },
+              "path": { "type": "string" },
+              "desc": { "type": "string" },
+              "input": { "description": "Input schema: inline or artifact ref." },
+              "output": { "description": "Success response schema." },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["code", "meaning"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "meaning": { "type": "string" },
+                    "recovery": { "type": "string" }
+                  }
+                }
+              },
+              "sla": {
+                "type": "object",
+                "properties": {
+                  "latency_p99": { "type": "string" },
+                  "throughput": { "type": "string" },
+                  "availability": { "type": "string" }
+                }
+              },
+              "idempotent": { "type": "boolean" },
+              "rate_limit": { "type": "string" },
+              "examples": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "desc": { "type": "string" },
+                    "input": {},
+                    "output": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+    "temporal_pattern_content": {
+      "description": "TYPE: temporal-pattern. Time-based behaviors: schedules, cron, rate limits, deadlines, SLA timers.",
+      "type": "object",
+      "required": ["patterns"],
+      "additionalProperties": false,
+      "properties": {
+        "timezone": { "type": "string", "default": "UTC" },
+        "patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "type": {
+                "type": "string",
+                "enum": ["cron", "interval", "deadline", "window", "rate-limit", "cooldown", "sla-timer", "debounce", "throttle"]
+              },
+              "expression": { "type": "string", "description": "Cron expr, duration, timestamp, or rate." },
+              "target": { "type": "string", "description": "What this pattern applies to." },
+              "on_trigger": { "type": "string" },
+              "on_violation": { "type": "string" },
+              "active": { "type": "boolean", "default": true }
+            }
+          }
+        }
+      }
+    },
+
+
+    "json_schema_content": {
+      "description": "TYPE: json-schema. JSON Schema object.",
+      "type": "object"
+    },
+
+
+    "json_example_content": {
+      "description": "TYPE: json-example. Concrete JSON instance.",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    },
+
+
+    "code_template_content": {
+      "description": "TYPE: code-template. Source template string or structured template object.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
+    },
+
+
+    "config_template_content": {
+      "description": "TYPE: config-template. Configuration template string or structured template object.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
+    },
+
+
+    "prompt_template_content": {
+      "description": "TYPE: prompt-template. Prompt string or structured prompt object.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
+    },
+
+
+    "regex_content": {
+      "description": "TYPE: regex. Pattern string or structured regex object.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "required": ["pattern"],
+          "additionalProperties": false,
+          "properties": {
+            "pattern": {
+              "type": "string"
+            },
+            "flags": {
+              "type": "string"
+            },
+            "sample": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+
+
+    "enum_def_content": {
+      "description": "TYPE: enum-def. Enumeration values and descriptions.",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": ["id"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "value": {},
+                  "desc": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
+    },
+
+
+    "raw_content": {
+      "description": "TYPE: raw. Escape hatch payload.",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    },
+
+
+    "changelog_entry": {
+      "type": "object",
+      "required": ["v", "delta"],
+      "additionalProperties": false,
+      "properties": {
+        "v": { "type": "integer" },
+        "ts": { "type": "string", "format": "date-time" },
+        "delta": { "type": "string", "maxLength": 300 },
+        "breaking": { "type": "boolean", "default": false }
+      }
+    },
+
+    "module_meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "owner": { "type": "string" },
+        "review_cycle": { "type": "string" },
+        "stability": { "type": "string", "enum": ["frozen", "stable", "evolving", "experimental"] },
+        "generated_by": { "type": "string" },
+        "capsule": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "read_when": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "core_question": {
+              "type": "string",
+              "maxLength": 240
+            },
+            "routes_to": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "frozen_decisions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,325 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "aods://schema/manifest/v3",
+  "title": "AODS Manifest v3",
+  "description": "Agent-Optimized Documentation System - root manifest. Entry point for zero-knowledge bootstrap. Adds layer-aware routing and cross-surface pairing.",
+  "type": "object",
+  "required": [
+    "aods_v",
+    "sys",
+    "created",
+    "updated",
+    "modules",
+    "boot_sequence"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "aods_v": {
+      "type": "integer",
+      "const": 3,
+      "description": "AODS schema version. Breaking changes increment this."
+    },
+    "sys": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{1,63}$",
+      "description": "System identifier. Globally unique slug for this documentation corpus."
+    },
+    "sys_v": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "System version. Incremented when any module changes."
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "purpose": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "One-line system purpose. Agent uses this to confirm it has the right corpus."
+    },
+    "glossary": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "description": "System-wide term definitions. Keys are canonical term IDs used across all modules."
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/role_def"
+      },
+      "description": "All agent roles in the system. Each role maps to a set of modules it must load."
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/module_ref"
+      },
+      "minItems": 1,
+      "description": "Registry of all knowledge modules in this corpus."
+    },
+    "boot_sequence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Ordered list of module IDs for cold-start bootstrap. Should start with root-layer modules; capsule modules may follow."
+    },
+    "boot_by_role": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "description": "Role-specific boot sequences. Key is role ID; value is ordered module ID list."
+    },
+    "boot_by_touch": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/touch_route"
+      },
+      "description": "Touch-specific progressive-disclosure routes. Each route maps one relative path glob to the minimal module set needed for that edit context."
+    },
+    "surface_pairs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/surface_pair"
+      },
+      "description": "Cross-surface pairing map. Links agent-primary modules to human-facing surfaces outside module registry."
+    }
+  },
+  "definitions": {
+    "relative_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+",
+      "description": "Corpus-contained relative path only. Absolute paths and parent traversal forbidden."
+    },
+    "role_def": {
+      "type": "object",
+      "required": [
+        "id",
+        "scope"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,48}$"
+        },
+        "scope": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Natural language scope description."
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "module_ref": {
+      "type": "object",
+      "required": [
+        "id",
+        "path",
+        "scope",
+        "category",
+        "layer"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$",
+          "description": "Unique module identifier."
+        },
+        "path": {
+          "$ref": "#/definitions/relative_path"
+        },
+        "scope": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Semantic coverage description for routing."
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "architecture",
+            "protocol",
+            "schema",
+            "workflow",
+            "policy",
+            "config",
+            "reference",
+            "artifact",
+            "capsule"
+          ],
+          "description": "Module classification. capsule = short routing module with compact summary and next hops."
+        },
+        "layer": {
+          "type": "string",
+          "enum": [
+            "root",
+            "capsule",
+            "detail",
+            "evidence"
+          ],
+          "description": "Progressive-disclosure tier. root = boot/routing. capsule = summary/route fanout. detail = semantic authority. evidence = proof or draft."
+        },
+        "deps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tokens_approx": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Approximate token count for context budget planning."
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "standard",
+            "supplementary"
+          ],
+          "default": "standard"
+        }
+      }
+    },
+    "touch_route": {
+      "type": "object",
+      "required": [
+        "match",
+        "load_modules"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "match": {
+          "$ref": "#/definitions/relative_path",
+          "description": "Relative path or glob. Used for authoring-time routing."
+        },
+        "intent": {
+          "type": "string",
+          "enum": [
+            "any",
+            "read",
+            "write",
+            "validate",
+            "sync"
+          ],
+          "default": "any"
+        },
+        "load_modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "surface_pair": {
+      "type": "object",
+      "required": [
+        "pair_id",
+        "scope",
+        "agent_primary",
+        "human_primary",
+        "sync_source",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pair_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$"
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "system",
+            "phase",
+            "feature",
+            "module"
+          ]
+        },
+        "agent_primary": {
+          "type": "string",
+          "description": "Primary agent module ID."
+        },
+        "agent_supporting": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "human_primary": {
+          "$ref": "#/definitions/relative_path"
+        },
+        "human_supporting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/relative_path"
+          }
+        },
+        "sync_source": {
+          "type": "string",
+          "enum": [
+            "agent-primary",
+            "human-primary",
+            "bidirectional"
+          ],
+          "description": "Declared update direction. bidirectional remains experimental until merge/conflict protocol is specified."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "paired",
+            "draft",
+            "deprecated"
+          ]
+        },
+        "shared_invariants": {
+          "type": "array",
+          "description": "Exact semantic anchors that must remain present in both agent_primary and human_primary texts for this pair. Use for high-risk facts where paired-surface drift must be rejected objectively.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        }
+      }
+    }
+  }
+}

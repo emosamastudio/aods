@@ -1,0 +1,61 @@
+{
+  "aods_v": 3,
+  "module_id": "shift-ops-root",
+  "v": 1,
+  "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing and the README for the human overview.",
+  "sections": [
+    {
+      "sid": "system-root",
+      "topic": "root routing overview",
+      "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Keep this root module short and route-oriented.",
+      "content_type": "rules",
+      "refs": [
+        "shift-ops-capsule:system-capsule"
+      ],
+      "artifact_refs": [
+        "route-table"
+      ],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "route-table",
+      "type": "mapping-table",
+      "usage": "First-hop routing from cold start.",
+      "content": {
+        "key_columns": [
+          "need"
+        ],
+        "columns": [
+          "need",
+          "load"
+        ],
+        "rows": [
+          [
+            "summary routing",
+            "shift-ops-capsule:system-capsule"
+          ],
+          [
+            "change approval policy",
+            "shift-ops-policy:approval-policy"
+          ],
+          [
+            "incident response",
+            "shift-ops-runbook:incident-response"
+          ]
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial compiled module."
+    }
+  ],
+  "meta": {
+    "stability": "stable",
+    "review_cycle": "on-change"
+  }
+}

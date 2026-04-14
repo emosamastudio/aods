@@ -8,11 +8,14 @@
     "aods": "./bin/aods.mjs"
   },
   "scripts": {
+    "compile": "node ./bin/aods.mjs compile",
+    "compile:pilot": "node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./examples/compiled-pilot --force",
     "validate": "node ./bin/aods.mjs validate .",
     "validate:json": "node ./bin/aods.mjs validate . --json",
     "validate:strict": "node ./bin/aods.mjs validate . --strict",
     "validate:pilot": "node ./bin/aods.mjs validate ./examples/seven-plane-pilot --strict",
-    "validate:all": "npm run validate:strict && npm run validate:pilot",
+    "validate:compiled-pilot": "npm run compile:pilot && node ./bin/aods.mjs validate ./examples/compiled-pilot --strict",
+    "validate:all": "npm run validate:strict && npm run validate:pilot && npm run validate:compiled-pilot",
     "route": "node ./bin/aods.mjs route .",
     "hook:pre-commit": "node ./bin/aods.mjs hook pre-commit . --staged",
     "help": "node ./bin/aods.mjs --help",

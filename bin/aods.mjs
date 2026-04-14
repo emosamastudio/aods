@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { runCompileCommand } from "../lib/compile.mjs";
 import { runHookCommand } from "../lib/hook.mjs";
 import { runRouteCommand } from "../lib/route.mjs";
 import { runScaffoldCommand } from "../lib/scaffold.mjs";
@@ -14,6 +15,7 @@ Usage:
   aods route [root] [--role <role-id>] [--touch <path>] [--intent <intent>] [--json]
   aods hook pre-commit [root] [--staged] [--repo-root <path>] [--file <path>]... [--json]
   aods upgrade [root] [--json] [--dry-run] [--no-bump]
+  aods compile <source-file> <target-dir> [--json] [--force]
   aods scaffold corpus <target-dir> --sys <system-id> [--purpose <text>] [--force]
   aods scaffold module <corpus-root> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--route <target>]... [--boot] [--force]
 
@@ -22,6 +24,7 @@ Commands:
   route      Resolve minimal module load set for a role and/or touched file.
   hook       Run hookable enforcement helpers such as pre-commit validation.
   upgrade    Sync schemas and refresh manifest metadata for an existing corpus.
+  compile    Compile concise authoring JSON into an AODS corpus.
   scaffold   Generate new corpus or module skeletons.
 
 Flags:
@@ -60,6 +63,12 @@ async function main(argv) {
 
     if (command === "upgrade") {
       const exitCode = await runUpgradeCommand(args);
+      process.exitCode = exitCode;
+      return;
+    }
+
+    if (command === "compile") {
+      const exitCode = await runCompileCommand(args);
       process.exitCode = exitCode;
       return;
     }
