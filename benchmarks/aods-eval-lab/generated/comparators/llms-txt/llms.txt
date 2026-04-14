@@ -1,0 +1,11 @@
+# Atlas Release Ops
+
+> AI-facing entrypoint for the Atlas Release Ops benchmark corpus.
+
+## Documents
+
+- [Atlas Release Ops overview](README.md): Cold-start routing for the benchmark corpus. Use for first-hop orientation. Capsule summary and route fanout across product, architecture, workflow, and operations slices.
+- [Product lifecycle](docs/01-product-lifecycle.md): Goals, non-goals, discovery findings, milestones, authoring prompts, and design rationale.
+- [Architecture and contracts](docs/02-architecture-and-contracts.md): System topology, release APIs, payload schemas, examples, templates, identifiers, and role enums.
+- [Delivery workflows](docs/03-delivery-workflows.md): Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analytics pipeline.
+- [Operations and governance](docs/04-operations-and-governance.md): Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and validation guidance. Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets.

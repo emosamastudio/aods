@@ -1,0 +1,624 @@
+[
+  {
+    "id": "markdown-yaml",
+    "label": "Markdown + YAML",
+    "archetype": "TechDocs-style docs-as-code baseline",
+    "corpus_root": "generated/comparators/markdown-yaml",
+    "index_tokens_estimated": 0,
+    "corpus_tokens_estimated": 9442,
+    "loadable_unit_count": 5,
+    "counted_files": [
+      "README.md",
+      "docs/01-product-lifecycle.md",
+      "docs/02-architecture-and-contracts.md",
+      "docs/03-delivery-workflows.md",
+      "docs/04-operations-and-governance.md"
+    ],
+    "touch_map": {
+      "README.md": [
+        "README.md"
+      ],
+      "docs/01-product-lifecycle.md": [
+        "docs/01-product-lifecycle.md"
+      ],
+      "docs/02-architecture-and-contracts.md": [
+        "docs/02-architecture-and-contracts.md"
+      ],
+      "docs/03-delivery-workflows.md": [
+        "docs/03-delivery-workflows.md"
+      ],
+      "docs/04-operations-and-governance.md": [
+        "docs/04-operations-and-governance.md"
+      ],
+      "modules/atlas-root.json": [
+        "README.md"
+      ],
+      "modules/atlas-capsule.json": [
+        "README.md"
+      ],
+      "modules/product-lifecycle.json": [
+        "docs/01-product-lifecycle.md"
+      ],
+      "modules/architecture-contracts.json": [
+        "docs/02-architecture-and-contracts.md"
+      ],
+      "modules/delivery-workflows.json": [
+        "docs/03-delivery-workflows.md"
+      ],
+      "modules/operations-governance.json": [
+        "docs/04-operations-and-governance.md"
+      ],
+      "modules/evidence-reference.json": [
+        "docs/04-operations-and-governance.md"
+      ]
+    },
+    "units": [
+      {
+        "id": "README.md",
+        "path": "README.md",
+        "title": "Atlas Release Ops overview",
+        "summary": "Atlas Release Ops overview covers atlas-root, atlas-capsule.",
+        "module_ids": [
+          "atlas-root",
+          "atlas-capsule"
+        ],
+        "phases": [
+          "vision",
+          "governance"
+        ],
+        "tags": [
+          "root",
+          "routing",
+          "overview",
+          "benchmark",
+          "capsule",
+          "summary",
+          "routes"
+        ],
+        "tokens_estimated": 482
+      },
+      {
+        "id": "docs/01-product-lifecycle.md",
+        "path": "docs/01-product-lifecycle.md",
+        "title": "Product lifecycle",
+        "summary": "Product lifecycle covers product-lifecycle.",
+        "module_ids": [
+          "product-lifecycle"
+        ],
+        "phases": [
+          "vision",
+          "discovery",
+          "planning",
+          "test",
+          "design",
+          "build"
+        ],
+        "tags": [
+          "product",
+          "goals",
+          "roadmap",
+          "adr",
+          "prompt",
+          "mapping-table",
+          "prompt-template"
+        ],
+        "tokens_estimated": 1309
+      },
+      {
+        "id": "docs/02-architecture-and-contracts.md",
+        "path": "docs/02-architecture-and-contracts.md",
+        "title": "Architecture and contracts",
+        "summary": "Architecture and contracts covers architecture-contracts.",
+        "module_ids": [
+          "architecture-contracts"
+        ],
+        "phases": [
+          "design",
+          "build"
+        ],
+        "tags": [
+          "architecture",
+          "api",
+          "schema",
+          "contracts",
+          "config",
+          "topology",
+          "api-contract",
+          "json-schema",
+          "json-example",
+          "code-template",
+          "config-template",
+          "regex",
+          "enum-def"
+        ],
+        "tokens_estimated": 3388
+      },
+      {
+        "id": "docs/03-delivery-workflows.md",
+        "path": "docs/03-delivery-workflows.md",
+        "title": "Delivery workflows",
+        "summary": "Delivery workflows covers delivery-workflows.",
+        "module_ids": [
+          "delivery-workflows"
+        ],
+        "phases": [
+          "build",
+          "release",
+          "operate"
+        ],
+        "tags": [
+          "workflow",
+          "rollout",
+          "state",
+          "sequence",
+          "pipeline",
+          "process-flow",
+          "sequence",
+          "decision-tree",
+          "state-machine",
+          "data-pipeline"
+        ],
+        "tokens_estimated": 2249
+      },
+      {
+        "id": "docs/04-operations-and-governance.md",
+        "path": "docs/04-operations-and-governance.md",
+        "title": "Operations and governance",
+        "summary": "Operations and governance covers operations-governance, evidence-reference.",
+        "module_ids": [
+          "operations-governance",
+          "evidence-reference"
+        ],
+        "phases": [
+          "governance",
+          "operate",
+          "release"
+        ],
+        "tags": [
+          "operations",
+          "governance",
+          "incident",
+          "policy",
+          "slo",
+          "evidence",
+          "raw",
+          "sql",
+          "escape-hatch",
+          "rule-set",
+          "mapping-table",
+          "event-catalog",
+          "error-strategy",
+          "temporal-pattern",
+          "raw"
+        ],
+        "tokens_estimated": 2014
+      }
+    ],
+    "governance": {
+      "native_validation": "convention-only",
+      "paired_surface_support": false,
+      "explicit_authority_model": false,
+      "native_drift_recall": 0
+    }
+  },
+  {
+    "id": "llms-txt",
+    "label": "llms.txt",
+    "archetype": "Lightweight AI-facing baseline",
+    "corpus_root": "generated/comparators/llms-txt",
+    "index_tokens_estimated": 266,
+    "corpus_tokens_estimated": 9291,
+    "loadable_unit_count": 5,
+    "counted_files": [
+      "llms.txt",
+      "README.md",
+      "docs/01-product-lifecycle.md",
+      "docs/02-architecture-and-contracts.md",
+      "docs/03-delivery-workflows.md",
+      "docs/04-operations-and-governance.md"
+    ],
+    "optional_files": [
+      "llms-full.txt"
+    ],
+    "touch_map": {
+      "README.md": [
+        "README.md"
+      ],
+      "docs/01-product-lifecycle.md": [
+        "docs/01-product-lifecycle.md"
+      ],
+      "docs/02-architecture-and-contracts.md": [
+        "docs/02-architecture-and-contracts.md"
+      ],
+      "docs/03-delivery-workflows.md": [
+        "docs/03-delivery-workflows.md"
+      ],
+      "docs/04-operations-and-governance.md": [
+        "docs/04-operations-and-governance.md"
+      ],
+      "modules/atlas-root.json": [
+        "README.md"
+      ],
+      "modules/atlas-capsule.json": [
+        "README.md"
+      ],
+      "modules/product-lifecycle.json": [
+        "docs/01-product-lifecycle.md"
+      ],
+      "modules/architecture-contracts.json": [
+        "docs/02-architecture-and-contracts.md"
+      ],
+      "modules/delivery-workflows.json": [
+        "docs/03-delivery-workflows.md"
+      ],
+      "modules/operations-governance.json": [
+        "docs/04-operations-and-governance.md"
+      ],
+      "modules/evidence-reference.json": [
+        "docs/04-operations-and-governance.md"
+      ]
+    },
+    "units": [
+      {
+        "id": "README.md",
+        "path": "README.md",
+        "title": "Atlas Release Ops overview",
+        "summary": "Cold-start routing for the benchmark corpus. Use for first-hop orientation. Capsule summary and route fanout across product, architecture, workflow, and operations slices.",
+        "module_ids": [
+          "atlas-root",
+          "atlas-capsule"
+        ],
+        "phases": [
+          "vision",
+          "governance"
+        ],
+        "tags": [
+          "root",
+          "routing",
+          "overview",
+          "benchmark",
+          "capsule",
+          "summary",
+          "routes"
+        ],
+        "tokens_estimated": 416
+      },
+      {
+        "id": "docs/01-product-lifecycle.md",
+        "path": "docs/01-product-lifecycle.md",
+        "title": "Product lifecycle",
+        "summary": "Goals, non-goals, discovery findings, milestones, authoring prompts, and design rationale.",
+        "module_ids": [
+          "product-lifecycle"
+        ],
+        "phases": [
+          "vision",
+          "discovery",
+          "planning",
+          "test",
+          "design",
+          "build"
+        ],
+        "tags": [
+          "product",
+          "goals",
+          "roadmap",
+          "adr",
+          "prompt"
+        ],
+        "tokens_estimated": 1235
+      },
+      {
+        "id": "docs/02-architecture-and-contracts.md",
+        "path": "docs/02-architecture-and-contracts.md",
+        "title": "Architecture and contracts",
+        "summary": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role enums.",
+        "module_ids": [
+          "architecture-contracts"
+        ],
+        "phases": [
+          "design",
+          "build"
+        ],
+        "tags": [
+          "architecture",
+          "api",
+          "schema",
+          "contracts",
+          "config"
+        ],
+        "tokens_estimated": 3298
+      },
+      {
+        "id": "docs/03-delivery-workflows.md",
+        "path": "docs/03-delivery-workflows.md",
+        "title": "Delivery workflows",
+        "summary": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analytics pipeline.",
+        "module_ids": [
+          "delivery-workflows"
+        ],
+        "phases": [
+          "build",
+          "release",
+          "operate"
+        ],
+        "tags": [
+          "workflow",
+          "rollout",
+          "state",
+          "sequence",
+          "pipeline"
+        ],
+        "tokens_estimated": 2169
+      },
+      {
+        "id": "docs/04-operations-and-governance.md",
+        "path": "docs/04-operations-and-governance.md",
+        "title": "Operations and governance",
+        "summary": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and validation guidance. Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets.",
+        "module_ids": [
+          "operations-governance",
+          "evidence-reference"
+        ],
+        "phases": [
+          "governance",
+          "operate",
+          "release"
+        ],
+        "tags": [
+          "operations",
+          "governance",
+          "incident",
+          "policy",
+          "slo",
+          "evidence",
+          "raw",
+          "sql",
+          "escape-hatch"
+        ],
+        "tokens_estimated": 1907
+      }
+    ],
+    "governance": {
+      "native_validation": "none",
+      "paired_surface_support": false,
+      "explicit_authority_model": false,
+      "native_drift_recall": 0
+    }
+  },
+  {
+    "id": "dita",
+    "label": "DITA topic corpus",
+    "archetype": "Structured modular documentation baseline",
+    "corpus_root": "generated/comparators/dita",
+    "index_tokens_estimated": 179,
+    "corpus_tokens_estimated": 12973,
+    "loadable_unit_count": 7,
+    "counted_files": [
+      "atlas-release-ops.ditamap",
+      "topics/atlas-root.dita",
+      "topics/atlas-capsule.dita",
+      "topics/product-lifecycle.dita",
+      "topics/architecture-contracts.dita",
+      "topics/delivery-workflows.dita",
+      "topics/operations-governance.dita",
+      "topics/evidence-reference.dita"
+    ],
+    "touch_map": {
+      "modules/atlas-root.json": [
+        "topics/atlas-root.dita"
+      ],
+      "modules/atlas-capsule.json": [
+        "topics/atlas-capsule.dita"
+      ],
+      "modules/product-lifecycle.json": [
+        "topics/product-lifecycle.dita"
+      ],
+      "modules/architecture-contracts.json": [
+        "topics/architecture-contracts.dita"
+      ],
+      "modules/delivery-workflows.json": [
+        "topics/delivery-workflows.dita"
+      ],
+      "modules/operations-governance.json": [
+        "topics/operations-governance.dita"
+      ],
+      "modules/evidence-reference.json": [
+        "topics/evidence-reference.dita"
+      ],
+      "README.md": [
+        "topics/atlas-root.dita",
+        "topics/atlas-capsule.dita"
+      ],
+      "docs/01-product-lifecycle.md": [
+        "topics/product-lifecycle.dita"
+      ],
+      "docs/02-architecture-and-contracts.md": [
+        "topics/architecture-contracts.dita"
+      ],
+      "docs/03-delivery-workflows.md": [
+        "topics/delivery-workflows.dita"
+      ],
+      "docs/04-operations-and-governance.md": [
+        "topics/operations-governance.dita",
+        "topics/evidence-reference.dita"
+      ]
+    },
+    "units": [
+      {
+        "id": "atlas-root",
+        "path": "topics/atlas-root.dita",
+        "title": "atlas-root",
+        "summary": "Cold-start routing for the benchmark corpus. Use for first-hop orientation.",
+        "module_ids": [
+          "atlas-root"
+        ],
+        "phases": [
+          "vision"
+        ],
+        "tags": [
+          "root",
+          "routing",
+          "overview",
+          "benchmark"
+        ],
+        "tokens_estimated": 304
+      },
+      {
+        "id": "atlas-capsule",
+        "path": "topics/atlas-capsule.dita",
+        "title": "atlas-capsule",
+        "summary": "Capsule summary and route fanout across product, architecture, workflow, and operations slices.",
+        "module_ids": [
+          "atlas-capsule"
+        ],
+        "phases": [
+          "governance"
+        ],
+        "tags": [
+          "capsule",
+          "summary",
+          "routes",
+          "benchmark"
+        ],
+        "tokens_estimated": 345
+      },
+      {
+        "id": "product-lifecycle",
+        "path": "topics/product-lifecycle.dita",
+        "title": "product-lifecycle",
+        "summary": "Goals, non-goals, discovery findings, milestones, authoring prompts, and design rationale.",
+        "module_ids": [
+          "product-lifecycle"
+        ],
+        "phases": [
+          "vision",
+          "discovery",
+          "planning",
+          "test",
+          "design",
+          "build"
+        ],
+        "tags": [
+          "product",
+          "goals",
+          "roadmap",
+          "adr",
+          "prompt",
+          "mapping-table",
+          "prompt-template"
+        ],
+        "tokens_estimated": 1509
+      },
+      {
+        "id": "architecture-contracts",
+        "path": "topics/architecture-contracts.dita",
+        "title": "architecture-contracts",
+        "summary": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role enums.",
+        "module_ids": [
+          "architecture-contracts"
+        ],
+        "phases": [
+          "design",
+          "build"
+        ],
+        "tags": [
+          "architecture",
+          "api",
+          "schema",
+          "contracts",
+          "config",
+          "topology",
+          "api-contract",
+          "json-schema",
+          "json-example",
+          "code-template",
+          "config-template",
+          "regex",
+          "enum-def"
+        ],
+        "tokens_estimated": 4607
+      },
+      {
+        "id": "delivery-workflows",
+        "path": "topics/delivery-workflows.dita",
+        "title": "delivery-workflows",
+        "summary": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analytics pipeline.",
+        "module_ids": [
+          "delivery-workflows"
+        ],
+        "phases": [
+          "build",
+          "release",
+          "operate"
+        ],
+        "tags": [
+          "workflow",
+          "rollout",
+          "state",
+          "sequence",
+          "pipeline",
+          "process-flow",
+          "sequence",
+          "decision-tree",
+          "state-machine",
+          "data-pipeline"
+        ],
+        "tokens_estimated": 3174
+      },
+      {
+        "id": "operations-governance",
+        "path": "topics/operations-governance.dita",
+        "title": "operations-governance",
+        "summary": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and validation guidance.",
+        "module_ids": [
+          "operations-governance"
+        ],
+        "phases": [
+          "governance",
+          "operate",
+          "release"
+        ],
+        "tags": [
+          "operations",
+          "governance",
+          "incident",
+          "policy",
+          "slo",
+          "rule-set",
+          "mapping-table",
+          "event-catalog",
+          "error-strategy",
+          "temporal-pattern"
+        ],
+        "tokens_estimated": 2460
+      },
+      {
+        "id": "evidence-reference",
+        "path": "topics/evidence-reference.dita",
+        "title": "evidence-reference",
+        "summary": "Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets.",
+        "module_ids": [
+          "evidence-reference"
+        ],
+        "phases": [
+          "operate"
+        ],
+        "tags": [
+          "evidence",
+          "raw",
+          "sql",
+          "escape-hatch",
+          "raw"
+        ],
+        "tokens_estimated": 395
+      }
+    ],
+    "governance": {
+      "native_validation": "xml-structure-only",
+      "paired_surface_support": false,
+      "explicit_authority_model": false,
+      "native_drift_recall": 0
+    }
+  }
+]

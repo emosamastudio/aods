@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="architecture-contracts">
+  <title>architecture-contracts</title>
+  <shortdesc>System topology, release APIs, payload schemas, examples, templates, identifiers, and role enums.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>architecture</keyword>
+        <keyword>api</keyword>
+        <keyword>schema</keyword>
+        <keyword>contracts</keyword>
+        <keyword>config</keyword>
+        <keyword>topology</keyword>
+        <keyword>api-contract</keyword>
+        <keyword>json-schema</keyword>
+        <keyword>json-example</keyword>
+        <keyword>code-template</keyword>
+        <keyword>config-template</keyword>
+        <keyword>regex</keyword>
+        <keyword>enum-def</keyword>
+        <keyword>design</keyword>
+        <keyword>build</keyword>
+      </keywords>
+      <othermeta name="module-id" content="architecture-contracts"/>
+      <othermeta name="layer" content="detail"/>
+      <othermeta name="category" content="reference"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="release-topology">
+      <title>Release topology</title>
+      <p>Expose the services and data boundaries needed for release coordination.</p>
+      <ul>
+        <li>API Gateway accepts release packet writes and forwards them to the release service.</li>
+        <li>Workflow Engine evaluates approval state and staged rollout policy for each release packet.</li>
+        <li>Notification Service consumes release and incident events before messaging product, engineering, and support leads.</li>
+      </ul>
+      <codeblock outputclass="topology">
+{
+  &quot;nodes&quot;: [
+    {
+      &quot;id&quot;: &quot;web-console&quot;,
+      &quot;type&quot;: &quot;gateway&quot;,
+      &quot;desc&quot;: &quot;Web Console captures release packet edits from release managers.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;api-gateway&quot;,
+      &quot;type&quot;: &quot;gateway&quot;,
+      &quot;desc&quot;: &quot;API Gateway accepts release packet writes and forwards them to the release service.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;release-service&quot;,
+      &quot;type&quot;: &quot;service&quot;,
+      &quot;desc&quot;: &quot;Release Service stores release packets and current lifecycle state.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;workflow-engine&quot;,
+      &quot;type&quot;: &quot;service&quot;,
+      &quot;desc&quot;: &quot;Workflow Engine evaluates approval state and staged rollout policy for each release packet.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;event-bus&quot;,
+      &quot;type&quot;: &quot;queue&quot;,
+      &quot;desc&quot;: &quot;Event Bus fans release and incident events to downstream consumers.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;notification-service&quot;,
+      &quot;type&quot;: &quot;service&quot;,
+      &quot;desc&quot;: &quot;Notification Service consumes release and incident events before messaging product, engineering, and support leads.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;primary-db&quot;,
+      &quot;type&quot;: &quot;database&quot;,
+      &quot;desc&quot;: &quot;Primary DB stores release packets, approvals, and change history.&quot;
+    }
+  ],
+  &quot;edges&quot;: [
+    {
+      &quot;from&quot;: &quot;web-console&quot;,
+      &quot;to&quot;: &quot;api-gateway&quot;,
+      &quot;type&quot;: &quot;control&quot;,
+      &quot;protocol&quot;: &quot;https&quot;,
+      &quot;desc&quot;: &quot;Release managers submit or edit release packets.&quot;
+    },
+    {
+      &quot;from&quot;: &quot;api-gateway&quot;,
+      &quot;to&quot;: &quot;release-service&quot;,
+      &quot;type&quot;: &quot;data&quot;,
+      &quot;protocol&quot;: &quot;https&quot;,
+      &quot;desc&quot;: &quot;API Gateway accepts release packet writes and forwards them to the release service.&quot;
+    },
+    {
+      &quot;from&quot;: &quot;release-service&quot;,
+      &quot;to&quot;: &quot;workflow-engine&quot;,
+      &quot;type&quot;: &quot;control&quot;,
+      &quot;protocol&quot;: &quot;internal-rpc&quot;,
+      &quot;desc&quot;: &quot;Release Service requests approval and rollout evaluation.&quot;
+    },
+    {
+      &quot;from&quot;: &quot;release-service&quot;,
+      &quot;to&quot;: &quot;primary-db&quot;,
+      &quot;type&quot;: &quot;data&quot;,
+      &quot;protocol&quot;: &quot;postgres&quot;,
+      &quot;desc&quot;: &quot;Release Service persists canonical packet and state history.&quot;
+    },
+    {
+      &quot;from&quot;: &quot;workflow-engine&quot;,
+      &quot;to&quot;: &quot;event-bus&quot;,
+      &quot;type&quot;: &quot;event&quot;,
+      &quot;protocol&quot;: &quot;kafka&quot;,
+      &quot;async&quot;: true,
+      &quot;desc&quot;: &quot;Workflow Engine emits approval and rollout outcomes.&quot;
+    },
+    {
+      &quot;from&quot;: &quot;event-bus&quot;,
+      &quot;to&quot;: &quot;notification-service&quot;,
+      &quot;type&quot;: &quot;event&quot;,
+      &quot;protocol&quot;: &quot;kafka&quot;,
+      &quot;async&quot;: true,
+      &quot;desc&quot;: &quot;Notification Service consumes release and incident events before messaging product, engineering, and support leads.&quot;
+    }
+  ],
+  &quot;groups&quot;: [
+    {
+      &quot;id&quot;: &quot;control-plane&quot;,
+      &quot;label&quot;: &quot;Control plane&quot;,
+      &quot;node_ids&quot;: [
+        &quot;api-gateway&quot;,
+        &quot;release-service&quot;,
+        &quot;workflow-engine&quot;
+      ],
+      &quot;boundary&quot;: &quot;logical&quot;
+    },
+    {
+      &quot;id&quot;: &quot;delivery-plane&quot;,
+      &quot;label&quot;: &quot;Delivery plane&quot;,
+      &quot;node_ids&quot;: [
+        &quot;event-bus&quot;,
+        &quot;notification-service&quot;
+      ],
+      &quot;boundary&quot;: &quot;logical&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="release-api-contract">
+      <title>Release API contract</title>
+      <p>Define write, read, and incident creation endpoints against the release service.</p>
+      <ul>
+        <li>POST /v1/releases creates a release packet and returns the packet id.</li>
+        <li>GET /v1/releases/{releaseId} returns the latest release packet, approval state, and rollout lane.</li>
+        <li>POST /v1/incidents creates a linked incident record when rollout health degrades.</li>
+      </ul>
+      <codeblock outputclass="api-contract">
+{
+  &quot;provider&quot;: &quot;release-service&quot;,
+  &quot;consumers&quot;: [
+    &quot;web-console&quot;,
+    &quot;workflow-engine&quot;,
+    &quot;support-ops&quot;
+  ],
+  &quot;protocol&quot;: &quot;http&quot;,
+  &quot;base_url&quot;: &quot;https://atlas.example.internal&quot;,
+  &quot;auth&quot;: &quot;oauth2 bearer token&quot;,
+  &quot;version&quot;: &quot;2026-04&quot;,
+  &quot;endpoints&quot;: [
+    {
+      &quot;id&quot;: &quot;create-release&quot;,
+      &quot;method&quot;: &quot;POST&quot;,
+      &quot;path&quot;: &quot;/v1/releases&quot;,
+      &quot;desc&quot;: &quot;POST /v1/releases creates a release packet and returns the packet id.&quot;,
+      &quot;input&quot;: &quot;release-payload-schema&quot;,
+      &quot;output&quot;: {
+        &quot;releaseId&quot;: &quot;rel_2026_0420_checkout&quot;,
+        &quot;status&quot;: &quot;draft&quot;
+      },
+      &quot;errors&quot;: [
+        {
+          &quot;code&quot;: &quot;400&quot;,
+          &quot;meaning&quot;: &quot;Request failed schema validation.&quot;,
+          &quot;recovery&quot;: &quot;Return field-level errors.&quot;
+        },
+        {
+          &quot;code&quot;: &quot;409&quot;,
+          &quot;meaning&quot;: &quot;Release packet key already exists.&quot;,
+          &quot;recovery&quot;: &quot;Use the existing packet or a new key.&quot;
+        }
+      ],
+      &quot;sla&quot;: {
+        &quot;latency_p99&quot;: &quot;250ms&quot;,
+        &quot;throughput&quot;: &quot;50 rps&quot;,
+        &quot;availability&quot;: &quot;99.95%&quot;
+      },
+      &quot;idempotent&quot;: false,
+      &quot;rate_limit&quot;: &quot;30 rpm&quot;
+    },
+    {
+      &quot;id&quot;: &quot;get-release&quot;,
+      &quot;method&quot;: &quot;GET&quot;,
+      &quot;path&quot;: &quot;/v1/releases/{releaseId}&quot;,
+      &quot;desc&quot;: &quot;GET /v1/releases/{releaseId} returns the latest release packet, approval state, and rollout lane.&quot;,
+      &quot;output&quot;: &quot;release-created-example&quot;,
+      &quot;idempotent&quot;: true,
+      &quot;rate_limit&quot;: &quot;120 rpm&quot;
+    },
+    {
+      &quot;id&quot;: &quot;create-incident&quot;,
+      &quot;method&quot;: &quot;POST&quot;,
+      &quot;path&quot;: &quot;/v1/incidents&quot;,
+      &quot;desc&quot;: &quot;POST /v1/incidents creates a linked incident record when rollout health degrades.&quot;,
+      &quot;input&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [
+          &quot;releaseId&quot;,
+          &quot;severity&quot;,
+          &quot;summary&quot;
+        ],
+        &quot;properties&quot;: {
+          &quot;releaseId&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          },
+          &quot;severity&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          },
+          &quot;summary&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          }
+        }
+      },
+      &quot;output&quot;: {
+        &quot;incidentId&quot;: &quot;inc_2026_0420_checkout&quot;,
+        &quot;linked&quot;: true
+      },
+      &quot;idempotent&quot;: false,
+      &quot;rate_limit&quot;: &quot;20 rpm&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="release-payload-schema">
+      <title>Release payload schema</title>
+      <p>Pin the canonical structure for a release packet.</p>
+      <ul>
+        <li>Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan.</li>
+        <li>Release packet schema requires rolloutWindow.start and rolloutWindow.end in RFC3339 format.</li>
+        <li>Release packet schema restricts rollout lanes to canary, staged, or full.</li>
+      </ul>
+      <codeblock outputclass="json-schema">
+{
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;releaseKey&quot;,
+    &quot;owner&quot;,
+    &quot;riskTier&quot;,
+    &quot;rollbackPlan&quot;,
+    &quot;communicationPlan&quot;,
+    &quot;rolloutWindow&quot;,
+    &quot;lanes&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;releaseKey&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;Release packet identifier. Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan.&quot;
+    },
+    &quot;owner&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan.&quot;
+    },
+    &quot;riskTier&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;enum&quot;: [
+        &quot;low&quot;,
+        &quot;medium&quot;,
+        &quot;high&quot;
+      ],
+      &quot;description&quot;: &quot;Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan.&quot;
+    },
+    &quot;rollbackPlan&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan.&quot;
+    },
+    &quot;communicationPlan&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;Release packet schema requires owner, riskTier, rollbackPlan, and communicationPlan.&quot;
+    },
+    &quot;rolloutWindow&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;required&quot;: [
+        &quot;start&quot;,
+        &quot;end&quot;
+      ],
+      &quot;description&quot;: &quot;Release packet schema requires rolloutWindow.start and rolloutWindow.end in RFC3339 format.&quot;,
+      &quot;properties&quot;: {
+        &quot;start&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;format&quot;: &quot;date-time&quot;
+        },
+        &quot;end&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;format&quot;: &quot;date-time&quot;
+        }
+      }
+    },
+    &quot;lanes&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;description&quot;: &quot;Release packet schema restricts rollout lanes to canary, staged, or full.&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;enum&quot;: [
+          &quot;canary&quot;,
+          &quot;staged&quot;,
+          &quot;full&quot;
+        ]
+      }
+    }
+  }
+}
+      </codeblock>
+    </section>
+    <section id="release-created-example">
+      <title>Release packet example</title>
+      <p>Provide a concrete release packet instance for tests and integrations.</p>
+      <ul>
+        <li>Example packet owner is release-manager@atlas.dev.</li>
+        <li>Example packet risk tier is medium and starts with canary before staged rollout.</li>
+        <li>Example packet rollout window starts at 2026-04-20T09:00:00Z and ends at 2026-04-20T10:00:00Z.</li>
+      </ul>
+      <codeblock outputclass="json-example">
+{
+  &quot;releaseKey&quot;: &quot;REL-2026-0420-CHECKOUT&quot;,
+  &quot;owner&quot;: &quot;release-manager@atlas.dev&quot;,
+  &quot;riskTier&quot;: &quot;medium&quot;,
+  &quot;rollbackPlan&quot;: &quot;Flip checkout flag and drain queued publish jobs.&quot;,
+  &quot;communicationPlan&quot;: &quot;Post to launch room and support status channel.&quot;,
+  &quot;rolloutWindow&quot;: {
+    &quot;start&quot;: &quot;2026-04-20T09:00:00Z&quot;,
+    &quot;end&quot;: &quot;2026-04-20T10:00:00Z&quot;
+  },
+  &quot;lanes&quot;: [
+    &quot;canary&quot;,
+    &quot;staged&quot;
+  ],
+  &quot;notes&quot;: [
+    &quot;Example packet owner is release-manager@atlas.dev.&quot;,
+    &quot;Example packet risk tier is medium and starts with canary before staged rollout.&quot;,
+    &quot;Example packet rollout window starts at 2026-04-20T09:00:00Z and ends at 2026-04-20T10:00:00Z.&quot;
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="client-sdk-template">
+      <title>Client SDK template</title>
+      <p>Show the minimum code needed to create a release packet from a client.</p>
+      <ul>
+        <li>Client template sends releaseKey REL-2026-0420-CHECKOUT to POST /v1/releases.</li>
+        <li>Client template includes owner, riskTier, rollbackPlan, communicationPlan, rolloutWindow, and lanes.</li>
+        <li>Client template sends an Authorization bearer token.</li>
+      </ul>
+      <codeblock outputclass="code-template">
+{
+  &quot;lang&quot;: &quot;javascript&quot;,
+  &quot;template&quot;: &quot;const payload = {\n  releaseKey: &apos;REL-2026-0420-CHECKOUT&apos;,\n  owner: &apos;release-manager@atlas.dev&apos;,\n  riskTier: &apos;medium&apos;,\n  rollbackPlan: &apos;Flip checkout flag and drain queued publish jobs.&apos;,\n  communicationPlan: &apos;Post to launch room and support status channel.&apos;,\n  rolloutWindow: { start: &apos;2026-04-20T09:00:00Z&apos;, end: &apos;2026-04-20T10:00:00Z&apos; },\n  lanes: [&apos;canary&apos;, &apos;staged&apos;]\n};\nawait fetch(&apos;https://atlas.example.internal/v1/releases&apos;, {\n  method: &apos;POST&apos;,\n  headers: { Authorization: &apos;Bearer ${TOKEN}&apos;, &apos;Content-Type&apos;: &apos;application/json&apos; },\n  body: JSON.stringify(payload)\n});&quot;,
+  &quot;notes&quot;: [
+    &quot;Client template sends releaseKey REL-2026-0420-CHECKOUT to POST /v1/releases.&quot;,
+    &quot;Client template includes owner, riskTier, rollbackPlan, communicationPlan, rolloutWindow, and lanes.&quot;,
+    &quot;Client template sends an Authorization bearer token.&quot;
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="ops-config-template">
+      <title>Ops config template</title>
+      <p>Pin the environment settings required by the benchmark system.</p>
+      <ul>
+        <li>Config template requires RELEASE_EVENT_TOPIC and NOTIFY_WEBHOOK_URL.</li>
+        <li>Config template requires ROLLOUT_WINDOW_TIMEZONE set to UTC.</li>
+        <li>Config template requires PAIR_SYNC_MODE set to agent-primary.</li>
+      </ul>
+      <codeblock outputclass="config-template">
+{
+  &quot;RELEASE_EVENT_TOPIC&quot;: &quot;atlas.release.events&quot;,
+  &quot;NOTIFY_WEBHOOK_URL&quot;: &quot;https://notify.example.internal/hooks/releases&quot;,
+  &quot;ROLLOUT_WINDOW_TIMEZONE&quot;: &quot;UTC&quot;,
+  &quot;PAIR_SYNC_MODE&quot;: &quot;agent-primary&quot;,
+  &quot;notes&quot;: [
+    &quot;Config template requires RELEASE_EVENT_TOPIC and NOTIFY_WEBHOOK_URL.&quot;,
+    &quot;Config template requires ROLLOUT_WINDOW_TIMEZONE set to UTC.&quot;,
+    &quot;Config template requires PAIR_SYNC_MODE set to agent-primary.&quot;
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="release-key-regex">
+      <title>Release key regex</title>
+      <p>Keep release identifiers stable across docs, APIs, and runbooks.</p>
+      <ul>
+        <li>Release keys match REL-YYYY-MMDD-SLUG in uppercase.</li>
+        <li>Release key sample REL-2026-0420-CHECKOUT must validate cleanly.</li>
+        <li>Release key regex prevents ambiguous packet identifiers in docs and APIs.</li>
+      </ul>
+      <codeblock outputclass="regex">
+{
+  &quot;pattern&quot;: &quot;^REL-[0-9]{4}-[0-9]{4}-[A-Z0-9-]+$&quot;,
+  &quot;flags&quot;: &quot;&quot;,
+  &quot;sample&quot;: &quot;REL-2026-0420-CHECKOUT&quot;
+}
+      </codeblock>
+    </section>
+    <section id="role-enum">
+      <title>Role enum</title>
+      <p>Expose the minimum stable actor set used across approvals and notifications.</p>
+      <ul>
+        <li>release-manager owns packet quality and approval completeness.</li>
+        <li>engineering-lead owns rollout safety and rollback execution.</li>
+        <li>support-lead owns customer-impact communication during release and incident flow.</li>
+      </ul>
+      <codeblock outputclass="enum-def">
+[
+  {
+    &quot;id&quot;: &quot;release-manager&quot;,
+    &quot;desc&quot;: &quot;release-manager owns packet quality and approval completeness.&quot;
+  },
+  {
+    &quot;id&quot;: &quot;engineering-lead&quot;,
+    &quot;desc&quot;: &quot;engineering-lead owns rollout safety and rollback execution.&quot;
+  },
+  {
+    &quot;id&quot;: &quot;support-lead&quot;,
+    &quot;desc&quot;: &quot;support-lead owns customer-impact communication during release and incident flow.&quot;
+  }
+]
+      </codeblock>
+    </section>
+  </body>
+</topic>

@@ -19,8 +19,9 @@
     "upgrade": "node ./bin/aods.mjs upgrade .",
     "benchmark:generate": "npm --prefix ./benchmarks/aods-eval-lab run generate",
     "benchmark:evaluate": "npm --prefix ./benchmarks/aods-eval-lab run evaluate",
+    "benchmark:compare": "npm --prefix ./benchmarks/aods-eval-lab run compare",
     "benchmark:test": "npm --prefix ./benchmarks/aods-eval-lab run test",
-    "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:test",
+    "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:compare && npm run benchmark:test",
     "validate:repo": "npm run validate:all && npm run benchmark:all"
   },
   "dependencies": {

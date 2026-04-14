@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="product-lifecycle">
+  <title>product-lifecycle</title>
+  <shortdesc>Goals, non-goals, discovery findings, milestones, authoring prompts, and design rationale.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>product</keyword>
+        <keyword>goals</keyword>
+        <keyword>roadmap</keyword>
+        <keyword>adr</keyword>
+        <keyword>prompt</keyword>
+        <keyword>mapping-table</keyword>
+        <keyword>prompt-template</keyword>
+        <keyword>vision</keyword>
+        <keyword>discovery</keyword>
+        <keyword>planning</keyword>
+        <keyword>test</keyword>
+        <keyword>design</keyword>
+        <keyword>build</keyword>
+      </keywords>
+      <othermeta name="module-id" content="product-lifecycle"/>
+      <othermeta name="layer" content="detail"/>
+      <othermeta name="category" content="policy"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="vision-brief">
+      <title>Vision brief</title>
+      <p>State business outcome, release packet requirements, and explicit non-goals.</p>
+      <ul>
+        <li>Atlas Release Ops reduces release readiness coordination from two days to under thirty minutes.</li>
+        <li>Every approved release must include an owner, a risk tier, a rollback plan, and a communication plan.</li>
+        <li>Atlas Release Ops does not replace CI/CD executors or incident paging vendors.</li>
+      </ul>
+    </section>
+    <section id="competitor-matrix">
+      <title>Competitor matrix</title>
+      <p>Capture why existing alternatives fail under release-day pressure.</p>
+      <ul>
+        <li>Spreadsheets fail because approval state and rollback ownership drift during release day.</li>
+        <li>ChatOps bots fail because they do not produce durable release packets with explicit authority.</li>
+        <li>Traditional ALM suites are too heavyweight for release-day coordination across product, engineering, and support.</li>
+      </ul>
+      <codeblock outputclass="mapping-table">
+{
+  &quot;key_columns&quot;: [
+    &quot;alternative&quot;
+  ],
+  &quot;columns&quot;: [
+    &quot;alternative&quot;,
+    &quot;strength&quot;,
+    &quot;gap&quot;
+  ],
+  &quot;rows&quot;: [
+    [
+      &quot;spreadsheets&quot;,
+      &quot;Fast to adopt for ad hoc tracking.&quot;,
+      &quot;Spreadsheets fail because approval state and rollback ownership drift during release day.&quot;
+    ],
+    [
+      &quot;chatops bots&quot;,
+      &quot;Fast commands for narrow release checks.&quot;,
+      &quot;ChatOps bots fail because they do not produce durable release packets with explicit authority.&quot;
+    ],
+    [
+      &quot;traditional alm suites&quot;,
+      &quot;Strong audit history for long projects.&quot;,
+      &quot;Traditional ALM suites are too heavyweight for release-day coordination across product, engineering, and support.&quot;
+    ]
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="delivery-plan">
+      <title>Delivery plan</title>
+      <p>Set milestones that tie design readiness, controlled rollout, and operating readiness together.</p>
+      <ul>
+        <li>Alpha exit requires the release packet API, release state machine, and paired README governance to validate cleanly.</li>
+        <li>Beta exit requires staged rollout policy, event catalog coverage, and rollback drills to complete without manual coordinator notes.</li>
+        <li>General availability requires the sev1 escalation path, p99 publish latency budget, and change-history audit trail to be active.</li>
+      </ul>
+    </section>
+    <section id="verification-plan">
+      <title>Verification plan</title>
+      <p>Define what must be proven before rollout automation is trusted.</p>
+      <ul>
+        <li>Each paired human surface must fail a human-only change under agent-primary sync.</li>
+        <li>Each rollout risk tier must hit a deterministic branch in the rollout policy tree.</li>
+        <li>Each rollback strategy class must be replayed in simulation before general availability.</li>
+      </ul>
+    </section>
+    <section id="decision-log">
+      <title>Decision log</title>
+      <p>Persist design rationale in explicit statements instead of implicit habits.</p>
+      <ul>
+        <li>Agent-primary modules remain authoritative even when paired human docs are easier for operators to scan.</li>
+        <li>Release risk scoring lives in the rollout decision tree instead of freeform checklist prose.</li>
+        <li>Raw SQL and low-level migration evidence stay in the evidence layer and do not lead cold-start boot.</li>
+      </ul>
+    </section>
+    <section id="release-summary-prompt">
+      <title>Release summary prompt</title>
+      <p>Prompt template for generating rollout summaries without changing authority rules.</p>
+      <ul>
+        <li>Prompt template grounds summaries in owner, risk tier, rollout lanes, and rollback plan.</li>
+        <li>Prompt template forbids inventing approval state that is absent from the release packet.</li>
+        <li>Prompt template produces one summary for product, engineering, and support audiences.</li>
+      </ul>
+      <codeblock outputclass="prompt-template">
+{
+  &quot;system&quot;: &quot;Summarize release packets without inventing state.&quot;,
+  &quot;template&quot;: &quot;Summarize the release packet for product, engineering, and support. Include owner, risk tier, rollout lanes, and rollback plan. Do not invent approval state that is absent from the packet.&quot;,
+  &quot;variables&quot;: [
+    &quot;owner&quot;,
+    &quot;riskTier&quot;,
+    &quot;lanes&quot;,
+    &quot;rollbackPlan&quot;
+  ],
+  &quot;notes&quot;: [
+    &quot;Prompt template grounds summaries in owner, risk tier, rollout lanes, and rollback plan.&quot;,
+    &quot;Prompt template forbids inventing approval state that is absent from the release packet.&quot;,
+    &quot;Prompt template produces one summary for product, engineering, and support audiences.&quot;
+  ]
+}
+      </codeblock>
+    </section>
+  </body>
+</topic>

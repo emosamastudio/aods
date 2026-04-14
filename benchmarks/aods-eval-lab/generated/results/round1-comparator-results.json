@@ -1,0 +1,1128 @@
+{
+  "generated_at": "2026-04-14T18:23:01.354Z",
+  "benchmark_project": "benchmarks/aods-eval-lab",
+  "scope": "Round-one archetype comparison against Markdown+YAML, llms.txt, and DITA baselines.",
+  "comparator_type": "format-archetype",
+  "benchmark_corpus": {
+    "system_id": "atlas-release-ops",
+    "system_name": "Atlas Release Ops",
+    "total_modules": 7,
+    "total_human_surfaces": 5,
+    "total_items": 27,
+    "total_typed_artifacts": 21,
+    "total_prose_sections": 6,
+    "shared_loading_queries": 6,
+    "drift_scenarios": 7
+  },
+  "aods_self_evaluation": {
+    "validation": {
+      "total_modules": 7,
+      "total_sections": 10,
+      "total_artifacts": 21,
+      "total_tokens": 10894,
+      "total_surface_pairs": 5,
+      "errors": 0,
+      "warnings": 0
+    },
+    "coverage": {
+      "total_items": 27,
+      "lifecycle_phase_coverage": 1,
+      "structured_type_coverage": 1,
+      "generic_type_coverage": 1,
+      "raw_fallback_rate": 0.047619047619047616,
+      "unsupported_items": 0,
+      "paired_surface_count": 5
+    },
+    "fidelity": {
+      "fact_preservation_rate": 1,
+      "critical_fact_preservation_rate": 1,
+      "human_doc_tokens_estimated": 9016,
+      "aods_tokens_estimated": 13662,
+      "token_reduction_vs_human": -0.5153061224489797,
+      "median_artifact_compression_ratio": 1.233644859813084
+    },
+    "loading": {
+      "hit_rate": 1,
+      "average_precision": 0.7194444444444444,
+      "average_recall": 1,
+      "median_token_savings_vs_full_load": 0.5260576782315913,
+      "median_overfetch_ratio": 1.1424365942028984
+    },
+    "drift": {
+      "built_in_recall": 0.5,
+      "semantic_recall": 0.6666666666666666,
+      "combined_recall": 0.8333333333333334,
+      "built_in_false_positive_rate": 0,
+      "semantic_false_positive_rate": 0
+    },
+    "overhead": {
+      "module_count": 7,
+      "surface_pair_count": 5,
+      "touch_route_count": 13,
+      "role_count": 4,
+      "bookkeeping_entries": 29,
+      "bookkeeping_entries_per_artifact": 1.0740740740740742
+    }
+  },
+  "fairness_contract": {
+    "canonical_dataset": "shared",
+    "shared_queries": 6,
+    "common_metrics": [
+      "lifecycle coverage",
+      "logical slice coverage",
+      "fact preservation",
+      "corpus token count",
+      "tokens per benchmark item",
+      "loading hit rate",
+      "loading precision",
+      "loading token savings"
+    ],
+    "aods_only_metrics": [
+      "native drift recall",
+      "paired-surface governance",
+      "explicit authority model"
+    ]
+  },
+  "baselines": [
+    {
+      "id": "aods",
+      "label": "AODS",
+      "archetype": "Agent-first structured corpus",
+      "common": {
+        "lifecycle_phase_coverage": 1,
+        "logical_slice_coverage": 1,
+        "fact_preservation_rate": 1,
+        "critical_fact_preservation_rate": 1,
+        "corpus_tokens_estimated": 13662,
+        "tokens_per_benchmark_item": 506,
+        "token_reduction_vs_human": -0.5153061224489797,
+        "loadable_unit_count": 7,
+        "loading": {
+          "hit_rate": 1,
+          "average_precision": 0.7194444444444444,
+          "average_recall": 1,
+          "median_token_savings_vs_full_load": 0.5260576782315913,
+          "median_overfetch_ratio": 1.1424365942028984
+        }
+      },
+      "governance": {
+        "native_validation": "schema + route + hook",
+        "paired_surface_support": true,
+        "explicit_authority_model": true,
+        "native_drift_recall": 0.5
+      },
+      "scenario_results": [
+        {
+          "id": "orientation-summary",
+          "description": "Cold-start reader asks for benchmark orientation.",
+          "mode": "semantic-load",
+          "loaded_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "product-lifecycle"
+          ],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule"
+          ],
+          "precision": 0.6666666666666666,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 4655,
+          "oracle_tokens_estimated": 3426,
+          "token_savings_vs_full_load": 0.6592738984043331,
+          "overfetch_ratio": 1.3587273788674838
+        },
+        {
+          "id": "product-doc-edit",
+          "description": "Doc author edits the product lifecycle human surface.",
+          "mode": "touch-route",
+          "loaded_modules": [
+            "atlas-capsule",
+            "product-lifecycle"
+          ],
+          "required_modules": [
+            "product-lifecycle",
+            "atlas-capsule"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 4418,
+          "oracle_tokens_estimated": 4418,
+          "token_savings_vs_full_load": 0.6766212853169375,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "architecture-module-edit",
+          "description": "Architect edits the architecture contract module.",
+          "mode": "touch-route",
+          "loaded_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "architecture-contracts"
+          ],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "architecture-contracts"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 7282,
+          "oracle_tokens_estimated": 7282,
+          "token_savings_vs_full_load": 0.46698872785829304,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "workflow-debug",
+          "description": "Architect debugs rollout policy and rollback behavior.",
+          "mode": "semantic-load",
+          "loaded_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "architecture-contracts",
+            "delivery-workflows",
+            "operations-governance"
+          ],
+          "required_modules": [
+            "delivery-workflows",
+            "operations-governance"
+          ],
+          "precision": 0.4,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 12064,
+          "oracle_tokens_estimated": 7550,
+          "token_savings_vs_full_load": 0.11696676914068216,
+          "overfetch_ratio": 1.5978807947019869
+        },
+        {
+          "id": "ops-doc-edit",
+          "description": "Operator edits the operations and governance human surface.",
+          "mode": "touch-route",
+          "loaded_modules": [
+            "atlas-capsule",
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "required_modules": [
+            "atlas-capsule",
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 5668,
+          "oracle_tokens_estimated": 5668,
+          "token_savings_vs_full_load": 0.5851266286048895,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "release-contract-read",
+          "description": "Product manager asks about release packet schema and example payloads.",
+          "mode": "semantic-load",
+          "loaded_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "product-lifecycle",
+            "architecture-contracts"
+          ],
+          "required_modules": [
+            "architecture-contracts"
+          ],
+          "precision": 0.25,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 8511,
+          "oracle_tokens_estimated": 6624,
+          "token_savings_vs_full_load": 0.3770311813790075,
+          "overfetch_ratio": 1.2848731884057971
+        }
+      ]
+    },
+    {
+      "id": "markdown-yaml",
+      "label": "Markdown + YAML",
+      "archetype": "TechDocs-style docs-as-code baseline",
+      "common": {
+        "lifecycle_phase_coverage": 1,
+        "logical_slice_coverage": 1,
+        "fact_preservation_rate": 1,
+        "critical_fact_preservation_rate": 1,
+        "corpus_tokens_estimated": 9442,
+        "tokens_per_benchmark_item": 349.7037037037037,
+        "token_reduction_vs_human": -0.04724933451641533,
+        "loadable_unit_count": 5,
+        "loading": {
+          "hit_rate": 0.5,
+          "average_precision": 0.9444444444444443,
+          "average_recall": 0.75,
+          "median_token_savings_vs_full_load": 0.7139377250582504,
+          "median_overfetch_ratio": 0.9377260981912146,
+          "scenario_results": [
+            {
+              "id": "orientation-summary",
+              "description": "Cold-start reader asks for benchmark orientation.",
+              "loaded_units": [
+                "README.md"
+              ],
+              "loaded_modules": [
+                "atlas-root",
+                "atlas-capsule"
+              ],
+              "required_modules": [
+                "atlas-root",
+                "atlas-capsule"
+              ],
+              "precision": 1,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 482,
+              "oracle_tokens_estimated": 482,
+              "token_savings_vs_full_load": 0.9489514933276848,
+              "overfetch_ratio": 1
+            },
+            {
+              "id": "product-doc-edit",
+              "description": "Doc author edits the product lifecycle human surface.",
+              "loaded_units": [
+                "docs/01-product-lifecycle.md"
+              ],
+              "loaded_modules": [
+                "product-lifecycle"
+              ],
+              "required_modules": [
+                "product-lifecycle",
+                "atlas-capsule"
+              ],
+              "precision": 1,
+              "recall": 0.5,
+              "exact_hit": false,
+              "route_tokens_estimated": 1309,
+              "oracle_tokens_estimated": 1791,
+              "token_savings_vs_full_load": 0.8613641177716586,
+              "overfetch_ratio": 0.7308766052484645
+            },
+            {
+              "id": "architecture-module-edit",
+              "description": "Architect edits the architecture contract module.",
+              "loaded_units": [
+                "docs/02-architecture-and-contracts.md"
+              ],
+              "loaded_modules": [
+                "architecture-contracts"
+              ],
+              "required_modules": [
+                "atlas-root",
+                "atlas-capsule",
+                "architecture-contracts"
+              ],
+              "precision": 1,
+              "recall": 0.3333333333333333,
+              "exact_hit": false,
+              "route_tokens_estimated": 3388,
+              "oracle_tokens_estimated": 3870,
+              "token_savings_vs_full_load": 0.6411777165854692,
+              "overfetch_ratio": 0.875452196382429
+            },
+            {
+              "id": "workflow-debug",
+              "description": "Architect debugs rollout policy and rollback behavior.",
+              "loaded_units": [
+                "docs/03-delivery-workflows.md",
+                "docs/04-operations-and-governance.md"
+              ],
+              "loaded_modules": [
+                "delivery-workflows",
+                "operations-governance",
+                "evidence-reference"
+              ],
+              "required_modules": [
+                "delivery-workflows",
+                "operations-governance"
+              ],
+              "precision": 0.6666666666666666,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 4263,
+              "oracle_tokens_estimated": 4263,
+              "token_savings_vs_full_load": 0.5485066723151875,
+              "overfetch_ratio": 1
+            },
+            {
+              "id": "ops-doc-edit",
+              "description": "Operator edits the operations and governance human surface.",
+              "loaded_units": [
+                "docs/04-operations-and-governance.md"
+              ],
+              "loaded_modules": [
+                "operations-governance",
+                "evidence-reference"
+              ],
+              "required_modules": [
+                "atlas-capsule",
+                "operations-governance",
+                "evidence-reference"
+              ],
+              "precision": 1,
+              "recall": 0.6666666666666666,
+              "exact_hit": false,
+              "route_tokens_estimated": 2014,
+              "oracle_tokens_estimated": 2496,
+              "token_savings_vs_full_load": 0.7866977335310316,
+              "overfetch_ratio": 0.8068910256410257
+            },
+            {
+              "id": "release-contract-read",
+              "description": "Product manager asks about release packet schema and example payloads.",
+              "loaded_units": [
+                "docs/02-architecture-and-contracts.md"
+              ],
+              "loaded_modules": [
+                "architecture-contracts"
+              ],
+              "required_modules": [
+                "architecture-contracts"
+              ],
+              "precision": 1,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 3388,
+              "oracle_tokens_estimated": 3388,
+              "token_savings_vs_full_load": 0.6411777165854692,
+              "overfetch_ratio": 1
+            }
+          ]
+        }
+      },
+      "governance": {
+        "native_validation": "convention-only",
+        "paired_surface_support": false,
+        "explicit_authority_model": false,
+        "native_drift_recall": 0
+      },
+      "scenario_results": [
+        {
+          "id": "orientation-summary",
+          "description": "Cold-start reader asks for benchmark orientation.",
+          "loaded_units": [
+            "README.md"
+          ],
+          "loaded_modules": [
+            "atlas-root",
+            "atlas-capsule"
+          ],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 482,
+          "oracle_tokens_estimated": 482,
+          "token_savings_vs_full_load": 0.9489514933276848,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "product-doc-edit",
+          "description": "Doc author edits the product lifecycle human surface.",
+          "loaded_units": [
+            "docs/01-product-lifecycle.md"
+          ],
+          "loaded_modules": [
+            "product-lifecycle"
+          ],
+          "required_modules": [
+            "product-lifecycle",
+            "atlas-capsule"
+          ],
+          "precision": 1,
+          "recall": 0.5,
+          "exact_hit": false,
+          "route_tokens_estimated": 1309,
+          "oracle_tokens_estimated": 1791,
+          "token_savings_vs_full_load": 0.8613641177716586,
+          "overfetch_ratio": 0.7308766052484645
+        },
+        {
+          "id": "architecture-module-edit",
+          "description": "Architect edits the architecture contract module.",
+          "loaded_units": [
+            "docs/02-architecture-and-contracts.md"
+          ],
+          "loaded_modules": [
+            "architecture-contracts"
+          ],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "architecture-contracts"
+          ],
+          "precision": 1,
+          "recall": 0.3333333333333333,
+          "exact_hit": false,
+          "route_tokens_estimated": 3388,
+          "oracle_tokens_estimated": 3870,
+          "token_savings_vs_full_load": 0.6411777165854692,
+          "overfetch_ratio": 0.875452196382429
+        },
+        {
+          "id": "workflow-debug",
+          "description": "Architect debugs rollout policy and rollback behavior.",
+          "loaded_units": [
+            "docs/03-delivery-workflows.md",
+            "docs/04-operations-and-governance.md"
+          ],
+          "loaded_modules": [
+            "delivery-workflows",
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "required_modules": [
+            "delivery-workflows",
+            "operations-governance"
+          ],
+          "precision": 0.6666666666666666,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 4263,
+          "oracle_tokens_estimated": 4263,
+          "token_savings_vs_full_load": 0.5485066723151875,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "ops-doc-edit",
+          "description": "Operator edits the operations and governance human surface.",
+          "loaded_units": [
+            "docs/04-operations-and-governance.md"
+          ],
+          "loaded_modules": [
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "required_modules": [
+            "atlas-capsule",
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "precision": 1,
+          "recall": 0.6666666666666666,
+          "exact_hit": false,
+          "route_tokens_estimated": 2014,
+          "oracle_tokens_estimated": 2496,
+          "token_savings_vs_full_load": 0.7866977335310316,
+          "overfetch_ratio": 0.8068910256410257
+        },
+        {
+          "id": "release-contract-read",
+          "description": "Product manager asks about release packet schema and example payloads.",
+          "loaded_units": [
+            "docs/02-architecture-and-contracts.md"
+          ],
+          "loaded_modules": [
+            "architecture-contracts"
+          ],
+          "required_modules": [
+            "architecture-contracts"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 3388,
+          "oracle_tokens_estimated": 3388,
+          "token_savings_vs_full_load": 0.6411777165854692,
+          "overfetch_ratio": 1
+        }
+      ]
+    },
+    {
+      "id": "llms-txt",
+      "label": "llms.txt",
+      "archetype": "Lightweight AI-facing baseline",
+      "common": {
+        "lifecycle_phase_coverage": 1,
+        "logical_slice_coverage": 1,
+        "fact_preservation_rate": 1,
+        "critical_fact_preservation_rate": 1,
+        "corpus_tokens_estimated": 9291,
+        "tokens_per_benchmark_item": 344.1111111111111,
+        "token_reduction_vs_human": -0.03050133096716956,
+        "loadable_unit_count": 5,
+        "loading": {
+          "hit_rate": 0.5,
+          "average_precision": 0.9444444444444443,
+          "average_recall": 0.75,
+          "median_token_savings_vs_full_load": 0.6912603594876763,
+          "median_overfetch_ratio": 0.9477386934673366,
+          "scenario_results": [
+            {
+              "id": "orientation-summary",
+              "description": "Cold-start reader asks for benchmark orientation.",
+              "loaded_units": [
+                "README.md"
+              ],
+              "loaded_modules": [
+                "atlas-root",
+                "atlas-capsule"
+              ],
+              "required_modules": [
+                "atlas-root",
+                "atlas-capsule"
+              ],
+              "precision": 1,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 682,
+              "oracle_tokens_estimated": 682,
+              "token_savings_vs_full_load": 0.9265956301797438,
+              "overfetch_ratio": 1
+            },
+            {
+              "id": "product-doc-edit",
+              "description": "Doc author edits the product lifecycle human surface.",
+              "loaded_units": [
+                "docs/01-product-lifecycle.md"
+              ],
+              "loaded_modules": [
+                "product-lifecycle"
+              ],
+              "required_modules": [
+                "product-lifecycle",
+                "atlas-capsule"
+              ],
+              "precision": 1,
+              "recall": 0.5,
+              "exact_hit": false,
+              "route_tokens_estimated": 1501,
+              "oracle_tokens_estimated": 1917,
+              "token_savings_vs_full_load": 0.8384458077709611,
+              "overfetch_ratio": 0.7829942618675013
+            },
+            {
+              "id": "architecture-module-edit",
+              "description": "Architect edits the architecture contract module.",
+              "loaded_units": [
+                "docs/02-architecture-and-contracts.md"
+              ],
+              "loaded_modules": [
+                "architecture-contracts"
+              ],
+              "required_modules": [
+                "atlas-root",
+                "atlas-capsule",
+                "architecture-contracts"
+              ],
+              "precision": 1,
+              "recall": 0.3333333333333333,
+              "exact_hit": false,
+              "route_tokens_estimated": 3564,
+              "oracle_tokens_estimated": 3980,
+              "token_savings_vs_full_load": 0.6164029706167259,
+              "overfetch_ratio": 0.8954773869346734
+            },
+            {
+              "id": "workflow-debug",
+              "description": "Architect debugs rollout policy and rollback behavior.",
+              "loaded_units": [
+                "docs/04-operations-and-governance.md",
+                "docs/03-delivery-workflows.md"
+              ],
+              "loaded_modules": [
+                "operations-governance",
+                "evidence-reference",
+                "delivery-workflows"
+              ],
+              "required_modules": [
+                "delivery-workflows",
+                "operations-governance"
+              ],
+              "precision": 0.6666666666666666,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 4342,
+              "oracle_tokens_estimated": 4342,
+              "token_savings_vs_full_load": 0.5326660208804219,
+              "overfetch_ratio": 1
+            },
+            {
+              "id": "ops-doc-edit",
+              "description": "Operator edits the operations and governance human surface.",
+              "loaded_units": [
+                "docs/04-operations-and-governance.md"
+              ],
+              "loaded_modules": [
+                "operations-governance",
+                "evidence-reference"
+              ],
+              "required_modules": [
+                "atlas-capsule",
+                "operations-governance",
+                "evidence-reference"
+              ],
+              "precision": 1,
+              "recall": 0.6666666666666666,
+              "exact_hit": false,
+              "route_tokens_estimated": 2173,
+              "oracle_tokens_estimated": 2589,
+              "token_savings_vs_full_load": 0.7661177483586266,
+              "overfetch_ratio": 0.8393202008497489
+            },
+            {
+              "id": "release-contract-read",
+              "description": "Product manager asks about release packet schema and example payloads.",
+              "loaded_units": [
+                "docs/02-architecture-and-contracts.md"
+              ],
+              "loaded_modules": [
+                "architecture-contracts"
+              ],
+              "required_modules": [
+                "architecture-contracts"
+              ],
+              "precision": 1,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 3564,
+              "oracle_tokens_estimated": 3564,
+              "token_savings_vs_full_load": 0.6164029706167259,
+              "overfetch_ratio": 1
+            }
+          ]
+        }
+      },
+      "governance": {
+        "native_validation": "none",
+        "paired_surface_support": false,
+        "explicit_authority_model": false,
+        "native_drift_recall": 0
+      },
+      "scenario_results": [
+        {
+          "id": "orientation-summary",
+          "description": "Cold-start reader asks for benchmark orientation.",
+          "loaded_units": [
+            "README.md"
+          ],
+          "loaded_modules": [
+            "atlas-root",
+            "atlas-capsule"
+          ],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 682,
+          "oracle_tokens_estimated": 682,
+          "token_savings_vs_full_load": 0.9265956301797438,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "product-doc-edit",
+          "description": "Doc author edits the product lifecycle human surface.",
+          "loaded_units": [
+            "docs/01-product-lifecycle.md"
+          ],
+          "loaded_modules": [
+            "product-lifecycle"
+          ],
+          "required_modules": [
+            "product-lifecycle",
+            "atlas-capsule"
+          ],
+          "precision": 1,
+          "recall": 0.5,
+          "exact_hit": false,
+          "route_tokens_estimated": 1501,
+          "oracle_tokens_estimated": 1917,
+          "token_savings_vs_full_load": 0.8384458077709611,
+          "overfetch_ratio": 0.7829942618675013
+        },
+        {
+          "id": "architecture-module-edit",
+          "description": "Architect edits the architecture contract module.",
+          "loaded_units": [
+            "docs/02-architecture-and-contracts.md"
+          ],
+          "loaded_modules": [
+            "architecture-contracts"
+          ],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "architecture-contracts"
+          ],
+          "precision": 1,
+          "recall": 0.3333333333333333,
+          "exact_hit": false,
+          "route_tokens_estimated": 3564,
+          "oracle_tokens_estimated": 3980,
+          "token_savings_vs_full_load": 0.6164029706167259,
+          "overfetch_ratio": 0.8954773869346734
+        },
+        {
+          "id": "workflow-debug",
+          "description": "Architect debugs rollout policy and rollback behavior.",
+          "loaded_units": [
+            "docs/04-operations-and-governance.md",
+            "docs/03-delivery-workflows.md"
+          ],
+          "loaded_modules": [
+            "operations-governance",
+            "evidence-reference",
+            "delivery-workflows"
+          ],
+          "required_modules": [
+            "delivery-workflows",
+            "operations-governance"
+          ],
+          "precision": 0.6666666666666666,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 4342,
+          "oracle_tokens_estimated": 4342,
+          "token_savings_vs_full_load": 0.5326660208804219,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "ops-doc-edit",
+          "description": "Operator edits the operations and governance human surface.",
+          "loaded_units": [
+            "docs/04-operations-and-governance.md"
+          ],
+          "loaded_modules": [
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "required_modules": [
+            "atlas-capsule",
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "precision": 1,
+          "recall": 0.6666666666666666,
+          "exact_hit": false,
+          "route_tokens_estimated": 2173,
+          "oracle_tokens_estimated": 2589,
+          "token_savings_vs_full_load": 0.7661177483586266,
+          "overfetch_ratio": 0.8393202008497489
+        },
+        {
+          "id": "release-contract-read",
+          "description": "Product manager asks about release packet schema and example payloads.",
+          "loaded_units": [
+            "docs/02-architecture-and-contracts.md"
+          ],
+          "loaded_modules": [
+            "architecture-contracts"
+          ],
+          "required_modules": [
+            "architecture-contracts"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 3564,
+          "oracle_tokens_estimated": 3564,
+          "token_savings_vs_full_load": 0.6164029706167259,
+          "overfetch_ratio": 1
+        }
+      ]
+    },
+    {
+      "id": "dita",
+      "label": "DITA topic corpus",
+      "archetype": "Structured modular documentation baseline",
+      "common": {
+        "lifecycle_phase_coverage": 1,
+        "logical_slice_coverage": 1,
+        "fact_preservation_rate": 1,
+        "critical_fact_preservation_rate": 1,
+        "corpus_tokens_estimated": 12973,
+        "tokens_per_benchmark_item": 480.48148148148147,
+        "token_reduction_vs_human": -0.43888642413487133,
+        "loadable_unit_count": 7,
+        "loading": {
+          "hit_rate": 0.5,
+          "average_precision": 0.5,
+          "average_recall": 0.5,
+          "median_token_savings_vs_full_load": 0.9611886225237031,
+          "median_overfetch_ratio": 0.544023610427939,
+          "scenario_results": [
+            {
+              "id": "orientation-summary",
+              "description": "Cold-start reader asks for benchmark orientation.",
+              "loaded_units": [
+                "atlas-capsule",
+                "atlas-root"
+              ],
+              "loaded_modules": [
+                "atlas-capsule",
+                "atlas-root"
+              ],
+              "required_modules": [
+                "atlas-root",
+                "atlas-capsule"
+              ],
+              "precision": 1,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 828,
+              "oracle_tokens_estimated": 828,
+              "token_savings_vs_full_load": 0.936175132968473,
+              "overfetch_ratio": 1
+            },
+            {
+              "id": "product-doc-edit",
+              "description": "Doc author edits the product lifecycle human surface.",
+              "loaded_units": [
+                "topics/product-lifecycle.dita"
+              ],
+              "loaded_modules": [],
+              "required_modules": [
+                "product-lifecycle",
+                "atlas-capsule"
+              ],
+              "precision": 0,
+              "recall": 0,
+              "exact_hit": false,
+              "route_tokens_estimated": 179,
+              "oracle_tokens_estimated": 2033,
+              "token_savings_vs_full_load": 0.9862021120789332,
+              "overfetch_ratio": 0.08804722085587802
+            },
+            {
+              "id": "architecture-module-edit",
+              "description": "Architect edits the architecture contract module.",
+              "loaded_units": [
+                "topics/architecture-contracts.dita"
+              ],
+              "loaded_modules": [],
+              "required_modules": [
+                "atlas-root",
+                "atlas-capsule",
+                "architecture-contracts"
+              ],
+              "precision": 0,
+              "recall": 0,
+              "exact_hit": false,
+              "route_tokens_estimated": 179,
+              "oracle_tokens_estimated": 5435,
+              "token_savings_vs_full_load": 0.9862021120789332,
+              "overfetch_ratio": 0.03293468261269549
+            },
+            {
+              "id": "workflow-debug",
+              "description": "Architect debugs rollout policy and rollback behavior.",
+              "loaded_units": [
+                "operations-governance",
+                "delivery-workflows"
+              ],
+              "loaded_modules": [
+                "operations-governance",
+                "delivery-workflows"
+              ],
+              "required_modules": [
+                "delivery-workflows",
+                "operations-governance"
+              ],
+              "precision": 1,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 5813,
+              "oracle_tokens_estimated": 5813,
+              "token_savings_vs_full_load": 0.5519155168426733,
+              "overfetch_ratio": 1
+            },
+            {
+              "id": "ops-doc-edit",
+              "description": "Operator edits the operations and governance human surface.",
+              "loaded_units": [
+                "topics/operations-governance.dita",
+                "topics/evidence-reference.dita"
+              ],
+              "loaded_modules": [],
+              "required_modules": [
+                "atlas-capsule",
+                "operations-governance",
+                "evidence-reference"
+              ],
+              "precision": 0,
+              "recall": 0,
+              "exact_hit": false,
+              "route_tokens_estimated": 179,
+              "oracle_tokens_estimated": 3379,
+              "token_savings_vs_full_load": 0.9862021120789332,
+              "overfetch_ratio": 0.0529742527374963
+            },
+            {
+              "id": "release-contract-read",
+              "description": "Product manager asks about release packet schema and example payloads.",
+              "loaded_units": [
+                "architecture-contracts"
+              ],
+              "loaded_modules": [
+                "architecture-contracts"
+              ],
+              "required_modules": [
+                "architecture-contracts"
+              ],
+              "precision": 1,
+              "recall": 1,
+              "exact_hit": true,
+              "route_tokens_estimated": 4786,
+              "oracle_tokens_estimated": 4786,
+              "token_savings_vs_full_load": 0.6310799352501348,
+              "overfetch_ratio": 1
+            }
+          ]
+        }
+      },
+      "governance": {
+        "native_validation": "xml-structure-only",
+        "paired_surface_support": false,
+        "explicit_authority_model": false,
+        "native_drift_recall": 0
+      },
+      "scenario_results": [
+        {
+          "id": "orientation-summary",
+          "description": "Cold-start reader asks for benchmark orientation.",
+          "loaded_units": [
+            "atlas-capsule",
+            "atlas-root"
+          ],
+          "loaded_modules": [
+            "atlas-capsule",
+            "atlas-root"
+          ],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 828,
+          "oracle_tokens_estimated": 828,
+          "token_savings_vs_full_load": 0.936175132968473,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "product-doc-edit",
+          "description": "Doc author edits the product lifecycle human surface.",
+          "loaded_units": [
+            "topics/product-lifecycle.dita"
+          ],
+          "loaded_modules": [],
+          "required_modules": [
+            "product-lifecycle",
+            "atlas-capsule"
+          ],
+          "precision": 0,
+          "recall": 0,
+          "exact_hit": false,
+          "route_tokens_estimated": 179,
+          "oracle_tokens_estimated": 2033,
+          "token_savings_vs_full_load": 0.9862021120789332,
+          "overfetch_ratio": 0.08804722085587802
+        },
+        {
+          "id": "architecture-module-edit",
+          "description": "Architect edits the architecture contract module.",
+          "loaded_units": [
+            "topics/architecture-contracts.dita"
+          ],
+          "loaded_modules": [],
+          "required_modules": [
+            "atlas-root",
+            "atlas-capsule",
+            "architecture-contracts"
+          ],
+          "precision": 0,
+          "recall": 0,
+          "exact_hit": false,
+          "route_tokens_estimated": 179,
+          "oracle_tokens_estimated": 5435,
+          "token_savings_vs_full_load": 0.9862021120789332,
+          "overfetch_ratio": 0.03293468261269549
+        },
+        {
+          "id": "workflow-debug",
+          "description": "Architect debugs rollout policy and rollback behavior.",
+          "loaded_units": [
+            "operations-governance",
+            "delivery-workflows"
+          ],
+          "loaded_modules": [
+            "operations-governance",
+            "delivery-workflows"
+          ],
+          "required_modules": [
+            "delivery-workflows",
+            "operations-governance"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 5813,
+          "oracle_tokens_estimated": 5813,
+          "token_savings_vs_full_load": 0.5519155168426733,
+          "overfetch_ratio": 1
+        },
+        {
+          "id": "ops-doc-edit",
+          "description": "Operator edits the operations and governance human surface.",
+          "loaded_units": [
+            "topics/operations-governance.dita",
+            "topics/evidence-reference.dita"
+          ],
+          "loaded_modules": [],
+          "required_modules": [
+            "atlas-capsule",
+            "operations-governance",
+            "evidence-reference"
+          ],
+          "precision": 0,
+          "recall": 0,
+          "exact_hit": false,
+          "route_tokens_estimated": 179,
+          "oracle_tokens_estimated": 3379,
+          "token_savings_vs_full_load": 0.9862021120789332,
+          "overfetch_ratio": 0.0529742527374963
+        },
+        {
+          "id": "release-contract-read",
+          "description": "Product manager asks about release packet schema and example payloads.",
+          "loaded_units": [
+            "architecture-contracts"
+          ],
+          "loaded_modules": [
+            "architecture-contracts"
+          ],
+          "required_modules": [
+            "architecture-contracts"
+          ],
+          "precision": 1,
+          "recall": 1,
+          "exact_hit": true,
+          "route_tokens_estimated": 4786,
+          "oracle_tokens_estimated": 4786,
+          "token_savings_vs_full_load": 0.6310799352501348,
+          "overfetch_ratio": 1
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Round one compares generated archetype corpora, not full upstream toolchain integrations.",
+    "Token counts use the same deterministic chars-per-token estimate as the AODS baseline report.",
+    "Native drift governance remains an AODS-specific metric in this round because the baseline archetypes do not provide equivalent enforcement contracts."
+  ]
+}

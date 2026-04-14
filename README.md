@@ -29,7 +29,7 @@ If you only read one thing:
 
 - **human orientation:** start here
 - **agent bootstrap:** start at `manifest.json`
-- **regression signal:** start at `benchmarks/aods-eval-lab/reports/aods-evaluation-report.md`
+- **regression signal:** start at `benchmarks/aods-eval-lab/reports/round1-comparator-report.md`
 
 ## Normative vs non-normative
 
@@ -51,6 +51,7 @@ Two rules matter:
 | `spec/` | Normative AODS modules: writing rules, boot protocol, artifact catalog, surface governance, and validation |
 | `bin/aods.mjs` | Reference CLI entrypoint |
 | `lib/` | CLI implementation for validate, route, hook, scaffold, and upgrade |
+| `research/` | Non-normative archive of external landscape scans, comparator analysis, and benchmark rationale |
 | `.githooks/` | Optional git hook integration |
 | `examples/seven-plane-pilot/` | Example AODS corpus used as a non-self-referential sample |
 | `benchmarks/aods-eval-lab/` | Primary regression harness and benchmark baseline |
@@ -72,6 +73,7 @@ npm install
 npm run validate:all
 npm run route -- --touch spec/validation-rules.json --role doc-author
 npm run benchmark:evaluate
+npm run benchmark:compare
 npm run benchmark:test
 ```
 
@@ -165,6 +167,7 @@ Validation comes first, then benchmarking:
 npm run validate:all
 npm run benchmark:generate
 npm run benchmark:evaluate
+npm run benchmark:compare
 npm run benchmark:test
 npm run validate:repo
 ```
@@ -172,7 +175,9 @@ npm run validate:repo
 Important outputs:
 
 - `benchmarks/aods-eval-lab/reports/aods-evaluation-report.md`
+- `benchmarks/aods-eval-lab/reports/round1-comparator-report.md`
 - `benchmarks/aods-eval-lab/generated/results/evaluation-results.json`
+- `benchmarks/aods-eval-lab/generated/results/round1-comparator-results.json`
 - `benchmarks/aods-eval-lab/generated/aods-corpus/`
 - `benchmarks/aods-eval-lab/generated/human-docs/`
 
@@ -235,11 +240,12 @@ When changing the standard or implementation:
 1. update the relevant spec, schema, or CLI files
 2. run `npm run validate:all`
 3. run `npm run benchmark:evaluate`
-4. run `npm run benchmark:test`
-5. inspect the updated report and JSON metrics
-6. commit code changes together with any intentional baseline updates
+4. run `npm run benchmark:compare`
+5. run `npm run benchmark:test`
+6. inspect the updated report and JSON metrics
+7. commit code changes together with any intentional baseline updates
 
-When evaluating AODS itself, do not rely on README claims alone; treat the benchmark report as the operational truth source.
+When evaluating AODS itself, do not rely on README claims alone; treat the round-one benchmark evaluation report as the operational truth source and the AODS-only report as its internal baseline appendix.
 
 ## Schema version
 

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="delivery-workflows">
+  <title>delivery-workflows</title>
+  <shortdesc>Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analytics pipeline.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>workflow</keyword>
+        <keyword>rollout</keyword>
+        <keyword>state</keyword>
+        <keyword>sequence</keyword>
+        <keyword>pipeline</keyword>
+        <keyword>process-flow</keyword>
+        <keyword>decision-tree</keyword>
+        <keyword>state-machine</keyword>
+        <keyword>data-pipeline</keyword>
+        <keyword>build</keyword>
+        <keyword>release</keyword>
+        <keyword>operate</keyword>
+      </keywords>
+      <othermeta name="module-id" content="delivery-workflows"/>
+      <othermeta name="layer" content="detail"/>
+      <othermeta name="category" content="policy"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="release-approval-flow">
+      <title>Release approval flow</title>
+      <p>Define how a release moves from draft to approved rollout preparation.</p>
+      <ul>
+        <li>Draft review checks packet completeness before any risk evaluation runs.</li>
+        <li>Risk evaluation branches low and medium tiers to fast review and high tier to extended review.</li>
+        <li>Approved packets emit a release.packet.approved event and enter scheduled state.</li>
+      </ul>
+      <codeblock outputclass="process-flow">
+{
+  &quot;entry&quot;: &quot;draft-review&quot;,
+  &quot;terminals&quot;: [
+    &quot;approved&quot;,
+    &quot;held&quot;
+  ],
+  &quot;actors&quot;: [
+    &quot;release-manager&quot;,
+    &quot;workflow-engine&quot;,
+    &quot;engineering-lead&quot;
+  ],
+  &quot;steps&quot;: [
+    {
+      &quot;id&quot;: &quot;draft-review&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;release-manager&quot;,
+      &quot;action&quot;: &quot;Draft review checks packet completeness before any risk evaluation runs.&quot;,
+      &quot;next&quot;: &quot;risk-evaluation&quot;
+    },
+    {
+      &quot;id&quot;: &quot;risk-evaluation&quot;,
+      &quot;type&quot;: &quot;decision&quot;,
+      &quot;actor&quot;: &quot;workflow-engine&quot;,
+      &quot;action&quot;: &quot;Risk evaluation branches low and medium tiers to fast review and high tier to extended review.&quot;,
+      &quot;next&quot;: {
+        &quot;low-or-medium&quot;: &quot;fast-review&quot;,
+        &quot;high&quot;: &quot;extended-review&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;fast-review&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;engineering-lead&quot;,
+      &quot;action&quot;: &quot;Confirm packet and rollback readiness in one review pass.&quot;,
+      &quot;next&quot;: &quot;approved&quot;
+    },
+    {
+      &quot;id&quot;: &quot;extended-review&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;engineering-lead&quot;,
+      &quot;action&quot;: &quot;Escalate for broader review and attach mitigation notes.&quot;,
+      &quot;next&quot;: &quot;approved&quot;
+    },
+    {
+      &quot;id&quot;: &quot;approved&quot;,
+      &quot;type&quot;: &quot;emit&quot;,
+      &quot;actor&quot;: &quot;workflow-engine&quot;,
+      &quot;action&quot;: &quot;Approved packets emit a release.packet.approved event and enter scheduled state.&quot;,
+      &quot;event&quot;: &quot;release.packet.approved&quot;,
+      &quot;payload_schema&quot;: &quot;architecture-contracts:release-payload-schema&quot;,
+      &quot;next&quot;: null
+    },
+    {
+      &quot;id&quot;: &quot;held&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;workflow-engine&quot;,
+      &quot;action&quot;: &quot;Stop rollout until packet defects or missing approvals are resolved.&quot;,
+      &quot;next&quot;: null
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="publish-sequence">
+      <title>Publish sequence</title>
+      <p>Show the temporal exchange during release publication.</p>
+      <ul>
+        <li>Release manager submits the approved packet to the release service.</li>
+        <li>Workflow engine evaluates rollout lane health before the release service advances state.</li>
+        <li>Notification service posts publish status after the release service confirms lane advancement.</li>
+      </ul>
+      <codeblock outputclass="sequence">
+{
+  &quot;actors&quot;: [
+    {
+      &quot;id&quot;: &quot;release-manager&quot;,
+      &quot;type&quot;: &quot;user&quot;,
+      &quot;desc&quot;: &quot;Human coordinator.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;release-service&quot;,
+      &quot;type&quot;: &quot;service&quot;,
+      &quot;desc&quot;: &quot;Canonical packet service.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;workflow-engine&quot;,
+      &quot;type&quot;: &quot;service&quot;,
+      &quot;desc&quot;: &quot;Policy engine.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;notification-service&quot;,
+      &quot;type&quot;: &quot;service&quot;,
+      &quot;desc&quot;: &quot;Outbound messaging service.&quot;
+    }
+  ],
+  &quot;messages&quot;: [
+    {
+      &quot;seq&quot;: 1,
+      &quot;from&quot;: &quot;release-manager&quot;,
+      &quot;to&quot;: &quot;release-service&quot;,
+      &quot;action&quot;: &quot;submit approved packet&quot;,
+      &quot;type&quot;: &quot;sync&quot;,
+      &quot;note&quot;: &quot;Release manager submits the approved packet to the release service.&quot;
+    },
+    {
+      &quot;seq&quot;: 2,
+      &quot;from&quot;: &quot;release-service&quot;,
+      &quot;to&quot;: &quot;workflow-engine&quot;,
+      &quot;action&quot;: &quot;evaluate rollout lane&quot;,
+      &quot;type&quot;: &quot;sync&quot;,
+      &quot;note&quot;: &quot;Workflow engine evaluates rollout lane health before the release service advances state.&quot;
+    },
+    {
+      &quot;seq&quot;: 3,
+      &quot;from&quot;: &quot;workflow-engine&quot;,
+      &quot;to&quot;: &quot;release-service&quot;,
+      &quot;action&quot;: &quot;lane approved&quot;,
+      &quot;type&quot;: &quot;response&quot;
+    },
+    {
+      &quot;seq&quot;: 4,
+      &quot;from&quot;: &quot;release-service&quot;,
+      &quot;to&quot;: &quot;notification-service&quot;,
+      &quot;action&quot;: &quot;publish status update&quot;,
+      &quot;type&quot;: &quot;event&quot;,
+      &quot;note&quot;: &quot;Notification service posts publish status after the release service confirms lane advancement.&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="rollout-policy-tree">
+      <title>Rollout policy tree</title>
+      <p>Map risk signals to rollout lane decisions.</p>
+      <ul>
+        <li>Low risk releases start in canary and auto-promote to staged after fifteen healthy minutes.</li>
+        <li>Medium risk releases require manual staged promotion after support lead confirmation.</li>
+        <li>High risk releases stop after canary unless engineering lead approves expanded rollout.</li>
+      </ul>
+      <codeblock outputclass="decision-tree">
+{
+  &quot;root&quot;: &quot;risk-tier&quot;,
+  &quot;nodes&quot;: [
+    {
+      &quot;id&quot;: &quot;risk-tier&quot;,
+      &quot;type&quot;: &quot;condition&quot;,
+      &quot;eval&quot;: &quot;risk tier?&quot;,
+      &quot;branches&quot;: [
+        {
+          &quot;value&quot;: &quot;low&quot;,
+          &quot;next&quot;: &quot;low-path&quot;
+        },
+        {
+          &quot;value&quot;: &quot;medium&quot;,
+          &quot;next&quot;: &quot;medium-path&quot;
+        },
+        {
+          &quot;value&quot;: &quot;high&quot;,
+          &quot;next&quot;: &quot;high-path&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;low-path&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;action&quot;: &quot;Low risk releases start in canary and auto-promote to staged after fifteen healthy minutes.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;medium-path&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;action&quot;: &quot;Medium risk releases require manual staged promotion after support lead confirmation.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;high-path&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;action&quot;: &quot;High risk releases stop after canary unless engineering lead approves expanded rollout.&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="release-state-machine">
+      <title>Release state machine</title>
+      <p>Model the lifecycle states for a release packet.</p>
+      <ul>
+        <li>Release packets start in draft until packet completeness review passes.</li>
+        <li>Approved packets can move to scheduled only after release.packet.approved is emitted.</li>
+        <li>Released packets enter rolled_back when rollback execution succeeds.</li>
+      </ul>
+      <codeblock outputclass="state-machine">
+{
+  &quot;initial&quot;: &quot;draft&quot;,
+  &quot;terminal&quot;: [
+    &quot;released&quot;,
+    &quot;rolled_back&quot;
+  ],
+  &quot;states&quot;: [
+    {
+      &quot;id&quot;: &quot;draft&quot;,
+      &quot;desc&quot;: &quot;Release packets start in draft until packet completeness review passes.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;in_review&quot;,
+      &quot;desc&quot;: &quot;Packet is under active approval review.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;approved&quot;,
+      &quot;desc&quot;: &quot;Approved packets can move to scheduled only after release.packet.approved is emitted.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;scheduled&quot;,
+      &quot;desc&quot;: &quot;Packet is ready for the rollout window.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;released&quot;,
+      &quot;desc&quot;: &quot;Packet has completed rollout successfully.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;rolled_back&quot;,
+      &quot;desc&quot;: &quot;Released packets enter rolled_back when rollback execution succeeds.&quot;
+    }
+  ],
+  &quot;transitions&quot;: [
+    {
+      &quot;from&quot;: &quot;draft&quot;,
+      &quot;to&quot;: &quot;in_review&quot;,
+      &quot;trigger&quot;: &quot;submit_for_review&quot;
+    },
+    {
+      &quot;from&quot;: &quot;in_review&quot;,
+      &quot;to&quot;: &quot;approved&quot;,
+      &quot;trigger&quot;: &quot;release.packet.approved&quot;
+    },
+    {
+      &quot;from&quot;: &quot;approved&quot;,
+      &quot;to&quot;: &quot;scheduled&quot;,
+      &quot;trigger&quot;: &quot;rollout_window_open&quot;
+    },
+    {
+      &quot;from&quot;: &quot;scheduled&quot;,
+      &quot;to&quot;: &quot;released&quot;,
+      &quot;trigger&quot;: &quot;lane_health_green&quot;
+    },
+    {
+      &quot;from&quot;: &quot;released&quot;,
+      &quot;to&quot;: &quot;rolled_back&quot;,
+      &quot;trigger&quot;: &quot;rollback_executed&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="analytics-pipeline">
+      <title>Analytics pipeline</title>
+      <p>Track how rollout and incident data become dashboards.</p>
+      <ul>
+        <li>Analytics pipeline consumes release.packet.approved and incident.created events from the event bus.</li>
+        <li>Analytics pipeline normalizes packet owner, risk tier, rollout lane, and incident severity before storage.</li>
+        <li>Analytics pipeline writes dashboard-ready facts into warehouse.release_health.</li>
+      </ul>
+      <codeblock outputclass="data-pipeline">
+{
+  &quot;source&quot;: {
+    &quot;id&quot;: &quot;event-bus&quot;,
+    &quot;type&quot;: &quot;queue&quot;,
+    &quot;desc&quot;: &quot;Analytics pipeline consumes release.packet.approved and incident.created events from the event bus.&quot;
+  },
+  &quot;sink&quot;: {
+    &quot;id&quot;: &quot;warehouse.release_health&quot;,
+    &quot;type&quot;: &quot;db&quot;,
+    &quot;desc&quot;: &quot;Analytics pipeline writes dashboard-ready facts into warehouse.release_health.&quot;
+  },
+  &quot;stages&quot;: [
+    {
+      &quot;id&quot;: &quot;ingest-events&quot;,
+      &quot;transform&quot;: &quot;read release.packet.approved and incident.created payloads&quot;,
+      &quot;actor&quot;: &quot;analytics-worker&quot;
+    },
+    {
+      &quot;id&quot;: &quot;normalize-fields&quot;,
+      &quot;transform&quot;: &quot;Analytics pipeline normalizes packet owner, risk tier, rollout lane, and incident severity before storage.&quot;,
+      &quot;actor&quot;: &quot;analytics-worker&quot;
+    },
+    {
+      &quot;id&quot;: &quot;load-warehouse&quot;,
+      &quot;transform&quot;: &quot;write dashboard-ready release health facts&quot;,
+      &quot;actor&quot;: &quot;analytics-worker&quot;
+    }
+  ],
+  &quot;ordering&quot;: &quot;sequential&quot;
+}
+      </codeblock>
+    </section>
+  </body>
+</topic>

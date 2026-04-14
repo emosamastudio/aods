@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="operations-governance">
+  <title>operations-governance</title>
+  <shortdesc>Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and validation guidance.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>operations</keyword>
+        <keyword>governance</keyword>
+        <keyword>incident</keyword>
+        <keyword>policy</keyword>
+        <keyword>slo</keyword>
+        <keyword>rule-set</keyword>
+        <keyword>mapping-table</keyword>
+        <keyword>event-catalog</keyword>
+        <keyword>error-strategy</keyword>
+        <keyword>temporal-pattern</keyword>
+        <keyword>operate</keyword>
+        <keyword>release</keyword>
+      </keywords>
+      <othermeta name="module-id" content="operations-governance"/>
+      <othermeta name="layer" content="detail"/>
+      <othermeta name="category" content="policy"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="approval-rules">
+      <title>Approval rules</title>
+      <p>Make approval authority explicit instead of social convention.</p>
+      <ul>
+        <li>High risk releases require engineering lead approval and support lead acknowledgement.</li>
+        <li>Human docs cannot change alone when sync_source is agent-primary.</li>
+        <li>No release may enter scheduled outside the declared rollout window.</li>
+      </ul>
+      <codeblock outputclass="rule-set">
+{
+  &quot;evaluation_mode&quot;: &quot;priority-ordered&quot;,
+  &quot;default_action&quot;: &quot;pass&quot;,
+  &quot;conflict_resolution&quot;: &quot;most-restrictive-wins&quot;,
+  &quot;rules&quot;: [
+    {
+      &quot;id&quot;: &quot;high-risk-approvals&quot;,
+      &quot;condition&quot;: &quot;release.riskTier == &apos;high&apos;&quot;,
+      &quot;action&quot;: &quot;High risk releases require engineering lead approval and support lead acknowledgement.&quot;,
+      &quot;priority&quot;: 10,
+      &quot;source&quot;: &quot;governance&quot;
+    },
+    {
+      &quot;id&quot;: &quot;paired-surface-sync&quot;,
+      &quot;condition&quot;: &quot;surface_pair.sync_source == &apos;agent-primary&apos; AND human.changed == true AND agent.changed == false&quot;,
+      &quot;action&quot;: &quot;Human docs cannot change alone when sync_source is agent-primary.&quot;,
+      &quot;priority&quot;: 20,
+      &quot;source&quot;: &quot;governance&quot;
+    },
+    {
+      &quot;id&quot;: &quot;window-guard&quot;,
+      &quot;condition&quot;: &quot;now not_in release.rolloutWindow&quot;,
+      &quot;action&quot;: &quot;No release may enter scheduled outside the declared rollout window.&quot;,
+      &quot;priority&quot;: 30,
+      &quot;source&quot;: &quot;governance&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="oncall-routing">
+      <title>On-call routing</title>
+      <p>Map incident severity to response ownership.</p>
+      <ul>
+        <li>sev1 pages primary and secondary on-call within five minutes.</li>
+        <li>sev2 pages primary on-call and support lead within fifteen minutes.</li>
+        <li>sev3 creates a queued task for business-hours triage.</li>
+      </ul>
+      <codeblock outputclass="mapping-table">
+{
+  &quot;key_columns&quot;: [
+    &quot;severity&quot;
+  ],
+  &quot;columns&quot;: [
+    &quot;severity&quot;,
+    &quot;owner&quot;,
+    &quot;response&quot;
+  ],
+  &quot;rows&quot;: [
+    [
+      &quot;sev1&quot;,
+      &quot;primary+secondary on-call&quot;,
+      &quot;sev1 pages primary and secondary on-call within five minutes.&quot;
+    ],
+    [
+      &quot;sev2&quot;,
+      &quot;primary on-call + support lead&quot;,
+      &quot;sev2 pages primary on-call and support lead within fifteen minutes.&quot;
+    ],
+    [
+      &quot;sev3&quot;,
+      &quot;support rotation&quot;,
+      &quot;sev3 creates a queued task for business-hours triage.&quot;
+    ]
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="event-catalog">
+      <title>Event catalog</title>
+      <p>Track durable events and their consumers.</p>
+      <ul>
+        <li>release.packet.approved is emitted by workflow-engine and consumed by release-service and analytics-worker.</li>
+        <li>release.packet.published is emitted by release-service and consumed by notification-service.</li>
+        <li>incident.created is emitted by release-service when rollout health degrades.</li>
+      </ul>
+      <codeblock outputclass="event-catalog">
+{
+  &quot;events&quot;: [
+    {
+      &quot;name&quot;: &quot;release.packet.approved&quot;,
+      &quot;emitter&quot;: &quot;workflow-engine&quot;,
+      &quot;consumers&quot;: [
+        &quot;release-service&quot;,
+        &quot;analytics-worker&quot;
+      ],
+      &quot;desc&quot;: &quot;release.packet.approved is emitted by workflow-engine and consumed by release-service and analytics-worker.&quot;,
+      &quot;ordering&quot;: &quot;ordered&quot;
+    },
+    {
+      &quot;name&quot;: &quot;release.packet.published&quot;,
+      &quot;emitter&quot;: &quot;release-service&quot;,
+      &quot;consumers&quot;: [
+        &quot;notification-service&quot;,
+        &quot;analytics-worker&quot;
+      ],
+      &quot;desc&quot;: &quot;release.packet.published is emitted by release-service and consumed by notification-service.&quot;,
+      &quot;ordering&quot;: &quot;ordered&quot;
+    },
+    {
+      &quot;name&quot;: &quot;incident.created&quot;,
+      &quot;emitter&quot;: &quot;release-service&quot;,
+      &quot;consumers&quot;: [
+        &quot;notification-service&quot;,
+        &quot;support-ops&quot;
+      ],
+      &quot;desc&quot;: &quot;incident.created is emitted by release-service when rollout health degrades.&quot;,
+      &quot;ordering&quot;: &quot;idempotent&quot;
+    }
+  ],
+  &quot;channels&quot;: [
+    {
+      &quot;id&quot;: &quot;atlas.release.events&quot;,
+      &quot;transport&quot;: &quot;kafka&quot;,
+      &quot;events&quot;: [
+        &quot;release.packet.approved&quot;,
+        &quot;release.packet.published&quot;,
+        &quot;incident.created&quot;
+      ]
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="rollback-strategy">
+      <title>Rollback strategy</title>
+      <p>Define what happens under failure classes.</p>
+      <ul>
+        <li>Webhook delivery failures retry three times with exponential backoff before escalation.</li>
+        <li>Primary database write failures abort publish and escalate to platform-oncall.</li>
+        <li>Negative rollout health triggers compensate by executing the rollback plan.</li>
+      </ul>
+      <codeblock outputclass="error-strategy">
+{
+  &quot;default_strategy&quot;: &quot;escalate&quot;,
+  &quot;error_classes&quot;: [
+    {
+      &quot;class&quot;: &quot;webhook-delivery-failure&quot;,
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;strategy&quot;: {
+        &quot;type&quot;: &quot;retry&quot;,
+        &quot;retry_max&quot;: 3,
+        &quot;retry_delay&quot;: &quot;30s&quot;,
+        &quot;retry_backoff&quot;: &quot;exponential&quot;
+      },
+      &quot;alerts&quot;: [
+        {
+          &quot;channel&quot;: &quot;ops-alerts&quot;,
+          &quot;condition&quot;: &quot;after third failure&quot;
+        }
+      ],
+      &quot;match&quot;: &quot;notify.*&quot;
+    },
+    {
+      &quot;class&quot;: &quot;primary-db-write-failure&quot;,
+      &quot;severity&quot;: &quot;critical&quot;,
+      &quot;strategy&quot;: {
+        &quot;type&quot;: &quot;abort&quot;
+      },
+      &quot;alerts&quot;: [
+        {
+          &quot;channel&quot;: &quot;platform-oncall&quot;,
+          &quot;condition&quot;: &quot;on first failure&quot;
+        }
+      ],
+      &quot;match&quot;: &quot;db.write.*&quot;
+    },
+    {
+      &quot;class&quot;: &quot;negative-rollout-health&quot;,
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;strategy&quot;: {
+        &quot;type&quot;: &quot;compensate&quot;,
+        &quot;compensate_action&quot;: &quot;execute rollback plan&quot;
+      },
+      &quot;match&quot;: &quot;health.red&quot;
+    }
+  ],
+  &quot;fallback_chain&quot;: [
+    &quot;Webhook delivery failures retry three times with exponential backoff before escalation.&quot;,
+    &quot;Primary database write failures abort publish and escalate to platform-oncall.&quot;,
+    &quot;Negative rollout health triggers compensate by executing the rollback plan.&quot;
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="temporal-controls">
+      <title>Temporal controls</title>
+      <p>Represent windows, deadlines, and SLO timers.</p>
+      <ul>
+        <li>Rollout window is a UTC deadline window from 09:00 to 10:00.</li>
+        <li>Canary health is evaluated every five minutes.</li>
+        <li>Publish status must reach notification-service within sixty seconds.</li>
+      </ul>
+      <codeblock outputclass="temporal-pattern">
+{
+  &quot;timezone&quot;: &quot;UTC&quot;,
+  &quot;patterns&quot;: [
+    {
+      &quot;id&quot;: &quot;rollout-window&quot;,
+      &quot;type&quot;: &quot;window&quot;,
+      &quot;expression&quot;: &quot;09:00-10:00&quot;,
+      &quot;target&quot;: &quot;release rollout&quot;,
+      &quot;on_trigger&quot;: &quot;allow scheduled releases&quot;,
+      &quot;on_violation&quot;: &quot;hold publish&quot;
+    },
+    {
+      &quot;id&quot;: &quot;canary-health-check&quot;,
+      &quot;type&quot;: &quot;interval&quot;,
+      &quot;expression&quot;: &quot;5m&quot;,
+      &quot;target&quot;: &quot;canary lane&quot;,
+      &quot;on_trigger&quot;: &quot;evaluate lane health&quot;
+    },
+    {
+      &quot;id&quot;: &quot;publish-sla&quot;,
+      &quot;type&quot;: &quot;sla-timer&quot;,
+      &quot;expression&quot;: &quot;60s&quot;,
+      &quot;target&quot;: &quot;notification-service publish status&quot;,
+      &quot;on_violation&quot;: &quot;open sev2 incident&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+  </body>
+</topic>

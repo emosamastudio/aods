@@ -6,6 +6,7 @@
   "scripts": {
     "generate": "node ./src/generate-fixtures.mjs",
     "evaluate": "node ./src/evaluate.mjs",
+    "compare": "node ./src/compare.mjs",
     "test": "node --test"
   }
 }

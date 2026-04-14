@@ -28,6 +28,7 @@ Validate first from the repository root, then run the benchmark:
 npm run validate:all
 npm run benchmark:generate
 npm run benchmark:evaluate
+npm run benchmark:compare
 npm run benchmark:test
 ```
 
@@ -36,6 +37,7 @@ From this directory directly:
 ```bash
 npm run generate
 npm run evaluate
+npm run compare
 npm test
 ```
 
@@ -46,13 +48,15 @@ npm test
 - `generated/human-docs/` verbose human baseline
 - `generated/aods-corpus/` generated AODS corpus under test
 - `generated/results/evaluation-results.json` machine-readable metrics
+- `generated/results/round1-comparator-results.json` machine-readable horizontal comparison results
 - `reports/aods-evaluation-report.md` human-readable report
+- `reports/round1-comparator-report.md` human-readable full round-one benchmark evaluation report
 
 `generated/` and `reports/` are committed on purpose. They are not disposable build artifacts; they are the published regression baseline for the current repository state.
 
 ## Reading the results
 
-Start with `reports/aods-evaluation-report.md` for the narrative judgment, then inspect `generated/results/evaluation-results.json` for exact metrics and scenario-level detail.
+Start with `reports/round1-comparator-report.md` for the full published evaluation, then inspect `reports/aods-evaluation-report.md` and the JSON result files for exact baseline metrics and scenario-level detail.
 
 The most decision-relevant dimensions are:
 
@@ -67,5 +71,6 @@ The most decision-relevant dimensions are:
 1. change the AODS spec or implementation at the repo root
 2. run `npm run validate:all`
 3. run `npm run benchmark:evaluate`
-4. run `npm run benchmark:test`
-5. review the updated report and JSON results before committing
+4. run `npm run benchmark:compare`
+5. run `npm run benchmark:test`
+6. review the updated reports and JSON results before committing

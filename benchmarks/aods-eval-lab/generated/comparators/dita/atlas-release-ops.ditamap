@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+  <title>Atlas Release Ops</title>
+  <topicref href="topics/atlas-root.dita" navtitle="atlas-root">
+    <topicref href="topics/atlas-capsule.dita" navtitle="atlas-capsule">
+      <topicref href="topics/product-lifecycle.dita" navtitle="product-lifecycle"/>
+      <topicref href="topics/architecture-contracts.dita" navtitle="architecture-contracts"/>
+      <topicref href="topics/delivery-workflows.dita" navtitle="delivery-workflows"/>
+      <topicref href="topics/operations-governance.dita" navtitle="operations-governance">
+        <topicref href="topics/evidence-reference.dita" navtitle="evidence-reference"/>
+      </topicref>
+    </topicref>
+  </topicref>
+</map>

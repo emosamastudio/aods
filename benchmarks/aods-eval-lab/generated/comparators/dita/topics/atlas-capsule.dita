@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="atlas-capsule">
+  <title>atlas-capsule</title>
+  <shortdesc>Capsule summary and route fanout across product, architecture, workflow, and operations slices.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>capsule</keyword>
+        <keyword>summary</keyword>
+        <keyword>routes</keyword>
+        <keyword>benchmark</keyword>
+        <keyword>governance</keyword>
+      </keywords>
+      <othermeta name="module-id" content="atlas-capsule"/>
+      <othermeta name="layer" content="capsule"/>
+      <othermeta name="category" content="capsule"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="capsule-routing">
+      <title>Capsule routing</title>
+      <p>Use the capsule when a reader needs quick orientation before loading detail modules.</p>
+      <ul>
+        <li>Use product-lifecycle for goals, roadmap checkpoints, verification intent, and ADR rationale.</li>
+        <li>Use architecture-contracts for topology, APIs, schemas, examples, templates, identifiers, and enums.</li>
+        <li>Use delivery-workflows for approval flow, publish sequence, rollout decisions, lifecycle states, and analytics lineage.</li>
+        <li>Use operations-governance for policy, events, error handling, temporal controls, and paired-surface discipline.</li>
+      </ul>
+    </section>
+  </body>
+</topic>

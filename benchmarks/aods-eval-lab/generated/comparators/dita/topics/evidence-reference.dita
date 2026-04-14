@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="evidence-reference">
+  <title>evidence-reference</title>
+  <shortdesc>Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>evidence</keyword>
+        <keyword>raw</keyword>
+        <keyword>sql</keyword>
+        <keyword>escape-hatch</keyword>
+        <keyword>operate</keyword>
+      </keywords>
+      <othermeta name="module-id" content="evidence-reference"/>
+      <othermeta name="layer" content="evidence"/>
+      <othermeta name="category" content="reference"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="migration-raw">
+      <title>Raw migration evidence</title>
+      <p>Keep low-level evidence without pretending it is structured lifecycle guidance.</p>
+      <ul>
+        <li>Raw migration adds release_packets.approval_snapshot as immutable JSONB evidence.</li>
+        <li>Raw SQL evidence stays in the evidence layer and is not loaded on cold start.</li>
+        <li>Raw artifacts preserve facts but reduce structured traversability.</li>
+      </ul>
+      <codeblock outputclass="raw">
+&quot;ALTER TABLE release_packets ADD COLUMN approval_snapshot JSONB NOT NULL DEFAULT &apos;{}&apos;::jsonb;\n-- Raw migration adds release_packets.approval_snapshot as immutable JSONB evidence.\n-- Raw SQL evidence stays in the evidence layer and is not loaded on cold start.\n-- Raw artifacts preserve facts but reduce structured traversability.\n&quot;
+      </codeblock>
+    </section>
+  </body>
+</topic>

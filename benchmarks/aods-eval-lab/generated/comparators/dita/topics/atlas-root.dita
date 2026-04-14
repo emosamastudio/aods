@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="atlas-root">
+  <title>atlas-root</title>
+  <shortdesc>Cold-start routing for the benchmark corpus. Use for first-hop orientation.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>root</keyword>
+        <keyword>routing</keyword>
+        <keyword>overview</keyword>
+        <keyword>benchmark</keyword>
+        <keyword>vision</keyword>
+      </keywords>
+      <othermeta name="module-id" content="atlas-root"/>
+      <othermeta name="layer" content="root"/>
+      <othermeta name="category" content="architecture"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="system-overview">
+      <title>System overview</title>
+      <p>Use the root layer for system purpose, authority posture, and first-hop routing.</p>
+      <ul>
+        <li>Atlas Release Ops is a multi-tenant release coordination system for product launches and incident-ready rollouts.</li>
+        <li>Authoritative semantics live in agent-primary AODS modules and human docs are paired explanatory surfaces.</li>
+        <li>Cold-start routing begins at atlas-root and summary routing continues through atlas-capsule.</li>
+      </ul>
+    </section>
+  </body>
+</topic>
