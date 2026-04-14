@@ -1,6 +1,6 @@
-# Atlas Release Ops
+# AODS Benchmark Pack
 
-> AI-facing entrypoint for the Atlas Release Ops benchmark corpus.
+> AI-facing entrypoint for the AODS benchmark pack corpus.
 
 ## Documents
 
@@ -9,3 +9,6 @@
 - [Architecture and contracts](docs/02-architecture-and-contracts.md): System topology, release APIs, payload schemas, examples, templates, identifiers, and role enums.
 - [Delivery workflows](docs/03-delivery-workflows.md): Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analytics pipeline.
 - [Operations and governance](docs/04-operations-and-governance.md): Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and validation guidance. Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets.
+- [Harbor Change Control overview](harbor/README.md): Cold-start routing for the regulated change-control slice. Use for first-hop orientation. Capsule routes change control and audit evidence.
+- [Change control](harbor/docs/01-change-control.md): Regulated change policy, approval rules, exception handling, and SOP authority alignment.
+- [Audit evidence](harbor/docs/02-audit-evidence.md): Audit evidence requirements, retention windows, and raw-query references for external review.

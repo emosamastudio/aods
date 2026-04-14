@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 6,
+  "v": 7,
   "context": "Defines validation rules for AODS corpus integrity. AODS v3 adds surface-pair, layer, capsule, touch-route, artifact-semantic, and experimental bidirectional-sync checks on top of schema, referential integrity, completeness, and AOP compliance.",
   "assumptions": [
     "Validator has access to all files in corpus",
@@ -39,7 +39,7 @@
     {
       "sid": "surface-governance",
       "topic": "surface pair layer and capsule checks",
-      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set; manifest-only metadata edits do not satisfy semantic sync. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
+      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set; manifest-only metadata edits do not satisfy semantic sync. shared_invariants, when declared on a surface_pair, must remain present in both agent_primary and human_primary texts. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -156,6 +156,13 @@
             "condition": "module.category == 'capsule' AND any_unresolved(module.meta.capsule.routes_to)",
             "action": "L2 error: capsule routes_to unresolved",
             "priority": 40,
+            "source": "validation"
+          },
+          {
+            "id": "surface-pair-shared-invariants-hold",
+            "condition": "surface_pair.shared_invariants exists AND any_missing(surface_pair.shared_invariants, [surface_pair.agent_primary, surface_pair.human_primary])",
+            "action": "L2 error: declared shared_invariants missing from paired surfaces",
+            "priority": 45,
             "source": "validation"
           },
           {
@@ -322,6 +329,11 @@
     {
       "v": 6,
       "delta": "Hardened corpus-contained path rules and clarified that manifest-only edits do not satisfy agent-primary hook sync.",
+      "breaking": false
+    },
+    {
+      "v": 7,
+      "delta": "Added shared_invariants surface-pair validation so declared semantic anchors become built-in detectable drift failures.",
       "breaking": false
     }
   ],

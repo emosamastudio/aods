@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="harbor-change-control">
+  <title>harbor-change-control</title>
+  <shortdesc>Regulated change policy, approval rules, exception handling, and SOP authority alignment.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>change-control</keyword>
+        <keyword>approval</keyword>
+        <keyword>risk</keyword>
+        <keyword>sop</keyword>
+        <keyword>qa</keyword>
+        <keyword>mapping-table</keyword>
+        <keyword>decision-tree</keyword>
+        <keyword>process-flow</keyword>
+        <keyword>planning</keyword>
+        <keyword>discovery</keyword>
+        <keyword>design</keyword>
+        <keyword>build</keyword>
+      </keywords>
+      <othermeta name="module-id" content="harbor-change-control"/>
+      <othermeta name="layer" content="detail"/>
+      <othermeta name="category" content="policy"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="harbor-policy-brief">
+      <title>Change policy brief</title>
+      <p>State mandatory fields, rollback discipline, and human-primary SOP posture for regulated change control.</p>
+      <ul>
+        <li>Every material change request must declare regulated asset, risk class, approver set, rollback owner, and evidence bundle.</li>
+        <li>Emergency changes require a documented rollback owner before execution.</li>
+        <li>The regulator-facing SOP is the declared human-primary surface for Harbor change control.</li>
+      </ul>
+    </section>
+    <section id="harbor-risk-class-matrix">
+      <title>Risk class matrix</title>
+      <p>Capture how regulated change classes alter approval depth.</p>
+      <ul>
+        <li>Risk class III changes require clinical QA and data stewardship approval.</li>
+        <li>Risk class II changes require data stewardship approval before scheduling.</li>
+        <li>Risk class I changes can auto-approve only when no schema, PHI, or retention behavior changes.</li>
+      </ul>
+      <codeblock outputclass="mapping-table">
+{
+  &quot;key_columns&quot;: [
+    &quot;risk_class&quot;
+  ],
+  &quot;columns&quot;: [
+    &quot;risk_class&quot;,
+    &quot;approval_depth&quot;,
+    &quot;notes&quot;
+  ],
+  &quot;rows&quot;: [
+    [
+      &quot;I&quot;,
+      &quot;auto-approve eligible&quot;,
+      &quot;Risk class I changes can auto-approve only when no schema, PHI, or retention behavior changes.&quot;
+    ],
+    [
+      &quot;II&quot;,
+      &quot;data stewardship review&quot;,
+      &quot;Risk class II changes require data stewardship approval before scheduling.&quot;
+    ],
+    [
+      &quot;III&quot;,
+      &quot;clinical QA + data stewardship&quot;,
+      &quot;Risk class III changes require clinical QA and data stewardship approval.&quot;
+    ]
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="harbor-approval-tree">
+      <title>Approval decision tree</title>
+      <p>Map regulated change signals to approval paths.</p>
+      <ul>
+        <li>Emergency changes require retrospective approval within twenty-four hours.</li>
+        <li>Changes that alter PHI retention cannot skip security review.</li>
+        <li>Waivers expire at the next review board checkpoint.</li>
+      </ul>
+      <codeblock outputclass="decision-tree">
+{
+  &quot;root&quot;: &quot;change-kind&quot;,
+  &quot;nodes&quot;: [
+    {
+      &quot;id&quot;: &quot;change-kind&quot;,
+      &quot;type&quot;: &quot;condition&quot;,
+      &quot;eval&quot;: &quot;change kind?&quot;,
+      &quot;branches&quot;: [
+        {
+          &quot;value&quot;: &quot;standard&quot;,
+          &quot;next&quot;: &quot;standard-path&quot;
+        },
+        {
+          &quot;value&quot;: &quot;emergency&quot;,
+          &quot;next&quot;: &quot;emergency-path&quot;
+        },
+        {
+          &quot;value&quot;: &quot;waiver&quot;,
+          &quot;next&quot;: &quot;waiver-path&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;standard-path&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;action&quot;: &quot;Changes that alter PHI retention cannot skip security review.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;emergency-path&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;action&quot;: &quot;Emergency changes require retrospective approval within twenty-four hours.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;waiver-path&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;action&quot;: &quot;Waivers expire at the next review board checkpoint.&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="harbor-exception-flow">
+      <title>Exception handling flow</title>
+      <p>Define how regulated exceptions are opened, approved, and closed.</p>
+      <ul>
+        <li>Exception flow records sponsor, approving authority, expiry time, and remediation task.</li>
+        <li>Expired exceptions block further deployment until closed.</li>
+        <li>Approved exceptions attach validation evidence before activation.</li>
+      </ul>
+      <codeblock outputclass="process-flow">
+{
+  &quot;entry&quot;: &quot;record-exception&quot;,
+  &quot;terminals&quot;: [
+    &quot;exception-active&quot;,
+    &quot;exception-blocked&quot;
+  ],
+  &quot;actors&quot;: [
+    &quot;change-manager&quot;,
+    &quot;quality-reviewer&quot;
+  ],
+  &quot;steps&quot;: [
+    {
+      &quot;id&quot;: &quot;record-exception&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;change-manager&quot;,
+      &quot;action&quot;: &quot;Exception flow records sponsor, approving authority, expiry time, and remediation task.&quot;,
+      &quot;next&quot;: &quot;attach-evidence&quot;
+    },
+    {
+      &quot;id&quot;: &quot;attach-evidence&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;change-manager&quot;,
+      &quot;action&quot;: &quot;Approved exceptions attach validation evidence before activation.&quot;,
+      &quot;next&quot;: &quot;check-expiry&quot;
+    },
+    {
+      &quot;id&quot;: &quot;check-expiry&quot;,
+      &quot;type&quot;: &quot;decision&quot;,
+      &quot;actor&quot;: &quot;quality-reviewer&quot;,
+      &quot;action&quot;: &quot;Exception expired?&quot;,
+      &quot;next&quot;: {
+        &quot;no&quot;: &quot;exception-active&quot;,
+        &quot;yes&quot;: &quot;exception-blocked&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;exception-active&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;quality-reviewer&quot;,
+      &quot;action&quot;: &quot;Exception remains active until its planned expiry.&quot;,
+      &quot;next&quot;: null
+    },
+    {
+      &quot;id&quot;: &quot;exception-blocked&quot;,
+      &quot;type&quot;: &quot;action&quot;,
+      &quot;actor&quot;: &quot;quality-reviewer&quot;,
+      &quot;action&quot;: &quot;Expired exceptions block further deployment until closed.&quot;,
+      &quot;next&quot;: null
+    }
+  ]
+}
+      </codeblock>
+    </section>
+  </body>
+</topic>

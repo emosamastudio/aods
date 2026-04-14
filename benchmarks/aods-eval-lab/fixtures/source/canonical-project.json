@@ -1,18 +1,20 @@
 {
   "system": {
-    "id": "atlas-release-ops",
-    "name": "Atlas Release Ops",
-    "purpose": "Independent benchmark corpus for a multi-tenant release coordination and incident-ready rollout system.",
+    "id": "aods-benchmark-pack",
+    "name": "AODS Benchmark Pack",
+    "purpose": "Independent multi-domain benchmark pack for testing AODS coverage, fidelity, routing, and anti-drift behavior across distinct documentation conditions.",
     "profile": {
-      "dataset_class": "synthetic-lifecycle",
+      "dataset_class": "synthetic-lifecycle-pack",
       "domains": [
-        "release-ops"
+        "release-ops",
+        "regulated-change-control"
       ],
       "languages": [
         "en"
       ],
       "sync_modes": [
-        "agent-primary"
+        "agent-primary",
+        "human-primary"
       ],
       "surface_kinds": [
         "readme",
@@ -26,12 +28,38 @@
       ]
     },
     "glossary": {
-      "system": "Atlas Release Ops benchmark corpus",
+      "system": "AODS benchmark pack corpus",
       "release_packet": "Canonical release unit with owner, risk tier, rollback plan, communication plan, and rollout window.",
+      "change_packet": "Canonical regulated change request with risk class, evidence bundle, approver set, and rollback owner.",
       "paired_surface": "Human-facing file linked to one or more authoritative agent-primary modules.",
       "rollout_lane": "One deployment cohort used for canary, staged, or full release decisions."
     }
   },
+  "datasets": [
+    {
+      "id": "atlas",
+      "name": "Atlas Release Ops",
+      "domain": "release-ops",
+      "languages": [
+        "en"
+      ],
+      "sync_modes": [
+        "agent-primary"
+      ]
+    },
+    {
+      "id": "harbor",
+      "name": "Harbor Change Control",
+      "domain": "regulated-change-control",
+      "languages": [
+        "en"
+      ],
+      "sync_modes": [
+        "agent-primary",
+        "human-primary"
+      ]
+    }
+  ],
   "modules": [
     {
       "id": "atlas-root",
@@ -147,6 +175,70 @@
         "escape-hatch"
       ],
       "priority": "standard"
+    },
+    {
+      "id": "harbor-root",
+      "path": "modules/harbor-root.json",
+      "scope": "Cold-start routing for the regulated change-control slice. Use for first-hop orientation.",
+      "category": "architecture",
+      "layer": "root",
+      "deps": [],
+      "tags": [
+        "root",
+        "harbor",
+        "routing",
+        "compliance"
+      ],
+      "priority": "critical"
+    },
+    {
+      "id": "harbor-capsule",
+      "path": "modules/harbor-capsule.json",
+      "scope": "Capsule routes change control and audit evidence.",
+      "category": "capsule",
+      "layer": "capsule",
+      "deps": [],
+      "tags": [
+        "capsule",
+        "harbor",
+        "summary",
+        "compliance"
+      ],
+      "priority": "critical"
+    },
+    {
+      "id": "harbor-change-control",
+      "path": "modules/harbor-change-control.json",
+      "scope": "Regulated change policy, approval rules, exception handling, and SOP authority alignment.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "change-control",
+        "approval",
+        "risk",
+        "sop",
+        "qa"
+      ],
+      "priority": "standard"
+    },
+    {
+      "id": "harbor-audit-evidence",
+      "path": "modules/harbor-audit-evidence.json",
+      "scope": "Audit evidence requirements, retention windows, and raw-query references for external review.",
+      "category": "reference",
+      "layer": "detail",
+      "deps": [
+        "harbor-change-control"
+      ],
+      "tags": [
+        "audit",
+        "evidence",
+        "retention",
+        "query",
+        "compliance"
+      ],
+      "priority": "standard"
     }
   ],
   "docs": [
@@ -185,6 +277,28 @@
       "moduleIds": [
         "operations-governance",
         "evidence-reference"
+      ]
+    },
+    {
+      "path": "harbor/README.md",
+      "title": "Harbor Change Control overview",
+      "moduleIds": [
+        "harbor-root",
+        "harbor-capsule"
+      ]
+    },
+    {
+      "path": "harbor/docs/01-change-control.md",
+      "title": "Change control",
+      "moduleIds": [
+        "harbor-change-control"
+      ]
+    },
+    {
+      "path": "harbor/docs/02-audit-evidence.md",
+      "title": "Audit evidence",
+      "moduleIds": [
+        "harbor-audit-evidence"
       ]
     }
   ],
@@ -1821,6 +1935,424 @@
         }
       ],
       "content": "ALTER TABLE release_packets ADD COLUMN approval_snapshot JSONB NOT NULL DEFAULT '{}'::jsonb;\n-- Raw migration adds release_packets.approval_snapshot as immutable JSONB evidence.\n-- Raw SQL evidence stays in the evidence layer and is not loaded on cold start.\n-- Raw artifacts preserve facts but reduce structured traversability.\n"
+    },
+    {
+      "id": "harbor-system-overview",
+      "phase": "vision",
+      "humanDoc": "harbor/README.md",
+      "moduleId": "harbor-root",
+      "kind": "section",
+      "title": "Harbor system overview",
+      "summary": "Use the root layer for regulated change-control purpose, authority posture, and first-hop routing.",
+      "section": {
+        "sid": "harbor-system-overview",
+        "topic": "regulated change-control purpose and authority posture",
+        "content_type": "prose",
+        "criticality": "must"
+      },
+      "facts": [
+        {
+          "id": "harbor-overview-system",
+          "text": "Harbor Change Control coordinates regulated production changes for clinical data systems and external auditor review.",
+          "critical": true
+        },
+        {
+          "id": "harbor-overview-sync",
+          "text": "Human-primary SOP pages are allowed only when the pair declares sync_source=human-primary explicitly.",
+          "critical": true
+        },
+        {
+          "id": "harbor-overview-first-hop",
+          "text": "Cold-start routing begins at harbor-root and summary routing continues through harbor-capsule.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "harbor-capsule-routing",
+      "phase": "governance",
+      "humanDoc": "harbor/README.md",
+      "moduleId": "harbor-capsule",
+      "kind": "section",
+      "title": "Harbor capsule routing",
+      "summary": "Use the capsule for quick change-control orientation.",
+      "section": {
+        "sid": "harbor-capsule-routing",
+        "topic": "harbor capsule routes to detailed authority",
+        "content_type": "rules",
+        "criticality": "must"
+      },
+      "facts": [
+        {
+          "id": "harbor-capsule-policy",
+          "text": "Use harbor-change-control for approval rules, exception handling, and sign-off authority.",
+          "critical": true
+        },
+        {
+          "id": "harbor-capsule-evidence",
+          "text": "Use harbor-audit-evidence for evidence bundles, retention policy, and audit query references.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "harbor-policy-brief",
+      "phase": "planning",
+      "humanDoc": "harbor/docs/01-change-control.md",
+      "moduleId": "harbor-change-control",
+      "kind": "section",
+      "title": "Change policy brief",
+      "summary": "State mandatory fields, rollback discipline, and human-primary SOP posture for regulated change control.",
+      "section": {
+        "sid": "change-policy-brief",
+        "topic": "regulated change policy",
+        "content_type": "rules",
+        "criticality": "must"
+      },
+      "facts": [
+        {
+          "id": "harbor-policy-required-fields",
+          "text": "Every material change request must declare regulated asset, risk class, approver set, rollback owner, and evidence bundle.",
+          "critical": true
+        },
+        {
+          "id": "harbor-policy-rollback-owner",
+          "text": "Emergency changes require a documented rollback owner before execution.",
+          "critical": true
+        },
+        {
+          "id": "harbor-policy-human-primary",
+          "text": "The regulator-facing SOP is the declared human-primary surface for Harbor change control.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "harbor-risk-class-matrix",
+      "phase": "discovery",
+      "humanDoc": "harbor/docs/01-change-control.md",
+      "moduleId": "harbor-change-control",
+      "kind": "artifact",
+      "title": "Risk class matrix",
+      "summary": "Capture how regulated change classes alter approval depth.",
+      "artifact": {
+        "artifact_id": "risk-class-matrix",
+        "type": "mapping-table",
+        "usage": "Regulated change approval depth by risk class."
+      },
+      "facts": [
+        {
+          "id": "harbor-risk-class-three",
+          "text": "Risk class III changes require clinical QA and data stewardship approval.",
+          "critical": true
+        },
+        {
+          "id": "harbor-risk-class-two",
+          "text": "Risk class II changes require data stewardship approval before scheduling.",
+          "critical": true
+        },
+        {
+          "id": "harbor-risk-class-one",
+          "text": "Risk class I changes can auto-approve only when no schema, PHI, or retention behavior changes.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "key_columns": [
+          "risk_class"
+        ],
+        "columns": [
+          "risk_class",
+          "approval_depth",
+          "notes"
+        ],
+        "rows": [
+          [
+            "I",
+            "auto-approve eligible",
+            "Risk class I changes can auto-approve only when no schema, PHI, or retention behavior changes."
+          ],
+          [
+            "II",
+            "data stewardship review",
+            "Risk class II changes require data stewardship approval before scheduling."
+          ],
+          [
+            "III",
+            "clinical QA + data stewardship",
+            "Risk class III changes require clinical QA and data stewardship approval."
+          ]
+        ]
+      }
+    },
+    {
+      "id": "harbor-approval-tree",
+      "phase": "design",
+      "humanDoc": "harbor/docs/01-change-control.md",
+      "moduleId": "harbor-change-control",
+      "kind": "artifact",
+      "title": "Approval decision tree",
+      "summary": "Map regulated change signals to approval paths.",
+      "artifact": {
+        "artifact_id": "approval-decision-tree",
+        "type": "decision-tree",
+        "usage": "Regulated change approval classifier."
+      },
+      "facts": [
+        {
+          "id": "harbor-approval-emergency",
+          "text": "Emergency changes require retrospective approval within twenty-four hours.",
+          "critical": true
+        },
+        {
+          "id": "harbor-approval-phi",
+          "text": "Changes that alter PHI retention cannot skip security review.",
+          "critical": true
+        },
+        {
+          "id": "harbor-approval-waiver",
+          "text": "Waivers expire at the next review board checkpoint.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "root": "change-kind",
+        "nodes": [
+          {
+            "id": "change-kind",
+            "type": "condition",
+            "eval": "change kind?",
+            "branches": [
+              {
+                "value": "standard",
+                "next": "standard-path"
+              },
+              {
+                "value": "emergency",
+                "next": "emergency-path"
+              },
+              {
+                "value": "waiver",
+                "next": "waiver-path"
+              }
+            ]
+          },
+          {
+            "id": "standard-path",
+            "type": "action",
+            "action": "Changes that alter PHI retention cannot skip security review."
+          },
+          {
+            "id": "emergency-path",
+            "type": "action",
+            "action": "Emergency changes require retrospective approval within twenty-four hours."
+          },
+          {
+            "id": "waiver-path",
+            "type": "action",
+            "action": "Waivers expire at the next review board checkpoint."
+          }
+        ]
+      }
+    },
+    {
+      "id": "harbor-exception-flow",
+      "phase": "build",
+      "humanDoc": "harbor/docs/01-change-control.md",
+      "moduleId": "harbor-change-control",
+      "kind": "artifact",
+      "title": "Exception handling flow",
+      "summary": "Define how regulated exceptions are opened, approved, and closed.",
+      "artifact": {
+        "artifact_id": "exception-handling-flow",
+        "type": "process-flow",
+        "usage": "Controlled exception workflow."
+      },
+      "facts": [
+        {
+          "id": "harbor-exception-record",
+          "text": "Exception flow records sponsor, approving authority, expiry time, and remediation task.",
+          "critical": true
+        },
+        {
+          "id": "harbor-exception-expiry",
+          "text": "Expired exceptions block further deployment until closed.",
+          "critical": true
+        },
+        {
+          "id": "harbor-exception-evidence",
+          "text": "Approved exceptions attach validation evidence before activation.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "entry": "record-exception",
+        "terminals": [
+          "exception-active",
+          "exception-blocked"
+        ],
+        "actors": [
+          "change-manager",
+          "quality-reviewer"
+        ],
+        "steps": [
+          {
+            "id": "record-exception",
+            "type": "action",
+            "actor": "change-manager",
+            "action": "Exception flow records sponsor, approving authority, expiry time, and remediation task.",
+            "next": "attach-evidence"
+          },
+          {
+            "id": "attach-evidence",
+            "type": "action",
+            "actor": "change-manager",
+            "action": "Approved exceptions attach validation evidence before activation.",
+            "next": "check-expiry"
+          },
+          {
+            "id": "check-expiry",
+            "type": "decision",
+            "actor": "quality-reviewer",
+            "action": "Exception expired?",
+            "next": {
+              "no": "exception-active",
+              "yes": "exception-blocked"
+            }
+          },
+          {
+            "id": "exception-active",
+            "type": "action",
+            "actor": "quality-reviewer",
+            "action": "Exception remains active until its planned expiry.",
+            "next": null
+          },
+          {
+            "id": "exception-blocked",
+            "type": "action",
+            "actor": "quality-reviewer",
+            "action": "Expired exceptions block further deployment until closed.",
+            "next": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "harbor-audit-overview",
+      "phase": "operate",
+      "humanDoc": "harbor/docs/02-audit-evidence.md",
+      "moduleId": "harbor-audit-evidence",
+      "kind": "section",
+      "title": "Audit evidence overview",
+      "summary": "Describe how evidence bundles and blocked states behave under audit review.",
+      "section": {
+        "sid": "audit-evidence-overview",
+        "topic": "audit evidence expectations",
+        "content_type": "prose",
+        "criticality": "should"
+      },
+      "facts": [
+        {
+          "id": "harbor-audit-bundle",
+          "text": "Every approved change links ticket evidence, validation evidence, and communication evidence.",
+          "critical": true
+        },
+        {
+          "id": "harbor-audit-blocked",
+          "text": "Missing evidence keeps a change in blocked state even after technical rollout completes.",
+          "critical": true
+        }
+      ]
+    },
+    {
+      "id": "harbor-retention-window",
+      "phase": "governance",
+      "humanDoc": "harbor/docs/02-audit-evidence.md",
+      "moduleId": "harbor-audit-evidence",
+      "kind": "artifact",
+      "title": "Evidence retention window",
+      "summary": "Represent retention and audit snapshot timing.",
+      "artifact": {
+        "artifact_id": "evidence-retention-window",
+        "type": "temporal-pattern",
+        "usage": "Retention and evidence snapshot timing."
+      },
+      "facts": [
+        {
+          "id": "harbor-retention-years",
+          "text": "Audit evidence is retained for seven years.",
+          "critical": true
+        },
+        {
+          "id": "harbor-retention-snapshot",
+          "text": "Nightly evidence snapshots run at 02:15 UTC.",
+          "critical": true
+        },
+        {
+          "id": "harbor-retention-legal",
+          "text": "Legal hold suppresses deletion even after the normal retention window expires.",
+          "critical": true
+        }
+      ],
+      "content": {
+        "timezone": "UTC",
+        "patterns": [
+          {
+            "id": "harbor-retention-period",
+            "type": "window",
+            "expression": "7y",
+            "target": "Audit evidence is retained for seven years.",
+            "on_trigger": "allow retention countdown",
+            "on_violation": "open compliance review"
+          },
+          {
+            "id": "harbor-nightly-snapshot",
+            "type": "interval",
+            "expression": "02:15 UTC daily",
+            "target": "evidence snapshot",
+            "on_trigger": "Nightly evidence snapshots run at 02:15 UTC."
+          },
+          {
+            "id": "harbor-legal-hold",
+            "type": "window",
+            "expression": "while legal_hold == true",
+            "target": "Legal hold suppresses deletion even after the normal retention window expires.",
+            "on_violation": "block deletion"
+          }
+        ]
+      }
+    },
+    {
+      "id": "harbor-audit-query",
+      "phase": "operate",
+      "humanDoc": "harbor/docs/02-audit-evidence.md",
+      "moduleId": "harbor-audit-evidence",
+      "kind": "artifact",
+      "title": "Audit evidence query",
+      "summary": "Keep low-level evidence query text as an explicit raw escape hatch.",
+      "artifact": {
+        "artifact_id": "audit-evidence-query",
+        "type": "raw",
+        "usage": "Escape hatch for auditor-oriented SQL evidence."
+      },
+      "facts": [
+        {
+          "id": "harbor-query-fields",
+          "text": "Auditors can query change approvals by change_id, approver_role, and evidence_status.",
+          "critical": true
+        },
+        {
+          "id": "harbor-query-escape-hatch",
+          "text": "The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable.",
+          "critical": true
+        },
+        {
+          "id": "harbor-query-immutable",
+          "text": "Evidence query snapshots are immutable once attached to an approved change record.",
+          "critical": true
+        }
+      ],
+      "content": "SELECT change_id, approver_role, evidence_status\nFROM audit_change_approvals\nWHERE approved_at >= NOW() - INTERVAL '30 days';\n-- Auditors can query change approvals by change_id, approver_role, and evidence_status.\n-- The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable.\n-- Evidence query snapshots are immutable once attached to an approved change record.\n"
     }
   ],
   "roles": [
@@ -1879,7 +2411,25 @@
         "architecture-contracts",
         "delivery-workflows",
         "operations-governance",
-        "evidence-reference"
+        "evidence-reference",
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
+      ]
+    },
+    {
+      "id": "compliance-lead",
+      "scope": "Needs regulated change policy, human-primary SOP alignment, exception handling, and audit evidence rules.",
+      "capabilities": [
+        "read-modules",
+        "edit-human-surfaces"
+      ],
+      "required_modules": [
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
       ]
     }
   ]

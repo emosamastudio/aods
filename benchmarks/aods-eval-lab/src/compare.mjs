@@ -114,7 +114,7 @@ export function runRoundOneComparison() {
     limitations: [
       "Round one compares generated archetype corpora, not full upstream toolchain integrations.",
       "Main scoreboards use exact bytes and touch-route scenarios; token counts and semantic-load scenarios are advisory only.",
-      "The benchmark corpus is still a single synthetic release-ops dataset, so diversity remains narrower than a multi-domain benchmark pack.",
+      "The benchmark corpus now spans multiple synthetic datasets and sync modes, but diversity is still narrower than a real multi-language field sample.",
       "Native drift governance remains an AODS-specific metric in this round because the baseline archetypes do not provide equivalent enforcement contracts."
     ]
   };
@@ -564,7 +564,7 @@ AODS-native governance signals remain separate because the other archetypes do n
 | Diversity audit | ${diversity.dataset_count} dataset, domains ${diversity.domains.join(", ")}, languages ${diversity.languages.join(", ")}, sync modes ${diversity.sync_modes.present.join(", ") || "none"} |
 | Overhead | ${aodsBaseline.overhead.bookkeeping_entries} bookkeeping entries, ${formatRatio(aodsBaseline.overhead.bookkeeping_entries_per_artifact)} per artifact, ${aodsBaseline.overhead.touch_route_count} touch routes, ${aodsBaseline.overhead.role_count} roles |
 
-**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight, single-dataset diversity, and incomplete native drift enforcement for semantic conflicts.
+**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight and benchmark diversity that is still narrower than a true field sample.
 
 ## Benchmark objectivity and diversity audit
 
@@ -578,7 +578,7 @@ AODS-native governance signals remain separate because the other archetypes do n
 - **Sync modes absent:** ${diversity.sync_modes.missing.join(", ") || "none"}
 - **Pair scopes absent:** ${diversity.pair_scopes.missing.join(", ") || "none"}
 
-This makes the round-one judgment more objective than the earlier benchmark pass, but it also makes the remaining diversity gaps explicit: the current benchmark is still single-domain, single-language, and centered on agent-primary sync.
+This makes the round-one judgment more objective than the earlier benchmark pass, and it also makes the remaining diversity gaps explicit: the current benchmark is multi-domain and includes both agent-primary and human-primary sync, but it is still synthetic, English-only, and narrower than a field sample.
 
 ## Round-one external comparison
 
@@ -638,7 +638,7 @@ For large projects today, the benchmark supports this practical reading:
 - These corpora are **benchmark archetypes**, not full upstream toolchain integrations.
 - Advisory metrics still include deterministic chars-per-token estimates and semantic-load heuristics.
 - The benchmark corpus is synthetic but lifecycle-complete, so this is a strong laboratory signal rather than a universal field sample.
-- The benchmark still needs more diversity: more than one domain, more than one sync mode, and more than one language surface.
+- The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed toolchain samples.
 - Round two should add Backstage or TechDocs runtime execution, plus narrower spec-first comparators such as OpenAPI, AsyncAPI, or TypeSpec for partial-domain benchmarking.
 
 If AODS keeps outperforming these archetypes on loading and governance while reducing corpus cost, then the case for wider adoption becomes materially stronger.

@@ -1,13 +1,14 @@
 {
   "aods_v": 3,
-  "sys": "atlas-release-ops",
+  "sys": "aods-benchmark-pack",
   "sys_v": 1,
   "created": "2026-04-14T00:00:00Z",
   "updated": "2026-04-14T00:00:00Z",
-  "purpose": "Independent benchmark corpus for a multi-tenant release coordination and incident-ready rollout system.",
+  "purpose": "Independent multi-domain benchmark pack for testing AODS coverage, fidelity, routing, and anti-drift behavior across distinct documentation conditions.",
   "glossary": {
-    "system": "Atlas Release Ops benchmark corpus",
+    "system": "AODS benchmark pack corpus",
     "release_packet": "Canonical release unit with owner, risk tier, rollback plan, communication plan, and rollout window.",
+    "change_packet": "Canonical regulated change request with risk class, evidence bundle, approver set, and rollback owner.",
     "paired_surface": "Human-facing file linked to one or more authoritative agent-primary modules.",
     "rollout_lane": "One deployment cohort used for canary, staged, or full release decisions."
   },
@@ -67,7 +68,25 @@
         "architecture-contracts",
         "delivery-workflows",
         "operations-governance",
-        "evidence-reference"
+        "evidence-reference",
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
+      ]
+    },
+    {
+      "id": "compliance-lead",
+      "scope": "Needs regulated change policy, human-primary SOP alignment, exception handling, and audit evidence rules.",
+      "capabilities": [
+        "read-modules",
+        "edit-human-surfaces"
+      ],
+      "required_modules": [
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
       ]
     }
   ],
@@ -193,11 +212,81 @@
       ],
       "tokens_approx": 369,
       "priority": "standard"
+    },
+    {
+      "id": "harbor-root",
+      "path": "modules/harbor-root.json",
+      "scope": "Cold-start routing for the regulated change-control slice. Use for first-hop orientation.",
+      "category": "architecture",
+      "layer": "root",
+      "deps": [],
+      "tags": [
+        "root",
+        "harbor",
+        "routing",
+        "compliance"
+      ],
+      "tokens_approx": 252,
+      "priority": "critical"
+    },
+    {
+      "id": "harbor-capsule",
+      "path": "modules/harbor-capsule.json",
+      "scope": "Capsule routes change control and audit evidence.",
+      "category": "capsule",
+      "layer": "capsule",
+      "deps": [],
+      "tags": [
+        "capsule",
+        "harbor",
+        "summary",
+        "compliance"
+      ],
+      "tokens_approx": 336,
+      "priority": "critical"
+    },
+    {
+      "id": "harbor-change-control",
+      "path": "modules/harbor-change-control.json",
+      "scope": "Regulated change policy, approval rules, exception handling, and SOP authority alignment.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [],
+      "tags": [
+        "change-control",
+        "approval",
+        "risk",
+        "sop",
+        "qa"
+      ],
+      "tokens_approx": 1247,
+      "priority": "standard"
+    },
+    {
+      "id": "harbor-audit-evidence",
+      "path": "modules/harbor-audit-evidence.json",
+      "scope": "Audit evidence requirements, retention windows, and raw-query references for external review.",
+      "category": "reference",
+      "layer": "detail",
+      "deps": [
+        "harbor-change-control"
+      ],
+      "tags": [
+        "audit",
+        "evidence",
+        "retention",
+        "query",
+        "compliance"
+      ],
+      "tokens_approx": 659,
+      "priority": "standard"
     }
   ],
   "boot_sequence": [
     "atlas-root",
-    "atlas-capsule"
+    "atlas-capsule",
+    "harbor-root",
+    "harbor-capsule"
   ],
   "boot_by_role": {
     "product-manager": [
@@ -224,7 +313,17 @@
       "architecture-contracts",
       "delivery-workflows",
       "operations-governance",
-      "evidence-reference"
+      "evidence-reference",
+      "harbor-root",
+      "harbor-capsule",
+      "harbor-change-control",
+      "harbor-audit-evidence"
+    ],
+    "compliance-lead": [
+      "harbor-root",
+      "harbor-capsule",
+      "harbor-change-control",
+      "harbor-audit-evidence"
     ]
   },
   "boot_by_touch": [
@@ -237,7 +336,11 @@
         "product-lifecycle",
         "architecture-contracts",
         "delivery-workflows",
-        "operations-governance"
+        "operations-governance",
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
       ],
       "reason": "Manifest edits affect routing, pairing, and benchmark scope."
     },
@@ -288,6 +391,33 @@
         "evidence-reference"
       ],
       "reason": "Operations doc edits need policy and evidence authority."
+    },
+    {
+      "match": "harbor/README.md",
+      "intent": "write",
+      "load_modules": [
+        "harbor-root",
+        "harbor-capsule"
+      ],
+      "reason": "Harbor overview edits need regulated routing context."
+    },
+    {
+      "match": "harbor/docs/01-change-control.md",
+      "intent": "write",
+      "load_modules": [
+        "harbor-capsule",
+        "harbor-change-control"
+      ],
+      "reason": "Human-primary SOP edits need paired change-control authority plus capsule context."
+    },
+    {
+      "match": "harbor/docs/02-audit-evidence.md",
+      "intent": "write",
+      "load_modules": [
+        "harbor-capsule",
+        "harbor-audit-evidence"
+      ],
+      "reason": "Audit evidence doc edits need retention and query authority."
     },
     {
       "match": "modules/atlas-root.json",
@@ -360,6 +490,45 @@
         "evidence-reference"
       ],
       "reason": "Evidence edits should stay narrow."
+    },
+    {
+      "match": "modules/harbor-root.json",
+      "intent": "write",
+      "load_modules": [
+        "harbor-root",
+        "harbor-capsule"
+      ],
+      "reason": "Harbor root edits should stay routing-oriented."
+    },
+    {
+      "match": "modules/harbor-capsule.json",
+      "intent": "write",
+      "load_modules": [
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
+      ],
+      "reason": "Harbor capsule edits affect summary routing across the regulated slice."
+    },
+    {
+      "match": "modules/harbor-change-control.json",
+      "intent": "write",
+      "load_modules": [
+        "harbor-capsule",
+        "harbor-change-control"
+      ],
+      "reason": "Change-control module edits need paired SOP and capsule context."
+    },
+    {
+      "match": "modules/harbor-audit-evidence.json",
+      "intent": "write",
+      "load_modules": [
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
+      ],
+      "reason": "Audit evidence edits depend on policy and evidence context."
     }
   ],
   "surface_pairs": [
@@ -371,6 +540,10 @@
         "atlas-root"
       ],
       "human_primary": "README.md",
+      "shared_invariants": [
+        "Use product-lifecycle for goals, roadmap checkpoints, verification intent, and ADR rationale.",
+        "Use operations-governance for policy, events, error handling, temporal controls, and paired-surface discipline."
+      ],
       "sync_source": "agent-primary",
       "status": "paired"
     },
@@ -379,6 +552,9 @@
       "scope": "module",
       "agent_primary": "product-lifecycle",
       "human_primary": "docs/01-product-lifecycle.md",
+      "shared_invariants": [
+        "Atlas Release Ops reduces release readiness coordination from two days to under thirty minutes."
+      ],
       "sync_source": "agent-primary",
       "status": "paired"
     },
@@ -387,6 +563,9 @@
       "scope": "module",
       "agent_primary": "architecture-contracts",
       "human_primary": "docs/02-architecture-and-contracts.md",
+      "shared_invariants": [
+        "POST /v1/releases creates a release packet and returns the packet id."
+      ],
       "sync_source": "agent-primary",
       "status": "paired"
     },
@@ -395,6 +574,9 @@
       "scope": "module",
       "agent_primary": "delivery-workflows",
       "human_primary": "docs/03-delivery-workflows.md",
+      "shared_invariants": [
+        "Approved packets emit a release.packet.approved event and enter scheduled state."
+      ],
       "sync_source": "agent-primary",
       "status": "paired"
     },
@@ -406,6 +588,45 @@
         "evidence-reference"
       ],
       "human_primary": "docs/04-operations-and-governance.md",
+      "shared_invariants": [
+        "sev1 pages primary and secondary on-call within five minutes."
+      ],
+      "sync_source": "agent-primary",
+      "status": "paired"
+    },
+    {
+      "pair_id": "pair-harbor-readme",
+      "scope": "system",
+      "agent_primary": "harbor-capsule",
+      "agent_supporting": [
+        "harbor-root"
+      ],
+      "human_primary": "harbor/README.md",
+      "shared_invariants": [
+        "Use harbor-change-control for approval rules, exception handling, and sign-off authority."
+      ],
+      "sync_source": "agent-primary",
+      "status": "paired"
+    },
+    {
+      "pair_id": "pair-harbor-change-control",
+      "scope": "module",
+      "agent_primary": "harbor-change-control",
+      "human_primary": "harbor/docs/01-change-control.md",
+      "shared_invariants": [
+        "Emergency changes require a documented rollback owner before execution."
+      ],
+      "sync_source": "human-primary",
+      "status": "paired"
+    },
+    {
+      "pair_id": "pair-harbor-audit-evidence",
+      "scope": "module",
+      "agent_primary": "harbor-audit-evidence",
+      "human_primary": "harbor/docs/02-audit-evidence.md",
+      "shared_invariants": [
+        "The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable."
+      ],
       "sync_source": "agent-primary",
       "status": "paired"
     }

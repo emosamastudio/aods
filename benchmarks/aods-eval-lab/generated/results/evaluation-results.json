@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-14T19:01:09.577Z",
+  "generated_at": "2026-04-14T19:43:24.775Z",
   "system_under_test": ".",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "validation": {
     "corpus": "aods-corpus",
-    "timestamp": "2026-04-14T19:01:07.770Z",
+    "timestamp": "2026-04-14T19:43:22.638Z",
     "levels": {
       "L1": {
         "pass": true,
@@ -28,44 +28,44 @@
       }
     },
     "summary": {
-      "total_modules": 7,
-      "total_sections": 10,
-      "total_artifacts": 21,
-      "total_tokens": 10894,
-      "total_surface_pairs": 5,
+      "total_modules": 11,
+      "total_sections": 14,
+      "total_artifacts": 26,
+      "total_tokens": 13388,
+      "total_surface_pairs": 8,
       "errors": 0,
       "warnings": 0
     }
   },
   "coverage": {
-    "total_items": 27,
-    "total_sections": 6,
-    "total_typed_artifacts": 21,
+    "total_items": 36,
+    "total_sections": 10,
+    "total_typed_artifacts": 26,
     "lifecycle_phase_coverage": 1,
     "phase_breakdown": {
       "vision": {
+        "artifacts": 3,
+        "representable": 3,
+        "representable_rate": 1
+      },
+      "discovery": {
         "artifacts": 2,
         "representable": 2,
         "representable_rate": 1
       },
-      "discovery": {
-        "artifacts": 1,
-        "representable": 1,
-        "representable_rate": 1
-      },
       "planning": {
-        "artifacts": 1,
-        "representable": 1,
+        "artifacts": 2,
+        "representable": 2,
         "representable_rate": 1
       },
       "design": {
-        "artifacts": 5,
-        "representable": 5,
+        "artifacts": 6,
+        "representable": 6,
         "representable_rate": 1
       },
       "build": {
-        "artifacts": 6,
-        "representable": 6,
+        "artifacts": 7,
+        "representable": 7,
         "representable_rate": 1
       },
       "test": {
@@ -79,50 +79,50 @@
         "representable_rate": 1
       },
       "operate": {
-        "artifacts": 5,
-        "representable": 5,
+        "artifacts": 7,
+        "representable": 7,
         "representable_rate": 1
       },
       "governance": {
-        "artifacts": 2,
-        "representable": 2,
+        "artifacts": 4,
+        "representable": 4,
         "representable_rate": 1
       }
     },
     "structured_type_coverage": 1,
     "generic_type_coverage": 1,
-    "raw_fallback_rate": 0.047619047619047616,
+    "raw_fallback_rate": 0.07692307692307693,
     "unsupported_items": 0,
-    "paired_surface_count": 5
+    "paired_surface_count": 8
   },
   "fidelity": {
-    "total_facts": 82,
-    "critical_facts": 82,
+    "total_facts": 107,
+    "critical_facts": 107,
     "fact_preservation_rate": 1,
     "critical_fact_preservation_rate": 1,
     "exact_size": {
       "human_docs": {
-        "file_count": 5,
-        "byte_count": 36055,
-        "line_count": 1318
+        "file_count": 8,
+        "byte_count": 44915,
+        "line_count": 1643
       },
       "aods_corpus": {
-        "file_count": 8,
-        "byte_count": 54644,
-        "line_count": 1580
+        "file_count": 12,
+        "byte_count": 71309,
+        "line_count": 2106
       }
     },
-    "human_doc_tokens_estimated": 9016,
-    "aods_tokens_estimated": 13662,
-    "compression_ratio_human_to_aods": 0.6599326599326599,
-    "token_reduction_vs_human": -0.5153061224489797,
-    "facts_per_1k_human_tokens": 9.094942324755989,
-    "facts_per_1k_aods_tokens": 6.002049480310349,
-    "median_artifact_compression_ratio": 1.233644859813084
+    "human_doc_tokens_estimated": 11232,
+    "aods_tokens_estimated": 17829,
+    "compression_ratio_human_to_aods": 0.629984856133266,
+    "token_reduction_vs_human": -0.5873397435897436,
+    "facts_per_1k_human_tokens": 9.526353276353277,
+    "facts_per_1k_aods_tokens": 6.001458298278086,
+    "median_artifact_compression_ratio": 1.2267515079207265
   },
   "loading": {
-    "full_load_tokens_estimated": 13662,
-    "full_load_bytes": 54644,
+    "full_load_tokens_estimated": 17829,
+    "full_load_bytes": 71309,
     "scenario_results": [
       {
         "id": "orientation-summary",
@@ -133,23 +133,24 @@
         "loaded_modules": [
           "atlas-root",
           "atlas-capsule",
-          "product-lifecycle"
+          "product-lifecycle",
+          "harbor-capsule"
         ],
         "required_modules": [
           "atlas-root",
           "atlas-capsule"
         ],
-        "precision": 0.6666666666666666,
+        "precision": 0.5,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 18617,
-        "oracle_bytes": 13702,
-        "byte_savings_vs_full_load": 0.659303857697094,
-        "route_tokens_estimated": 4655,
-        "oracle_tokens_estimated": 3426,
-        "token_savings_vs_full_load": 0.6592738984043331,
-        "token_overfetch_ratio": 1.3587273788674838,
-        "byte_overfetch_ratio": 1.358706758137498
+        "route_bytes": 26650,
+        "oracle_bytes": 20393,
+        "byte_savings_vs_full_load": 0.6262743833176738,
+        "route_tokens_estimated": 6664,
+        "oracle_tokens_estimated": 5099,
+        "token_savings_vs_full_load": 0.6262269336474284,
+        "token_overfetch_ratio": 1.3069229260639341,
+        "byte_overfetch_ratio": 1.3068209679792087
       },
       {
         "id": "product-doc-edit",
@@ -168,12 +169,12 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 17669,
-        "oracle_bytes": 17669,
-        "byte_savings_vs_full_load": 0.676652514457214,
-        "route_tokens_estimated": 4418,
-        "oracle_tokens_estimated": 4418,
-        "token_savings_vs_full_load": 0.6766212853169375,
+        "route_bytes": 24360,
+        "oracle_bytes": 24360,
+        "byte_savings_vs_full_load": 0.6583881417492883,
+        "route_tokens_estimated": 6091,
+        "oracle_tokens_estimated": 6091,
+        "token_savings_vs_full_load": 0.6583655841606372,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -196,12 +197,12 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 29126,
-        "oracle_bytes": 29126,
-        "byte_savings_vs_full_load": 0.46698631139740865,
-        "route_tokens_estimated": 7282,
-        "oracle_tokens_estimated": 7282,
-        "token_savings_vs_full_load": 0.46698872785829304,
+        "route_bytes": 35817,
+        "oracle_bytes": 35817,
+        "byte_savings_vs_full_load": 0.4977211852641321,
+        "route_tokens_estimated": 8955,
+        "oracle_tokens_estimated": 8955,
+        "token_savings_vs_full_load": 0.49772841998990414,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -216,23 +217,24 @@
           "atlas-capsule",
           "architecture-contracts",
           "delivery-workflows",
-          "operations-governance"
+          "operations-governance",
+          "harbor-change-control"
         ],
         "required_modules": [
           "delivery-workflows",
           "operations-governance"
         ],
-        "precision": 0.4,
+        "precision": 0.3333333333333333,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 48253,
-        "oracle_bytes": 30197,
-        "byte_savings_vs_full_load": 0.1169570309640583,
-        "route_tokens_estimated": 12064,
-        "oracle_tokens_estimated": 7550,
-        "token_savings_vs_full_load": 0.11696676914068216,
-        "token_overfetch_ratio": 1.5978807947019869,
-        "byte_overfetch_ratio": 1.5979401927343775
+        "route_bytes": 59932,
+        "oracle_bytes": 36888,
+        "byte_savings_vs_full_load": 0.15954507846134425,
+        "route_tokens_estimated": 14984,
+        "oracle_tokens_estimated": 9223,
+        "token_savings_vs_full_load": 0.15957148465982385,
+        "token_overfetch_ratio": 1.624634067006397,
+        "byte_overfetch_ratio": 1.6247018000433746
       },
       {
         "id": "ops-doc-edit",
@@ -253,12 +255,12 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 22669,
-        "oracle_bytes": 22669,
-        "byte_savings_vs_full_load": 0.5851511602371715,
-        "route_tokens_estimated": 5668,
-        "oracle_tokens_estimated": 5668,
-        "token_savings_vs_full_load": 0.5851266286048895,
+        "route_bytes": 29360,
+        "oracle_bytes": 29360,
+        "byte_savings_vs_full_load": 0.588270765261047,
+        "route_tokens_estimated": 7341,
+        "oracle_tokens_estimated": 7341,
+        "token_savings_vs_full_load": 0.5882550900218745,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -280,51 +282,135 @@
         "precision": 0.25,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 34041,
-        "oracle_bytes": 26494,
-        "byte_savings_vs_full_load": 0.37704048019910696,
-        "route_tokens_estimated": 8511,
-        "oracle_tokens_estimated": 6624,
-        "token_savings_vs_full_load": 0.3770311813790075,
-        "token_overfetch_ratio": 1.2848731884057971,
-        "byte_overfetch_ratio": 1.2848569487431116
+        "route_bytes": 40732,
+        "oracle_bytes": 33185,
+        "byte_savings_vs_full_load": 0.4287958041761909,
+        "route_tokens_estimated": 10184,
+        "oracle_tokens_estimated": 8297,
+        "token_savings_vs_full_load": 0.42879578215267267,
+        "token_overfetch_ratio": 1.2274316017837772,
+        "byte_overfetch_ratio": 1.22742202802471
+      },
+      {
+        "id": "harbor-change-control-edit",
+        "description": "Compliance lead edits the human-primary Harbor change control SOP.",
+        "scenario_class": "human-primary-sop-write",
+        "measurement_class": "objective",
+        "mode": "touch-route",
+        "loaded_modules": [
+          "harbor-capsule",
+          "harbor-change-control"
+        ],
+        "required_modules": [
+          "harbor-capsule",
+          "harbor-change-control"
+        ],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 24091,
+        "oracle_bytes": 24091,
+        "byte_savings_vs_full_load": 0.6621604566043557,
+        "route_tokens_estimated": 6024,
+        "oracle_tokens_estimated": 6024,
+        "token_savings_vs_full_load": 0.6621235066464748,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "harbor-audit-evidence-edit",
+        "description": "Compliance lead edits Harbor audit evidence guidance.",
+        "scenario_class": "audit-evidence-write",
+        "measurement_class": "objective",
+        "mode": "touch-route",
+        "loaded_modules": [
+          "harbor-capsule",
+          "harbor-audit-evidence"
+        ],
+        "required_modules": [
+          "harbor-capsule",
+          "harbor-audit-evidence"
+        ],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 21739,
+        "oracle_bytes": 21739,
+        "byte_savings_vs_full_load": 0.6951436705044244,
+        "route_tokens_estimated": 5436,
+        "oracle_tokens_estimated": 5436,
+        "token_savings_vs_full_load": 0.6951034830893488,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "harbor-exception-review",
+        "description": "Compliance lead asks how exceptions and evidence retention interact.",
+        "scenario_class": "regulated-exception-read",
+        "measurement_class": "exploratory",
+        "mode": "semantic-load",
+        "loaded_modules": [
+          "harbor-root",
+          "harbor-capsule",
+          "harbor-change-control",
+          "harbor-audit-evidence",
+          "architecture-contracts",
+          "delivery-workflows",
+          "operations-governance",
+          "evidence-reference"
+        ],
+        "required_modules": [
+          "harbor-change-control",
+          "harbor-audit-evidence"
+        ],
+        "precision": 0.25,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 63762,
+        "oracle_bytes": 25385,
+        "byte_savings_vs_full_load": 0.1058351680713514,
+        "route_tokens_estimated": 15942,
+        "oracle_tokens_estimated": 6347,
+        "token_savings_vs_full_load": 0.10583880195187612,
+        "token_overfetch_ratio": 2.511737828895541,
+        "byte_overfetch_ratio": 2.5117983060862716
       }
     ],
     "objective_touch": {
-      "scenario_count": 3,
+      "scenario_count": 5,
       "hit_rate": 1,
       "average_precision": 1,
       "average_recall": 1,
-      "median_token_savings_vs_full_load": 0.5851266286048895,
-      "median_byte_savings_vs_full_load": 0.5851511602371715,
+      "median_token_savings_vs_full_load": 0.6583655841606372,
+      "median_byte_savings_vs_full_load": 0.6583881417492883,
       "median_token_overfetch_ratio": 1,
       "median_byte_overfetch_ratio": 1
     },
     "exploratory_semantic": {
-      "scenario_count": 3,
+      "scenario_count": 4,
       "hit_rate": 1,
-      "average_precision": 0.4388888888888889,
+      "average_precision": 0.3333333333333333,
       "average_recall": 1,
-      "median_token_savings_vs_full_load": 0.3770311813790075,
-      "median_byte_savings_vs_full_load": 0.37704048019910696,
-      "median_token_overfetch_ratio": 1.3587273788674838,
-      "median_byte_overfetch_ratio": 1.358706758137498
+      "median_token_savings_vs_full_load": 0.29418363340624826,
+      "median_byte_savings_vs_full_load": 0.2941704413187676,
+      "median_token_overfetch_ratio": 1.4657784965351657,
+      "median_byte_overfetch_ratio": 1.4657613840112917
     },
     "combined": {
-      "scenario_count": 6,
+      "scenario_count": 9,
       "hit_rate": 1,
-      "average_precision": 0.7194444444444444,
+      "average_precision": 0.7037037037037037,
       "average_recall": 1,
-      "median_token_savings_vs_full_load": 0.5260576782315913,
-      "median_byte_savings_vs_full_load": 0.5260687358172901,
-      "median_token_overfetch_ratio": 1.1424365942028984,
-      "median_byte_overfetch_ratio": 1.1424284743715558
+      "median_token_savings_vs_full_load": 0.5882550900218745,
+      "median_byte_savings_vs_full_load": 0.588270765261047,
+      "median_token_overfetch_ratio": 1,
+      "median_byte_overfetch_ratio": 1
     },
     "hit_rate": 1,
-    "average_precision": 0.7194444444444444,
+    "average_precision": 0.7037037037037037,
     "average_recall": 1,
-    "median_token_savings_vs_full_load": 0.5260576782315913,
-    "median_overfetch_ratio": 1.1424365942028984
+    "median_token_savings_vs_full_load": 0.5882550900218745,
+    "median_overfetch_ratio": 1
   },
   "drift": {
     "scenario_results": [
@@ -383,13 +469,13 @@
           "docs/01-product-lifecycle.md",
           "modules/product-lifecycle.json"
         ],
-        "built_in_detected": false,
+        "built_in_detected": true,
         "semantic_detected": true,
-        "expected_built_in_detection": false,
+        "expected_built_in_detection": true,
         "expected_semantic_detection": true,
-        "validate_errors": 0,
+        "validate_errors": 2,
         "validate_warnings": 0,
-        "hook_status": "pass"
+        "hook_status": "fail"
       },
       {
         "id": "ops-human-only-drift",
@@ -403,6 +489,21 @@
         "expected_built_in_detection": true,
         "expected_semantic_detection": true,
         "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "harbor-human-primary-human-only-drift",
+        "description": "Human-primary Harbor SOP changes without agent update.",
+        "is_control": false,
+        "changed_files": [
+          "harbor/docs/01-change-control.md"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 1,
         "validate_warnings": 0,
         "hook_status": "fail"
       },
@@ -437,17 +538,22 @@
         "hook_status": "fail"
       }
     ],
-    "built_in_recall": 0.8333333333333334,
-    "semantic_recall": 0.6666666666666666,
+    "built_in_recall": 1,
+    "semantic_recall": 0.7142857142857143,
     "combined_recall": 1,
     "built_in_false_positive_rate": 0,
     "semantic_false_positive_rate": 0
   },
   "diversity": {
-    "dataset_count": 1,
-    "dataset_class": "synthetic-lifecycle",
+    "dataset_count": 2,
+    "datasets": [
+      "atlas",
+      "harbor"
+    ],
+    "dataset_class": "synthetic-lifecycle-pack",
     "domains": [
-      "release-ops"
+      "release-ops",
+      "regulated-change-control"
     ],
     "languages": [
       "en"
@@ -462,6 +568,22 @@
       "json",
       "markdown"
     ],
+    "dataset_breakdown": {
+      "atlas": {
+        "modules": 7,
+        "docs": 5,
+        "items": 27,
+        "loading_scenarios": 6,
+        "drift_scenarios": 7
+      },
+      "harbor": {
+        "modules": 4,
+        "docs": 3,
+        "items": 9,
+        "loading_scenarios": 3,
+        "drift_scenarios": 1
+      }
+    },
     "phase_coverage": {
       "covered": [
         "vision",
@@ -511,55 +633,61 @@
         "product-manager",
         "architect",
         "operator",
-        "doc-author"
+        "doc-author",
+        "compliance-lead"
       ],
       "exercised": [
         "product-manager",
         "doc-author",
         "architect",
-        "operator"
+        "operator",
+        "compliance-lead"
       ],
       "missing": []
     },
     "loading_scenarios": {
-      "total": 6,
-      "objective_count": 3,
-      "exploratory_count": 3,
+      "total": 9,
+      "objective_count": 5,
+      "exploratory_count": 4,
       "by_class": {
         "cold-start-orientation": 1,
         "paired-human-surface-write": 1,
         "agent-module-write": 1,
         "cross-module-debug-read": 1,
         "operations-human-surface-write": 1,
-        "targeted-contract-read": 1
+        "targeted-contract-read": 1,
+        "human-primary-sop-write": 1,
+        "audit-evidence-write": 1,
+        "regulated-exception-read": 1
       },
       "by_measurement_class": {
-        "exploratory": 3,
-        "objective": 3
+        "exploratory": 4,
+        "objective": 5
       },
       "by_intent": {
-        "read": 3,
-        "write": 3
+        "read": 4,
+        "write": 5
       }
     },
     "drift_scenarios": {
-      "total": 7,
+      "total": 8,
       "control_count": 1,
       "by_class": {
         "control-neutral": 1,
         "human-only-drift": 2,
         "manifest-bypass": 1,
         "semantic-conflict": 1,
+        "human-primary-drift": 1,
         "route-integrity": 1,
         "path-safety": 1
       }
     },
     "sync_modes": {
       "present": [
-        "agent-primary"
+        "agent-primary",
+        "human-primary"
       ],
       "missing": [
-        "human-primary",
         "bidirectional"
       ]
     },
@@ -584,12 +712,12 @@
     }
   },
   "overhead": {
-    "module_count": 7,
-    "surface_pair_count": 5,
-    "touch_route_count": 13,
-    "role_count": 4,
-    "bookkeeping_entries": 29,
-    "bookkeeping_entries_per_artifact": 1.0740740740740742
+    "module_count": 11,
+    "surface_pair_count": 8,
+    "touch_route_count": 20,
+    "role_count": 5,
+    "bookkeeping_entries": 44,
+    "bookkeeping_entries_per_artifact": 1.2222222222222223
   },
   "limitations": [
     "Main benchmark gates rely on exact byte counts and touch-route scenarios; token estimates remain advisory.",

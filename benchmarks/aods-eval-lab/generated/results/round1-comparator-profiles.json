@@ -5,14 +5,17 @@
     "archetype": "TechDocs-style docs-as-code baseline",
     "corpus_root": "generated/comparators/markdown-yaml",
     "index_tokens_estimated": 0,
-    "corpus_tokens_estimated": 9442,
-    "loadable_unit_count": 5,
+    "corpus_tokens_estimated": 11863,
+    "loadable_unit_count": 8,
     "counted_files": [
       "README.md",
       "docs/01-product-lifecycle.md",
       "docs/02-architecture-and-contracts.md",
       "docs/03-delivery-workflows.md",
-      "docs/04-operations-and-governance.md"
+      "docs/04-operations-and-governance.md",
+      "harbor/README.md",
+      "harbor/docs/01-change-control.md",
+      "harbor/docs/02-audit-evidence.md"
     ],
     "touch_map": {
       "README.md": [
@@ -29,6 +32,15 @@
       ],
       "docs/04-operations-and-governance.md": [
         "docs/04-operations-and-governance.md"
+      ],
+      "harbor/README.md": [
+        "harbor/README.md"
+      ],
+      "harbor/docs/01-change-control.md": [
+        "harbor/docs/01-change-control.md"
+      ],
+      "harbor/docs/02-audit-evidence.md": [
+        "harbor/docs/02-audit-evidence.md"
       ],
       "modules/atlas-root.json": [
         "README.md"
@@ -50,6 +62,18 @@
       ],
       "modules/evidence-reference.json": [
         "docs/04-operations-and-governance.md"
+      ],
+      "modules/harbor-root.json": [
+        "harbor/README.md"
+      ],
+      "modules/harbor-capsule.json": [
+        "harbor/README.md"
+      ],
+      "modules/harbor-change-control.json": [
+        "harbor/docs/01-change-control.md"
+      ],
+      "modules/harbor-audit-evidence.json": [
+        "harbor/docs/02-audit-evidence.md"
       ]
     },
     "units": [
@@ -192,6 +216,78 @@
           "raw"
         ],
         "tokens_estimated": 2014
+      },
+      {
+        "id": "harbor/README.md",
+        "path": "harbor/README.md",
+        "title": "Harbor Change Control overview",
+        "summary": "Harbor Change Control overview covers harbor-root, harbor-capsule.",
+        "module_ids": [
+          "harbor-root",
+          "harbor-capsule"
+        ],
+        "phases": [
+          "vision",
+          "governance"
+        ],
+        "tags": [
+          "root",
+          "harbor",
+          "routing",
+          "compliance",
+          "capsule",
+          "summary"
+        ],
+        "tokens_estimated": 402
+      },
+      {
+        "id": "harbor/docs/01-change-control.md",
+        "path": "harbor/docs/01-change-control.md",
+        "title": "Change control",
+        "summary": "Change control covers harbor-change-control.",
+        "module_ids": [
+          "harbor-change-control"
+        ],
+        "phases": [
+          "planning",
+          "discovery",
+          "design",
+          "build"
+        ],
+        "tags": [
+          "change-control",
+          "approval",
+          "risk",
+          "sop",
+          "qa",
+          "mapping-table",
+          "decision-tree",
+          "process-flow"
+        ],
+        "tokens_estimated": 1280
+      },
+      {
+        "id": "harbor/docs/02-audit-evidence.md",
+        "path": "harbor/docs/02-audit-evidence.md",
+        "title": "Audit evidence",
+        "summary": "Audit evidence covers harbor-audit-evidence.",
+        "module_ids": [
+          "harbor-audit-evidence"
+        ],
+        "phases": [
+          "operate",
+          "governance"
+        ],
+        "tags": [
+          "audit",
+          "evidence",
+          "retention",
+          "query",
+          "compliance",
+          "temporal-pattern",
+          "raw"
+        ],
+        "tokens_estimated": 739
       }
     ],
     "governance": {
@@ -206,16 +302,19 @@
     "label": "llms.txt",
     "archetype": "Lightweight AI-facing baseline",
     "corpus_root": "generated/comparators/llms-txt",
-    "index_tokens_estimated": 266,
-    "corpus_tokens_estimated": 9291,
-    "loadable_unit_count": 5,
+    "index_tokens_estimated": 386,
+    "corpus_tokens_estimated": 11633,
+    "loadable_unit_count": 8,
     "counted_files": [
       "llms.txt",
       "README.md",
       "docs/01-product-lifecycle.md",
       "docs/02-architecture-and-contracts.md",
       "docs/03-delivery-workflows.md",
-      "docs/04-operations-and-governance.md"
+      "docs/04-operations-and-governance.md",
+      "harbor/README.md",
+      "harbor/docs/01-change-control.md",
+      "harbor/docs/02-audit-evidence.md"
     ],
     "optional_files": [
       "llms-full.txt"
@@ -235,6 +334,15 @@
       ],
       "docs/04-operations-and-governance.md": [
         "docs/04-operations-and-governance.md"
+      ],
+      "harbor/README.md": [
+        "harbor/README.md"
+      ],
+      "harbor/docs/01-change-control.md": [
+        "harbor/docs/01-change-control.md"
+      ],
+      "harbor/docs/02-audit-evidence.md": [
+        "harbor/docs/02-audit-evidence.md"
       ],
       "modules/atlas-root.json": [
         "README.md"
@@ -256,6 +364,18 @@
       ],
       "modules/evidence-reference.json": [
         "docs/04-operations-and-governance.md"
+      ],
+      "modules/harbor-root.json": [
+        "harbor/README.md"
+      ],
+      "modules/harbor-capsule.json": [
+        "harbor/README.md"
+      ],
+      "modules/harbor-change-control.json": [
+        "harbor/docs/01-change-control.md"
+      ],
+      "modules/harbor-audit-evidence.json": [
+        "harbor/docs/02-audit-evidence.md"
       ]
     },
     "units": [
@@ -377,6 +497,73 @@
           "escape-hatch"
         ],
         "tokens_estimated": 1907
+      },
+      {
+        "id": "harbor/README.md",
+        "path": "harbor/README.md",
+        "title": "Harbor Change Control overview",
+        "summary": "Cold-start routing for the regulated change-control slice. Use for first-hop orientation. Capsule routes change control and audit evidence.",
+        "module_ids": [
+          "harbor-root",
+          "harbor-capsule"
+        ],
+        "phases": [
+          "vision",
+          "governance"
+        ],
+        "tags": [
+          "root",
+          "harbor",
+          "routing",
+          "compliance",
+          "capsule",
+          "summary"
+        ],
+        "tokens_estimated": 338
+      },
+      {
+        "id": "harbor/docs/01-change-control.md",
+        "path": "harbor/docs/01-change-control.md",
+        "title": "Change control",
+        "summary": "Regulated change policy, approval rules, exception handling, and SOP authority alignment.",
+        "module_ids": [
+          "harbor-change-control"
+        ],
+        "phases": [
+          "planning",
+          "discovery",
+          "design",
+          "build"
+        ],
+        "tags": [
+          "change-control",
+          "approval",
+          "risk",
+          "sop",
+          "qa"
+        ],
+        "tokens_estimated": 1207
+      },
+      {
+        "id": "harbor/docs/02-audit-evidence.md",
+        "path": "harbor/docs/02-audit-evidence.md",
+        "title": "Audit evidence",
+        "summary": "Audit evidence requirements, retention windows, and raw-query references for external review.",
+        "module_ids": [
+          "harbor-audit-evidence"
+        ],
+        "phases": [
+          "operate",
+          "governance"
+        ],
+        "tags": [
+          "audit",
+          "evidence",
+          "retention",
+          "query",
+          "compliance"
+        ],
+        "tokens_estimated": 677
       }
     ],
     "governance": {
@@ -391,9 +578,9 @@
     "label": "DITA topic corpus",
     "archetype": "Structured modular documentation baseline",
     "corpus_root": "generated/comparators/dita",
-    "index_tokens_estimated": 179,
-    "corpus_tokens_estimated": 12973,
-    "loadable_unit_count": 7,
+    "index_tokens_estimated": 180,
+    "corpus_tokens_estimated": 16263,
+    "loadable_unit_count": 11,
     "counted_files": [
       "atlas-release-ops.ditamap",
       "topics/atlas-root.dita",
@@ -402,7 +589,11 @@
       "topics/architecture-contracts.dita",
       "topics/delivery-workflows.dita",
       "topics/operations-governance.dita",
-      "topics/evidence-reference.dita"
+      "topics/evidence-reference.dita",
+      "topics/harbor-root.dita",
+      "topics/harbor-capsule.dita",
+      "topics/harbor-change-control.dita",
+      "topics/harbor-audit-evidence.dita"
     ],
     "touch_map": {
       "modules/atlas-root.json": [
@@ -426,6 +617,18 @@
       "modules/evidence-reference.json": [
         "topics/evidence-reference.dita"
       ],
+      "modules/harbor-root.json": [
+        "topics/harbor-root.dita"
+      ],
+      "modules/harbor-capsule.json": [
+        "topics/harbor-capsule.dita"
+      ],
+      "modules/harbor-change-control.json": [
+        "topics/harbor-change-control.dita"
+      ],
+      "modules/harbor-audit-evidence.json": [
+        "topics/harbor-audit-evidence.dita"
+      ],
       "README.md": [
         "topics/atlas-root.dita",
         "topics/atlas-capsule.dita"
@@ -442,6 +645,16 @@
       "docs/04-operations-and-governance.md": [
         "topics/operations-governance.dita",
         "topics/evidence-reference.dita"
+      ],
+      "harbor/README.md": [
+        "topics/harbor-root.dita",
+        "topics/harbor-capsule.dita"
+      ],
+      "harbor/docs/01-change-control.md": [
+        "topics/harbor-change-control.dita"
+      ],
+      "harbor/docs/02-audit-evidence.md": [
+        "topics/harbor-audit-evidence.dita"
       ]
     },
     "units": [
@@ -612,6 +825,93 @@
           "raw"
         ],
         "tokens_estimated": 395
+      },
+      {
+        "id": "harbor-root",
+        "path": "topics/harbor-root.dita",
+        "title": "harbor-root",
+        "summary": "Cold-start routing for the regulated change-control slice. Use for first-hop orientation.",
+        "module_ids": [
+          "harbor-root"
+        ],
+        "phases": [
+          "vision"
+        ],
+        "tags": [
+          "root",
+          "harbor",
+          "routing",
+          "compliance"
+        ],
+        "tokens_estimated": 316
+      },
+      {
+        "id": "harbor-capsule",
+        "path": "topics/harbor-capsule.dita",
+        "title": "harbor-capsule",
+        "summary": "Capsule routes change control and audit evidence.",
+        "module_ids": [
+          "harbor-capsule"
+        ],
+        "phases": [
+          "governance"
+        ],
+        "tags": [
+          "capsule",
+          "harbor",
+          "summary",
+          "compliance"
+        ],
+        "tokens_estimated": 261
+      },
+      {
+        "id": "harbor-change-control",
+        "path": "topics/harbor-change-control.dita",
+        "title": "harbor-change-control",
+        "summary": "Regulated change policy, approval rules, exception handling, and SOP authority alignment.",
+        "module_ids": [
+          "harbor-change-control"
+        ],
+        "phases": [
+          "planning",
+          "discovery",
+          "design",
+          "build"
+        ],
+        "tags": [
+          "change-control",
+          "approval",
+          "risk",
+          "sop",
+          "qa",
+          "mapping-table",
+          "decision-tree",
+          "process-flow"
+        ],
+        "tokens_estimated": 1741
+      },
+      {
+        "id": "harbor-audit-evidence",
+        "path": "topics/harbor-audit-evidence.dita",
+        "title": "harbor-audit-evidence",
+        "summary": "Audit evidence requirements, retention windows, and raw-query references for external review.",
+        "module_ids": [
+          "harbor-audit-evidence"
+        ],
+        "phases": [
+          "operate",
+          "governance"
+        ],
+        "tags": [
+          "audit",
+          "evidence",
+          "retention",
+          "query",
+          "compliance",
+          "temporal-pattern",
+          "raw"
+        ],
+        "tokens_estimated": 971
       }
     ],
     "governance": {

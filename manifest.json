@@ -1,9 +1,9 @@
 {
   "aods_v": 3,
   "sys": "aods-spec",
-  "sys_v": 7,
+  "sys_v": 8,
   "created": "2026-04-13T00:00:00Z",
-  "updated": "2026-04-14T18:40:58Z",
+  "updated": "2026-04-14T19:41:38Z",
   "purpose": "AODS v3 self-referential specification. Adds dual-surface pairing, layer-aware progressive disclosure, capsule modules, and structured governance patterns without introducing new artifact classes.",
   "glossary": {
     "aods": "Agent-Optimized Documentation System — format and conventions for agent-first documentation",
@@ -119,7 +119,7 @@
         "authority",
         "routing"
       ],
-      "tokens_approx": 2975,
+      "tokens_approx": 3108,
       "priority": "critical"
     },
     {
@@ -137,7 +137,7 @@
         "quality",
         "integrity"
       ],
-      "tokens_approx": 3068,
+      "tokens_approx": 3247,
       "priority": "standard"
     }
   ],
@@ -309,6 +309,10 @@
         "spec-validation"
       ],
       "human_primary": "README.md",
+      "shared_invariants": [
+        "Human surfaces do not replace agent-primary semantic authority.",
+        "Manifest metadata alone does not satisfy agent-primary semantic synchronization."
+      ],
       "sync_source": "agent-primary",
       "status": "paired"
     }

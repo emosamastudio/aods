@@ -1,4 +1,4 @@
-# Atlas Release Ops full context
+# AODS Benchmark Pack full context
 
 ## Atlas Release Ops overview
 
@@ -1326,4 +1326,335 @@ Human-readable reference view:
 
 ```json
 "ALTER TABLE release_packets ADD COLUMN approval_snapshot JSONB NOT NULL DEFAULT '{}'::jsonb;\n-- Raw migration adds release_packets.approval_snapshot as immutable JSONB evidence.\n-- Raw SQL evidence stays in the evidence layer and is not loaded on cold start.\n-- Raw artifacts preserve facts but reduce structured traversability.\n"
+```
+
+## Harbor Change Control overview
+
+# Harbor Change Control overview
+
+This linked Markdown document is referenced from llms.txt as an AI-facing reading surface.
+
+## Canonical rules
+
+## Harbor system overview
+
+Phase: vision.
+
+Use the root layer for regulated change-control purpose, authority posture, and first-hop routing.
+
+Required facts:
+
+- Harbor Change Control coordinates regulated production changes for clinical data systems and external auditor review.
+- Human-primary SOP pages are allowed only when the pair declares sync_source=human-primary explicitly.
+- Cold-start routing begins at harbor-root and summary routing continues through harbor-capsule.
+
+AODS representation: harbor-root/section:harbor-system-overview.
+
+Context note: Use the root layer for regulated change-control purpose, authority posture, and first-hop routing.
+
+## Harbor capsule routing
+
+Phase: governance.
+
+Use the capsule for quick change-control orientation.
+
+Required facts:
+
+- Use harbor-change-control for approval rules, exception handling, and sign-off authority.
+- Use harbor-audit-evidence for evidence bundles, retention policy, and audit query references.
+
+AODS representation: harbor-capsule/section:harbor-capsule-routing.
+
+Context note: Use the capsule for quick change-control orientation.
+
+## Linked detail surfaces
+
+- harbor/docs/01-change-control.md
+- harbor/docs/02-audit-evidence.md
+
+## Change control
+
+# Change control
+
+This linked Markdown document is referenced from llms.txt as an AI-facing reading surface.
+
+## Lifecycle artifacts
+
+## Change policy brief
+
+Phase: planning.
+
+State mandatory fields, rollback discipline, and human-primary SOP posture for regulated change control.
+
+Required facts:
+
+- Every material change request must declare regulated asset, risk class, approver set, rollback owner, and evidence bundle.
+- Emergency changes require a documented rollback owner before execution.
+- The regulator-facing SOP is the declared human-primary surface for Harbor change control.
+
+AODS representation: harbor-change-control/section:change-policy-brief.
+
+Context note: State mandatory fields, rollback discipline, and human-primary SOP posture for regulated change control.
+
+## Risk class matrix
+
+Phase: discovery.
+
+Capture how regulated change classes alter approval depth.
+
+Required facts:
+
+- Risk class III changes require clinical QA and data stewardship approval.
+- Risk class II changes require data stewardship approval before scheduling.
+- Risk class I changes can auto-approve only when no schema, PHI, or retention behavior changes.
+
+AODS representation: harbor-change-control/mapping-table.
+
+Human-readable reference view:
+
+```json
+{
+  "key_columns": [
+    "risk_class"
+  ],
+  "columns": [
+    "risk_class",
+    "approval_depth",
+    "notes"
+  ],
+  "rows": [
+    [
+      "I",
+      "auto-approve eligible",
+      "Risk class I changes can auto-approve only when no schema, PHI, or retention behavior changes."
+    ],
+    [
+      "II",
+      "data stewardship review",
+      "Risk class II changes require data stewardship approval before scheduling."
+    ],
+    [
+      "III",
+      "clinical QA + data stewardship",
+      "Risk class III changes require clinical QA and data stewardship approval."
+    ]
+  ]
+}
+```
+
+## Approval decision tree
+
+Phase: design.
+
+Map regulated change signals to approval paths.
+
+Required facts:
+
+- Emergency changes require retrospective approval within twenty-four hours.
+- Changes that alter PHI retention cannot skip security review.
+- Waivers expire at the next review board checkpoint.
+
+AODS representation: harbor-change-control/decision-tree.
+
+Human-readable reference view:
+
+```json
+{
+  "root": "change-kind",
+  "nodes": [
+    {
+      "id": "change-kind",
+      "type": "condition",
+      "eval": "change kind?",
+      "branches": [
+        {
+          "value": "standard",
+          "next": "standard-path"
+        },
+        {
+          "value": "emergency",
+          "next": "emergency-path"
+        },
+        {
+          "value": "waiver",
+          "next": "waiver-path"
+        }
+      ]
+    },
+    {
+      "id": "standard-path",
+      "type": "action",
+      "action": "Changes that alter PHI retention cannot skip security review."
+    },
+    {
+      "id": "emergency-path",
+      "type": "action",
+      "action": "Emergency changes require retrospective approval within twenty-four hours."
+    },
+    {
+      "id": "waiver-path",
+      "type": "action",
+      "action": "Waivers expire at the next review board checkpoint."
+    }
+  ]
+}
+```
+
+## Exception handling flow
+
+Phase: build.
+
+Define how regulated exceptions are opened, approved, and closed.
+
+Required facts:
+
+- Exception flow records sponsor, approving authority, expiry time, and remediation task.
+- Expired exceptions block further deployment until closed.
+- Approved exceptions attach validation evidence before activation.
+
+AODS representation: harbor-change-control/process-flow.
+
+Human-readable reference view:
+
+```json
+{
+  "entry": "record-exception",
+  "terminals": [
+    "exception-active",
+    "exception-blocked"
+  ],
+  "actors": [
+    "change-manager",
+    "quality-reviewer"
+  ],
+  "steps": [
+    {
+      "id": "record-exception",
+      "type": "action",
+      "actor": "change-manager",
+      "action": "Exception flow records sponsor, approving authority, expiry time, and remediation task.",
+      "next": "attach-evidence"
+    },
+    {
+      "id": "attach-evidence",
+      "type": "action",
+      "actor": "change-manager",
+      "action": "Approved exceptions attach validation evidence before activation.",
+      "next": "check-expiry"
+    },
+    {
+      "id": "check-expiry",
+      "type": "decision",
+      "actor": "quality-reviewer",
+      "action": "Exception expired?",
+      "next": {
+        "no": "exception-active",
+        "yes": "exception-blocked"
+      }
+    },
+    {
+      "id": "exception-active",
+      "type": "action",
+      "actor": "quality-reviewer",
+      "action": "Exception remains active until its planned expiry.",
+      "next": null
+    },
+    {
+      "id": "exception-blocked",
+      "type": "action",
+      "actor": "quality-reviewer",
+      "action": "Expired exceptions block further deployment until closed.",
+      "next": null
+    }
+  ]
+}
+```
+
+## Audit evidence
+
+# Audit evidence
+
+This linked Markdown document is referenced from llms.txt as an AI-facing reading surface.
+
+## Lifecycle artifacts
+
+## Audit evidence overview
+
+Phase: operate.
+
+Describe how evidence bundles and blocked states behave under audit review.
+
+Required facts:
+
+- Every approved change links ticket evidence, validation evidence, and communication evidence.
+- Missing evidence keeps a change in blocked state even after technical rollout completes.
+
+AODS representation: harbor-audit-evidence/section:audit-evidence-overview.
+
+Context note: Describe how evidence bundles and blocked states behave under audit review.
+
+## Evidence retention window
+
+Phase: governance.
+
+Represent retention and audit snapshot timing.
+
+Required facts:
+
+- Audit evidence is retained for seven years.
+- Nightly evidence snapshots run at 02:15 UTC.
+- Legal hold suppresses deletion even after the normal retention window expires.
+
+AODS representation: harbor-audit-evidence/temporal-pattern.
+
+Human-readable reference view:
+
+```json
+{
+  "timezone": "UTC",
+  "patterns": [
+    {
+      "id": "harbor-retention-period",
+      "type": "window",
+      "expression": "7y",
+      "target": "Audit evidence is retained for seven years.",
+      "on_trigger": "allow retention countdown",
+      "on_violation": "open compliance review"
+    },
+    {
+      "id": "harbor-nightly-snapshot",
+      "type": "interval",
+      "expression": "02:15 UTC daily",
+      "target": "evidence snapshot",
+      "on_trigger": "Nightly evidence snapshots run at 02:15 UTC."
+    },
+    {
+      "id": "harbor-legal-hold",
+      "type": "window",
+      "expression": "while legal_hold == true",
+      "target": "Legal hold suppresses deletion even after the normal retention window expires.",
+      "on_violation": "block deletion"
+    }
+  ]
+}
+```
+
+## Audit evidence query
+
+Phase: operate.
+
+Keep low-level evidence query text as an explicit raw escape hatch.
+
+Required facts:
+
+- Auditors can query change approvals by change_id, approver_role, and evidence_status.
+- The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable.
+- Evidence query snapshots are immutable once attached to an approved change record.
+
+AODS representation: harbor-audit-evidence/raw.
+
+Human-readable reference view:
+
+```json
+"SELECT change_id, approver_role, evidence_status\nFROM audit_change_approvals\nWHERE approved_at >= NOW() - INTERVAL '30 days';\n-- Auditors can query change approvals by change_id, approver_role, and evidence_status.\n-- The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable.\n-- Evidence query snapshots are immutable once attached to an approved change record.\n"
 ```

@@ -308,6 +308,16 @@
             "draft",
             "deprecated"
           ]
+        },
+        "shared_invariants": {
+          "type": "array",
+          "description": "Exact semantic anchors that must remain present in both agent_primary and human_primary texts for this pair. Use for high-risk facts where paired-surface drift must be rejected objectively.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
         }
       }
     }

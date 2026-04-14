@@ -15,12 +15,15 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   assert.equal(results.coverage.structured_type_coverage, 1);
   assert.equal(results.coverage.generic_type_coverage, 1);
   assert.equal(results.fidelity.critical_fact_preservation_rate, 1);
-  assert.equal(results.loading.objective_touch.scenario_count, 3);
-  assert.equal(results.loading.exploratory_semantic.scenario_count, 3);
+  assert.equal(results.loading.objective_touch.scenario_count, 5);
+  assert.equal(results.loading.exploratory_semantic.scenario_count, 4);
   assert.equal(results.loading.objective_touch.hit_rate, 1);
-  assert.equal(results.diversity.dataset_count, 1);
-  assert.deepEqual(results.diversity.sync_modes.present, ["agent-primary"]);
-  assert.ok(results.drift.built_in_recall < results.drift.combined_recall);
+  assert.equal(results.diversity.dataset_count, 2);
+  assert.deepEqual(results.diversity.sync_modes.present, ["agent-primary", "human-primary"]);
+  assert.deepEqual(results.diversity.domains, ["release-ops", "regulated-change-control"]);
+  assert.equal(results.drift.built_in_recall, 1);
+  assert.equal(results.drift.combined_recall, 1);
+  assert.equal(results.drift.built_in_false_positive_rate, 0);
   for (const scenario of results.drift.scenario_results) {
     assert.equal(
       scenario.built_in_detected,

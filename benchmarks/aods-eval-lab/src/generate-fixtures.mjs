@@ -3,6 +3,7 @@ import path from "node:path";
 
 import {
   ARTIFACTS,
+  DATASETS,
   DRIFT_SCENARIOS,
   HUMAN_DOCS,
   LOADING_SCENARIOS,
@@ -70,6 +71,7 @@ export function generateAll() {
   writeJson(path.join(paths.resultsRoot, "fact-map.json"), factMap);
   writeJson(path.join(paths.fixtureSourceRoot, "canonical-project.json"), {
     system: SYSTEM,
+    datasets: DATASETS,
     modules: MODULE_BLUEPRINTS,
     docs: HUMAN_DOCS,
     artifacts: ARTIFACTS,
@@ -105,7 +107,7 @@ function buildHumanDocs() {
 function renderHumanDoc(doc) {
   const artifacts = humanDocArtifacts(doc.path);
   const lines = [`# ${doc.title}`, ""];
-  if (doc.path === "README.md") {
+  if (path.basename(doc.path) === "README.md") {
     lines.push(
       "This benchmark compares verbose human lifecycle documentation against an equivalent AODS corpus.",
       "",
@@ -125,19 +127,23 @@ function renderHumanDoc(doc) {
     lines.push(renderHumanArtifact(artifact));
   }
 
-  if (doc.path === "README.md") {
+  if (path.basename(doc.path) === "README.md") {
+    const relatedDocs = HUMAN_DOCS.filter(
+      (candidate) => inferDatasetIdFromDocPath(candidate.path) === inferDatasetIdFromDocPath(doc.path) && candidate.path !== doc.path
+    );
     lines.push(
       "## Paired detail surfaces",
       "",
-      "- docs/01-product-lifecycle.md",
-      "- docs/02-architecture-and-contracts.md",
-      "- docs/03-delivery-workflows.md",
-      "- docs/04-operations-and-governance.md",
+      ...relatedDocs.map((candidate) => `- ${candidate.path}`),
       ""
     );
   }
 
   return lines.join("\n").trimEnd() + "\n";
+}
+
+function inferDatasetIdFromDocPath(docPath) {
+  return docPath.startsWith("harbor/") ? "harbor" : "atlas";
 }
 
 export function renderHumanArtifact(artifact) {
@@ -253,6 +259,14 @@ function buildModuleMeta(blueprint) {
       review_cycle: "benchmark-run"
     };
   }
+  const capsuleRoutes =
+    blueprint.id === "harbor-capsule"
+      ? ["harbor-change-control", "harbor-audit-evidence"]
+      : ["product-lifecycle", "architecture-contracts", "delivery-workflows", "operations-governance"];
+  const coreQuestion =
+    blueprint.id === "harbor-capsule"
+      ? "Which change-control or audit-evidence module should answer the current regulated change question?"
+      : "Which detail module should answer the current release-coordination question?";
   return {
     stability: "stable",
     review_cycle: "benchmark-run",
@@ -262,13 +276,8 @@ function buildModuleMeta(blueprint) {
         "task starts from zero prior context",
         "human surface needs paired explanation"
       ],
-      core_question: "Which detail module should answer the current release-coordination question?",
-      routes_to: [
-        "product-lifecycle",
-        "architecture-contracts",
-        "delivery-workflows",
-        "operations-governance"
-      ],
+      core_question: coreQuestion,
+      routes_to: capsuleRoutes,
       frozen_decisions: [
         "Agent-primary modules remain authoritative.",
         "Evidence layer does not lead cold-start boot."
@@ -299,7 +308,7 @@ function buildManifest(modules) {
       tokens_approx: moduleById.get(blueprint.id).tokens,
       priority: blueprint.priority
     })),
-    boot_sequence: ["atlas-root", "atlas-capsule"],
+    boot_sequence: ["atlas-root", "atlas-capsule", "harbor-root", "harbor-capsule"],
     boot_by_role: Object.fromEntries(ROLE_DEFS.map((role) => [role.id, role.required_modules])),
     boot_by_touch: buildTouchRoutes(),
     surface_pairs: buildSurfacePairs()
@@ -311,7 +320,18 @@ function buildTouchRoutes() {
     {
       match: "manifest.json",
       intent: "write",
-      load_modules: ["atlas-root", "atlas-capsule", "product-lifecycle", "architecture-contracts", "delivery-workflows", "operations-governance"],
+      load_modules: [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle",
+        "architecture-contracts",
+        "delivery-workflows",
+        "operations-governance",
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
+      ],
       reason: "Manifest edits affect routing, pairing, and benchmark scope."
     },
     {
@@ -343,6 +363,24 @@ function buildTouchRoutes() {
       intent: "write",
       load_modules: ["atlas-capsule", "operations-governance", "evidence-reference"],
       reason: "Operations doc edits need policy and evidence authority."
+    },
+    {
+      match: "harbor/README.md",
+      intent: "write",
+      load_modules: ["harbor-root", "harbor-capsule"],
+      reason: "Harbor overview edits need regulated routing context."
+    },
+    {
+      match: "harbor/docs/01-change-control.md",
+      intent: "write",
+      load_modules: ["harbor-capsule", "harbor-change-control"],
+      reason: "Human-primary SOP edits need paired change-control authority plus capsule context."
+    },
+    {
+      match: "harbor/docs/02-audit-evidence.md",
+      intent: "write",
+      load_modules: ["harbor-capsule", "harbor-audit-evidence"],
+      reason: "Audit evidence doc edits need retention and query authority."
     },
     {
       match: "modules/atlas-root.json",
@@ -385,6 +423,30 @@ function buildTouchRoutes() {
       intent: "write",
       load_modules: ["operations-governance", "evidence-reference"],
       reason: "Evidence edits should stay narrow."
+    },
+    {
+      match: "modules/harbor-root.json",
+      intent: "write",
+      load_modules: ["harbor-root", "harbor-capsule"],
+      reason: "Harbor root edits should stay routing-oriented."
+    },
+    {
+      match: "modules/harbor-capsule.json",
+      intent: "write",
+      load_modules: ["harbor-root", "harbor-capsule", "harbor-change-control", "harbor-audit-evidence"],
+      reason: "Harbor capsule edits affect summary routing across the regulated slice."
+    },
+    {
+      match: "modules/harbor-change-control.json",
+      intent: "write",
+      load_modules: ["harbor-capsule", "harbor-change-control"],
+      reason: "Change-control module edits need paired SOP and capsule context."
+    },
+    {
+      match: "modules/harbor-audit-evidence.json",
+      intent: "write",
+      load_modules: ["harbor-capsule", "harbor-change-control", "harbor-audit-evidence"],
+      reason: "Audit evidence edits depend on policy and evidence context."
     }
   ];
 }
@@ -397,6 +459,10 @@ function buildSurfacePairs() {
       agent_primary: "atlas-capsule",
       agent_supporting: ["atlas-root"],
       human_primary: "README.md",
+      shared_invariants: [
+        "Use product-lifecycle for goals, roadmap checkpoints, verification intent, and ADR rationale.",
+        "Use operations-governance for policy, events, error handling, temporal controls, and paired-surface discipline."
+      ],
       sync_source: "agent-primary",
       status: "paired"
     },
@@ -405,6 +471,9 @@ function buildSurfacePairs() {
       scope: "module",
       agent_primary: "product-lifecycle",
       human_primary: "docs/01-product-lifecycle.md",
+      shared_invariants: [
+        "Atlas Release Ops reduces release readiness coordination from two days to under thirty minutes."
+      ],
       sync_source: "agent-primary",
       status: "paired"
     },
@@ -413,6 +482,7 @@ function buildSurfacePairs() {
       scope: "module",
       agent_primary: "architecture-contracts",
       human_primary: "docs/02-architecture-and-contracts.md",
+      shared_invariants: ["POST /v1/releases creates a release packet and returns the packet id."],
       sync_source: "agent-primary",
       status: "paired"
     },
@@ -421,6 +491,7 @@ function buildSurfacePairs() {
       scope: "module",
       agent_primary: "delivery-workflows",
       human_primary: "docs/03-delivery-workflows.md",
+      shared_invariants: ["Approved packets emit a release.packet.approved event and enter scheduled state."],
       sync_source: "agent-primary",
       status: "paired"
     },
@@ -430,6 +501,39 @@ function buildSurfacePairs() {
       agent_primary: "operations-governance",
       agent_supporting: ["evidence-reference"],
       human_primary: "docs/04-operations-and-governance.md",
+      shared_invariants: ["sev1 pages primary and secondary on-call within five minutes."],
+      sync_source: "agent-primary",
+      status: "paired"
+    },
+    {
+      pair_id: "pair-harbor-readme",
+      scope: "system",
+      agent_primary: "harbor-capsule",
+      agent_supporting: ["harbor-root"],
+      human_primary: "harbor/README.md",
+      shared_invariants: [
+        "Use harbor-change-control for approval rules, exception handling, and sign-off authority."
+      ],
+      sync_source: "agent-primary",
+      status: "paired"
+    },
+    {
+      pair_id: "pair-harbor-change-control",
+      scope: "module",
+      agent_primary: "harbor-change-control",
+      human_primary: "harbor/docs/01-change-control.md",
+      shared_invariants: [
+        "Emergency changes require a documented rollback owner before execution."
+      ],
+      sync_source: "human-primary",
+      status: "paired"
+    },
+    {
+      pair_id: "pair-harbor-audit-evidence",
+      scope: "module",
+      agent_primary: "harbor-audit-evidence",
+      human_primary: "harbor/docs/02-audit-evidence.md",
+      shared_invariants: ["The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable."],
       sync_source: "agent-primary",
       status: "paired"
     }

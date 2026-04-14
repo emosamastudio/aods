@@ -76,7 +76,7 @@
       "docs/01-product-lifecycle.md",
       "modules/product-lifecycle.json"
     ],
-    "expectBuiltInDetection": false,
+    "expectBuiltInDetection": true,
     "expectSemanticDetection": true,
     "operations": [
       {
@@ -108,6 +108,24 @@
         "file": "docs/04-operations-and-governance.md",
         "find": "sev1 pages primary and secondary on-call within five minutes.",
         "replace": "sev1 pages only the primary on-call after thirty minutes."
+      }
+    ]
+  },
+  {
+    "id": "harbor-human-primary-human-only-drift",
+    "description": "Human-primary Harbor SOP changes without agent update.",
+    "scenario_class": "human-primary-drift",
+    "changedFiles": [
+      "harbor/docs/01-change-control.md"
+    ],
+    "expectBuiltInDetection": true,
+    "expectSemanticDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "harbor/docs/01-change-control.md",
+        "find": "Emergency changes require a documented rollback owner before execution.",
+        "replace": "Emergency changes can execute without a rollback owner when approved verbally."
       }
     ]
   },

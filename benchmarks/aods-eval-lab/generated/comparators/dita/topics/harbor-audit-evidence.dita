@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="harbor-audit-evidence">
+  <title>harbor-audit-evidence</title>
+  <shortdesc>Audit evidence requirements, retention windows, and raw-query references for external review.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>audit</keyword>
+        <keyword>evidence</keyword>
+        <keyword>retention</keyword>
+        <keyword>query</keyword>
+        <keyword>compliance</keyword>
+        <keyword>temporal-pattern</keyword>
+        <keyword>raw</keyword>
+        <keyword>operate</keyword>
+        <keyword>governance</keyword>
+      </keywords>
+      <othermeta name="module-id" content="harbor-audit-evidence"/>
+      <othermeta name="layer" content="detail"/>
+      <othermeta name="category" content="reference"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="harbor-audit-overview">
+      <title>Audit evidence overview</title>
+      <p>Describe how evidence bundles and blocked states behave under audit review.</p>
+      <ul>
+        <li>Every approved change links ticket evidence, validation evidence, and communication evidence.</li>
+        <li>Missing evidence keeps a change in blocked state even after technical rollout completes.</li>
+      </ul>
+    </section>
+    <section id="harbor-retention-window">
+      <title>Evidence retention window</title>
+      <p>Represent retention and audit snapshot timing.</p>
+      <ul>
+        <li>Audit evidence is retained for seven years.</li>
+        <li>Nightly evidence snapshots run at 02:15 UTC.</li>
+        <li>Legal hold suppresses deletion even after the normal retention window expires.</li>
+      </ul>
+      <codeblock outputclass="temporal-pattern">
+{
+  &quot;timezone&quot;: &quot;UTC&quot;,
+  &quot;patterns&quot;: [
+    {
+      &quot;id&quot;: &quot;harbor-retention-period&quot;,
+      &quot;type&quot;: &quot;window&quot;,
+      &quot;expression&quot;: &quot;7y&quot;,
+      &quot;target&quot;: &quot;Audit evidence is retained for seven years.&quot;,
+      &quot;on_trigger&quot;: &quot;allow retention countdown&quot;,
+      &quot;on_violation&quot;: &quot;open compliance review&quot;
+    },
+    {
+      &quot;id&quot;: &quot;harbor-nightly-snapshot&quot;,
+      &quot;type&quot;: &quot;interval&quot;,
+      &quot;expression&quot;: &quot;02:15 UTC daily&quot;,
+      &quot;target&quot;: &quot;evidence snapshot&quot;,
+      &quot;on_trigger&quot;: &quot;Nightly evidence snapshots run at 02:15 UTC.&quot;
+    },
+    {
+      &quot;id&quot;: &quot;harbor-legal-hold&quot;,
+      &quot;type&quot;: &quot;window&quot;,
+      &quot;expression&quot;: &quot;while legal_hold == true&quot;,
+      &quot;target&quot;: &quot;Legal hold suppresses deletion even after the normal retention window expires.&quot;,
+      &quot;on_violation&quot;: &quot;block deletion&quot;
+    }
+  ]
+}
+      </codeblock>
+    </section>
+    <section id="harbor-audit-query">
+      <title>Audit evidence query</title>
+      <p>Keep low-level evidence query text as an explicit raw escape hatch.</p>
+      <ul>
+        <li>Auditors can query change approvals by change_id, approver_role, and evidence_status.</li>
+        <li>The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable.</li>
+        <li>Evidence query snapshots are immutable once attached to an approved change record.</li>
+      </ul>
+      <codeblock outputclass="raw">
+&quot;SELECT change_id, approver_role, evidence_status\nFROM audit_change_approvals\nWHERE approved_at &gt;= NOW() - INTERVAL &apos;30 days&apos;;\n-- Auditors can query change approvals by change_id, approver_role, and evidence_status.\n-- The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable.\n-- Evidence query snapshots are immutable once attached to an approved change record.\n&quot;
+      </codeblock>
+    </section>
+  </body>
+</topic>

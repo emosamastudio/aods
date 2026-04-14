@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="harbor-capsule">
+  <title>harbor-capsule</title>
+  <shortdesc>Capsule routes change control and audit evidence.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>capsule</keyword>
+        <keyword>harbor</keyword>
+        <keyword>summary</keyword>
+        <keyword>compliance</keyword>
+        <keyword>governance</keyword>
+      </keywords>
+      <othermeta name="module-id" content="harbor-capsule"/>
+      <othermeta name="layer" content="capsule"/>
+      <othermeta name="category" content="capsule"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="harbor-capsule-routing">
+      <title>Harbor capsule routing</title>
+      <p>Use the capsule for quick change-control orientation.</p>
+      <ul>
+        <li>Use harbor-change-control for approval rules, exception handling, and sign-off authority.</li>
+        <li>Use harbor-audit-evidence for evidence bundles, retention policy, and audit query references.</li>
+      </ul>
+    </section>
+  </body>
+</topic>

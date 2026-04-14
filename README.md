@@ -8,7 +8,7 @@ Agent-Optimized Documentation System: a spec-first documentation standard for ag
 | --- | --- |
 | **Spec** | `manifest.json`, `schema/`, and `spec/` define the normative AODS standard |
 | **Reference implementation** | `bin/`, `lib/`, and `.githooks/` provide one executable implementation of validation, routing, upgrade, and hook behavior |
-| **Benchmark** | `benchmarks/aods-eval-lab/` is a regression harness that measures the current implementation against a fixed baseline corpus |
+| **Benchmark** | `benchmarks/aods-eval-lab/` is a regression harness that measures the current implementation against a fixed benchmark pack |
 
 ## Why this repository exists
 
@@ -62,9 +62,9 @@ AODS is a corpus format for agent-readable documentation with these core propert
 
 - **deterministic structure:** JSON modules plus typed artifacts
 - **progressive disclosure:** root -> capsule -> detail -> evidence
-- **authority-safe pairing:** human surfaces can exist, but they do not replace agent-primary semantic authority
+- **authority-safe pairing:** Human surfaces do not replace agent-primary semantic authority.
 - **scoped authoring support:** `boot_by_touch` routes let tools load the smallest useful subset for a file-level edit
-- **validation-aware governance:** schemas, hooks, and integrity rules can reject malformed or unsafely synchronized corpora
+- **validation-aware governance:** schemas, hooks, integrity rules, and optional `shared_invariants` can reject malformed or unsafely synchronized corpora
 
 ## Quick start
 
@@ -123,6 +123,8 @@ Hook behavior:
 
 - validates only the affected corpus or corpora
 - fails human-only paired-surface edits when `sync_source=agent-primary` and no paired agent module changed
+- Manifest metadata alone does not satisfy agent-primary semantic synchronization.
+- declared `shared_invariants` must remain present in both `agent_primary` and `human_primary`
 - forces full-corpus validation for broad implementation changes such as `lib/`, `schema/`, or `.githooks/`
 
 Optional git hook installation:
@@ -192,11 +194,11 @@ At the current baseline, the benchmark shows:
 - **fidelity:** strong
 - **objective loading gate:** strong
 - **exact corpus size:** mixed at corpus scale; AODS is larger than the human-doc baseline on this corpus
-- **anti-drift:** materially stronger on built-in enforcement, but still incomplete on semantic conflicts
+- **anti-drift:** strong for declared invariants and paired-surface governance; semantic equivalence is still only partially native beyond declared anchors
 - **benchmark objectivity:** materially improved because the main scoreboards now use exact bytes and touch-route scenarios
-- **benchmark diversity:** still narrow; the current pack is single-domain, single-language, and centered on agent-primary sync
+- **benchmark diversity:** materially improved; the current pack is multi-domain and includes both agent-primary and human-primary sync, but it is still synthetic and English-only
 
-That means AODS already behaves like a serious agent-first documentation format and routing system, with stronger built-in governance than the earlier baseline and a more objective benchmark harness, but not yet like a fully proven semantic-drift prevention system, guaranteed corpus-wide compression standard, or multi-domain benchmark winner.
+That means AODS already behaves like a serious agent-first documentation format and routing system, with stronger built-in governance than the earlier baseline and a more objective, broader benchmark harness, but not yet like a fully proven semantic-equivalence system, guaranteed corpus-wide compression standard, or field-validated multi-language benchmark winner.
 
 ## Example corpus
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map>
-  <title>Atlas Release Ops</title>
+  <title>AODS Benchmark Pack</title>
   <topicref href="topics/atlas-root.dita" navtitle="atlas-root">
     <topicref href="topics/atlas-capsule.dita" navtitle="atlas-capsule">
       <topicref href="topics/product-lifecycle.dita" navtitle="product-lifecycle"/>

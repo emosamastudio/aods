@@ -187,7 +187,7 @@ function buildDitaProfile(rootDir) {
 function renderMarkdownDoc(doc, intro) {
   const artifacts = humanDocArtifacts(doc.path);
   const lines = [`# ${doc.title}`, "", intro, ""];
-  if (doc.path === "README.md") {
+  if (path.basename(doc.path) === "README.md") {
     lines.push("## Canonical rules", "");
   } else {
     lines.push("## Lifecycle artifacts", "");
@@ -197,19 +197,23 @@ function renderMarkdownDoc(doc, intro) {
     lines.push(renderHumanArtifact(artifact));
   }
 
-  if (doc.path === "README.md") {
+  if (path.basename(doc.path) === "README.md") {
+    const relatedDocs = HUMAN_DOCS.filter(
+      (candidate) => inferDatasetIdFromDocPath(candidate.path) === inferDatasetIdFromDocPath(doc.path) && candidate.path !== doc.path
+    );
     lines.push(
       "## Linked detail surfaces",
       "",
-      "- docs/01-product-lifecycle.md",
-      "- docs/02-architecture-and-contracts.md",
-      "- docs/03-delivery-workflows.md",
-      "- docs/04-operations-and-governance.md",
+      ...relatedDocs.map((candidate) => `- ${candidate.path}`),
       ""
     );
   }
 
   return lines.join("\n").trimEnd() + "\n";
+}
+
+function inferDatasetIdFromDocPath(docPath) {
+  return docPath.startsWith("harbor/") ? "harbor" : "atlas";
 }
 
 function renderYamlFrontmatter(fields) {
@@ -244,7 +248,7 @@ function renderLlmsTxt(docs) {
   const lines = [
     `# ${SYSTEM.name}`,
     "",
-    "> AI-facing entrypoint for the Atlas Release Ops benchmark corpus.",
+    "> AI-facing entrypoint for the AODS benchmark pack corpus.",
     "",
     "## Documents",
     ""

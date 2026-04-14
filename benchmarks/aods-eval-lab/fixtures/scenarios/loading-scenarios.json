@@ -105,5 +105,59 @@
     "requiredModules": [
       "architecture-contracts"
     ]
+  },
+  {
+    "id": "harbor-change-control-edit",
+    "description": "Compliance lead edits the human-primary Harbor change control SOP.",
+    "scenario_class": "human-primary-sop-write",
+    "measurement_class": "objective",
+    "role": "compliance-lead",
+    "intent": "write",
+    "touch": "harbor/docs/01-change-control.md",
+    "concepts": [
+      "approval",
+      "rollback",
+      "evidence"
+    ],
+    "requiredModules": [
+      "harbor-capsule",
+      "harbor-change-control"
+    ]
+  },
+  {
+    "id": "harbor-audit-evidence-edit",
+    "description": "Compliance lead edits Harbor audit evidence guidance.",
+    "scenario_class": "audit-evidence-write",
+    "measurement_class": "objective",
+    "role": "compliance-lead",
+    "intent": "write",
+    "touch": "harbor/docs/02-audit-evidence.md",
+    "concepts": [
+      "audit",
+      "retention",
+      "evidence"
+    ],
+    "requiredModules": [
+      "harbor-capsule",
+      "harbor-audit-evidence"
+    ]
+  },
+  {
+    "id": "harbor-exception-review",
+    "description": "Compliance lead asks how exceptions and evidence retention interact.",
+    "scenario_class": "regulated-exception-read",
+    "measurement_class": "exploratory",
+    "role": "compliance-lead",
+    "intent": "read",
+    "concepts": [
+      "exception",
+      "evidence",
+      "retention",
+      "approval"
+    ],
+    "requiredModules": [
+      "harbor-change-control",
+      "harbor-audit-evidence"
+    ]
   }
 ]

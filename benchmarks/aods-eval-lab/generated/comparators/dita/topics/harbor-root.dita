@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topic id="harbor-root">
+  <title>harbor-root</title>
+  <shortdesc>Cold-start routing for the regulated change-control slice. Use for first-hop orientation.</shortdesc>
+  <prolog>
+    <metadata>
+      <keywords>
+        <keyword>root</keyword>
+        <keyword>harbor</keyword>
+        <keyword>routing</keyword>
+        <keyword>compliance</keyword>
+        <keyword>vision</keyword>
+      </keywords>
+      <othermeta name="module-id" content="harbor-root"/>
+      <othermeta name="layer" content="root"/>
+      <othermeta name="category" content="architecture"/>
+    </metadata>
+  </prolog>
+  <body>
+    <section id="harbor-system-overview">
+      <title>Harbor system overview</title>
+      <p>Use the root layer for regulated change-control purpose, authority posture, and first-hop routing.</p>
+      <ul>
+        <li>Harbor Change Control coordinates regulated production changes for clinical data systems and external auditor review.</li>
+        <li>Human-primary SOP pages are allowed only when the pair declares sync_source=human-primary explicitly.</li>
+        <li>Cold-start routing begins at harbor-root and summary routing continues through harbor-capsule.</li>
+      </ul>
+    </section>
+  </body>
+</topic>

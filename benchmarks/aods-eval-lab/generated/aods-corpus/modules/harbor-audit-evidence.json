@@ -1,0 +1,69 @@
+{
+  "aods_v": 3,
+  "module_id": "harbor-audit-evidence",
+  "v": 1,
+  "context": "Audit evidence requirements, retention windows, and raw-query references for external review.",
+  "sections": [
+    {
+      "sid": "audit-evidence-overview",
+      "topic": "audit evidence expectations",
+      "content": "Describe how evidence bundles and blocked states behave under audit review. Every approved change links ticket evidence, validation evidence, and communication evidence. Missing evidence keeps a change in blocked state even after technical rollout completes.",
+      "content_type": "prose",
+      "artifact_refs": [
+        "evidence-retention-window",
+        "audit-evidence-query"
+      ],
+      "criticality": "should"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "evidence-retention-window",
+      "type": "temporal-pattern",
+      "usage": "Retention and evidence snapshot timing.",
+      "content": {
+        "timezone": "UTC",
+        "patterns": [
+          {
+            "id": "harbor-retention-period",
+            "type": "window",
+            "expression": "7y",
+            "target": "Audit evidence is retained for seven years.",
+            "on_trigger": "allow retention countdown",
+            "on_violation": "open compliance review"
+          },
+          {
+            "id": "harbor-nightly-snapshot",
+            "type": "interval",
+            "expression": "02:15 UTC daily",
+            "target": "evidence snapshot",
+            "on_trigger": "Nightly evidence snapshots run at 02:15 UTC."
+          },
+          {
+            "id": "harbor-legal-hold",
+            "type": "window",
+            "expression": "while legal_hold == true",
+            "target": "Legal hold suppresses deletion even after the normal retention window expires.",
+            "on_violation": "block deletion"
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "audit-evidence-query",
+      "type": "raw",
+      "usage": "Escape hatch for auditor-oriented SQL evidence.",
+      "content": "SELECT change_id, approver_role, evidence_status\nFROM audit_change_approvals\nWHERE approved_at >= NOW() - INTERVAL '30 days';\n-- Auditors can query change approvals by change_id, approver_role, and evidence_status.\n-- The evidence query is stored as raw SQL because benchmark escape hatches must stay measurable.\n-- Evidence query snapshots are immutable once attached to an approved change record.\n"
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial benchmark module for harbor-audit-evidence."
+    }
+  ],
+  "meta": {
+    "stability": "stable",
+    "review_cycle": "benchmark-run"
+  }
+}

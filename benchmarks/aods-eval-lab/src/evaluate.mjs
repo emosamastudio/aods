@@ -5,8 +5,10 @@ import path from "node:path";
 
 import {
   ARTIFACTS,
+  DATASETS,
   DRIFT_SCENARIOS,
   GENERIC_TYPES,
+  HUMAN_DOCS,
   LOADING_SCENARIOS,
   MODULE_BLUEPRINTS,
   ROLE_DEFS,
@@ -404,14 +406,28 @@ function evaluateBenchmarkDiversity(manifest) {
   const pairSyncModes = dedupe((manifest.surface_pairs ?? []).map((pair) => pair.sync_source));
   const pairScopes = dedupe((manifest.surface_pairs ?? []).map((pair) => pair.scope));
   const moduleLayers = dedupe((manifest.modules ?? []).map((module) => module.layer));
+  const datasetBreakdown = Object.fromEntries(
+    DATASETS.map((dataset) => [
+      dataset.id,
+      {
+        modules: MODULE_BLUEPRINTS.filter((module) => inferDatasetIdFromModuleId(module.id) === dataset.id).length,
+        docs: HUMAN_DOCS.filter((doc) => inferDatasetIdFromDocPath(doc.path) === dataset.id).length,
+        items: ARTIFACTS.filter((artifact) => inferDatasetIdFromDocPath(artifact.humanDoc) === dataset.id).length,
+        loading_scenarios: LOADING_SCENARIOS.filter((scenario) => inferDatasetIdFromScenario(scenario) === dataset.id).length,
+        drift_scenarios: DRIFT_SCENARIOS.filter((scenario) => inferDatasetIdFromScenario(scenario) === dataset.id).length
+      }
+    ])
+  );
 
   return {
-    dataset_count: 1,
+    dataset_count: DATASETS.length,
+    datasets: DATASETS.map((dataset) => dataset.id),
     dataset_class: SYSTEM.profile.dataset_class,
-    domains: SYSTEM.profile.domains,
-    languages: SYSTEM.profile.languages,
+    domains: Array.from(new Set(DATASETS.map((dataset) => dataset.domain))),
+    languages: Array.from(new Set(DATASETS.flatMap((dataset) => dataset.languages))),
     surface_kinds: SYSTEM.profile.surface_kinds,
     evidence_kinds: SYSTEM.profile.evidence_kinds,
+    dataset_breakdown: datasetBreakdown,
     phase_coverage: {
       covered: PHASES.filter((phase) => ARTIFACTS.some((artifact) => artifact.phase === phase)),
       missing: PHASES.filter((phase) => !ARTIFACTS.some((artifact) => artifact.phase === phase))
@@ -472,7 +488,7 @@ function runDriftScenario(paths, scenario, baselineAnchors) {
     ...scenario.changedFiles.flatMap((filePath) => ["--file", filePath]),
     "--json"
   ]);
-  const builtInDetected = validateReport.summary.errors > 0 || hookReport.status === "fail";
+  const builtInDetected = validateReport.summary.errors > 0 || hasBlockingHookIssue(hookReport);
   const semanticDetected = detectSemanticDrift(mutatedCorpus, scenario.changedFiles, baselineAnchors);
 
   fs.rmSync(tempRoot, { recursive: true, force: true });
@@ -578,12 +594,15 @@ function renderMarkdownReport(results) {
   if (drift.scenario_results.some((scenario) => scenario.id === "path-escape-pair" && !scenario.built_in_detected)) {
     strongestBlindSpots.push("Relative path escape through ../ can move a paired human surface outside the corpus root without validator rejection.");
   }
+  if (strongestBlindSpots.length === 0) {
+    strongestBlindSpots.push("No declared-invariant or known governance scenario remains a built-in miss in the current benchmark pack.");
+  }
 
   return `# AODS evaluation report
 
 ## Executive summary
 
-This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harness. The harness regenerates one lifecycle-complete benchmark corpus and evaluates AODS for coverage, fidelity, compression, progressive loading, drift prevention, and authoring overhead.
+This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harness. The harness regenerates a multi-domain benchmark pack and evaluates AODS for coverage, fidelity, compression, progressive loading, drift prevention, and authoring overhead.
 
 - **Coverage:** lifecycle phase coverage ${formatPercent(coverage.lifecycle_phase_coverage)}, structured type coverage ${formatPercent(coverage.structured_type_coverage)}, generic type coverage ${formatPercent(coverage.generic_type_coverage)}.
 - **Fidelity:** critical fact preservation ${formatPercent(fidelity.critical_fact_preservation_rate)} with overall fact preservation ${formatPercent(fidelity.fact_preservation_rate)}.
@@ -596,7 +615,7 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 
 - **System under test:** \`${results.system_under_test}\`
 - **Benchmark harness:** \`${results.benchmark_project}\`
-- **Corpus design:** synthetic but lifecycle-complete release coordination system with paired human surfaces and seven agent-facing modules
+- **Corpus design:** synthetic multi-domain benchmark pack with paired human surfaces and ${results.overhead.module_count} agent-facing modules
 - **Scoring posture:** deterministic metrics first, narrative judgment second
 
 ## Dataset composition
@@ -695,6 +714,9 @@ ${drift.scenario_results
 - Dataset class: **${results.diversity.dataset_class}**
 - Domains: **${diversity.domains.join(", ")}**
 - Languages: **${diversity.languages.join(", ")}**
+- Dataset breakdown: **${Object.entries(diversity.dataset_breakdown)
+  .map(([datasetId, stats]) => `${datasetId}=${stats.modules} modules/${stats.docs} docs/${stats.items} items`)
+  .join("; ")}**
 - Roles exercised in scenarios: **${diversity.roles.exercised.length}/${diversity.roles.defined.length}**
 - Loading scenario split: **${diversity.loading_scenarios.objective_count} objective**, **${diversity.loading_scenarios.exploratory_count} exploratory**
 - Drift scenario classes: **${Object.keys(diversity.drift_scenarios.by_class).join(", ")}**
@@ -702,7 +724,7 @@ ${drift.scenario_results
 - Sync modes absent: **${diversity.sync_modes.missing.join(", ")}**
 - Pair scopes absent: **${diversity.pair_scopes.missing.join(", ")}**
 
-**Expansion check:** the current benchmark is lifecycle-complete but still single-dataset, single-domain, single-language, and single sync-mode. That means coverage across artifact families is strong, but diversity across corpus families is still narrow and can be expanded objectively.
+**Expansion check:** the current benchmark now spans multiple synthetic datasets and more than one sync mode, so diversity is stronger than the original single-corpus baseline. Coverage across artifact families remains strong, but language coverage and real-world toolchain diversity are still limited.
 
 ### 7. Authoring overhead
 
@@ -721,14 +743,14 @@ ${drift.scenario_results
 
 ${strongestBlindSpots.map((item) => `- ${item}`).join("\n")}
 
-- The reference implementation validates structure and routing better than semantic truth.
+- The reference implementation now validates declared cross-surface invariants, but it still does not prove semantic equivalence beyond declared anchors.
 - Progressive loading is strongest for touch-routed authoring flows; semantic query loading still depends on corpus metadata quality and remains exploratory.
 - Compression is not automatically positive at corpus scale; routing and pairing metadata can erase local gains even when artifact-local compression exists.
-- Sample diversity is still limited because the current benchmark contains one synthetic system, one domain, and one language.
+- Sample diversity is still limited because the current benchmark remains synthetic, English-only, and narrower than a true multi-toolchain field sample.
 
 ## Bottom line
 
-**Coverage is strong, the objective touch-route gate is now cleanly measurable, full-fidelity representation is achievable, but compression is mixed and anti-drift protection is still incomplete at semantic-conflict level.** In this benchmark AODS preserves meaning, yet the whole corpus expands by about 51.5% because governance overhead outweighs local artifact compression. The benchmark itself is more objective than before, but sample diversity still needs expansion beyond one synthetic release-ops corpus.
+**Coverage is strong, the objective touch-route gate is cleanly measurable, full-fidelity representation is achievable, and built-in anti-drift is materially stronger once shared_invariants are declared.** In this benchmark pack AODS preserves meaning, yet corpus weight may still grow because governance overhead can outweigh local artifact compression. The benchmark is now more objective and more diverse than the original single-corpus baseline, but it still needs broader language and field-sample coverage.
 
 ## Appendix: reproducibility
 
@@ -797,6 +819,36 @@ function countBy(values) {
     accumulator[value] = (accumulator[value] ?? 0) + 1;
     return accumulator;
   }, {});
+}
+
+function hasBlockingHookIssue(hookReport) {
+  return (hookReport.corpora ?? []).some((corpus) => {
+    const hookIssues = corpus.hook_issues ?? [];
+    const reportErrors = corpus.report?.summary?.errors ?? 0;
+    return hookIssues.length > 0 || reportErrors > 0;
+  });
+}
+
+function inferDatasetIdFromDocPath(docPath) {
+  return docPath.startsWith("harbor/") ? "harbor" : "atlas";
+}
+
+function inferDatasetIdFromModuleId(moduleId) {
+  return moduleId.startsWith("harbor-") ? "harbor" : "atlas";
+}
+
+function inferDatasetIdFromScenario(scenario) {
+  const changedFile = scenario.changedFiles?.find(
+    (filePath) => filePath.startsWith("harbor/") || filePath.startsWith("modules/harbor-")
+  );
+  if (changedFile) {
+    return changedFile.startsWith("harbor/") ? "harbor" : "harbor";
+  }
+  if (scenario.touch) {
+    return inferDatasetIdFromDocPath(scenario.touch);
+  }
+  const firstModule = scenario.requiredModules?.[0] ?? "";
+  return inferDatasetIdFromModuleId(firstModule);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

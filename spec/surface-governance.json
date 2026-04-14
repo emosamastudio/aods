@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-surface-governance",
-  "v": 3,
+  "v": 4,
   "context": "Defines dual-surface pairing, authority resolution, capsule routing, and sync discipline for corpora where agent-primary modules coexist with human-facing surfaces. bidirectional sync remains experimental until merge protocol exists.",
   "assumptions": [
     "Corpus may include human-facing surfaces outside JSON module registry",
@@ -23,7 +23,7 @@
     {
       "sid": "authority-resolution",
       "topic": "authority conflict resolution",
-      "content": "detail beats capsule on semantic conflict. root beats downstream layers on routing conflict. evidence may annotate but not override. Human surface may explain; cannot become sole machine authority unless sync_source=human-primary is declared explicitly.",
+      "content": "detail beats capsule on semantic conflict. root beats downstream layers on routing conflict. evidence may annotate but not override. Human surfaces do not replace agent-primary semantic authority. human-primary remains an explicit exception that must be declared.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -34,7 +34,7 @@
     {
       "sid": "pairing-contract",
       "topic": "dual surface pairing contract",
-      "content": "Each pair has pair_id, scope, agent_primary, human_primary, sync_source, status. agent_supporting and human_supporting are optional. Paths must be relative and stay inside corpus root. Pair does not imply human surface has semantic authority; sync_source controls update direction. Under agent-primary sync, manifest-only metadata edits do not satisfy semantic synchronization. bidirectional sync is experimental until merge/conflict protocol is defined.",
+      "content": "Each pair has pair_id, scope, agent_primary, human_primary, sync_source, status. agent_supporting and human_supporting are optional. shared_invariants is optional and declares exact strings that must stay present in both agent_primary and human_primary for high-risk semantic parity. Paths must be relative and stay inside corpus root. Human surfaces do not replace agent-primary semantic authority. sync_source controls update direction. Manifest metadata alone does not satisfy agent-primary semantic synchronization. bidirectional sync is experimental until merge/conflict protocol is defined.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -212,6 +212,12 @@
             "yes",
             "paired|draft|deprecated",
             "pair lifecycle state"
+          ],
+          [
+            "shared_invariants",
+            "no",
+            "string[]",
+            "exact semantic anchors required in both agent_primary and human_primary"
           ]
         ]
       }
@@ -344,6 +350,11 @@
     {
       "v": 3,
       "delta": "Required paired human paths to stay inside corpus root and clarified that manifest-only edits do not satisfy agent-primary sync.",
+      "breaking": false
+    },
+    {
+      "v": 4,
+      "delta": "Added optional shared_invariants so paired surfaces can declare exact cross-surface semantic anchors for validator enforcement.",
       "breaking": false
     }
   ],
