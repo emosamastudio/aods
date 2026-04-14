@@ -35,6 +35,33 @@ export function estimateTokens(value) {
   return Math.ceil(text.length / 4);
 }
 
+export function measureText(value) {
+  const text = typeof value === "string" ? value : JSON.stringify(value);
+  return {
+    bytes: Buffer.byteLength(text, "utf8"),
+    lines: text === "" ? 0 : text.split(/\r?\n/).length,
+    tokens_estimated: estimateTokens(text)
+  };
+}
+
+export function measureFiles(filePaths) {
+  const aggregate = {
+    file_count: 0,
+    byte_count: 0,
+    line_count: 0
+  };
+
+  for (const filePath of filePaths) {
+    const text = fs.readFileSync(filePath, "utf8");
+    const measured = measureText(text);
+    aggregate.file_count += 1;
+    aggregate.byte_count += measured.bytes;
+    aggregate.line_count += measured.lines;
+  }
+
+  return aggregate;
+}
+
 export function formatPercent(value) {
   return `${(value * 100).toFixed(1)}%`;
 }

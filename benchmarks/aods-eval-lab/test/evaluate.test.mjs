@@ -15,12 +15,31 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   assert.equal(results.coverage.structured_type_coverage, 1);
   assert.equal(results.coverage.generic_type_coverage, 1);
   assert.equal(results.fidelity.critical_fact_preservation_rate, 1);
-  assert.ok(results.loading.hit_rate >= 0.5);
+  assert.equal(results.loading.objective_touch.scenario_count, 3);
+  assert.equal(results.loading.exploratory_semantic.scenario_count, 3);
+  assert.equal(results.loading.objective_touch.hit_rate, 1);
+  assert.equal(results.diversity.dataset_count, 1);
+  assert.deepEqual(results.diversity.sync_modes.present, ["agent-primary"]);
   assert.ok(results.drift.built_in_recall < results.drift.combined_recall);
+  for (const scenario of results.drift.scenario_results) {
+    assert.equal(
+      scenario.built_in_detected,
+      scenario.expected_built_in_detection,
+      `built-in drift expectation mismatch for ${scenario.id}`
+    );
+    assert.equal(
+      scenario.semantic_detected,
+      scenario.expected_semantic_detection,
+      `semantic drift expectation mismatch for ${scenario.id}`
+    );
+  }
 
   const reportPath = path.join(PROJECT_ROOT, "reports", "aods-evaluation-report.md");
   assert.ok(fs.existsSync(reportPath));
-  assert.match(fs.readFileSync(reportPath, "utf8"), /AODS evaluation report/);
+  const report = fs.readFileSync(reportPath, "utf8");
+  assert.match(report, /AODS evaluation report/);
+  assert.match(report, /Objective touch-route loading gate/);
+  assert.match(report, /Sample diversity and coverage audit/);
 });
 
 test("round-one external comparison generates a horizontal report", () => {
@@ -31,13 +50,19 @@ test("round-one external comparison generates a horizontal report", () => {
 
   const aods = results.baselines.find((baseline) => baseline.id === "aods");
   assert.equal(aods.governance.explicit_authority_model, true);
+  assert.ok(aods.common.corpus_bytes > 0);
+  assert.ok(aods.advisory.corpus_tokens_estimated > 0);
 
   const llms = results.baselines.find((baseline) => baseline.id === "llms-txt");
-  assert.ok(llms.common.corpus_tokens_estimated > 0);
+  assert.ok(llms.common.corpus_bytes > 0);
+  assert.ok(llms.advisory.corpus_tokens_estimated > 0);
+  assert.ok(results.fairness_contract.common_metrics.includes("corpus byte count"));
 
   const reportPath = path.join(PROJECT_ROOT, "reports", "round1-comparator-report.md");
   assert.ok(fs.existsSync(reportPath));
   const report = fs.readFileSync(reportPath, "utf8");
   assert.match(report, /AODS round-one benchmark evaluation report/);
   assert.match(report, /Why these comparators/);
+  assert.match(report, /Objective common metric scoreboard/);
+  assert.match(report, /Benchmark objectivity and diversity audit/);
 });

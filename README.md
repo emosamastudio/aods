@@ -156,10 +156,11 @@ It answers these questions:
 
 1. **coverage:** can AODS represent the full benchmark lifecycle?
 2. **fidelity:** do critical facts survive the rewrite into AODS?
-3. **compression:** does the corpus reduce or inflate token cost overall?
-4. **loading:** does progressive disclosure hit the right modules with acceptable overfetch?
+3. **corpus size:** does the corpus reduce or inflate exact on-disk size overall?
+4. **loading:** does objective touch-route disclosure hit the right modules with acceptable overfetch?
 5. **drift:** do validator and hook rules catch divergence between human and agent surfaces?
-6. **overhead:** how much governance bookkeeping is required?
+6. **diversity:** how broad is the benchmark sample across domains, sync modes, roles, and scenario classes?
+7. **overhead:** how much governance bookkeeping is required?
 
 Validation comes first, then benchmarking:
 
@@ -189,11 +190,13 @@ At the current baseline, the benchmark shows:
 
 - **coverage:** strong
 - **fidelity:** strong
-- **progressive loading:** useful
-- **compression:** mixed at corpus scale
-- **anti-drift:** partial, with clear semantic blind spots
+- **objective loading gate:** strong
+- **exact corpus size:** mixed at corpus scale; AODS is larger than the human-doc baseline on this corpus
+- **anti-drift:** materially stronger on built-in enforcement, but still incomplete on semantic conflicts
+- **benchmark objectivity:** materially improved because the main scoreboards now use exact bytes and touch-route scenarios
+- **benchmark diversity:** still narrow; the current pack is single-domain, single-language, and centered on agent-primary sync
 
-That means AODS already behaves like a serious agent-first documentation format and routing system, but not yet like a fully proven semantic-drift prevention system or guaranteed corpus-wide compression standard.
+That means AODS already behaves like a serious agent-first documentation format and routing system, with stronger built-in governance than the earlier baseline and a more objective benchmark harness, but not yet like a fully proven semantic-drift prevention system, guaranteed corpus-wide compression standard, or multi-domain benchmark winner.
 
 ## Example corpus
 

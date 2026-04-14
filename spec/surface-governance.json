@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-surface-governance",
-  "v": 2,
+  "v": 3,
   "context": "Defines dual-surface pairing, authority resolution, capsule routing, and sync discipline for corpora where agent-primary modules coexist with human-facing surfaces. bidirectional sync remains experimental until merge protocol exists.",
   "assumptions": [
     "Corpus may include human-facing surfaces outside JSON module registry",
@@ -34,7 +34,7 @@
     {
       "sid": "pairing-contract",
       "topic": "dual surface pairing contract",
-      "content": "Each pair has pair_id, scope, agent_primary, human_primary, sync_source, status. agent_supporting and human_supporting are optional. Paths must be relative. Pair does not imply human surface has semantic authority; sync_source controls update direction. bidirectional sync is experimental until merge/conflict protocol is defined.",
+      "content": "Each pair has pair_id, scope, agent_primary, human_primary, sync_source, status. agent_supporting and human_supporting are optional. Paths must be relative and stay inside corpus root. Pair does not imply human surface has semantic authority; sync_source controls update direction. Under agent-primary sync, manifest-only metadata edits do not satisfy semantic synchronization. bidirectional sync is experimental until merge/conflict protocol is defined.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -192,13 +192,13 @@
           [
             "human_primary",
             "yes",
-            "relative path",
+            "corpus-contained relative path",
             "primary human-facing surface"
           ],
           [
             "human_supporting",
             "no",
-            "relative path[]",
+            "corpus-contained relative path[]",
             "supporting human-facing surfaces"
           ],
           [
@@ -251,7 +251,7 @@
             "id": "update-agent-primary",
             "type": "action",
             "actor": "agent",
-            "action": "update agent-primary module first",
+            "action": "update agent-primary module first; manifest metadata alone does not satisfy agent-primary sync",
             "next": "sync-direction"
           },
           {
@@ -339,6 +339,11 @@
     {
       "v": 2,
       "delta": "Marked bidirectional sync experimental and made capsule layer/category identity explicit.",
+      "breaking": false
+    },
+    {
+      "v": 3,
+      "delta": "Required paired human paths to stay inside corpus root and clarified that manifest-only edits do not satisfy agent-primary sync.",
       "breaking": false
     }
   ],

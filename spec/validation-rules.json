@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 5,
+  "v": 6,
   "context": "Defines validation rules for AODS corpus integrity. AODS v3 adds surface-pair, layer, capsule, touch-route, artifact-semantic, and experimental bidirectional-sync checks on top of schema, referential integrity, completeness, and AOP compliance.",
   "assumptions": [
     "Validator has access to all files in corpus",
@@ -11,7 +11,7 @@
     {
       "sid": "structural",
       "topic": "structural validation rules",
-      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative. surface_pairs records match schema.",
+      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained.",
       "content_type": "rules",
       "refs": [
         "referential",
@@ -26,7 +26,7 @@
     {
       "sid": "referential",
       "topic": "referential integrity rules",
-      "content": "L2 MUST: deps[] resolve to manifest.modules[].id. section.refs[] resolve. section.artifact_refs[] resolve. role.required_modules[] resolve. meta.capsule.routes_to resolve. boot_by_touch.load_modules[] resolve. surface_pairs.agent_primary and agent_supporting resolve. human_primary and human_supporting paths exist relative to corpus root. Artifact-internal references also resolve: process-flow next targets, subprocess_ref, payload_schema, decision-tree node targets, topology endpoints, group node IDs, and mapping-table row width against declared columns. Circular module deps forbidden; circular section refs allowed with warning.",
+      "content": "L2 MUST: deps[] resolve to manifest.modules[].id. section.refs[] resolve. section.artifact_refs[] resolve. role.required_modules[] resolve. meta.capsule.routes_to resolve. boot_by_touch.load_modules[] resolve. surface_pairs.agent_primary and agent_supporting resolve. human_primary and human_supporting paths exist inside corpus root. Artifact-internal references also resolve: process-flow next targets, subprocess_ref, payload_schema, decision-tree node targets, topology endpoints, group node IDs, and mapping-table row width against declared columns. Circular module deps forbidden; circular section refs allowed with warning.",
       "content_type": "rules",
       "refs": [
         "structural"
@@ -39,7 +39,7 @@
     {
       "sid": "surface-governance",
       "topic": "surface pair layer and capsule checks",
-      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer may reject human-only edits for paired surfaces when sync_source=agent-primary and no paired agent module changed in the same change set. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
+      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set; manifest-only metadata edits do not satisfy semantic sync. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -133,8 +133,15 @@
           {
             "id": "pair-human-primary-relative",
             "condition": "surface_pair.exists == true AND is_relative_path(surface_pair.human_primary) == false",
-            "action": "L1 error: human_primary must be relative path",
+            "action": "L1 error: human_primary must stay inside corpus root",
             "priority": 20,
+            "source": "validation"
+          },
+          {
+            "id": "touch-route-match-contained",
+            "condition": "any_non_corpus_relative(boot_by_touch.match)",
+            "action": "L1 error: boot_by_touch match must stay inside corpus root",
+            "priority": 25,
             "source": "validation"
           },
           {
@@ -310,6 +317,11 @@
     {
       "v": 3,
       "delta": "Clarified capsule layer/category identity and added explicit bidirectional-sync warning semantics.",
+      "breaking": false
+    },
+    {
+      "v": 6,
+      "delta": "Hardened corpus-contained path rules and clarified that manifest-only edits do not satisfy agent-primary hook sync.",
       "breaking": false
     }
   ],

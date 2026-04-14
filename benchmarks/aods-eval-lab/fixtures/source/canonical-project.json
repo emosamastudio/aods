@@ -3,6 +3,28 @@
     "id": "atlas-release-ops",
     "name": "Atlas Release Ops",
     "purpose": "Independent benchmark corpus for a multi-tenant release coordination and incident-ready rollout system.",
+    "profile": {
+      "dataset_class": "synthetic-lifecycle",
+      "domains": [
+        "release-ops"
+      ],
+      "languages": [
+        "en"
+      ],
+      "sync_modes": [
+        "agent-primary"
+      ],
+      "surface_kinds": [
+        "readme",
+        "markdown-docs",
+        "json-modules"
+      ],
+      "evidence_kinds": [
+        "sql",
+        "json",
+        "markdown"
+      ]
+    },
     "glossary": {
       "system": "Atlas Release Ops benchmark corpus",
       "release_packet": "Canonical release unit with owner, risk tier, rollback plan, communication plan, and rollout window.",

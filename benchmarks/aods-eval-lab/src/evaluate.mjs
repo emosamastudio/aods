@@ -10,7 +10,8 @@ import {
   LOADING_SCENARIOS,
   MODULE_BLUEPRINTS,
   ROLE_DEFS,
-  STRUCTURED_TYPES
+  STRUCTURED_TYPES,
+  SYSTEM
 } from "./benchmark-data.mjs";
 import { generateAll, projectPaths, renderHumanArtifact } from "./generate-fixtures.mjs";
 import {
@@ -18,10 +19,13 @@ import {
   REPO_ROOT,
   appendText,
   copyDir,
+  dedupe,
   estimateTokens,
   formatPercent,
   formatRatio,
   median,
+  measureFiles,
+  measureText,
   readJson,
   replaceText,
   writeJson,
@@ -43,6 +47,7 @@ export function runEvaluation() {
   const fidelity = evaluateFidelity(paths, manifest, factMap);
   const loading = evaluateLoading(paths, manifest);
   const drift = evaluateDrift(paths, factMap);
+  const diversity = evaluateBenchmarkDiversity(manifest);
   const overhead = evaluateAuthoringOverhead(manifest);
 
   const results = {
@@ -54,10 +59,11 @@ export function runEvaluation() {
     fidelity,
     loading,
     drift,
+    diversity,
     overhead,
     limitations: [
-      "Token counts use a deterministic chars-per-token estimate, not a model-native tokenizer.",
-      "Non-touch semantic loading uses an independent scope-and-tag heuristic because the reference CLI only implements touch-oriented routing.",
+      "Main benchmark gates rely on exact byte counts and touch-route scenarios; token estimates remain advisory.",
+      "Non-touch semantic loading remains exploratory because the reference CLI only implements touch-oriented routing.",
       "The benchmark corpus is synthetic but lifecycle-complete; it should be treated as a strong laboratory signal rather than a universal external sample."
     ]
   };
@@ -108,14 +114,14 @@ function evaluateFidelity(paths, manifest, factMap) {
   const criticalFacts = baselinePresence.filter((fact) => fact.critical);
   const preservedFacts = baselinePresence.filter((fact) => fact.agent_present);
   const preservedCriticalFacts = criticalFacts.filter((fact) => fact.agent_present);
-  const humanTokens = listFiles(paths.humanRoot, [".md"]).reduce(
-    (sum, filePath) => sum + estimateTokens(fs.readFileSync(filePath, "utf8")),
-    0
-  );
+  const humanFiles = listFiles(paths.humanRoot, [".md"]);
+  const humanExactSize = measureFiles(humanFiles);
+  const humanTokens = humanFiles.reduce((sum, filePath) => sum + estimateTokens(fs.readFileSync(filePath, "utf8")), 0);
   const agentFiles = [
     path.join(paths.corpusRoot, "manifest.json"),
     ...MODULE_BLUEPRINTS.map((module) => path.join(paths.corpusRoot, module.path))
   ];
+  const aodsExactSize = measureFiles(agentFiles);
   const aodsTokens = agentFiles.reduce((sum, filePath) => sum + estimateTokens(fs.readFileSync(filePath, "utf8")), 0);
   const artifactRatios = ARTIFACTS.map((artifact) => {
     const humanTokensForArtifact = estimateTokens(renderHumanArtifact(artifact));
@@ -153,6 +159,10 @@ function evaluateFidelity(paths, manifest, factMap) {
     critical_facts: criticalFacts.length,
     fact_preservation_rate: preservedFacts.length / totalFacts,
     critical_fact_preservation_rate: preservedCriticalFacts.length / criticalFacts.length,
+    exact_size: {
+      human_docs: humanExactSize,
+      aods_corpus: aodsExactSize
+    },
     human_doc_tokens_estimated: humanTokens,
     aods_tokens_estimated: aodsTokens,
     compression_ratio_human_to_aods: humanTokens / aodsTokens,
@@ -164,10 +174,20 @@ function evaluateFidelity(paths, manifest, factMap) {
 }
 
 function evaluateLoading(paths, manifest) {
-  const manifestTokens = estimateTokens(fs.readFileSync(path.join(paths.corpusRoot, "manifest.json"), "utf8"));
-  const moduleTokenMap = new Map(manifest.modules.map((module) => [module.id, module.tokens_approx]));
+  const manifestPath = path.join(paths.corpusRoot, "manifest.json");
+  const manifestMetrics = measureText(fs.readFileSync(manifestPath, "utf8"));
+  const moduleMetricMap = new Map(
+    manifest.modules.map((module) => {
+      const filePath = path.join(paths.corpusRoot, module.path);
+      return [module.id, measureText(fs.readFileSync(filePath, "utf8"))];
+    })
+  );
   const fullLoadTokens =
-    manifestTokens + manifest.modules.reduce((sum, module) => sum + (module.tokens_approx ?? 0), 0);
+    manifestMetrics.tokens_estimated +
+    manifest.modules.reduce((sum, module) => sum + (moduleMetricMap.get(module.id)?.tokens_estimated ?? 0), 0);
+  const fullLoadBytes =
+    manifestMetrics.bytes +
+    manifest.modules.reduce((sum, module) => sum + (moduleMetricMap.get(module.id)?.bytes ?? 0), 0);
 
   const scenarioResults = LOADING_SCENARIOS.map((scenario) => {
     const loadedModules = scenario.touch
@@ -178,35 +198,93 @@ function evaluateLoading(paths, manifest) {
     const hits = [...requiredSet].filter((moduleId) => loadedSet.has(moduleId)).length;
     const precision = loadedModules.length === 0 ? 0 : hits / loadedModules.length;
     const recall = hits / requiredSet.size;
-    const routeTokens = manifestTokens + loadedModules.reduce((sum, moduleId) => sum + (moduleTokenMap.get(moduleId) ?? 0), 0);
-    const oracleTokens = manifestTokens + scenario.requiredModules.reduce((sum, moduleId) => sum + (moduleTokenMap.get(moduleId) ?? 0), 0);
+    const routeTokens =
+      manifestMetrics.tokens_estimated +
+      loadedModules.reduce((sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.tokens_estimated ?? 0), 0);
+    const oracleTokens =
+      manifestMetrics.tokens_estimated +
+      scenario.requiredModules.reduce(
+        (sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.tokens_estimated ?? 0),
+        0
+      );
+    const routeBytes =
+      manifestMetrics.bytes +
+      loadedModules.reduce((sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.bytes ?? 0), 0);
+    const oracleBytes =
+      manifestMetrics.bytes +
+      scenario.requiredModules.reduce((sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.bytes ?? 0), 0);
     return {
       id: scenario.id,
       description: scenario.description,
+      scenario_class: scenario.scenario_class,
+      measurement_class: scenario.measurement_class,
       mode: scenario.touch ? "touch-route" : "semantic-load",
       loaded_modules: loadedModules,
       required_modules: scenario.requiredModules,
       precision,
       recall,
       exact_hit: recall === 1,
+      route_bytes: routeBytes,
+      oracle_bytes: oracleBytes,
+      byte_savings_vs_full_load: 1 - routeBytes / fullLoadBytes,
       route_tokens_estimated: routeTokens,
       oracle_tokens_estimated: oracleTokens,
       token_savings_vs_full_load: 1 - routeTokens / fullLoadTokens,
-      overfetch_ratio: routeTokens / oracleTokens
+      token_overfetch_ratio: routeTokens / oracleTokens,
+      byte_overfetch_ratio: routeBytes / oracleBytes
     };
   });
 
+  const objectiveTouch = summarizeLoadingResults(
+    scenarioResults.filter((scenario) => scenario.measurement_class === "objective")
+  );
+  const exploratorySemantic = summarizeLoadingResults(
+    scenarioResults.filter((scenario) => scenario.measurement_class === "exploratory")
+  );
+  const combined = summarizeLoadingResults(scenarioResults);
+
   return {
     full_load_tokens_estimated: fullLoadTokens,
+    full_load_bytes: fullLoadBytes,
     scenario_results: scenarioResults,
+    objective_touch: objectiveTouch,
+    exploratory_semantic: exploratorySemantic,
+    combined,
+    hit_rate: combined.hit_rate,
+    average_precision: combined.average_precision,
+    average_recall: combined.average_recall,
+    median_token_savings_vs_full_load: combined.median_token_savings_vs_full_load,
+    median_overfetch_ratio: combined.median_token_overfetch_ratio
+  };
+}
+
+function summarizeLoadingResults(scenarioResults) {
+  if (scenarioResults.length === 0) {
+    return {
+      scenario_count: 0,
+      hit_rate: 0,
+      average_precision: 0,
+      average_recall: 0,
+      median_token_savings_vs_full_load: 0,
+      median_byte_savings_vs_full_load: 0,
+      median_token_overfetch_ratio: 0,
+      median_byte_overfetch_ratio: 0
+    };
+  }
+
+  return {
+    scenario_count: scenarioResults.length,
     hit_rate: scenarioResults.filter((result) => result.exact_hit).length / scenarioResults.length,
-    average_precision:
-      scenarioResults.reduce((sum, result) => sum + result.precision, 0) / scenarioResults.length,
+    average_precision: scenarioResults.reduce((sum, result) => sum + result.precision, 0) / scenarioResults.length,
     average_recall: scenarioResults.reduce((sum, result) => sum + result.recall, 0) / scenarioResults.length,
     median_token_savings_vs_full_load: median(
       scenarioResults.map((result) => result.token_savings_vs_full_load)
     ),
-    median_overfetch_ratio: median(scenarioResults.map((result) => result.overfetch_ratio))
+    median_byte_savings_vs_full_load: median(
+      scenarioResults.map((result) => result.byte_savings_vs_full_load)
+    ),
+    median_token_overfetch_ratio: median(scenarioResults.map((result) => result.token_overfetch_ratio)),
+    median_byte_overfetch_ratio: median(scenarioResults.map((result) => result.byte_overfetch_ratio))
   };
 }
 
@@ -311,6 +389,74 @@ function evaluateDrift(paths, factMap) {
   };
 }
 
+function evaluateBenchmarkDiversity(manifest) {
+  const structuredCovered = dedupe(
+    ARTIFACTS.filter((artifact) => artifact.kind === "artifact")
+      .map((artifact) => artifact.artifact.type)
+      .filter((type) => STRUCTURED_TYPES.has(type))
+  );
+  const genericCovered = dedupe(
+    ARTIFACTS.filter((artifact) => artifact.kind === "artifact")
+      .map((artifact) => artifact.artifact.type)
+      .filter((type) => GENERIC_TYPES.has(type))
+  );
+  const exercisedRoles = dedupe(LOADING_SCENARIOS.map((scenario) => scenario.role).filter(Boolean));
+  const pairSyncModes = dedupe((manifest.surface_pairs ?? []).map((pair) => pair.sync_source));
+  const pairScopes = dedupe((manifest.surface_pairs ?? []).map((pair) => pair.scope));
+  const moduleLayers = dedupe((manifest.modules ?? []).map((module) => module.layer));
+
+  return {
+    dataset_count: 1,
+    dataset_class: SYSTEM.profile.dataset_class,
+    domains: SYSTEM.profile.domains,
+    languages: SYSTEM.profile.languages,
+    surface_kinds: SYSTEM.profile.surface_kinds,
+    evidence_kinds: SYSTEM.profile.evidence_kinds,
+    phase_coverage: {
+      covered: PHASES.filter((phase) => ARTIFACTS.some((artifact) => artifact.phase === phase)),
+      missing: PHASES.filter((phase) => !ARTIFACTS.some((artifact) => artifact.phase === phase))
+    },
+    structured_types: {
+      covered: structuredCovered,
+      missing: [...STRUCTURED_TYPES].filter((type) => !structuredCovered.includes(type))
+    },
+    generic_types: {
+      covered: genericCovered,
+      missing: [...GENERIC_TYPES].filter((type) => !genericCovered.includes(type))
+    },
+    roles: {
+      defined: ROLE_DEFS.map((role) => role.id),
+      exercised: exercisedRoles,
+      missing: ROLE_DEFS.map((role) => role.id).filter((roleId) => !exercisedRoles.includes(roleId))
+    },
+    loading_scenarios: {
+      total: LOADING_SCENARIOS.length,
+      objective_count: LOADING_SCENARIOS.filter((scenario) => scenario.measurement_class === "objective").length,
+      exploratory_count: LOADING_SCENARIOS.filter((scenario) => scenario.measurement_class === "exploratory").length,
+      by_class: countBy(LOADING_SCENARIOS.map((scenario) => scenario.scenario_class)),
+      by_measurement_class: countBy(LOADING_SCENARIOS.map((scenario) => scenario.measurement_class)),
+      by_intent: countBy(LOADING_SCENARIOS.map((scenario) => scenario.intent))
+    },
+    drift_scenarios: {
+      total: DRIFT_SCENARIOS.length,
+      control_count: DRIFT_SCENARIOS.filter((scenario) => scenario.isControl).length,
+      by_class: countBy(DRIFT_SCENARIOS.map((scenario) => scenario.scenario_class))
+    },
+    sync_modes: {
+      present: pairSyncModes,
+      missing: ["agent-primary", "human-primary", "bidirectional"].filter((mode) => !pairSyncModes.includes(mode))
+    },
+    pair_scopes: {
+      present: pairScopes,
+      missing: ["system", "phase", "feature", "module"].filter((scope) => !pairScopes.includes(scope))
+    },
+    module_layers: {
+      present: moduleLayers,
+      missing: ["root", "capsule", "detail", "evidence"].filter((layer) => !moduleLayers.includes(layer))
+    }
+  };
+}
+
 function runDriftScenario(paths, scenario, baselineAnchors) {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aods-eval-"));
   const mutatedCorpus = path.join(tempRoot, "corpus");
@@ -411,6 +557,7 @@ function renderMarkdownReport(results) {
   const fidelity = results.fidelity;
   const loading = results.loading;
   const drift = results.drift;
+  const diversity = results.diversity;
   const validation = results.validation;
   const strongestBlindSpots = [];
   const compressionHeadline =
@@ -440,9 +587,10 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 
 - **Coverage:** lifecycle phase coverage ${formatPercent(coverage.lifecycle_phase_coverage)}, structured type coverage ${formatPercent(coverage.structured_type_coverage)}, generic type coverage ${formatPercent(coverage.generic_type_coverage)}.
 - **Fidelity:** critical fact preservation ${formatPercent(fidelity.critical_fact_preservation_rate)} with overall fact preservation ${formatPercent(fidelity.fact_preservation_rate)}.
-- **Compression:** ${compressionHeadline}.
-- **Progressive loading:** hit rate ${formatPercent(loading.hit_rate)}, average recall ${formatPercent(loading.average_recall)}, median token savings ${formatPercent(loading.median_token_savings_vs_full_load)}.
+- **Exact corpus size:** human docs ${fidelity.exact_size.human_docs.byte_count} bytes across ${fidelity.exact_size.human_docs.file_count} files; AODS corpus ${fidelity.exact_size.aods_corpus.byte_count} bytes across ${fidelity.exact_size.aods_corpus.file_count} files.
+- **Objective loading gate:** touch-route hit rate ${formatPercent(loading.objective_touch.hit_rate)}, average recall ${formatPercent(loading.objective_touch.average_recall)}, median byte savings ${formatPercent(loading.objective_touch.median_byte_savings_vs_full_load)}.
 - **Drift prevention:** built-in recall ${formatPercent(drift.built_in_recall)}, combined recall ${formatPercent(drift.combined_recall)}, built-in false-positive rate ${formatPercent(drift.built_in_false_positive_rate)}.
+- **Advisory metrics:** token estimates and semantic-load scenarios remain exploratory rather than release-gating signals.
 
 ## Scope and independence
 
@@ -483,23 +631,47 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 
 - Critical fact preservation is **${formatPercent(fidelity.critical_fact_preservation_rate)}**.
 - Overall fact preservation is **${formatPercent(fidelity.fact_preservation_rate)}**.
+- Exact human-doc size: **${fidelity.exact_size.human_docs.byte_count} bytes**, **${fidelity.exact_size.human_docs.line_count} lines**, **${fidelity.exact_size.human_docs.file_count} files**
+- Exact AODS corpus size: **${fidelity.exact_size.aods_corpus.byte_count} bytes**, **${fidelity.exact_size.aods_corpus.line_count} lines**, **${fidelity.exact_size.aods_corpus.file_count} files**
 - Estimated human-doc tokens: **${fidelity.human_doc_tokens_estimated}**
 - Estimated AODS tokens: **${fidelity.aods_tokens_estimated}**
 - Compression ratio (human/AODS): **${formatRatio(fidelity.compression_ratio_human_to_aods)}**
 - Token reduction vs human docs: **${formatPercent(fidelity.token_reduction_vs_human)}**
 - Median per-artifact compression ratio: **${formatRatio(fidelity.median_artifact_compression_ratio)}**
-- Interpretation: **local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark.**
+- Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark.**
 
-### 3. Progressive loading and token cost
+### 3. Objective touch-route loading gate
 
-- Full-load token estimate: **${loading.full_load_tokens_estimated}**
-- Hit rate across ${loading.scenario_results.length} scenarios: **${formatPercent(loading.hit_rate)}**
-- Average precision: **${formatPercent(loading.average_precision)}**
-- Average recall: **${formatPercent(loading.average_recall)}**
-- Median token savings vs full load: **${formatPercent(loading.median_token_savings_vs_full_load)}**
-- Median overfetch ratio: **${formatRatio(loading.median_overfetch_ratio)}**
+- Full-load exact corpus size: **${loading.full_load_bytes} bytes**
+- Objective scenarios: **${loading.objective_touch.scenario_count}**
+- Hit rate across objective touch-route scenarios: **${formatPercent(loading.objective_touch.hit_rate)}**
+- Average precision: **${formatPercent(loading.objective_touch.average_precision)}**
+- Average recall: **${formatPercent(loading.objective_touch.average_recall)}**
+- Median byte savings vs full load: **${formatPercent(loading.objective_touch.median_byte_savings_vs_full_load)}**
+- Median token savings vs full load: **${formatPercent(loading.objective_touch.median_token_savings_vs_full_load)}**
 
-### 4. Drift prevention
+| Objective scenario | Class | Hit | Byte savings |
+| --- | --- | --- | ---: |
+${loading.scenario_results
+  .filter((scenario) => scenario.measurement_class === "objective")
+  .map(
+    (scenario) =>
+      `| ${scenario.id} | ${scenario.scenario_class} | ${scenario.exact_hit ? "hit" : "miss"} | ${formatPercent(
+        scenario.byte_savings_vs_full_load
+      )} |`
+  )
+  .join("\n")}
+
+### 4. Exploratory semantic loading
+
+- Exploratory scenarios: **${loading.exploratory_semantic.scenario_count}**
+- Hit rate across exploratory semantic scenarios: **${formatPercent(loading.exploratory_semantic.hit_rate)}**
+- Average precision: **${formatPercent(loading.exploratory_semantic.average_precision)}**
+- Average recall: **${formatPercent(loading.exploratory_semantic.average_recall)}**
+- Median byte savings vs full load: **${formatPercent(loading.exploratory_semantic.median_byte_savings_vs_full_load)}**
+- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing.**
+
+### 5. Drift prevention
 
 - Built-in drift recall: **${formatPercent(drift.built_in_recall)}**
 - Semantic drift recall: **${formatPercent(drift.semantic_recall)}**
@@ -517,7 +689,22 @@ ${drift.scenario_results
   )
   .join("\n")}
 
-### 5. Authoring overhead
+### 6. Sample diversity and coverage audit
+
+- Dataset count: **${results.diversity.dataset_count}**
+- Dataset class: **${results.diversity.dataset_class}**
+- Domains: **${diversity.domains.join(", ")}**
+- Languages: **${diversity.languages.join(", ")}**
+- Roles exercised in scenarios: **${diversity.roles.exercised.length}/${diversity.roles.defined.length}**
+- Loading scenario split: **${diversity.loading_scenarios.objective_count} objective**, **${diversity.loading_scenarios.exploratory_count} exploratory**
+- Drift scenario classes: **${Object.keys(diversity.drift_scenarios.by_class).join(", ")}**
+- Sync modes present: **${diversity.sync_modes.present.join(", ")}**
+- Sync modes absent: **${diversity.sync_modes.missing.join(", ")}**
+- Pair scopes absent: **${diversity.pair_scopes.missing.join(", ")}**
+
+**Expansion check:** the current benchmark is lifecycle-complete but still single-dataset, single-domain, single-language, and single sync-mode. That means coverage across artifact families is strong, but diversity across corpus families is still narrow and can be expanded objectively.
+
+### 7. Authoring overhead
 
 - Bookkeeping entries (modules + pairs + touch routes + roles): **${results.overhead.bookkeeping_entries}**
 - Bookkeeping entries per benchmark item: **${formatRatio(results.overhead.bookkeeping_entries_per_artifact)}**
@@ -528,20 +715,20 @@ ${drift.scenario_results
 
 1. AODS can represent the full benchmark lifecycle without unsupported gaps.
 2. The structured artifact catalog is broad enough to cover architecture, workflow, contract, policy, and operations material in one corpus.
-3. Touch-routed authoring loads reduce token cost substantially against full-corpus loading.
+3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only heuristic token and semantic-load signals.
 
 ### Limits and failure modes
 
 ${strongestBlindSpots.map((item) => `- ${item}`).join("\n")}
 
 - The reference implementation validates structure and routing better than semantic truth.
-- Progressive loading is strongest for touch-routed authoring flows; semantic query loading still depends on corpus metadata quality and external heuristics.
-- Compression is not automatically positive at corpus scale; routing and pairing metadata can erase local gains.
-- Token counts remain heuristic rather than tokenizer-exact.
+- Progressive loading is strongest for touch-routed authoring flows; semantic query loading still depends on corpus metadata quality and remains exploratory.
+- Compression is not automatically positive at corpus scale; routing and pairing metadata can erase local gains even when artifact-local compression exists.
+- Sample diversity is still limited because the current benchmark contains one synthetic system, one domain, and one language.
 
 ## Bottom line
 
-**Coverage is strong, progressive loading is useful, full-fidelity representation is achievable, but compression is mixed and anti-drift protection is only partial.** In this benchmark AODS preserves meaning, yet the whole corpus expands by about 51.5% because governance overhead outweighs local artifact compression. The strongest current weakness remains semantic drift: validator and hook logic can block some paired-surface mistakes, but they do not prove that compressed summaries, paired docs, and supporting modules still agree in meaning.
+**Coverage is strong, the objective touch-route gate is now cleanly measurable, full-fidelity representation is achievable, but compression is mixed and anti-drift protection is still incomplete at semantic-conflict level.** In this benchmark AODS preserves meaning, yet the whole corpus expands by about 51.5% because governance overhead outweighs local artifact compression. The benchmark itself is more objective than before, but sample diversity still needs expansion beyond one synthetic release-ops corpus.
 
 ## Appendix: reproducibility
 
@@ -550,6 +737,7 @@ cd <repo-root>
 npm install
 npm run validate:all
 npm run benchmark:evaluate
+npm run benchmark:compare
 npm run benchmark:test
 \`\`\`
 `;
@@ -599,6 +787,16 @@ function countOccurrences(text, search) {
     return 0;
   }
   return text.split(search).length - 1;
+}
+
+function countBy(values) {
+  return values.reduce((accumulator, value) => {
+    if (!value) {
+      return accumulator;
+    }
+    accumulator[value] = (accumulator[value] ?? 0) + 1;
+    return accumulator;
+  }, {});
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

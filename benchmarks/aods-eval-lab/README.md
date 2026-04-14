@@ -8,9 +8,13 @@ This lab turns AODS from a claim into a repeatable benchmark. It measures whethe
 
 1. cover a full project-design lifecycle
 2. preserve facts while rewriting human docs into agent-first structures
-3. reduce load cost through progressive disclosure
-4. detect or prevent documentation drift
-5. keep governance overhead at an acceptable level
+3. keep exact corpus size competitive after governance overhead
+4. reduce load cost through objective touch-route progressive disclosure
+5. detect or prevent documentation drift
+6. make benchmark diversity and sample coverage explicit
+7. keep governance overhead at an acceptable level
+
+Token estimates and semantic-load heuristics are still emitted, but they are treated as **advisory** signals rather than release-gating metrics.
 
 ## Repository role
 
@@ -62,7 +66,9 @@ The most decision-relevant dimensions are:
 
 - **coverage:** whether AODS can represent the lifecycle breadth
 - **fidelity:** whether key facts survive compression
-- **loading:** whether routing narrows the working set without missing needed modules
+- **exact corpus size:** whether governance overhead inflates or reduces the full corpus on disk
+- **objective loading:** whether runtime-backed touch routing narrows the working set without missing needed modules
+- **diversity audit:** how broad the benchmark is across domains, languages, sync modes, roles, and scenario classes
 - **drift:** whether validator and hook logic catch structural and semantic divergence
 - **overhead:** how much governance bookkeeping the corpus introduces
 

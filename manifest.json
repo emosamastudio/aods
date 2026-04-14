@@ -1,9 +1,9 @@
 {
   "aods_v": 3,
   "sys": "aods-spec",
-  "sys_v": 6,
+  "sys_v": 7,
   "created": "2026-04-13T00:00:00Z",
-  "updated": "2026-04-14T07:31:54Z",
+  "updated": "2026-04-14T18:40:58Z",
   "purpose": "AODS v3 self-referential specification. Adds dual-surface pairing, layer-aware progressive disclosure, capsule modules, and structured governance patterns without introducing new artifact classes.",
   "glossary": {
     "aods": "Agent-Optimized Documentation System — format and conventions for agent-first documentation",
@@ -119,7 +119,7 @@
         "authority",
         "routing"
       ],
-      "tokens_approx": 2870,
+      "tokens_approx": 2975,
       "priority": "critical"
     },
     {
@@ -137,7 +137,7 @@
         "quality",
         "integrity"
       ],
-      "tokens_approx": 2917,
+      "tokens_approx": 3068,
       "priority": "standard"
     }
   ],

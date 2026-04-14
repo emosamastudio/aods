@@ -2,6 +2,7 @@
   {
     "id": "control-neutral-sync-edit",
     "description": "Paired surfaces get a neutral note without changing benchmark facts.",
+    "scenario_class": "control-neutral",
     "changedFiles": [
       "README.md",
       "modules/atlas-capsule.json"
@@ -27,6 +28,7 @@
   {
     "id": "readme-human-only-drift",
     "description": "README changes alone under agent-primary sync.",
+    "scenario_class": "human-only-drift",
     "changedFiles": [
       "README.md"
     ],
@@ -44,11 +46,12 @@
   {
     "id": "manifest-bypass-readme",
     "description": "README changes together with manifest metadata but no paired module update.",
+    "scenario_class": "manifest-bypass",
     "changedFiles": [
       "README.md",
       "manifest.json"
     ],
-    "expectBuiltInDetection": false,
+    "expectBuiltInDetection": true,
     "expectSemanticDetection": true,
     "operations": [
       {
@@ -68,6 +71,7 @@
   {
     "id": "semantic-pair-conflict",
     "description": "Paired human and agent files both change, but to contradictory meanings.",
+    "scenario_class": "semantic-conflict",
     "changedFiles": [
       "docs/01-product-lifecycle.md",
       "modules/product-lifecycle.json"
@@ -92,6 +96,7 @@
   {
     "id": "ops-human-only-drift",
     "description": "Operations human surface changes alone.",
+    "scenario_class": "human-only-drift",
     "changedFiles": [
       "docs/04-operations-and-governance.md"
     ],
@@ -109,6 +114,7 @@
   {
     "id": "broken-touch-route",
     "description": "Manifest points a touch route at a missing module.",
+    "scenario_class": "route-integrity",
     "changedFiles": [
       "manifest.json"
     ],
@@ -126,10 +132,11 @@
   {
     "id": "path-escape-pair",
     "description": "Manifest points a paired human surface outside the corpus root.",
+    "scenario_class": "path-safety",
     "changedFiles": [
       "manifest.json"
     ],
-    "expectBuiltInDetection": false,
+    "expectBuiltInDetection": true,
     "expectSemanticDetection": false,
     "operations": [
       {

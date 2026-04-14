@@ -2,6 +2,8 @@
   {
     "id": "orientation-summary",
     "description": "Cold-start reader asks for benchmark orientation.",
+    "scenario_class": "cold-start-orientation",
+    "measurement_class": "exploratory",
     "role": "product-manager",
     "intent": "read",
     "concepts": [
@@ -17,6 +19,8 @@
   {
     "id": "product-doc-edit",
     "description": "Doc author edits the product lifecycle human surface.",
+    "scenario_class": "paired-human-surface-write",
+    "measurement_class": "objective",
     "role": "doc-author",
     "intent": "write",
     "touch": "docs/01-product-lifecycle.md",
@@ -33,6 +37,8 @@
   {
     "id": "architecture-module-edit",
     "description": "Architect edits the architecture contract module.",
+    "scenario_class": "agent-module-write",
+    "measurement_class": "objective",
     "role": "architect",
     "intent": "write",
     "touch": "modules/architecture-contracts.json",
@@ -50,6 +56,8 @@
   {
     "id": "workflow-debug",
     "description": "Architect debugs rollout policy and rollback behavior.",
+    "scenario_class": "cross-module-debug-read",
+    "measurement_class": "exploratory",
     "role": "architect",
     "intent": "read",
     "concepts": [
@@ -65,6 +73,8 @@
   {
     "id": "ops-doc-edit",
     "description": "Operator edits the operations and governance human surface.",
+    "scenario_class": "operations-human-surface-write",
+    "measurement_class": "objective",
     "role": "operator",
     "intent": "write",
     "touch": "docs/04-operations-and-governance.md",
@@ -82,6 +92,8 @@
   {
     "id": "release-contract-read",
     "description": "Product manager asks about release packet schema and example payloads.",
+    "scenario_class": "targeted-contract-read",
+    "measurement_class": "exploratory",
     "role": "product-manager",
     "intent": "read",
     "concepts": [

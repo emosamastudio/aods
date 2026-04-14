@@ -101,8 +101,8 @@
   "definitions": {
     "relative_path": {
       "type": "string",
-      "pattern": "^(?!/)(?![A-Za-z]:).+",
-      "description": "Relative path only. Absolute paths forbidden."
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+",
+      "description": "Corpus-contained relative path only. Absolute paths and parent traversal forbidden."
     },
     "role_def": {
       "type": "object",

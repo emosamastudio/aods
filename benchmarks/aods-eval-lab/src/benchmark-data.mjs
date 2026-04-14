@@ -6,6 +6,14 @@ export const SYSTEM = {
   id: "atlas-release-ops",
   name: "Atlas Release Ops",
   purpose: "Independent benchmark corpus for a multi-tenant release coordination and incident-ready rollout system.",
+  profile: {
+    dataset_class: "synthetic-lifecycle",
+    domains: ["release-ops"],
+    languages: ["en"],
+    sync_modes: ["agent-primary"],
+    surface_kinds: ["readme", "markdown-docs", "json-modules"],
+    evidence_kinds: ["sql", "json", "markdown"]
+  },
   glossary: {
     system: "Atlas Release Ops benchmark corpus",
     release_packet: "Canonical release unit with owner, risk tier, rollback plan, communication plan, and rollout window.",
@@ -1125,6 +1133,8 @@ export const LOADING_SCENARIOS = [
   {
     id: "orientation-summary",
     description: "Cold-start reader asks for benchmark orientation.",
+    scenario_class: "cold-start-orientation",
+    measurement_class: "exploratory",
     role: "product-manager",
     intent: "read",
     concepts: ["overview", "summary", "routes"],
@@ -1133,6 +1143,8 @@ export const LOADING_SCENARIOS = [
   {
     id: "product-doc-edit",
     description: "Doc author edits the product lifecycle human surface.",
+    scenario_class: "paired-human-surface-write",
+    measurement_class: "objective",
     role: "doc-author",
     intent: "write",
     touch: "docs/01-product-lifecycle.md",
@@ -1142,6 +1154,8 @@ export const LOADING_SCENARIOS = [
   {
     id: "architecture-module-edit",
     description: "Architect edits the architecture contract module.",
+    scenario_class: "agent-module-write",
+    measurement_class: "objective",
     role: "architect",
     intent: "write",
     touch: "modules/architecture-contracts.json",
@@ -1151,6 +1165,8 @@ export const LOADING_SCENARIOS = [
   {
     id: "workflow-debug",
     description: "Architect debugs rollout policy and rollback behavior.",
+    scenario_class: "cross-module-debug-read",
+    measurement_class: "exploratory",
     role: "architect",
     intent: "read",
     concepts: ["workflow", "rollback", "risk"],
@@ -1159,6 +1175,8 @@ export const LOADING_SCENARIOS = [
   {
     id: "ops-doc-edit",
     description: "Operator edits the operations and governance human surface.",
+    scenario_class: "operations-human-surface-write",
+    measurement_class: "objective",
     role: "operator",
     intent: "write",
     touch: "docs/04-operations-and-governance.md",
@@ -1168,6 +1186,8 @@ export const LOADING_SCENARIOS = [
   {
     id: "release-contract-read",
     description: "Product manager asks about release packet schema and example payloads.",
+    scenario_class: "targeted-contract-read",
+    measurement_class: "exploratory",
     role: "product-manager",
     intent: "read",
     concepts: ["release", "schema", "api", "packet"],
@@ -1179,6 +1199,7 @@ export const DRIFT_SCENARIOS = [
   {
     id: "control-neutral-sync-edit",
     description: "Paired surfaces get a neutral note without changing benchmark facts.",
+    scenario_class: "control-neutral",
     changedFiles: ["README.md", "modules/atlas-capsule.json"],
     isControl: true,
     expectBuiltInDetection: false,
@@ -1203,6 +1224,7 @@ export const DRIFT_SCENARIOS = [
   {
     id: "readme-human-only-drift",
     description: "README changes alone under agent-primary sync.",
+    scenario_class: "human-only-drift",
     changedFiles: ["README.md"],
     expectBuiltInDetection: true,
     expectSemanticDetection: true,
@@ -1218,8 +1240,9 @@ export const DRIFT_SCENARIOS = [
   {
     id: "manifest-bypass-readme",
     description: "README changes together with manifest metadata but no paired module update.",
+    scenario_class: "manifest-bypass",
     changedFiles: ["README.md", "manifest.json"],
-    expectBuiltInDetection: false,
+    expectBuiltInDetection: true,
     expectSemanticDetection: true,
     operations: [
       {
@@ -1239,6 +1262,7 @@ export const DRIFT_SCENARIOS = [
   {
     id: "semantic-pair-conflict",
     description: "Paired human and agent files both change, but to contradictory meanings.",
+    scenario_class: "semantic-conflict",
     changedFiles: ["docs/01-product-lifecycle.md", "modules/product-lifecycle.json"],
     expectBuiltInDetection: false,
     expectSemanticDetection: true,
@@ -1260,6 +1284,7 @@ export const DRIFT_SCENARIOS = [
   {
     id: "ops-human-only-drift",
     description: "Operations human surface changes alone.",
+    scenario_class: "human-only-drift",
     changedFiles: ["docs/04-operations-and-governance.md"],
     expectBuiltInDetection: true,
     expectSemanticDetection: true,
@@ -1275,6 +1300,7 @@ export const DRIFT_SCENARIOS = [
   {
     id: "broken-touch-route",
     description: "Manifest points a touch route at a missing module.",
+    scenario_class: "route-integrity",
     changedFiles: ["manifest.json"],
     expectBuiltInDetection: true,
     expectSemanticDetection: false,
@@ -1292,8 +1318,9 @@ export const DRIFT_SCENARIOS = [
   {
     id: "path-escape-pair",
     description: "Manifest points a paired human surface outside the corpus root.",
+    scenario_class: "path-safety",
     changedFiles: ["manifest.json"],
-    expectBuiltInDetection: false,
+    expectBuiltInDetection: true,
     expectSemanticDetection: false,
     operations: [
       {
