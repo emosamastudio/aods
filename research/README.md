@@ -15,6 +15,7 @@ This folder exists to answer three questions:
 | File | Purpose |
 | --- | --- |
 | `2026-04-14-landscape-and-comparator-scan.md` | First multi-round scan of related research themes, influential open-source projects, and recommended benchmark opponents |
+| `2026-04-15-code-agent-retrieval-patterns.md` | Research note on why current code agents appear grep-first or repo-map-first, and what that implies for AODS routing and benchmark design |
 
 ## Working rules
 
