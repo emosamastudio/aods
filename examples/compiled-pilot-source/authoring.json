@@ -44,7 +44,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing and the README for the human overview.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, and the surface inventory when current corpus surfaces must be checked.",
       "tags": [
         "root",
         "routing",
@@ -86,13 +86,14 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
             "shift-ops-capsule:system-capsule"
           ],
           "artifact_refs": [
-            "route-table"
+            "route-table",
+            "surface-inventory"
           ],
           "criticality": "must"
         }
@@ -123,6 +124,44 @@
                 "incident response",
                 "shift-ops-runbook:incident-response"
               ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "surface-inventory",
+          "type": "surface-inventory",
+          "usage": "Optional reality sensor for the compiled pilot. Current entries must exist when validate runs with --reality.",
+          "content": {
+            "base": "corpus",
+            "entries": [
+              {
+                "surface_id": "pilot-readme",
+                "path": "README.md",
+                "kind": "file",
+                "state": "current",
+                "notes": "Generated human-oriented overview."
+              },
+              {
+                "surface_id": "module-directory",
+                "path": "modules",
+                "kind": "directory",
+                "state": "current",
+                "notes": "Compiled authority modules."
+              },
+              {
+                "surface_id": "draft-release-checklist",
+                "path": "drafts/release-checklist",
+                "kind": "directory",
+                "state": "reserved",
+                "notes": "Reserved for future human checklists."
+              },
+              {
+                "surface_id": "future-change-bot",
+                "path": "integrations/change-bot",
+                "kind": "directory",
+                "state": "future",
+                "notes": "Future automation surface."
+              }
             ]
           }
         }

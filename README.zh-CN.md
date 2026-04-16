@@ -63,6 +63,14 @@ npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs f
 ```bash
 npx aods compile ./aods/authoring.json ./docs/aods --force
 npx aods validate ./docs/aods --strict
+npx aods validate ./docs/aods --strict --reality
+npx aods validate ./docs/aods --strict --reality --repo-root .
+```
+
+只有在你的 corpus 里声明了 `surface-inventory`，并且你想让 AODS 进一步检查这些标记为 **current** 的 surface 时，才需要加 `--reality`。当 `content.base: "corpus"` 时，路径从 corpus root 解析；当 `content.base: "repo"` 时，路径优先从 `--repo-root` 解析，如果没有传，就回退到 corpus root。`reserved` 和 `future` 只表示预留或未来规划，不要求它们现在就已经落地。对于标记为 current 的目录，AODS 还会检查里面是否有真实内容，而不只是 `.gitkeep` 之类的占位文件。
+
+```json
+{"type":"surface-inventory","content":{"base":"repo","entries":[{"surface_id":"web-src","path":"apps/web/src","kind":"directory","state":"current"}]}}
 ```
 
 5. 常见的 authoring 增量动作，优先用 scaffold helpers，而不是每次都手改一大片 JSON：
@@ -228,6 +236,8 @@ npm run validate:all
 node ./bin/aods.mjs validate .
 node ./bin/aods.mjs validate . --json
 node ./bin/aods.mjs validate . --strict
+node ./bin/aods.mjs validate . --strict --reality
+node ./bin/aods.mjs validate . --strict --reality --repo-root ..
 ```
 
 ### 对触达文件做 scoped routing

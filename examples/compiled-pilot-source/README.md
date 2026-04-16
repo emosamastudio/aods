@@ -7,6 +7,7 @@ Human-facing overview for the compiled-authoring pilot corpus.
 - concise authoring source compiled into a full AODS corpus
 - routed root -> capsule -> detail loading
 - paired README governance with `shared_invariants`
+- optional `surface-inventory` reality checks for current compiled surfaces
 - explicit separation between change policy and incident response authority
 
 ## Canonical facts shared with the agent capsule

@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-artifact-types",
-  "v": 2,
-  "context": "Catalog of all AODS artifact types. Adds governance selection patterns for dual-surface pairing, authority rules, progressive disclosure, and capsule-vs-artifact decisions.",
+  "v": 3,
+  "context": "Catalog of all AODS artifact types. Adds governance selection patterns for dual-surface pairing, authority rules, progressive disclosure, capsule-vs-artifact decisions, and surface-reality declarations.",
   "assumptions": [
     "Agent has loaded spec-aop for writing content fields",
     "Agent understands JSON Schema basics"
@@ -11,7 +11,7 @@
     {
       "sid": "type-selection-guide",
       "topic": "artifact type selection decision logic",
-      "content": "Match documentation need to artifact type. entity lifecycle|status -> state-machine. multi-step process with actors -> process-flow. temporal message exchange -> sequence. conditional branching|classification -> decision-tree. data transformation chain -> data-pipeline. system structure|component graph -> topology. constraints|policies|authority -> rule-set. routing tables|pairing matrices|permission maps -> mapping-table. event-driven interactions -> event-catalog. failure recovery -> error-strategy. interfaces|contracts -> api-contract. schedules|deadlines|rate limits -> temporal-pattern. documentation surface governance -> rule-set + mapping-table + process-flow. short routing summary -> module.category=capsule, not new artifact type. none match -> generic type or raw.",
+      "content": "Match documentation need to artifact type. entity lifecycle|status -> state-machine. multi-step process with actors -> process-flow. temporal message exchange -> sequence. conditional branching|classification -> decision-tree. data transformation chain -> data-pipeline. system structure|component graph -> topology. constraints|policies|authority -> rule-set. routing tables|pairing matrices|permission maps -> mapping-table. repository or corpus surface reality inventory -> surface-inventory. event-driven interactions -> event-catalog. failure recovery -> error-strategy. interfaces|contracts -> api-contract. schedules|deadlines|rate limits -> temporal-pattern. documentation surface governance -> rule-set + mapping-table + process-flow + surface-inventory when current surfaces must be checked. short routing summary -> module.category=capsule, not new artifact type. none match -> generic type or raw.",
       "content_type": "logic",
       "refs": [
         "surface-governance-patterns"
@@ -24,8 +24,8 @@
     },
     {
       "sid": "structured-types-overview",
-      "topic": "12 structured artifact types summary",
-      "content": "state-machine: states + transitions; use for lifecycles. process-flow: steps + next links; use for workflows. sequence: actors + ordered messages; use for protocols. decision-tree: condition nodes -> action leaves; use for routing or diagnosis. data-pipeline: source -> stages -> sink; use for ETL/data movement. topology: nodes + edges + groups; use for architecture. rule-set: condition -> action with evaluation mode + conflict resolution; use for policies. mapping-table: columns + rows + key_columns; use for lookup or routing tables. event-catalog: events + channels; use for event-driven design. error-strategy: error class -> strategy; use for fault tolerance. api-contract: provider + endpoints; use for interface specs. temporal-pattern: cron|interval|deadline|window|rate-limit|cooldown|sla-timer|debounce|throttle; use for time behavior.",
+      "topic": "13 structured artifact types summary",
+      "content": "state-machine: states + transitions; use for lifecycles. process-flow: steps + next links; use for workflows. sequence: actors + ordered messages; use for protocols. decision-tree: condition nodes -> action leaves; use for routing or diagnosis. data-pipeline: source -> stages -> sink; use for ETL/data movement. topology: nodes + edges + groups; use for architecture. rule-set: condition -> action with evaluation mode + conflict resolution; use for policies. mapping-table: columns + rows + key_columns; use for lookup or routing tables. surface-inventory: base + entries{surface_id,path,kind,state}; use for current|reserved|future surface declarations and optional reality checks. event-catalog: events + channels; use for event-driven design. error-strategy: error class -> strategy; use for fault tolerance. api-contract: provider + endpoints; use for interface specs. temporal-pattern: cron|interval|deadline|window|rate-limit|cooldown|sla-timer|debounce|throttle; use for time behavior.",
       "content_type": "prose",
       "refs": [],
       "criticality": "must"
@@ -41,7 +41,7 @@
     {
       "sid": "surface-governance-patterns",
       "topic": "dual surface authority and disclosure patterns",
-      "content": "surface_pairs manifest field links agent-primary modules to human surfaces. authority resolution -> rule-set. progressive disclosure routing -> decision-tree + mapping-table. sync workflow -> process-flow. layer model -> mapping-table or topology. capsule summary -> module.category=capsule + meta.capsule.{read_when, core_question, routes_to, frozen_decisions}. Do not invent prose-only governance when agent must traverse or evaluate it.",
+      "content": "surface_pairs manifest field links agent-primary modules to human surfaces. authority resolution -> rule-set. progressive disclosure routing -> decision-tree + mapping-table. sync workflow -> process-flow. current|reserved|future surface declaration -> surface-inventory. layer model -> mapping-table or topology. capsule summary -> module.category=capsule + meta.capsule.{read_when, core_question, routes_to, frozen_decisions}. Do not invent prose-only governance when agent must traverse, compare, or validate it.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -52,7 +52,7 @@
     {
       "sid": "composition-patterns",
       "topic": "combining multiple artifact types in one module",
-      "content": "Architecture module: topology + api-contract + event-catalog. Workflow module: process-flow + error-strategy + decision-tree + state-machine. Integration module: api-contract + json-schema + sequence + mapping-table. Operations module: temporal-pattern + rule-set + error-strategy + mapping-table. Surface-governance module: mapping-table + rule-set + process-flow + decision-tree.",
+      "content": "Architecture module: topology + api-contract + event-catalog. Workflow module: process-flow + error-strategy + decision-tree + state-machine. Integration module: api-contract + json-schema + sequence + mapping-table. Operations module: temporal-pattern + rule-set + error-strategy + mapping-table. Surface-governance module: mapping-table + rule-set + process-flow + decision-tree + surface-inventory when current surface declarations need reality checks.",
       "content_type": "prose",
       "refs": [
         "type-selection-guide"
@@ -124,6 +124,10 @@
               {
                 "value": "documentation surface governance",
                 "next": "q-doc-gov"
+              },
+              {
+                "value": "repository or corpus surface inventory",
+                "next": "a-si"
               }
             ],
             "default": "a-generic"
@@ -182,6 +186,10 @@
               {
                 "value": "load routing",
                 "next": "a-dt"
+              },
+              {
+                "value": "current vs reserved/future surfaces",
+                "next": "a-si"
               }
             ],
             "default": "a-rs"
@@ -225,6 +233,11 @@
             "id": "a-mt",
             "type": "action",
             "action": "use mapping-table"
+          },
+          {
+            "id": "a-si",
+            "type": "action",
+            "action": "use surface-inventory"
           },
           {
             "id": "a-ec",
@@ -294,6 +307,11 @@
             "use explicit step graph for update order"
           ],
           [
+            "current surface inventory",
+            "surface-inventory",
+            "declare current|reserved|future paths; validate current entries with --reality"
+          ],
+          [
             "capsule summary",
             "module.category=capsule + meta.capsule",
             "capsule is module pattern, not artifact type"
@@ -310,6 +328,11 @@
     {
       "v": 2,
       "delta": "Added governance selection patterns, capsule-module guidance, and dual-surface mapping guidance.",
+      "breaking": false
+    },
+    {
+      "v": 3,
+      "delta": "Added surface-inventory guidance for optional repository-reality validation of current surfaces.",
       "breaking": false
     }
   ],
