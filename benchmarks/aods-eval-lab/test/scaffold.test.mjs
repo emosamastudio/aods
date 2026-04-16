@@ -135,8 +135,27 @@ test("compile --strict turns warning-only output into a failing gate", () => {
   assert.notEqual(strictCompile.status, 0);
   assert.match(strictCompile.stdout, /FAIL compile corpus/);
   assert.match(strictCompile.stdout, /strict gate blocked by warnings/);
+  assert.match(strictCompile.stdout, /target not updated because strict gate failed/);
   assert.match(strictCompile.stdout, /surface-pair-bidirectional-sync/);
-  assert.ok(fs.existsSync(path.join(tempDir, "compiled-strict", "manifest.json")));
+  assert.equal(fs.existsSync(path.join(tempDir, "compiled-strict", "manifest.json")), false);
+
+  const preservedRoot = path.join(tempDir, "compiled-preserved");
+  fs.mkdirSync(preservedRoot, { recursive: true });
+  fs.writeFileSync(path.join(preservedRoot, "sentinel.txt"), "keep me");
+  const preservedCompile = spawnSync("node", [
+    CLI_PATH,
+    "compile",
+    sourcePath,
+    preservedRoot,
+    "--force",
+    "--strict"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(preservedCompile.status, 0);
+  assert.equal(fs.readFileSync(path.join(preservedRoot, "sentinel.txt"), "utf8"), "keep me");
+  assert.equal(fs.existsSync(path.join(preservedRoot, "manifest.json")), false);
 
   const strictJsonCompile = spawnSync("node", [
     CLI_PATH,
@@ -154,6 +173,9 @@ test("compile --strict turns warning-only output into a failing gate", () => {
   const strictJson = JSON.parse(strictJsonCompile.stdout);
   assert.equal(strictJson.strict, true);
   assert.equal(strictJson.status, "fail");
+  assert.equal(strictJson.accepted, false);
+  assert.equal(strictJson.written, false);
+  assert.deepEqual(strictJson.created_files, []);
   assert.equal(strictJson.validation.errors, 0);
   assert.ok(strictJson.validation.warnings > 0);
 });

@@ -70,7 +70,7 @@ npx aods validate ./docs/aods --strict --reality
 npx aods validate ./docs/aods --strict --reality --repo-root .
 ```
 
-当你希望 `compile` 自己就是 acceptance gate 时，用 `compile --strict`。它仍然会写出目标 corpus，但如果有 warning，会直接非零退出，并把阻断的 warning 打出来，而不是先表现成一次“看起来成功”的编译。只有在你的 corpus 里声明了 `surface-inventory`，并且你想让 AODS 进一步检查这些标记为 **current** 的 surface 时，才需要加 `--reality`。当 `content.base: "corpus"` 时，路径从 corpus root 解析；当 `content.base: "repo"` 时，路径优先从 `--repo-root` 解析，如果没有传，就回退到 corpus root。`reserved` 和 `future` 只表示预留或未来规划，不要求它们现在就已经落地。对于标记为 current 的目录，AODS 还会检查里面是否有真实内容，而不只是 `.gitkeep` 之类的占位文件。
+当你希望 `compile` 自己就是 acceptance gate 时，用 `compile --strict`。它会先编译到 staging，再在那里做校验；只有 strict gate 通过后，才会真正更新目标 corpus。只要 warning 或 error 让 strict gate 失败，命令就会非零退出，打印阻断原因，并保持目标目录不被这次失败结果覆盖。只有在你的 corpus 里声明了 `surface-inventory`，并且你想让 AODS 进一步检查这些标记为 **current** 的 surface 时，才需要加 `--reality`。当 `content.base: "corpus"` 时，路径从 corpus root 解析；当 `content.base: "repo"` 时，路径优先从 `--repo-root` 解析，如果没有传，就回退到 corpus root。`reserved` 和 `future` 只表示预留或未来规划，不要求它们现在就已经落地。对于标记为 current 的目录，AODS 还会检查里面是否有真实内容，而不只是 `.gitkeep` 之类的占位文件。
 
 ```json
 {"type":"surface-inventory","content":{"base":"repo","entries":[{"surface_id":"web-src","path":"apps/web/src","kind":"directory","state":"current"}]}}
@@ -323,7 +323,7 @@ paired human output 现在有两种建模方式：
 - 声明过的面向人阅读文件，例如 `README.md`
 - 按 pair opt-in 生成的 deterministic human-oriented 文件，例如 overview 或 checklist surface
 
-`compile --strict` 会把这一步真正变成 gate：warning 仍然会写出输出，但不会再返回成功形态的结果。
+`compile --strict` 会把这一步真正变成 gate：warning 或 error 会阻止结果被提升到目标 corpus，而不是替换掉一个之前已经通过的输出。
 
 当 `boot_by_role` 已经存在时，编译产物里的 companion `roles` 会被压缩成 runtime role profile：保留 `id` 和可选的 `capabilities`；只有当 `required_modules` 与 boot binding 不一致时才会额外保留。
 
