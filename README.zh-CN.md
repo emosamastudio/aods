@@ -99,6 +99,16 @@ npx aods scaffold authoring-module ./aods/authoring.json release-governance --pa
 - runtime contract 表
 - scripted / expert / human 三类 review 路由树
 
+### 可选：安装与发布版本对齐的 Copilot skill
+
+如果你希望别的 agent 在 AODS 仓库里工作时，不用先加载整套规范再开始，可以把同一 release tag 下的 `skills/aods-use/` 复制到对应 agent 的 skills 目录。
+
+这个 skill 故意保持很薄，只负责帮助 agent：
+
+- 判断当前仓库是 source-first 还是 compiled-corpus-first
+- 选择最小且正确的 AODS 命令路径
+- 明确 `agent-primary` 才是 authority，不把面向人阅读的文档当成第二套真相源
+
 ### 直接克隆仓库
 
 如果你要本地拿到完整标准仓、benchmark 实验室和 examples，用这种方式：
@@ -405,6 +415,7 @@ node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/aut
 AODS 现在区分两条版本线：
 
 - **发布版本：** Git tag / package release，例如 `v0.3.0`
-- **Schema 兼容版本：** 各文件内部使用的兼容性标记，例如 `aods_v` 和 `authoring_v`
+- **与发布版对齐的 skill 版本：** `skills/` 下的技能与同一个 release tag 对齐
+- **Schema 兼容版本：** 各 surface 内部使用的兼容性标记，例如 `aods_v` 和 `authoring_v`
 
 这些 schema 标记依然用于兼容和升级，但不再作为 README 里的对外产品标签。对外文档默认应该使用发布版本，而不是遗留的 schema-generation branding。

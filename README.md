@@ -99,6 +99,16 @@ That pattern creates a starter module with four governance structures already wi
 - a runtime contract table
 - a scripted / expert / human review routing tree
 
+### Optional: install the release-aligned Copilot skill
+
+If you want another agent to work inside an AODS repo without loading the whole standard first, copy `skills/aods-use/` from the same release tag into that agent's skills directory.
+
+This skill is intentionally thin. It helps an agent:
+
+- detect whether the repo is source-first or compiled-corpus-first
+- choose the minimal correct AODS command path
+- respect `agent-primary` authority instead of treating human-oriented docs as a second source of truth
+
 ### Clone the repository directly
 
 Use this mode if you want the full standard repo, benchmark lab, and examples locally:
@@ -407,6 +417,7 @@ This project is released under the **MIT License**. See [`LICENSE`](./LICENSE).
 AODS now uses two version tracks:
 
 - **Release version:** Git tags and package releases such as `v0.3.0`
+- **Release-aligned skill version:** packaged skills under `skills/` stay aligned to the same release tag
 - **Schema compatibility:** surface-local markers such as `aods_v` and `authoring_v`
 
 Schema markers remain important for compatibility and migration, but they are no longer the public product label in README files. Public-facing docs should refer to the release version, not legacy schema-generation branding.
