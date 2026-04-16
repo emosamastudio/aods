@@ -422,6 +422,9 @@
             "$ref": "#/definitions/relative_path"
           }
         },
+        "human_generation": {
+          "$ref": "#/definitions/human_generation"
+        },
         "sync_source": {
           "type": "string",
           "enum": [
@@ -448,6 +451,39 @@
             "minLength": 1,
             "maxLength": 300
           }
+        }
+      }
+    },
+    "human_generation_mode": {
+      "type": "string",
+      "enum": [
+        "deterministic"
+      ]
+    },
+    "human_generation_profile": {
+      "type": "string",
+      "enum": [
+        "overview",
+        "checklist"
+      ]
+    },
+    "human_generation": {
+      "type": "object",
+      "required": [
+        "mode",
+        "profile"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "$ref": "#/definitions/human_generation_mode"
+        },
+        "profile": {
+          "$ref": "#/definitions/human_generation_profile"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 120
         }
       }
     }

@@ -31,12 +31,6 @@
       }
     ]
   },
-  "files": [
-    {
-      "path": "README.md",
-      "source_path": "README.md"
-    }
-  ],
   "modules": [
     {
       "id": "shift-ops-root",
@@ -472,6 +466,11 @@
         "shift-ops-runbook"
       ],
       "human_primary": "README.md",
+      "human_generation": {
+        "mode": "deterministic",
+        "profile": "overview",
+        "title": "shift-ops-pilot"
+      },
       "sync_source": "agent-primary",
       "status": "paired",
       "shared_invariants": [

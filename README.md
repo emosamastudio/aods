@@ -2,7 +2,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-Agent-Optimized Documentation System: a spec-first documentation standard for corpora that must be readable by agents, governable by validators and hooks, and still bridge back to human-facing surfaces.
+Agent-Optimized Documentation System: a spec-first documentation standard for corpora that must be readable by agents, governable by validators and hooks, and still bridge back to human-oriented documentation.
 
 ## The problem
 
@@ -10,7 +10,7 @@ Project documentation is usually optimized for humans first. That creates four r
 
 1. **Retrieval is expensive or ambiguous.** Agents often work `grep`-first and file-structure-first, so weak routing and inconsistent terminology increase context waste.
 2. **Authority is implicit.** Human docs, operational notes, and implementation details can disagree without any native way to say which surface wins.
-3. **Human and agent surfaces drift.** A README can change while the agent-facing source of truth stays stale, or the inverse.
+3. **Human-oriented and agent-oriented docs drift.** A README can change while the agent-oriented source of truth stays stale, or the inverse.
 4. **Repository size and task-time context get conflated.** A large corpus is not always a large working set, but most documentation formats do not make that distinction measurable.
 
 AODS exists because the current alternatives each solve only one slice of that problem. Markdown stacks are ergonomic, `llms.txt` is lightweight, and DITA is structurally mature, but none of them combine structured agent routing, dual-surface governance, and measurable anti-drift behavior in one format.
@@ -71,6 +71,7 @@ npx aods validate ./docs/aods --strict
 npx aods scaffold authoring-module ./aods/authoring.json delivery-gates --category policy --layer detail --scope "Delivery gate authority" --role doc-author
 npx aods scaffold authoring-touch ./aods/authoring.json --match package.json --load my-system-root --load delivery-gates --intent write
 npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-log --agent-primary delivery-gates --human-primary DELIVERY-LOG.md
+npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-guide --agent-primary delivery-gates --human-primary DELIVERY-GUIDE.md --generated-profile overview --generated-title "Delivery Guide"
 ```
 
 ### Clone the repository directly
@@ -263,7 +264,12 @@ The CLI now exposes safe authoring mutation paths for the three most common cont
 
 - append a module to `authoring.json`
 - append or replace a touch route safely
-- scaffold a paired human surface plus its registration metadata
+- scaffold a paired human-oriented file plus its registration metadata
+
+Paired human outputs can now be modeled in two ways:
+
+- manual human files declared through `files[]`
+- opt-in deterministic generated outputs declared per pair with `human_generation`
 
 The compile command emits:
 
@@ -271,7 +277,8 @@ The compile command emits:
 - compact module JSON files with computed `tokens_approx`
 - compact `indexes/runtime.json` companion slices for glossary, `boot_by_role`, `boot_by_touch`, `surface_pairs`, and runtime role profiles
 - copied AODS schemas
-- declared human-facing files such as `README.md`
+- declared manual human-oriented files such as `README.md`
+- opt-in deterministic generated human-oriented files such as overview or checklist surfaces
 
 When `boot_by_role` is present, compiled companion `roles` are runtime role profiles: `id` plus optional `capabilities`, with duplicated `required_modules` omitted unless they differ from the boot binding.
 
@@ -286,9 +293,10 @@ Hook behavior:
 
 - validates only the affected corpus or corpora
 - blocks unsafe human-only edits when `sync_source=agent-primary` and no paired agent module changed
-- blocks unsafe agent-only edits when `sync_source=human-primary` and no paired human surface changed
+- blocks unsafe agent-only edits when `sync_source=human-primary` and no paired human-oriented file changed
 - requires manual review for changed `sync_source=bidirectional` pairs because merge protocol is still experimental
-- enforces declared `shared_invariants` across paired human and agent surfaces
+- accepts valid deterministic regenerated human files under `agent-primary`, but flags manual drift in generated outputs
+- enforces declared `shared_invariants` across paired human-oriented and agent-oriented docs
 - forces broader validation for implementation-layer changes such as `lib/`, `schema/`, or `.githooks/`
 
 Optional git hook installation:
@@ -313,6 +321,7 @@ node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy
 node ./bin/aods.mjs scaffold authoring-module ./examples/compiled-pilot-source/authoring.json shift-ops-log --category reference --layer detail --scope "Shift operations log authority"
 node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-capsule --load shift-ops-policy --intent write
 node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-log --agent-primary shift-ops-runbook --human-primary SHIFT-OPS-LOG.md
+node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-guide --agent-primary shift-ops-policy --human-primary SHIFT-OPS-GUIDE.md --generated-profile checklist
 ```
 
 ## Repository structure

@@ -149,6 +149,9 @@ test("compile command emits compact machine JSON surfaces", () => {
     assertCompactJsonFile(path.join(tempRoot, "manifest.json"));
     assertCompactJsonFile(path.join(tempRoot, "modules", "shift-ops-policy.json"));
     assertCompactJsonFile(path.join(tempRoot, "indexes", "runtime.json"));
+    const generatedReadme = fs.readFileSync(path.join(tempRoot, "README.md"), "utf8");
+    assert.match(generatedReadme, /AODS GENERATED: pair_id=pair-shift-ops-readme mode=deterministic profile=overview/);
+    assert.match(generatedReadme, /Production database schema changes require two approvers\./);
   } finally {
     fs.rmSync(tempRoot, { recursive: true, force: true });
   }
