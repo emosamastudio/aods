@@ -30,6 +30,7 @@
     "lib/",
     "schema/",
     "spec/",
+    "skills/",
     "examples/compiled-pilot-source/",
     "manifest.json",
     "README.md",

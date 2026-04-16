@@ -1,0 +1,28 @@
+{
+  "name": "aods-use",
+  "skill_version": "0.3.0",
+  "aligned_release": "v0.3.0",
+  "entrypoint": "SKILL.md",
+  "compatibility": {
+    "aods_v": 3,
+    "authoring_v": 1
+  },
+  "source_of_truth": [
+    "package.json",
+    "bin/aods.mjs",
+    "schema/",
+    "spec/"
+  ],
+  "expected_first_action": "Detect source-first vs compiled-corpus-first, identify the task lane, then choose the minimal AODS command path before editing.",
+  "positive_triggers": [
+    "Work in an AODS-enabled repository",
+    "Edit authoring.json or manifest.json",
+    "Update surface_pairs, shared_invariants, or boot.by_touch",
+    "Use aods compile, aods validate, aods route, or scaffold helpers"
+  ],
+  "negative_triggers": [
+    "Edit a generic README that does not use AODS",
+    "Edit a generic JSON payload outside an AODS corpus",
+    "Do broad docs work where AODS structure is irrelevant"
+  ]
+}
