@@ -461,7 +461,12 @@ Human-readable reference view:
 {
   "pattern": "^REL-[0-9]{4}-[0-9]{4}-[A-Z0-9-]+$",
   "flags": "",
-  "sample": "REL-2026-0420-CHECKOUT"
+  "sample": "REL-2026-0420-CHECKOUT",
+  "notes": [
+    "Release keys match REL-YYYY-MMDD-SLUG in uppercase.",
+    "Release key sample REL-2026-0420-CHECKOUT must validate cleanly.",
+    "Release key regex prevents ambiguous packet identifiers in docs and APIs."
+  ]
 }
 ```
 

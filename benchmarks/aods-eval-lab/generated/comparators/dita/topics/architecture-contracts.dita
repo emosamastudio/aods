@@ -404,7 +404,12 @@
 {
   &quot;pattern&quot;: &quot;^REL-[0-9]{4}-[0-9]{4}-[A-Z0-9-]+$&quot;,
   &quot;flags&quot;: &quot;&quot;,
-  &quot;sample&quot;: &quot;REL-2026-0420-CHECKOUT&quot;
+  &quot;sample&quot;: &quot;REL-2026-0420-CHECKOUT&quot;,
+  &quot;notes&quot;: [
+    &quot;Release keys match REL-YYYY-MMDD-SLUG in uppercase.&quot;,
+    &quot;Release key sample REL-2026-0420-CHECKOUT must validate cleanly.&quot;,
+    &quot;Release key regex prevents ambiguous packet identifiers in docs and APIs.&quot;
+  ]
 }
       </codeblock>
     </section>

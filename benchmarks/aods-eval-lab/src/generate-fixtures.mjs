@@ -22,7 +22,7 @@ import {
   REPO_ROOT,
   emptyDir,
   ensureDir,
-  estimateTokens,
+  estimateJsonTokens,
   writeJson,
   writeText
 } from "./helpers.mjs";
@@ -65,11 +65,11 @@ export function generateAll() {
 
   const modules = buildModules();
   for (const module of modules) {
-    writeJson(path.join(paths.corpusRoot, module.path), module.content);
+    writeJson(path.join(paths.corpusRoot, module.path), module.content, { compact: true });
   }
 
   const { manifest, companion } = buildManifest(modules);
-  writeJson(path.join(paths.corpusRoot, "manifest.json"), manifest);
+  writeJson(path.join(paths.corpusRoot, "manifest.json"), manifest, { compact: true });
   if (companion) {
     writeJson(path.join(paths.corpusRoot, manifest.companion_index), companion, { compact: true });
   }
@@ -192,9 +192,6 @@ function buildModules() {
     const sections = moduleArtifacts
       .filter((artifact) => artifact.kind === "section")
       .map((artifact) => buildSection(artifact, moduleArtifacts));
-    if (sections.length === 0) {
-      sections.push(buildSyntheticSummarySection(blueprint, moduleArtifacts));
-    }
     const artifacts = moduleArtifacts
       .filter((artifact) => artifact.kind === "artifact")
       .map((artifact) => buildStructuredArtifact(artifact));
@@ -203,8 +200,6 @@ function buildModules() {
       module_id: blueprint.id,
       v: 1,
       context: blueprint.scope,
-      sections,
-      artifacts,
       changelog: [
         {
           v: 1,
@@ -213,11 +208,17 @@ function buildModules() {
       ],
       meta: buildModuleMeta(blueprint)
     };
+    if (sections.length > 0) {
+      content.sections = sections;
+    }
+    if (artifacts.length > 0) {
+      content.artifacts = artifacts;
+    }
     return {
       id: blueprint.id,
       path: blueprint.path,
       content,
-      tokens: estimateTokens(JSON.stringify(content, null, 2))
+      tokens: estimateJsonTokens(content, { compact: true })
     };
   });
 }
@@ -242,21 +243,6 @@ function buildStructuredArtifact(artifact) {
     type: artifact.artifact.type,
     usage: artifact.artifact.usage,
     content: artifact.content
-  };
-}
-
-function buildSyntheticSummarySection(blueprint, moduleArtifacts) {
-  const referencedArtifacts = moduleArtifacts
-    .filter((artifact) => artifact.kind === "artifact")
-    .map((artifact) => artifact.artifact.artifact_id);
-  const factSummary = moduleArtifacts.flatMap((artifact) => artifact.facts.map((item) => item.text)).join(" ");
-  return {
-    sid: "module-summary",
-    topic: `${blueprint.id} summary`,
-    content: `${blueprint.scope} This module covers ${moduleArtifacts.map((artifact) => artifact.title).join(", ")}. ${factSummary}`,
-    content_type: "prose",
-    artifact_refs: referencedArtifacts.length > 0 ? referencedArtifacts : undefined,
-    criticality: "should"
   };
 }
 

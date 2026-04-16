@@ -3,8 +3,8 @@
 ## Executive summary
 
 - **Dataset:** AODS Benchmark Pack benchmark corpus with **11** modules, **8** human surfaces, **36** lifecycle items, **9** shared loading queries, and **9** drift scenarios
-- **Internal AODS result:** full lifecycle coverage, full fact preservation, **52.6% larger than the human-doc baseline** by exact bytes, **100.0%** objective touch-route hit rate, objective median rendered prompt envelope **15555 bytes**, and **100.0%** combined drift recall
-- **External comparison headline:** AODS is the only baseline in round one with **100.0%** native drift recall, while **llms.txt** is the smallest corpus by exact bytes and **AODS** has the highest objective loading precision
+- **Internal AODS result:** full lifecycle coverage, full fact preservation, **0.3% smaller than the human-doc baseline** by exact bytes, **100.0%** objective touch-route hit rate, objective median rendered prompt envelope **12372 bytes**, and **100.0%** combined drift recall
+- **External comparison headline:** AODS is the only baseline in round one with **100.0%** native drift recall, while **AODS** is the smallest corpus by exact bytes and **AODS** has the highest objective loading precision
 - **External field sample:** 3 open-source corpora, 17 grep-first scenario seeds, formats rst=4, markdown=13
 
 **Round-one verdict:** AODS now has a defensible benchmark position. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That means its value proposition is real for agent-heavy, drift-sensitive programs, but its corpus cost still needs optimization before it can replace lower-friction defaults everywhere.
@@ -79,17 +79,17 @@ AODS-native governance signals remain separate because the other archetypes do n
 
 | Dimension | Result |
 | --- | --- |
-| Validation summary | 11 modules, 14 sections, 26 artifacts, 0 errors, 0 warnings |
+| Validation summary | 11 modules, 10 sections, 26 artifacts, 0 errors, 0 warnings |
 | Coverage | 100.0% lifecycle phase coverage, 100.0% structured type coverage, 100.0% generic type coverage |
 | Expression escape hatch | 7.7% raw fallback rate, 0 unsupported items |
 | Fidelity | 100.0% fact preservation, 100.0% critical fact preservation |
-| Corpus size (objective) | 44915 human-doc bytes vs 68543 AODS bytes, 52.6% larger than the human-doc baseline |
-| Corpus size (advisory) | 11232 estimated human-doc tokens vs 17137 estimated AODS tokens, 52.6% larger than the human-doc baseline |
-| Task-time context footprint (payload) | 14022 median loaded bytes, 3508 median loaded estimated tokens, 24881 max loaded bytes |
-| Task-time context footprint (rendered prompt) | 15555 median prompt-envelope bytes, 3889 median prompt-envelope estimated tokens, 1590 median overhead bytes |
+| Corpus size (objective) | 45372 human-doc bytes vs 45243 AODS bytes, 0.3% smaller than the human-doc baseline |
+| Corpus size (advisory) | 11346 estimated human-doc tokens vs 11315 estimated AODS tokens, 0.3% smaller than the human-doc baseline |
+| Task-time context footprint (payload) | 10839 median loaded bytes, 2713 median loaded estimated tokens, 15906 max loaded bytes |
+| Task-time context footprint (rendered prompt) | 12372 median prompt-envelope bytes, 3093 median prompt-envelope estimated tokens, 1590 median overhead bytes |
 
-| Loading (objective) | 100.0% hit rate, 100.0% average precision, 100.0% average recall, 79.5% median byte savings |
-| Loading (advisory) | 100.0% hit rate, 83.3% average precision, 100.0% average recall, 72.7% median token savings |
+| Loading (objective) | 100.0% hit rate, 100.0% average precision, 100.0% average recall, 76.0% median byte savings |
+| Loading (advisory) | 100.0% hit rate, 100.0% average precision, 100.0% average recall, 74.2% median token savings |
 | Drift | 100.0% built-in recall, 100.0% semantic-applicable recall, 100.0% structural-governance recall, 100.0% combined recall |
 | Diversity audit | 2 synthetic dataset, domains release-ops, regulated-change-control, languages en, sync modes agent-primary, human-primary, external field sample 3 corpora / 17 seeds |
 | Overhead | 45 bookkeeping entries, 1.25 per artifact, 21 touch routes, 5 roles |
@@ -122,7 +122,7 @@ This makes the round-one judgment more objective than the earlier benchmark pass
 
 ## Round-one external comparison
 
-- **Smallest corpus:** llms.txt at **46520** bytes
+- **Smallest corpus:** AODS at **45243** bytes
 - **Best objective loading reliability:** AODS with **100.0%** hit rate
 - **Best objective loading precision:** AODS with **100.0%**
 - **Strongest native governance:** AODS with **100.0%** native drift recall
@@ -131,19 +131,19 @@ This makes the round-one judgment more objective than the earlier benchmark pass
 
 | Baseline | Corpus bytes | Files | Bytes / benchmark item | Fact preservation | Median loaded bytes | Median prompt-envelope bytes | Objective hit rate | Objective avg precision | Median byte savings |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| AODS | 68543 | 13 | 1903.97 | 100.0% | 14022 | 15555 | 100.0% | 100.0% | 79.5% |
-| Markdown + YAML | 47437 | 8 | 1317.69 | 100.0% | 5234 | 5844 | 0.0% | 100.0% | 89.0% |
-| llms.txt | 46520 | 9 | 1292.22 | 100.0% | 6480 | 7178 | 0.0% | 100.0% | 86.1% |
-| DITA topic corpus | 65038 | 12 | 1806.61 | 100.0% | 718 | 1320 | 0.0% | 0.0% | 98.9% |
+| AODS | 45243 | 13 | 1256.75 | 100.0% | 10839 | 12372 | 100.0% | 100.0% | 76.0% |
+| Markdown + YAML | 47894 | 8 | 1330.39 | 100.0% | 5234 | 5844 | 0.0% | 100.0% | 89.1% |
+| llms.txt | 46977 | 9 | 1304.92 | 100.0% | 6480 | 7178 | 0.0% | 100.0% | 86.2% |
+| DITA topic corpus | 65595 | 12 | 1822.08 | 100.0% | 718 | 1320 | 0.0% | 0.0% | 98.9% |
 
 ### Advisory metric scoreboard
 
 | Baseline | Estimated tokens | Tokens / benchmark item | Exploratory hit rate | Exploratory avg precision | Median token savings |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| AODS | 17137 | 476.03 | 100.0% | 83.3% | 72.7% |
-| Markdown + YAML | 11863 | 329.53 | 100.0% | 91.7% | 77.2% |
-| llms.txt | 11633 | 323.14 | 100.0% | 91.7% | 74.4% |
-| DITA topic corpus | 16263 | 451.75 | 100.0% | 100.0% | 76.4% |
+| AODS | 11315 | 314.31 | 100.0% | 100.0% | 74.2% |
+| Markdown + YAML | 11977 | 332.69 | 100.0% | 91.7% | 77.2% |
+| llms.txt | 11747 | 326.31 | 100.0% | 91.7% | 74.4% |
+| DITA topic corpus | 16403 | 455.64 | 100.0% | 100.0% | 76.4% |
 
 ### Native governance signals
 

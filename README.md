@@ -1,4 +1,4 @@
-# AODS v3
+# AODS
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -43,7 +43,7 @@ Requires **Node 18+**.
 1. Install the tagged GitHub release into your project:
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.2.0
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.3.0
 ```
 
 2. Verify the CLI is available:
@@ -63,6 +63,14 @@ npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs f
 ```bash
 npx aods compile ./aods/authoring.json ./docs/aods --force
 npx aods validate ./docs/aods --strict
+```
+
+5. Grow the authoring source with scaffold helpers instead of hand-editing dense JSON for every common change:
+
+```bash
+npx aods scaffold authoring-module ./aods/authoring.json delivery-gates --category policy --layer detail --scope "Delivery gate authority" --role doc-author
+npx aods scaffold authoring-touch ./aods/authoring.json --match package.json --load my-system-root --load delivery-gates --intent write
+npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-log --agent-primary delivery-gates --human-primary DELIVERY-LOG.md
 ```
 
 ### Clone the repository directly
@@ -115,13 +123,13 @@ For horizontal comparison, the benchmark uses three outside baselines:
 | --- | --- | --- |
 | **Coverage** | **100.0%** lifecycle, **100.0%** structured types, **100.0%** generic types | The benchmark pack is fully representable in AODS |
 | **Fidelity** | **100.0%** fact preservation, **100.0%** critical fact preservation | Information survived the rewrite on the current pack |
-| **Full-corpus size** | **68543 bytes** vs human-doc baseline **44915 bytes** | AODS is currently **52.6% larger** at repository scale |
-| **Objective median loaded payload** | **14022 bytes** | Routed working set stays far below full-corpus size |
-| **Objective median prompt envelope** | **15555 bytes** | Closer proxy to actual context-window occupation |
+| **Full-corpus size** | **45243 bytes** vs human-doc baseline **45372 bytes** | AODS is currently **0.3% smaller** at repository scale |
+| **Objective median loaded payload** | **10839 bytes** | Routed working set stays far below full-corpus size |
+| **Objective median prompt envelope** | **12372 bytes** | Closer proxy to actual context-window occupation |
 | **Task-stage coverage** | **100.0%** across **5** explicit stages | Routed scenarios now declare orientation, plan, action, verification, and evidence explicitly |
 | **Supplemental runtime sample** | **not captured in current run** | Runtime capture remains optional and is absent from the latest benchmark pass |
 | **Objective touch-route hit rate** | **100.0%** | All objective routing scenarios hit the required modules |
-| **Objective median byte savings vs full load** | **79.5%** | Routed work is materially smaller than full-load work |
+| **Objective median byte savings vs full load** | **76.0%** | Routed work is materially smaller than full-load work |
 | **Built-in drift recall** | **100.0%** | Current validator and hook layer catches all current benchmark hazards |
 | **Built-in false-positive rate** | **0.0%** | No misfire on the benchmark control scenario set |
 | **Benchmark diversity** | **2 datasets**, **5 task stages** | Stronger than the original single-corpus pack, still synthetic and English-only |
@@ -130,10 +138,10 @@ For horizontal comparison, the benchmark uses three outside baselines:
 
 | Baseline | Coverage | Fidelity | Corpus bytes | Objective touch-route hit rate | Objective median loaded bytes | Objective median prompt-envelope bytes |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| **AODS** | 100.0% | 100.0% | 68543 | 100.0% | 14022 | 15555 |
-| **Markdown + YAML** | 100.0% | 100.0% | 47437 | 0.0% | 5234 | 5844 |
-| **llms.txt** | 100.0% | 100.0% | 46520 | 0.0% | 6480 | 7178 |
-| **DITA topic corpus** | 100.0% | 100.0% | 65038 | 0.0% | 718 | 1320 |
+| **AODS** | 100.0% | 100.0% | 45243 | 100.0% | 10839 | 12372 |
+| **Markdown + YAML** | 100.0% | 100.0% | 47894 | 0.0% | 5234 | 5844 |
+| **llms.txt** | 100.0% | 100.0% | 46977 | 0.0% | 6480 | 7178 |
+| **DITA topic corpus** | 100.0% | 100.0% | 65595 | 0.0% | 718 | 1320 |
 
 **How to read this table:** the non-AODS baselines stay lighter on bytes, but they score **0.0%** on the benchmark's objective touch-route contract because they do not provide AODS-style native routing and paired-surface governance. Their smaller loaded byte counts are therefore not evidence of equivalent governed retrieval.
 
@@ -143,27 +151,27 @@ For horizontal comparison, the benchmark uses three outside baselines:
 | --- | --- | --- | --- | --- |
 | Lifecycle phase coverage | 100.0% | 100.0% | +0.0 pts | flat |
 | Fact preservation rate | 100.0% | 100.0% | +0.0 pts | flat |
-| AODS exact corpus bytes | 68543 bytes | 68543 bytes | +0 bytes | flat |
+| AODS exact corpus bytes | 45243 bytes | 45243 bytes | +0 bytes | flat |
 | Objective touch-route hit rate | 100.0% | 100.0% | +0.0 pts | flat |
-| Objective median loaded bytes | 14022 bytes | 14022 bytes | +0 bytes | flat |
-| Objective median prompt-envelope bytes | 15555 bytes | 15555 bytes | +0 bytes | flat |
+| Objective median loaded bytes | 10839 bytes | 10839 bytes | +0 bytes | flat |
+| Objective median prompt-envelope bytes | 12372 bytes | 12372 bytes | +0 bytes | flat |
 | Built-in drift recall | 100.0% | 100.0% | +0.0 pts | flat |
 | Built-in false-positive rate | 0.0% | 0.0% | +0.0 pts | flat |
 | External sample corpus count | 3 | 3 | +0 | flat |
 | External sample scenario count | 17 | 17 | +0 | flat |
 | Task stage coverage | 100.0% | 100.0% | +0.0 pts | flat |
 | Runtime request-body bytes | n/a | n/a | n/a | no prior baseline |
-| Exploratory query precision | 83.3% | 83.3% | +0.0 pts | flat |
+| Exploratory query precision | 100.0% | 100.0% | +0.0 pts | flat |
 <!-- BENCHMARK_SYNC:END -->
 
 ## Why AODS is valuable
 
-AODS is valuable **not because it is currently the smallest format**, but because it makes the agent-workflow tradeoff explicit and enforceable:
+AODS is valuable **not mainly because the current benchmark now lands slightly below the paired human-doc baseline on full-corpus size**, but because it makes the agent-workflow tradeoff explicit and enforceable:
 
 1. **It gives agents a native routing model.** `root -> capsule -> detail` is a real contract, not a documentation convention.
 2. **It gives mixed human/agent documentation an authority model.** `surface_pairs`, `sync_source`, `shared_invariants`, and conservative paired-claim checks turn drift from a social problem into a technical one.
-3. **It separates repository-scale weight from task-time context cost.** The benchmark now proves those are different signals.
-4. **It is becoming more adoptable.** The new compiled-authoring pilot shows the repo is moving away from "hand-author every JSON artifact forever."
+3. **It separates repository-scale weight from task-time context cost.** The benchmark now proves those are different signals, and recent optimization waves improved both without weakening governance.
+4. **It is becoming more adoptable.** The compiled-authoring path now supports artifact-first modules instead of forcing synthetic prose just to satisfy the format.
 
 The current value proposition is therefore:
 
@@ -231,7 +239,7 @@ node ./bin/aods.mjs route . --query "audit evidence retention" --role doc-author
 node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 ```
 
-Use `--touch` when you already know which file changed. Use `--query` when you only know the task in plain words and want the CLI to find the likely authority modules by lexical and structural anchors. Add `--stage` when the task phase is clear (`orientation`, `plan`, `action`, `verification`, `evidence`) but the exact file target is not.
+Use `--touch` when you already know which file changed. Use `--query` when you only know the task in plain words and want the CLI to find the likely authority modules by lexical and structural anchors from module metadata, paired surfaces, and compact artifact semantics. Add `--stage` when the task phase is clear (`orientation`, `plan`, `action`, `verification`, `evidence`) but the exact file target is not.
 
 Routing precedence:
 
@@ -249,14 +257,23 @@ npm run compile:pilot
 node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tmp/compiled-pilot --force
 ```
 
-Authoring sources now validate against `schema/authoring.schema.json`, so compiled authoring is a real contract rather than a one-off pilot format.
+Authoring sources now validate against `schema/authoring.schema.json`, so compiled authoring is a real contract rather than a one-off pilot format. Modules may be section-first, artifact-first, or mixed; compiled AODS only requires at least one `section` or `artifact`.
+
+The CLI now exposes safe authoring mutation paths for the three most common control-plane edits:
+
+- append a module to `authoring.json`
+- append or replace a touch route safely
+- scaffold a paired human surface plus its registration metadata
 
 The compile command emits:
 
-- `manifest.json`
-- module JSON files with computed `tokens_approx`
+- compact `manifest.json` for machine-first loading
+- compact module JSON files with computed `tokens_approx`
+- compact `indexes/runtime.json` companion slices for glossary, `boot_by_role`, `boot_by_touch`, `surface_pairs`, and runtime role profiles
 - copied AODS schemas
 - declared human-facing files such as `README.md`
+
+When `boot_by_role` is present, compiled companion `roles` are runtime role profiles: `id` plus optional `capabilities`, with duplicated `required_modules` omitted unless they differ from the boot binding.
 
 ### Run hook-based enforcement
 
@@ -288,11 +305,14 @@ node ./bin/aods.mjs upgrade .
 node ./bin/aods.mjs upgrade ./examples/seven-plane-pilot --dry-run
 ```
 
-### Scaffold new corpora or modules
+### Scaffold new corpora or authoring surfaces
 
 ```bash
 node ./bin/aods.mjs scaffold corpus ../my-corpus --sys my-system
 node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy --layer detail --scope "Control plane semantics"
+node ./bin/aods.mjs scaffold authoring-module ./examples/compiled-pilot-source/authoring.json shift-ops-log --category reference --layer detail --scope "Shift operations log authority"
+node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-capsule --load shift-ops-policy --intent write
+node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-log --agent-primary shift-ops-runbook --human-primary SHIFT-OPS-LOG.md
 ```
 
 ## Repository structure
@@ -337,6 +357,11 @@ Two rules matter:
 
 This project is released under the **MIT License**. See [`LICENSE`](./LICENSE).
 
-## Schema version
+## Versioning
 
-AODS v3 - 2026-04-13
+AODS now uses two version tracks:
+
+- **Release version:** Git tags and package releases such as `v0.3.0`
+- **Schema compatibility:** surface-local markers such as `aods_v` and `authoring_v`
+
+Schema markers remain important for compatibility and migration, but they are no longer the public product label in README surfaces. Public-facing docs should refer to the release version, not legacy schema-generation branding.

@@ -680,7 +680,12 @@ export const ARTIFACTS = [
     content: {
       pattern: "^REL-[0-9]{4}-[0-9]{4}-[A-Z0-9-]+$",
       flags: "",
-      sample: "REL-2026-0420-CHECKOUT"
+      sample: "REL-2026-0420-CHECKOUT",
+      notes: [
+        "Release keys match REL-YYYY-MMDD-SLUG in uppercase.",
+        "Release key sample REL-2026-0420-CHECKOUT must validate cleanly.",
+        "Release key regex prevents ambiguous packet identifiers in docs and APIs."
+      ]
     }
   },
   {
@@ -1157,21 +1162,24 @@ export const ARTIFACTS = [
           expression: "09:00-10:00",
           target: "release rollout",
           on_trigger: "allow scheduled releases",
-          on_violation: "hold publish"
+          on_violation: "hold publish",
+          note: "Rollout window is a UTC deadline window from 09:00 to 10:00."
         },
         {
           id: "canary-health-check",
           type: "interval",
           expression: "5m",
           target: "canary lane",
-          on_trigger: "evaluate lane health"
+          on_trigger: "evaluate lane health",
+          note: "Canary health is evaluated every five minutes."
         },
         {
           id: "publish-sla",
           type: "sla-timer",
           expression: "60s",
           target: "notification-service publish status",
-          on_violation: "open sev2 incident"
+          on_violation: "open sev2 incident",
+          note: "Publish status must reach notification-service within sixty seconds."
         }
       ]
     }
@@ -1657,10 +1665,10 @@ export const DRIFT_SCENARIOS = [
         replace: "Authoritative semantics live in whichever human document was edited most recently."
       },
       {
-        type: "replace",
+        type: "replaceJsonValue",
         file: "manifest.json",
-        find: "\"updated\": \"2026-04-14T00:00:00Z\"",
-        replace: "\"updated\": \"2026-04-14T00:05:00Z\""
+        path: ["updated"],
+        value: "2026-04-14T00:05:00Z"
       }
     ]
   },

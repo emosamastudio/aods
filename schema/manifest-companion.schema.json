@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "aods://schema/manifest-companion/v3",
   "title": "AODS Manifest Companion v3",
-  "description": "Optional second-hop manifest index. Externalizes heavier routing and pairing payloads so manifest.json stays bootstrap-small.",
+  "description": "Optional second-hop manifest index. Externalizes heavier routing and pairing payloads so manifest.json stays bootstrap-small. Companion roles are runtime role profiles rather than full authoring role definitions.",
   "type": "object",
   "required": ["aods_v", "kind"],
   "additionalProperties": false,
@@ -24,8 +24,9 @@
     },
     "roles": {
       "type": "array",
+      "description": "Runtime role profiles for machine loading. boot_by_role remains authoritative for module bindings.",
       "items": {
-        "$ref": "aods://schema/manifest/v3#/definitions/role_def"
+        "$ref": "#/definitions/runtime_role_profile"
       }
     },
     "boot_by_role": {
@@ -56,5 +57,32 @@
     { "required": ["boot_by_role"] },
     { "required": ["boot_by_touch"] },
     { "required": ["surface_pairs"] }
-  ]
+  ],
+  "definitions": {
+    "runtime_role_profile": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": false,
+      "description": "Runtime-focused role projection. Omits natural-language scope and may omit required_modules when boot_by_role already carries the binding.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,48}$"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required_modules": {
+          "type": "array",
+          "description": "Optional only when it differs from boot_by_role for the same role.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }

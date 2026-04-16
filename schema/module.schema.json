@@ -4,7 +4,7 @@
   "title": "AODS Module v3",
   "description": "Knowledge module with typed artifact payload enforcement, capsule metadata hooks, and structured governance support.",
   "type": "object",
-  "required": ["aods_v", "module_id", "v", "context", "sections"],
+  "required": ["aods_v", "module_id", "v", "context"],
   "additionalProperties": false,
   "properties": {
     "aods_v": {
@@ -35,12 +35,12 @@
       "type": "array",
       "items": { "$ref": "#/definitions/section" },
       "minItems": 1,
-      "description": "Flat array of knowledge sections. Semantic order. Agent may jump via refs."
+      "description": "Flat array of knowledge sections. Semantic order. Agent may jump via refs. Optional when the module is artifact-first and semantics live in structured artifacts."
     },
     "artifacts": {
       "type": "array",
       "items": { "$ref": "#/definitions/artifact" },
-      "description": "Structured resources referenced by sections. Each artifact has a typed schema."
+      "description": "Structured resources referenced by sections or carried as the primary authority in an artifact-first module. Each artifact has a typed schema."
     },
     "changelog": {
       "type": "array",
@@ -48,6 +48,10 @@
     },
     "meta": { "$ref": "#/definitions/module_meta" }
   },
+  "anyOf": [
+    { "required": ["sections"] },
+    { "required": ["artifacts"] }
+  ],
 
   "definitions": {
 
@@ -1052,6 +1056,7 @@
               "target": { "type": "string", "description": "What this pattern applies to." },
               "on_trigger": { "type": "string" },
               "on_violation": { "type": "string" },
+              "note": { "type": "string", "description": "Optional explanatory fact tied to this temporal pattern." },
               "active": { "type": "boolean", "default": true }
             }
           }
@@ -1133,6 +1138,12 @@
             },
             "sample": {
               "type": "string"
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }

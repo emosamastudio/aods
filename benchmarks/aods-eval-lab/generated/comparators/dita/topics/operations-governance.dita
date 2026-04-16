@@ -236,21 +236,24 @@
       &quot;expression&quot;: &quot;09:00-10:00&quot;,
       &quot;target&quot;: &quot;release rollout&quot;,
       &quot;on_trigger&quot;: &quot;allow scheduled releases&quot;,
-      &quot;on_violation&quot;: &quot;hold publish&quot;
+      &quot;on_violation&quot;: &quot;hold publish&quot;,
+      &quot;note&quot;: &quot;Rollout window is a UTC deadline window from 09:00 to 10:00.&quot;
     },
     {
       &quot;id&quot;: &quot;canary-health-check&quot;,
       &quot;type&quot;: &quot;interval&quot;,
       &quot;expression&quot;: &quot;5m&quot;,
       &quot;target&quot;: &quot;canary lane&quot;,
-      &quot;on_trigger&quot;: &quot;evaluate lane health&quot;
+      &quot;on_trigger&quot;: &quot;evaluate lane health&quot;,
+      &quot;note&quot;: &quot;Canary health is evaluated every five minutes.&quot;
     },
     {
       &quot;id&quot;: &quot;publish-sla&quot;,
       &quot;type&quot;: &quot;sla-timer&quot;,
       &quot;expression&quot;: &quot;60s&quot;,
       &quot;target&quot;: &quot;notification-service publish status&quot;,
-      &quot;on_violation&quot;: &quot;open sev2 incident&quot;
+      &quot;on_violation&quot;: &quot;open sev2 incident&quot;,
+      &quot;note&quot;: &quot;Publish status must reach notification-service within sixty seconds.&quot;
     }
   ]
 }
