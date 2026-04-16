@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-artifact-types",
-  "v": 2,
-  "context": "Catalog of all AODS artifact types. Adds governance selection patterns for dual-surface pairing, authority rules, progressive disclosure, and capsule-vs-artifact decisions.",
+  "v": 3,
+  "context": "Catalog of all AODS artifact types. Adds governance selection patterns for dual-surface pairing, implementation-phase governance, authority rules, progressive disclosure, and capsule-vs-artifact decisions.",
   "assumptions": [
     "Agent has loaded spec-aop for writing content fields",
     "Agent understands JSON Schema basics"
@@ -52,10 +52,23 @@
     {
       "sid": "composition-patterns",
       "topic": "combining multiple artifact types in one module",
-      "content": "Architecture module: topology + api-contract + event-catalog. Workflow module: process-flow + error-strategy + decision-tree + state-machine. Integration module: api-contract + json-schema + sequence + mapping-table. Operations module: temporal-pattern + rule-set + error-strategy + mapping-table. Surface-governance module: mapping-table + rule-set + process-flow + decision-tree.",
+      "content": "Architecture module: topology + api-contract + event-catalog. Workflow module: process-flow + error-strategy + decision-tree + state-machine. Integration module: api-contract + json-schema + sequence + mapping-table. Operations module: temporal-pattern + rule-set + error-strategy + mapping-table. Surface-governance module: mapping-table + rule-set + process-flow + decision-tree. Implementation-governance module: mapping-table + rule-set + mapping-table + decision-tree.",
       "content_type": "prose",
       "refs": [
         "type-selection-guide"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "implementation-governance-patterns",
+      "topic": "implementation phase governance patterns",
+      "content": "When AODS is used as a development governor, default composition is: feature readiness or acceptance matrix -> mapping-table. final system gates -> rule-set. runtime entity or control-flow contract coverage -> mapping-table. scripted vs expert vs human review routing -> decision-tree. Keep these in one detail module when they gate the same deliverable; split them only when ownership, cadence, or evidence retention differs materially.",
+      "content_type": "rules",
+      "refs": [
+        "composition-patterns"
+      ],
+      "artifact_refs": [
+        "implementation-governance-pattern-table"
       ],
       "criticality": "should"
     },
@@ -300,6 +313,48 @@
           ]
         ]
       }
+    },
+    {
+      "artifact_id": "implementation-governance-pattern-table",
+      "type": "mapping-table",
+      "usage": "Lookup table mapping implementation-governance need -> canonical AODS representation.",
+      "content": {
+        "key_columns": [
+          "need"
+        ],
+        "columns": [
+          "need",
+          "representation",
+          "notes"
+        ],
+        "rows": [
+          [
+            "feature readiness or acceptance matrix",
+            "mapping-table",
+            "track implementation state, acceptance check, evidence, review route, owner"
+          ],
+          [
+            "final system gate policy",
+            "rule-set",
+            "gate transitions stay deterministic and most-restrictive-wins"
+          ],
+          [
+            "runtime entity or control-flow contract coverage",
+            "mapping-table",
+            "track required inputs, outputs, failure mode, owner"
+          ],
+          [
+            "scripted vs expert vs human review routing",
+            "decision-tree",
+            "route to the strictest required review lane"
+          ],
+          [
+            "single deliverable implementation governor",
+            "mapping-table + rule-set + mapping-table + decision-tree",
+            "preferred default when one module gates one release surface"
+          ]
+        ]
+      }
     }
   ],
   "changelog": [
@@ -310,6 +365,11 @@
     {
       "v": 2,
       "delta": "Added governance selection patterns, capsule-module guidance, and dual-surface mapping guidance.",
+      "breaking": false
+    },
+    {
+      "v": 3,
+      "delta": "Added implementation-phase governance composition guidance and canonical artifact mapping patterns.",
       "breaking": false
     }
   ],

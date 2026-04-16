@@ -18,8 +18,8 @@ Usage:
   aods compile <source-file> <target-dir> [--json] [--force]
   aods scaffold corpus <target-dir> --sys <system-id> [--purpose <text>] [--force]
   aods scaffold authoring <target-dir> --sys <system-id> [--purpose <text>] [--force]
-  aods scaffold module <corpus-root> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--route <target>]... [--boot] [--force]
-  aods scaffold authoring-module <source-file> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--role <role-id>]... [--route <target>]... [--boot] [--force]
+  aods scaffold module <corpus-root> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--pattern <pattern>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--route <target>]... [--boot] [--force]
+  aods scaffold authoring-module <source-file> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--pattern <pattern>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--role <role-id>]... [--route <target>]... [--boot] [--force]
   aods scaffold authoring-touch <source-file> --match <path> --load <module-id>... [--intent <intent>] [--reason <text>] [--force]
   aods scaffold authoring-pair <source-file> --pair-id <pair-id> --agent-primary <module-id> --human-primary <path> [--agent-supporting <module-id>]... [--human-supporting <path>]... [--scope <scope>] [--sync-source <sync-source>] [--status <status>] [--source-path <relative-path>] [--route-intent <intent>] [--route-reason <text>] [--force]
 
@@ -41,6 +41,7 @@ Allowed values:
   module category: architecture | protocol | schema | workflow | policy | config | reference | artifact | capsule
   module layer: root | capsule | detail | evidence
   module priority: critical | standard | supplementary
+  module scaffold pattern: implementation-governance
   route intent: any | read | write | validate | sync
   pair scope: system | phase | feature | module
   pair sync_source: agent-primary | human-primary | bidirectional

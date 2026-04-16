@@ -7,6 +7,7 @@ Human-facing overview for the compiled-authoring pilot corpus.
 - concise authoring source compiled into a full AODS corpus
 - routed root -> capsule -> detail loading
 - paired README governance with `shared_invariants`
+- implementation-governance detail with acceptance matrix, system gates, and review routing
 - explicit separation between change policy and incident response authority
 
 ## Canonical facts shared with the agent capsule
@@ -16,4 +17,4 @@ Human-facing overview for the compiled-authoring pilot corpus.
 
 ## Human summary
 
-Use the policy module for release-window and approval questions. Use the runbook module for sev1 response and rollback ownership questions.
+Use the policy module for release-window and approval questions. Use the governance module for delivery readiness, acceptance evidence, and final review-route questions. Use the runbook module for sev1 response and rollback ownership questions.

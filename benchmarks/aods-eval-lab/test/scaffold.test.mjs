@@ -20,11 +20,29 @@ test("CLI help and compile errors expose allowed enum values", () => {
   const help = runCli(["--help"]);
   assert.match(help, /authoring-module/);
   assert.match(help, /module category: architecture \| protocol \| schema \| workflow \| policy \| config \| reference \| artifact \| capsule/);
+  assert.match(help, /module scaffold pattern: implementation-governance/);
 
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-discoverability-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
 
   const sourcePath = path.join(tempDir, "authoring.json");
+  const invalidPattern = spawnSync("node", [
+    CLI_PATH,
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "delivery-governance",
+    "--pattern",
+    "governance-kit"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+
+  assert.notEqual(invalidPattern.status, 0);
+  assert.match(invalidPattern.stderr, /module scaffold pattern/);
+  assert.match(invalidPattern.stderr, /implementation-governance/);
+
   const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
   source.modules[0].category = "plan";
   fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
@@ -113,6 +131,49 @@ test("authoring scaffold helpers update source, pair surfaces, and compile succe
     source.corpus.roles
       .find((role) => role.id === "doc-author")
       .required_modules.includes("delivery-gates")
+  );
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  runCli(["validate", compiledRoot, "--strict"]);
+});
+
+test("implementation-governance pattern scaffolds delivery-governor artifacts", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-governance-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  runCli([
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "release-governance",
+    "--pattern",
+    "implementation-governance",
+    "--role",
+    "doc-author"
+  ]);
+
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const module = source.modules.find((entry) => entry.id === "release-governance");
+
+  assert.ok(module);
+  assert.equal(module.category, "policy");
+  assert.equal(module.layer, "detail");
+  assert.ok(module.tags.includes("implementation"));
+  assert.ok(module.tags.includes("review"));
+  assert.ok(module.sections.some((section) => section.sid === "implementation-governance"));
+  assert.ok(module.sections.some((section) => section.sid === "review-routing-policy"));
+  assert.ok(module.artifacts.some((artifact) => artifact.artifact_id === "implementation-matrix" && artifact.type === "mapping-table"));
+  assert.ok(module.artifacts.some((artifact) => artifact.artifact_id === "system-gates" && artifact.type === "rule-set"));
+  assert.ok(module.artifacts.some((artifact) => artifact.artifact_id === "runtime-contract-table" && artifact.type === "mapping-table"));
+  assert.ok(module.artifacts.some((artifact) => artifact.artifact_id === "review-routing" && artifact.type === "decision-tree"));
+  assert.deepEqual(module.meta.control.timing, ["pre-commit", "ci", "runtime"]);
+  assert.equal(module.meta.runtime_contract.side_effects[0], "release-gate-decision");
+  assert.ok(
+    source.corpus.roles
+      .find((role) => role.id === "doc-author")
+      .required_modules.includes("release-governance")
   );
 
   const compiledRoot = path.join(tempDir, "compiled");

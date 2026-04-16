@@ -4,7 +4,7 @@
   "corpus": {
     "sys": "shift-ops-pilot",
     "sys_v": 1,
-    "purpose": "Compiled-authoring pilot for a shift operations corpus with paired README governance and routed agent modules.",
+    "purpose": "Compiled-authoring pilot for a shift operations corpus with paired README governance, routed agent modules, and implementation-governance detail.",
     "glossary": {
       "system": "Shift operations documentation corpus",
       "release-window": "Approved deployment window for production changes",
@@ -17,7 +17,8 @@
         "required_modules": [
           "shift-ops-root",
           "shift-ops-capsule",
-          "shift-ops-policy"
+          "shift-ops-policy",
+          "shift-ops-governance"
         ]
       },
       {
@@ -27,6 +28,16 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-runbook"
+        ]
+      },
+      {
+        "id": "release-manager",
+        "scope": "Owns release readiness decisions and final delivery gates for operational changes.",
+        "required_modules": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy",
+          "shift-ops-governance"
         ]
       }
     ]
@@ -44,7 +55,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing and the README for the human overview.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, and the governance module for delivery-readiness detail.",
       "tags": [
         "root",
         "routing",
@@ -86,10 +97,11 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
-            "shift-ops-capsule:system-capsule"
+            "shift-ops-capsule:system-capsule",
+            "shift-ops-governance:implementation-governance"
           ],
           "artifact_refs": [
             "route-table"
@@ -120,6 +132,10 @@
                 "shift-ops-policy:approval-policy"
               ],
               [
+                "delivery readiness and implementation gates",
+                "shift-ops-governance:implementation-governance"
+              ],
+              [
                 "incident response",
                 "shift-ops-runbook:incident-response"
               ]
@@ -133,8 +149,8 @@
       "category": "capsule",
       "layer": "capsule",
       "priority": "critical",
-      "scope": "Summary routing for shift operations. Use after root load to decide whether policy or runbook detail should open next.",
-      "context": "Capsule for shift-ops-pilot. Route toward approval policy or incident response authority depending on the active task.",
+      "scope": "Summary routing for shift operations. Use after root load to decide whether policy, governance, or runbook detail should open next.",
+      "context": "Capsule for shift-ops-pilot. Route toward approval policy, delivery governance, or incident response authority depending on the active task.",
       "tags": [
         "capsule",
         "routing",
@@ -152,6 +168,7 @@
           "memory_role": "working",
           "sources": [
             "shift-ops-policy:approval-policy",
+            "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
           "confidence": "medium",
@@ -165,6 +182,7 @@
           ],
           "resources": [
             "policy module",
+            "governance module",
             "runbook module"
           ],
           "side_effects": [
@@ -176,11 +194,12 @@
       "capsule": {
         "read_when": [
           "Need summary routing after cold start",
-          "Need to choose between change policy and incident response detail"
+          "Need to choose between change policy, delivery governance, and incident response detail"
         ],
         "core_question": "Which detail module should answer the current shift operations question?",
         "routes_to": [
           "shift-ops-policy",
+          "shift-ops-governance",
           "shift-ops-runbook"
         ],
         "frozen_decisions": [
@@ -192,10 +211,11 @@
         {
           "sid": "system-capsule",
           "topic": "capsule summary and next routes",
-          "content": "Route change approval questions to shift-ops-policy:approval-policy. Route sev1 response questions to shift-ops-runbook:incident-response. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content": "Approval: shift-ops-policy:approval-policy. Delivery readiness: shift-ops-governance:implementation-governance. sev1: shift-ops-runbook:incident-response. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
           "content_type": "rules",
           "refs": [
             "shift-ops-policy:approval-policy",
+            "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
           "criticality": "must"
@@ -414,6 +434,282 @@
           }
         }
       ]
+    },
+    {
+      "id": "shift-ops-governance",
+      "category": "policy",
+      "layer": "detail",
+      "scope": "Implementation governance authority for release readiness, acceptance evidence, and review routing for shift operations changes.",
+      "context": "Implementation governance authority for shift operations delivery readiness. Use when release readiness, acceptance evidence, runtime constraints, and review routes must stay explicit.",
+      "sections": [
+        {
+          "sid": "implementation-governance",
+          "topic": "implementation governance overview",
+          "content": "Use this module to govern release readiness for production changes in shift operations. Do not mark a change delivery-ready until required acceptance evidence, required approval evidence, rollback ownership, and required review route are all recorded.",
+          "content_type": "rules",
+          "artifact_refs": [
+            "implementation-matrix",
+            "system-gates",
+            "runtime-contract-table",
+            "review-routing"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "review-routing-policy",
+          "topic": "scripted expert human review split",
+          "content": "Scripted checks cover deterministic release-window and evidence-completeness rules. Expert review covers database schema, control-flow, or rollback-risk changes. Human review covers emergency fixes, launch-window exceptions, or other irreversible customer-visible changes. Route to the strictest required lane when multiple routes apply.",
+          "content_type": "rules",
+          "artifact_refs": [
+            "review-routing",
+            "system-gates"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "implementation-notes",
+          "topic": "pattern customization checklist",
+          "content": "Keep this module aligned with shift-ops-policy approval rules and shift-ops-runbook incident constraints. Split it only if routine change governance and emergency-change governance diverge in owner, cadence, or retained evidence.",
+          "content_type": "rules",
+          "criticality": "should"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "implementation-matrix",
+          "type": "mapping-table",
+          "usage": "Track implementation status, acceptance evidence, and review ownership per workstream.",
+          "content": {
+            "key_columns": [
+              "workstream"
+            ],
+            "columns": [
+              "workstream",
+              "implementation_state",
+              "acceptance_check",
+              "evidence",
+              "review_route",
+              "owner"
+            ],
+            "rows": [
+              [
+                "standard-release",
+                "ready",
+                "record release window, smoke test result, and deploy owner",
+                "release ticket + smoke-test log",
+                "scripted-check",
+                "release-manager"
+              ],
+              [
+                "db-schema-change",
+                "in-review",
+                "record migration dry-run, two approvers, and rollback owner",
+                "change request + approval record",
+                "expert-review",
+                "database-owner"
+              ],
+              [
+                "sev1-emergency-fix",
+                "blocked",
+                "record incident link, bridge record, rollback command check, and human approval",
+                "incident record + bridge log",
+                "human-review",
+                "incident-commander"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "system-gates",
+          "type": "rule-set",
+          "usage": "Final rules that determine whether implementation may move to delivery-ready state.",
+          "content": {
+            "evaluation_mode": "all",
+            "conflict_resolution": "most-restrictive-wins",
+            "rules": [
+              {
+                "id": "acceptance-evidence-required",
+                "condition": "workstream.evidence == ''",
+                "action": "block delivery-ready transition",
+                "priority": 100,
+                "source": "implementation-governance"
+              },
+              {
+                "id": "db-schema-needs-two-approvers",
+                "condition": "workstream == 'db-schema-change' && evidence !contains 'approval record'",
+                "action": "require explicit two-approver evidence before delivery-ready transition",
+                "priority": 95,
+                "source": "implementation-governance"
+              },
+              {
+                "id": "emergency-fix-needs-incident-link",
+                "condition": "workstream == 'sev1-emergency-fix' && evidence !contains 'incident record'",
+                "action": "require incident linkage and bridge record before execution",
+                "priority": 90,
+                "source": "implementation-governance"
+              },
+              {
+                "id": "human-review-for-emergency-or-launch-gates",
+                "condition": "review_route == 'human-review'",
+                "action": "require recorded human approval before execution",
+                "priority": 80,
+                "source": "implementation-governance"
+              }
+            ]
+          }
+        },
+        {
+          "artifact_id": "runtime-contract-table",
+          "type": "mapping-table",
+          "usage": "Track runtime entities or control flows and the contract each one must satisfy before release.",
+          "content": {
+            "key_columns": [
+              "surface"
+            ],
+            "columns": [
+              "surface",
+              "control_flow",
+              "required_inputs",
+              "required_outputs",
+              "failure_mode",
+              "owner"
+            ],
+            "rows": [
+              [
+                "change-request",
+                "submit -> validate -> approve -> execute",
+                "release window, deploy owner, and approval record",
+                "approval decision and audit entry",
+                "hold execution and request missing evidence",
+                "release-manager"
+              ],
+              [
+                "db-schema-deployment",
+                "prepare -> dry-run -> approve -> execute",
+                "migration dry-run, two approvers, rollback owner",
+                "migration result and rollback checkpoint",
+                "block deploy and page database owner",
+                "database-owner"
+              ],
+              [
+                "sev1-emergency-fix",
+                "detect -> link incident -> review -> mitigate",
+                "incident record, bridge status, rollback command check",
+                "bridge update and release-gate decision",
+                "hold mitigation and escalate to human approval",
+                "incident-commander"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "review-routing",
+          "type": "decision-tree",
+          "usage": "Route changes into scripted, expert, or human review lanes before execution.",
+          "content": {
+            "root": "review-scope",
+            "nodes": [
+              {
+                "id": "review-scope",
+                "type": "condition",
+                "eval": "what is the highest-risk review requirement for this change?",
+                "branches": [
+                  {
+                    "value": "routine release-window change with deterministic checks",
+                    "next": "scripted-check"
+                  },
+                  {
+                    "value": "database schema or control-flow change",
+                    "next": "expert-review"
+                  },
+                  {
+                    "value": "emergency fix or irreversible customer-visible risk",
+                    "next": "human-review"
+                  }
+                ],
+                "default": "expert-review"
+              },
+              {
+                "id": "scripted-check",
+                "type": "action",
+                "action": "Run scripted validation for release window, evidence completeness, and named ownership"
+              },
+              {
+                "id": "expert-review",
+                "type": "action",
+                "action": "Escalate to database or systems expert review and require recorded signoff before execution"
+              },
+              {
+                "id": "human-review",
+                "type": "action",
+                "action": "Escalate to explicit human approval before emergency execution or launch-window exception"
+              }
+            ]
+          }
+        }
+      ],
+      "meta": {
+        "stability": "evolving",
+        "review_cycle": "on-change",
+        "control": {
+          "role": "hybrid",
+          "method": "computational",
+          "timing": [
+            "pre-commit",
+            "ci",
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "shift-ops-policy:approval-policy",
+            "shift-ops-runbook:incident-response",
+            "implementation-matrix",
+            "system-gates",
+            "runtime-contract-table",
+            "review-routing"
+          ],
+          "confidence": "medium",
+          "review_chain": [
+            "scripted-check",
+            "expert-review",
+            "human-review"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "validator",
+            "ticket-system",
+            "incident-bridge"
+          ],
+          "resources": [
+            "change-request",
+            "approval-record",
+            "incident-bridge-record"
+          ],
+          "side_effects": [
+            "release-gate-decision"
+          ],
+          "checkpoints": [
+            "acceptance-verified",
+            "review-route-satisfied",
+            "rollback-owner-confirmed"
+          ],
+          "outputs": [
+            "gate-record",
+            "release-decision"
+          ]
+        }
+      },
+      "priority": "standard",
+      "tags": [
+        "implementation",
+        "governance",
+        "acceptance",
+        "review",
+        "operations"
+      ]
     }
   ],
   "boot": {
@@ -425,6 +721,7 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-governance",
           "shift-ops-runbook"
         ],
         "reason": "Manifest edits affect routing, pair governance, and boot scope."
@@ -435,6 +732,7 @@
         "load": [
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-governance",
           "shift-ops-runbook"
         ],
         "reason": "README is the paired human surface for the compiled pilot."
@@ -445,9 +743,10 @@
         "load": [
           "shift-ops-root",
           "shift-ops-capsule",
-          "shift-ops-policy"
+          "shift-ops-policy",
+          "shift-ops-governance"
         ],
-        "reason": "Policy edits require routing and approval authority."
+        "reason": "Policy edits require routing, approval authority, and delivery-governance checks."
       },
       {
         "match": "modules/shift-ops-runbook.json",
@@ -455,9 +754,22 @@
         "load": [
           "shift-ops-root",
           "shift-ops-capsule",
+          "shift-ops-governance",
           "shift-ops-runbook"
         ],
-        "reason": "Runbook edits require routing and incident authority."
+        "reason": "Runbook edits require routing, incident authority, and delivery-governance checks."
+      },
+      {
+        "match": "modules/shift-ops-governance.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy",
+          "shift-ops-governance",
+          "shift-ops-runbook"
+        ],
+        "reason": "Governance edits require routing, policy authority, incident linkage, and release-readiness checks."
       }
     ]
   },
@@ -466,11 +778,12 @@
       "pair_id": "pair-shift-ops-readme",
       "scope": "system",
       "agent_primary": "shift-ops-capsule",
-      "agent_supporting": [
-        "shift-ops-root",
-        "shift-ops-policy",
-        "shift-ops-runbook"
-      ],
+        "agent_supporting": [
+          "shift-ops-root",
+          "shift-ops-policy",
+          "shift-ops-governance",
+          "shift-ops-runbook"
+        ],
       "human_primary": "README.md",
       "sync_source": "agent-primary",
       "status": "paired",
