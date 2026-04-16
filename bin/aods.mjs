@@ -15,7 +15,7 @@ Usage:
   aods route [root] [--role <role-id>] [--touch <path>] [--query <text>] [--stage <stage>] [--intent <intent>] [--json]
   aods hook pre-commit [root] [--staged] [--repo-root <path>] [--file <path>]... [--json]
   aods upgrade [root] [--json] [--dry-run] [--no-bump]
-  aods compile <source-file> <target-dir> [--json] [--force]
+  aods compile <source-file> <target-dir> [--json] [--strict] [--force]
   aods scaffold corpus <target-dir> --sys <system-id> [--purpose <text>] [--force]
   aods scaffold authoring <target-dir> --sys <system-id> [--purpose <text>] [--force]
   aods scaffold module <corpus-root> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--pattern <pattern>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--route <target>]... [--boot] [--force]
@@ -28,7 +28,7 @@ Commands:
   route      Resolve minimal module load set for a role, touched file, lexical query, and optional task stage.
   hook       Run hookable enforcement helpers such as pre-commit validation.
   upgrade    Sync schemas and refresh manifest metadata for an existing corpus.
-  compile    Compile concise authoring JSON into an AODS corpus.
+  compile    Compile concise authoring JSON into an AODS corpus and optionally fail on warnings.
   scaffold   Generate new corpus, authoring source, compiled-corpus modules, or safe authoring-source mutations.
 
 Flags:

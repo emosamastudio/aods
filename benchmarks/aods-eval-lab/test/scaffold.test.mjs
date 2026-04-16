@@ -19,6 +19,7 @@ function runCli(args) {
 test("CLI help and compile errors expose allowed enum values", () => {
   const help = runCli(["--help"]);
   assert.match(help, /authoring-module/);
+  assert.match(help, /aods compile <source-file> <target-dir> \[--json\] \[--strict\] \[--force\]/);
   assert.match(help, /module category: architecture \| protocol \| schema \| workflow \| policy \| config \| reference \| artifact \| capsule/);
   assert.match(help, /module scaffold pattern: implementation-governance/);
 
@@ -56,6 +57,105 @@ test("CLI help and compile errors expose allowed enum values", () => {
   assert.match(result.stderr, /Received: "plan"/);
   assert.match(result.stderr, /Allowed values:/);
   assert.match(result.stderr, /"architecture"/);
+});
+
+test("compile --strict turns warning-only output into a failing gate", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-compile-strict-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  runCli([
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "delivery-gates",
+    "--category",
+    "policy",
+    "--layer",
+    "detail",
+    "--scope",
+    "Delivery gate authority"
+  ]);
+  runCli([
+    "scaffold",
+    "authoring-pair",
+    sourcePath,
+    "--pair-id",
+    "pair-delivery-log",
+    "--agent-primary",
+    "delivery-gates",
+    "--human-primary",
+    "DELIVERY-LOG.md"
+  ]);
+
+  const cleanCompile = spawnSync("node", [
+    CLI_PATH,
+    "compile",
+    sourcePath,
+    path.join(tempDir, "compiled-clean"),
+    "--force",
+    "--strict"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(cleanCompile.status, 0);
+  assert.match(cleanCompile.stdout, /OK compile corpus/);
+  assert.doesNotMatch(cleanCompile.stdout, /strict gate blocked by warnings/);
+
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.surface_pairs[0].sync_source = "bidirectional";
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const warningCompile = spawnSync("node", [
+    CLI_PATH,
+    "compile",
+    sourcePath,
+    path.join(tempDir, "compiled-warning"),
+    "--force"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(warningCompile.status, 0);
+  assert.match(warningCompile.stdout, /WARN compile corpus/);
+  assert.match(warningCompile.stdout, /surface-pair-bidirectional-sync/);
+
+  const strictCompile = spawnSync("node", [
+    CLI_PATH,
+    "compile",
+    sourcePath,
+    path.join(tempDir, "compiled-strict"),
+    "--force",
+    "--strict"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(strictCompile.status, 0);
+  assert.match(strictCompile.stdout, /FAIL compile corpus/);
+  assert.match(strictCompile.stdout, /strict gate blocked by warnings/);
+  assert.match(strictCompile.stdout, /surface-pair-bidirectional-sync/);
+  assert.ok(fs.existsSync(path.join(tempDir, "compiled-strict", "manifest.json")));
+
+  const strictJsonCompile = spawnSync("node", [
+    CLI_PATH,
+    "compile",
+    sourcePath,
+    path.join(tempDir, "compiled-strict-json"),
+    "--force",
+    "--strict",
+    "--json"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(strictJsonCompile.status, 0);
+  const strictJson = JSON.parse(strictJsonCompile.stdout);
+  assert.equal(strictJson.strict, true);
+  assert.equal(strictJson.status, "fail");
+  assert.equal(strictJson.validation.errors, 0);
+  assert.ok(strictJson.validation.warnings > 0);
 });
 
 test("authoring scaffold helpers update source, pair surfaces, and compile successfully", () => {
