@@ -46,7 +46,7 @@
     "validate:json": "node ./bin/aods.mjs validate . --json",
     "validate:strict": "node ./bin/aods.mjs validate . --strict",
     "validate:pilot": "node ./bin/aods.mjs validate ./examples/seven-plane-pilot --strict",
-    "validate:compiled-pilot": "npm run compile:pilot && node ./bin/aods.mjs validate ./examples/compiled-pilot --strict",
+    "validate:compiled-pilot": "npm run compile:pilot && node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality",
     "validate:all": "npm run validate:strict && npm run validate:pilot && npm run validate:compiled-pilot",
     "route": "node ./bin/aods.mjs route .",
     "hook:pre-commit": "node ./bin/aods.mjs hook pre-commit . --staged",

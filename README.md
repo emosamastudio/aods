@@ -67,6 +67,14 @@ npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs f
 ```bash
 npx aods compile ./aods/authoring.json ./docs/aods --force
 npx aods validate ./docs/aods --strict
+npx aods validate ./docs/aods --strict --reality
+npx aods validate ./docs/aods --strict --reality --repo-root .
+```
+
+Use `--reality` only when your corpus declares `surface-inventory` artifacts and you want AODS to verify declared **current** surfaces. For `content.base: "corpus"`, paths resolve from the corpus root. For `content.base: "repo"`, paths resolve from `--repo-root` when supplied; otherwise they also resolve from the corpus root. `reserved` and `future` entries stay as planned surfaces, so they are recorded without being required to exist yet. Current directories must contain real material, not only placeholder files such as `.gitkeep`.
+
+```json
+{"type":"surface-inventory","content":{"base":"repo","entries":[{"surface_id":"web-src","path":"apps/web/src","kind":"directory","state":"current"}]}}
 ```
 
 5. Use scaffold helpers for common changes instead of hand-editing dense JSON:
@@ -248,6 +256,8 @@ Direct CLI usage:
 node ./bin/aods.mjs validate .
 node ./bin/aods.mjs validate . --json
 node ./bin/aods.mjs validate . --strict
+node ./bin/aods.mjs validate . --strict --reality
+node ./bin/aods.mjs validate . --strict --reality --repo-root ..
 ```
 
 ### Route scoped module loads

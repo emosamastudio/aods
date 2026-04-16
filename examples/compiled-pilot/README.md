@@ -39,10 +39,11 @@ Root routing for the shift operations pilot. Use at cold start before loading ca
 
 #### root routing overview
 
-Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Keep this root module short and route-oriented.
+Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
 
 Artifacts:
 - `route-table` (mapping-table): First-hop routing from cold start.
+- `surface-inventory` (surface-inventory): Optional reality sensor for the compiled pilot. Current entries must exist when validate runs with --reality.
 
 ### shift-ops-policy
 

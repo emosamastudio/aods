@@ -8,6 +8,7 @@ This directory contains the concise authoring source for the compiled pilot corp
 - routed root -> capsule -> detail loading
 - paired README governance with `shared_invariants`
 - implementation-governance detail with acceptance matrix, system gates, and review routing
+- optional `surface-inventory` reality checks for current compiled surfaces
 - explicit separation between change policy and incident response authority
 - deterministic generated human output from an agent-primary surface pair
 

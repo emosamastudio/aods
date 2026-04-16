@@ -34,6 +34,50 @@ function assertCompactJsonFile(filePath) {
   );
 }
 
+function runValidateCli(corpusRoot, ...args) {
+  return execFileSync(
+    "node",
+    [path.join(REPO_ROOT, "bin", "aods.mjs"), "validate", corpusRoot, "--strict", ...args],
+    { cwd: REPO_ROOT, stdio: "pipe", encoding: "utf8" }
+  );
+}
+
+function expectValidateFailure(corpusRoot, pattern, ...args) {
+  try {
+    runValidateCli(corpusRoot, ...args);
+    assert.fail(`expected validate failure matching ${pattern}`);
+  } catch (error) {
+    const output = [error.stdout, error.stderr, error.message].filter(Boolean).join("\n");
+    assert.match(output, pattern);
+  }
+}
+
+function compilePilotCorpus(outputRoot) {
+  execFileSync(
+    "node",
+    [
+      path.join(REPO_ROOT, "bin", "aods.mjs"),
+      "compile",
+      path.join(REPO_ROOT, "examples", "compiled-pilot-source", "authoring.json"),
+      outputRoot,
+      "--force"
+    ],
+    { cwd: REPO_ROOT, stdio: "pipe" }
+  );
+}
+
+function loadRootModule(corpusRoot) {
+  const rootModulePath = path.join(corpusRoot, "modules", "shift-ops-root.json");
+  const rootModule = JSON.parse(fs.readFileSync(rootModulePath, "utf8"));
+  const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+  assert.ok(surfaceInventory, "compiled pilot should include a surface-inventory artifact");
+  return { rootModulePath, rootModule, surfaceInventory };
+}
+
+function writeModuleJson(filePath, value) {
+  fs.writeFileSync(filePath, `${JSON.stringify(value)}\n`);
+}
+
 test("evaluation harness generates a valid report and baseline signals", () => {
   const results = runEvaluation();
 
@@ -134,17 +178,7 @@ test("compile command emits compact machine JSON surfaces", () => {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aods-compile-"));
 
   try {
-    execFileSync(
-      "node",
-      [
-        path.join(REPO_ROOT, "bin", "aods.mjs"),
-        "compile",
-        path.join(REPO_ROOT, "examples", "compiled-pilot-source", "authoring.json"),
-        tempRoot,
-        "--force"
-      ],
-      { cwd: REPO_ROOT, stdio: "pipe" }
-    );
+    compilePilotCorpus(tempRoot);
 
     assertCompactJsonFile(path.join(tempRoot, "manifest.json"));
     assertCompactJsonFile(path.join(tempRoot, "modules", "shift-ops-policy.json"));
@@ -152,8 +186,115 @@ test("compile command emits compact machine JSON surfaces", () => {
     const generatedReadme = fs.readFileSync(path.join(tempRoot, "README.md"), "utf8");
     assert.match(generatedReadme, /AODS GENERATED: pair_id=pair-shift-ops-readme mode=deterministic profile=overview/);
     assert.match(generatedReadme, /Production database schema changes require two approvers\./);
+    runValidateCli(tempRoot, "--reality");
+
+    const { rootModulePath, rootModule: originalRootModule } = loadRootModule(tempRoot);
+    const cloneRootModule = () => JSON.parse(JSON.stringify(originalRootModule));
+
+    {
+      const rootModule = cloneRootModule();
+      const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+      surfaceInventory.content.entries[0].path = "../escape.md";
+      writeModuleJson(rootModulePath, rootModule);
+      expectValidateFailure(tempRoot, /surface-inventory-relative-path/);
+    }
+
+    {
+      const rootModule = cloneRootModule();
+      const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+      surfaceInventory.content.entries[0].path = "missing-current.md";
+      writeModuleJson(rootModulePath, rootModule);
+      runValidateCli(tempRoot);
+      expectValidateFailure(tempRoot, /surface-inventory-current-missing/, "--reality");
+    }
+
+    {
+      const rootModule = cloneRootModule();
+      const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+      surfaceInventory.content.entries[1].path = "scratch-placeholder";
+      writeModuleJson(rootModulePath, rootModule);
+      fs.mkdirSync(path.join(tempRoot, "scratch-placeholder"), { recursive: true });
+      fs.writeFileSync(path.join(tempRoot, "scratch-placeholder", ".gitkeep"), "");
+      expectValidateFailure(tempRoot, /surface-inventory-placeholder-directory/, "--reality");
+    }
+
+    {
+      const rootModule = cloneRootModule();
+      const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+      surfaceInventory.content.entries[0].path = "modules";
+      writeModuleJson(rootModulePath, rootModule);
+      expectValidateFailure(tempRoot, /surface-inventory-kind/, "--reality");
+    }
+
+    {
+      const rootModule = cloneRootModule();
+      const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+      surfaceInventory.content.entries[1].path = "README.md";
+      writeModuleJson(rootModulePath, rootModule);
+      expectValidateFailure(tempRoot, /surface-inventory-kind/, "--reality");
+    }
+
+    {
+      const rootModule = cloneRootModule();
+      const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+      surfaceInventory.content.entries[2].path = "./README.md";
+      surfaceInventory.content.entries[2].kind = "file";
+      surfaceInventory.content.entries[2].state = "current";
+      writeModuleJson(rootModulePath, rootModule);
+      expectValidateFailure(tempRoot, /surface-inventory-duplicate-current/, "--reality");
+    }
   } finally {
     fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test("reality validation supports repo-scoped inventories with explicit repo root", () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aods-compile-"));
+  const tempRepoRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aods-repo-root-"));
+
+  try {
+    compilePilotCorpus(tempRoot);
+
+    const { rootModulePath, rootModule } = loadRootModule(tempRoot);
+    const surfaceInventory = rootModule.artifacts.find((artifact) => artifact.artifact_id === "surface-inventory");
+    surfaceInventory.content.base = "repo";
+    surfaceInventory.content.entries = [
+      {
+        surface_id: "repo-current",
+        path: "repo-owned/current.md",
+        kind: "file",
+        state: "current"
+      },
+      {
+        surface_id: "repo-reserved",
+        path: "repo-owned/release-checklist",
+        kind: "directory",
+        state: "reserved"
+      },
+      {
+        surface_id: "repo-future",
+        path: "repo-owned/change-bot",
+        kind: "directory",
+        state: "future"
+      }
+    ];
+    writeModuleJson(rootModulePath, rootModule);
+
+    fs.mkdirSync(path.join(tempRepoRoot, "repo-owned"), { recursive: true });
+    fs.writeFileSync(path.join(tempRepoRoot, "repo-owned", "current.md"), "# current\n");
+
+    expectValidateFailure(tempRoot, /surface-inventory-current-missing/, "--reality");
+    runValidateCli(tempRoot, "--reality", "--repo-root", tempRepoRoot);
+    expectValidateFailure(
+      tempRoot,
+      /reality-repo-root/,
+      "--reality",
+      "--repo-root",
+      path.join(tempRepoRoot, "repo-owned", "current.md")
+    );
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+    fs.rmSync(tempRepoRoot, { recursive: true, force: true });
   }
 });
 

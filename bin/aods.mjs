@@ -11,7 +11,7 @@ function printUsage() {
   console.log(`AODS CLI
 
 Usage:
-  aods validate [root] [--json] [--strict]
+  aods validate [root] [--json] [--strict] [--reality] [--repo-root <path>]
   aods route [root] [--role <role-id>] [--touch <path>] [--query <text>] [--stage <stage>] [--intent <intent>] [--json]
   aods hook pre-commit [root] [--staged] [--repo-root <path>] [--file <path>]... [--json]
   aods upgrade [root] [--json] [--dry-run] [--no-bump]
@@ -34,6 +34,8 @@ Commands:
 Flags:
   --json     Emit JSON report matching validation report shape.
   --strict   Exit non-zero on warnings as well as errors.
+  --reality  Run opt-in surface reality checks for declared current surfaces.
+  --repo-root Resolve repo-based surface-inventory checks from this path. Ignored for base=corpus. Default: corpus root.
   --stage    Route with explicit task stage: orientation | plan | action | verification | evidence.
   -h, --help Show help.
 
@@ -48,6 +50,8 @@ Allowed values:
   pair status: paired | draft | deprecated
   pair generated mode: deterministic
   pair generated profile: overview | checklist
+  surface inventory base: corpus | repo
+  surface inventory state: current | reserved | future
 `);
 }
 
