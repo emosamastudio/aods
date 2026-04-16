@@ -2,29 +2,33 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-Agent-Optimized Documentation System: a spec-first documentation standard for corpora that must be readable by agents, governable by validators and hooks, and still bridge back to human-facing surfaces.
+AODS is a documentation standard and CLI for teams that want AI agents to work from a clear, governed source of truth instead of piecing together context from scattered project docs.
+
+**Latest release:** `v0.3.0`
+
+In this README, **human-oriented docs** means files mainly written for people to read, such as README files, SOPs, or checklists. **Agent-oriented docs** means structured files that agents and tooling can route, validate, and compare. For compatibility, the schema and CLI still use field names such as `human_primary`, `agent_primary`, and `sync_source=agent-primary`.
 
 ## The problem
 
-Project documentation is usually optimized for humans first. That creates four recurring failures for code agents:
+Project documentation is usually optimized for people first. That creates four recurring failures for code agents:
 
-1. **Retrieval is expensive or ambiguous.** Agents often work `grep`-first and file-structure-first, so weak routing and inconsistent terminology increase context waste.
-2. **Authority is implicit.** Human docs, operational notes, and implementation details can disagree without any native way to say which surface wins.
-3. **Human and agent surfaces drift.** A README can change while the agent-facing source of truth stays stale, or the inverse.
-4. **Repository size and task-time context get conflated.** A large corpus is not always a large working set, but most documentation formats do not make that distinction measurable.
+1. **Retrieval is expensive or ambiguous.** Agents often work `grep`-first and file-structure-first, so weak routing and inconsistent terminology waste context.
+2. **Authority is implicit.** README files, operational notes, and implementation details can disagree without any built-in way to say which one leads.
+3. **The docs people read and the structured source agents rely on drift apart.** A README can change while the agent-oriented source of truth stays stale, or the inverse.
+4. **Repository size and per-task context get conflated.** A large corpus is not always a large working set, but most documentation formats do not make that distinction measurable.
 
-AODS exists because the current alternatives each solve only one slice of that problem. Markdown stacks are ergonomic, `llms.txt` is lightweight, and DITA is structurally mature, but none of them combine structured agent routing, dual-surface governance, and measurable anti-drift behavior in one format.
+AODS exists because the current alternatives each solve only one slice of that problem. Markdown is easy to write, `llms.txt` is lightweight, and DITA is mature for structured publishing, but none of them combine agent routing, governed pairing between reader-friendly docs and structured sources, and measurable anti-drift behavior in one system.
 
 ## The AODS path
 
 AODS takes a specific path instead of claiming universal compression:
 
-1. **Structure the corpus for agents.** Use typed JSON modules and typed artifacts instead of only prose documents.
-2. **Load progressively.** Start from `root`, route through `capsule`, then open `detail` or `evidence`. In practice, that routing can start from either a touched file (`--touch`) or a lexical query (`--query`).
-3. **Make authority explicit.** Encode `surface_pairs`, `sync_source`, and `shared_invariants` so paired human and agent files have a declared relationship and a declared leading source.
-4. **Catch obvious contradictions early.** The validator now checks a small, conservative set of paired claims such as before-and-after numeric changes, must-include lists, time windows, and execution preconditions.
+1. **Structure the corpus for agents.** Use typed JSON modules and typed artifacts instead of only long prose pages.
+2. **Load progressively.** Start from a small entry index (`root`), route through a summary layer (`capsule`), then open `detail` or `evidence` modules. Routing can start from either a touched file (`--touch`) or a natural-language query (`--query`).
+3. **Make ownership explicit.** Link a human-oriented document and an agent-oriented source file, then declare which side leads and which facts must stay aligned.
+4. **Catch obvious contradictions early.** The validator checks a small, conservative set of high-signal conflicts such as before-and-after numeric changes, must-include lists, time windows, and execution preconditions.
 5. **Enforce the contract.** Use schema validation, route checks, and pre-commit enforcement to block malformed or unsafe sync changes.
-6. **Reduce authoring overhead.** Move AODS toward a compiled target instead of requiring every corpus to be hand-authored JSON.
+6. **Reduce authoring overhead.** Move AODS toward a compiled target so teams do not need to hand-author every JSON file.
 
 This repository contains all three layers in one place:
 
@@ -52,26 +56,39 @@ npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.3.0
 npx aods --help
 ```
 
-3. Scaffold a new AODS authoring surface in your project:
+3. Scaffold a new AODS authoring source in your project:
 
 ```bash
 npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs for my system" --force
 ```
 
-4. Compile and validate the corpus you will keep in your own repository:
+4. Compile and validate the AODS docs bundle you will keep in your own repository:
 
 ```bash
 npx aods compile ./aods/authoring.json ./docs/aods --force
 npx aods validate ./docs/aods --strict
 ```
 
-5. Grow the authoring source with scaffold helpers instead of hand-editing dense JSON for every common change:
+5. Use scaffold helpers for common changes instead of hand-editing dense JSON:
 
 ```bash
 npx aods scaffold authoring-module ./aods/authoring.json delivery-gates --category policy --layer detail --scope "Delivery gate authority" --role doc-author
 npx aods scaffold authoring-touch ./aods/authoring.json --match package.json --load my-system-root --load delivery-gates --intent write
 npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-log --agent-primary delivery-gates --human-primary DELIVERY-LOG.md
 ```
+
+6. When you need implementation-phase governance, scaffold the ready-made pattern instead of inventing it from scratch:
+
+```bash
+npx aods scaffold authoring-module ./aods/authoring.json release-governance --pattern implementation-governance --role doc-author
+```
+
+That pattern creates a starter module with four governance structures already wired in:
+
+- an implementation / acceptance matrix
+- final system gate rules
+- a runtime contract table
+- a scripted / expert / human review routing tree
 
 ### Clone the repository directly
 
@@ -143,7 +160,7 @@ For horizontal comparison, the benchmark uses three outside baselines:
 | **llms.txt** | 100.0% | 100.0% | 46977 | 0.0% | 6480 | 7178 |
 | **DITA topic corpus** | 100.0% | 100.0% | 65595 | 0.0% | 718 | 1320 |
 
-**How to read this table:** the non-AODS baselines stay lighter on bytes, but they score **0.0%** on the benchmark's objective touch-route contract because they do not provide AODS-style native routing and paired-surface governance. Their smaller loaded byte counts are therefore not evidence of equivalent governed retrieval.
+**How to read this table:** the non-AODS baselines stay lighter on bytes, but they score **0.0%** on the benchmark's objective touch-route contract because they do not provide AODS-style native routing or governed pairing between reader-friendly docs and structured sources. Their smaller loaded byte counts are therefore not evidence of equivalent governed retrieval.
 
 ## Latest benchmark delta
 
@@ -166,21 +183,23 @@ For horizontal comparison, the benchmark uses three outside baselines:
 
 ## Why AODS is valuable
 
-AODS is valuable **not mainly because the current benchmark now lands slightly below the paired human-doc baseline on full-corpus size**, but because it makes the agent-workflow tradeoff explicit and enforceable:
+AODS is valuable **not mainly because the current benchmark is slightly smaller than the reader-oriented doc baseline on full-corpus size**, but because it turns documentation tradeoffs that are usually handled by habit into explicit, testable contracts:
 
-1. **It gives agents a native routing model.** `root -> capsule -> detail` is a real contract, not a documentation convention.
-2. **It gives mixed human/agent documentation an authority model.** `surface_pairs`, `sync_source`, `shared_invariants`, and conservative paired-claim checks turn drift from a social problem into a technical one.
-3. **It separates repository-scale weight from task-time context cost.** The benchmark now proves those are different signals, and recent optimization waves improved both without weakening governance.
-4. **It is becoming more adoptable.** The compiled-authoring path now supports artifact-first modules instead of forcing synthetic prose just to satisfy the format.
+1. **It gives agents a native routing model.** `root -> capsule -> detail` is a real contract, not a vague convention.
+2. **It gives teams a governed way to keep reader-friendly docs and structured sources aligned.** `surface_pairs`, `sync_source`, `shared_invariants`, and conservative paired-claim checks turn drift from a social problem into a technical one.
+3. **It separates repository-scale weight from per-task context cost.** The benchmark now proves those are different signals, and recent optimization waves improved both without weakening governance.
+4. **It is getting easier to adopt.** The compiled-authoring path now supports artifact-first modules instead of forcing synthetic prose just to satisfy the format.
 
 The current value proposition is therefore:
 
-> **Use AODS when you need governed, agent-first documentation with explicit routing and anti-drift behavior, not when your only goal is smallest possible repository size.**
+> **Use AODS when you need governed, AI-friendly project documentation with explicit routing and drift controls, not when your only goal is the smallest possible repository size.**
 
 Two authority rules stay invariant in this repository:
 
 - Human surfaces do not replace agent-primary semantic authority.
 - Manifest metadata alone does not satisfy agent-primary semantic synchronization.
+
+In plain words: a reader-friendly document cannot overrule the structured source of truth, and metadata-only updates do not count as real content sync.
 
 ## Current limits
 
@@ -191,7 +210,7 @@ The benchmark still shows clear limits:
 - The benchmark's advisory semantic heuristic scores **75.0%** on the current scenario pack.
 - The main scoreboard still uses renderer-based prompt-envelope metrics across the whole scenario set. The repo now also ships one local Copilot CLI runtime-capture supplement, but not yet a full runtime-backed scenario matrix.
 - The benchmark is still synthetic and English-only.
-- `bidirectional` remains an explicitly gated experimental sync mode: the reference hook requires manual review when such pairs change instead of pretending auto-merge is solved.
+- `bidirectional` remains an explicitly gated experimental sync mode: the reference hook requires manual review when paired docs in this mode change instead of pretending auto-merge is solved.
 - `phase` and `feature` pair scopes are not yet covered in the benchmark pack.
 
 ## Quick start
@@ -200,7 +219,7 @@ The benchmark still shows clear limits:
 npm install
 npm run validate:all
 npm run route -- --touch spec/validation-rules.json --role doc-author
-npm run route -- --query "paired surface drift rules" --role doc-author --intent read
+npm run route -- --query "paired docs drift rules" --role doc-author --intent read
 npm run compile:pilot
 npm run benchmark:runtime-capture   # optional supplemental sample
 npm run benchmark:evaluate
@@ -234,17 +253,17 @@ node ./bin/aods.mjs validate . --strict
 
 ```bash
 npm run route -- --touch spec/validation-rules.json --role doc-author
-node ./bin/aods.mjs route . --query "paired surface drift rules" --role doc-author --intent read
+node ./bin/aods.mjs route . --query "paired docs drift rules" --role doc-author --intent read
 node ./bin/aods.mjs route . --query "audit evidence retention" --role doc-author --intent read --stage evidence
 node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 ```
 
-Use `--touch` when you already know which file changed. Use `--query` when you only know the task in plain words and want the CLI to find the likely authority modules by lexical and structural anchors from module metadata, paired surfaces, and compact artifact semantics. Add `--stage` when the task phase is clear (`orientation`, `plan`, `action`, `verification`, `evidence`) but the exact file target is not.
+Use `--touch` when you already know which file changed. Use `--query` when you only know the task in plain words and want the CLI to find the likely authority modules by lexical and structural anchors from module metadata, paired docs, and compact artifact semantics. Add `--stage` when the task phase is clear (`orientation`, `plan`, `action`, `verification`, `evidence`) but the exact file target is not.
 
 Routing precedence:
 
 1. `boot_by_touch`
-2. touched surface-pair or touched module
+2. touched paired doc or touched module
 3. lexical + structural `--query` routing
 4. `boot_by_role`
 5. `boot_sequence`
@@ -259,11 +278,18 @@ node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tm
 
 Authoring sources now validate against `schema/authoring.schema.json`, so compiled authoring is a real contract rather than a one-off pilot format. Modules may be section-first, artifact-first, or mixed; compiled AODS only requires at least one `section` or `artifact`.
 
-The CLI now exposes safe authoring mutation paths for the three most common control-plane edits:
+The CLI now exposes safe authoring mutation paths for three common edits:
 
-- append a module to `authoring.json`
-- append or replace a touch route safely
-- scaffold a paired human surface plus its registration metadata
+- add a module to `authoring.json`
+- add or replace a touch route safely
+- scaffold a human-oriented companion file and register its pairing metadata
+
+For implementation-heavy projects, `scaffold authoring-module --pattern implementation-governance` creates a ready-made delivery-governor module with:
+
+- an implementation matrix
+- system gate rules
+- a runtime contract table
+- review routing between scripted, expert, and human approval lanes
 
 The compile command emits:
 
@@ -271,9 +297,9 @@ The compile command emits:
 - compact module JSON files with computed `tokens_approx`
 - compact `indexes/runtime.json` companion slices for glossary, `boot_by_role`, `boot_by_touch`, `surface_pairs`, and runtime role profiles
 - copied AODS schemas
-- declared human-facing files such as `README.md`
+- declared people-facing files such as `README.md`
 
-When `boot_by_role` is present, compiled companion `roles` are runtime role profiles: `id` plus optional `capabilities`, with duplicated `required_modules` omitted unless they differ from the boot binding.
+When `boot_by_role` is present, compiled companion `roles` are reduced to runtime role profiles: `id` plus optional `capabilities`. `required_modules` is kept only when it differs from the boot binding.
 
 ### Run hook-based enforcement
 
@@ -285,10 +311,10 @@ node ./bin/aods.mjs hook pre-commit . --file README.md --file spec/surface-gover
 Hook behavior:
 
 - validates only the affected corpus or corpora
-- blocks unsafe human-only edits when `sync_source=agent-primary` and no paired agent module changed
-- blocks unsafe agent-only edits when `sync_source=human-primary` and no paired human surface changed
-- requires manual review for changed `sync_source=bidirectional` pairs because merge protocol is still experimental
-- enforces declared `shared_invariants` across paired human and agent surfaces
+- blocks unsafe edits to human-oriented docs when `sync_source=agent-primary` and no paired agent-oriented module changed
+- blocks unsafe edits to agent-oriented modules when `sync_source=human-primary` and no paired human-oriented doc changed
+- requires manual review for changed `sync_source=bidirectional` pairs because automatic merge behavior is still experimental
+- enforces declared `shared_invariants` across paired docs
 - forces broader validation for implementation-layer changes such as `lib/`, `schema/`, or `.githooks/`
 
 Optional git hook installation:
@@ -305,7 +331,7 @@ node ./bin/aods.mjs upgrade .
 node ./bin/aods.mjs upgrade ./examples/seven-plane-pilot --dry-run
 ```
 
-### Scaffold new corpora or authoring surfaces
+### Scaffold new corpora or authoring sources
 
 ```bash
 node ./bin/aods.mjs scaffold corpus ../my-corpus --sys my-system
@@ -345,7 +371,7 @@ Two rules matter:
 
 ## Key resources
 
-- **Human orientation:** this README
+- **Reader-friendly overview:** this README
 - **Agent bootstrap:** `manifest.json`
 - **Internal AODS evaluation:** `benchmarks/aods-eval-lab/reports/aods-evaluation-report.md`
 - **Round-one comparison report:** `benchmarks/aods-eval-lab/reports/round1-comparator-report.md`
@@ -364,4 +390,4 @@ AODS now uses two version tracks:
 - **Release version:** Git tags and package releases such as `v0.3.0`
 - **Schema compatibility:** surface-local markers such as `aods_v` and `authoring_v`
 
-Schema markers remain important for compatibility and migration, but they are no longer the public product label in README surfaces. Public-facing docs should refer to the release version, not legacy schema-generation branding.
+Schema markers remain important for compatibility and migration, but they are no longer the public product label in README files. Public-facing docs should refer to the release version, not legacy schema-generation branding.

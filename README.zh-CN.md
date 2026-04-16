@@ -2,29 +2,33 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-Agent-Optimized Documentation System：一套面向 agent 的规范优先文档标准，用来构建既能被 agent 读取、又能被验证器和 hooks 治理、同时还能与人类可读表面协同的文档语料库。
+AODS 是一套文档标准和 CLI，适合那些希望让 AI agent 基于清晰、可验证、可治理的事实源工作，而不是从零散项目文档里拼接上下文的团队。
+
+**当前最新版本：** `v0.3.0`
+
+在这份 README 里，**面向人阅读的文档** 指 README、SOP、检查清单这类主要给人看的文件；**面向 agent 的结构化文档** 指那些可以被 agent 和工具路由、校验、比较的结构化文件。为了兼容，schema 和 CLI 仍然保留 `human_primary`、`agent_primary`、`sync_source=agent-primary` 这类字段名。
 
 ## 问题是什么
 
 大多数项目文档首先是为人写的。这会给 code agent 带来四类常见失败：
 
-1. **检索成本高且容易歧义。** 许多 agent 的工作方式更接近 `grep`-first 和 file-structure-first，路由弱、术语不稳定，就会浪费上下文。
-2. **权威来源是隐式的。** README、运维文档、实现细节之间即使冲突，也没有原生机制说明“到底谁说了算”。
-3. **人类表面与 agent 表面容易漂移。** README 改了，agent-facing source of truth 没改；或者反过来。
-4. **仓库总体体积与任务时上下文被混为一谈。** 语料库很大，并不等于单个任务的 working set 很大，但多数文档格式无法把这点测量清楚。
+1. **检索成本高且容易歧义。** 许多 agent 的工作方式更接近 `grep`-first 和按文件结构定位，路由弱、术语不稳定，就会浪费上下文。
+2. **权威来源是隐式的。** README、运维文档、实现细节之间即使冲突，也没有内建机制说明“到底谁说了算”。
+3. **给人看的文档，和 agent 真正依赖的结构化事实源，容易越改越不一致。** README 改了，agent 依赖的主来源没改；或者反过来。
+4. **仓库总体体积与单任务上下文成本被混为一谈。** 语料库很大，并不等于单个任务的 working set 很大，但多数文档格式无法把这点测量清楚。
 
-AODS 的存在，就是因为现有方案通常只解决其中一个切面。Markdown 栈更易写，`llms.txt` 更轻量，DITA 在结构化文档上更成熟，但它们都没有把 **agent 路由、双表面治理、可测的 anti-drift** 组合进同一个格式。
+AODS 的存在，就是因为现有方案通常只解决其中一个切面。Markdown 好写，`llms.txt` 很轻，DITA 在结构化出版上更成熟，但它们都没有把 **agent 路由、面向人文档与结构化事实源之间的受治理配对、以及可测的 anti-drift** 组合进同一个系统。
 
 ## AODS 的实现路径
 
 AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都能压缩”：
 
-1. **先把语料库结构化成 agent 友好的形式。** 用 typed JSON modules 和 typed artifacts，而不只是 prose 文档。
-2. **渐进式加载。** 从 `root` 开始，通过 `capsule` 路由，再打开 `detail` 或 `evidence`。在实际使用里，这个路由既可以从触达文件（`--touch`）开始，也可以从自然语言查询（`--query`）开始。
-3. **显式声明权威来源。** 用 `surface_pairs`、`sync_source`、`shared_invariants` 明确一对 human/agent 文件之间的关系，以及哪一侧是主导来源。
-4. **尽早拦截明显矛盾。** validator 现在会保守地检查几类高信号的关键说法，例如“从 A 到 B”的变化、必填项列表、时间窗口、执行前置条件。
+1. **先把语料库结构化成 agent 友好的形式。** 用 typed JSON modules 和 typed artifacts，而不只是长篇 prose 文档。
+2. **渐进式加载。** 先读一个很小的入口索引（`root`），再经过摘要路由层（`capsule`），最后按需打开 `detail` 或 `evidence` 模块。这个路由既可以从触达文件（`--touch`）开始，也可以从自然语言查询（`--query`）开始。
+3. **显式声明主来源。** 把一份面向人阅读的文档和一份面向 agent 的结构化源文件绑定起来，并声明哪一侧主导、哪些事实必须保持一致。
+4. **尽早拦截明显矛盾。** validator 会保守地检查几类高信号冲突，例如数字前后变化、必填项列表、时间窗口、执行前置条件。
 5. **强制执行契约。** 通过 schema validation、route checks、pre-commit enforcement 阻止格式错误和不安全同步。
-6. **降低 authoring 成本。** 把 AODS 逐步推进成“编译产物”，而不是要求所有 corpus 长期手写 JSON。
+6. **降低编写成本。** 把 AODS 逐步推进成“编译产物”，避免团队长期手写每一个 JSON 文件。
 
 这个仓库把三层东西放在了一起：
 
@@ -52,26 +56,39 @@ npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.3.0
 npx aods --help
 ```
 
-3. 在你的项目里 scaffold 一套新的 AODS authoring surface：
+3. 在你的项目里初始化一份新的 AODS 编写源（authoring source）：
 
 ```bash
 npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs for my system" --force
 ```
 
-4. 把它编译并校验成你自己仓库里的 corpus：
+4. 把它编译并校验成你自己仓库里的 AODS 文档目录：
 
 ```bash
 npx aods compile ./aods/authoring.json ./docs/aods --force
 npx aods validate ./docs/aods --strict
 ```
 
-5. 常见的 authoring 增量动作，优先用 scaffold helpers，而不是每次都手改一大片 JSON：
+5. 常见改动优先用 scaffold helpers，而不是每次都手改一大片 JSON：
 
 ```bash
 npx aods scaffold authoring-module ./aods/authoring.json delivery-gates --category policy --layer detail --scope "Delivery gate authority" --role doc-author
 npx aods scaffold authoring-touch ./aods/authoring.json --match package.json --load my-system-root --load delivery-gates --intent write
 npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-log --agent-primary delivery-gates --human-primary DELIVERY-LOG.md
 ```
+
+6. 如果你需要实现阶段治理，不要从零拼一套结构，直接用现成 pattern：
+
+```bash
+npx aods scaffold authoring-module ./aods/authoring.json release-governance --pattern implementation-governance --role doc-author
+```
+
+这个 pattern 会直接起出四类治理骨架：
+
+- 实现 / 验收矩阵
+- 最终系统 gate 规则
+- runtime contract 表
+- scripted / expert / human 三类 review 路由树
 
 ### 直接克隆仓库
 
@@ -143,7 +160,7 @@ benchmark 明确区分了三种“大小”信号：
 | **llms.txt** | 100.0% | 100.0% | 46977 | 0.0% | 6480 | 7178 |
 | **DITA topic corpus** | 100.0% | 100.0% | 65595 | 0.0% | 718 | 1320 |
 
-**怎么读这张表：** 非 AODS 基线在 bytes 上更轻，但它们在 benchmark 的 objective touch-route contract 上是 **0.0%**，因为这些格式没有提供 AODS 风格的原生 routing 和 paired-surface governance。所以它们更小的 loaded bytes，**不等价于**“在受治理检索上做到同样的事”。
+**怎么读这张表：** 非 AODS 基线在 bytes 上更轻，但它们在 benchmark 的 objective touch-route contract 上是 **0.0%**，因为这些格式没有提供 AODS 风格的原生 routing，也没有提供“面向人文档”和“结构化事实源”之间的受治理配对能力。所以它们更小的 loaded bytes，**不等价于**“在受治理检索上做到同样的事”。
 
 ## 最新 benchmark 变化
 
@@ -166,21 +183,21 @@ benchmark 明确区分了三种“大小”信号：
 
 ## 为什么 AODS 有价值
 
-AODS 的价值 **不主要在于它现在已经在 full-corpus benchmark 上略微低于 paired human docs**，而在于它把 agent workflow 的关键 tradeoff 变成了显式、可验证的系统能力：
+AODS 的价值 **不主要在于当前 benchmark 里它的全库体积略小于“给人阅读的文档”基线**，而在于它把那些原本只能靠团队默契维持的文档治理问题，变成了明确、可验证的契约：
 
-1. **它给 agent 提供了原生 routing model。** `root -> capsule -> detail` 是契约，不是约定俗成。
-2. **它给 human/agent 混合文档提供了权威来源模型。** `surface_pairs`、`sync_source`、`shared_invariants` 加上保守型成对语义对比，把漂移从“协作习惯问题”变成“技术可控问题”。
-3. **它区分了仓库尺度体积和任务时上下文成本。** benchmark 现在已经明确证明这两个信号不是一回事，而且最近几轮优化同时改善了这两项指标。
-4. **它正在变得更可落地。** compiled-authoring 路径现在已经支持 artifact-first modules，不再为了满足格式而强行塞 synthetic prose。
+1. **它让 agent 按规则少加载，而不是靠猜。** `root -> capsule -> detail` 是明确契约，不是含糊的约定。
+2. **它让团队可以把给人看的文档和结构化事实源绑定起来管理。** `surface_pairs`、`sync_source`、`shared_invariants` 再加上保守型成对语义检查，把漂移从“协作习惯问题”变成“技术可控问题”。
+3. **它把仓库总体体积和单任务上下文成本拆开测量。** benchmark 已经证明这两个信号不是一回事，而且最近几轮优化同时改善了这两项指标。
+4. **它正在变得更容易落地。** compiled-authoring 路径现在已经支持 artifact-first modules，不再为了满足格式而强行补很多 synthetic prose。
 
 所以当前 AODS 的价值主张是：
 
-> **当你需要一个带治理、agent-first、具有显式 routing 和 anti-drift 能力的文档系统时，用 AODS；如果你唯一目标只是最小仓库体积，那 AODS 目前不是最佳答案。**
+> **当你需要一个带治理、对 AI 友好、具备显式路由和防漂移能力的项目文档系统时，用 AODS；如果你的唯一目标只是把仓库做得最小，那 AODS 目前不是最佳答案。**
 
-这个仓库中有两条 authority 规则保持不变：
+这个仓库中有两条规则保持不变：
 
-- Human surfaces do not replace agent-primary semantic authority.
-- Manifest metadata alone does not satisfy agent-primary semantic synchronization.
+- 当 pair 标记为 `sync_source=agent-primary` 时，面向人阅读的文档不能替代语义主来源。
+- 仅仅更新 manifest 元数据，并不等于面向 agent 的内容已经同步。
 
 ## 当前限制
 
@@ -191,7 +208,7 @@ benchmark 也清楚地表明了当前限制：
 - benchmark 中的启发式语义检测在当前场景包上的分数是 **75.0%**。
 - 主 scoreboard 仍然使用整套场景共享的 renderer-based prompt-envelope 指标。现在仓库里已经补上了一个本地 Copilot CLI runtime-capture 补充样本，但还不是完整的 runtime-backed 场景矩阵。
 - benchmark 仍然是 synthetic 且 English-only。
-- `bidirectional` 仍然是一个被明确 gated 的实验性 sync mode：reference hook 会在这类 pair 发生变更时要求人工复核，而不是假装自动双向合并已经解决。
+- `bidirectional` 仍然是一个被明确 gated 的实验性 sync mode：reference hook 会在这类成对文档发生变更时要求人工复核，而不是假装自动双向合并已经解决。
 - benchmark pack 还没有覆盖 `phase`、`feature` 这几类 pair scope。
 
 ## 快速开始
@@ -200,7 +217,7 @@ benchmark 也清楚地表明了当前限制：
 npm install
 npm run validate:all
 npm run route -- --touch spec/validation-rules.json --role doc-author
-npm run route -- --query "paired surface drift rules" --role doc-author --intent read
+npm run route -- --query "paired docs drift rules" --role doc-author --intent read
 npm run compile:pilot
 npm run benchmark:runtime-capture   # 可选的补充样本
 npm run benchmark:evaluate
@@ -234,17 +251,17 @@ node ./bin/aods.mjs validate . --strict
 
 ```bash
 npm run route -- --touch spec/validation-rules.json --role doc-author
-node ./bin/aods.mjs route . --query "paired surface drift rules" --role doc-author --intent read
+node ./bin/aods.mjs route . --query "paired docs drift rules" --role doc-author --intent read
 node ./bin/aods.mjs route . --query "audit evidence retention" --role doc-author --intent read --stage evidence
 node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 ```
 
-如果你已经知道改动落在哪个文件，用 `--touch`。如果你只知道“我要找哪类问题”，可以直接用自然语言的 `--query`，CLI 会按 module metadata、paired surface 和 compact artifact semantics 里的词法 + 结构锚点去找最可能的权威模块。如果你已经知道当前任务所处阶段，但还不知道目标文件，可以额外给 `--stage`（`orientation`、`plan`、`action`、`verification`、`evidence`）来细化路由。
+如果你已经知道改动落在哪个文件，用 `--touch`。如果你只知道“我要找哪类问题”，可以直接用自然语言的 `--query`，CLI 会按 module metadata、成对文档关系和 compact artifact semantics 里的词法 + 结构锚点去找最可能的权威模块。如果你已经知道当前任务所处阶段，但还不知道目标文件，可以额外给 `--stage`（`orientation`、`plan`、`action`、`verification`、`evidence`）来细化路由。
 
 Routing precedence：
 
 1. `boot_by_touch`
-2. touched surface-pair 或 touched module
+2. 命中的成对文档或命中的 module
 3. 词法 + 结构的 `--query` routing
 4. `boot_by_role`
 5. `boot_sequence`
@@ -257,13 +274,20 @@ npm run compile:pilot
 node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tmp/compiled-pilot --force
 ```
 
-authoring source 现在会按照 `schema/authoring.schema.json` 校验，所以 compiled authoring 已经不再只是一个一次性的 pilot 格式，而是一个正式 contract。module 现在既可以是 section-first，也可以是 artifact-first，或者两者混合；编译后的 AODS 只要求至少有一个 `section` 或 `artifact`。
+authoring source 现在会按照 `schema/authoring.schema.json` 校验，所以 compiled authoring 已经不再只是一次性的 pilot 格式，而是正式契约。module 现在既可以是 section-first，也可以是 artifact-first，或者两者混合；编译后的 AODS 只要求至少有一个 `section` 或 `artifact`。
 
-CLI 现在也直接提供了三类高频 authoring mutation 路径：
+CLI 现在也直接提供了三类高频改动路径：
 
-- 安全地向 `authoring.json` 追加 module
+- 安全地向 `authoring.json` 增加 module
 - 安全地追加或替换 touch route
-- scaffold 一个人类表面并同时注册 paired-surface metadata
+- 初始化一份面向人阅读的配套文档，并同时注册它与结构化源文件之间的配对元数据
+
+对于实现阶段治理较重的项目，`scaffold authoring-module --pattern implementation-governance` 会直接生成一份“交付治理模块”骨架，里面已经包含：
+
+- 实现矩阵
+- system gate 规则
+- runtime contract 表
+- scripted、expert、human 三类审批 / 复核路由
 
 `compile` 命令会生成：
 
@@ -271,9 +295,9 @@ CLI 现在也直接提供了三类高频 authoring mutation 路径：
 - 带计算后 `tokens_approx` 的 compact module JSON
 - 面向 glossary、`boot_by_role`、`boot_by_touch`、`surface_pairs` 和 runtime role profiles 的 compact `indexes/runtime.json`
 - 拷贝后的 AODS schemas
-- 声明过的人类可读文件，例如 `README.md`
+- 声明过的面向人阅读文件，例如 `README.md`
 
-当 `boot_by_role` 已经存在时，编译产物里的 companion `roles` 会投影成 runtime role profile：保留 `id` 和可选的 `capabilities`，只有当 `required_modules` 与 boot binding 不一致时才会额外保留。
+当 `boot_by_role` 已经存在时，编译产物里的 companion `roles` 会被压缩成 runtime role profile：保留 `id` 和可选的 `capabilities`；只有当 `required_modules` 与 boot binding 不一致时才会额外保留。
 
 ### 运行 hook enforcement
 
@@ -285,10 +309,10 @@ node ./bin/aods.mjs hook pre-commit . --file README.md --file spec/surface-gover
 Hook 行为：
 
 - 只校验受影响的 corpus
-- 当 `sync_source=agent-primary` 且没有成对 agent module 变化时，阻止不安全的人类表面单独修改
-- 当 `sync_source=human-primary` 且没有成对 human surface 变化时，阻止不安全的 agent module 单独修改
-- 当 `sync_source=bidirectional` 的 pair 发生变更时，要求人工复核，因为 merge protocol 仍然是实验性的
-- 强制检查 paired human/agent surfaces 上声明的 `shared_invariants`
+- 当 `sync_source=agent-primary` 且没有成对的 agent 结构化文件变化时，阻止不安全的面向人文档单独修改
+- 当 `sync_source=human-primary` 且没有成对的面向人文档变化时，阻止不安全的 agent 结构化文件单独修改
+- 当 `sync_source=bidirectional` 的 pair 发生变更时，要求人工复核，因为自动合并协议仍然是实验性的
+- 强制检查成对文档上声明的 `shared_invariants`
 - 当改动触及 `lib/`、`schema/`、`.githooks/` 这类实现层时，提升为更广泛的校验
 
 可选的 git hook 安装：
@@ -305,7 +329,7 @@ node ./bin/aods.mjs upgrade .
 node ./bin/aods.mjs upgrade ./examples/seven-plane-pilot --dry-run
 ```
 
-### Scaffold 新 corpus 或 authoring surface
+### Scaffold 新 corpus 或 authoring source
 
 ```bash
 node ./bin/aods.mjs scaffold corpus ../my-corpus --sys my-system
@@ -345,7 +369,7 @@ node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/aut
 
 ## 关键资源
 
-- **人类阅读入口：** 这个 README
+- **读者入口：** 这个 README
 - **Agent bootstrap：** `manifest.json`
 - **AODS 内部评估报告：** `benchmarks/aods-eval-lab/reports/aods-evaluation-report.md`
 - **第一轮横向对比报告：** `benchmarks/aods-eval-lab/reports/round1-comparator-report.md`
@@ -361,7 +385,7 @@ node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/aut
 
 AODS 现在区分两条版本线：
 
-- **Release version：** Git tag / package release，例如 `v0.3.0`
-- **Schema compatibility：** 各 surface 内部使用的兼容性标记，例如 `aods_v` 和 `authoring_v`
+- **发布版本：** Git tag / package release，例如 `v0.3.0`
+- **Schema 兼容版本：** 各文件内部使用的兼容性标记，例如 `aods_v` 和 `authoring_v`
 
-这些 schema 标记依然用于兼容和升级，但不再作为 README 里的对外产品标签。对外文档默认应该使用 release version，而不是遗留的 schema-generation branding。
+这些 schema 标记依然用于兼容和升级，但不再作为 README 里的对外产品标签。对外文档默认应该使用发布版本，而不是遗留的 schema-generation branding。
