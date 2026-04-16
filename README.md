@@ -270,6 +270,8 @@ node ./bin/aods.mjs validate . --strict --reality
 node ./bin/aods.mjs validate . --strict --reality --repo-root ..
 ```
 
+`--strict` treats warnings as failures. That includes module-like JSON files discovered under declared module directories when they are present on disk but not registered in `manifest.modules[]`.
+
 ### Route scoped module loads
 
 ```bash
