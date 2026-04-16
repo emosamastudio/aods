@@ -4,7 +4,7 @@
 
 AODS is a documentation standard and CLI for teams that want AI agents to work from a clear, governed source of truth instead of piecing together context from scattered project docs.
 
-**Latest release:** `v0.3.0`
+**Latest release:** `v0.4.0`
 
 In this README, **human-oriented docs** means files mainly written for people to read, such as README files, SOPs, or checklists. **Agent-oriented docs** means structured files that agents and tooling can route, validate, and compare. For compatibility, the schema and CLI still use field names such as `human_primary`, `agent_primary`, and `sync_source=agent-primary`.
 
@@ -47,7 +47,7 @@ Requires **Node 18+**.
 1. Install the tagged GitHub release into your project:
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.3.0
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.4.0
 ```
 
 2. Verify the CLI is available:
@@ -179,7 +179,7 @@ For horizontal comparison, the benchmark uses three outside baselines:
 | **llms.txt** | 100.0% | 100.0% | 46977 | 0.0% | 6480 | 7178 |
 | **DITA topic corpus** | 100.0% | 100.0% | 65595 | 0.0% | 718 | 1320 |
 
-**How to read this table:** the non-AODS baselines stay lighter on bytes, but they score **0.0%** on the benchmark's objective touch-route contract because they do not provide AODS-style native routing or governed pairing between reader-friendly docs and structured sources. Their smaller loaded byte counts are therefore not evidence of equivalent governed retrieval.
+**How to read this table:** the non-AODS baselines stay lighter on bytes, but they score **0.0%** on the benchmark's objective touch-route contract because they do not provide AODS-style native routing and paired-surface governance. Their smaller loaded byte counts are therefore not evidence of equivalent governed retrieval.
 
 ## Latest benchmark delta
 
@@ -416,7 +416,7 @@ This project is released under the **MIT License**. See [`LICENSE`](./LICENSE).
 
 AODS now uses two version tracks:
 
-- **Release version:** Git tags and package releases such as `v0.3.0`
+- **Release version:** Git tags and package releases such as `v0.4.0`
 - **Release-aligned skill version:** packaged skills under `skills/` stay aligned to the same release tag
 - **Schema compatibility:** surface-local markers such as `aods_v` and `authoring_v`
 
