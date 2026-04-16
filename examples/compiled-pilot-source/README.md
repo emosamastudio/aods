@@ -1,20 +1,22 @@
-# shift-ops-pilot
+# compiled-pilot source
 
-Human-facing overview for the compiled-authoring pilot corpus.
+This directory contains the concise authoring source for the compiled pilot corpus.
 
 ## What this pilot demonstrates
 
-- concise authoring source compiled into a full AODS corpus
+- concise authoring JSON compiled into a full AODS corpus
 - routed root -> capsule -> detail loading
 - paired README governance with `shared_invariants`
 - implementation-governance detail with acceptance matrix, system gates, and review routing
 - explicit separation between change policy and incident response authority
+- deterministic generated human output from an agent-primary surface pair
 
-## Canonical facts shared with the agent capsule
+## Generated human surface example
 
-- Production database schema changes require two approvers.
-- sev1 pages primary and secondary on-call within five minutes.
+`authoring.json` declares `pair-shift-ops-readme` with:
 
-## Human summary
+- `human_primary = README.md`
+- `human_generation.mode = deterministic`
+- `human_generation.profile = overview`
 
-Use the policy module for release-window and approval questions. Use the governance module for delivery readiness, acceptance evidence, and final review-route questions. Use the runbook module for sev1 response and rollback ownership questions.
+When you run `npx aods compile`, the compiled corpus emits `README.md` from the paired agent modules instead of copying a hand-authored human file from `files[]`. Use the policy module for release-window and approval questions. Use the governance module for delivery readiness, acceptance evidence, and final review-route questions. Use the runbook module for sev1 response and rollback ownership questions.

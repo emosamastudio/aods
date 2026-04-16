@@ -75,6 +75,7 @@ npx aods validate ./docs/aods --strict
 npx aods scaffold authoring-module ./aods/authoring.json delivery-gates --category policy --layer detail --scope "Delivery gate authority" --role doc-author
 npx aods scaffold authoring-touch ./aods/authoring.json --match package.json --load my-system-root --load delivery-gates --intent write
 npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-log --agent-primary delivery-gates --human-primary DELIVERY-LOG.md
+npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-guide --agent-primary delivery-gates --human-primary DELIVERY-GUIDE.md --generated-profile overview --generated-title "Delivery Guide"
 ```
 
 6. 如果你需要实现阶段治理，不要从零拼一套结构，直接用现成 pattern：
@@ -282,6 +283,11 @@ CLI 现在也直接提供了三类高频改动路径：
 - 安全地追加或替换 touch route
 - 初始化一份面向人阅读的配套文档，并同时注册它与结构化源文件之间的配对元数据
 
+paired human output 现在有两种建模方式：
+
+- 通过 `files[]` 声明的手工 human 文件
+- 在 surface pair 上通过 `human_generation` 显式声明的 opt-in deterministic generated output
+
 对于实现阶段治理较重的项目，`scaffold authoring-module --pattern implementation-governance` 会直接生成一份“交付治理模块”骨架，里面已经包含：
 
 - 实现矩阵
@@ -296,6 +302,7 @@ CLI 现在也直接提供了三类高频改动路径：
 - 面向 glossary、`boot_by_role`、`boot_by_touch`、`surface_pairs` 和 runtime role profiles 的 compact `indexes/runtime.json`
 - 拷贝后的 AODS schemas
 - 声明过的面向人阅读文件，例如 `README.md`
+- 按 pair opt-in 生成的 deterministic human-oriented 文件，例如 overview 或 checklist surface
 
 当 `boot_by_role` 已经存在时，编译产物里的 companion `roles` 会被压缩成 runtime role profile：保留 `id` 和可选的 `capabilities`；只有当 `required_modules` 与 boot binding 不一致时才会额外保留。
 
@@ -312,6 +319,7 @@ Hook 行为：
 - 当 `sync_source=agent-primary` 且没有成对的 agent 结构化文件变化时，阻止不安全的面向人文档单独修改
 - 当 `sync_source=human-primary` 且没有成对的面向人文档变化时，阻止不安全的 agent 结构化文件单独修改
 - 当 `sync_source=bidirectional` 的 pair 发生变更时，要求人工复核，因为自动合并协议仍然是实验性的
+- 在 `agent-primary` 下允许合法的 deterministic regenerated human 文件通过，但会把手工改动的 generated output 识别为 drift
 - 强制检查成对文档上声明的 `shared_invariants`
 - 当改动触及 `lib/`、`schema/`、`.githooks/` 这类实现层时，提升为更广泛的校验
 
@@ -337,6 +345,7 @@ node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy
 node ./bin/aods.mjs scaffold authoring-module ./examples/compiled-pilot-source/authoring.json shift-ops-log --category reference --layer detail --scope "Shift operations log authority"
 node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-capsule --load shift-ops-policy --intent write
 node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-log --agent-primary shift-ops-runbook --human-primary SHIFT-OPS-LOG.md
+node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-guide --agent-primary shift-ops-policy --human-primary SHIFT-OPS-GUIDE.md --generated-profile checklist
 ```
 
 ## 仓库结构

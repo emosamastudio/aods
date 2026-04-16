@@ -75,6 +75,7 @@ npx aods validate ./docs/aods --strict
 npx aods scaffold authoring-module ./aods/authoring.json delivery-gates --category policy --layer detail --scope "Delivery gate authority" --role doc-author
 npx aods scaffold authoring-touch ./aods/authoring.json --match package.json --load my-system-root --load delivery-gates --intent write
 npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-log --agent-primary delivery-gates --human-primary DELIVERY-LOG.md
+npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-guide --agent-primary delivery-gates --human-primary DELIVERY-GUIDE.md --generated-profile overview --generated-title "Delivery Guide"
 ```
 
 6. When you need implementation-phase governance, scaffold the ready-made pattern instead of inventing it from scratch:
@@ -284,6 +285,11 @@ The CLI now exposes safe authoring mutation paths for three common edits:
 - add or replace a touch route safely
 - scaffold a human-oriented companion file and register its pairing metadata
 
+Paired human outputs can now be modeled in two ways:
+
+- manual human files declared through `files[]`
+- opt-in deterministic generated outputs declared per pair with `human_generation`
+
 For implementation-heavy projects, `scaffold authoring-module --pattern implementation-governance` creates a ready-made delivery-governor module with:
 
 - an implementation matrix
@@ -297,7 +303,8 @@ The compile command emits:
 - compact module JSON files with computed `tokens_approx`
 - compact `indexes/runtime.json` companion slices for glossary, `boot_by_role`, `boot_by_touch`, `surface_pairs`, and runtime role profiles
 - copied AODS schemas
-- declared people-facing files such as `README.md`
+- declared manual human-oriented files such as `README.md`
+- opt-in deterministic generated human-oriented files such as overview or checklist surfaces
 
 When `boot_by_role` is present, compiled companion `roles` are reduced to runtime role profiles: `id` plus optional `capabilities`. `required_modules` is kept only when it differs from the boot binding.
 
@@ -314,6 +321,7 @@ Hook behavior:
 - blocks unsafe edits to human-oriented docs when `sync_source=agent-primary` and no paired agent-oriented module changed
 - blocks unsafe edits to agent-oriented modules when `sync_source=human-primary` and no paired human-oriented doc changed
 - requires manual review for changed `sync_source=bidirectional` pairs because automatic merge behavior is still experimental
+- accepts valid deterministic regenerated human files under `agent-primary`, but flags manual drift in generated outputs
 - enforces declared `shared_invariants` across paired docs
 - forces broader validation for implementation-layer changes such as `lib/`, `schema/`, or `.githooks/`
 
@@ -339,6 +347,7 @@ node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy
 node ./bin/aods.mjs scaffold authoring-module ./examples/compiled-pilot-source/authoring.json shift-ops-log --category reference --layer detail --scope "Shift operations log authority"
 node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-capsule --load shift-ops-policy --intent write
 node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-log --agent-primary shift-ops-runbook --human-primary SHIFT-OPS-LOG.md
+node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-guide --agent-primary shift-ops-policy --human-primary SHIFT-OPS-GUIDE.md --generated-profile checklist
 ```
 
 ## Repository structure

@@ -180,3 +180,74 @@ test("implementation-governance pattern scaffolds delivery-governor artifacts", 
   runCli(["compile", sourcePath, compiledRoot, "--force"]);
   runCli(["validate", compiledRoot, "--strict"]);
 });
+
+test("authoring-pair can declare deterministic generated human output", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-generated-pair-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  runCli([
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "delivery-gates",
+    "--category",
+    "policy",
+    "--layer",
+    "detail",
+    "--scope",
+    "Delivery gate authority"
+  ]);
+  runCli([
+    "scaffold",
+    "authoring-pair",
+    sourcePath,
+    "--pair-id",
+    "pair-delivery-guide",
+    "--agent-primary",
+    "delivery-gates",
+    "--human-primary",
+    "DELIVERY-GUIDE.md",
+    "--generated-profile",
+    "overview",
+    "--generated-title",
+    "Delivery Guide"
+  ]);
+
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const pair = source.surface_pairs.find((entry) => entry.pair_id === "pair-delivery-guide");
+  assert.equal(pair.human_generation.mode, "deterministic");
+  assert.equal(pair.human_generation.profile, "overview");
+  assert.equal(pair.human_generation.title, "Delivery Guide");
+  assert.equal(source.files?.some((file) => file.path === "DELIVERY-GUIDE.md"), false);
+  assert.ok(
+    source.boot.by_touch.some(
+      (route) =>
+        route.match === "DELIVERY-GUIDE.md" &&
+        route.intent === "write" &&
+        route.load_modules.includes("delivery-gates")
+    )
+  );
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  runCli(["validate", compiledRoot, "--strict"]);
+
+  const generatedPath = path.join(compiledRoot, "DELIVERY-GUIDE.md");
+  assert.ok(fs.existsSync(generatedPath));
+  const generatedText = fs.readFileSync(generatedPath, "utf8");
+  assert.match(generatedText, /AODS GENERATED: pair_id=pair-delivery-guide mode=deterministic profile=overview/);
+  assert.match(generatedText, /# Delivery Guide/);
+  assert.match(generatedText, /Generated deterministically from AODS agent-primary authority/);
+
+  fs.writeFileSync(generatedPath, `${generatedText}manual drift\n`);
+  const driftResult = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--strict"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(driftResult.status, 0);
+  assert.match(
+    `${driftResult.stdout}\n${driftResult.stderr}`,
+    /generated human_primary is out of sync with deterministic render/
+  );
+});
