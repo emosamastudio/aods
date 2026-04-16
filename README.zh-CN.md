@@ -1,4 +1,4 @@
-# AODS v3
+# AODS
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -43,7 +43,7 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 1. 先把带版本 tag 的 GitHub 发布版安装到你的项目里：
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.2.0
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.3.0
 ```
 
 2. 确认 CLI 可用：
@@ -63,6 +63,14 @@ npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs f
 ```bash
 npx aods compile ./aods/authoring.json ./docs/aods --force
 npx aods validate ./docs/aods --strict
+```
+
+5. 常见的 authoring 增量动作，优先用 scaffold helpers，而不是每次都手改一大片 JSON：
+
+```bash
+npx aods scaffold authoring-module ./aods/authoring.json delivery-gates --category policy --layer detail --scope "Delivery gate authority" --role doc-author
+npx aods scaffold authoring-touch ./aods/authoring.json --match package.json --load my-system-root --load delivery-gates --intent write
+npx aods scaffold authoring-pair ./aods/authoring.json --pair-id pair-delivery-log --agent-primary delivery-gates --human-primary DELIVERY-LOG.md
 ```
 
 ### 直接克隆仓库
@@ -115,13 +123,13 @@ benchmark 明确区分了三种“大小”信号：
 | --- | --- | --- |
 | **Coverage** | **100.0%** 生命周期、**100.0%** structured types、**100.0%** generic types | 当前 benchmark pack 可以被 AODS 完整表达 |
 | **Fidelity** | **100.0%** fact preservation、**100.0%** critical fact preservation | 当前样本上的信息重写没有丢失 |
-| **Full-corpus size** | **68543 bytes**，人类文档基线是 **44915 bytes** | AODS 在仓库尺度上当前 **大 52.6%** |
-| **Objective median loaded payload** | **14022 bytes** | 路由后的 working set 明显小于全库 |
-| **Objective median prompt envelope** | **15555 bytes** | 更接近真实上下文窗口占用 |
+| **Full-corpus size** | **45243 bytes**，人类文档基线是 **45372 bytes** | AODS 在仓库尺度上当前 **小 0.3%** |
+| **Objective median loaded payload** | **10839 bytes** | 路由后的 working set 明显小于全库 |
+| **Objective median prompt envelope** | **12372 bytes** | 更接近真实上下文窗口占用 |
 | **Task-stage coverage** | **100.0%**，覆盖 **5** 个显式阶段 | benchmark 结果现在显式标注 orientation、plan、action、verification、evidence |
 | **补充型 runtime 样本** | **本轮未采集** | runtime capture 仍是可选补充项，当前这次 benchmark 没有采样 |
 | **Objective touch-route hit rate** | **100.0%** | 所有 objective routing 场景都命中了所需模块 |
-| **Objective median byte savings vs full load** | **79.5%** | 路由后的工作集显著小于 full-load |
+| **Objective median byte savings vs full load** | **76.0%** | 路由后的工作集显著小于 full-load |
 | **Built-in drift recall** | **100.0%** | 当前 validator + hook 层能抓到当前 benchmark 中的全部风险 |
 | **Built-in false-positive rate** | **0.0%** | 当前 control 场景没有误报 |
 | **Benchmark diversity** | **2 个数据集**、**5 个任务阶段** | 比最初的单语料基线更强，但仍是 synthetic 且 English-only |
@@ -130,10 +138,10 @@ benchmark 明确区分了三种“大小”信号：
 
 | 基线 | Coverage | Fidelity | Corpus bytes | Objective touch-route hit rate | Objective median loaded bytes | Objective median prompt-envelope bytes |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| **AODS** | 100.0% | 100.0% | 68543 | 100.0% | 14022 | 15555 |
-| **Markdown + YAML** | 100.0% | 100.0% | 47437 | 0.0% | 5234 | 5844 |
-| **llms.txt** | 100.0% | 100.0% | 46520 | 0.0% | 6480 | 7178 |
-| **DITA topic corpus** | 100.0% | 100.0% | 65038 | 0.0% | 718 | 1320 |
+| **AODS** | 100.0% | 100.0% | 45243 | 100.0% | 10839 | 12372 |
+| **Markdown + YAML** | 100.0% | 100.0% | 47894 | 0.0% | 5234 | 5844 |
+| **llms.txt** | 100.0% | 100.0% | 46977 | 0.0% | 6480 | 7178 |
+| **DITA topic corpus** | 100.0% | 100.0% | 65595 | 0.0% | 718 | 1320 |
 
 **怎么读这张表：** 非 AODS 基线在 bytes 上更轻，但它们在 benchmark 的 objective touch-route contract 上是 **0.0%**，因为这些格式没有提供 AODS 风格的原生 routing 和 paired-surface governance。所以它们更小的 loaded bytes，**不等价于**“在受治理检索上做到同样的事”。
 
@@ -143,27 +151,27 @@ benchmark 明确区分了三种“大小”信号：
 | --- | --- | --- | --- | --- |
 | 生命周期覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
 | 事实保真率 | 100.0% | 100.0% | +0.0 pts | 持平 |
-| AODS 精确语料字节数 | 68543 bytes | 68543 bytes | +0 bytes | 持平 |
+| AODS 精确语料字节数 | 45243 bytes | 45243 bytes | +0 bytes | 持平 |
 | Objective touch-route 命中率 | 100.0% | 100.0% | +0.0 pts | 持平 |
-| Objective 中位加载字节数 | 14022 bytes | 14022 bytes | +0 bytes | 持平 |
-| Objective 中位 prompt-envelope 字节数 | 15555 bytes | 15555 bytes | +0 bytes | 持平 |
+| Objective 中位加载字节数 | 10839 bytes | 10839 bytes | +0 bytes | 持平 |
+| Objective 中位 prompt-envelope 字节数 | 12372 bytes | 12372 bytes | +0 bytes | 持平 |
 | 内建 drift recall | 100.0% | 100.0% | +0.0 pts | 持平 |
 | 内建误报率 | 0.0% | 0.0% | +0.0 pts | 持平 |
 | 外部样本语料数 | 3 | 3 | +0 | 持平 |
 | 外部样本场景数 | 17 | 17 | +0 | 持平 |
 | 任务阶段覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
 | Runtime request-body 字节数 | n/a | n/a | n/a | 没有更早基线 |
-| Exploratory query precision | 83.3% | 83.3% | +0.0 pts | 持平 |
+| Exploratory query precision | 100.0% | 100.0% | +0.0 pts | 持平 |
 <!-- BENCHMARK_SYNC:END -->
 
 ## 为什么 AODS 有价值
 
-AODS 的价值 **不在于它当前一定是最小的格式**，而在于它把 agent workflow 的关键 tradeoff 变成了显式、可验证的系统能力：
+AODS 的价值 **不主要在于它现在已经在 full-corpus benchmark 上略微低于 paired human docs**，而在于它把 agent workflow 的关键 tradeoff 变成了显式、可验证的系统能力：
 
 1. **它给 agent 提供了原生 routing model。** `root -> capsule -> detail` 是契约，不是约定俗成。
 2. **它给 human/agent 混合文档提供了权威来源模型。** `surface_pairs`、`sync_source`、`shared_invariants` 加上保守型成对语义对比，把漂移从“协作习惯问题”变成“技术可控问题”。
-3. **它区分了仓库尺度体积和任务时上下文成本。** benchmark 现在已经明确证明这两个信号不是一回事。
-4. **它正在变得更可落地。** 新的 compiled-authoring pilot 说明这个项目正在摆脱“永远手写 JSON”的使用门槛。
+3. **它区分了仓库尺度体积和任务时上下文成本。** benchmark 现在已经明确证明这两个信号不是一回事，而且最近几轮优化同时改善了这两项指标。
+4. **它正在变得更可落地。** compiled-authoring 路径现在已经支持 artifact-first modules，不再为了满足格式而强行塞 synthetic prose。
 
 所以当前 AODS 的价值主张是：
 
@@ -231,7 +239,7 @@ node ./bin/aods.mjs route . --query "audit evidence retention" --role doc-author
 node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 ```
 
-如果你已经知道改动落在哪个文件，用 `--touch`。如果你只知道“我要找哪类问题”，可以直接用自然语言的 `--query`，CLI 会按字面词和结构锚点去找最可能的权威模块。如果你已经知道当前任务所处阶段，但还不知道目标文件，可以额外给 `--stage`（`orientation`、`plan`、`action`、`verification`、`evidence`）来细化路由。
+如果你已经知道改动落在哪个文件，用 `--touch`。如果你只知道“我要找哪类问题”，可以直接用自然语言的 `--query`，CLI 会按 module metadata、paired surface 和 compact artifact semantics 里的词法 + 结构锚点去找最可能的权威模块。如果你已经知道当前任务所处阶段，但还不知道目标文件，可以额外给 `--stage`（`orientation`、`plan`、`action`、`verification`、`evidence`）来细化路由。
 
 Routing precedence：
 
@@ -249,14 +257,23 @@ npm run compile:pilot
 node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tmp/compiled-pilot --force
 ```
 
-authoring source 现在会按照 `schema/authoring.schema.json` 校验，所以 compiled authoring 已经不再只是一个一次性的 pilot 格式，而是一个正式 contract。
+authoring source 现在会按照 `schema/authoring.schema.json` 校验，所以 compiled authoring 已经不再只是一个一次性的 pilot 格式，而是一个正式 contract。module 现在既可以是 section-first，也可以是 artifact-first，或者两者混合；编译后的 AODS 只要求至少有一个 `section` 或 `artifact`。
+
+CLI 现在也直接提供了三类高频 authoring mutation 路径：
+
+- 安全地向 `authoring.json` 追加 module
+- 安全地追加或替换 touch route
+- scaffold 一个人类表面并同时注册 paired-surface metadata
 
 `compile` 命令会生成：
 
-- `manifest.json`
-- 带计算后 `tokens_approx` 的 module JSON
+- 面向 machine-first loading 的 compact `manifest.json`
+- 带计算后 `tokens_approx` 的 compact module JSON
+- 面向 glossary、`boot_by_role`、`boot_by_touch`、`surface_pairs` 和 runtime role profiles 的 compact `indexes/runtime.json`
 - 拷贝后的 AODS schemas
 - 声明过的人类可读文件，例如 `README.md`
+
+当 `boot_by_role` 已经存在时，编译产物里的 companion `roles` 会投影成 runtime role profile：保留 `id` 和可选的 `capabilities`，只有当 `required_modules` 与 boot binding 不一致时才会额外保留。
 
 ### 运行 hook enforcement
 
@@ -288,11 +305,14 @@ node ./bin/aods.mjs upgrade .
 node ./bin/aods.mjs upgrade ./examples/seven-plane-pilot --dry-run
 ```
 
-### Scaffold 新 corpus 或 module
+### Scaffold 新 corpus 或 authoring surface
 
 ```bash
 node ./bin/aods.mjs scaffold corpus ../my-corpus --sys my-system
 node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy --layer detail --scope "Control plane semantics"
+node ./bin/aods.mjs scaffold authoring-module ./examples/compiled-pilot-source/authoring.json shift-ops-log --category reference --layer detail --scope "Shift operations log authority"
+node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-capsule --load shift-ops-policy --intent write
+node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-log --agent-primary shift-ops-runbook --human-primary SHIFT-OPS-LOG.md
 ```
 
 ## 仓库结构
@@ -337,6 +357,11 @@ node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy
 
 本项目采用 **MIT License**，详见 [`LICENSE`](./LICENSE)。
 
-## Schema version
+## Versioning
 
-AODS v3 - 2026-04-13
+AODS 现在区分两条版本线：
+
+- **Release version：** Git tag / package release，例如 `v0.3.0`
+- **Schema compatibility：** 各 surface 内部使用的兼容性标记，例如 `aods_v` 和 `authoring_v`
+
+这些 schema 标记依然用于兼容和升级，但不再作为 README 里的对外产品标签。对外文档默认应该使用 release version，而不是遗留的 schema-generation branding。

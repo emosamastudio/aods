@@ -62,7 +62,7 @@
     {
       "sid": "prose-vs-artifact",
       "topic": "when to use AOP prose vs structured artifact",
-      "content": "Use prose for rationale, intent, caveats, and context. Use artifact for anything agent must traverse, evaluate, execute, compare, or validate. If agent needs to follow path through states, steps, branches, lookups, or policy precedence -> artifact. If module only summarizes route to deeper modules -> capsule module + short prose + refs.",
+      "content": "Use prose for rationale, intent, caveats, context, and short notes that structured fields cannot express compactly. Use artifact for anything agent must traverse, evaluate, execute, compare, or validate. If agent needs to follow path through states, steps, branches, lookups, or policy precedence -> artifact. Artifact-first modules are valid when typed artifacts carry the authority and module.context is enough for first-hop routing. Add prose sections only when routing, rationale, caveats, or human-facing explanation must stay explicit. If module only summarizes route to deeper modules -> capsule module + short prose + refs.",
       "content_type": "rules",
       "refs": [],
       "criticality": "should"

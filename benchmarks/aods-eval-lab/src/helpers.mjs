@@ -18,8 +18,12 @@ export function emptyDir(dirPath) {
 
 export function writeJson(filePath, value, options = {}) {
   ensureDir(path.dirname(filePath));
-  const payload = options.compact ? JSON.stringify(value) : JSON.stringify(value, null, 2);
+  const payload = stringifyJson(value, options);
   fs.writeFileSync(filePath, payload + "\n");
+}
+
+export function stringifyJson(value, options = {}) {
+  return options.compact ? JSON.stringify(value) : JSON.stringify(value, null, 2);
 }
 
 export function readJson(filePath) {
@@ -34,6 +38,10 @@ export function writeText(filePath, value) {
 export function estimateTokens(value) {
   const text = typeof value === "string" ? value : JSON.stringify(value);
   return Math.ceil(text.length / 4);
+}
+
+export function estimateJsonTokens(value, options = {}) {
+  return estimateTokens(stringifyJson(value, options));
 }
 
 export function measureText(value) {
@@ -100,6 +108,25 @@ export function replaceText(filePath, findText, replaceTextValue) {
     throw new Error(`Replacement anchor not found in ${filePath}: ${findText}`);
   }
   fs.writeFileSync(filePath, original.replace(findText, replaceTextValue));
+}
+
+export function replaceJsonValue(filePath, jsonPath, value) {
+  const original = fs.readFileSync(filePath, "utf8");
+  const compact = !original.slice(0, -1).includes("\n");
+  const parsed = JSON.parse(original);
+  const parent = jsonPath.slice(0, -1).reduce((current, segment) => {
+    if (current == null || !(segment in current)) {
+      throw new Error(`JSON path not found in ${filePath}: ${jsonPath.join(".")}`);
+    }
+    return current[segment];
+  }, parsed);
+  const finalSegment = jsonPath.at(-1);
+  if (parent == null || !(finalSegment in parent)) {
+    throw new Error(`JSON path not found in ${filePath}: ${jsonPath.join(".")}`);
+  }
+  parent[finalSegment] = value;
+  const payload = compact ? JSON.stringify(parsed) : JSON.stringify(parsed, null, 2);
+  fs.writeFileSync(filePath, `${payload}\n`);
 }
 
 export function appendText(filePath, text) {

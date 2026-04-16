@@ -6,9 +6,9 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 
 - **Coverage:** lifecycle phase coverage 100.0%, structured type coverage 100.0%, generic type coverage 100.0%.
 - **Fidelity:** critical fact preservation 100.0% with overall fact preservation 100.0%.
-- **Exact corpus size:** human docs 44915 bytes across 8 files; AODS corpus 68543 bytes across 13 files.
-- **Task-time context footprint:** objective touch-route median rendered prompt envelope 15555 bytes and 3889 estimated tokens.
-- **Objective loading gate:** touch-route hit rate 100.0%, average recall 100.0%, median byte savings 79.5%.
+- **Exact corpus size:** human docs 45372 bytes across 8 files; AODS corpus 45243 bytes across 13 files.
+- **Task-time context footprint:** objective touch-route median rendered prompt envelope 12372 bytes and 3093 estimated tokens.
+- **Objective loading gate:** touch-route hit rate 100.0%, average recall 100.0%, median byte savings 76.0%.
 - **Drift prevention:** built-in recall 100.0%, combined recall 100.0%, built-in false-positive rate 0.0%.
 - **Runtime-backed local sample:** not generated in this run.
 - **External sample supplement:** 3 open-source corpora and 17 grep-first scenario seeds now supplement the synthetic benchmark pack.
@@ -37,7 +37,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - **Errors:** 0
 - **Warnings:** 0
 - **Modules:** 11
-- **Sections:** 14
+- **Sections:** 10
 - **Artifacts:** 26
 
 ## Results by dimension
@@ -53,38 +53,38 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 
 - Critical fact preservation is **100.0%**.
 - Overall fact preservation is **100.0%**.
-- Exact human-doc size: **44915 bytes**, **1643 lines**, **8 files**
-- Exact AODS corpus size: **68543 bytes**, **1681 lines**, **13 files**
-- Estimated human-doc tokens: **11232**
-- Estimated AODS tokens: **17137**
-- Compression ratio (human/AODS): **0.66**
-- Token reduction vs human docs: **-52.6%**
-- Median per-artifact compression ratio: **1.23**
+- Exact human-doc size: **45372 bytes**, **1651 lines**, **8 files**
+- Exact AODS corpus size: **45243 bytes**, **26 lines**, **13 files**
+- Estimated human-doc tokens: **11346**
+- Estimated AODS tokens: **11315**
+- Compression ratio (human/AODS): **1.00**
+- Token reduction vs human docs: **0.3%**
+- Median per-artifact compression ratio: **1.22**
 - Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark. This is a repository-scale measurement, not a direct reading of task-time context pressure.**
 
 ### 3. Objective touch-route loading gate and working-set context footprint
 
-- Full-load exact corpus size: **68543 bytes**
+- Full-load exact corpus size: **45243 bytes**
 - Objective scenarios: **5**
 - Hit rate across objective touch-route scenarios: **100.0%**
 - Average precision: **100.0%**
 - Average recall: **100.0%**
-- Median loaded payload: **14022 bytes**, **3508 estimated tokens**
-- Median rendered prompt envelope: **15555 bytes**, **3889 estimated tokens**
+- Median loaded payload: **10839 bytes**, **2713 estimated tokens**
+- Median rendered prompt envelope: **12372 bytes**, **3093 estimated tokens**
 - Median prompt-envelope overhead: **1590 bytes**, **395 estimated tokens**
-- Max rendered prompt envelope: **26379 bytes**, **6595 estimated tokens**
-- Median byte savings vs full load: **79.5%**
-- Median token savings vs full load: **79.5%**
-- Median prompt-envelope savings vs fully rendered full-load prompt: **78.1%**
+- Max rendered prompt envelope: **17404 bytes**, **4351 estimated tokens**
+- Median byte savings vs full load: **76.0%**
+- Median token savings vs full load: **76.0%**
+- Median prompt-envelope savings vs fully rendered full-load prompt: **74.0%**
 - Interpretation: **loaded payload measures routed file content only. Rendered prompt envelope adds separators, path labels, and scaffold text, so it is the closer shared benchmark proxy to actual context-window occupation. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
 
 | Objective scenario | Class | Hit | Byte savings |
 | --- | --- | --- | ---: |
-| product-doc-edit | paired-human-surface-write | hit | 79.5% |
-| architecture-module-edit | agent-module-write | hit | 63.7% |
-| ops-doc-edit | operations-human-surface-write | hit | 72.7% |
-| harbor-change-control-edit | human-primary-sop-write | hit | 80.3% |
-| harbor-audit-evidence-edit | audit-evidence-write | hit | 83.8% |
+| product-doc-edit | paired-human-surface-write | hit | 76.0% |
+| architecture-module-edit | agent-module-write | hit | 64.8% |
+| ops-doc-edit | operations-human-surface-write | hit | 73.5% |
+| harbor-change-control-edit | human-primary-sop-write | hit | 78.7% |
+| harbor-audit-evidence-edit | audit-evidence-write | hit | 81.4% |
 
 ### 4. Runtime-backed local provider capture (supplemental)
 
@@ -96,11 +96,11 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 
 - Exploratory scenarios: **4**
 - Hit rate across exploratory query-route scenarios: **100.0%**
-- Average precision: **83.3%**
+- Average precision: **100.0%**
 - Average recall: **100.0%**
-- Median loaded working set: **18724.5 bytes**, **4682.5 estimated tokens**
-- Median rendered prompt envelope: **19935.5 bytes**, **4984 estimated tokens**
-- Median byte savings vs full load: **72.7%**
+- Median loaded working set: **11672.5 bytes**, **2920 estimated tokens**
+- Median rendered prompt envelope: **12803.5 bytes**, **3201.5 estimated tokens**
+- Median byte savings vs full load: **74.2%**
 - Interpretation: **these scenarios now call the real CLI query router, but they remain advisory because the prompts are still synthetic benchmark queries rather than field-captured production tasks. Their rendered prompt-envelope numbers are therefore informative, not release-gating.**
 
 ### 6. Drift prevention

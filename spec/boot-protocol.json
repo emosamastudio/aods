@@ -12,7 +12,7 @@
     {
       "sid": "cold-start",
       "topic": "cold start sequence",
-      "content": "Read manifest.json. Choose boot list: boot_by_role[role_id] if role assigned else boot_sequence. Load root modules first. If budget remains and task needs routing summary -> load capsule module. Load detail modules only when root+capsule insufficient. Load evidence only for explicit review, debugging, or proof tasks.",
+      "content": "Read manifest.json. Choose boot list: boot_by_role[role_id] if role assigned else boot_sequence. companion.roles is runtime profile only: id + capability hints, not duplicated boot bindings when boot_by_role already exists. Load root modules first. If budget remains and task needs routing summary -> load capsule module. Load detail modules only when root+capsule insufficient. Load evidence only for explicit review, debugging, or proof tasks.",
       "content_type": "logic",
       "refs": [
         "budget-management",
@@ -93,7 +93,7 @@
     {
       "sid": "on-demand-loading",
       "topic": "lazy module loading during task execution",
-      "content": "If no touch route wins, extract task query terms and match them against stable lexical anchors such as module_id, scope, tags, section topics, artifact IDs, capsule hints, paired human paths, and declared shared invariants. Expand explicit aliases only when they are deterministic and grep-compatible. Use layer as a routing preference: root for orientation, capsule for summary, detail for semantic authority, evidence for proof only. If touch path exists and boot_by_touch route matches -> load route modules before lexical query routing. Load deps before target only when the task requires edit or execution context; do not expand read queries into broad dependency closure by default. Human surfaces never replace agent-primary semantic source; use manifest.surface_pairs only to locate paired human narrative when needed.",
+      "content": "If no touch route wins, extract task query terms and match them against stable lexical anchors such as module_id, scope, tags, section topics, artifact IDs, artifact usage, compact artifact notes, capsule hints, paired human paths, and declared shared invariants. Modules may be section-first or artifact-first, so routing must index both short prose fields and structured artifact semantics. If role assigned -> prefer matches inside that role's boot_by_role component unless stronger cross-component evidence exists. Expand explicit aliases only when they are deterministic and grep-compatible. Use layer as a routing preference: root for orientation, capsule for summary, detail for semantic authority, evidence for proof only. If touch path exists and boot_by_touch route matches -> load route modules before lexical query routing. Load deps before target only when the task requires edit or execution context; do not expand read queries into broad dependency closure by default. Human surfaces never replace agent-primary semantic source; use manifest.surface_pairs only to locate paired human narrative when needed.",
       "content_type": "logic",
       "refs": [
         "budget-management",

@@ -256,21 +256,24 @@ Human-readable reference view:
       "expression": "09:00-10:00",
       "target": "release rollout",
       "on_trigger": "allow scheduled releases",
-      "on_violation": "hold publish"
+      "on_violation": "hold publish",
+      "note": "Rollout window is a UTC deadline window from 09:00 to 10:00."
     },
     {
       "id": "canary-health-check",
       "type": "interval",
       "expression": "5m",
       "target": "canary lane",
-      "on_trigger": "evaluate lane health"
+      "on_trigger": "evaluate lane health",
+      "note": "Canary health is evaluated every five minutes."
     },
     {
       "id": "publish-sla",
       "type": "sla-timer",
       "expression": "60s",
       "target": "notification-service publish status",
-      "on_violation": "open sev2 incident"
+      "on_violation": "open sev2 incident",
+      "note": "Publish status must reach notification-service within sixty seconds."
     }
   ]
 }

@@ -1,9 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
-import { PROJECT_ROOT } from "../src/helpers.mjs";
+import { PROJECT_ROOT, REPO_ROOT } from "../src/helpers.mjs";
 import { runRoundOneComparison } from "../src/compare.mjs";
 import { runEvaluation } from "../src/evaluate.mjs";
 import { analyzeCapturedRequest } from "../src/runtime-capture.mjs";
@@ -22,6 +24,16 @@ function restoreFile(filePath, snapshot) {
   fs.writeFileSync(filePath, snapshot);
 }
 
+function assertCompactJsonFile(filePath) {
+  const text = fs.readFileSync(filePath, "utf8");
+  assert.ok(text.endsWith("\n"), `${filePath} should end with a single newline`);
+  assert.equal(
+    text.slice(0, -1).includes("\n"),
+    false,
+    `${filePath} should emit compact single-line JSON`
+  );
+}
+
 test("evaluation harness generates a valid report and baseline signals", () => {
   const results = runEvaluation();
 
@@ -33,6 +45,7 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   assert.equal(results.loading.objective_touch.scenario_count, 5);
   assert.equal(results.loading.exploratory_query.scenario_count, 4);
   assert.equal(results.loading.objective_touch.hit_rate, 1);
+  assert.equal(results.loading.exploratory_query.average_precision, 1);
   assert.ok(results.loading.objective_touch.median_route_bytes > 0);
   assert.ok(results.loading.objective_touch.median_prompt_envelope_bytes > results.loading.objective_touch.median_route_bytes);
   assert.ok(results.loading.objective_touch.median_prompt_envelope_overhead_bytes > 0);
@@ -48,6 +61,12 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   assert.equal(results.drift.combined_recall, 1);
   assert.equal(results.drift.built_in_false_positive_rate, 0);
   assert.ok(results.diversity.drift_scenarios.by_class["claim-conflict"] >= 1);
+  const workflowDebug = results.loading.scenario_results.find((scenario) => scenario.id === "workflow-debug");
+  assert.deepEqual(workflowDebug?.loaded_modules, ["delivery-workflows", "operations-governance"]);
+  const harborExceptionReview = results.loading.scenario_results.find(
+    (scenario) => scenario.id === "harbor-exception-review"
+  );
+  assert.deepEqual(harborExceptionReview?.loaded_modules, ["harbor-change-control", "harbor-audit-evidence"]);
   assert.ok(
     results.drift.scenario_results.some((scenario) => scenario.id === "undeclared-claim-pair-conflict"),
     "expected undeclared claim conflict scenario in drift benchmark"
@@ -77,6 +96,62 @@ test("evaluation harness generates a valid report and baseline signals", () => {
   assert.match(report, /rendered prompt envelope/);
   assert.match(report, /Sample diversity and coverage audit/);
   assert.match(report, /External sample supplement/);
+
+  assertCompactJsonFile(path.join(PROJECT_ROOT, "generated", "aods-corpus", "manifest.json"));
+  assertCompactJsonFile(
+    path.join(PROJECT_ROOT, "generated", "aods-corpus", "modules", "architecture-contracts.json")
+  );
+  const runtimeCompanion = JSON.parse(
+    fs.readFileSync(path.join(PROJECT_ROOT, "generated", "aods-corpus", "indexes", "runtime.json"), "utf8")
+  );
+  assert.equal(runtimeCompanion.roles?.[0]?.scope, undefined);
+  assert.equal(runtimeCompanion.roles?.[0]?.required_modules, undefined);
+  assert.ok(Array.isArray(runtimeCompanion.roles?.[0]?.capabilities));
+
+  const artifactOnlyRoute = JSON.parse(
+    execFileSync(
+      "node",
+      [
+        path.join(REPO_ROOT, "bin", "aods.mjs"),
+        "route",
+        path.join(PROJECT_ROOT, "generated", "aods-corpus"),
+        "--role",
+        "architect",
+        "--intent",
+        "read",
+        "--query",
+        "warehouse release health",
+        "--json"
+      ],
+      { cwd: REPO_ROOT, stdio: "pipe", encoding: "utf8" }
+    )
+  );
+  assert.equal(artifactOnlyRoute.strategy, "query-route");
+  assert.equal(artifactOnlyRoute.recommended_modules[0]?.id, "delivery-workflows");
+});
+
+test("compile command emits compact machine JSON surfaces", () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aods-compile-"));
+
+  try {
+    execFileSync(
+      "node",
+      [
+        path.join(REPO_ROOT, "bin", "aods.mjs"),
+        "compile",
+        path.join(REPO_ROOT, "examples", "compiled-pilot-source", "authoring.json"),
+        tempRoot,
+        "--force"
+      ],
+      { cwd: REPO_ROOT, stdio: "pipe" }
+    );
+
+    assertCompactJsonFile(path.join(tempRoot, "manifest.json"));
+    assertCompactJsonFile(path.join(tempRoot, "modules", "shift-ops-policy.json"));
+    assertCompactJsonFile(path.join(tempRoot, "indexes", "runtime.json"));
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
 });
 
 test("round-one external comparison generates a horizontal report", () => {
@@ -152,8 +227,10 @@ test("benchmark summary writes current-vs-previous delta outputs", () => {
   const historyComparePath = path.join(PROJECT_ROOT, "generated", "history", "latest-round1-comparator-results.json");
   const summaryResultsPath = path.join(PROJECT_ROOT, "generated", "results", "benchmark-summary-results.json");
   const summaryReportPath = path.join(PROJECT_ROOT, "reports", "benchmark-summary-report.md");
+  const readmePath = path.join(REPO_ROOT, "README.md");
+  const readmeZhPath = path.join(REPO_ROOT, "README.zh-CN.md");
   const snapshots = new Map(
-    [historyEvalPath, historyComparePath, summaryResultsPath, summaryReportPath].map((filePath) => [
+    [historyEvalPath, historyComparePath, summaryResultsPath, summaryReportPath, readmePath, readmeZhPath].map((filePath) => [
       filePath,
       snapshotFile(filePath)
     ])

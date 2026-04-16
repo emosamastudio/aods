@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-16T05:11:16.486Z",
+  "generated_at": "2026-04-16T08:04:40.294Z",
   "system_under_test": ".",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "validation": {
     "corpus": "aods-corpus",
-    "timestamp": "2026-04-16T05:11:13.652Z",
+    "timestamp": "2026-04-16T08:04:37.446Z",
     "levels": {
       "L1": {
         "pass": true,
@@ -29,9 +29,9 @@
     },
     "summary": {
       "total_modules": 11,
-      "total_sections": 14,
+      "total_sections": 10,
       "total_artifacts": 26,
-      "total_tokens": 13388,
+      "total_tokens": 8206,
       "total_surface_pairs": 8,
       "errors": 0,
       "warnings": 0
@@ -103,26 +103,26 @@
     "exact_size": {
       "human_docs": {
         "file_count": 8,
-        "byte_count": 44915,
-        "line_count": 1643
+        "byte_count": 45372,
+        "line_count": 1651
       },
       "aods_corpus": {
         "file_count": 13,
-        "byte_count": 68543,
-        "line_count": 1681
+        "byte_count": 45243,
+        "line_count": 26
       }
     },
-    "human_doc_tokens_estimated": 11232,
-    "aods_tokens_estimated": 17137,
-    "compression_ratio_human_to_aods": 0.6554239365116414,
-    "token_reduction_vs_human": -0.5257300569800569,
-    "facts_per_1k_human_tokens": 9.526353276353277,
-    "facts_per_1k_aods_tokens": 6.243799964988037,
-    "median_artifact_compression_ratio": 1.2267515079207265
+    "human_doc_tokens_estimated": 11346,
+    "aods_tokens_estimated": 11315,
+    "compression_ratio_human_to_aods": 1.0027397260273974,
+    "token_reduction_vs_human": 0.002732240437158473,
+    "facts_per_1k_human_tokens": 9.430636347611493,
+    "facts_per_1k_aods_tokens": 9.456473707467964,
+    "median_artifact_compression_ratio": 1.21736709454311
   },
   "loading": {
-    "full_load_tokens_estimated": 17137,
-    "full_load_bytes": 68543,
+    "full_load_tokens_estimated": 11315,
+    "full_load_bytes": 45243,
     "scenario_results": [
       {
         "id": "orientation-summary",
@@ -144,7 +144,7 @@
         "matched_query_modules": [
           {
             "id": "atlas-capsule",
-            "score": 39,
+            "score": 42,
             "layer": "capsule",
             "category": "capsule",
             "matched_terms": [
@@ -153,6 +153,11 @@
               "routes"
             ],
             "evidence": [
+              {
+                "label": "role_component",
+                "sample": "component-2",
+                "match": "role"
+              },
               {
                 "label": "task_stage",
                 "sample": "capsule/capsule",
@@ -172,7 +177,7 @@
           },
           {
             "id": "atlas-root",
-            "score": 33,
+            "score": 36,
             "layer": "root",
             "category": "architecture",
             "matched_terms": [
@@ -181,6 +186,11 @@
               "routes"
             ],
             "evidence": [
+              {
+                "label": "role_component",
+                "sample": "component-1",
+                "match": "role"
+              },
               {
                 "label": "task_stage",
                 "sample": "root/architecture",
@@ -207,19 +217,19 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 9034,
-        "oracle_bytes": 9034,
-        "byte_savings_vs_full_load": 0.8681995243861518,
-        "route_tokens_estimated": 2260,
-        "oracle_tokens_estimated": 2260,
-        "prompt_envelope_bytes": 10158,
-        "prompt_envelope_tokens_estimated": 2540,
-        "full_prompt_envelope_bytes": 70935,
-        "full_prompt_envelope_tokens_estimated": 17734,
+        "route_bytes": 6866,
+        "oracle_bytes": 6866,
+        "byte_savings_vs_full_load": 0.8482417169506885,
+        "route_tokens_estimated": 1719,
+        "oracle_tokens_estimated": 1719,
+        "prompt_envelope_bytes": 7990,
+        "prompt_envelope_tokens_estimated": 1998,
+        "full_prompt_envelope_bytes": 47635,
+        "full_prompt_envelope_tokens_estimated": 11909,
         "prompt_envelope_overhead_bytes": 1124,
-        "prompt_envelope_overhead_tokens_estimated": 280,
-        "prompt_envelope_savings_vs_full_prompt": 0.8567984774793825,
-        "token_savings_vs_full_load": 0.8681216082161405,
+        "prompt_envelope_overhead_tokens_estimated": 279,
+        "prompt_envelope_savings_vs_full_prompt": 0.8322661908260732,
+        "token_savings_vs_full_load": 0.8480777728678746,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -244,19 +254,19 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 14022,
-        "oracle_bytes": 14022,
-        "byte_savings_vs_full_load": 0.795427687728871,
-        "route_tokens_estimated": 3508,
-        "oracle_tokens_estimated": 3508,
-        "prompt_envelope_bytes": 15555,
-        "prompt_envelope_tokens_estimated": 3889,
-        "full_prompt_envelope_bytes": 70964,
-        "full_prompt_envelope_tokens_estimated": 17741,
+        "route_bytes": 10839,
+        "oracle_bytes": 10839,
+        "byte_savings_vs_full_load": 0.7604270273854519,
+        "route_tokens_estimated": 2713,
+        "oracle_tokens_estimated": 2713,
+        "prompt_envelope_bytes": 12372,
+        "prompt_envelope_tokens_estimated": 3093,
+        "full_prompt_envelope_bytes": 47664,
+        "full_prompt_envelope_tokens_estimated": 11916,
         "prompt_envelope_overhead_bytes": 1533,
-        "prompt_envelope_overhead_tokens_estimated": 381,
-        "prompt_envelope_savings_vs_full_prompt": 0.7808043515021701,
-        "token_savings_vs_full_load": 0.7952967263815137,
+        "prompt_envelope_overhead_tokens_estimated": 380,
+        "prompt_envelope_savings_vs_full_prompt": 0.7404330312185297,
+        "token_savings_vs_full_load": 0.7602297834732656,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -283,19 +293,19 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 24881,
-        "oracle_bytes": 24881,
-        "byte_savings_vs_full_load": 0.6370015902426214,
-        "route_tokens_estimated": 6222,
-        "oracle_tokens_estimated": 6222,
-        "prompt_envelope_bytes": 26379,
-        "prompt_envelope_tokens_estimated": 6595,
-        "full_prompt_envelope_bytes": 70966,
-        "full_prompt_envelope_tokens_estimated": 17742,
+        "route_bytes": 15906,
+        "oracle_bytes": 15906,
+        "byte_savings_vs_full_load": 0.6484318016046682,
+        "route_tokens_estimated": 3979,
+        "oracle_tokens_estimated": 3979,
+        "prompt_envelope_bytes": 17404,
+        "prompt_envelope_tokens_estimated": 4351,
+        "full_prompt_envelope_bytes": 47666,
+        "full_prompt_envelope_tokens_estimated": 11917,
         "prompt_envelope_overhead_bytes": 1498,
-        "prompt_envelope_overhead_tokens_estimated": 373,
-        "prompt_envelope_savings_vs_full_prompt": 0.6282867852210918,
-        "token_savings_vs_full_load": 0.6369259496994806,
+        "prompt_envelope_overhead_tokens_estimated": 372,
+        "prompt_envelope_savings_vs_full_prompt": 0.6348760122519196,
+        "token_savings_vs_full_load": 0.6483429076447194,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -310,7 +320,6 @@
         "route_strategy": "query-route",
         "loaded_modules": [
           "delivery-workflows",
-          "harbor-change-control",
           "operations-governance"
         ],
         "required_modules": [
@@ -320,7 +329,7 @@
         "matched_query_modules": [
           {
             "id": "delivery-workflows",
-            "score": 28,
+            "score": 29,
             "layer": "detail",
             "category": "policy",
             "matched_terms": [
@@ -329,6 +338,11 @@
               "risk"
             ],
             "evidence": [
+              {
+                "label": "role_component",
+                "sample": "component-4",
+                "match": "role"
+              },
               {
                 "label": "task_stage",
                 "sample": "detail/policy",
@@ -340,53 +354,20 @@
                 "match": "workflow"
               },
               {
-                "label": "section_content",
-                "sample": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analyt...",
+                "label": "artifact_content",
+                "sample": "Confirm packet and rollback readiness in one review pass.",
                 "match": "rollback"
               },
               {
-                "label": "section_content",
-                "sample": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analyt...",
-                "match": "risk"
-              }
-            ]
-          },
-          {
-            "id": "harbor-change-control",
-            "score": 27,
-            "layer": "detail",
-            "category": "policy",
-            "matched_terms": [
-              "workflow",
-              "rollback",
-              "risk"
-            ],
-            "evidence": [
-              {
-                "label": "task_stage",
-                "sample": "detail/policy",
-                "match": "verification"
-              },
-              {
-                "label": "artifact_usage",
-                "sample": "Controlled exception workflow.",
-                "match": "workflow"
-              },
-              {
-                "label": "section_content",
-                "sample": "State mandatory fields, rollback discipline, and human-primary SOP posture for regulated chan...",
-                "match": "rollback"
-              },
-              {
-                "label": "tag",
-                "sample": "risk",
+                "label": "artifact_content",
+                "sample": "Draft review checks packet completeness before any risk evaluation runs.",
                 "match": "risk"
               }
             ]
           },
           {
             "id": "operations-governance",
-            "score": 23,
+            "score": 24,
             "layer": "detail",
             "category": "policy",
             "matched_terms": [
@@ -396,13 +377,18 @@
             ],
             "evidence": [
               {
+                "label": "role_component",
+                "sample": "component-4",
+                "match": "role"
+              },
+              {
                 "label": "task_stage",
                 "sample": "detail/policy",
                 "match": "verification"
               },
               {
-                "label": "section_content",
-                "sample": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and val...",
+                "label": "artifact_content",
+                "sample": "workflow-engine",
                 "match": "workflow"
               },
               {
@@ -411,31 +397,31 @@
                 "match": "rollback"
               },
               {
-                "label": "section_content",
-                "sample": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and val...",
+                "label": "artifact_content",
+                "sample": "high-risk-approvals",
                 "match": "risk"
               }
             ]
           }
         ],
-        "precision": 0.6666666666666666,
+        "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 30581,
-        "oracle_bytes": 25593,
-        "byte_savings_vs_full_load": 0.5538421137096421,
-        "route_tokens_estimated": 7647,
-        "oracle_tokens_estimated": 6400,
-        "prompt_envelope_bytes": 31904,
-        "prompt_envelope_tokens_estimated": 7976,
-        "full_prompt_envelope_bytes": 70929,
-        "full_prompt_envelope_tokens_estimated": 17733,
-        "prompt_envelope_overhead_bytes": 1323,
-        "prompt_envelope_overhead_tokens_estimated": 329,
-        "prompt_envelope_savings_vs_full_prompt": 0.550198085409353,
-        "token_savings_vs_full_load": 0.5537725389508081,
-        "token_overfetch_ratio": 1.19484375,
-        "byte_overfetch_ratio": 1.1948970421599656
+        "route_bytes": 14668,
+        "oracle_bytes": 14668,
+        "byte_savings_vs_full_load": 0.6757951506310369,
+        "route_tokens_estimated": 3670,
+        "oracle_tokens_estimated": 3670,
+        "prompt_envelope_bytes": 15822,
+        "prompt_envelope_tokens_estimated": 3956,
+        "full_prompt_envelope_bytes": 47629,
+        "full_prompt_envelope_tokens_estimated": 11908,
+        "prompt_envelope_overhead_bytes": 1154,
+        "prompt_envelope_overhead_tokens_estimated": 286,
+        "prompt_envelope_savings_vs_full_prompt": 0.6678074282474963,
+        "token_savings_vs_full_load": 0.6756517896597437,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
       },
       {
         "id": "ops-doc-edit",
@@ -460,19 +446,19 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 18733,
-        "oracle_bytes": 18733,
-        "byte_savings_vs_full_load": 0.7266971098434559,
-        "route_tokens_estimated": 4686,
-        "oracle_tokens_estimated": 4686,
-        "prompt_envelope_bytes": 20464,
-        "prompt_envelope_tokens_estimated": 5116,
-        "full_prompt_envelope_bytes": 70978,
-        "full_prompt_envelope_tokens_estimated": 17745,
+        "route_bytes": 12000,
+        "oracle_bytes": 12000,
+        "byte_savings_vs_full_load": 0.734765599098203,
+        "route_tokens_estimated": 3004,
+        "oracle_tokens_estimated": 3004,
+        "prompt_envelope_bytes": 13731,
+        "prompt_envelope_tokens_estimated": 3433,
+        "full_prompt_envelope_bytes": 47678,
+        "full_prompt_envelope_tokens_estimated": 11920,
         "prompt_envelope_overhead_bytes": 1731,
-        "prompt_envelope_overhead_tokens_estimated": 430,
-        "prompt_envelope_savings_vs_full_prompt": 0.7116853109414185,
-        "token_savings_vs_full_load": 0.7265565734959445,
+        "prompt_envelope_overhead_tokens_estimated": 429,
+        "prompt_envelope_savings_vs_full_prompt": 0.7120055371450145,
+        "token_savings_vs_full_load": 0.7345117101193106,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -494,7 +480,7 @@
         "matched_query_modules": [
           {
             "id": "architecture-contracts",
-            "score": 34,
+            "score": 33,
             "layer": "detail",
             "category": "reference",
             "matched_terms": [
@@ -525,8 +511,8 @@
                 "match": "api"
               },
               {
-                "label": "section_content",
-                "sample": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role en...",
+                "label": "artifact_content",
+                "sample": "Web Console captures release packet edits from release managers.",
                 "match": "packet"
               }
             ]
@@ -535,19 +521,19 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 21826,
-        "oracle_bytes": 21826,
-        "byte_savings_vs_full_load": 0.6815721517879287,
-        "route_tokens_estimated": 5458,
-        "oracle_tokens_estimated": 5458,
-        "prompt_envelope_bytes": 22867,
-        "prompt_envelope_tokens_estimated": 5717,
-        "full_prompt_envelope_bytes": 70961,
-        "full_prompt_envelope_tokens_estimated": 17741,
+        "route_bytes": 13325,
+        "oracle_bytes": 13325,
+        "byte_savings_vs_full_load": 0.7054793006652963,
+        "route_tokens_estimated": 3333,
+        "oracle_tokens_estimated": 3333,
+        "prompt_envelope_bytes": 14366,
+        "prompt_envelope_tokens_estimated": 3592,
+        "full_prompt_envelope_bytes": 47661,
+        "full_prompt_envelope_tokens_estimated": 11916,
         "prompt_envelope_overhead_bytes": 1041,
         "prompt_envelope_overhead_tokens_estimated": 259,
-        "prompt_envelope_savings_vs_full_prompt": 0.6777525683121715,
-        "token_savings_vs_full_load": 0.6815078485149093,
+        "prompt_envelope_savings_vs_full_prompt": 0.6985795514152032,
+        "token_savings_vs_full_load": 0.7054352629253204,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -572,19 +558,19 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 13476,
-        "oracle_bytes": 13476,
-        "byte_savings_vs_full_load": 0.8033934902178195,
-        "route_tokens_estimated": 3372,
-        "oracle_tokens_estimated": 3372,
-        "prompt_envelope_bytes": 15084,
-        "prompt_envelope_tokens_estimated": 3771,
-        "full_prompt_envelope_bytes": 71002,
-        "full_prompt_envelope_tokens_estimated": 17751,
+        "route_bytes": 9653,
+        "oracle_bytes": 9653,
+        "byte_savings_vs_full_load": 0.7866410273412462,
+        "route_tokens_estimated": 2417,
+        "oracle_tokens_estimated": 2417,
+        "prompt_envelope_bytes": 11261,
+        "prompt_envelope_tokens_estimated": 2816,
+        "full_prompt_envelope_bytes": 47702,
+        "full_prompt_envelope_tokens_estimated": 11926,
         "prompt_envelope_overhead_bytes": 1608,
         "prompt_envelope_overhead_tokens_estimated": 399,
-        "prompt_envelope_savings_vs_full_prompt": 0.787555280132954,
-        "token_savings_vs_full_load": 0.8032327711968256,
+        "prompt_envelope_savings_vs_full_prompt": 0.7639302335331852,
+        "token_savings_vs_full_load": 0.7863897481219619,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -609,19 +595,19 @@
         "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 11102,
-        "oracle_bytes": 11102,
-        "byte_savings_vs_full_load": 0.838028682724713,
-        "route_tokens_estimated": 2778,
-        "oracle_tokens_estimated": 2778,
-        "prompt_envelope_bytes": 12692,
-        "prompt_envelope_tokens_estimated": 3173,
-        "full_prompt_envelope_bytes": 70984,
-        "full_prompt_envelope_tokens_estimated": 17746,
+        "route_bytes": 8435,
+        "oracle_bytes": 8435,
+        "byte_savings_vs_full_load": 0.8135623190327785,
+        "route_tokens_estimated": 2112,
+        "oracle_tokens_estimated": 2112,
+        "prompt_envelope_bytes": 10025,
+        "prompt_envelope_tokens_estimated": 2507,
+        "full_prompt_envelope_bytes": 47684,
+        "full_prompt_envelope_tokens_estimated": 11921,
         "prompt_envelope_overhead_bytes": 1590,
         "prompt_envelope_overhead_tokens_estimated": 395,
-        "prompt_envelope_savings_vs_full_prompt": 0.8211991434689507,
-        "token_savings_vs_full_load": 0.8378946139931143,
+        "prompt_envelope_savings_vs_full_prompt": 0.7897617649526046,
+        "token_savings_vs_full_load": 0.8133451171011932,
         "token_overfetch_ratio": 1,
         "byte_overfetch_ratio": 1
       },
@@ -636,8 +622,7 @@
         "route_strategy": "query-route",
         "loaded_modules": [
           "harbor-change-control",
-          "harbor-audit-evidence",
-          "evidence-reference"
+          "harbor-audit-evidence"
         ],
         "required_modules": [
           "harbor-change-control",
@@ -646,15 +631,21 @@
         "matched_query_modules": [
           {
             "id": "harbor-change-control",
-            "score": 27,
+            "score": 34,
             "layer": "detail",
             "category": "policy",
             "matched_terms": [
               "exception",
               "evidence",
+              "retention",
               "approval"
             ],
             "evidence": [
+              {
+                "label": "role_component",
+                "sample": "component-7",
+                "match": "role"
+              },
               {
                 "label": "task_stage",
                 "sample": "detail/policy",
@@ -671,6 +662,11 @@
                 "match": "evidence"
               },
               {
+                "label": "artifact_content",
+                "sample": "Risk class I changes can auto-approve only when no schema, PHI, or retention behavior changes.",
+                "match": "retention"
+              },
+              {
                 "label": "scope",
                 "sample": "Regulated change policy, approval rules, exception handling, and SOP authority alignment.",
                 "match": "approval"
@@ -679,14 +675,20 @@
           },
           {
             "id": "harbor-audit-evidence",
-            "score": 27,
+            "score": 31,
             "layer": "detail",
             "category": "reference",
             "matched_terms": [
               "evidence",
-              "retention"
+              "retention",
+              "approval"
             ],
             "evidence": [
+              {
+                "label": "role_component",
+                "sample": "component-7",
+                "match": "role"
+              },
               {
                 "label": "task_stage",
                 "sample": "detail/reference",
@@ -701,55 +703,33 @@
                 "label": "scope",
                 "sample": "Audit evidence requirements, retention windows, and raw-query references for external review.",
                 "match": "retention"
-              }
-            ]
-          },
-          {
-            "id": "evidence-reference",
-            "score": 18,
-            "layer": "evidence",
-            "category": "reference",
-            "matched_terms": [
-              "evidence",
-              "approval"
-            ],
-            "evidence": [
-              {
-                "label": "task_stage",
-                "sample": "evidence/reference",
-                "match": "verification"
               },
               {
-                "label": "module_id",
-                "sample": "evidence-reference",
-                "match": "evidence"
-              },
-              {
-                "label": "section_content",
-                "sample": "Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets. This ...",
+                "label": "artifact_content",
+                "sample": "FROM audit_change_approvals",
                 "match": "approval"
               }
             ]
           }
         ],
-        "precision": 0.6666666666666666,
+        "precision": 1,
         "recall": 1,
         "exact_hit": true,
-        "route_bytes": 15623,
-        "oracle_bytes": 14147,
-        "byte_savings_vs_full_load": 0.7720700873903973,
-        "route_tokens_estimated": 3907,
-        "oracle_tokens_estimated": 3538,
-        "prompt_envelope_bytes": 17004,
-        "prompt_envelope_tokens_estimated": 4251,
-        "full_prompt_envelope_bytes": 70975,
-        "full_prompt_envelope_tokens_estimated": 17744,
-        "prompt_envelope_overhead_bytes": 1381,
-        "prompt_envelope_overhead_tokens_estimated": 344,
-        "prompt_envelope_savings_vs_full_prompt": 0.7604226840436774,
-        "token_savings_vs_full_load": 0.7720137713718854,
-        "token_overfetch_ratio": 1.1042962125494629,
-        "byte_overfetch_ratio": 1.1043330741499964
+        "route_bytes": 10020,
+        "oracle_bytes": 10020,
+        "byte_savings_vs_full_load": 0.7785292752469996,
+        "route_tokens_estimated": 2507,
+        "oracle_tokens_estimated": 2507,
+        "prompt_envelope_bytes": 11241,
+        "prompt_envelope_tokens_estimated": 2811,
+        "full_prompt_envelope_bytes": 47675,
+        "full_prompt_envelope_tokens_estimated": 11919,
+        "prompt_envelope_overhead_bytes": 1221,
+        "prompt_envelope_overhead_tokens_estimated": 304,
+        "prompt_envelope_savings_vs_full_prompt": 0.7642160461457788,
+        "token_savings_vs_full_load": 0.7784357048166151,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
       }
     ],
     "objective_touch": {
@@ -757,61 +737,61 @@
       "hit_rate": 1,
       "average_precision": 1,
       "average_recall": 1,
-      "median_prompt_envelope_tokens_estimated": 3889,
-      "median_prompt_envelope_bytes": 15555,
-      "max_prompt_envelope_tokens_estimated": 6595,
-      "max_prompt_envelope_bytes": 26379,
+      "median_prompt_envelope_tokens_estimated": 3093,
+      "median_prompt_envelope_bytes": 12372,
+      "max_prompt_envelope_tokens_estimated": 4351,
+      "max_prompt_envelope_bytes": 17404,
       "median_prompt_envelope_overhead_tokens_estimated": 395,
       "median_prompt_envelope_overhead_bytes": 1590,
-      "median_prompt_envelope_savings_vs_full_prompt": 0.7808043515021701,
-      "median_route_tokens_estimated": 3508,
-      "median_route_bytes": 14022,
-      "max_route_tokens_estimated": 6222,
-      "max_route_bytes": 24881,
-      "median_token_savings_vs_full_load": 0.7952967263815137,
-      "median_byte_savings_vs_full_load": 0.795427687728871,
+      "median_prompt_envelope_savings_vs_full_prompt": 0.7404330312185297,
+      "median_route_tokens_estimated": 2713,
+      "median_route_bytes": 10839,
+      "max_route_tokens_estimated": 3979,
+      "max_route_bytes": 15906,
+      "median_token_savings_vs_full_load": 0.7602297834732656,
+      "median_byte_savings_vs_full_load": 0.7604270273854519,
       "median_token_overfetch_ratio": 1,
       "median_byte_overfetch_ratio": 1
     },
     "exploratory_query": {
       "scenario_count": 4,
       "hit_rate": 1,
-      "average_precision": 0.8333333333333333,
+      "average_precision": 1,
       "average_recall": 1,
-      "median_prompt_envelope_tokens_estimated": 4984,
-      "median_prompt_envelope_bytes": 19935.5,
-      "max_prompt_envelope_tokens_estimated": 7976,
-      "max_prompt_envelope_bytes": 31904,
-      "median_prompt_envelope_overhead_tokens_estimated": 304.5,
-      "median_prompt_envelope_overhead_bytes": 1223.5,
-      "median_prompt_envelope_savings_vs_full_prompt": 0.7190876261779244,
-      "median_route_tokens_estimated": 4682.5,
-      "median_route_bytes": 18724.5,
-      "max_route_tokens_estimated": 7647,
-      "max_route_bytes": 30581,
-      "median_token_savings_vs_full_load": 0.7267608099433973,
-      "median_byte_savings_vs_full_load": 0.726821119589163,
-      "median_token_overfetch_ratio": 1.0521481062747315,
-      "median_byte_overfetch_ratio": 1.0521665370749982
+      "median_prompt_envelope_tokens_estimated": 3201.5,
+      "median_prompt_envelope_bytes": 12803.5,
+      "max_prompt_envelope_tokens_estimated": 3956,
+      "max_prompt_envelope_bytes": 15822,
+      "median_prompt_envelope_overhead_tokens_estimated": 282.5,
+      "median_prompt_envelope_overhead_bytes": 1139,
+      "median_prompt_envelope_savings_vs_full_prompt": 0.7313977987804909,
+      "median_route_tokens_estimated": 2920,
+      "median_route_bytes": 11672.5,
+      "max_route_tokens_estimated": 3670,
+      "max_route_bytes": 14668,
+      "median_token_savings_vs_full_load": 0.7419354838709677,
+      "median_byte_savings_vs_full_load": 0.7420042879561479,
+      "median_token_overfetch_ratio": 1,
+      "median_byte_overfetch_ratio": 1
     },
     "combined": {
       "scenario_count": 9,
       "hit_rate": 1,
-      "average_precision": 0.9259259259259258,
+      "average_precision": 1,
       "average_recall": 1,
-      "median_prompt_envelope_tokens_estimated": 4251,
-      "median_prompt_envelope_bytes": 17004,
-      "max_prompt_envelope_tokens_estimated": 7976,
-      "max_prompt_envelope_bytes": 31904,
-      "median_prompt_envelope_overhead_tokens_estimated": 373,
+      "median_prompt_envelope_tokens_estimated": 3093,
+      "median_prompt_envelope_bytes": 12372,
+      "max_prompt_envelope_tokens_estimated": 4351,
+      "max_prompt_envelope_bytes": 17404,
+      "median_prompt_envelope_overhead_tokens_estimated": 372,
       "median_prompt_envelope_overhead_bytes": 1498,
-      "median_prompt_envelope_savings_vs_full_prompt": 0.7604226840436774,
-      "median_route_tokens_estimated": 3907,
-      "median_route_bytes": 15623,
-      "max_route_tokens_estimated": 7647,
-      "max_route_bytes": 30581,
-      "median_token_savings_vs_full_load": 0.7720137713718854,
-      "median_byte_savings_vs_full_load": 0.7720700873903973,
+      "median_prompt_envelope_savings_vs_full_prompt": 0.7404330312185297,
+      "median_route_tokens_estimated": 2713,
+      "median_route_bytes": 10839,
+      "max_route_tokens_estimated": 3979,
+      "max_route_bytes": 15906,
+      "median_token_savings_vs_full_load": 0.7602297834732656,
+      "median_byte_savings_vs_full_load": 0.7604270273854519,
       "median_token_overfetch_ratio": 1,
       "median_byte_overfetch_ratio": 1
     },
@@ -835,7 +815,7 @@
       "verification": {
         "scenario_count": 2,
         "hit_rate": 1,
-        "average_precision": 0.6666666666666666
+        "average_precision": 1
       },
       "evidence": {
         "scenario_count": 1,
@@ -844,9 +824,9 @@
       }
     },
     "hit_rate": 1,
-    "average_precision": 0.9259259259259258,
+    "average_precision": 1,
     "average_recall": 1,
-    "median_token_savings_vs_full_load": 0.7720137713718854,
+    "median_token_savings_vs_full_load": 0.7602297834732656,
     "median_overfetch_ratio": 1
   },
   "runtime_capture": null,

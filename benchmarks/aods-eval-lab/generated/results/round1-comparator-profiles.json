@@ -5,7 +5,7 @@
     "archetype": "TechDocs-style docs-as-code baseline",
     "corpus_root": "generated/comparators/markdown-yaml",
     "index_tokens_estimated": 0,
-    "corpus_tokens_estimated": 11863,
+    "corpus_tokens_estimated": 11977,
     "loadable_unit_count": 8,
     "counted_files": [
       "README.md",
@@ -155,7 +155,7 @@
           "regex",
           "enum-def"
         ],
-        "tokens_estimated": 3388
+        "tokens_estimated": 3445
       },
       {
         "id": "docs/03-delivery-workflows.md",
@@ -215,7 +215,7 @@
           "temporal-pattern",
           "raw"
         ],
-        "tokens_estimated": 2014
+        "tokens_estimated": 2071
       },
       {
         "id": "harbor/README.md",
@@ -303,7 +303,7 @@
     "archetype": "Lightweight AI-facing baseline",
     "corpus_root": "generated/comparators/llms-txt",
     "index_tokens_estimated": 386,
-    "corpus_tokens_estimated": 11633,
+    "corpus_tokens_estimated": 11747,
     "loadable_unit_count": 8,
     "counted_files": [
       "llms.txt",
@@ -447,7 +447,7 @@
           "contracts",
           "config"
         ],
-        "tokens_estimated": 3298
+        "tokens_estimated": 3355
       },
       {
         "id": "docs/03-delivery-workflows.md",
@@ -496,7 +496,7 @@
           "sql",
           "escape-hatch"
         ],
-        "tokens_estimated": 1907
+        "tokens_estimated": 1964
       },
       {
         "id": "harbor/README.md",
@@ -579,7 +579,7 @@
     "archetype": "Structured modular documentation baseline",
     "corpus_root": "generated/comparators/dita",
     "index_tokens_estimated": 180,
-    "corpus_tokens_estimated": 16263,
+    "corpus_tokens_estimated": 16403,
     "loadable_unit_count": 11,
     "counted_files": [
       "atlas-release-ops.ditamap",
@@ -750,7 +750,7 @@
           "regex",
           "enum-def"
         ],
-        "tokens_estimated": 4607
+        "tokens_estimated": 4675
       },
       {
         "id": "delivery-workflows",
@@ -804,7 +804,7 @@
           "error-strategy",
           "temporal-pattern"
         ],
-        "tokens_estimated": 2460
+        "tokens_estimated": 2532
       },
       {
         "id": "evidence-reference",

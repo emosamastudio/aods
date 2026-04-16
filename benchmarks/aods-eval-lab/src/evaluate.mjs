@@ -27,6 +27,7 @@ import {
   measureFiles,
   measureText,
   readJson,
+  replaceJsonValue,
   replaceText,
   writeJson,
   writeText
@@ -614,6 +615,10 @@ function runDriftScenario(paths, scenario, baselineAnchors) {
 function applyOperation(tempRoot, mutatedCorpus, operation) {
   if (operation.type === "replace") {
     replaceText(path.join(mutatedCorpus, operation.file), operation.find, operation.replace);
+    return;
+  }
+  if (operation.type === "replaceJsonValue") {
+    replaceJsonValue(path.join(mutatedCorpus, operation.file), operation.path, operation.value);
     return;
   }
   if (operation.type === "append") {
