@@ -2,9 +2,10 @@
 
 ## Executive summary
 
-- **Dataset:** AODS Benchmark Pack benchmark corpus with **11** modules, **8** human surfaces, **36** lifecycle items, **9** shared loading queries, and **8** drift scenarios
-- **Internal AODS result:** full lifecycle coverage, full fact preservation, **58.8% larger than the human-doc baseline** by exact bytes, **100.0%** objective touch-route hit rate, objective median rendered prompt envelope **25216 bytes**, and **100.0%** combined drift recall
+- **Dataset:** AODS Benchmark Pack benchmark corpus with **11** modules, **8** human surfaces, **36** lifecycle items, **9** shared loading queries, and **9** drift scenarios
+- **Internal AODS result:** full lifecycle coverage, full fact preservation, **52.6% larger than the human-doc baseline** by exact bytes, **100.0%** objective touch-route hit rate, objective median rendered prompt envelope **15555 bytes**, and **100.0%** combined drift recall
 - **External comparison headline:** AODS is the only baseline in round one with **100.0%** native drift recall, while **llms.txt** is the smallest corpus by exact bytes and **AODS** has the highest objective loading precision
+- **External field sample:** 3 open-source corpora, 17 grep-first scenario seeds, formats rst=4, markdown=13
 
 **Round-one verdict:** AODS now has a defensible benchmark position. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That means its value proposition is real for agent-heavy, drift-sensitive programs, but its corpus cost still needs optimization before it can replace lower-friction defaults everywhere.
 
@@ -14,6 +15,7 @@ This report combines two layers of measurement:
 
 1. **Internal self-evaluation:** whether AODS itself satisfies its own claims on lifecycle coverage, fidelity, progressive loading, and drift control
 2. **External round-one comparison:** whether AODS still looks meaningful when compared against strong alternative documentation archetypes built from the same source facts
+3. **External field-sample supplement:** whether the benchmark is now grounded by real open-source grep-first documentation slices without breaking the round-one fairness contract
 
 ## Benchmark design
 
@@ -26,7 +28,7 @@ This report combines two layers of measurement:
 | Typed artifacts | 26 |
 | Prose sections | 10 |
 | Shared loading queries | 9 |
-| Drift scenarios | 8 |
+| Drift scenarios | 9 |
 
 The benchmark is designed to answer four primary questions:
 
@@ -67,9 +69,9 @@ Advisory metrics are still recorded, but they are not used as the primary round-
 
 - estimated token count
 - tokens per benchmark item
-- exploratory semantic-load hit rate
-- exploratory semantic-load precision
-- exploratory semantic-load token savings
+- exploratory query-route hit rate
+- exploratory query-route precision
+- exploratory query-route token savings
 
 AODS-native governance signals remain separate because the other archetypes do not expose equivalent authority and paired-surface contracts in round one.
 
@@ -81,23 +83,24 @@ AODS-native governance signals remain separate because the other archetypes do n
 | Coverage | 100.0% lifecycle phase coverage, 100.0% structured type coverage, 100.0% generic type coverage |
 | Expression escape hatch | 7.7% raw fallback rate, 0 unsupported items |
 | Fidelity | 100.0% fact preservation, 100.0% critical fact preservation |
-| Corpus size (objective) | 44915 human-doc bytes vs 71309 AODS bytes, 58.8% larger than the human-doc baseline |
-| Corpus size (advisory) | 11232 estimated human-doc tokens vs 17829 estimated AODS tokens, 58.7% larger than the human-doc baseline |
-| Task-time context footprint (payload) | 24360 median loaded bytes, 6091 median loaded estimated tokens, 35817 max loaded bytes |
-| Task-time context footprint (rendered prompt) | 25216 median prompt-envelope bytes, 6304 median prompt-envelope estimated tokens, 909 median overhead bytes |
-| Loading (objective) | 100.0% hit rate, 100.0% average precision, 100.0% average recall, 65.8% median byte savings |
-| Loading (advisory) | 100.0% hit rate, 33.3% average precision, 100.0% average recall, 29.4% median token savings |
-| Drift | 100.0% built-in recall, 71.4% semantic recall, 100.0% combined recall |
-| Diversity audit | 2 dataset, domains release-ops, regulated-change-control, languages en, sync modes agent-primary, human-primary |
-| Overhead | 44 bookkeeping entries, 1.22 per artifact, 20 touch routes, 5 roles |
+| Corpus size (objective) | 44915 human-doc bytes vs 68543 AODS bytes, 52.6% larger than the human-doc baseline |
+| Corpus size (advisory) | 11232 estimated human-doc tokens vs 17137 estimated AODS tokens, 52.6% larger than the human-doc baseline |
+| Task-time context footprint (payload) | 14022 median loaded bytes, 3508 median loaded estimated tokens, 24881 max loaded bytes |
+| Task-time context footprint (rendered prompt) | 15555 median prompt-envelope bytes, 3889 median prompt-envelope estimated tokens, 1590 median overhead bytes |
 
-**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight and benchmark diversity that is still narrower than a true field sample. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, and rendered prompt-envelope bytes as separate measurements.
+| Loading (objective) | 100.0% hit rate, 100.0% average precision, 100.0% average recall, 79.5% median byte savings |
+| Loading (advisory) | 100.0% hit rate, 83.3% average precision, 100.0% average recall, 72.7% median token savings |
+| Drift | 100.0% built-in recall, 100.0% semantic-applicable recall, 100.0% structural-governance recall, 100.0% combined recall |
+| Diversity audit | 2 synthetic dataset, domains release-ops, regulated-change-control, languages en, sync modes agent-primary, human-primary, external field sample 3 corpora / 17 seeds |
+| Overhead | 45 bookkeeping entries, 1.25 per artifact, 21 touch routes, 5 roles |
+
+**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, and one supplemental runtime request-body sample as separate measurements.
 
 ## Benchmark objectivity and diversity audit
 
 - **Primary scoreboard basis:** exact bytes + objective touch-route scenarios
-- **Context-footprint basis:** objective median rendered prompt-envelope bytes approximates task-time context occupancy, while median loaded bytes remain the lower-level payload counter underneath it
-- **Advisory-only signals:** estimated token counts + exploratory semantic-load scenarios
+- **Context-footprint basis:** objective median rendered prompt-envelope bytes remain the shared scoreboard metric, while the new AODS-only local runtime sample shows what one real Copilot CLI provider request body looks like on top of that routed prompt
+- **Advisory-only signals:** estimated token counts + exploratory query-route scenarios
 - **Dataset count:** 2
 - **Domains:** release-ops, regulated-change-control
 - **Languages:** en
@@ -105,8 +108,17 @@ AODS-native governance signals remain separate because the other archetypes do n
 - **Sync modes present:** agent-primary, human-primary
 - **Sync modes absent:** bidirectional
 - **Pair scopes absent:** phase, feature
+- **External field sample:** 3 corpora, 17 scenario seeds, phases build, design, governance, operate, planning, release, vision, benchmark dimensions coverage, drift, routing
 
-This makes the round-one judgment more objective than the earlier benchmark pass, and it also makes the remaining diversity gaps explicit: the current benchmark is multi-domain and includes both agent-primary and human-primary sync, but it is still synthetic, English-only, and narrower than a field sample.
+This makes the round-one judgment more objective than the earlier benchmark pass, and it also makes the remaining diversity gaps explicit: the common scoreboard is multi-domain and includes both agent-primary and human-primary sync, while the new open-source field sample adds real corpora pressure. Even so, language coverage is still English-only and the field sample is not yet a full fair cross-toolchain matrix.
+
+## External field-sample supplement
+
+- **Open-source corpora:** 3
+- **Scenario seeds:** 17
+- **Formats:** rst=4, markdown=13
+- **Benchmark roles:** architect, developer, maintainer, operator, product-manager, project-manager, release-manager, security-lead, sre
+- **Why this stays separate from the main scoreboard:** these corpora are not generated from the shared canonical source facts, so they strengthen diversity and routing realism but do not satisfy the round-one fairness contract for direct cross-format scoring.
 
 ## Round-one external comparison
 
@@ -119,7 +131,7 @@ This makes the round-one judgment more objective than the earlier benchmark pass
 
 | Baseline | Corpus bytes | Files | Bytes / benchmark item | Fact preservation | Median loaded bytes | Median prompt-envelope bytes | Objective hit rate | Objective avg precision | Median byte savings |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| AODS | 71309 | 12 | 1980.81 | 100.0% | 24360 | 25216 | 100.0% | 100.0% | 65.8% |
+| AODS | 68543 | 13 | 1903.97 | 100.0% | 14022 | 15555 | 100.0% | 100.0% | 79.5% |
 | Markdown + YAML | 47437 | 8 | 1317.69 | 100.0% | 5234 | 5844 | 0.0% | 100.0% | 89.0% |
 | llms.txt | 46520 | 9 | 1292.22 | 100.0% | 6480 | 7178 | 0.0% | 100.0% | 86.1% |
 | DITA topic corpus | 65038 | 12 | 1806.61 | 100.0% | 718 | 1320 | 0.0% | 0.0% | 98.9% |
@@ -128,7 +140,7 @@ This makes the round-one judgment more objective than the earlier benchmark pass
 
 | Baseline | Estimated tokens | Tokens / benchmark item | Exploratory hit rate | Exploratory avg precision | Median token savings |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| AODS | 17829 | 495.25 | 100.0% | 33.3% | 29.4% |
+| AODS | 17137 | 476.03 | 100.0% | 83.3% | 72.7% |
 | Markdown + YAML | 11863 | 329.53 | 100.0% | 91.7% | 77.2% |
 | llms.txt | 11633 | 323.14 | 100.0% | 91.7% | 74.4% |
 | DITA topic corpus | 16263 | 451.75 | 100.0% | 100.0% | 76.4% |
@@ -171,10 +183,11 @@ For large projects today, the benchmark supports this practical reading:
 ## Limitations and next steps
 
 - These corpora are **benchmark archetypes**, not full upstream toolchain integrations.
-- Advisory metrics still include deterministic chars-per-token estimates and semantic-load heuristics.
-- Rendered prompt-envelope bytes are still a benchmark renderer, not a capture of the exact final prompt envelope of a live agent runtime.
+- Advisory metrics still include deterministic chars-per-token estimates and exploratory query-route proxies.
+- The common scoreboard still uses renderer-based prompt-envelope bytes; the new runtime capture is currently an AODS-only supplemental sample, not a fair cross-baseline runtime matrix.
 - The benchmark corpus is synthetic but lifecycle-complete, so this is a strong laboratory signal rather than a universal field sample.
 - The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed toolchain samples.
+- The benchmark still needs more diversity: more languages, more real-world corpora beyond the current three-project supplement, and more runtime-backed toolchain samples.
 - Round two should add Backstage or TechDocs runtime execution, plus narrower spec-first comparators such as OpenAPI, AsyncAPI, or TypeSpec for partial-domain benchmarking.
 
 If AODS keeps outperforming these archetypes on loading and governance while reducing corpus cost, then the case for wider adoption becomes materially stronger.

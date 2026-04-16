@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-surface-governance",
-  "v": 4,
-  "context": "Defines dual-surface pairing, authority resolution, capsule routing, and sync discipline for corpora where agent-primary modules coexist with human-facing surfaces. bidirectional sync remains experimental until merge protocol exists.",
+  "v": 7,
+  "context": "Defines dual-surface pairing, authority resolution, capsule routing, sync discipline, explicit control taxonomy, provenance summaries, and conservative claim-diff posture for corpora where agent-primary modules coexist with human-facing surfaces. bidirectional sync remains experimental until merge protocol exists.",
   "assumptions": [
     "Corpus may include human-facing surfaces outside JSON module registry",
     "manifest.surface_pairs is global pairing registry",
@@ -34,7 +34,7 @@
     {
       "sid": "pairing-contract",
       "topic": "dual surface pairing contract",
-      "content": "Each pair has pair_id, scope, agent_primary, human_primary, sync_source, status. agent_supporting and human_supporting are optional. shared_invariants is optional and declares exact strings that must stay present in both agent_primary and human_primary for high-risk semantic parity. Paths must be relative and stay inside corpus root. Human surfaces do not replace agent-primary semantic authority. sync_source controls update direction. Manifest metadata alone does not satisfy agent-primary semantic synchronization. bidirectional sync is experimental until merge/conflict protocol is defined.",
+        "content": "Each pair has pair_id, scope, agent_primary, human_primary, sync_source, status. agent_supporting and human_supporting are optional. shared_invariants is optional and declares exact strings that must stay present in both agent_primary and human_primary for high-risk semantic parity. Validator may also run conservative claim-diff checks on high-signal paired claims such as from-to deltas, must-include lists, timed actions, and execution preconditions. Claim-diff extraction reads agent_primary context, sections, and structured artifact semantics, and it compares full claim sets rather than treating one overlapping value as agreement. Paths must be relative and stay inside corpus root. Human surfaces do not replace agent-primary semantic authority. sync_source controls update direction. The reference hook rejects human-only edits under agent-primary, rejects agent-only edits under human-primary, and requires manual review when bidirectional pairs change. Manifest metadata alone does not satisfy agent-primary semantic synchronization. bidirectional sync is experimental until merge/conflict protocol is defined.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -53,6 +53,30 @@
         "capsule-contract-table"
       ],
       "criticality": "must"
+    },
+    {
+      "sid": "control-taxonomy",
+      "topic": "control role method and timing taxonomy",
+      "content": "Modules may declare control metadata in manifest.modules[].control and module.meta.control. role=guide -> orient, route, or explain. role=sensor -> verify, detect, block, or audit. role=hybrid -> both. method=computational -> deterministic rule, schema, exact match, or fixed algorithm. method=inferential -> heuristic or model-mediated judgment. method=hybrid -> both. timing declares when control acts: pre-commit, ci, continuous, or runtime. When declared, manifest and module copies should match so routing and deeper semantics describe the same control.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "control-taxonomy-table"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "provenance-contract",
+      "topic": "provenance summary and trace contract",
+      "content": "manifest.modules[].provenance is bootstrap summary: memory_role + confidence only. module.meta.provenance carries full trace: sources + confidence + review_chain. memory_role=authority -> canonical semantic source. working -> transient routing or scratch guidance. evidence -> proof-bearing material that supports but does not replace authority. sources names claim anchors. review_chain names human or automated review or handoff anchors. Keep manifest light; keep source and review detail in module meta.",
+      "content_type": "rules",
+      "refs": [
+        "authority-resolution"
+      ],
+      "artifact_refs": [
+        "provenance-taxonomy-table"
+      ],
+      "criticality": "should"
     }
   ],
   "artifacts": [
@@ -335,6 +359,84 @@
           ]
         ]
       }
+    },
+    {
+      "artifact_id": "control-taxonomy-table",
+      "type": "mapping-table",
+      "usage": "Field guide for control role, method, and timing metadata.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "values",
+          "meaning",
+          "notes"
+        ],
+        "rows": [
+          [
+            "role",
+            "guide|sensor|hybrid",
+            "whether the module primarily directs work, checks work, or does both",
+            "root and capsule modules should not be sensor-only"
+          ],
+          [
+            "method",
+            "computational|inferential|hybrid",
+            "whether the control relies on deterministic logic, heuristic judgment, or both",
+            "computational stays preferred for blocking gates"
+          ],
+          [
+            "timing",
+            "pre-commit|ci|continuous|runtime",
+            "when the control is expected to act",
+            "declare one or more phases"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "provenance-taxonomy-table",
+      "type": "mapping-table",
+      "usage": "Field guide for provenance summary and full-trace metadata.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "surface",
+          "meaning",
+          "notes"
+        ],
+        "rows": [
+          [
+            "memory_role",
+            "manifest+module",
+            "authority|working|evidence memory posture",
+            "bootstrap-safe summary"
+          ],
+          [
+            "confidence",
+            "manifest+module",
+            "trust posture of the module's claims",
+            "bootstrap-safe summary"
+          ],
+          [
+            "sources",
+            "module only",
+            "claim anchors or upstream source IDs",
+            "keep heavy trace detail out of manifest"
+          ],
+          [
+            "review_chain",
+            "module only",
+            "ordered review or handoff anchors",
+            "supports audit and human takeover"
+          ]
+        ]
+      }
     }
   ],
   "changelog": [
@@ -356,11 +458,71 @@
       "v": 4,
       "delta": "Added optional shared_invariants so paired surfaces can declare exact cross-surface semantic anchors for validator enforcement.",
       "breaking": false
+    },
+    {
+      "v": 5,
+      "delta": "Documented conservative paired-surface claim-diff checks for high-signal semantic conflicts beyond exact shared_invariants.",
+      "breaking": false
+    },
+    {
+      "v": 6,
+      "delta": "Added explicit control taxonomy for guide/sensor role, computational/inferential method, and control timing metadata.",
+      "breaking": false
+    },
+    {
+      "v": 7,
+      "delta": "Added explicit provenance summary vs full-trace contract so manifest bootstrap can stay light while module meta carries source and review anchors.",
+      "breaking": false
     }
   ],
   "meta": {
     "stability": "evolving",
     "review_cycle": "on-change",
+    "control": {
+      "role": "guide",
+      "method": "computational",
+      "timing": [
+        "runtime",
+        "pre-commit"
+      ]
+    },
+    "provenance": {
+      "memory_role": "authority",
+      "sources": [
+        "aods-v3-surface-governance-design",
+        "openai-harness-guides-vs-sensors"
+      ],
+      "confidence": "high",
+      "review_chain": [
+        "maintainer-review",
+        "validate:strict"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "pair-resolver",
+        "claim-diff-checker"
+      ],
+      "resources": [
+        "manifest.surface_pairs",
+        "agent-primary modules",
+        "human-facing surfaces"
+      ],
+      "side_effects": [
+        "surface-sync-decision"
+      ],
+      "telemetry": [
+        "pairing-conflict",
+        "authority-resolution"
+      ],
+      "checkpoints": [
+        "agent-primary-selected",
+        "pair-sync-evaluated"
+      ],
+      "outputs": [
+        "pairing-state"
+      ]
+    },
     "capsule": {
       "read_when": [
         "Need to choose surface layer for loading",
@@ -369,7 +531,6 @@
       ],
       "core_question": "How should agent-primary and human-facing surfaces stay paired, layered, and authority-safe?",
       "routes_to": [
-        "spec-boot-protocol:cold-start",
         "spec-artifact-types:surface-governance-patterns",
         "spec-validation:structural"
       ],

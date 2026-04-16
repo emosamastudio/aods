@@ -6,6 +6,7 @@
     "measurement_class": "exploratory",
     "role": "product-manager",
     "intent": "read",
+    "task_stage": "orientation",
     "concepts": [
       "overview",
       "summary",
@@ -23,6 +24,7 @@
     "measurement_class": "objective",
     "role": "doc-author",
     "intent": "write",
+    "task_stage": "plan",
     "touch": "docs/01-product-lifecycle.md",
     "concepts": [
       "goals",
@@ -41,6 +43,7 @@
     "measurement_class": "objective",
     "role": "architect",
     "intent": "write",
+    "task_stage": "action",
     "touch": "modules/architecture-contracts.json",
     "concepts": [
       "api",
@@ -60,6 +63,7 @@
     "measurement_class": "exploratory",
     "role": "architect",
     "intent": "read",
+    "task_stage": "verification",
     "concepts": [
       "workflow",
       "rollback",
@@ -77,6 +81,7 @@
     "measurement_class": "objective",
     "role": "operator",
     "intent": "write",
+    "task_stage": "action",
     "touch": "docs/04-operations-and-governance.md",
     "concepts": [
       "incident",
@@ -96,6 +101,7 @@
     "measurement_class": "exploratory",
     "role": "product-manager",
     "intent": "read",
+    "task_stage": "action",
     "concepts": [
       "release",
       "schema",
@@ -113,6 +119,7 @@
     "measurement_class": "objective",
     "role": "compliance-lead",
     "intent": "write",
+    "task_stage": "action",
     "touch": "harbor/docs/01-change-control.md",
     "concepts": [
       "approval",
@@ -131,6 +138,7 @@
     "measurement_class": "objective",
     "role": "compliance-lead",
     "intent": "write",
+    "task_stage": "evidence",
     "touch": "harbor/docs/02-audit-evidence.md",
     "concepts": [
       "audit",
@@ -149,6 +157,7 @@
     "measurement_class": "exploratory",
     "role": "compliance-lead",
     "intent": "read",
+    "task_stage": "verification",
     "concepts": [
       "exception",
       "evidence",

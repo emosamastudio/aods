@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "generate": "node ./src/generate-fixtures.mjs",
+    "fetch-open-corpora": "node ./src/fetch-open-source-corpora.mjs",
+    "catalog-open-corpora": "node ./src/catalog-open-source-corpora.mjs",
     "evaluate": "node ./src/evaluate.mjs",
+    "runtime-capture": "node ./src/runtime-capture.mjs",
     "compare": "node ./src/compare.mjs",
+    "summary": "node ./src/summary.mjs",
     "test": "node --test"
   }
 }

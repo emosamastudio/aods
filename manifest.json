@@ -1,9 +1,9 @@
 {
   "aods_v": 3,
   "sys": "aods-spec",
-  "sys_v": 8,
+  "sys_v": 11,
   "created": "2026-04-13T00:00:00Z",
-  "updated": "2026-04-14T19:41:38Z",
+  "updated": "2026-04-16T04:14:34Z",
   "purpose": "AODS v3 self-referential specification. Adds dual-surface pairing, layer-aware progressive disclosure, capsule modules, and structured governance patterns without introducing new artifact classes.",
   "glossary": {
     "aods": "Agent-Optimized Documentation System — format and conventions for agent-first documentation",
@@ -72,7 +72,7 @@
     {
       "id": "spec-boot-protocol",
       "path": "spec/boot-protocol.json",
-      "scope": "Zero-knowledge bootstrap: cold start, warm restart, context budget, on-demand loading, layer-aware progressive disclosure.",
+      "scope": "Zero-knowledge bootstrap: cold start, warm restart, context budget, runtime-contract-aware loading, task-stage-aware query routing, and layer-aware progressive disclosure.",
       "category": "protocol",
       "layer": "root",
       "deps": [],
@@ -82,8 +82,20 @@
         "context-management",
         "progressive-disclosure"
       ],
-      "tokens_approx": 2968,
-      "priority": "critical"
+      "tokens_approx": 4463,
+      "priority": "critical",
+      "provenance": {
+        "memory_role": "authority",
+        "confidence": "high"
+      },
+      "runtime_contract": {
+        "side_effects": [
+          "working-set-selection"
+        ],
+        "outputs": [
+          "active-working-set"
+        ]
+      }
     },
     {
       "id": "spec-artifact-types",
@@ -106,7 +118,7 @@
     {
       "id": "spec-surface-governance",
       "path": "spec/surface-governance.json",
-      "scope": "Dual-surface pairing, authority resolution, capsule routing, and sync discipline for corpora that mix agent and human surfaces.",
+      "scope": "Dual-surface pairing, authority resolution, capsule routing, provenance summaries, and sync discipline for corpora that mix agent and human surfaces.",
       "category": "capsule",
       "layer": "capsule",
       "deps": [
@@ -119,13 +131,33 @@
         "authority",
         "routing"
       ],
-      "tokens_approx": 3108,
-      "priority": "critical"
+      "tokens_approx": 4595,
+      "priority": "critical",
+      "control": {
+        "role": "guide",
+        "method": "computational",
+        "timing": [
+          "runtime",
+          "pre-commit"
+        ]
+      },
+      "provenance": {
+        "memory_role": "authority",
+        "confidence": "high"
+      },
+      "runtime_contract": {
+        "side_effects": [
+          "surface-sync-decision"
+        ],
+        "outputs": [
+          "pairing-state"
+        ]
+      }
     },
     {
       "id": "spec-validation",
       "path": "spec/validation-rules.json",
-      "scope": "Corpus validation: structural checks, referential integrity, surface-governance coverage, completeness, AOP compliance.",
+      "scope": "Corpus validation: structural checks, referential integrity, surface-governance coverage, provenance/runtime-contract enforcement, completeness, and AOP compliance.",
       "category": "policy",
       "layer": "detail",
       "deps": [
@@ -137,8 +169,28 @@
         "quality",
         "integrity"
       ],
-      "tokens_approx": 3247,
-      "priority": "standard"
+      "tokens_approx": 4808,
+      "priority": "standard",
+      "control": {
+        "role": "sensor",
+        "method": "computational",
+        "timing": [
+          "pre-commit",
+          "ci"
+        ]
+      },
+      "provenance": {
+        "memory_role": "authority",
+        "confidence": "high"
+      },
+      "runtime_contract": {
+        "side_effects": [
+          "validation-report"
+        ],
+        "outputs": [
+          "validation-report"
+        ]
+      }
     }
   ],
   "boot_sequence": [

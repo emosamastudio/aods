@@ -56,6 +56,45 @@
     }
   ],
   "meta": {
+    "control": {
+      "role": "guide",
+      "method": "computational",
+      "timing": [
+        "runtime"
+      ]
+    },
+    "provenance": {
+      "memory_role": "authority",
+      "sources": [
+        "change-policy-v1"
+      ],
+      "confidence": "high",
+      "review_chain": [
+        "ops-policy-approval"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "validator",
+        "ticket-system"
+      ],
+      "resources": [
+        "change-request",
+        "approval-record"
+      ],
+      "side_effects": [
+        "approval-decision"
+      ],
+      "telemetry": [
+        "approval-status"
+      ],
+      "checkpoints": [
+        "approval-validated"
+      ],
+      "outputs": [
+        "approval-evidence"
+      ]
+    },
     "stability": "stable",
     "review_cycle": "on-change"
   }

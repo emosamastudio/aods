@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "strategy": "path-allowlist sparse checkout",
+  "corpora": [
+    {
+      "id": "apache-airflow",
+      "label": "Apache Airflow",
+      "repo": "https://github.com/apache/airflow.git",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "pressure": "Balanced lifecycle corpus with architecture, deployment, security, release, and governance slices.",
+      "allowlist": [
+        "airflow-core/docs/administration-and-deployment",
+        "airflow-core/docs/core-concepts",
+        "airflow-core/docs/howto",
+        "airflow-core/docs/security",
+        "airflow-core/docs/release-process.rst",
+        "airflow-core/docs/release_notes.rst",
+        "GOVERNANCE.md",
+        "RELEASE_NOTES.rst"
+      ],
+      "scenario_seeds": [
+        {
+          "id": "production-deployment",
+          "title": "Production deployment",
+          "path": "airflow-core/docs/administration-and-deployment/production-deployment.rst",
+          "scenario_class": "ops-architecture",
+          "lifecycle_phases": ["design", "release", "operate"],
+          "benchmark_roles": ["architect", "operator"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["production deployment", "scheduler", "workers", "database"],
+          "why": "Tests architecture-plus-operations retrieval for deployment planning."
+        },
+        {
+          "id": "security-model",
+          "title": "Security model",
+          "path": "airflow-core/docs/security/security_model.rst",
+          "scenario_class": "security-governance",
+          "lifecycle_phases": ["build", "operate", "governance"],
+          "benchmark_roles": ["security-lead", "operator"],
+          "benchmark_dimensions": ["coverage", "routing", "drift"],
+          "grep_terms": ["security model", "permissions", "roles", "access"],
+          "why": "Exercises security semantics that must survive compression and anti-drift checks."
+        },
+        {
+          "id": "release-process",
+          "title": "Release process",
+          "path": "airflow-core/docs/release-process.rst",
+          "scenario_class": "release-governance",
+          "lifecycle_phases": ["release", "governance"],
+          "benchmark_roles": ["release-manager", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["release process", "vote", "release candidate", "branch"],
+          "why": "Covers procedural release governance rather than pure product docs."
+        },
+        {
+          "id": "project-governance",
+          "title": "Project governance",
+          "path": "GOVERNANCE.md",
+          "scenario_class": "project-governance",
+          "lifecycle_phases": ["planning", "governance"],
+          "benchmark_roles": ["project-manager", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["governance", "committee", "committer", "decision"],
+          "why": "Adds top-level governance and ownership language that many product corpora omit."
+        },
+        {
+          "id": "observability-metrics",
+          "title": "Metrics",
+          "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/metrics.rst",
+          "scenario_class": "observability-operations",
+          "lifecycle_phases": ["operate"],
+          "benchmark_roles": ["operator", "sre"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["metrics", "monitoring", "telemetry", "prometheus"],
+          "why": "Provides an operations-heavy retrieval case beyond deployment setup."
+        }
+      ]
+    },
+    {
+      "id": "argo-cd",
+      "label": "Argo CD",
+      "repo": "https://github.com/argoproj/argo-cd.git",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "pressure": "Strong mix of ops, developer, release, roadmap, and proposal material for dual-surface governance tests.",
+      "allowlist": [
+        "docs/operator-manual",
+        "docs/user-guide",
+        "docs/developer-guide/architecture",
+        "docs/developer-guide/development-cycle.md",
+        "docs/developer-guide/release-process-and-cadence.md",
+        "docs/developer-guide/releasing.md",
+        "docs/proposals",
+        "docs/roadmap.md",
+        "SECURITY.md",
+        "MAINTAINERS.md",
+        "CONTRIBUTING.md"
+      ],
+      "scenario_seeds": [
+        {
+          "id": "operator-architecture",
+          "title": "Operator manual architecture",
+          "path": "docs/operator-manual/architecture.md",
+          "scenario_class": "ops-architecture",
+          "lifecycle_phases": ["design", "operate"],
+          "benchmark_roles": ["architect", "operator"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["architecture", "repo server", "application controller", "api server"],
+          "why": "Gives a real architecture surface for grep-first routing benchmarks."
+        },
+        {
+          "id": "release-cadence",
+          "title": "Release process and cadence",
+          "path": "docs/developer-guide/release-process-and-cadence.md",
+          "scenario_class": "release-governance",
+          "lifecycle_phases": ["planning", "release", "governance"],
+          "benchmark_roles": ["release-manager", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["release cadence", "minor release", "patch release", "branch"],
+          "why": "Captures cadence planning and ownership rules, not just release commands."
+        },
+        {
+          "id": "releasing-runbook",
+          "title": "Releasing",
+          "path": "docs/developer-guide/releasing.md",
+          "scenario_class": "release-operations",
+          "lifecycle_phases": ["release", "operate"],
+          "benchmark_roles": ["release-manager", "operator"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["releasing", "release manager", "changelog", "version"],
+          "why": "Acts as a procedural release runbook for benchmark-v2 task seeds."
+        },
+        {
+          "id": "roadmap",
+          "title": "Roadmap",
+          "path": "docs/roadmap.md",
+          "scenario_class": "roadmap-governance",
+          "lifecycle_phases": ["vision", "planning", "governance"],
+          "benchmark_roles": ["product-manager", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["roadmap", "goals", "focus areas", "future"],
+          "why": "Adds roadmap and planning semantics that synthetic operational corpora underrepresent."
+        },
+        {
+          "id": "security-policy",
+          "title": "Security policy",
+          "path": "SECURITY.md",
+          "scenario_class": "security-governance",
+          "lifecycle_phases": ["build", "operate", "governance"],
+          "benchmark_roles": ["security-lead", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing", "drift"],
+          "grep_terms": ["security", "vulnerability", "report", "disclosure"],
+          "why": "Provides security-response language useful for drift and authority tests."
+        },
+        {
+          "id": "design-proposal",
+          "title": "Config management plugin v2 proposal",
+          "path": "docs/proposals/config-management-plugin-v2.md",
+          "scenario_class": "design-proposal",
+          "lifecycle_phases": ["design", "build"],
+          "benchmark_roles": ["architect", "developer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["proposal", "config management plugin", "plugin v2", "design"],
+          "why": "Supplies proposal-style design material, which is a common project-lifecycle artifact."
+        }
+      ]
+    },
+    {
+      "id": "jupyterhub",
+      "label": "JupyterHub",
+      "repo": "https://github.com/jupyterhub/jupyterhub.git",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "pressure": "Clean explanation/how-to/reference/tutorial split with release and security material for task-routing benchmarks.",
+      "allowlist": [
+        "docs/source/explanation",
+        "docs/source/howto",
+        "docs/source/reference",
+        "docs/source/tutorial",
+        "docs/source/contributing",
+        "RELEASE.md",
+        "SECURITY.md"
+      ],
+      "scenario_seeds": [
+        {
+          "id": "technical-overview",
+          "title": "Technical overview",
+          "path": "docs/source/reference/technical-overview.md",
+          "scenario_class": "architecture-reference",
+          "lifecycle_phases": ["design", "operate"],
+          "benchmark_roles": ["architect", "operator"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["technical overview", "hub", "proxy", "single-user server"],
+          "why": "Adds a clean reference architecture slice for cross-project loading tests."
+        },
+        {
+          "id": "monitoring",
+          "title": "Monitoring",
+          "path": "docs/source/reference/monitoring.md",
+          "scenario_class": "observability-reference",
+          "lifecycle_phases": ["operate"],
+          "benchmark_roles": ["operator", "sre"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["monitoring", "metrics", "prometheus", "health"],
+          "why": "Provides operational monitoring material in a different docs style from Airflow."
+        },
+        {
+          "id": "upgrading",
+          "title": "Upgrading",
+          "path": "docs/source/howto/upgrading.md",
+          "scenario_class": "release-upgrade",
+          "lifecycle_phases": ["release", "operate"],
+          "benchmark_roles": ["operator", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["upgrading", "upgrade", "migrate", "database"],
+          "why": "Adds upgrade and migration guidance, which is a practical lifecycle checkpoint."
+        },
+        {
+          "id": "web-security",
+          "title": "Web security",
+          "path": "docs/source/explanation/websecurity.md",
+          "scenario_class": "security-explanation",
+          "lifecycle_phases": ["design", "operate", "governance"],
+          "benchmark_roles": ["security-lead", "architect"],
+          "benchmark_dimensions": ["coverage", "routing", "drift"],
+          "grep_terms": ["web security", "csrf", "cookies", "host"],
+          "why": "Adds explanation-style security reasoning instead of only policy checklists."
+        },
+        {
+          "id": "roadmap",
+          "title": "Contributing roadmap",
+          "path": "docs/source/contributing/roadmap.md",
+          "scenario_class": "roadmap-governance",
+          "lifecycle_phases": ["vision", "planning", "governance"],
+          "benchmark_roles": ["product-manager", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["roadmap", "milestones", "development", "future"],
+          "why": "Extends planning coverage into a contributor-facing open-source workflow."
+        },
+        {
+          "id": "security-basics",
+          "title": "Security basics tutorial",
+          "path": "docs/source/tutorial/getting-started/security-basics.md",
+          "scenario_class": "tutorial-security",
+          "lifecycle_phases": ["build", "operate"],
+          "benchmark_roles": ["developer", "operator"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["security basics", "tokens", "permissions", "services"],
+          "why": "Captures tutorial-style onboarding material that should still remain routable."
+        }
+      ]
+    },
+    {
+      "id": "backstage",
+      "label": "Backstage",
+      "repo": "https://github.com/backstage/backstage.git",
+      "license": "Apache-2.0",
+      "status": "phase-2",
+      "pressure": "High-value ADR and proposal corpus, but monorepo noise is higher than the top shortlist.",
+      "allowlist": [
+        "docs/architecture-decisions",
+        "docs/backend-system",
+        "docs/deployment",
+        "docs/getting-started",
+        "docs/releases",
+        "docs/overview/roadmap.md",
+        "beps",
+        "OWNERS.md",
+        "SECURITY.md"
+      ]
+    }
+  ]
+}

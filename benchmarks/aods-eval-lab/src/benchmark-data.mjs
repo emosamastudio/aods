@@ -1501,6 +1501,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "exploratory",
     role: "product-manager",
     intent: "read",
+    task_stage: "orientation",
     concepts: ["overview", "summary", "routes"],
     requiredModules: ["atlas-root", "atlas-capsule"]
   },
@@ -1511,6 +1512,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "objective",
     role: "doc-author",
     intent: "write",
+    task_stage: "plan",
     touch: "docs/01-product-lifecycle.md",
     concepts: ["goals", "roadmap", "adr"],
     requiredModules: ["product-lifecycle", "atlas-capsule"]
@@ -1522,6 +1524,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "objective",
     role: "architect",
     intent: "write",
+    task_stage: "action",
     touch: "modules/architecture-contracts.json",
     concepts: ["api", "schema", "config"],
     requiredModules: ["atlas-root", "atlas-capsule", "architecture-contracts"]
@@ -1533,6 +1536,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "exploratory",
     role: "architect",
     intent: "read",
+    task_stage: "verification",
     concepts: ["workflow", "rollback", "risk"],
     requiredModules: ["delivery-workflows", "operations-governance"]
   },
@@ -1543,6 +1547,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "objective",
     role: "operator",
     intent: "write",
+    task_stage: "action",
     touch: "docs/04-operations-and-governance.md",
     concepts: ["incident", "policy", "slo"],
     requiredModules: ["atlas-capsule", "operations-governance", "evidence-reference"]
@@ -1554,6 +1559,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "exploratory",
     role: "product-manager",
     intent: "read",
+    task_stage: "action",
     concepts: ["release", "schema", "api", "packet"],
     requiredModules: ["architecture-contracts"]
   },
@@ -1564,6 +1570,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "objective",
     role: "compliance-lead",
     intent: "write",
+    task_stage: "action",
     touch: "harbor/docs/01-change-control.md",
     concepts: ["approval", "rollback", "evidence"],
     requiredModules: ["harbor-capsule", "harbor-change-control"]
@@ -1575,6 +1582,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "objective",
     role: "compliance-lead",
     intent: "write",
+    task_stage: "evidence",
     touch: "harbor/docs/02-audit-evidence.md",
     concepts: ["audit", "retention", "evidence"],
     requiredModules: ["harbor-capsule", "harbor-audit-evidence"]
@@ -1586,6 +1594,7 @@ export const LOADING_SCENARIOS = [
     measurement_class: "exploratory",
     role: "compliance-lead",
     intent: "read",
+    task_stage: "verification",
     concepts: ["exception", "evidence", "retention", "approval"],
     requiredModules: ["harbor-change-control", "harbor-audit-evidence"]
   }
@@ -1678,6 +1687,29 @@ export const DRIFT_SCENARIOS = [
     ]
   },
   {
+    id: "undeclared-claim-pair-conflict",
+    description: "Paired files keep declared invariants but disagree on another high-signal requirement claim.",
+    scenario_class: "claim-conflict",
+    changedFiles: ["docs/01-product-lifecycle.md", "modules/product-lifecycle.json"],
+    expectBuiltInDetection: true,
+    expectSemanticDetection: true,
+    operations: [
+      {
+        type: "replace",
+        file: "docs/01-product-lifecycle.md",
+        find: "Every approved release must include an owner, a risk tier, a rollback plan, and a communication plan.",
+        replace: "Every approved release must include an owner, a risk tier, and a communication plan."
+      },
+      {
+        type: "replace",
+        file: "modules/product-lifecycle.json",
+        find: "Every approved release must include an owner, a risk tier, a rollback plan, and a communication plan.",
+        replace:
+          "Every approved release must include an owner, a risk tier, a rollback plan, a communication plan, and approval evidence."
+      }
+    ]
+  },
+  {
     id: "ops-human-only-drift",
     description: "Operations human surface changes alone.",
     scenario_class: "human-only-drift",
@@ -1713,17 +1745,17 @@ export const DRIFT_SCENARIOS = [
     id: "broken-touch-route",
     description: "Manifest points a touch route at a missing module.",
     scenario_class: "route-integrity",
-    changedFiles: ["manifest.json"],
+    changedFiles: ["indexes/runtime.json"],
     expectBuiltInDetection: true,
     expectSemanticDetection: false,
     operations: [
       {
         type: "replace",
-        file: "manifest.json",
+        file: "indexes/runtime.json",
         find:
-          "\"load_modules\": [\n        \"atlas-root\",\n        \"atlas-capsule\",\n        \"architecture-contracts\"\n      ],\n      \"reason\": \"Architecture edits need route and contract context.\"",
+          "\"match\":\"docs/02-architecture-and-contracts.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-root\",\"atlas-capsule\",\"architecture-contracts\"],\"reason\":\"Architecture doc edits need topology and contract authority.\"",
         replace:
-          "\"load_modules\": [\n        \"atlas-root\",\n        \"atlas-capsule\",\n        \"missing-architecture-contracts\"\n      ],\n      \"reason\": \"Architecture edits need route and contract context.\""
+          "\"match\":\"docs/02-architecture-and-contracts.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-root\",\"atlas-capsule\",\"missing-architecture-contracts\"],\"reason\":\"Architecture doc edits need topology and contract authority.\""
       }
     ]
   },
@@ -1731,7 +1763,7 @@ export const DRIFT_SCENARIOS = [
     id: "path-escape-pair",
     description: "Manifest points a paired human surface outside the corpus root.",
     scenario_class: "path-safety",
-    changedFiles: ["manifest.json"],
+    changedFiles: ["indexes/runtime.json"],
     expectBuiltInDetection: true,
     expectSemanticDetection: false,
     operations: [
@@ -1743,9 +1775,9 @@ export const DRIFT_SCENARIOS = [
       },
       {
         type: "replace",
-        file: "manifest.json",
-        find: "\"human_primary\": \"docs/02-architecture-and-contracts.md\"",
-        replace: "\"human_primary\": \"../escaped-architecture.md\""
+        file: "indexes/runtime.json",
+        find: "\"human_primary\":\"docs/02-architecture-and-contracts.md\"",
+        replace: "\"human_primary\":\"../escaped-architecture.md\""
       }
     ]
   }

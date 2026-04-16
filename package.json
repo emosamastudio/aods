@@ -1,9 +1,41 @@
 {
   "name": "aods",
-  "version": "0.1.0",
-  "private": true,
-  "description": "AODS standard, reference CLI, and benchmark regression baseline",
+  "version": "0.2.0",
+  "private": false,
+  "description": "AODS standard and CLI for agent-first documentation, routing, and anti-drift governance",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emosamastudio/aods.git"
+  },
+  "homepage": "https://github.com/emosamastudio/aods#readme",
+  "bugs": {
+    "url": "https://github.com/emosamastudio/aods/issues"
+  },
+  "keywords": [
+    "aods",
+    "agent-docs",
+    "agentic-documentation",
+    "documentation-standard",
+    "progressive-disclosure",
+    "anti-drift",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "schema/",
+    "spec/",
+    "examples/compiled-pilot-source/",
+    "manifest.json",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
   "bin": {
     "aods": "./bin/aods.mjs"
   },
@@ -21,10 +53,14 @@
     "help": "node ./bin/aods.mjs --help",
     "upgrade": "node ./bin/aods.mjs upgrade .",
     "benchmark:generate": "npm --prefix ./benchmarks/aods-eval-lab run generate",
+    "benchmark:fetch-open-corpora": "npm --prefix ./benchmarks/aods-eval-lab run fetch-open-corpora",
+    "benchmark:catalog-open-corpora": "npm --prefix ./benchmarks/aods-eval-lab run catalog-open-corpora",
     "benchmark:evaluate": "npm --prefix ./benchmarks/aods-eval-lab run evaluate",
+    "benchmark:runtime-capture": "npm --prefix ./benchmarks/aods-eval-lab run runtime-capture",
     "benchmark:compare": "npm --prefix ./benchmarks/aods-eval-lab run compare",
+    "benchmark:summary": "npm --prefix ./benchmarks/aods-eval-lab run summary",
     "benchmark:test": "npm --prefix ./benchmarks/aods-eval-lab run test",
-    "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:compare && npm run benchmark:test",
+    "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:compare && npm run benchmark:summary && npm run benchmark:test",
     "validate:repo": "npm run validate:all && npm run benchmark:all"
   },
   "dependencies": {

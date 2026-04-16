@@ -6,11 +6,13 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 
 - **Coverage:** lifecycle phase coverage 100.0%, structured type coverage 100.0%, generic type coverage 100.0%.
 - **Fidelity:** critical fact preservation 100.0% with overall fact preservation 100.0%.
-- **Exact corpus size:** human docs 44915 bytes across 8 files; AODS corpus 71309 bytes across 12 files.
-- **Task-time context footprint:** objective touch-route median rendered prompt envelope 25216 bytes and 6304 estimated tokens.
-- **Objective loading gate:** touch-route hit rate 100.0%, average recall 100.0%, median byte savings 65.8%.
+- **Exact corpus size:** human docs 44915 bytes across 8 files; AODS corpus 68543 bytes across 13 files.
+- **Task-time context footprint:** objective touch-route median rendered prompt envelope 15555 bytes and 3889 estimated tokens.
+- **Objective loading gate:** touch-route hit rate 100.0%, average recall 100.0%, median byte savings 79.5%.
 - **Drift prevention:** built-in recall 100.0%, combined recall 100.0%, built-in false-positive rate 0.0%.
-- **Advisory metrics:** token estimates and semantic-load scenarios remain exploratory rather than release-gating signals.
+- **Runtime-backed local sample:** not generated in this run.
+- **External sample supplement:** 3 open-source corpora and 17 grep-first scenario seeds now supplement the synthetic benchmark pack.
+- **Advisory metrics:** token estimates and query-route scenarios remain exploratory rather than release-gating signals.
 
 ## Scope and independence
 
@@ -28,7 +30,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 | Typed artifacts | 26 |
 | Paired surfaces | 8 |
 | Modules | 11 |
-| Touch routes | 20 |
+| Touch routes | 21 |
 
 ## Validation baseline
 
@@ -52,53 +54,61 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - Critical fact preservation is **100.0%**.
 - Overall fact preservation is **100.0%**.
 - Exact human-doc size: **44915 bytes**, **1643 lines**, **8 files**
-- Exact AODS corpus size: **71309 bytes**, **2106 lines**, **12 files**
+- Exact AODS corpus size: **68543 bytes**, **1681 lines**, **13 files**
 - Estimated human-doc tokens: **11232**
-- Estimated AODS tokens: **17829**
-- Compression ratio (human/AODS): **0.63**
-- Token reduction vs human docs: **-58.7%**
+- Estimated AODS tokens: **17137**
+- Compression ratio (human/AODS): **0.66**
+- Token reduction vs human docs: **-52.6%**
 - Median per-artifact compression ratio: **1.23**
 - Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark. This is a repository-scale measurement, not a direct reading of task-time context pressure.**
 
 ### 3. Objective touch-route loading gate and working-set context footprint
 
-- Full-load exact corpus size: **71309 bytes**
+- Full-load exact corpus size: **68543 bytes**
 - Objective scenarios: **5**
 - Hit rate across objective touch-route scenarios: **100.0%**
 - Average precision: **100.0%**
 - Average recall: **100.0%**
-- Median loaded payload: **24360 bytes**, **6091 estimated tokens**
-- Median rendered prompt envelope: **25216 bytes**, **6304 estimated tokens**
-- Median prompt-envelope overhead: **909 bytes**, **226 estimated tokens**
-- Max rendered prompt envelope: **36826 bytes**, **9207 estimated tokens**
-- Median byte savings vs full load: **65.8%**
-- Median token savings vs full load: **65.8%**
-- Median prompt-envelope savings vs fully rendered full-load prompt: **65.7%**
-- Interpretation: **loaded payload measures routed file content only. Rendered prompt envelope adds separators, path labels, and scaffold text, so it is the closer benchmark proxy to actual context-window occupation. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
+- Median loaded payload: **14022 bytes**, **3508 estimated tokens**
+- Median rendered prompt envelope: **15555 bytes**, **3889 estimated tokens**
+- Median prompt-envelope overhead: **1590 bytes**, **395 estimated tokens**
+- Max rendered prompt envelope: **26379 bytes**, **6595 estimated tokens**
+- Median byte savings vs full load: **79.5%**
+- Median token savings vs full load: **79.5%**
+- Median prompt-envelope savings vs fully rendered full-load prompt: **78.1%**
+- Interpretation: **loaded payload measures routed file content only. Rendered prompt envelope adds separators, path labels, and scaffold text, so it is the closer shared benchmark proxy to actual context-window occupation. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
 
 | Objective scenario | Class | Hit | Byte savings |
 | --- | --- | --- | ---: |
-| product-doc-edit | paired-human-surface-write | hit | 65.8% |
-| architecture-module-edit | agent-module-write | hit | 49.8% |
-| ops-doc-edit | operations-human-surface-write | hit | 58.8% |
-| harbor-change-control-edit | human-primary-sop-write | hit | 66.2% |
-| harbor-audit-evidence-edit | audit-evidence-write | hit | 69.5% |
+| product-doc-edit | paired-human-surface-write | hit | 79.5% |
+| architecture-module-edit | agent-module-write | hit | 63.7% |
+| ops-doc-edit | operations-human-surface-write | hit | 72.7% |
+| harbor-change-control-edit | human-primary-sop-write | hit | 80.3% |
+| harbor-audit-evidence-edit | audit-evidence-write | hit | 83.8% |
 
-### 4. Exploratory semantic loading
+### 4. Runtime-backed local provider capture (supplemental)
+
+- No runtime capture artifact was loaded for this run.
+- Interpretation: **the main benchmark still falls back to rendered prompt-envelope metrics until a runtime capture sample is generated.**
+
+
+### 5. Exploratory query routing
 
 - Exploratory scenarios: **4**
-- Hit rate across exploratory semantic scenarios: **100.0%**
-- Average precision: **33.3%**
+- Hit rate across exploratory query-route scenarios: **100.0%**
+- Average precision: **83.3%**
 - Average recall: **100.0%**
-- Median loaded working set: **50332 bytes**, **12584 estimated tokens**
-- Median rendered prompt envelope: **51649.5 bytes**, **12912.5 estimated tokens**
-- Median byte savings vs full load: **29.4%**
-- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their rendered prompt-envelope numbers are therefore informative, not authoritative.**
+- Median loaded working set: **18724.5 bytes**, **4682.5 estimated tokens**
+- Median rendered prompt envelope: **19935.5 bytes**, **4984 estimated tokens**
+- Median byte savings vs full load: **72.7%**
+- Interpretation: **these scenarios now call the real CLI query router, but they remain advisory because the prompts are still synthetic benchmark queries rather than field-captured production tasks. Their rendered prompt-envelope numbers are therefore informative, not release-gating.**
 
-### 5. Drift prevention
+### 6. Drift prevention
 
 - Built-in drift recall: **100.0%**
-- Semantic drift recall: **71.4%**
+- Semantic drift recall on applicable scenarios: **100.0%** across **6** cases
+- Semantic recall across all drift cases: **75.0%**
+- Structural governance recall on semantic-not-applicable cases: **100.0%** across **2** cases
 - Combined recall: **100.0%**
 - Built-in false-positive rate: **0.0%**
 
@@ -108,12 +118,13 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 | readme-human-only-drift | detected | detected |
 | manifest-bypass-readme | detected | detected |
 | semantic-pair-conflict | detected | detected |
+| undeclared-claim-pair-conflict | detected | detected |
 | ops-human-only-drift | detected | detected |
 | harbor-human-primary-human-only-drift | detected | detected |
 | broken-touch-route | detected | missed |
 | path-escape-pair | detected | missed |
 
-### 6. Sample diversity and coverage audit
+### 7. Sample diversity and coverage audit
 
 - Dataset count: **2**
 - Dataset class: **synthetic-lifecycle-pack**
@@ -122,17 +133,22 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 - Dataset breakdown: **atlas=7 modules/5 docs/27 items; harbor=4 modules/3 docs/9 items**
 - Roles exercised in scenarios: **5/5**
 - Loading scenario split: **5 objective**, **4 exploratory**
-- Drift scenario classes: **control-neutral, human-only-drift, manifest-bypass, semantic-conflict, human-primary-drift, route-integrity, path-safety**
+- Drift scenario classes: **control-neutral, human-only-drift, manifest-bypass, semantic-conflict, claim-conflict, human-primary-drift, route-integrity, path-safety**
 - Sync modes present: **agent-primary, human-primary**
 - Sync modes absent: **bidirectional**
 - Pair scopes absent: **phase, feature**
+- External sample corpora: **3**
+- External scenario seeds: **17**
+- External sample formats: **rst=4, markdown=13**
+- External sample phases: **build, design, governance, operate, planning, release, vision**
+- External sample benchmark dimensions: **coverage, drift, routing**
 
-**Expansion check:** the current benchmark now spans multiple synthetic datasets and more than one sync mode, so diversity is stronger than the original single-corpus baseline. Coverage across artifact families remains strong, but language coverage and real-world toolchain diversity are still limited.
+**Expansion check:** the main benchmark now spans multiple synthetic datasets and more than one sync mode, while the external sample supplement adds real open-source corpora for grep-first field realism. Coverage across artifact families remains strong, but language coverage is still limited and the fair common scoreboard is still narrower than a full multi-toolchain field matrix.
 
-### 7. Authoring overhead
+### 8. Authoring overhead
 
-- Bookkeeping entries (modules + pairs + touch routes + roles): **44**
-- Bookkeeping entries per benchmark item: **1.22**
+- Bookkeeping entries (modules + pairs + touch routes + roles): **45**
+- Bookkeeping entries per benchmark item: **1.25**
 
 ## Interpretation
 
@@ -140,22 +156,22 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 
 1. AODS can represent the full benchmark lifecycle without unsupported gaps.
 2. The structured artifact catalog is broad enough to cover architecture, workflow, contract, policy, and operations material in one corpus.
-3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only heuristic token and semantic-load signals.
-4. The benchmark now makes repository-scale corpus weight, raw loaded payload size, and rendered prompt-envelope size explicit instead of conflating them.
+3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only advisory token and exploratory query-route signals.
+4. The benchmark now makes repository-scale corpus weight, raw loaded payload size, rendered prompt-envelope size, and one runtime-backed request-body sample explicit instead of conflating them.
 
 ### Limits and failure modes
 
 - No declared-invariant or known governance scenario remains a built-in miss in the current benchmark pack.
 
 - The reference implementation now validates declared cross-surface invariants, but it still does not prove semantic equivalence beyond declared anchors.
-- Progressive loading is strongest for touch-routed authoring flows; semantic query loading still depends on corpus metadata quality and remains exploratory.
+- Progressive loading is strongest for touch-routed authoring flows; query routing still depends on corpus metadata quality and remains exploratory.
 - Compression is not automatically positive at corpus scale; routing and pairing metadata can erase local gains even when artifact-local compression exists.
-- Prompt-envelope metrics are a deterministic benchmark renderer, not a direct capture from a live agent runtime.
-- Sample diversity is still limited because the current benchmark remains synthetic, English-only, and narrower than a true multi-toolchain field sample.
+- The main scoreboard still relies on renderer-based prompt-envelope metrics across the full scenario set; the runtime-backed sample is currently one supplemental local Copilot CLI capture, not yet a full runtime matrix.
+- Sample diversity is stronger than before because it now includes an external open-source scenario supplement, but the pack remains English-only and narrower than a true multi-toolchain field sample.
 
 ## Bottom line
 
-**Coverage is strong, the objective touch-route gate is cleanly measurable, full-fidelity representation is achievable, and built-in anti-drift is materially stronger once shared_invariants are declared.** In this benchmark pack AODS preserves meaning, yet corpus weight may still grow because governance overhead can outweigh local artifact compression. The benchmark is now more objective and more diverse than the original single-corpus baseline, but it still needs broader language and field-sample coverage.
+**Coverage is strong, the objective touch-route gate is cleanly measurable, full-fidelity representation is achievable, and built-in anti-drift is materially stronger once shared_invariants are declared.** In this benchmark pack AODS preserves meaning, yet corpus weight may still grow because governance overhead can outweigh local artifact compression. The benchmark is now more objective and is no longer limited to a purely synthetic reading, but it still needs broader language coverage and a larger fair cross-toolchain field matrix.
 
 ## Appendix: reproducibility
 
@@ -163,6 +179,7 @@ This repository uses `benchmarks/aods-eval-lab` as its primary regression harnes
 cd <repo-root>
 npm install
 npm run validate:all
+npm run benchmark:runtime-capture   # optional supplemental sample
 npm run benchmark:evaluate
 npm run benchmark:compare
 npm run benchmark:test

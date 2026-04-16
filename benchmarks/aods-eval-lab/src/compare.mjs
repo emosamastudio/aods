@@ -37,7 +37,7 @@ export function runRoundOneComparison() {
   const results = {
     generated_at: new Date().toISOString(),
     benchmark_project: "benchmarks/aods-eval-lab",
-    scope: "Round-one archetype comparison against Markdown+YAML, llms.txt, and DITA baselines.",
+    scope: "Round-one archetype comparison against Markdown+YAML, llms.txt, and DITA baselines, plus an open-source field-sample supplement.",
     comparator_type: "format-archetype",
     benchmark_corpus: {
       system_id: SYSTEM.id,
@@ -72,12 +72,17 @@ export function runRoundOneComparison() {
       },
       loading: {
         objective_touch: aodsResults.loading.objective_touch,
-        exploratory_semantic: aodsResults.loading.exploratory_semantic,
+        exploratory_query: aodsResults.loading.exploratory_query,
         combined: aodsResults.loading.combined
       },
+      runtime_capture: aodsResults.runtime_capture,
       drift: {
         built_in_recall: aodsResults.drift.built_in_recall,
         semantic_recall: aodsResults.drift.semantic_recall,
+        semantic_recall_all_drift_cases: aodsResults.drift.semantic_recall_all_drift_cases,
+        semantic_applicable_scenario_count: aodsResults.drift.semantic_applicable_scenario_count,
+        structural_governance_recall: aodsResults.drift.structural_governance_recall,
+        structural_governance_scenario_count: aodsResults.drift.structural_governance_scenario_count,
         combined_recall: aodsResults.drift.combined_recall,
         built_in_false_positive_rate: aodsResults.drift.built_in_false_positive_rate,
         semantic_false_positive_rate: aodsResults.drift.semantic_false_positive_rate
@@ -85,6 +90,7 @@ export function runRoundOneComparison() {
       diversity: aodsResults.diversity,
       overhead: aodsResults.overhead
     },
+    field_sample: aodsResults.diversity.external_sample,
     fairness_contract: {
       canonical_dataset: "shared",
       shared_queries: LOADING_SCENARIOS.length,
@@ -104,9 +110,9 @@ export function runRoundOneComparison() {
       advisory_metrics: [
         "estimated token count",
         "tokens per benchmark item",
-        "exploratory semantic-load hit rate",
-        "exploratory semantic-load precision",
-        "exploratory semantic-load token savings"
+        "exploratory query-route hit rate",
+        "exploratory query-route precision",
+        "exploratory query-route token savings"
       ],
       aods_only_metrics: ["native drift recall", "paired-surface governance", "explicit authority model"]
     },
@@ -116,8 +122,10 @@ export function runRoundOneComparison() {
     ],
     limitations: [
       "Round one compares generated archetype corpora, not full upstream toolchain integrations.",
-      "Main scoreboards use exact bytes and touch-route scenarios; token counts and semantic-load scenarios are advisory only.",
-      "The benchmark corpus now spans multiple synthetic datasets and sync modes, but diversity is still narrower than a real multi-language field sample.",
+      "Main scoreboards use exact bytes and touch-route scenarios; token counts and exploratory query-route scenarios are advisory only.",
+      aodsResults.diversity.external_sample
+        ? "The benchmark now includes an external open-source field-sample supplement, but the fair common scoreboard still rests on the shared synthetic corpus."
+        : "The benchmark corpus now spans multiple synthetic datasets and sync modes, but diversity is still narrower than a real multi-language field sample.",
       "Native drift governance remains an AODS-specific metric in this round because the baseline archetypes do not provide equivalent enforcement contracts."
     ]
   };
@@ -151,7 +159,7 @@ function buildAodsBaseline(aodsResults) {
       corpus_tokens_estimated: aodsResults.fidelity.aods_tokens_estimated,
       tokens_per_benchmark_item: aodsResults.fidelity.aods_tokens_estimated / ARTIFACTS.length,
       token_reduction_vs_human: aodsResults.fidelity.token_reduction_vs_human,
-      loading: aodsResults.loading.exploratory_semantic
+      loading: aodsResults.loading.exploratory_query
     },
     governance: {
       native_validation: "schema + route + hook",
@@ -159,6 +167,7 @@ function buildAodsBaseline(aodsResults) {
       explicit_authority_model: true,
       native_drift_recall: aodsResults.drift.built_in_recall
     },
+    runtime_capture: aodsResults.runtime_capture,
     scenario_results: aodsResults.loading.scenario_results
   };
 }
@@ -197,7 +206,7 @@ function evaluateProfile(profile, facts, humanTokens, humanBytes) {
       corpus_tokens_estimated: profile.corpus_tokens_estimated,
       tokens_per_benchmark_item: profile.corpus_tokens_estimated / ARTIFACTS.length,
       token_reduction_vs_human: 1 - profile.corpus_tokens_estimated / humanTokens,
-      loading: loading.exploratory_semantic
+      loading: loading.exploratory_query
     },
     governance: profile.governance,
     scenario_results: loading.scenario_results
@@ -264,7 +273,7 @@ function evaluateProfileLoading(profile) {
       description: scenario.description,
       scenario_class: scenario.scenario_class,
       measurement_class: scenario.measurement_class,
-      mode: scenario.touch ? "touch-route" : "semantic-load",
+      mode: scenario.touch ? "touch-route" : "query-route",
       loaded_units: loadedUnitIds,
       loaded_modules: loadedModules,
       required_modules: scenario.requiredModules,
@@ -293,7 +302,7 @@ function evaluateProfileLoading(profile) {
     objective_touch: summarizeLoadingResults(
       scenarioResults.filter((scenario) => scenario.measurement_class === "objective")
     ),
-    exploratory_semantic: summarizeLoadingResults(
+    exploratory_query: summarizeLoadingResults(
       scenarioResults.filter((scenario) => scenario.measurement_class === "exploratory")
     ),
     combined: summarizeLoadingResults(scenarioResults),
@@ -554,6 +563,18 @@ function renderComparisonReport(results) {
         aodsBaseline.fidelity.exact_size.human_docs.byte_count
   );
   const diversity = aodsBaseline.diversity;
+  const externalSample = results.field_sample ?? diversity.external_sample;
+  const runtimeCapture = aodsBaseline.runtime_capture;
+  const runtimeCaptureRow = runtimeCapture
+    ? `| Runtime-backed local sample (AODS-only) | ${runtimeCapture.scenario.id}, exact provider request ${runtimeCapture.runtime_request.request_body_bytes} bytes, rendered prompt ${runtimeCapture.benchmark_prompt.bytes} bytes, ratio ${formatRatio(runtimeCapture.runtime_request.request_vs_prompt_ratio)}x |`
+    : "";
+  const externalSampleSummary = externalSample
+    ? `- **External field sample:** ${externalSample.corpus_count} open-source corpora, ${externalSample.scenario_count} grep-first scenario seeds, formats ${Object.entries(
+        externalSample.formats
+      )
+        .map(([format, count]) => `${format}=${count}`)
+        .join(", ")}`
+    : "- **External field sample:** not loaded in this run";
 
   return `# AODS round-one benchmark evaluation report
 
@@ -562,10 +583,11 @@ function renderComparisonReport(results) {
 - **Dataset:** ${corpus.system_name} benchmark corpus with **${corpus.total_modules}** modules, **${corpus.total_human_surfaces}** human surfaces, **${corpus.total_items}** lifecycle items, **${corpus.shared_loading_queries}** shared loading queries, and **${corpus.drift_scenarios}** drift scenarios
 - **Internal AODS result:** full lifecycle coverage, full fact preservation, **${byteSizeDelta}** by exact bytes, **${formatPercent(
     aodsBaseline.loading.objective_touch.hit_rate
-  )}** objective touch-route hit rate, objective median rendered prompt envelope **${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} bytes**, and **${formatPercent(aodsBaseline.drift.combined_recall)}** combined drift recall
+  )}** objective touch-route hit rate, objective median rendered prompt envelope **${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} bytes**${runtimeCapture ? `, supplemental local runtime request **${runtimeCapture.runtime_request.request_body_bytes} bytes** on ${runtimeCapture.scenario.id}` : ""}, and **${formatPercent(aodsBaseline.drift.combined_recall)}** combined drift recall
 - **External comparison headline:** AODS is the only baseline in round one with **${formatPercent(
     strongestGovernance.governance.native_drift_recall
   )}** native drift recall, while **${smallestCorpus.label}** is the smallest corpus by exact bytes and **${bestPrecision.label}** has the highest objective loading precision
+- ${externalSampleSummary.slice(2)}
 
 **Round-one verdict:** AODS now has a defensible benchmark position. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That means its value proposition is real for agent-heavy, drift-sensitive programs, but its corpus cost still needs optimization before it can replace lower-friction defaults everywhere.
 
@@ -575,6 +597,7 @@ This report combines two layers of measurement:
 
 1. **Internal self-evaluation:** whether AODS itself satisfies its own claims on lifecycle coverage, fidelity, progressive loading, and drift control
 2. **External round-one comparison:** whether AODS still looks meaningful when compared against strong alternative documentation archetypes built from the same source facts
+3. **External field-sample supplement:** whether the benchmark is now grounded by real open-source grep-first documentation slices without breaking the round-one fairness contract
 
 ## Benchmark design
 
@@ -626,9 +649,9 @@ Advisory metrics are still recorded, but they are not used as the primary round-
 
 - estimated token count
 - tokens per benchmark item
-- exploratory semantic-load hit rate
-- exploratory semantic-load precision
-- exploratory semantic-load token savings
+- exploratory query-route hit rate
+- exploratory query-route precision
+- exploratory query-route token savings
 
 AODS-native governance signals remain separate because the other archetypes do not expose equivalent authority and paired-surface contracts in round one.
 
@@ -644,19 +667,20 @@ AODS-native governance signals remain separate because the other archetypes do n
 | Corpus size (advisory) | ${aodsBaseline.fidelity.human_doc_tokens_estimated} estimated human-doc tokens vs ${aodsBaseline.fidelity.aods_tokens_estimated} estimated AODS tokens, ${tokenSizeDelta} |
 | Task-time context footprint (payload) | ${aodsBaseline.loading.objective_touch.median_route_bytes} median loaded bytes, ${aodsBaseline.loading.objective_touch.median_route_tokens_estimated} median loaded estimated tokens, ${aodsBaseline.loading.objective_touch.max_route_bytes} max loaded bytes |
 | Task-time context footprint (rendered prompt) | ${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} median prompt-envelope bytes, ${aodsBaseline.loading.objective_touch.median_prompt_envelope_tokens_estimated} median prompt-envelope estimated tokens, ${aodsBaseline.loading.objective_touch.median_prompt_envelope_overhead_bytes} median overhead bytes |
+${runtimeCaptureRow}
 | Loading (objective) | ${formatPercent(aodsBaseline.loading.objective_touch.hit_rate)} hit rate, ${formatPercent(aodsBaseline.loading.objective_touch.average_precision)} average precision, ${formatPercent(aodsBaseline.loading.objective_touch.average_recall)} average recall, ${formatPercent(aodsBaseline.loading.objective_touch.median_byte_savings_vs_full_load)} median byte savings |
-| Loading (advisory) | ${formatPercent(aodsBaseline.loading.exploratory_semantic.hit_rate)} hit rate, ${formatPercent(aodsBaseline.loading.exploratory_semantic.average_precision)} average precision, ${formatPercent(aodsBaseline.loading.exploratory_semantic.average_recall)} average recall, ${formatPercent(aodsBaseline.loading.exploratory_semantic.median_token_savings_vs_full_load)} median token savings |
-| Drift | ${formatPercent(aodsBaseline.drift.built_in_recall)} built-in recall, ${formatPercent(aodsBaseline.drift.semantic_recall)} semantic recall, ${formatPercent(aodsBaseline.drift.combined_recall)} combined recall |
-| Diversity audit | ${diversity.dataset_count} dataset, domains ${diversity.domains.join(", ")}, languages ${diversity.languages.join(", ")}, sync modes ${diversity.sync_modes.present.join(", ") || "none"} |
+| Loading (advisory) | ${formatPercent(aodsBaseline.loading.exploratory_query.hit_rate)} hit rate, ${formatPercent(aodsBaseline.loading.exploratory_query.average_precision)} average precision, ${formatPercent(aodsBaseline.loading.exploratory_query.average_recall)} average recall, ${formatPercent(aodsBaseline.loading.exploratory_query.median_token_savings_vs_full_load)} median token savings |
+| Drift | ${formatPercent(aodsBaseline.drift.built_in_recall)} built-in recall, ${formatPercent(aodsBaseline.drift.semantic_recall)} semantic-applicable recall, ${formatPercent(aodsBaseline.drift.structural_governance_recall)} structural-governance recall, ${formatPercent(aodsBaseline.drift.combined_recall)} combined recall |
+| Diversity audit | ${diversity.dataset_count} synthetic dataset, domains ${diversity.domains.join(", ")}, languages ${diversity.languages.join(", ")}, sync modes ${diversity.sync_modes.present.join(", ") || "none"}${externalSample ? `, external field sample ${externalSample.corpus_count} corpora / ${externalSample.scenario_count} seeds` : ""} |
 | Overhead | ${aodsBaseline.overhead.bookkeeping_entries} bookkeeping entries, ${formatRatio(aodsBaseline.overhead.bookkeeping_entries_per_artifact)} per artifact, ${aodsBaseline.overhead.touch_route_count} touch routes, ${aodsBaseline.overhead.role_count} roles |
 
-**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight and benchmark diversity that is still narrower than a true field sample. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, and rendered prompt-envelope bytes as separate measurements.
+**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, and one supplemental runtime request-body sample as separate measurements.
 
 ## Benchmark objectivity and diversity audit
 
 - **Primary scoreboard basis:** exact bytes + objective touch-route scenarios
-- **Context-footprint basis:** objective median rendered prompt-envelope bytes approximates task-time context occupancy, while median loaded bytes remain the lower-level payload counter underneath it
-- **Advisory-only signals:** estimated token counts + exploratory semantic-load scenarios
+- **Context-footprint basis:** objective median rendered prompt-envelope bytes remain the shared scoreboard metric, while the new AODS-only local runtime sample shows what one real Copilot CLI provider request body looks like on top of that routed prompt
+- **Advisory-only signals:** estimated token counts + exploratory query-route scenarios
 - **Dataset count:** ${diversity.dataset_count}
 - **Domains:** ${diversity.domains.join(", ")}
 - **Languages:** ${diversity.languages.join(", ")}
@@ -664,8 +688,25 @@ AODS-native governance signals remain separate because the other archetypes do n
 - **Sync modes present:** ${diversity.sync_modes.present.join(", ") || "none"}
 - **Sync modes absent:** ${diversity.sync_modes.missing.join(", ") || "none"}
 - **Pair scopes absent:** ${diversity.pair_scopes.missing.join(", ") || "none"}
+${externalSample
+  ? `- **External field sample:** ${externalSample.corpus_count} corpora, ${externalSample.scenario_count} scenario seeds, phases ${externalSample.lifecycle_phases.join(
+      ", "
+    )}, benchmark dimensions ${externalSample.benchmark_dimensions.join(", ")}`
+  : ""}
 
-This makes the round-one judgment more objective than the earlier benchmark pass, and it also makes the remaining diversity gaps explicit: the current benchmark is multi-domain and includes both agent-primary and human-primary sync, but it is still synthetic, English-only, and narrower than a field sample.
+This makes the round-one judgment more objective than the earlier benchmark pass, and it also makes the remaining diversity gaps explicit: the common scoreboard is multi-domain and includes both agent-primary and human-primary sync, while the new open-source field sample adds real corpora pressure. Even so, language coverage is still English-only and the field sample is not yet a full fair cross-toolchain matrix.
+
+## External field-sample supplement
+
+${externalSample
+  ? `- **Open-source corpora:** ${externalSample.corpus_count}
+- **Scenario seeds:** ${externalSample.scenario_count}
+- **Formats:** ${Object.entries(externalSample.formats)
+      .map(([format, count]) => `${format}=${count}`)
+      .join(", ")}
+- **Benchmark roles:** ${externalSample.benchmark_roles.join(", ")}
+- **Why this stays separate from the main scoreboard:** these corpora are not generated from the shared canonical source facts, so they strengthen diversity and routing realism but do not satisfy the round-one fairness contract for direct cross-format scoring.`
+  : "- No external field-sample artifact was loaded for this run."}
 
 ## Round-one external comparison
 
@@ -723,10 +764,11 @@ For large projects today, the benchmark supports this practical reading:
 ## Limitations and next steps
 
 - These corpora are **benchmark archetypes**, not full upstream toolchain integrations.
-- Advisory metrics still include deterministic chars-per-token estimates and semantic-load heuristics.
-- Rendered prompt-envelope bytes are still a benchmark renderer, not a capture of the exact final prompt envelope of a live agent runtime.
+- Advisory metrics still include deterministic chars-per-token estimates and exploratory query-route proxies.
+- The common scoreboard still uses renderer-based prompt-envelope bytes; the new runtime capture is currently an AODS-only supplemental sample, not a fair cross-baseline runtime matrix.
 - The benchmark corpus is synthetic but lifecycle-complete, so this is a strong laboratory signal rather than a universal field sample.
 - The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed toolchain samples.
+- The benchmark still needs more diversity: more languages, more real-world corpora beyond the current three-project supplement, and more runtime-backed toolchain samples.
 - Round two should add Backstage or TechDocs runtime execution, plus narrower spec-first comparators such as OpenAPI, AsyncAPI, or TypeSpec for partial-domain benchmarking.
 
 If AODS keeps outperforming these archetypes on loading and governance while reducing corpus cost, then the case for wider adoption becomes materially stronger.

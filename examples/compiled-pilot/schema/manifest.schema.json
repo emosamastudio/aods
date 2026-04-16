@@ -42,6 +42,10 @@
       "maxLength": 300,
       "description": "One-line system purpose. Agent uses this to confirm it has the right corpus."
     },
+    "companion_index": {
+      "$ref": "#/definitions/relative_path",
+      "description": "Optional path to a second-hop manifest companion. Use to externalize glossary, roles, touch routes, and paired-surface maps so manifest.json stays small at bootstrap."
+    },
     "glossary": {
       "type": "object",
       "additionalProperties": {
@@ -209,6 +213,132 @@
             "supplementary"
           ],
           "default": "standard"
+        },
+        "control": {
+          "$ref": "#/definitions/control_meta",
+          "description": "Optional control taxonomy for this module. Mirrors module.meta.control when declared."
+        },
+        "provenance": {
+          "$ref": "#/definitions/provenance_ref",
+          "description": "Optional provenance summary for bootstrap routing. Mirrors the memory_role and confidence fields from module.meta.provenance."
+        },
+        "runtime_contract": {
+          "$ref": "#/definitions/runtime_contract_ref",
+          "description": "Optional runtime contract summary for bootstrap risk and output awareness. Mirrors side_effects and outputs from module.meta.runtime_contract."
+        }
+      }
+    },
+    "control_role": {
+      "type": "string",
+      "enum": [
+        "guide",
+        "sensor",
+        "hybrid"
+      ]
+    },
+    "control_method": {
+      "type": "string",
+      "enum": [
+        "computational",
+        "inferential",
+        "hybrid"
+      ]
+    },
+    "control_timing": {
+      "type": "string",
+      "enum": [
+        "pre-commit",
+        "ci",
+        "continuous",
+        "runtime"
+      ]
+    },
+    "control_meta": {
+      "type": "object",
+      "required": [
+        "role",
+        "method",
+        "timing"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "$ref": "#/definitions/control_role",
+          "description": "guide=orient or route. sensor=verify, detect, block, or audit. hybrid=both."
+        },
+        "method": {
+          "$ref": "#/definitions/control_method",
+          "description": "computational=deterministic rule or exact algorithm. inferential=heuristic or model-mediated judgment. hybrid=both."
+        },
+        "timing": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/control_timing"
+          },
+          "description": "Phases where this control is expected to act."
+        }
+      }
+    },
+    "memory_role": {
+      "type": "string",
+      "enum": [
+        "authority",
+        "working",
+        "evidence"
+      ]
+    },
+    "confidence_level": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "mixed"
+      ]
+    },
+    "provenance_ref": {
+      "type": "object",
+      "required": [
+        "memory_role",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "memory_role": {
+          "$ref": "#/definitions/memory_role",
+          "description": "authority=canonical semantic source. working=task-time routing or scratch guidance. evidence=proof-bearing or audit material."
+        },
+        "confidence": {
+          "$ref": "#/definitions/confidence_level",
+          "description": "Confidence posture of the module's claims after synthesis and review."
+        }
+      }
+    },
+    "runtime_contract_ref": {
+      "type": "object",
+      "required": [
+        "side_effects"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "side_effects": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Externally visible effects or durable state transitions. Use ['none'] for read-only behavior."
+        },
+        "outputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Named durable outputs expected from this module's governed execution path."
         }
       }
     },

@@ -1,4 +1,5 @@
 {
+  "$schema": "aods://schema/authoring/v1",
   "authoring_v": 1,
   "corpus": {
     "sys": "shift-ops-pilot",
@@ -49,6 +50,37 @@
         "routing",
         "operations"
       ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "working",
+          "sources": [
+            "shift-ops-capsule:system-capsule"
+          ],
+          "confidence": "medium",
+          "review_chain": [
+            "ops-maintainer-review"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "router"
+          ],
+          "resources": [
+            "manifest",
+            "capsule module"
+          ],
+          "side_effects": [
+            "none"
+          ]
+        }
+      },
       "boot": true,
       "sections": [
         {
@@ -108,6 +140,38 @@
         "routing",
         "operations"
       ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "working",
+          "sources": [
+            "shift-ops-policy:approval-policy",
+            "shift-ops-runbook:incident-response"
+          ],
+          "confidence": "medium",
+          "review_chain": [
+            "ops-maintainer-review"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "router"
+          ],
+          "resources": [
+            "policy module",
+            "runbook module"
+          ],
+          "side_effects": [
+            "none"
+          ]
+        }
+      },
       "boot": true,
       "capsule": {
         "read_when": [
@@ -149,6 +213,47 @@
         "policy",
         "change-control"
       ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "change-policy-v1"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "ops-policy-approval"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "validator",
+            "ticket-system"
+          ],
+          "resources": [
+            "change-request",
+            "approval-record"
+          ],
+          "side_effects": [
+            "approval-decision"
+          ],
+          "telemetry": [
+            "approval-status"
+          ],
+          "checkpoints": [
+            "approval-validated"
+          ],
+          "outputs": [
+            "approval-evidence"
+          ]
+        }
+      },
       "sections": [
         {
           "sid": "approval-policy",
@@ -207,6 +312,48 @@
         "runbook",
         "incident"
       ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "sev1-runbook-v1"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "sre-review"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "pager",
+            "incident-bridge"
+          ],
+          "resources": [
+            "incident-bridge",
+            "on-call roster"
+          ],
+          "side_effects": [
+            "incident-state-change"
+          ],
+          "telemetry": [
+            "bridge-status"
+          ],
+          "checkpoints": [
+            "bridge-open",
+            "rollback-owner-assigned"
+          ],
+          "outputs": [
+            "incident-bridge-record"
+          ]
+        }
+      },
       "sections": [
         {
           "sid": "incident-response",

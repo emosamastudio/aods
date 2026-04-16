@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 7,
-  "context": "Defines validation rules for AODS corpus integrity. AODS v3 adds surface-pair, layer, capsule, touch-route, artifact-semantic, and experimental bidirectional-sync checks on top of schema, referential integrity, completeness, and AOP compliance.",
+  "v": 10,
+  "context": "Defines validation rules for AODS corpus integrity. AODS v3 adds surface-pair, claim-conflict, layer, capsule, touch-route, artifact-semantic, control-taxonomy, provenance-summary, runtime-contract, and experimental bidirectional-sync checks on top of schema, referential integrity, completeness, and AOP compliance.",
   "assumptions": [
     "Validator has access to all files in corpus",
     "JSON Schema draft-07 validation is available"
@@ -11,7 +11,7 @@
     {
       "sid": "structural",
       "topic": "structural validation rules",
-      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained.",
+      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained. control metadata, provenance summaries, and runtime-contract summaries, when declared, validate on both manifest.modules[] and module.meta.",
       "content_type": "rules",
       "refs": [
         "referential",
@@ -26,7 +26,7 @@
     {
       "sid": "referential",
       "topic": "referential integrity rules",
-      "content": "L2 MUST: deps[] resolve to manifest.modules[].id. section.refs[] resolve. section.artifact_refs[] resolve. role.required_modules[] resolve. meta.capsule.routes_to resolve. boot_by_touch.load_modules[] resolve. surface_pairs.agent_primary and agent_supporting resolve. human_primary and human_supporting paths exist inside corpus root. Artifact-internal references also resolve: process-flow next targets, subprocess_ref, payload_schema, decision-tree node targets, topology endpoints, group node IDs, and mapping-table row width against declared columns. Circular module deps forbidden; circular section refs allowed with warning.",
+        "content": "L2 MUST: deps[] resolve to manifest.modules[].id. section.refs[] resolve. section.artifact_refs[] resolve. role.required_modules[] resolve. meta.capsule.routes_to resolve. boot_by_touch.load_modules[] resolve. surface_pairs.agent_primary and agent_supporting resolve. human_primary and human_supporting paths exist inside corpus root. Paired human and agent surfaces must not disagree on conservatively extractable high-signal claims such as from-to deltas, must-include lists, timed actions, and execution preconditions. Claim-diff extraction reads agent_primary context, sections, and structured artifact semantics, and it compares full claim sets rather than treating one overlapping value as agreement. Artifact-internal references also resolve: process-flow next targets, subprocess_ref, payload_schema, decision-tree node targets, topology endpoints, group node IDs, and mapping-table row width against declared columns. Circular module deps forbidden; circular section refs allowed with warning.",
       "content_type": "rules",
       "refs": [
         "structural"
@@ -39,13 +39,27 @@
     {
       "sid": "surface-governance",
       "topic": "surface pair layer and capsule checks",
-      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set; manifest-only metadata edits do not satisfy semantic sync. shared_invariants, when declared on a surface_pair, must remain present in both agent_primary and human_primary texts. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
+      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists, and the reference hook requires manual review when bidirectional pairs change. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set; hook also rejects agent-only edits when sync_source=human-primary. manifest-only metadata edits do not satisfy semantic sync. shared_invariants, when declared on a surface_pair, must remain present in both agent_primary and human_primary texts. Claim-diff checks stay conservative and only fire when validator can deterministically align both sides. If control metadata is declared, manifest.modules[].control and module.meta.control should match exactly, and sensor-only modules should not live in root or capsule layers. If provenance metadata is declared, manifest.modules[].provenance and module.meta.provenance should agree on memory_role + confidence. If runtime contracts are declared, manifest.modules[].runtime_contract and module.meta.runtime_contract should agree on side_effects + outputs, and side effects beyond none should expose telemetry, checkpoints, or outputs. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
         "surface-governance-rules"
       ],
       "criticality": "should"
+    },
+    {
+      "sid": "provenance-runtime",
+      "topic": "provenance and runtime contract checks",
+      "content": "L2 MUST: if manifest.modules[].provenance or module.meta.provenance is declared, both sides stay present and memory_role + confidence match. L2 MUST: if manifest.modules[].runtime_contract or module.meta.runtime_contract is declared, both sides stay present and side_effects + outputs match. L2 MUST: runtime contracts with side effects other than none expose at least one observable anchor via telemetry, checkpoints, or outputs. These rules keep bootstrap routing aligned with deeper execution and prevent invisible side effects.",
+      "content_type": "rules",
+      "refs": [
+        "structural",
+        "surface-governance"
+      ],
+      "artifact_refs": [
+        "surface-governance-rules"
+      ],
+      "criticality": "must"
     },
     {
       "sid": "aop-compliance",
@@ -97,7 +111,7 @@
             "L2",
             "reference integrity",
             "error",
-            "broken refs; broken routes_to; missing human path; invalid process-flow targets; invalid topology endpoints; mapping-table row mismatch"
+            "broken refs; broken routes_to; missing human path; paired claim conflict; control metadata mismatch; provenance summary mismatch; runtime contract mismatch; invisible side effects; sensor declared in root/capsule; invalid process-flow targets; invalid topology endpoints; mapping-table row mismatch"
           ],
           [
             "L3",
@@ -166,10 +180,52 @@
             "source": "validation"
           },
           {
+            "id": "surface-pair-claim-conflicts-hold",
+            "condition": "paired_surface_claim_conflict(surface_pair.agent_primary, surface_pair.human_primary) == true",
+            "action": "L2 error: paired surfaces contain contradictory high-signal claims",
+            "priority": 46,
+            "source": "validation"
+          },
+          {
+            "id": "control-metadata-mirror",
+            "condition": "module.control.declared == true AND mirror_match(module.control, manifest.modules[].control) == false",
+            "action": "L2 error: manifest.modules[].control must match module.meta.control",
+            "priority": 47,
+            "source": "validation"
+          },
+          {
+            "id": "provenance-summary-mirror",
+            "condition": "module.provenance.declared == true AND mirror_match(module.provenance.summary, manifest.modules[].provenance) == false",
+            "action": "L2 error: manifest.modules[].provenance must match module.meta.provenance summary fields",
+            "priority": 48,
+            "source": "validation"
+          },
+          {
+            "id": "runtime-contract-mirror",
+            "condition": "module.runtime_contract.declared == true AND mirror_match(module.runtime_contract.summary, manifest.modules[].runtime_contract) == false",
+            "action": "L2 error: manifest.modules[].runtime_contract must match module.meta.runtime_contract summary fields",
+            "priority": 49,
+            "source": "validation"
+          },
+          {
+            "id": "runtime-contract-observability",
+            "condition": "module.runtime_contract.side_effects != ['none'] AND no_observability_anchor(module.runtime_contract) == true",
+            "action": "L2 error: runtime contracts with side effects must declare telemetry, checkpoints, or outputs",
+            "priority": 50,
+            "source": "validation"
+          },
+          {
+            "id": "sensor-not-root-or-capsule",
+            "condition": "module.control.role == 'sensor' AND (module.layer == 'root' OR module.layer == 'capsule')",
+            "action": "L2 error: sensor-only modules must not live in root or capsule layers",
+            "priority": 51,
+            "source": "validation"
+          },
+          {
             "id": "boot-starts-with-root",
             "condition": "first_layer(boot_sequence) != 'root'",
             "action": "L3 warning: boot should start with root layer",
-            "priority": 50,
+            "priority": 52,
             "source": "validation"
           },
           {
@@ -335,10 +391,72 @@
       "v": 7,
       "delta": "Added shared_invariants surface-pair validation so declared semantic anchors become built-in detectable drift failures.",
       "breaking": false
+    },
+    {
+      "v": 8,
+      "delta": "Added conservative paired-surface claim-conflict validation for deterministic high-signal semantic contradictions.",
+      "breaking": false
+    },
+    {
+      "v": 9,
+      "delta": "Added control metadata mirroring and sensor-layer restrictions for the explicit control taxonomy.",
+      "breaking": false
+    },
+    {
+      "v": 10,
+      "delta": "Added provenance summary mirroring and runtime-contract observability rules so bootstrap metadata stays aligned with deeper execution contracts.",
+      "breaking": false
     }
   ],
   "meta": {
     "stability": "stable",
-    "review_cycle": "on-change"
+    "review_cycle": "on-change",
+    "control": {
+      "role": "sensor",
+      "method": "computational",
+      "timing": [
+        "pre-commit",
+        "ci"
+      ]
+    },
+    "provenance": {
+      "memory_role": "authority",
+      "sources": [
+        "spec-surface-governance:provenance-contract",
+        "spec-boot-protocol:runtime-contract-loading"
+      ],
+      "confidence": "high",
+      "review_chain": [
+        "maintainer-review",
+        "validate:strict"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "schema-validator",
+        "rule-evaluator"
+      ],
+      "resources": [
+        "manifest.json",
+        "module files",
+        "paired human surfaces"
+      ],
+      "side_effects": [
+        "validation-report"
+      ],
+      "telemetry": [
+        "validation-errors",
+        "validation-warnings"
+      ],
+      "checkpoints": [
+        "l1-complete",
+        "l2-complete",
+        "l3-complete",
+        "l4-complete"
+      ],
+      "outputs": [
+        "validation-report"
+      ]
+    }
   }
 }

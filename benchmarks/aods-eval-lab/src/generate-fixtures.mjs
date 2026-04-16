@@ -2,6 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 import {
+  buildManifestCompanion,
+  DEFAULT_MANIFEST_COMPANION_PATH
+} from "../../../lib/manifest-runtime.mjs";
+import {
   ARTIFACTS,
   DATASETS,
   DRIFT_SCENARIOS,
@@ -64,8 +68,11 @@ export function generateAll() {
     writeJson(path.join(paths.corpusRoot, module.path), module.content);
   }
 
-  const manifest = buildManifest(modules);
+  const { manifest, companion } = buildManifest(modules);
   writeJson(path.join(paths.corpusRoot, "manifest.json"), manifest);
+  if (companion) {
+    writeJson(path.join(paths.corpusRoot, manifest.companion_index), companion, { compact: true });
+  }
 
   const factMap = buildFactMap();
   writeJson(path.join(paths.resultsRoot, "fact-map.json"), factMap);
@@ -85,6 +92,7 @@ export function generateAll() {
     docs,
     modules,
     manifest,
+    companion,
     factMap
   };
 }
@@ -92,7 +100,7 @@ export function generateAll() {
 function copySchema() {
   const targetSchemaRoot = path.join(CORPUS_ROOT, "schema");
   ensureDir(targetSchemaRoot);
-  for (const fileName of ["manifest.schema.json", "module.schema.json"]) {
+  for (const fileName of ["manifest.schema.json", "manifest-companion.schema.json", "module.schema.json"]) {
     fs.copyFileSync(path.join(AODS_SCHEMA_ROOT, fileName), path.join(targetSchemaRoot, fileName));
   }
 }
@@ -288,15 +296,13 @@ function buildModuleMeta(blueprint) {
 
 function buildManifest(modules) {
   const moduleById = new Map(modules.map((module) => [module.id, module]));
-  return {
+  const manifest = {
     aods_v: 3,
     sys: SYSTEM.id,
     sys_v: 1,
     created: FIXTURE_TIMESTAMP,
     updated: FIXTURE_TIMESTAMP,
     purpose: SYSTEM.purpose,
-    glossary: SYSTEM.glossary,
-    roles: ROLE_DEFS,
     modules: MODULE_BLUEPRINTS.map((blueprint) => ({
       id: blueprint.id,
       path: blueprint.path,
@@ -309,10 +315,16 @@ function buildManifest(modules) {
       priority: blueprint.priority
     })),
     boot_sequence: ["atlas-root", "atlas-capsule", "harbor-root", "harbor-capsule"],
-    boot_by_role: Object.fromEntries(ROLE_DEFS.map((role) => [role.id, role.required_modules])),
-    boot_by_touch: buildTouchRoutes(),
-    surface_pairs: buildSurfacePairs()
+    companion_index: DEFAULT_MANIFEST_COMPANION_PATH
   };
+  const companion = buildManifestCompanion({
+    glossary: SYSTEM.glossary,
+    roles: ROLE_DEFS,
+    bootByRole: Object.fromEntries(ROLE_DEFS.map((role) => [role.id, role.required_modules])),
+    bootByTouch: buildTouchRoutes(),
+    surfacePairs: buildSurfacePairs()
+  });
+  return { manifest, companion };
 }
 
 function buildTouchRoutes() {
@@ -333,6 +345,23 @@ function buildTouchRoutes() {
         "harbor-audit-evidence"
       ],
       reason: "Manifest edits affect routing, pairing, and benchmark scope."
+    },
+    {
+      match: DEFAULT_MANIFEST_COMPANION_PATH,
+      intent: "write",
+      load_modules: [
+        "atlas-root",
+        "atlas-capsule",
+        "product-lifecycle",
+        "architecture-contracts",
+        "delivery-workflows",
+        "operations-governance",
+        "harbor-root",
+        "harbor-capsule",
+        "harbor-change-control",
+        "harbor-audit-evidence"
+      ],
+      reason: "Companion edits affect routing, pairing, and benchmark scope."
     },
     {
       match: "README.md",

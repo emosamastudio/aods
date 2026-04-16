@@ -8,7 +8,7 @@ export function measureBenchmarkPromptEnvelope({ formatLabel, scenario, resource
   };
 }
 
-function renderBenchmarkPromptEnvelope({ formatLabel, scenario, resources }) {
+export function renderBenchmarkPromptEnvelope({ formatLabel, scenario, resources }) {
   const lines = [
     "# Benchmark prompt envelope",
     "",
@@ -16,7 +16,7 @@ function renderBenchmarkPromptEnvelope({ formatLabel, scenario, resources }) {
     `scenario_id: ${scenario.id}`,
     `scenario_class: ${scenario.scenario_class}`,
     `measurement_class: ${scenario.measurement_class}`,
-    `mode: ${scenario.touch ? "touch-route" : "semantic-load"}`,
+    `mode: ${scenario.touch ? "touch-route" : "query-route"}`,
     `task: ${scenario.description}`
   ];
 

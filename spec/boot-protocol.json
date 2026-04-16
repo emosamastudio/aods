@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-boot-protocol",
-  "v": 3,
-  "context": "Defines zero-knowledge bootstrap protocol. AODS v3 adds layer-aware progressive disclosure: root first, capsule next, detail on demand, evidence only on explicit review or debugging paths. Large corpora may also expose boot_by_touch for file-scoped authoring routes.",
+  "v": 6,
+  "context": "Defines zero-knowledge bootstrap protocol. AODS v3 adds layer-aware progressive disclosure: root first, capsule next, detail on demand, evidence only on explicit review or debugging paths. Large corpora may also expose boot_by_touch for file-scoped authoring routes, manifest runtime-contract summaries for risk-aware loading, task-stage-aware query routing, and lexical query routing for grep-compatible discovery.",
   "assumptions": [
     "Agent has filesystem access to corpus root directory",
     "Agent can parse JSON",
@@ -51,7 +51,7 @@
     {
       "sid": "touch-routing",
       "topic": "file scoped authoring routes",
-      "content": "If task is anchored to one touched file and manifest.boot_by_touch contains matching route -> prefer route.load_modules over broad role boot. Exact path beats glob. Higher-specificity glob beats lower-specificity glob. Always include touched module itself when touched path equals modules[].path. Use boot_by_role or boot_sequence only when no touch route exists.",
+      "content": "If task is anchored to one touched file and manifest.boot_by_touch contains matching route -> prefer route.load_modules over broad role boot or query routing. Exact path beats glob. Higher-specificity glob beats lower-specificity glob. Always include touched module itself when touched path equals modules[].path. Use boot_by_role, query routing, or boot_sequence only when no touch route exists.",
       "content_type": "logic",
       "refs": [
         "cold-start",
@@ -63,9 +63,37 @@
       "criticality": "should"
     },
     {
+      "sid": "runtime-contract-loading",
+      "topic": "runtime contract loading and observability",
+      "content": "manifest.modules[].runtime_contract is bootstrap summary: side_effects + outputs only. module.meta.runtime_contract carries full execution contract: tools, resources, telemetry, checkpoints, outputs. Read the manifest summary before choosing an execution path with external effects. Open module.meta.runtime_contract when the task needs exact environment assumptions, visible telemetry, or resumable checkpoints. If side_effects != ['none'] -> do not execute blindly; require at least one observable anchor from telemetry|checkpoints|outputs.",
+      "content_type": "logic",
+      "refs": [
+        "on-demand-loading",
+        "budget-management"
+      ],
+      "artifact_refs": [
+        "runtime-contract-table"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "task-stage-routing",
+      "topic": "task stage aware query routing",
+      "content": "route CLI may accept --stage orientation|plan|action|verification|evidence. If stage is absent, query routing may infer it from lexical cues. Stage refines ranking inside the current layer model instead of replacing layers: orientation prefers root|capsule, plan prefers architecture|policy detail, action prefers workflow|policy detail, verification prefers review or sensor-capable modules, evidence prefers evidence-layer or audit-heavy references. Use stage when the task goal is clearer than the exact file target.",
+      "content_type": "logic",
+      "refs": [
+        "on-demand-loading",
+        "touch-routing"
+      ],
+      "artifact_refs": [
+        "task-stage-table"
+      ],
+      "criticality": "should"
+    },
+    {
       "sid": "on-demand-loading",
       "topic": "lazy module loading during task execution",
-      "content": "Extract task concepts. Match against modules[].scope and modules[].tags. Use layer first: root for routing, capsule for summary, detail for semantic authority, evidence for proof. If touch path exists and boot_by_touch route matches -> load route modules before heuristic scope matching. Load deps before target. Human surfaces never replace agent-primary semantic source; use manifest.surface_pairs only to locate paired human narrative when needed.",
+      "content": "If no touch route wins, extract task query terms and match them against stable lexical anchors such as module_id, scope, tags, section topics, artifact IDs, capsule hints, paired human paths, and declared shared invariants. Expand explicit aliases only when they are deterministic and grep-compatible. Use layer as a routing preference: root for orientation, capsule for summary, detail for semantic authority, evidence for proof only. If touch path exists and boot_by_touch route matches -> load route modules before lexical query routing. Load deps before target only when the task requires edit or execution context; do not expand read queries into broad dependency closure by default. Human surfaces never replace agent-primary semantic source; use manifest.surface_pairs only to locate paired human narrative when needed.",
       "content_type": "logic",
       "refs": [
         "budget-management",
@@ -340,6 +368,84 @@
           ]
         ]
       }
+    },
+    {
+      "artifact_id": "runtime-contract-table",
+      "type": "mapping-table",
+      "usage": "Field guide for manifest summary vs full module runtime contract.",
+      "content": {
+        "key_columns": [
+          "surface"
+        ],
+        "columns": [
+          "surface",
+          "fields",
+          "when_to_read",
+          "use"
+        ],
+        "rows": [
+          [
+            "manifest.modules[].runtime_contract",
+            "side_effects|outputs",
+            "before picking an execution path",
+            "risk-aware routing without loading full detail"
+          ],
+          [
+            "module.meta.runtime_contract",
+            "tools|resources|side_effects|telemetry|checkpoints|outputs",
+            "before edits, execution, or audit",
+            "full environment contract and observability anchors"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "task-stage-table",
+      "type": "mapping-table",
+      "usage": "Field guide for task-stage-aware query routing.",
+      "content": {
+        "key_columns": [
+          "stage"
+        ],
+        "columns": [
+          "stage",
+          "preferred_layers",
+          "preferred_module_shapes",
+          "question_shape"
+        ],
+        "rows": [
+          [
+            "orientation",
+            "root|capsule",
+            "routing and summary modules",
+            "Where should I start?"
+          ],
+          [
+            "plan",
+            "capsule|detail",
+            "architecture and policy modules",
+            "What should happen and in what order?"
+          ],
+          [
+            "action",
+            "detail",
+            "workflow, policy, and contract authority",
+            "What do I change or execute now?"
+          ],
+          [
+            "verification",
+            "detail|evidence",
+            "validation, review, and audit-aware modules",
+            "How do I prove or check this?"
+          ],
+          [
+            "evidence",
+            "evidence|detail",
+            "proof-bearing or audit-heavy references",
+            "Where is the supporting trace?"
+          ]
+        ]
+      }
     }
   ],
   "changelog": [
@@ -351,10 +457,68 @@
       "v": 2,
       "delta": "Added layer-aware progressive disclosure, capsule loading, evidence gate, and human-surface lookup rules.",
       "breaking": false
+    },
+    {
+      "v": 3,
+      "delta": "Added explicit touch-routing precedence for file-scoped authoring flows.",
+      "breaking": false
+    },
+    {
+      "v": 4,
+      "delta": "Clarified that non-touch routing should be lexical-plus-structural, grep-compatible, and dependency-light by default.",
+      "breaking": false
+    },
+    {
+      "v": 5,
+      "delta": "Added runtime contract summaries and observability guidance so bootstrap can reason about execution risk before loading full detail modules.",
+      "breaking": false
+    },
+    {
+      "v": 6,
+      "delta": "Added task-stage-aware query routing so stage intent can refine module ranking beyond layer-only disclosure.",
+      "breaking": false
     }
   ],
   "meta": {
     "stability": "stable",
-    "review_cycle": "on-change"
+    "review_cycle": "on-change",
+    "provenance": {
+      "memory_role": "authority",
+      "sources": [
+        "aods-v3-bootstrap-design",
+        "spec-surface-governance:authority-resolution"
+      ],
+      "confidence": "high",
+      "review_chain": [
+        "maintainer-review",
+        "validate:strict"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "json-reader",
+        "ref-resolver"
+      ],
+      "resources": [
+        "manifest.json",
+        "module files",
+        "companion index"
+      ],
+      "side_effects": [
+        "working-set-selection"
+      ],
+      "telemetry": [
+        "loaded-modules",
+        "budget-pressure"
+      ],
+      "checkpoints": [
+        "manifest-read",
+        "boot-list-selected",
+        "working-set-ready"
+      ],
+      "outputs": [
+        "active-working-set"
+      ]
+    }
   }
 }

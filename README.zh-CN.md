@@ -20,10 +20,11 @@ AODS 的存在，就是因为现有方案通常只解决其中一个切面。Mar
 AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都能压缩”：
 
 1. **先把语料库结构化成 agent 友好的形式。** 用 typed JSON modules 和 typed artifacts，而不只是 prose 文档。
-2. **渐进式加载。** 从 `root` 开始，通过 `capsule` 路由，再打开 `detail` 或 `evidence`。
-3. **显式声明权威来源。** 用 `surface_pairs`、`sync_source`、`shared_invariants` 把 human/agent 表面的关系变成可检查的契约。
-4. **强制执行契约。** 通过 schema validation、route checks、pre-commit enforcement 阻止格式错误和不安全同步。
-5. **降低 authoring 成本。** 把 AODS 逐步推进成“编译产物”，而不是要求所有 corpus 长期手写 JSON。
+2. **渐进式加载。** 从 `root` 开始，通过 `capsule` 路由，再打开 `detail` 或 `evidence`。在实际使用里，这个路由既可以从触达文件（`--touch`）开始，也可以从自然语言查询（`--query`）开始。
+3. **显式声明权威来源。** 用 `surface_pairs`、`sync_source`、`shared_invariants` 明确一对 human/agent 文件之间的关系，以及哪一侧是主导来源。
+4. **尽早拦截明显矛盾。** validator 现在会保守地检查几类高信号的关键说法，例如“从 A 到 B”的变化、必填项列表、时间窗口、执行前置条件。
+5. **强制执行契约。** 通过 schema validation、route checks、pre-commit enforcement 阻止格式错误和不安全同步。
+6. **降低 authoring 成本。** 把 AODS 逐步推进成“编译产物”，而不是要求所有 corpus 长期手写 JSON。
 
 这个仓库把三层东西放在了一起：
 
@@ -32,6 +33,48 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 | **Standard** | `manifest.json`、`schema/`、`spec/` 定义 AODS 的规范性契约 |
 | **Reference implementation** | `bin/` 和 `lib/` 实现 validate、route、compile、scaffold、upgrade、hook |
 | **Benchmark** | `benchmarks/aods-eval-lab/` 用来衡量实现是否真的兑现了这些主张 |
+
+## 安装
+
+### 在另一个项目里使用 AODS
+
+要求 **Node 18+**。
+
+1. 先把带版本 tag 的 GitHub 发布版安装到你的项目里：
+
+```bash
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.2.0
+```
+
+2. 确认 CLI 可用：
+
+```bash
+npx aods --help
+```
+
+3. 在你的项目里 scaffold 一套新的 AODS authoring surface：
+
+```bash
+npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs for my system" --force
+```
+
+4. 把它编译并校验成你自己仓库里的 corpus：
+
+```bash
+npx aods compile ./aods/authoring.json ./docs/aods --force
+npx aods validate ./docs/aods --strict
+```
+
+### 直接克隆仓库
+
+如果你要本地拿到完整标准仓、benchmark 实验室和 examples，用这种方式：
+
+```bash
+git clone https://github.com/emosamastudio/aods.git
+cd aods
+npm install
+npm run validate:all
+```
 
 ## Benchmark 如何设计
 
@@ -55,6 +98,8 @@ benchmark 明确区分了三种“大小”信号：
 
 这点很重要，因为 **仓库更大，并不自动等于单个任务的上下文更大**。
 
+现在这个实验室还多了一个 **可选的本地 runtime-capture 补充测试**。它会记录一个 routed AODS 场景在 Copilot CLI 里的真实 provider request body，这样 benchmark 就能把自己的 rendered prompt-envelope 代理值和真实 runtime payload 形状放到一起比较。
+
 为了做横向对比，benchmark 选择了三个外部基线：
 
 | 基线 | 为什么选它 |
@@ -63,58 +108,60 @@ benchmark 明确区分了三种“大小”信号：
 | **`llms.txt`** | 最轻量的 AI-facing 方案，也是 AODS 的反向设计哲学 |
 | **DITA topic corpus** | 与 AODS 在结构化文档方向上最接近的“结构亲缘体” |
 
+<!-- BENCHMARK_SYNC:START -->
 ## 当前 benchmark 结果
 
 | 维度 | 当前结果 | 解读 |
 | --- | --- | --- |
 | **Coverage** | **100.0%** 生命周期、**100.0%** structured types、**100.0%** generic types | 当前 benchmark pack 可以被 AODS 完整表达 |
 | **Fidelity** | **100.0%** fact preservation、**100.0%** critical fact preservation | 当前样本上的信息重写没有丢失 |
-| **Full-corpus size** | **71309 bytes**，人类文档基线是 **44915 bytes** | AODS 在仓库尺度上当前 **大 58.8%** |
-| **Objective median loaded payload** | **24360 bytes** | 路由后的 working set 明显小于全库 |
-| **Objective median prompt envelope** | **25216 bytes** | 更接近真实上下文窗口占用 |
+| **Full-corpus size** | **68543 bytes**，人类文档基线是 **44915 bytes** | AODS 在仓库尺度上当前 **大 52.6%** |
+| **Objective median loaded payload** | **14022 bytes** | 路由后的 working set 明显小于全库 |
+| **Objective median prompt envelope** | **15555 bytes** | 更接近真实上下文窗口占用 |
+| **Task-stage coverage** | **100.0%**，覆盖 **5** 个显式阶段 | benchmark 结果现在显式标注 orientation、plan、action、verification、evidence |
+| **补充型 runtime 样本** | **本轮未采集** | runtime capture 仍是可选补充项，当前这次 benchmark 没有采样 |
 | **Objective touch-route hit rate** | **100.0%** | 所有 objective routing 场景都命中了所需模块 |
-| **Objective median byte savings vs full load** | **65.8%** | 路由后的工作集显著小于 full-load |
-| **Built-in drift recall** | **100.0%** | 当前 validator + hook 层能抓到声明过的 benchmark 风险 |
+| **Objective median byte savings vs full load** | **79.5%** | 路由后的工作集显著小于 full-load |
+| **Built-in drift recall** | **100.0%** | 当前 validator + hook 层能抓到当前 benchmark 中的全部风险 |
 | **Built-in false-positive rate** | **0.0%** | 当前 control 场景没有误报 |
-| **Benchmark diversity** | **2 个数据集**、**2 种 sync mode** | 比最初的单语料基线更强，但仍是 synthetic 且 English-only |
+| **Benchmark diversity** | **2 个数据集**、**5 个任务阶段** | 比最初的单语料基线更强，但仍是 synthetic 且 English-only |
 
 ## 横向对比
 
-下表只使用 benchmark 中共享的、跨格式可比的指标。
-
 | 基线 | Coverage | Fidelity | Corpus bytes | Objective touch-route hit rate | Objective median loaded bytes | Objective median prompt-envelope bytes |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| **AODS** | 100.0% | 100.0% | 71309 | 100.0% | 24360 | 25216 |
+| **AODS** | 100.0% | 100.0% | 68543 | 100.0% | 14022 | 15555 |
 | **Markdown + YAML** | 100.0% | 100.0% | 47437 | 0.0% | 5234 | 5844 |
-| **`llms.txt`** | 100.0% | 100.0% | 46520 | 0.0% | 6480 | 7178 |
+| **llms.txt** | 100.0% | 100.0% | 46520 | 0.0% | 6480 | 7178 |
 | **DITA topic corpus** | 100.0% | 100.0% | 65038 | 0.0% | 718 | 1320 |
 
 **怎么读这张表：** 非 AODS 基线在 bytes 上更轻，但它们在 benchmark 的 objective touch-route contract 上是 **0.0%**，因为这些格式没有提供 AODS 风格的原生 routing 和 paired-surface governance。所以它们更小的 loaded bytes，**不等价于**“在受治理检索上做到同样的事”。
 
-## 这一轮优化提升了什么
+## 最新 benchmark 变化
 
-| 项目 | 之前 | 现在 | 提升 |
-| --- | ---: | ---: | ---: |
-| **Built-in drift recall** | 50.0% | 100.0% | **+50.0 pts** |
-| **Combined drift recall** | 83.3% | 100.0% | **+16.7 pts** |
-| **Built-in false-positive rate** | 0.0% | 0.0% | 持平 |
-| **Benchmark datasets** | 1 | 2 | **+1 个数据集** |
-| **覆盖的 sync modes** | 1 | 2 | **+1 种 sync mode** |
-| **上下文指标模型** | 只有 loaded payload | payload + rendered prompt envelope | 更接近真实上下文代理指标 |
-
-这一轮还加入了第一个 **compiled authoring pilot**：
-
-- 新增 `compile` 命令
-- `examples/compiled-pilot-source/` 作为精简 authoring layer
-- `examples/compiled-pilot/` 作为生成后的 corpus
-- 当前 pilot 输出：**2 个 source 文件 -> 8 个生成工件**
+| 指标 | 当前 | 上一次 | 相对上次变化 | 解读 |
+| --- | --- | --- | --- | --- |
+| 生命周期覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 事实保真率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| AODS 精确语料字节数 | 68543 bytes | 68543 bytes | +0 bytes | 持平 |
+| Objective touch-route 命中率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| Objective 中位加载字节数 | 14022 bytes | 14022 bytes | +0 bytes | 持平 |
+| Objective 中位 prompt-envelope 字节数 | 15555 bytes | 15555 bytes | +0 bytes | 持平 |
+| 内建 drift recall | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 内建误报率 | 0.0% | 0.0% | +0.0 pts | 持平 |
+| 外部样本语料数 | 3 | 3 | +0 | 持平 |
+| 外部样本场景数 | 17 | 17 | +0 | 持平 |
+| 任务阶段覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| Runtime request-body 字节数 | n/a | n/a | n/a | 没有更早基线 |
+| Exploratory query precision | 83.3% | 83.3% | +0.0 pts | 持平 |
+<!-- BENCHMARK_SYNC:END -->
 
 ## 为什么 AODS 有价值
 
 AODS 的价值 **不在于它当前一定是最小的格式**，而在于它把 agent workflow 的关键 tradeoff 变成了显式、可验证的系统能力：
 
 1. **它给 agent 提供了原生 routing model。** `root -> capsule -> detail` 是契约，不是约定俗成。
-2. **它给 human/agent 混合文档提供了 authority model。** `surface_pairs`、`sync_source`、`shared_invariants` 把漂移从“协作习惯问题”变成“技术可控问题”。
+2. **它给 human/agent 混合文档提供了权威来源模型。** `surface_pairs`、`sync_source`、`shared_invariants` 加上保守型成对语义对比，把漂移从“协作习惯问题”变成“技术可控问题”。
 3. **它区分了仓库尺度体积和任务时上下文成本。** benchmark 现在已经明确证明这两个信号不是一回事。
 4. **它正在变得更可落地。** 新的 compiled-authoring pilot 说明这个项目正在摆脱“永远手写 JSON”的使用门槛。
 
@@ -132,10 +179,12 @@ AODS 的价值 **不在于它当前一定是最小的格式**，而在于它把 
 benchmark 也清楚地表明了当前限制：
 
 - AODS **还不是**一个被证明能做“全库压缩”的格式。
-- Semantic drift recall 目前是 **71.4%**；未声明的语义冲突还没有完全原生化。
-- prompt-envelope 指标还是 benchmark 渲染值，不是 live runtime 的最终序列化值。
+- 内建 anti-drift 仍然是保守型的。它现在能抓一小部分高信号矛盾，但还不是通用语义推理器。
+- benchmark 中的启发式语义检测在当前场景包上的分数是 **75.0%**。
+- 主 scoreboard 仍然使用整套场景共享的 renderer-based prompt-envelope 指标。现在仓库里已经补上了一个本地 Copilot CLI runtime-capture 补充样本，但还不是完整的 runtime-backed 场景矩阵。
 - benchmark 仍然是 synthetic 且 English-only。
-- benchmark pack 还没有覆盖 `bidirectional`、`phase`、`feature` 这几类 pair scope。
+- `bidirectional` 仍然是一个被明确 gated 的实验性 sync mode：reference hook 会在这类 pair 发生变更时要求人工复核，而不是假装自动双向合并已经解决。
+- benchmark pack 还没有覆盖 `phase`、`feature` 这几类 pair scope。
 
 ## 快速开始
 
@@ -143,9 +192,12 @@ benchmark 也清楚地表明了当前限制：
 npm install
 npm run validate:all
 npm run route -- --touch spec/validation-rules.json --role doc-author
+npm run route -- --query "paired surface drift rules" --role doc-author --intent read
 npm run compile:pilot
+npm run benchmark:runtime-capture   # 可选的补充样本
 npm run benchmark:evaluate
 npm run benchmark:compare
+npm run benchmark:summary
 npm run benchmark:test
 ```
 
@@ -174,21 +226,30 @@ node ./bin/aods.mjs validate . --strict
 
 ```bash
 npm run route -- --touch spec/validation-rules.json --role doc-author
+node ./bin/aods.mjs route . --query "paired surface drift rules" --role doc-author --intent read
+node ./bin/aods.mjs route . --query "audit evidence retention" --role doc-author --intent read --stage evidence
 node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 ```
+
+如果你已经知道改动落在哪个文件，用 `--touch`。如果你只知道“我要找哪类问题”，可以直接用自然语言的 `--query`，CLI 会按字面词和结构锚点去找最可能的权威模块。如果你已经知道当前任务所处阶段，但还不知道目标文件，可以额外给 `--stage`（`orientation`、`plan`、`action`、`verification`、`evidence`）来细化路由。
 
 Routing precedence：
 
 1. `boot_by_touch`
-2. `boot_by_role`
-3. `boot_sequence`
+2. touched surface-pair 或 touched module
+3. 词法 + 结构的 `--query` routing
+4. `boot_by_role`
+5. `boot_sequence`
 
 ### 从精简 authoring source 编译
 
 ```bash
+node ./bin/aods.mjs scaffold authoring ./tmp/authoring-source --sys sample-system --force
 npm run compile:pilot
 node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tmp/compiled-pilot --force
 ```
+
+authoring source 现在会按照 `schema/authoring.schema.json` 校验，所以 compiled authoring 已经不再只是一个一次性的 pilot 格式，而是一个正式 contract。
 
 `compile` 命令会生成：
 
@@ -208,6 +269,8 @@ Hook 行为：
 
 - 只校验受影响的 corpus
 - 当 `sync_source=agent-primary` 且没有成对 agent module 变化时，阻止不安全的人类表面单独修改
+- 当 `sync_source=human-primary` 且没有成对 human surface 变化时，阻止不安全的 agent module 单独修改
+- 当 `sync_source=bidirectional` 的 pair 发生变更时，要求人工复核，因为 merge protocol 仍然是实验性的
 - 强制检查 paired human/agent surfaces 上声明的 `shared_invariants`
 - 当改动触及 `lib/`、`schema/`、`.githooks/` 这类实现层时，提升为更广泛的校验
 

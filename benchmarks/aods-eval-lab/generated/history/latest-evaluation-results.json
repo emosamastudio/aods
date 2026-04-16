@@ -1,0 +1,1265 @@
+{
+  "generated_at": "2026-04-16T05:11:16.486Z",
+  "system_under_test": ".",
+  "benchmark_project": "benchmarks/aods-eval-lab",
+  "validation": {
+    "corpus": "aods-corpus",
+    "timestamp": "2026-04-16T05:11:13.652Z",
+    "levels": {
+      "L1": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      },
+      "L2": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      },
+      "L3": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      },
+      "L4": {
+        "pass": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    "summary": {
+      "total_modules": 11,
+      "total_sections": 14,
+      "total_artifacts": 26,
+      "total_tokens": 13388,
+      "total_surface_pairs": 8,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "coverage": {
+    "total_items": 36,
+    "total_sections": 10,
+    "total_typed_artifacts": 26,
+    "lifecycle_phase_coverage": 1,
+    "phase_breakdown": {
+      "vision": {
+        "artifacts": 3,
+        "representable": 3,
+        "representable_rate": 1
+      },
+      "discovery": {
+        "artifacts": 2,
+        "representable": 2,
+        "representable_rate": 1
+      },
+      "planning": {
+        "artifacts": 2,
+        "representable": 2,
+        "representable_rate": 1
+      },
+      "design": {
+        "artifacts": 6,
+        "representable": 6,
+        "representable_rate": 1
+      },
+      "build": {
+        "artifacts": 7,
+        "representable": 7,
+        "representable_rate": 1
+      },
+      "test": {
+        "artifacts": 1,
+        "representable": 1,
+        "representable_rate": 1
+      },
+      "release": {
+        "artifacts": 4,
+        "representable": 4,
+        "representable_rate": 1
+      },
+      "operate": {
+        "artifacts": 7,
+        "representable": 7,
+        "representable_rate": 1
+      },
+      "governance": {
+        "artifacts": 4,
+        "representable": 4,
+        "representable_rate": 1
+      }
+    },
+    "structured_type_coverage": 1,
+    "generic_type_coverage": 1,
+    "raw_fallback_rate": 0.07692307692307693,
+    "unsupported_items": 0,
+    "paired_surface_count": 8
+  },
+  "fidelity": {
+    "total_facts": 107,
+    "critical_facts": 107,
+    "fact_preservation_rate": 1,
+    "critical_fact_preservation_rate": 1,
+    "exact_size": {
+      "human_docs": {
+        "file_count": 8,
+        "byte_count": 44915,
+        "line_count": 1643
+      },
+      "aods_corpus": {
+        "file_count": 13,
+        "byte_count": 68543,
+        "line_count": 1681
+      }
+    },
+    "human_doc_tokens_estimated": 11232,
+    "aods_tokens_estimated": 17137,
+    "compression_ratio_human_to_aods": 0.6554239365116414,
+    "token_reduction_vs_human": -0.5257300569800569,
+    "facts_per_1k_human_tokens": 9.526353276353277,
+    "facts_per_1k_aods_tokens": 6.243799964988037,
+    "median_artifact_compression_ratio": 1.2267515079207265
+  },
+  "loading": {
+    "full_load_tokens_estimated": 17137,
+    "full_load_bytes": 68543,
+    "scenario_results": [
+      {
+        "id": "orientation-summary",
+        "description": "Cold-start reader asks for benchmark orientation.",
+        "scenario_class": "cold-start-orientation",
+        "measurement_class": "exploratory",
+        "task_stage": "orientation",
+        "task_stage_source": "explicit",
+        "mode": "query-route",
+        "route_strategy": "query-route",
+        "loaded_modules": [
+          "atlas-capsule",
+          "atlas-root"
+        ],
+        "required_modules": [
+          "atlas-root",
+          "atlas-capsule"
+        ],
+        "matched_query_modules": [
+          {
+            "id": "atlas-capsule",
+            "score": 39,
+            "layer": "capsule",
+            "category": "capsule",
+            "matched_terms": [
+              "overview",
+              "summary",
+              "routes"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "capsule/capsule",
+                "match": "orientation"
+              },
+              {
+                "label": "scope",
+                "sample": "Capsule summary and route fanout across product, architecture, workflow, and operations slices.",
+                "match": "summary"
+              },
+              {
+                "label": "tag",
+                "sample": "routes",
+                "match": "routes"
+              }
+            ]
+          },
+          {
+            "id": "atlas-root",
+            "score": 33,
+            "layer": "root",
+            "category": "architecture",
+            "matched_terms": [
+              "overview",
+              "summary",
+              "routes"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "root/architecture",
+                "match": "orientation"
+              },
+              {
+                "label": "tag",
+                "sample": "overview",
+                "match": "overview"
+              },
+              {
+                "label": "section_content",
+                "sample": "Use the root layer for system purpose, authority posture, and first-hop routing. Atlas Releas...",
+                "match": "summary"
+              },
+              {
+                "label": "scope",
+                "sample": "Cold-start routing for the benchmark corpus. Use for first-hop orientation.",
+                "match": "routing"
+              }
+            ]
+          }
+        ],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 9034,
+        "oracle_bytes": 9034,
+        "byte_savings_vs_full_load": 0.8681995243861518,
+        "route_tokens_estimated": 2260,
+        "oracle_tokens_estimated": 2260,
+        "prompt_envelope_bytes": 10158,
+        "prompt_envelope_tokens_estimated": 2540,
+        "full_prompt_envelope_bytes": 70935,
+        "full_prompt_envelope_tokens_estimated": 17734,
+        "prompt_envelope_overhead_bytes": 1124,
+        "prompt_envelope_overhead_tokens_estimated": 280,
+        "prompt_envelope_savings_vs_full_prompt": 0.8567984774793825,
+        "token_savings_vs_full_load": 0.8681216082161405,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "product-doc-edit",
+        "description": "Doc author edits the product lifecycle human surface.",
+        "scenario_class": "paired-human-surface-write",
+        "measurement_class": "objective",
+        "task_stage": "plan",
+        "task_stage_source": "explicit",
+        "mode": "touch-route",
+        "route_strategy": "touch-route",
+        "loaded_modules": [
+          "atlas-capsule",
+          "product-lifecycle"
+        ],
+        "required_modules": [
+          "product-lifecycle",
+          "atlas-capsule"
+        ],
+        "matched_query_modules": [],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 14022,
+        "oracle_bytes": 14022,
+        "byte_savings_vs_full_load": 0.795427687728871,
+        "route_tokens_estimated": 3508,
+        "oracle_tokens_estimated": 3508,
+        "prompt_envelope_bytes": 15555,
+        "prompt_envelope_tokens_estimated": 3889,
+        "full_prompt_envelope_bytes": 70964,
+        "full_prompt_envelope_tokens_estimated": 17741,
+        "prompt_envelope_overhead_bytes": 1533,
+        "prompt_envelope_overhead_tokens_estimated": 381,
+        "prompt_envelope_savings_vs_full_prompt": 0.7808043515021701,
+        "token_savings_vs_full_load": 0.7952967263815137,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "architecture-module-edit",
+        "description": "Architect edits the architecture contract module.",
+        "scenario_class": "agent-module-write",
+        "measurement_class": "objective",
+        "task_stage": "action",
+        "task_stage_source": "explicit",
+        "mode": "touch-route",
+        "route_strategy": "touch-route",
+        "loaded_modules": [
+          "atlas-root",
+          "atlas-capsule",
+          "architecture-contracts"
+        ],
+        "required_modules": [
+          "atlas-root",
+          "atlas-capsule",
+          "architecture-contracts"
+        ],
+        "matched_query_modules": [],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 24881,
+        "oracle_bytes": 24881,
+        "byte_savings_vs_full_load": 0.6370015902426214,
+        "route_tokens_estimated": 6222,
+        "oracle_tokens_estimated": 6222,
+        "prompt_envelope_bytes": 26379,
+        "prompt_envelope_tokens_estimated": 6595,
+        "full_prompt_envelope_bytes": 70966,
+        "full_prompt_envelope_tokens_estimated": 17742,
+        "prompt_envelope_overhead_bytes": 1498,
+        "prompt_envelope_overhead_tokens_estimated": 373,
+        "prompt_envelope_savings_vs_full_prompt": 0.6282867852210918,
+        "token_savings_vs_full_load": 0.6369259496994806,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "workflow-debug",
+        "description": "Architect debugs rollout policy and rollback behavior.",
+        "scenario_class": "cross-module-debug-read",
+        "measurement_class": "exploratory",
+        "task_stage": "verification",
+        "task_stage_source": "explicit",
+        "mode": "query-route",
+        "route_strategy": "query-route",
+        "loaded_modules": [
+          "delivery-workflows",
+          "harbor-change-control",
+          "operations-governance"
+        ],
+        "required_modules": [
+          "delivery-workflows",
+          "operations-governance"
+        ],
+        "matched_query_modules": [
+          {
+            "id": "delivery-workflows",
+            "score": 28,
+            "layer": "detail",
+            "category": "policy",
+            "matched_terms": [
+              "workflow",
+              "rollback",
+              "risk"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "detail/policy",
+                "match": "verification"
+              },
+              {
+                "label": "module_id",
+                "sample": "delivery-workflows",
+                "match": "workflow"
+              },
+              {
+                "label": "section_content",
+                "sample": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analyt...",
+                "match": "rollback"
+              },
+              {
+                "label": "section_content",
+                "sample": "Approval workflow, publish sequence, rollout policy tree, lifecycle state machine, and analyt...",
+                "match": "risk"
+              }
+            ]
+          },
+          {
+            "id": "harbor-change-control",
+            "score": 27,
+            "layer": "detail",
+            "category": "policy",
+            "matched_terms": [
+              "workflow",
+              "rollback",
+              "risk"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "detail/policy",
+                "match": "verification"
+              },
+              {
+                "label": "artifact_usage",
+                "sample": "Controlled exception workflow.",
+                "match": "workflow"
+              },
+              {
+                "label": "section_content",
+                "sample": "State mandatory fields, rollback discipline, and human-primary SOP posture for regulated chan...",
+                "match": "rollback"
+              },
+              {
+                "label": "tag",
+                "sample": "risk",
+                "match": "risk"
+              }
+            ]
+          },
+          {
+            "id": "operations-governance",
+            "score": 23,
+            "layer": "detail",
+            "category": "policy",
+            "matched_terms": [
+              "workflow",
+              "rollback",
+              "risk"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "detail/policy",
+                "match": "verification"
+              },
+              {
+                "label": "section_content",
+                "sample": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and val...",
+                "match": "workflow"
+              },
+              {
+                "label": "scope",
+                "sample": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and val...",
+                "match": "rollback"
+              },
+              {
+                "label": "section_content",
+                "sample": "Approval rules, on-call mapping, event catalog, rollback strategy, temporal controls, and val...",
+                "match": "risk"
+              }
+            ]
+          }
+        ],
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 30581,
+        "oracle_bytes": 25593,
+        "byte_savings_vs_full_load": 0.5538421137096421,
+        "route_tokens_estimated": 7647,
+        "oracle_tokens_estimated": 6400,
+        "prompt_envelope_bytes": 31904,
+        "prompt_envelope_tokens_estimated": 7976,
+        "full_prompt_envelope_bytes": 70929,
+        "full_prompt_envelope_tokens_estimated": 17733,
+        "prompt_envelope_overhead_bytes": 1323,
+        "prompt_envelope_overhead_tokens_estimated": 329,
+        "prompt_envelope_savings_vs_full_prompt": 0.550198085409353,
+        "token_savings_vs_full_load": 0.5537725389508081,
+        "token_overfetch_ratio": 1.19484375,
+        "byte_overfetch_ratio": 1.1948970421599656
+      },
+      {
+        "id": "ops-doc-edit",
+        "description": "Operator edits the operations and governance human surface.",
+        "scenario_class": "operations-human-surface-write",
+        "measurement_class": "objective",
+        "task_stage": "action",
+        "task_stage_source": "explicit",
+        "mode": "touch-route",
+        "route_strategy": "touch-route",
+        "loaded_modules": [
+          "atlas-capsule",
+          "operations-governance",
+          "evidence-reference"
+        ],
+        "required_modules": [
+          "atlas-capsule",
+          "operations-governance",
+          "evidence-reference"
+        ],
+        "matched_query_modules": [],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 18733,
+        "oracle_bytes": 18733,
+        "byte_savings_vs_full_load": 0.7266971098434559,
+        "route_tokens_estimated": 4686,
+        "oracle_tokens_estimated": 4686,
+        "prompt_envelope_bytes": 20464,
+        "prompt_envelope_tokens_estimated": 5116,
+        "full_prompt_envelope_bytes": 70978,
+        "full_prompt_envelope_tokens_estimated": 17745,
+        "prompt_envelope_overhead_bytes": 1731,
+        "prompt_envelope_overhead_tokens_estimated": 430,
+        "prompt_envelope_savings_vs_full_prompt": 0.7116853109414185,
+        "token_savings_vs_full_load": 0.7265565734959445,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "release-contract-read",
+        "description": "Product manager asks about release packet schema and example payloads.",
+        "scenario_class": "targeted-contract-read",
+        "measurement_class": "exploratory",
+        "task_stage": "action",
+        "task_stage_source": "explicit",
+        "mode": "query-route",
+        "route_strategy": "query-route",
+        "loaded_modules": [
+          "architecture-contracts"
+        ],
+        "required_modules": [
+          "architecture-contracts"
+        ],
+        "matched_query_modules": [
+          {
+            "id": "architecture-contracts",
+            "score": 34,
+            "layer": "detail",
+            "category": "reference",
+            "matched_terms": [
+              "release",
+              "schema",
+              "api",
+              "packet"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "detail/reference",
+                "match": "action"
+              },
+              {
+                "label": "scope",
+                "sample": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role en...",
+                "match": "release"
+              },
+              {
+                "label": "scope",
+                "sample": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role en...",
+                "match": "schema"
+              },
+              {
+                "label": "scope",
+                "sample": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role en...",
+                "match": "api"
+              },
+              {
+                "label": "section_content",
+                "sample": "System topology, release APIs, payload schemas, examples, templates, identifiers, and role en...",
+                "match": "packet"
+              }
+            ]
+          }
+        ],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 21826,
+        "oracle_bytes": 21826,
+        "byte_savings_vs_full_load": 0.6815721517879287,
+        "route_tokens_estimated": 5458,
+        "oracle_tokens_estimated": 5458,
+        "prompt_envelope_bytes": 22867,
+        "prompt_envelope_tokens_estimated": 5717,
+        "full_prompt_envelope_bytes": 70961,
+        "full_prompt_envelope_tokens_estimated": 17741,
+        "prompt_envelope_overhead_bytes": 1041,
+        "prompt_envelope_overhead_tokens_estimated": 259,
+        "prompt_envelope_savings_vs_full_prompt": 0.6777525683121715,
+        "token_savings_vs_full_load": 0.6815078485149093,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "harbor-change-control-edit",
+        "description": "Compliance lead edits the human-primary Harbor change control SOP.",
+        "scenario_class": "human-primary-sop-write",
+        "measurement_class": "objective",
+        "task_stage": "action",
+        "task_stage_source": "explicit",
+        "mode": "touch-route",
+        "route_strategy": "touch-route",
+        "loaded_modules": [
+          "harbor-capsule",
+          "harbor-change-control"
+        ],
+        "required_modules": [
+          "harbor-capsule",
+          "harbor-change-control"
+        ],
+        "matched_query_modules": [],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 13476,
+        "oracle_bytes": 13476,
+        "byte_savings_vs_full_load": 0.8033934902178195,
+        "route_tokens_estimated": 3372,
+        "oracle_tokens_estimated": 3372,
+        "prompt_envelope_bytes": 15084,
+        "prompt_envelope_tokens_estimated": 3771,
+        "full_prompt_envelope_bytes": 71002,
+        "full_prompt_envelope_tokens_estimated": 17751,
+        "prompt_envelope_overhead_bytes": 1608,
+        "prompt_envelope_overhead_tokens_estimated": 399,
+        "prompt_envelope_savings_vs_full_prompt": 0.787555280132954,
+        "token_savings_vs_full_load": 0.8032327711968256,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "harbor-audit-evidence-edit",
+        "description": "Compliance lead edits Harbor audit evidence guidance.",
+        "scenario_class": "audit-evidence-write",
+        "measurement_class": "objective",
+        "task_stage": "evidence",
+        "task_stage_source": "explicit",
+        "mode": "touch-route",
+        "route_strategy": "touch-route",
+        "loaded_modules": [
+          "harbor-capsule",
+          "harbor-audit-evidence"
+        ],
+        "required_modules": [
+          "harbor-capsule",
+          "harbor-audit-evidence"
+        ],
+        "matched_query_modules": [],
+        "precision": 1,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 11102,
+        "oracle_bytes": 11102,
+        "byte_savings_vs_full_load": 0.838028682724713,
+        "route_tokens_estimated": 2778,
+        "oracle_tokens_estimated": 2778,
+        "prompt_envelope_bytes": 12692,
+        "prompt_envelope_tokens_estimated": 3173,
+        "full_prompt_envelope_bytes": 70984,
+        "full_prompt_envelope_tokens_estimated": 17746,
+        "prompt_envelope_overhead_bytes": 1590,
+        "prompt_envelope_overhead_tokens_estimated": 395,
+        "prompt_envelope_savings_vs_full_prompt": 0.8211991434689507,
+        "token_savings_vs_full_load": 0.8378946139931143,
+        "token_overfetch_ratio": 1,
+        "byte_overfetch_ratio": 1
+      },
+      {
+        "id": "harbor-exception-review",
+        "description": "Compliance lead asks how exceptions and evidence retention interact.",
+        "scenario_class": "regulated-exception-read",
+        "measurement_class": "exploratory",
+        "task_stage": "verification",
+        "task_stage_source": "explicit",
+        "mode": "query-route",
+        "route_strategy": "query-route",
+        "loaded_modules": [
+          "harbor-change-control",
+          "harbor-audit-evidence",
+          "evidence-reference"
+        ],
+        "required_modules": [
+          "harbor-change-control",
+          "harbor-audit-evidence"
+        ],
+        "matched_query_modules": [
+          {
+            "id": "harbor-change-control",
+            "score": 27,
+            "layer": "detail",
+            "category": "policy",
+            "matched_terms": [
+              "exception",
+              "evidence",
+              "approval"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "detail/policy",
+                "match": "verification"
+              },
+              {
+                "label": "scope",
+                "sample": "Regulated change policy, approval rules, exception handling, and SOP authority alignment.",
+                "match": "exception"
+              },
+              {
+                "label": "section_content",
+                "sample": "State mandatory fields, rollback discipline, and human-primary SOP posture for regulated chan...",
+                "match": "evidence"
+              },
+              {
+                "label": "scope",
+                "sample": "Regulated change policy, approval rules, exception handling, and SOP authority alignment.",
+                "match": "approval"
+              }
+            ]
+          },
+          {
+            "id": "harbor-audit-evidence",
+            "score": 27,
+            "layer": "detail",
+            "category": "reference",
+            "matched_terms": [
+              "evidence",
+              "retention"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "detail/reference",
+                "match": "verification"
+              },
+              {
+                "label": "module_id",
+                "sample": "harbor-audit-evidence",
+                "match": "evidence"
+              },
+              {
+                "label": "scope",
+                "sample": "Audit evidence requirements, retention windows, and raw-query references for external review.",
+                "match": "retention"
+              }
+            ]
+          },
+          {
+            "id": "evidence-reference",
+            "score": 18,
+            "layer": "evidence",
+            "category": "reference",
+            "matched_terms": [
+              "evidence",
+              "approval"
+            ],
+            "evidence": [
+              {
+                "label": "task_stage",
+                "sample": "evidence/reference",
+                "match": "verification"
+              },
+              {
+                "label": "module_id",
+                "sample": "evidence-reference",
+                "match": "evidence"
+              },
+              {
+                "label": "section_content",
+                "sample": "Escape-hatch artifacts and evidence-only material such as raw SQL or external snippets. This ...",
+                "match": "approval"
+              }
+            ]
+          }
+        ],
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "exact_hit": true,
+        "route_bytes": 15623,
+        "oracle_bytes": 14147,
+        "byte_savings_vs_full_load": 0.7720700873903973,
+        "route_tokens_estimated": 3907,
+        "oracle_tokens_estimated": 3538,
+        "prompt_envelope_bytes": 17004,
+        "prompt_envelope_tokens_estimated": 4251,
+        "full_prompt_envelope_bytes": 70975,
+        "full_prompt_envelope_tokens_estimated": 17744,
+        "prompt_envelope_overhead_bytes": 1381,
+        "prompt_envelope_overhead_tokens_estimated": 344,
+        "prompt_envelope_savings_vs_full_prompt": 0.7604226840436774,
+        "token_savings_vs_full_load": 0.7720137713718854,
+        "token_overfetch_ratio": 1.1042962125494629,
+        "byte_overfetch_ratio": 1.1043330741499964
+      }
+    ],
+    "objective_touch": {
+      "scenario_count": 5,
+      "hit_rate": 1,
+      "average_precision": 1,
+      "average_recall": 1,
+      "median_prompt_envelope_tokens_estimated": 3889,
+      "median_prompt_envelope_bytes": 15555,
+      "max_prompt_envelope_tokens_estimated": 6595,
+      "max_prompt_envelope_bytes": 26379,
+      "median_prompt_envelope_overhead_tokens_estimated": 395,
+      "median_prompt_envelope_overhead_bytes": 1590,
+      "median_prompt_envelope_savings_vs_full_prompt": 0.7808043515021701,
+      "median_route_tokens_estimated": 3508,
+      "median_route_bytes": 14022,
+      "max_route_tokens_estimated": 6222,
+      "max_route_bytes": 24881,
+      "median_token_savings_vs_full_load": 0.7952967263815137,
+      "median_byte_savings_vs_full_load": 0.795427687728871,
+      "median_token_overfetch_ratio": 1,
+      "median_byte_overfetch_ratio": 1
+    },
+    "exploratory_query": {
+      "scenario_count": 4,
+      "hit_rate": 1,
+      "average_precision": 0.8333333333333333,
+      "average_recall": 1,
+      "median_prompt_envelope_tokens_estimated": 4984,
+      "median_prompt_envelope_bytes": 19935.5,
+      "max_prompt_envelope_tokens_estimated": 7976,
+      "max_prompt_envelope_bytes": 31904,
+      "median_prompt_envelope_overhead_tokens_estimated": 304.5,
+      "median_prompt_envelope_overhead_bytes": 1223.5,
+      "median_prompt_envelope_savings_vs_full_prompt": 0.7190876261779244,
+      "median_route_tokens_estimated": 4682.5,
+      "median_route_bytes": 18724.5,
+      "max_route_tokens_estimated": 7647,
+      "max_route_bytes": 30581,
+      "median_token_savings_vs_full_load": 0.7267608099433973,
+      "median_byte_savings_vs_full_load": 0.726821119589163,
+      "median_token_overfetch_ratio": 1.0521481062747315,
+      "median_byte_overfetch_ratio": 1.0521665370749982
+    },
+    "combined": {
+      "scenario_count": 9,
+      "hit_rate": 1,
+      "average_precision": 0.9259259259259258,
+      "average_recall": 1,
+      "median_prompt_envelope_tokens_estimated": 4251,
+      "median_prompt_envelope_bytes": 17004,
+      "max_prompt_envelope_tokens_estimated": 7976,
+      "max_prompt_envelope_bytes": 31904,
+      "median_prompt_envelope_overhead_tokens_estimated": 373,
+      "median_prompt_envelope_overhead_bytes": 1498,
+      "median_prompt_envelope_savings_vs_full_prompt": 0.7604226840436774,
+      "median_route_tokens_estimated": 3907,
+      "median_route_bytes": 15623,
+      "max_route_tokens_estimated": 7647,
+      "max_route_bytes": 30581,
+      "median_token_savings_vs_full_load": 0.7720137713718854,
+      "median_byte_savings_vs_full_load": 0.7720700873903973,
+      "median_token_overfetch_ratio": 1,
+      "median_byte_overfetch_ratio": 1
+    },
+    "task_stage_coverage": 1,
+    "task_stage_breakdown": {
+      "orientation": {
+        "scenario_count": 1,
+        "hit_rate": 1,
+        "average_precision": 1
+      },
+      "plan": {
+        "scenario_count": 1,
+        "hit_rate": 1,
+        "average_precision": 1
+      },
+      "action": {
+        "scenario_count": 4,
+        "hit_rate": 1,
+        "average_precision": 1
+      },
+      "verification": {
+        "scenario_count": 2,
+        "hit_rate": 1,
+        "average_precision": 0.6666666666666666
+      },
+      "evidence": {
+        "scenario_count": 1,
+        "hit_rate": 1,
+        "average_precision": 1
+      }
+    },
+    "hit_rate": 1,
+    "average_precision": 0.9259259259259258,
+    "average_recall": 1,
+    "median_token_savings_vs_full_load": 0.7720137713718854,
+    "median_overfetch_ratio": 1
+  },
+  "runtime_capture": null,
+  "drift": {
+    "scenario_results": [
+      {
+        "id": "control-neutral-sync-edit",
+        "description": "Paired surfaces get a neutral note without changing benchmark facts.",
+        "is_control": true,
+        "changed_files": [
+          "README.md",
+          "modules/atlas-capsule.json"
+        ],
+        "built_in_detected": false,
+        "semantic_detected": false,
+        "expected_built_in_detection": false,
+        "expected_semantic_detection": false,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "pass"
+      },
+      {
+        "id": "readme-human-only-drift",
+        "description": "README changes alone under agent-primary sync.",
+        "is_control": false,
+        "changed_files": [
+          "README.md"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "manifest-bypass-readme",
+        "description": "README changes together with manifest metadata but no paired module update.",
+        "is_control": false,
+        "changed_files": [
+          "README.md",
+          "manifest.json"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "semantic-pair-conflict",
+        "description": "Paired human and agent files both change, but to contradictory meanings.",
+        "is_control": false,
+        "changed_files": [
+          "docs/01-product-lifecycle.md",
+          "modules/product-lifecycle.json"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 2,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "undeclared-claim-pair-conflict",
+        "description": "Paired files keep declared invariants but disagree on another high-signal requirement claim.",
+        "is_control": false,
+        "changed_files": [
+          "docs/01-product-lifecycle.md",
+          "modules/product-lifecycle.json"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 1,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "ops-human-only-drift",
+        "description": "Operations human surface changes alone.",
+        "is_control": false,
+        "changed_files": [
+          "docs/04-operations-and-governance.md"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 0,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "harbor-human-primary-human-only-drift",
+        "description": "Human-primary Harbor SOP changes without agent update.",
+        "is_control": false,
+        "changed_files": [
+          "harbor/docs/01-change-control.md"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": true,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": true,
+        "validate_errors": 1,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "broken-touch-route",
+        "description": "Manifest points a touch route at a missing module.",
+        "is_control": false,
+        "changed_files": [
+          "indexes/runtime.json"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": false,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": false,
+        "validate_errors": 1,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      },
+      {
+        "id": "path-escape-pair",
+        "description": "Manifest points a paired human surface outside the corpus root.",
+        "is_control": false,
+        "changed_files": [
+          "indexes/runtime.json"
+        ],
+        "built_in_detected": true,
+        "semantic_detected": false,
+        "expected_built_in_detection": true,
+        "expected_semantic_detection": false,
+        "validate_errors": 2,
+        "validate_warnings": 0,
+        "hook_status": "fail"
+      }
+    ],
+    "built_in_recall": 1,
+    "semantic_recall": 1,
+    "semantic_recall_all_drift_cases": 0.75,
+    "semantic_applicable_scenario_count": 6,
+    "structural_governance_recall": 1,
+    "structural_governance_scenario_count": 2,
+    "combined_recall": 1,
+    "built_in_false_positive_rate": 0,
+    "semantic_false_positive_rate": 0
+  },
+  "diversity": {
+    "dataset_count": 2,
+    "datasets": [
+      "atlas",
+      "harbor"
+    ],
+    "dataset_class": "synthetic-lifecycle-pack",
+    "domains": [
+      "release-ops",
+      "regulated-change-control"
+    ],
+    "languages": [
+      "en"
+    ],
+    "surface_kinds": [
+      "readme",
+      "markdown-docs",
+      "json-modules"
+    ],
+    "evidence_kinds": [
+      "sql",
+      "json",
+      "markdown"
+    ],
+    "dataset_breakdown": {
+      "atlas": {
+        "modules": 7,
+        "docs": 5,
+        "items": 27,
+        "loading_scenarios": 6,
+        "drift_scenarios": 8
+      },
+      "harbor": {
+        "modules": 4,
+        "docs": 3,
+        "items": 9,
+        "loading_scenarios": 3,
+        "drift_scenarios": 1
+      }
+    },
+    "phase_coverage": {
+      "covered": [
+        "vision",
+        "discovery",
+        "planning",
+        "design",
+        "build",
+        "test",
+        "release",
+        "operate",
+        "governance"
+      ],
+      "missing": []
+    },
+    "structured_types": {
+      "covered": [
+        "mapping-table",
+        "topology",
+        "api-contract",
+        "process-flow",
+        "sequence",
+        "decision-tree",
+        "state-machine",
+        "data-pipeline",
+        "rule-set",
+        "event-catalog",
+        "error-strategy",
+        "temporal-pattern"
+      ],
+      "missing": []
+    },
+    "generic_types": {
+      "covered": [
+        "json-schema",
+        "json-example",
+        "code-template",
+        "config-template",
+        "prompt-template",
+        "regex",
+        "enum-def",
+        "raw"
+      ],
+      "missing": []
+    },
+    "roles": {
+      "defined": [
+        "product-manager",
+        "architect",
+        "operator",
+        "doc-author",
+        "compliance-lead"
+      ],
+      "exercised": [
+        "product-manager",
+        "doc-author",
+        "architect",
+        "operator",
+        "compliance-lead"
+      ],
+      "missing": []
+    },
+    "loading_scenarios": {
+      "total": 9,
+      "objective_count": 5,
+      "exploratory_count": 4,
+      "by_class": {
+        "cold-start-orientation": 1,
+        "paired-human-surface-write": 1,
+        "agent-module-write": 1,
+        "cross-module-debug-read": 1,
+        "operations-human-surface-write": 1,
+        "targeted-contract-read": 1,
+        "human-primary-sop-write": 1,
+        "audit-evidence-write": 1,
+        "regulated-exception-read": 1
+      },
+      "by_measurement_class": {
+        "exploratory": 4,
+        "objective": 5
+      },
+      "by_intent": {
+        "read": 4,
+        "write": 5
+      }
+    },
+    "drift_scenarios": {
+      "total": 9,
+      "control_count": 1,
+      "by_class": {
+        "control-neutral": 1,
+        "human-only-drift": 2,
+        "manifest-bypass": 1,
+        "semantic-conflict": 1,
+        "claim-conflict": 1,
+        "human-primary-drift": 1,
+        "route-integrity": 1,
+        "path-safety": 1
+      }
+    },
+    "sync_modes": {
+      "present": [
+        "agent-primary",
+        "human-primary"
+      ],
+      "missing": [
+        "bidirectional"
+      ]
+    },
+    "pair_scopes": {
+      "present": [
+        "system",
+        "module"
+      ],
+      "missing": [
+        "phase",
+        "feature"
+      ]
+    },
+    "module_layers": {
+      "present": [
+        "root",
+        "capsule",
+        "detail",
+        "evidence"
+      ],
+      "missing": []
+    },
+    "external_sample": {
+      "corpus_count": 3,
+      "corpora": [
+        {
+          "id": "apache-airflow",
+          "label": "Apache Airflow",
+          "license": "Apache-2.0",
+          "scenario_count": 5,
+          "source_file_count": null,
+          "source_byte_count": null
+        },
+        {
+          "id": "argo-cd",
+          "label": "Argo CD",
+          "license": "Apache-2.0",
+          "scenario_count": 6,
+          "source_file_count": null,
+          "source_byte_count": null
+        },
+        {
+          "id": "jupyterhub",
+          "label": "JupyterHub",
+          "license": "BSD-3-Clause",
+          "scenario_count": 6,
+          "source_file_count": null,
+          "source_byte_count": null
+        }
+      ],
+      "scenario_count": 17,
+      "scenario_classes": {
+        "ops-architecture": 2,
+        "security-governance": 2,
+        "release-governance": 2,
+        "project-governance": 1,
+        "observability-operations": 1,
+        "release-operations": 1,
+        "roadmap-governance": 2,
+        "design-proposal": 1,
+        "architecture-reference": 1,
+        "observability-reference": 1,
+        "release-upgrade": 1,
+        "security-explanation": 1,
+        "tutorial-security": 1
+      },
+      "lifecycle_phases": [
+        "build",
+        "design",
+        "governance",
+        "operate",
+        "planning",
+        "release",
+        "vision"
+      ],
+      "benchmark_dimensions": [
+        "coverage",
+        "drift",
+        "routing"
+      ],
+      "benchmark_roles": [
+        "architect",
+        "developer",
+        "maintainer",
+        "operator",
+        "product-manager",
+        "project-manager",
+        "release-manager",
+        "security-lead",
+        "sre"
+      ],
+      "formats": {
+        "rst": 4,
+        "markdown": 13
+      },
+      "licenses": {
+        "Apache-2.0": 2,
+        "BSD-3-Clause": 1
+      }
+    }
+  },
+  "overhead": {
+    "module_count": 11,
+    "surface_pair_count": 8,
+    "touch_route_count": 21,
+    "role_count": 5,
+    "bookkeeping_entries": 45,
+    "bookkeeping_entries_per_artifact": 1.25
+  },
+  "limitations": [
+    "Main benchmark gates rely on exact byte counts and touch-route scenarios; token estimates remain advisory.",
+    "Non-touch query routing now uses the reference CLI, but the scenarios remain exploratory because they are still synthetic concept prompts rather than field-captured tasks.",
+    "The main scoreboard corpus is still synthetic but lifecycle-complete; the open-source scenario catalog now adds real-world grep-first field samples without collapsing the fairness contract.",
+    "Runtime-backed capture is now available as a single local Copilot CLI sample, but the scenario-wide scoreboard still rests on shared renderer-based prompt-envelope metrics."
+  ]
+}

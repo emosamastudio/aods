@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "aods://schema/manifest-companion/v3",
+  "title": "AODS Manifest Companion v3",
+  "description": "Optional second-hop manifest index. Externalizes heavier routing and pairing payloads so manifest.json stays bootstrap-small.",
+  "type": "object",
+  "required": ["aods_v", "kind"],
+  "additionalProperties": false,
+  "properties": {
+    "aods_v": {
+      "type": "integer",
+      "const": 3
+    },
+    "kind": {
+      "type": "string",
+      "const": "manifest-companion"
+    },
+    "glossary": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 200
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "aods://schema/manifest/v3#/definitions/role_def"
+      }
+    },
+    "boot_by_role": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "boot_by_touch": {
+      "type": "array",
+      "items": {
+        "$ref": "aods://schema/manifest/v3#/definitions/touch_route"
+      }
+    },
+    "surface_pairs": {
+      "type": "array",
+      "items": {
+        "$ref": "aods://schema/manifest/v3#/definitions/surface_pair"
+      }
+    }
+  },
+  "anyOf": [
+    { "required": ["glossary"] },
+    { "required": ["roles"] },
+    { "required": ["boot_by_role"] },
+    { "required": ["boot_by_touch"] },
+    { "required": ["surface_pairs"] }
+  ]
+}

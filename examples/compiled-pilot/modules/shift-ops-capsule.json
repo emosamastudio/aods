@@ -23,6 +23,36 @@
     }
   ],
   "meta": {
+    "control": {
+      "role": "guide",
+      "method": "computational",
+      "timing": [
+        "runtime"
+      ]
+    },
+    "provenance": {
+      "memory_role": "working",
+      "sources": [
+        "shift-ops-policy:approval-policy",
+        "shift-ops-runbook:incident-response"
+      ],
+      "confidence": "medium",
+      "review_chain": [
+        "ops-maintainer-review"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "router"
+      ],
+      "resources": [
+        "policy module",
+        "runbook module"
+      ],
+      "side_effects": [
+        "none"
+      ]
+    },
     "stability": "stable",
     "review_cycle": "on-change",
     "capsule": {

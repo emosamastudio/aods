@@ -12,24 +12,26 @@ function printUsage() {
 
 Usage:
   aods validate [root] [--json] [--strict]
-  aods route [root] [--role <role-id>] [--touch <path>] [--intent <intent>] [--json]
+  aods route [root] [--role <role-id>] [--touch <path>] [--query <text>] [--stage <stage>] [--intent <intent>] [--json]
   aods hook pre-commit [root] [--staged] [--repo-root <path>] [--file <path>]... [--json]
   aods upgrade [root] [--json] [--dry-run] [--no-bump]
   aods compile <source-file> <target-dir> [--json] [--force]
   aods scaffold corpus <target-dir> --sys <system-id> [--purpose <text>] [--force]
+  aods scaffold authoring <target-dir> --sys <system-id> [--purpose <text>] [--force]
   aods scaffold module <corpus-root> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--route <target>]... [--boot] [--force]
 
 Commands:
   validate   Validate AODS corpus rooted at [root]. Default: current directory.
-  route      Resolve minimal module load set for a role and/or touched file.
+  route      Resolve minimal module load set for a role, touched file, lexical query, and optional task stage.
   hook       Run hookable enforcement helpers such as pre-commit validation.
   upgrade    Sync schemas and refresh manifest metadata for an existing corpus.
   compile    Compile concise authoring JSON into an AODS corpus.
-  scaffold   Generate new corpus or module skeletons.
+  scaffold   Generate new corpus, authoring source, or module skeletons.
 
 Flags:
   --json     Emit JSON report matching validation report shape.
   --strict   Exit non-zero on warnings as well as errors.
+  --stage    Route with explicit task stage: orientation | plan | action | verification | evidence.
   -h, --help Show help.
 `);
 }

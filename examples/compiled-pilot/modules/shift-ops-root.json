@@ -55,6 +55,35 @@
     }
   ],
   "meta": {
+    "control": {
+      "role": "guide",
+      "method": "computational",
+      "timing": [
+        "runtime"
+      ]
+    },
+    "provenance": {
+      "memory_role": "working",
+      "sources": [
+        "shift-ops-capsule:system-capsule"
+      ],
+      "confidence": "medium",
+      "review_chain": [
+        "ops-maintainer-review"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "router"
+      ],
+      "resources": [
+        "manifest",
+        "capsule module"
+      ],
+      "side_effects": [
+        "none"
+      ]
+    },
     "stability": "stable",
     "review_cycle": "on-change"
   }

@@ -1,4 +1,3 @@
-import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -18,7 +17,6 @@ import {
 import { generateAll, projectPaths, renderHumanArtifact } from "./generate-fixtures.mjs";
 import {
   PROJECT_ROOT,
-  REPO_ROOT,
   appendText,
   copyDir,
   dedupe,
@@ -33,24 +31,47 @@ import {
   writeJson,
   writeText
 } from "./helpers.mjs";
+import {
+  buildAodsPromptResources,
+  buildFullAodsSupportResources,
+  buildScenarioAodsSupportResources,
+  loadAodsCorpusIndex,
+  measurePromptSupportResources,
+  routeScenarioModules,
+  runAodsJson
+} from "./aods-loading.mjs";
 import { measureBenchmarkPromptEnvelope } from "./prompt-envelope.mjs";
-
-const AODS_CLI = path.join(REPO_ROOT, "bin", "aods.mjs");
 const PHASES = ["vision", "discovery", "planning", "design", "build", "test", "release", "operate", "governance"];
-const LAYER_ORDER = { root: 0, capsule: 1, detail: 2, evidence: 3 };
+const TASK_STAGES = ["orientation", "plan", "action", "verification", "evidence"];
+const OPEN_SOURCE_CORPORA_MANIFEST_PATH = path.join(PROJECT_ROOT, "fixtures", "open-source", "corpora.json");
+const OPEN_SOURCE_SCENARIO_CATALOG_PATH = path.join(
+  PROJECT_ROOT,
+  "generated",
+  "results",
+  "open-source-scenario-catalog.json"
+);
 
 export function runEvaluation() {
-  const generated = generateAll();
   const paths = projectPaths();
-  const manifest = readJson(path.join(paths.corpusRoot, "manifest.json"));
+  const runtimeCapturePath = path.join(paths.resultsRoot, "runtime-capture-results.json");
+  const runtimeCapture = fs.existsSync(runtimeCapturePath) ? readJson(runtimeCapturePath) : null;
+  const openSourceCorporaManifest = fs.existsSync(OPEN_SOURCE_CORPORA_MANIFEST_PATH)
+    ? readJson(OPEN_SOURCE_CORPORA_MANIFEST_PATH)
+    : null;
+  const openSourceScenarioCatalog = fs.existsSync(OPEN_SOURCE_SCENARIO_CATALOG_PATH)
+    ? readJson(OPEN_SOURCE_SCENARIO_CATALOG_PATH)
+    : null;
+  const generated = generateAll();
+  const corpusIndex = loadAodsCorpusIndex(paths);
+  const manifest = corpusIndex.manifest;
   const factMap = readJson(path.join(paths.resultsRoot, "fact-map.json"));
 
   const validation = runAodsJson(["validate", paths.corpusRoot, "--json"]);
   const coverage = evaluateCoverage(manifest);
-  const fidelity = evaluateFidelity(paths, manifest, factMap);
-  const loading = evaluateLoading(paths, manifest);
+  const fidelity = evaluateFidelity(paths, manifest, corpusIndex, factMap);
+  const loading = evaluateLoading(paths);
   const drift = evaluateDrift(paths, factMap);
-  const diversity = evaluateBenchmarkDiversity(manifest);
+  const diversity = evaluateBenchmarkDiversity(manifest, openSourceCorporaManifest, openSourceScenarioCatalog);
   const overhead = evaluateAuthoringOverhead(manifest);
 
   const results = {
@@ -61,17 +82,24 @@ export function runEvaluation() {
     coverage,
     fidelity,
     loading,
+    runtime_capture: runtimeCapture,
     drift,
     diversity,
     overhead,
     limitations: [
       "Main benchmark gates rely on exact byte counts and touch-route scenarios; token estimates remain advisory.",
-      "Non-touch semantic loading remains exploratory because the reference CLI only implements touch-oriented routing.",
-      "The benchmark corpus is synthetic but lifecycle-complete; it should be treated as a strong laboratory signal rather than a universal external sample."
+      "Non-touch query routing now uses the reference CLI, but the scenarios remain exploratory because they are still synthetic concept prompts rather than field-captured tasks.",
+      openSourceCorporaManifest
+        ? "The main scoreboard corpus is still synthetic but lifecycle-complete; the open-source scenario catalog now adds real-world grep-first field samples without collapsing the fairness contract."
+        : "The benchmark corpus is synthetic but lifecycle-complete; it should be treated as a strong laboratory signal rather than a universal external sample.",
+      "Runtime-backed capture is now available as a single local Copilot CLI sample, but the scenario-wide scoreboard still rests on shared renderer-based prompt-envelope metrics."
     ]
   };
 
   writeJson(path.join(paths.resultsRoot, "evaluation-results.json"), results);
+  if (runtimeCapture) {
+    writeJson(runtimeCapturePath, runtimeCapture);
+  }
   writeText(path.join(PROJECT_ROOT, "reports", "aods-evaluation-report.md"), renderMarkdownReport(results));
 
   return results;
@@ -107,7 +135,7 @@ function evaluateCoverage(manifest) {
   };
 }
 
-function evaluateFidelity(paths, manifest, factMap) {
+function evaluateFidelity(paths, manifest, corpusIndex, factMap) {
   const baselinePresence = factMap.map((fact) => ({
     ...fact,
     human_present: fileContains(path.join(paths.humanRoot, fact.human_doc), fact.text),
@@ -122,6 +150,7 @@ function evaluateFidelity(paths, manifest, factMap) {
   const humanTokens = humanFiles.reduce((sum, filePath) => sum + estimateTokens(fs.readFileSync(filePath, "utf8")), 0);
   const agentFiles = [
     path.join(paths.corpusRoot, "manifest.json"),
+    ...(corpusIndex.companionPath ? [path.join(paths.corpusRoot, corpusIndex.companionPath)] : []),
     ...MODULE_BLUEPRINTS.map((module) => path.join(paths.corpusRoot, module.path))
   ];
   const aodsExactSize = measureFiles(agentFiles);
@@ -176,32 +205,28 @@ function evaluateFidelity(paths, manifest, factMap) {
   };
 }
 
-function evaluateLoading(paths, manifest) {
-  const manifestPath = path.join(paths.corpusRoot, "manifest.json");
-  const manifestContent = fs.readFileSync(manifestPath, "utf8");
-  const manifestMetrics = measureText(manifestContent);
-  const moduleRefMap = new Map(manifest.modules.map((module) => [module.id, module]));
-  const moduleContentMap = new Map(
-    manifest.modules.map((module) => {
-      const filePath = path.join(paths.corpusRoot, module.path);
-      return [module.id, fs.readFileSync(filePath, "utf8")];
-    })
-  );
-  const moduleMetricMap = new Map(
-    [...moduleContentMap].map(([moduleId, content]) => [moduleId, measureText(content)])
-  );
+function evaluateLoading(paths) {
+  const corpusIndex = loadAodsCorpusIndex(paths);
+  const { manifest, manifestContent, manifestMetrics, moduleRefMap, moduleContentMap, moduleMetricMap } = corpusIndex;
+  const fullSupportResources = buildFullAodsSupportResources(corpusIndex);
+  const fullSupportMetrics = measurePromptSupportResources(fullSupportResources);
   const fullLoadTokens =
     manifestMetrics.tokens_estimated +
+    fullSupportMetrics.tokens_estimated +
     manifest.modules.reduce((sum, module) => sum + (moduleMetricMap.get(module.id)?.tokens_estimated ?? 0), 0);
   const fullLoadBytes =
     manifestMetrics.bytes +
+    fullSupportMetrics.bytes +
     manifest.modules.reduce((sum, module) => sum + (moduleMetricMap.get(module.id)?.bytes ?? 0), 0);
-  const fullPromptResources = buildAodsPromptResources(manifestContent, moduleRefMap, moduleContentMap, manifest.modules);
+  const fullPromptResources = buildAodsPromptResources(manifestContent, moduleRefMap, moduleContentMap, manifest.modules, {
+    supportResources: fullSupportResources
+  });
 
   const scenarioResults = LOADING_SCENARIOS.map((scenario) => {
-    const loadedModules = scenario.touch
-      ? routeModules(paths.corpusRoot, scenario)
-      : semanticLoad(manifest, scenario);
+    const route = routeScenarioModules(paths.corpusRoot, scenario);
+    const scenarioSupportResources = buildScenarioAodsSupportResources(corpusIndex, route);
+    const scenarioSupportMetrics = measurePromptSupportResources(scenarioSupportResources);
+    const loadedModules = route.recommended_modules.map((module) => module.id);
     const loadedSet = new Set(loadedModules);
     const requiredSet = new Set(scenario.requiredModules);
     const hits = [...requiredSet].filter((moduleId) => loadedSet.has(moduleId)).length;
@@ -209,18 +234,22 @@ function evaluateLoading(paths, manifest) {
     const recall = hits / requiredSet.size;
     const routeTokens =
       manifestMetrics.tokens_estimated +
+      scenarioSupportMetrics.tokens_estimated +
       loadedModules.reduce((sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.tokens_estimated ?? 0), 0);
     const oracleTokens =
       manifestMetrics.tokens_estimated +
+      scenarioSupportMetrics.tokens_estimated +
       scenario.requiredModules.reduce(
         (sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.tokens_estimated ?? 0),
         0
       );
     const routeBytes =
       manifestMetrics.bytes +
+      scenarioSupportMetrics.bytes +
       loadedModules.reduce((sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.bytes ?? 0), 0);
     const oracleBytes =
       manifestMetrics.bytes +
+      scenarioSupportMetrics.bytes +
       scenario.requiredModules.reduce((sum, moduleId) => sum + (moduleMetricMap.get(moduleId)?.bytes ?? 0), 0);
     const promptEnvelope = measureBenchmarkPromptEnvelope({
       formatLabel: "AODS",
@@ -229,7 +258,10 @@ function evaluateLoading(paths, manifest) {
         manifestContent,
         moduleRefMap,
         moduleContentMap,
-        loadedModules.map((moduleId) => moduleRefMap.get(moduleId)).filter(Boolean)
+        loadedModules.map((moduleId) => moduleRefMap.get(moduleId)).filter(Boolean),
+        {
+          supportResources: scenarioSupportResources
+        }
       )
     });
     const fullPromptEnvelope = measureBenchmarkPromptEnvelope({
@@ -242,9 +274,13 @@ function evaluateLoading(paths, manifest) {
       description: scenario.description,
       scenario_class: scenario.scenario_class,
       measurement_class: scenario.measurement_class,
-      mode: scenario.touch ? "touch-route" : "semantic-load",
+      task_stage: route.task_stage ?? scenario.task_stage ?? null,
+      task_stage_source: route.task_stage_source ?? (scenario.task_stage ? "scenario" : null),
+      mode: route.strategy === "touch-route" ? "touch-route" : "query-route",
+      route_strategy: route.strategy,
       loaded_modules: loadedModules,
       required_modules: scenario.requiredModules,
+      matched_query_modules: route.matched_query_modules ?? [],
       precision,
       recall,
       exact_hit: recall === 1,
@@ -269,24 +305,47 @@ function evaluateLoading(paths, manifest) {
   const objectiveTouch = summarizeLoadingResults(
     scenarioResults.filter((scenario) => scenario.measurement_class === "objective")
   );
-  const exploratorySemantic = summarizeLoadingResults(
+  const exploratoryQuery = summarizeLoadingResults(
     scenarioResults.filter((scenario) => scenario.measurement_class === "exploratory")
   );
   const combined = summarizeLoadingResults(scenarioResults);
+  const taskStageBreakdown = summarizeTaskStages(scenarioResults);
+  const coveredTaskStages = TASK_STAGES.filter((stage) => taskStageBreakdown[stage].scenario_count > 0);
 
   return {
     full_load_tokens_estimated: fullLoadTokens,
     full_load_bytes: fullLoadBytes,
     scenario_results: scenarioResults,
     objective_touch: objectiveTouch,
-    exploratory_semantic: exploratorySemantic,
+    exploratory_query: exploratoryQuery,
     combined,
+    task_stage_coverage: coveredTaskStages.length / TASK_STAGES.length,
+    task_stage_breakdown: taskStageBreakdown,
     hit_rate: combined.hit_rate,
     average_precision: combined.average_precision,
     average_recall: combined.average_recall,
     median_token_savings_vs_full_load: combined.median_token_savings_vs_full_load,
     median_overfetch_ratio: combined.median_token_overfetch_ratio
   };
+}
+
+function summarizeTaskStages(scenarioResults) {
+  return Object.fromEntries(
+    TASK_STAGES.map((stage) => {
+      const stageResults = scenarioResults.filter((scenario) => scenario.task_stage === stage);
+      return [
+        stage,
+        {
+          scenario_count: stageResults.length,
+          hit_rate: stageResults.length === 0 ? 0 : stageResults.filter((scenario) => scenario.exact_hit).length / stageResults.length,
+          average_precision:
+            stageResults.length === 0
+              ? 0
+              : stageResults.reduce((sum, scenario) => sum + scenario.precision, 0) / stageResults.length
+        }
+      ];
+    })
+  );
 }
 
 function summarizeLoadingResults(scenarioResults) {
@@ -349,115 +408,31 @@ function summarizeLoadingResults(scenarioResults) {
   };
 }
 
-function buildAodsPromptResources(manifestContent, moduleRefMap, moduleContentMap, moduleRefs) {
-  return [
-    {
-      path: "manifest.json",
-      title: "AODS manifest",
-      kind: "manifest",
-      content: manifestContent
-    },
-    ...moduleRefs.map((moduleRef) => ({
-      path: moduleRef.path,
-      title: moduleRef.id,
-      kind: "module",
-      module_ids: [moduleRef.id],
-      content: moduleContentMap.get(moduleRef.id)
-    }))
-  ];
-}
-
-function routeModules(corpusRoot, scenario) {
-  const args = ["route", corpusRoot, "--touch", scenario.touch, "--intent", scenario.intent, "--json"];
-  if (scenario.role) {
-    args.push("--role", scenario.role);
-  }
-  const route = runAodsJson(args);
-  return route.recommended_modules.map((module) => module.id);
-}
-
-function semanticLoad(manifest, scenario) {
-  const moduleById = new Map(manifest.modules.map((module) => [module.id, module]));
-  const base = manifest.boot_by_role?.[scenario.role] ?? manifest.boot_sequence;
-  const loaded = [...base];
-  const lowerConcepts = scenario.concepts.map((concept) => concept.toLowerCase());
-  const scored = manifest.modules
-    .filter((module) => !loaded.includes(module.id))
-    .map((module) => ({
-      id: module.id,
-      score: scoreModule(module, lowerConcepts)
-    }))
-    .filter((item) => item.score > 0)
-    .sort((left, right) => {
-      if (right.score !== left.score) {
-        return right.score - left.score;
-      }
-      return (LAYER_ORDER[moduleById.get(left.id).layer] ?? 99) - (LAYER_ORDER[moduleById.get(right.id).layer] ?? 99);
-    });
-
-  for (const item of scored) {
-    for (const depId of expandDependencies(item.id, moduleById)) {
-      if (!loaded.includes(depId)) {
-        loaded.push(depId);
-      }
-    }
-    if (!loaded.includes(item.id)) {
-      loaded.push(item.id);
-    }
-  }
-
-  return loaded;
-}
-
-function scoreModule(module, concepts) {
-  const haystack = [module.id, module.scope, ...(module.tags ?? [])].join(" ").toLowerCase();
-  let score = 0;
-  for (const concept of concepts) {
-    if (haystack.includes(concept)) {
-      score += 2;
-    } else {
-      const conceptParts = concept.split(/[\s-]+/);
-      if (conceptParts.some((part) => part.length > 2 && haystack.includes(part))) {
-        score += 1;
-      }
-    }
-  }
-  return score;
-}
-
-function expandDependencies(moduleId, moduleById) {
-  const ordered = [];
-  const seen = new Set();
-
-  function dfs(currentId) {
-    if (seen.has(currentId) || !moduleById.has(currentId)) {
-      return;
-    }
-    seen.add(currentId);
-    for (const depId of moduleById.get(currentId).deps ?? []) {
-      dfs(depId);
-      if (!ordered.includes(depId)) {
-        ordered.push(depId);
-      }
-    }
-  }
-
-  dfs(moduleId);
-  return ordered;
-}
-
 function evaluateDrift(paths, factMap) {
   const baselineAnchors = buildBaselineAnchors(paths, factMap);
   const scenarioResults = DRIFT_SCENARIOS.map((scenario) => runDriftScenario(paths, scenario, baselineAnchors));
   const driftCases = scenarioResults.filter((scenario) => !scenario.is_control);
   const controlCases = scenarioResults.filter((scenario) => scenario.is_control);
+  const semanticApplicableCases = driftCases.filter((scenario) => scenario.expected_semantic_detection);
+  const structuralGovernanceCases = driftCases.filter((scenario) => !scenario.expected_semantic_detection);
 
   return {
     scenario_results: scenarioResults,
     built_in_recall:
       driftCases.filter((scenario) => scenario.built_in_detected).length / driftCases.length,
     semantic_recall:
+      semanticApplicableCases.length === 0
+        ? 1
+        : semanticApplicableCases.filter((scenario) => scenario.semantic_detected).length / semanticApplicableCases.length,
+    semantic_recall_all_drift_cases:
       driftCases.filter((scenario) => scenario.semantic_detected).length / driftCases.length,
+    semantic_applicable_scenario_count: semanticApplicableCases.length,
+    structural_governance_recall:
+      structuralGovernanceCases.length === 0
+        ? 1
+        : structuralGovernanceCases.filter((scenario) => scenario.built_in_detected).length /
+          structuralGovernanceCases.length,
+    structural_governance_scenario_count: structuralGovernanceCases.length,
     combined_recall:
       driftCases.filter((scenario) => scenario.built_in_detected || scenario.semantic_detected).length /
       driftCases.length,
@@ -468,7 +443,7 @@ function evaluateDrift(paths, factMap) {
   };
 }
 
-function evaluateBenchmarkDiversity(manifest) {
+function evaluateBenchmarkDiversity(manifest, openSourceCorporaManifest = null, openSourceScenarioCatalog = null) {
   const structuredCovered = dedupe(
     ARTIFACTS.filter((artifact) => artifact.kind === "artifact")
       .map((artifact) => artifact.artifact.type)
@@ -483,6 +458,7 @@ function evaluateBenchmarkDiversity(manifest) {
   const pairSyncModes = dedupe((manifest.surface_pairs ?? []).map((pair) => pair.sync_source));
   const pairScopes = dedupe((manifest.surface_pairs ?? []).map((pair) => pair.scope));
   const moduleLayers = dedupe((manifest.modules ?? []).map((module) => module.layer));
+  const externalSample = buildOpenSourceSampleSummary(openSourceCorporaManifest, openSourceScenarioCatalog);
   const datasetBreakdown = Object.fromEntries(
     DATASETS.map((dataset) => [
       dataset.id,
@@ -546,8 +522,58 @@ function evaluateBenchmarkDiversity(manifest) {
     module_layers: {
       present: moduleLayers,
       missing: ["root", "capsule", "detail", "evidence"].filter((layer) => !moduleLayers.includes(layer))
-    }
+    },
+    external_sample: externalSample
   };
+}
+
+function buildOpenSourceSampleSummary(manifest, catalog = null) {
+  if (!manifest || !Array.isArray(manifest.corpora)) {
+    return null;
+  }
+
+  const selectedCorpora = manifest.corpora.filter((corpus) => corpus.status === "selected");
+  const catalogCorpusById = new Map((catalog?.corpora ?? []).map((corpus) => [corpus.id, corpus]));
+  const corpora = selectedCorpora.map((corpus) => {
+    const measured = catalogCorpusById.get(corpus.id);
+    return {
+      id: corpus.id,
+      label: corpus.label,
+      license: corpus.license,
+      scenario_count: corpus.scenario_seeds?.length ?? measured?.scenario_count ?? 0,
+      source_file_count: measured?.source_file_count ?? null,
+      source_byte_count: measured?.source_byte_count ?? null
+    };
+  });
+  const scenarios = selectedCorpora.flatMap((corpus) =>
+    (corpus.scenario_seeds ?? []).map((seed) => ({
+      ...seed,
+      corpus_id: corpus.id,
+      format: inferDocFormat(seed.path)
+    }))
+  );
+  return {
+    corpus_count: corpora.length,
+    corpora,
+    scenario_count: scenarios.length,
+    scenario_classes: countBy(scenarios.map((scenario) => scenario.scenario_class)),
+    lifecycle_phases: dedupe(scenarios.flatMap((scenario) => scenario.lifecycle_phases ?? [])).sort(),
+    benchmark_dimensions: dedupe(scenarios.flatMap((scenario) => scenario.benchmark_dimensions ?? [])).sort(),
+    benchmark_roles: dedupe(scenarios.flatMap((scenario) => scenario.benchmark_roles ?? [])).sort(),
+    formats: countBy(scenarios.map((scenario) => scenario.format)),
+    licenses: countBy(corpora.map((corpus) => corpus.license))
+  };
+}
+
+function inferDocFormat(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === ".rst") {
+    return "rst";
+  }
+  if (ext === ".md" || ext === ".mdx") {
+    return "markdown";
+  }
+  return ext.replace(/^\./, "") || "unknown";
 }
 
 function runDriftScenario(paths, scenario, baselineAnchors) {
@@ -649,8 +675,10 @@ function renderMarkdownReport(results) {
   const coverage = results.coverage;
   const fidelity = results.fidelity;
   const loading = results.loading;
+  const runtimeCapture = results.runtime_capture;
   const drift = results.drift;
   const diversity = results.diversity;
+  const externalSample = diversity.external_sample;
   const validation = results.validation;
   const strongestBlindSpots = [];
   const compressionHeadline =
@@ -675,6 +703,32 @@ function renderMarkdownReport(results) {
     strongestBlindSpots.push("No declared-invariant or known governance scenario remains a built-in miss in the current benchmark pack.");
   }
 
+  const runtimeCaptureSummary = runtimeCapture
+    ? `- **Runtime-backed local sample:** ${runtimeCapture.scenario.id} exact provider request body ${runtimeCapture.runtime_request.request_body_bytes} bytes vs rendered benchmark prompt ${runtimeCapture.benchmark_prompt.bytes} bytes (${formatRatio(runtimeCapture.runtime_request.request_vs_prompt_ratio)}x).`
+    : "- **Runtime-backed local sample:** not generated in this run.";
+  const externalSampleSummary = externalSample
+    ? `- **External sample supplement:** ${externalSample.corpus_count} open-source corpora and ${externalSample.scenario_count} grep-first scenario seeds now supplement the synthetic benchmark pack.`
+    : "- **External sample supplement:** not loaded in this run.";
+  const runtimeCaptureSection = runtimeCapture
+    ? `### 4. Runtime-backed local provider capture (supplemental)
+
+- Runtime profile: **${runtimeCapture.profile.id}** using **${runtimeCapture.profile.runtime}** in offline local-provider mode
+- Captured scenario: **${runtimeCapture.scenario.id}** (${runtimeCapture.scenario.description})
+- Capture method: **stop after the first provider request is observed**, so this sample measures request-body size rather than full task completion
+- Exact provider request body: **${runtimeCapture.runtime_request.request_body_bytes} bytes**, **${runtimeCapture.runtime_request.request_body_tokens_estimated} estimated tokens**
+- Runtime user message: **${runtimeCapture.runtime_request.user_message_bytes} bytes**
+- Runtime system message: **${runtimeCapture.runtime_request.system_message_bytes} bytes**
+- Runtime tool definitions: **${runtimeCapture.runtime_request.tool_definitions_bytes} bytes**
+- Runtime wrapper around the benchmark prompt: **${runtimeCapture.runtime_request.prompt_wrapper_bytes ?? 0} bytes**
+- Ratio vs rendered benchmark prompt: **${formatRatio(runtimeCapture.runtime_request.request_vs_prompt_ratio)}x**
+- Interpretation: **the benchmark prompt-envelope proxy is directionally useful, but one real Copilot CLI runtime request is still larger because the runtime adds a system message, tool definitions, and JSON framing on top of the routed AODS context.**
+`
+    : `### 4. Runtime-backed local provider capture (supplemental)
+
+- No runtime capture artifact was loaded for this run.
+- Interpretation: **the main benchmark still falls back to rendered prompt-envelope metrics until a runtime capture sample is generated.**
+`;
+
   return `# AODS evaluation report
 
 ## Executive summary
@@ -687,7 +741,9 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 - **Task-time context footprint:** objective touch-route median rendered prompt envelope ${loading.objective_touch.median_prompt_envelope_bytes} bytes and ${loading.objective_touch.median_prompt_envelope_tokens_estimated} estimated tokens.
 - **Objective loading gate:** touch-route hit rate ${formatPercent(loading.objective_touch.hit_rate)}, average recall ${formatPercent(loading.objective_touch.average_recall)}, median byte savings ${formatPercent(loading.objective_touch.median_byte_savings_vs_full_load)}.
 - **Drift prevention:** built-in recall ${formatPercent(drift.built_in_recall)}, combined recall ${formatPercent(drift.combined_recall)}, built-in false-positive rate ${formatPercent(drift.built_in_false_positive_rate)}.
-- **Advisory metrics:** token estimates and semantic-load scenarios remain exploratory rather than release-gating signals.
+- ${runtimeCaptureSummary.slice(2)}
+- ${externalSampleSummary.slice(2)}
+- **Advisory metrics:** token estimates and query-route scenarios remain exploratory rather than release-gating signals.
 
 ## Scope and independence
 
@@ -753,7 +809,7 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 - Median prompt-envelope savings vs fully rendered full-load prompt: **${formatPercent(
     loading.objective_touch.median_prompt_envelope_savings_vs_full_prompt
   )}**
-- Interpretation: **loaded payload measures routed file content only. Rendered prompt envelope adds separators, path labels, and scaffold text, so it is the closer benchmark proxy to actual context-window occupation. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
+- Interpretation: **loaded payload measures routed file content only. Rendered prompt envelope adds separators, path labels, and scaffold text, so it is the closer shared benchmark proxy to actual context-window occupation. A larger full corpus does not automatically imply a larger per-task context if routing keeps the working set small.**
 
 | Objective scenario | Class | Hit | Byte savings |
 | --- | --- | --- | ---: |
@@ -767,21 +823,25 @@ ${loading.scenario_results
   )
   .join("\n")}
 
-### 4. Exploratory semantic loading
+${runtimeCaptureSection}
 
-- Exploratory scenarios: **${loading.exploratory_semantic.scenario_count}**
-- Hit rate across exploratory semantic scenarios: **${formatPercent(loading.exploratory_semantic.hit_rate)}**
-- Average precision: **${formatPercent(loading.exploratory_semantic.average_precision)}**
-- Average recall: **${formatPercent(loading.exploratory_semantic.average_recall)}**
-- Median loaded working set: **${loading.exploratory_semantic.median_route_bytes} bytes**, **${loading.exploratory_semantic.median_route_tokens_estimated} estimated tokens**
-- Median rendered prompt envelope: **${loading.exploratory_semantic.median_prompt_envelope_bytes} bytes**, **${loading.exploratory_semantic.median_prompt_envelope_tokens_estimated} estimated tokens**
-- Median byte savings vs full load: **${formatPercent(loading.exploratory_semantic.median_byte_savings_vs_full_load)}**
-- Interpretation: **semantic-load scenarios are still useful for research, but they are not treated as objective release gates because the current reference CLI does not implement semantic routing. Their rendered prompt-envelope numbers are therefore informative, not authoritative.**
+### 5. Exploratory query routing
 
-### 5. Drift prevention
+- Exploratory scenarios: **${loading.exploratory_query.scenario_count}**
+- Hit rate across exploratory query-route scenarios: **${formatPercent(loading.exploratory_query.hit_rate)}**
+- Average precision: **${formatPercent(loading.exploratory_query.average_precision)}**
+- Average recall: **${formatPercent(loading.exploratory_query.average_recall)}**
+- Median loaded working set: **${loading.exploratory_query.median_route_bytes} bytes**, **${loading.exploratory_query.median_route_tokens_estimated} estimated tokens**
+- Median rendered prompt envelope: **${loading.exploratory_query.median_prompt_envelope_bytes} bytes**, **${loading.exploratory_query.median_prompt_envelope_tokens_estimated} estimated tokens**
+- Median byte savings vs full load: **${formatPercent(loading.exploratory_query.median_byte_savings_vs_full_load)}**
+- Interpretation: **these scenarios now call the real CLI query router, but they remain advisory because the prompts are still synthetic benchmark queries rather than field-captured production tasks. Their rendered prompt-envelope numbers are therefore informative, not release-gating.**
+
+### 6. Drift prevention
 
 - Built-in drift recall: **${formatPercent(drift.built_in_recall)}**
-- Semantic drift recall: **${formatPercent(drift.semantic_recall)}**
+- Semantic drift recall on applicable scenarios: **${formatPercent(drift.semantic_recall)}** across **${drift.semantic_applicable_scenario_count}** cases
+- Semantic recall across all drift cases: **${formatPercent(drift.semantic_recall_all_drift_cases)}**
+- Structural governance recall on semantic-not-applicable cases: **${formatPercent(drift.structural_governance_recall)}** across **${drift.structural_governance_scenario_count}** cases
 - Combined recall: **${formatPercent(drift.combined_recall)}**
 - Built-in false-positive rate: **${formatPercent(drift.built_in_false_positive_rate)}**
 
@@ -796,7 +856,7 @@ ${drift.scenario_results
   )
   .join("\n")}
 
-### 6. Sample diversity and coverage audit
+### 7. Sample diversity and coverage audit
 
 - Dataset count: **${results.diversity.dataset_count}**
 - Dataset class: **${results.diversity.dataset_class}**
@@ -811,10 +871,21 @@ ${drift.scenario_results
 - Sync modes present: **${diversity.sync_modes.present.join(", ")}**
 - Sync modes absent: **${diversity.sync_modes.missing.join(", ")}**
 - Pair scopes absent: **${diversity.pair_scopes.missing.join(", ")}**
+${externalSample
+  ? `- External sample corpora: **${externalSample.corpus_count}**\n- External scenario seeds: **${externalSample.scenario_count}**\n- External sample formats: **${Object.entries(
+      externalSample.formats
+    )
+      .map(([format, count]) => `${format}=${count}`)
+      .join(", ")}**\n- External sample phases: **${externalSample.lifecycle_phases.join(
+      ", "
+    )}**\n- External sample benchmark dimensions: **${externalSample.benchmark_dimensions.join(
+      ", "
+    )}**`
+  : ""}
 
-**Expansion check:** the current benchmark now spans multiple synthetic datasets and more than one sync mode, so diversity is stronger than the original single-corpus baseline. Coverage across artifact families remains strong, but language coverage and real-world toolchain diversity are still limited.
+**Expansion check:** the main benchmark now spans multiple synthetic datasets and more than one sync mode, while the external sample supplement adds real open-source corpora for grep-first field realism. Coverage across artifact families remains strong, but language coverage is still limited and the fair common scoreboard is still narrower than a full multi-toolchain field matrix.
 
-### 7. Authoring overhead
+### 8. Authoring overhead
 
 - Bookkeeping entries (modules + pairs + touch routes + roles): **${results.overhead.bookkeeping_entries}**
 - Bookkeeping entries per benchmark item: **${formatRatio(results.overhead.bookkeeping_entries_per_artifact)}**
@@ -825,22 +896,22 @@ ${drift.scenario_results
 
 1. AODS can represent the full benchmark lifecycle without unsupported gaps.
 2. The structured artifact catalog is broad enough to cover architecture, workflow, contract, policy, and operations material in one corpus.
-3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only heuristic token and semantic-load signals.
-4. The benchmark now makes repository-scale corpus weight, raw loaded payload size, and rendered prompt-envelope size explicit instead of conflating them.
+3. The main release-gating benchmark now rests on objective touch-route behavior and exact corpus size rather than only advisory token and exploratory query-route signals.
+4. The benchmark now makes repository-scale corpus weight, raw loaded payload size, rendered prompt-envelope size, and one runtime-backed request-body sample explicit instead of conflating them.
 
 ### Limits and failure modes
 
 ${strongestBlindSpots.map((item) => `- ${item}`).join("\n")}
 
 - The reference implementation now validates declared cross-surface invariants, but it still does not prove semantic equivalence beyond declared anchors.
-- Progressive loading is strongest for touch-routed authoring flows; semantic query loading still depends on corpus metadata quality and remains exploratory.
+- Progressive loading is strongest for touch-routed authoring flows; query routing still depends on corpus metadata quality and remains exploratory.
 - Compression is not automatically positive at corpus scale; routing and pairing metadata can erase local gains even when artifact-local compression exists.
-- Prompt-envelope metrics are a deterministic benchmark renderer, not a direct capture from a live agent runtime.
-- Sample diversity is still limited because the current benchmark remains synthetic, English-only, and narrower than a true multi-toolchain field sample.
+- The main scoreboard still relies on renderer-based prompt-envelope metrics across the full scenario set; the runtime-backed sample is currently one supplemental local Copilot CLI capture, not yet a full runtime matrix.
+- Sample diversity is stronger than before because it now includes an external open-source scenario supplement, but the pack remains English-only and narrower than a true multi-toolchain field sample.
 
 ## Bottom line
 
-**Coverage is strong, the objective touch-route gate is cleanly measurable, full-fidelity representation is achievable, and built-in anti-drift is materially stronger once shared_invariants are declared.** In this benchmark pack AODS preserves meaning, yet corpus weight may still grow because governance overhead can outweigh local artifact compression. The benchmark is now more objective and more diverse than the original single-corpus baseline, but it still needs broader language and field-sample coverage.
+**Coverage is strong, the objective touch-route gate is cleanly measurable, full-fidelity representation is achievable, and built-in anti-drift is materially stronger once shared_invariants are declared.** In this benchmark pack AODS preserves meaning, yet corpus weight may still grow because governance overhead can outweigh local artifact compression. The benchmark is now more objective and is no longer limited to a purely synthetic reading, but it still needs broader language coverage and a larger fair cross-toolchain field matrix.
 
 ## Appendix: reproducibility
 
@@ -848,26 +919,12 @@ ${strongestBlindSpots.map((item) => `- ${item}`).join("\n")}
 cd <repo-root>
 npm install
 npm run validate:all
+npm run benchmark:runtime-capture   # optional supplemental sample
 npm run benchmark:evaluate
 npm run benchmark:compare
 npm run benchmark:test
 \`\`\`
 `;
-}
-
-function runAodsJson(args) {
-  try {
-    const output = execFileSync("node", [AODS_CLI, ...args], {
-      cwd: REPO_ROOT,
-      encoding: "utf8"
-    });
-    return JSON.parse(output);
-  } catch (error) {
-    if (typeof error.stdout === "string" && error.stdout.trim()) {
-      return JSON.parse(error.stdout);
-    }
-    throw error;
-  }
 }
 
 function listFiles(rootDir, extensions) {

@@ -94,6 +94,31 @@
     ]
   },
   {
+    "id": "undeclared-claim-pair-conflict",
+    "description": "Paired files keep declared invariants but disagree on another high-signal requirement claim.",
+    "scenario_class": "claim-conflict",
+    "changedFiles": [
+      "docs/01-product-lifecycle.md",
+      "modules/product-lifecycle.json"
+    ],
+    "expectBuiltInDetection": true,
+    "expectSemanticDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "docs/01-product-lifecycle.md",
+        "find": "Every approved release must include an owner, a risk tier, a rollback plan, and a communication plan.",
+        "replace": "Every approved release must include an owner, a risk tier, and a communication plan."
+      },
+      {
+        "type": "replace",
+        "file": "modules/product-lifecycle.json",
+        "find": "Every approved release must include an owner, a risk tier, a rollback plan, and a communication plan.",
+        "replace": "Every approved release must include an owner, a risk tier, a rollback plan, a communication plan, and approval evidence."
+      }
+    ]
+  },
+  {
     "id": "ops-human-only-drift",
     "description": "Operations human surface changes alone.",
     "scenario_class": "human-only-drift",
@@ -134,16 +159,16 @@
     "description": "Manifest points a touch route at a missing module.",
     "scenario_class": "route-integrity",
     "changedFiles": [
-      "manifest.json"
+      "indexes/runtime.json"
     ],
     "expectBuiltInDetection": true,
     "expectSemanticDetection": false,
     "operations": [
       {
         "type": "replace",
-        "file": "manifest.json",
-        "find": "\"load_modules\": [\n        \"atlas-root\",\n        \"atlas-capsule\",\n        \"architecture-contracts\"\n      ],\n      \"reason\": \"Architecture edits need route and contract context.\"",
-        "replace": "\"load_modules\": [\n        \"atlas-root\",\n        \"atlas-capsule\",\n        \"missing-architecture-contracts\"\n      ],\n      \"reason\": \"Architecture edits need route and contract context.\""
+        "file": "indexes/runtime.json",
+        "find": "\"match\":\"docs/02-architecture-and-contracts.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-root\",\"atlas-capsule\",\"architecture-contracts\"],\"reason\":\"Architecture doc edits need topology and contract authority.\"",
+        "replace": "\"match\":\"docs/02-architecture-and-contracts.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-root\",\"atlas-capsule\",\"missing-architecture-contracts\"],\"reason\":\"Architecture doc edits need topology and contract authority.\""
       }
     ]
   },
@@ -152,7 +177,7 @@
     "description": "Manifest points a paired human surface outside the corpus root.",
     "scenario_class": "path-safety",
     "changedFiles": [
-      "manifest.json"
+      "indexes/runtime.json"
     ],
     "expectBuiltInDetection": true,
     "expectSemanticDetection": false,
@@ -164,9 +189,9 @@
       },
       {
         "type": "replace",
-        "file": "manifest.json",
-        "find": "\"human_primary\": \"docs/02-architecture-and-contracts.md\"",
-        "replace": "\"human_primary\": \"../escaped-architecture.md\""
+        "file": "indexes/runtime.json",
+        "find": "\"human_primary\":\"docs/02-architecture-and-contracts.md\"",
+        "replace": "\"human_primary\":\"../escaped-architecture.md\""
       }
     ]
   }

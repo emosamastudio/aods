@@ -16,9 +16,10 @@ export function emptyDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
 
-export function writeJson(filePath, value) {
+export function writeJson(filePath, value, options = {}) {
   ensureDir(path.dirname(filePath));
-  fs.writeFileSync(filePath, JSON.stringify(value, null, 2) + "\n");
+  const payload = options.compact ? JSON.stringify(value) : JSON.stringify(value, null, 2);
+  fs.writeFileSync(filePath, payload + "\n");
 }
 
 export function readJson(filePath) {

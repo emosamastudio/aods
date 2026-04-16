@@ -70,6 +70,46 @@
     }
   ],
   "meta": {
+    "control": {
+      "role": "guide",
+      "method": "computational",
+      "timing": [
+        "runtime"
+      ]
+    },
+    "provenance": {
+      "memory_role": "authority",
+      "sources": [
+        "sev1-runbook-v1"
+      ],
+      "confidence": "high",
+      "review_chain": [
+        "sre-review"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "pager",
+        "incident-bridge"
+      ],
+      "resources": [
+        "incident-bridge",
+        "on-call roster"
+      ],
+      "side_effects": [
+        "incident-state-change"
+      ],
+      "telemetry": [
+        "bridge-status"
+      ],
+      "checkpoints": [
+        "bridge-open",
+        "rollback-owner-assigned"
+      ],
+      "outputs": [
+        "incident-bridge-record"
+      ]
+    },
     "stability": "stable",
     "review_cycle": "on-change"
   }
