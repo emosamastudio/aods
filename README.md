@@ -65,13 +65,12 @@ npx aods scaffold authoring ./aods --sys my-system --purpose "Agent-first docs f
 4. Compile and validate the AODS docs bundle you will keep in your own repository:
 
 ```bash
-npx aods compile ./aods/authoring.json ./docs/aods --force
-npx aods validate ./docs/aods --strict
+npx aods compile ./aods/authoring.json ./docs/aods --force --strict
 npx aods validate ./docs/aods --strict --reality
 npx aods validate ./docs/aods --strict --reality --repo-root .
 ```
 
-Use `--reality` only when your corpus declares `surface-inventory` artifacts and you want AODS to verify declared **current** surfaces. For `content.base: "corpus"`, paths resolve from the corpus root. For `content.base: "repo"`, paths resolve from `--repo-root` when supplied; otherwise they also resolve from the corpus root. `reserved` and `future` entries stay as planned surfaces, so they are recorded without being required to exist yet. Current directories must contain real material, not only placeholder files such as `.gitkeep`.
+Use `compile --strict` when the compile command itself should be the acceptance gate. It compiles into staging, validates there, and only updates the target corpus when the strict gate passes. On strict warning or error failure, the command exits non-zero, prints the blocking issues, and leaves the target untouched. Use `--reality` only when your corpus declares `surface-inventory` artifacts and you want AODS to verify declared **current** surfaces. For `content.base: "corpus"`, paths resolve from the corpus root. For `content.base: "repo"`, paths resolve from `--repo-root` when supplied; otherwise they also resolve from the corpus root. `reserved` and `future` entries stay as planned surfaces, so they are recorded without being required to exist yet. Current directories must contain real material, not only placeholder files such as `.gitkeep`.
 
 ```json
 {"type":"surface-inventory","content":{"base":"repo","entries":[{"surface_id":"web-src","path":"apps/web/src","kind":"directory","state":"current"}]}}
@@ -296,7 +295,7 @@ Routing precedence:
 ```bash
 node ./bin/aods.mjs scaffold authoring ./tmp/authoring-source --sys sample-system --force
 npm run compile:pilot
-node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tmp/compiled-pilot --force
+node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tmp/compiled-pilot --force --strict
 ```
 
 Authoring sources now validate against `schema/authoring.schema.json`, so compiled authoring is a real contract rather than a one-off pilot format. Modules may be section-first, artifact-first, or mixed; compiled AODS only requires at least one `section` or `artifact`.
@@ -327,6 +326,8 @@ The compile command emits:
 - copied AODS schemas
 - declared manual human-oriented files such as `README.md`
 - opt-in deterministic generated human-oriented files such as overview or checklist surfaces
+
+`compile --strict` turns that compile step into a real gate: warnings or errors stop promotion to the target corpus instead of replacing a previously accepted output.
 
 When `boot_by_role` is present, compiled companion `roles` are reduced to runtime role profiles: `id` plus optional `capabilities`. `required_modules` is kept only when it differs from the boot binding.
 
