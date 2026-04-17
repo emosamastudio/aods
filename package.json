@@ -1,6 +1,6 @@
 {
   "name": "aods",
-  "version": "0.4.0",
+  "version": "0.5.1",
   "private": false,
   "description": "AODS standard and CLI for agent-first documentation, routing, and anti-drift governance",
   "type": "module",
@@ -62,7 +62,8 @@
     "benchmark:summary": "npm --prefix ./benchmarks/aods-eval-lab run summary",
     "benchmark:test": "npm --prefix ./benchmarks/aods-eval-lab run test",
     "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:compare && npm run benchmark:summary && npm run benchmark:test",
-    "validate:repo": "npm run validate:all && npm run benchmark:all"
+    "validate:repo": "npm run validate:all && npm run benchmark:all",
+    "release:self-check": "npm run validate:repo && npm pack --dry-run"
   },
   "dependencies": {
     "ajv": "^8.17.1",
