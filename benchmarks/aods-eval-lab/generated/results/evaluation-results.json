@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-16T09:09:12.460Z",
+  "generated_at": "2026-04-17T03:44:38.784Z",
   "system_under_test": ".",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "validation": {
     "corpus": "aods-corpus",
-    "timestamp": "2026-04-16T09:09:09.412Z",
+    "timestamp": "2026-04-17T03:44:35.466Z",
     "levels": {
       "L1": {
         "pass": true,
@@ -35,7 +35,10 @@
       "total_surface_pairs": 8,
       "errors": 0,
       "warnings": 0
-    }
+    },
+    "strict": false,
+    "accepted": true,
+    "status": "pass"
   },
   "coverage": {
     "total_items": 36,

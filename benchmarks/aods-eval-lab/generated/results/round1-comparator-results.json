@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-16T09:09:12.466Z",
+  "generated_at": "2026-04-17T03:44:38.791Z",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "scope": "Round-one archetype comparison against Markdown+YAML, llms.txt, and DITA baselines, plus an open-source field-sample supplement.",
   "comparator_type": "format-archetype",

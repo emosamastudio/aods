@@ -39,7 +39,7 @@
     {
       "sid": "surface-governance",
       "topic": "surface pair layer and capsule checks",
-      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists, and the reference hook requires manual review when bidirectional pairs change. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set, unless the changed human file is a valid deterministic regeneration; hook also rejects agent-only edits when sync_source=human-primary. manifest-only metadata edits do not satisfy semantic sync. shared_invariants, when declared on a surface_pair, must remain present in both agent_primary and human_primary texts. Claim-diff checks stay conservative and only fire when validator can deterministically align both sides. If control metadata is declared, manifest.modules[].control and module.meta.control should match exactly, and sensor-only modules should not live in root or capsule layers. If provenance metadata is declared, manifest.modules[].provenance and module.meta.provenance should agree on memory_role + confidence. If runtime contracts are declared, manifest.modules[].runtime_contract and module.meta.runtime_contract should agree on side_effects + outputs, and side effects beyond none should expose telemetry, checkpoints, or outputs. surface-inventory reality checks are opt-in through validate --reality so existing corpora do not silently change behavior. base=repo only needs --repo-root when repo-scoped paths must resolve outside the corpus root. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
+      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists, and the reference hook requires manual review when bidirectional pairs change. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set, unless the changed human file is a valid deterministic regeneration; hook also rejects agent-only edits when sync_source=human-primary. manifest-only metadata edits do not satisfy semantic sync. shared_invariants, when declared on a surface_pair, must remain present in both agent_primary and human_primary texts. Claim-diff checks stay conservative and only fire when validator can deterministically align both sides. If control metadata is declared, manifest.modules[].control and module.meta.control should match exactly, and sensor-only modules should not live in root or capsule layers. If provenance metadata is declared, manifest.modules[].provenance and module.meta.provenance should agree on memory_role + confidence. If runtime contracts are declared, manifest.modules[].runtime_contract and module.meta.runtime_contract should agree on side_effects + outputs, and side effects beyond none should expose telemetry, checkpoints, or outputs. surface-inventory reality checks are opt-in through validate --reality so existing corpora do not silently change behavior. base=repo only needs --repo-root when repo-scoped paths must resolve outside the corpus root. Module-like JSON files discovered under declared module directories should be registered in manifest.modules[]; otherwise validator warns that they are disk-only and unloaded. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -75,7 +75,7 @@
     {
       "sid": "validation-output",
       "topic": "validation report format",
-      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}}. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str}.",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str}.",
       "content_type": "prose",
       "refs": [],
       "artifact_refs": [
@@ -117,7 +117,7 @@
             "L3",
             "coverage and governance discipline",
             "warning",
-            "capsule missing meta.capsule; boot order starts with detail; missing tokens_approx"
+            "capsule missing meta.capsule; boot order starts with detail; missing tokens_approx; unregistered module-like JSON on disk"
           ],
           [
             "L4",
@@ -296,6 +296,9 @@
         "required": [
           "corpus",
           "timestamp",
+          "strict",
+          "accepted",
+          "status",
           "levels",
           "summary"
         ],
@@ -306,6 +309,19 @@
           "timestamp": {
             "type": "string",
             "format": "date-time"
+          },
+          "strict": {
+            "type": "boolean"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail"
+            ]
           },
           "levels": {
             "type": "object",
@@ -445,6 +461,11 @@
     {
       "v": 11,
       "delta": "Added opt-in surface-inventory reality validation for current path existence, kind checks, duplicate current declarations, and placeholder-only directory detection.",
+      "breaking": false
+    },
+    {
+      "v": 12,
+      "delta": "Validation JSON now exposes strict/accepted/status gate fields, and strict mode marks warning-bearing levels as failing when warnings block acceptance.",
       "breaking": false
     }
   ],

@@ -4,6 +4,8 @@
   "corpus": {
     "sys": "shift-ops-pilot",
     "sys_v": 1,
+    "created": "2026-04-16T17:38:33Z",
+    "updated": "2026-04-16T17:38:33Z",
     "purpose": "Compiled-authoring pilot for a shift operations corpus with paired README governance, routed agent modules, and implementation-governance detail.",
     "glossary": {
       "system": "Shift operations documentation corpus",

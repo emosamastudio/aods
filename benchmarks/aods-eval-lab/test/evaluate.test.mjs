@@ -34,12 +34,26 @@ function assertCompactJsonFile(filePath) {
   );
 }
 
-function runValidateCli(corpusRoot, ...args) {
+function runValidateCommand(corpusRoot, { strict = true, args = [] } = {}) {
   return execFileSync(
     "node",
-    [path.join(REPO_ROOT, "bin", "aods.mjs"), "validate", corpusRoot, "--strict", ...args],
+    [
+      path.join(REPO_ROOT, "bin", "aods.mjs"),
+      "validate",
+      corpusRoot,
+      ...(strict ? ["--strict"] : []),
+      ...args
+    ],
     { cwd: REPO_ROOT, stdio: "pipe", encoding: "utf8" }
   );
+}
+
+function runValidateCli(corpusRoot, ...args) {
+  return runValidateCommand(corpusRoot, { strict: true, args });
+}
+
+function runValidateWarningCli(corpusRoot, ...args) {
+  return runValidateCommand(corpusRoot, { strict: false, args });
 }
 
 function expectValidateFailure(corpusRoot, pattern, ...args) {
@@ -295,6 +309,34 @@ test("reality validation supports repo-scoped inventories with explicit repo roo
   } finally {
     fs.rmSync(tempRoot, { recursive: true, force: true });
     fs.rmSync(tempRepoRoot, { recursive: true, force: true });
+  }
+});
+
+test("validate warns on module-like JSON files that are not registered in manifest", () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aods-compile-"));
+
+  try {
+    compilePilotCorpus(tempRoot);
+
+    const orphanModulePath = path.join(tempRoot, "modules", "orphan-ops.json");
+    const orphanModule = JSON.parse(
+      fs.readFileSync(path.join(tempRoot, "modules", "shift-ops-policy.json"), "utf8")
+    );
+    orphanModule.module_id = "orphan-ops";
+    writeModuleJson(orphanModulePath, orphanModule);
+    writeModuleJson(path.join(tempRoot, "modules", "not-a-module.json"), {
+      note: "not an AODS module"
+    });
+
+    const output = runValidateWarningCli(tempRoot);
+    assert.match(output, /WARN unregistered-module-file/);
+    assert.match(output, /modules\/orphan-ops\.json/);
+    assert.doesNotMatch(output, /not-a-module\.json/);
+    assert.match(output, /warnings=1/);
+
+    expectValidateFailure(tempRoot, /unregistered-module-file/);
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
   }
 });
 
