@@ -267,7 +267,7 @@ node ./bin/aods.mjs validate . --strict --reality
 node ./bin/aods.mjs validate . --strict --reality --repo-root ..
 ```
 
-`--strict` 会把 warning 也当成失败处理。这也包括这样一种情况：某个看起来像 AODS module 的 JSON 文件已经出现在声明过的 module 目录里，但它还没有注册进 `manifest.modules[]`。
+`--strict` 会把 warning 也当成失败处理。这也包括这样一种情况：某个看起来像 AODS module 的 JSON 文件已经出现在声明过的 module 目录里，但它还没有注册进 `manifest.modules[]`。在 warning-only 的 strict 校验里，CLI 现在也会输出 failure-shaped 结果，而不是继续打印一个看起来像绿色通过的 `PASS` 摘要；JSON 输出会补充顶层的 `strict`、`accepted` 和 `status` 字段，方便机器侧直接判断 gate 是否通过。
 
 ### 对触达文件做 scoped routing
 

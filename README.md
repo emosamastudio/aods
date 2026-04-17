@@ -269,7 +269,7 @@ node ./bin/aods.mjs validate . --strict --reality
 node ./bin/aods.mjs validate . --strict --reality --repo-root ..
 ```
 
-`--strict` treats warnings as failures. That includes module-like JSON files discovered under declared module directories when they are present on disk but not registered in `manifest.modules[]`.
+`--strict` treats warnings as failures. That includes module-like JSON files discovered under declared module directories when they are present on disk but not registered in `manifest.modules[]`. Warning-only corpora also print failure-shaped output instead of a green-looking `PASS` summary, and JSON output includes top-level `strict`, `accepted`, and `status` fields so the acceptance gate stays machine-readable.
 
 ### Route scoped module loads
 
