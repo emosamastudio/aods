@@ -75,7 +75,7 @@
     {
       "sid": "validation-output",
       "topic": "validation report format",
-      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}}. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str}.",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str}.",
       "content_type": "prose",
       "refs": [],
       "artifact_refs": [
@@ -296,6 +296,9 @@
         "required": [
           "corpus",
           "timestamp",
+          "strict",
+          "accepted",
+          "status",
           "levels",
           "summary"
         ],
@@ -306,6 +309,19 @@
           "timestamp": {
             "type": "string",
             "format": "date-time"
+          },
+          "strict": {
+            "type": "boolean"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail"
+            ]
           },
           "levels": {
             "type": "object",
@@ -445,6 +461,11 @@
     {
       "v": 11,
       "delta": "Added opt-in surface-inventory reality validation for current path existence, kind checks, duplicate current declarations, and placeholder-only directory detection.",
+      "breaking": false
+    },
+    {
+      "v": 12,
+      "delta": "Validation JSON now exposes strict/accepted/status gate fields, and strict mode marks warning-bearing levels as failing when warnings block acceptance.",
       "breaking": false
     }
   ],

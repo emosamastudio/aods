@@ -298,6 +298,8 @@ node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tm
 
 authoring source 现在会按照 `schema/authoring.schema.json` 校验，所以 compiled authoring 已经不再只是一次性的 pilot 格式，而是正式契约。module 现在既可以是 section-first，也可以是 artifact-first，或者两者混合；编译后的 AODS 只要求至少有一个 `section` 或 `artifact`。
 
+如果你需要可重复的 compiled example 或 release fixture，可以在 authoring source 里显式设置 `corpus.created` 和 `corpus.updated`，这样重复编译时 manifest 时间戳就能保持稳定。
+
 CLI 现在也直接提供了三类高频改动路径：
 
 - 安全地向 `authoring.json` 增加 module

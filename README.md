@@ -300,6 +300,8 @@ node ./bin/aods.mjs compile ./examples/compiled-pilot-source/authoring.json ./tm
 
 Authoring sources now validate against `schema/authoring.schema.json`, so compiled authoring is a real contract rather than a one-off pilot format. Modules may be section-first, artifact-first, or mixed; compiled AODS only requires at least one `section` or `artifact`.
 
+If you need deterministic compiled examples or release fixtures, set `corpus.created` and `corpus.updated` in the authoring source so repeated compiles keep stable manifest timestamps.
+
 The CLI now exposes safe authoring mutation paths for three common edits:
 
 - add a module to `authoring.json`

@@ -180,6 +180,28 @@ test("compile --strict turns warning-only output into a failing gate", () => {
   assert.ok(strictJson.validation.warnings > 0);
 });
 
+test("authoring source can pin compiled manifest timestamps", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-timestamps-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.created = "2026-01-02T03:04:05Z";
+  source.corpus.updated = "2026-01-02T03:04:05Z";
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  let manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  assert.equal(manifest.created, "2026-01-02T03:04:05Z");
+  assert.equal(manifest.updated, "2026-01-02T03:04:05Z");
+
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  assert.equal(manifest.created, "2026-01-02T03:04:05Z");
+  assert.equal(manifest.updated, "2026-01-02T03:04:05Z");
+});
+
 test("authoring scaffold helpers update source, pair surfaces, and compile successfully", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-scaffold-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
