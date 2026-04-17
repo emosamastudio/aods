@@ -270,6 +270,8 @@ node ./bin/aods.mjs validate . --strict --reality
 node ./bin/aods.mjs validate . --strict --reality --repo-root ..
 ```
 
+In `validate --strict`, warning-only corpora now print failure-shaped output instead of a green-looking `PASS` summary. JSON output also includes top-level `strict`, `accepted`, and `status` fields so the acceptance gate stays machine-readable.
+
 ### Route scoped module loads
 
 ```bash

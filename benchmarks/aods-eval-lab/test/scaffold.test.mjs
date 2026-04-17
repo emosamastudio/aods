@@ -138,6 +138,77 @@ test("authoring scaffold helpers update source, pair surfaces, and compile succe
   runCli(["validate", compiledRoot, "--strict"]);
 });
 
+test("validate --strict turns warning-only output into a failing gate", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-validate-strict-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  runCli([
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "delivery-gates",
+    "--category",
+    "policy",
+    "--layer",
+    "detail",
+    "--scope",
+    "Delivery gate authority"
+  ]);
+  runCli([
+    "scaffold",
+    "authoring-pair",
+    sourcePath,
+    "--pair-id",
+    "pair-delivery-log",
+    "--agent-primary",
+    "delivery-gates",
+    "--human-primary",
+    "DELIVERY-LOG.md"
+  ]);
+
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.surface_pairs[0].sync_source = "bidirectional";
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const warningRoot = path.join(tempDir, "compiled-warning");
+  runCli(["compile", sourcePath, warningRoot, "--force"]);
+
+  const strictValidate = spawnSync("node", [
+    CLI_PATH,
+    "validate",
+    warningRoot,
+    "--strict"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(strictValidate.status, 0);
+  assert.match(strictValidate.stdout, /FAIL .*compiled-warning/);
+  assert.match(strictValidate.stdout, /strict gate blocked by warnings/);
+  assert.match(strictValidate.stdout, /L3 FAIL errors=0 warnings=1/);
+  assert.match(strictValidate.stdout, /surface-pair-bidirectional-sync/);
+
+  const strictValidateJson = spawnSync("node", [
+    CLI_PATH,
+    "validate",
+    warningRoot,
+    "--strict",
+    "--json"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(strictValidateJson.status, 0);
+  const strictValidateReport = JSON.parse(strictValidateJson.stdout);
+  assert.equal(strictValidateReport.strict, true);
+  assert.equal(strictValidateReport.accepted, false);
+  assert.equal(strictValidateReport.status, "fail");
+  assert.equal(strictValidateReport.levels.L3.pass, false);
+  assert.equal(strictValidateReport.summary.errors, 0);
+  assert.equal(strictValidateReport.summary.warnings, 1);
+});
+
 test("implementation-governance pattern scaffolds delivery-governor artifacts", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-governance-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
