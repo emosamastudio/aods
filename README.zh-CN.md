@@ -4,7 +4,7 @@
 
 AODS 是一套文档标准和 CLI，适合那些希望让 AI agent 基于清晰、可验证、可治理的事实源工作，而不是从零散项目文档里拼接上下文的团队。
 
-**当前最新版本：** `v0.4.0`
+**当前最新版本：** `v0.5.1`
 
 在这份 README 里，**面向人阅读的文档** 指 README、SOP、检查清单这类主要给人看的文件；**面向 agent 的结构化文档** 指那些可以被 agent 和工具路由、校验、比较的结构化文件。为了兼容，schema 和 CLI 仍然保留 `human_primary`、`agent_primary`、`sync_source=agent-primary` 这类字段名。
 
@@ -47,7 +47,7 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 1. 先把带版本 tag 的 GitHub 发布版安装到你的项目里：
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.4.0
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.5.1
 ```
 
 2. 确认 CLI 可用：
@@ -419,7 +419,7 @@ node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/aut
 
 AODS 现在区分两条版本线：
 
-- **发布版本：** Git tag / package release，例如 `v0.4.0`
+- **发布版本：** Git tag / package release，例如 `v0.5.1`
 - **与发布版对齐的 skill 版本：** `skills/` 下的技能与同一个 release tag 对齐
 - **Schema 兼容版本：** 各 surface 内部使用的兼容性标记，例如 `aods_v` 和 `authoring_v`
 

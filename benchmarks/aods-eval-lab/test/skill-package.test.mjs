@@ -31,3 +31,24 @@ test("aods-use skill stays release-aligned and keeps a narrow trigger contract",
   assert.ok(skillMeta.positive_triggers.some((item) => item.includes("surface_pairs")));
   assert.ok(skillMeta.negative_triggers.some((item) => item.includes("generic README")));
 });
+
+test("release self-check keeps public version surfaces aligned", () => {
+  const packageJson = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "package.json"), "utf8"));
+  const packageLock = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "package-lock.json"), "utf8"));
+  const readme = fs.readFileSync(path.join(REPO_ROOT, "README.md"), "utf8");
+  const readmeZh = fs.readFileSync(path.join(REPO_ROOT, "README.zh-CN.md"), "utf8");
+  const version = packageJson.version;
+  const releaseTag = `v${version}`;
+
+  assert.equal(packageJson.scripts["release:self-check"], "npm run validate:repo && npm pack --dry-run");
+  assert.equal(packageLock.version, version);
+  assert.equal(packageLock.packages[""].version, version);
+
+  assert.ok(readme.includes(`**Latest release:** \`${releaseTag}\``));
+  assert.ok(readme.includes(`npm install --save-dev git+https://github.com/emosamastudio/aods.git#${releaseTag}`));
+  assert.ok(readme.includes(`Git tags and package releases such as \`${releaseTag}\``));
+
+  assert.ok(readmeZh.includes(`**当前最新版本：** \`${releaseTag}\``));
+  assert.ok(readmeZh.includes(`npm install --save-dev git+https://github.com/emosamastudio/aods.git#${releaseTag}`));
+  assert.ok(readmeZh.includes(`Git tag / package release，例如 \`${releaseTag}\``));
+});

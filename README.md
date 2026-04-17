@@ -4,7 +4,7 @@
 
 AODS is a documentation standard and CLI for teams that want AI agents to work from a clear, governed source of truth instead of piecing together context from scattered project docs.
 
-**Latest release:** `v0.4.0`
+**Latest release:** `v0.5.1`
 
 In this README, **human-oriented docs** means files mainly written for people to read, such as README files, SOPs, or checklists. **Agent-oriented docs** means structured files that agents and tooling can route, validate, and compare. For compatibility, the schema and CLI still use field names such as `human_primary`, `agent_primary`, and `sync_source=agent-primary`.
 
@@ -47,7 +47,7 @@ Requires **Node 18+**.
 1. Install the tagged GitHub release into your project:
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.4.0
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.5.1
 ```
 
 2. Verify the CLI is available:
@@ -421,7 +421,7 @@ This project is released under the **MIT License**. See [`LICENSE`](./LICENSE).
 
 AODS now uses two version tracks:
 
-- **Release version:** Git tags and package releases such as `v0.4.0`
+- **Release version:** Git tags and package releases such as `v0.5.1`
 - **Release-aligned skill version:** packaged skills under `skills/` stay aligned to the same release tag
 - **Schema compatibility:** surface-local markers such as `aods_v` and `authoring_v`
 
