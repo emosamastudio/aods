@@ -268,6 +268,8 @@ node ./bin/aods.mjs validate . --strict --reality
 node ./bin/aods.mjs validate . --strict --reality --repo-root ..
 ```
 
+`--strict` 会把 warning 也当成失败处理。这也包括这样一种情况：某个看起来像 AODS module 的 JSON 文件已经出现在声明过的 module 目录里，但它还没有注册进 `manifest.modules[]`。
+
 ### 对触达文件做 scoped routing
 
 ```bash
