@@ -15,16 +15,13 @@ import { runEvaluation } from "./evaluate.mjs";
 import { projectPaths } from "./generate-fixtures.mjs";
 import {
   PROJECT_ROOT,
-  dedupe,
   formatPercent,
   formatRatio,
-  median,
   measureFiles,
-  measureText,
   writeJson,
   writeText
 } from "./helpers.mjs";
-import { measureBenchmarkPromptEnvelope } from "./prompt-envelope.mjs";
+import { evaluateProfileLoading } from "./profile-loading.mjs";
 
 export function runRoundOneComparison() {
   const aodsResults = runEvaluation();
@@ -33,6 +30,7 @@ export function runRoundOneComparison() {
   const facts = allFacts();
   const humanTokens = aodsResults.fidelity.human_doc_tokens_estimated;
   const humanBytes = aodsResults.fidelity.exact_size.human_docs.byte_count;
+  const runtimeBaselineMatrices = aodsResults.runtime_capture?.baseline_matrices ?? null;
 
   const results = {
     generated_at: new Date().toISOString(),
@@ -87,6 +85,9 @@ export function runRoundOneComparison() {
         built_in_false_positive_rate: aodsResults.drift.built_in_false_positive_rate,
         semantic_false_positive_rate: aodsResults.drift.semantic_false_positive_rate
       },
+      behavior_drift: aodsResults.behavior_drift,
+      open_source_routing: aodsResults.open_source_routing,
+      release_surface: aodsResults.release_surface,
       diversity: aodsResults.diversity,
       overhead: aodsResults.overhead
     },
@@ -114,11 +115,13 @@ export function runRoundOneComparison() {
         "exploratory query-route precision",
         "exploratory query-route token savings"
       ],
-      aods_only_metrics: ["native drift recall", "paired-surface governance", "explicit authority model"]
+      aods_only_metrics: ["native drift recall", "release-surface trust", "paired-surface governance", "explicit authority model"]
     },
     baselines: [
-      buildAodsBaseline(aodsResults),
-      ...profiles.map((profile) => evaluateProfile(profile, facts, humanTokens, humanBytes))
+      buildAodsBaseline(aodsResults, runtimeBaselineMatrices?.aods ?? aodsResults.runtime_capture ?? null),
+      ...profiles.map((profile) =>
+        evaluateProfile(profile, facts, humanTokens, humanBytes, runtimeBaselineMatrices?.[profile.id] ?? null)
+      )
     ],
     limitations: [
       "Round one compares generated archetype corpora, not full upstream toolchain integrations.",
@@ -126,7 +129,8 @@ export function runRoundOneComparison() {
       aodsResults.diversity.external_sample
         ? "The benchmark now includes an external open-source field-sample supplement, but the fair common scoreboard still rests on the shared synthetic corpus."
         : "The benchmark corpus now spans multiple synthetic datasets and sync modes, but diversity is still narrower than a real multi-language field sample.",
-      "Native drift governance remains an AODS-specific metric in this round because the baseline archetypes do not provide equivalent enforcement contracts."
+      "Native drift governance remains an AODS-specific metric in this round because the baseline archetypes do not provide equivalent enforcement contracts.",
+      "Behavior drift currently covers deterministic route underreach and overreach mutations in the runtime companion rather than full autonomous execution traces."
     ]
   };
 
@@ -135,7 +139,7 @@ export function runRoundOneComparison() {
   return results;
 }
 
-function buildAodsBaseline(aodsResults) {
+function buildAodsBaseline(aodsResults, runtimeCapture) {
   return {
     id: "aods",
     label: "AODS",
@@ -167,12 +171,14 @@ function buildAodsBaseline(aodsResults) {
       explicit_authority_model: true,
       native_drift_recall: aodsResults.drift.built_in_recall
     },
-    runtime_capture: aodsResults.runtime_capture,
+    open_source_routing: aodsResults.open_source_routing,
+    release_surface: aodsResults.release_surface,
+    runtime_capture: runtimeCapture,
     scenario_results: aodsResults.loading.scenario_results
   };
 }
 
-function evaluateProfile(profile, facts, humanTokens, humanBytes) {
+function evaluateProfile(profile, facts, humanTokens, humanBytes, runtimeCapture) {
   const combinedText = profile.counted_files
     .map((filePath) => fs.readFileSync(path.join(PROJECT_ROOT, profile.corpus_root, filePath), "utf8"))
     .join("\n");
@@ -209,283 +215,9 @@ function evaluateProfile(profile, facts, humanTokens, humanBytes) {
       loading: loading.exploratory_query
     },
     governance: profile.governance,
+    runtime_capture: runtimeCapture,
     scenario_results: loading.scenario_results
   };
-}
-
-function evaluateProfileLoading(profile) {
-  const corpusRoot = path.join(PROJECT_ROOT, profile.corpus_root);
-  const unitContentMap = new Map(
-    profile.units.map((unit) => [unit.id, fs.readFileSync(path.join(corpusRoot, unit.path), "utf8")])
-  );
-  const unitMetricMap = new Map(
-    [...unitContentMap].map(([unitId, content]) => [unitId, measureText(content)])
-  );
-  const unitPaths = new Set(profile.units.map((unit) => unit.path));
-  const indexResources = profile.counted_files
-    .filter((filePath) => !unitPaths.has(filePath))
-    .map((filePath) => {
-      const content = fs.readFileSync(path.join(corpusRoot, filePath), "utf8");
-      return {
-        path: filePath,
-        title: path.basename(filePath),
-        kind: "index",
-        content,
-        measured: measureText(content)
-      };
-    });
-  const indexBytes = indexResources.reduce((sum, resource) => sum + resource.measured.bytes, 0);
-  const fullLoadTokens =
-    profile.index_tokens_estimated + profile.units.reduce((sum, unit) => sum + unit.tokens_estimated, 0);
-  const unitById = new Map(profile.units.map((unit) => [unit.id, unit]));
-  const fullLoadBytes =
-    indexBytes + profile.units.reduce((sum, unit) => sum + (unitMetricMap.get(unit.id)?.bytes ?? 0), 0);
-  const fullPromptResources = buildProfilePromptResources(indexResources, unitContentMap, profile.units);
-
-  const scenarioResults = LOADING_SCENARIOS.map((scenario) => {
-    const loadedUnitIds = scenario.touch ? loadTouchUnits(profile, scenario) : loadSemanticUnits(profile, scenario);
-    const loadedUnits = loadedUnitIds.map((unitId) => unitById.get(unitId)).filter(Boolean);
-    const loadedModules = dedupe(loadedUnits.flatMap((unit) => unit.module_ids));
-    const hits = scenario.requiredModules.filter((moduleId) => loadedModules.includes(moduleId)).length;
-    const precision = loadedModules.length === 0 ? 0 : hits / loadedModules.length;
-    const recall = hits / scenario.requiredModules.length;
-    const routeTokens =
-      profile.index_tokens_estimated + loadedUnits.reduce((sum, unit) => sum + unit.tokens_estimated, 0);
-    const oracleUnits = selectOracleUnits(profile.units, scenario.requiredModules);
-    const oracleTokens =
-      profile.index_tokens_estimated + oracleUnits.reduce((sum, unit) => sum + unit.tokens_estimated, 0);
-    const routeBytes = indexBytes + loadedUnits.reduce((sum, unit) => sum + (unitMetricMap.get(unit.id)?.bytes ?? 0), 0);
-    const oracleBytes =
-      indexBytes + oracleUnits.reduce((sum, unit) => sum + (unitMetricMap.get(unit.id)?.bytes ?? 0), 0);
-    const promptEnvelope = measureBenchmarkPromptEnvelope({
-      formatLabel: profile.label,
-      scenario,
-      resources: buildProfilePromptResources(indexResources, unitContentMap, loadedUnits)
-    });
-    const fullPromptEnvelope = measureBenchmarkPromptEnvelope({
-      formatLabel: profile.label,
-      scenario,
-      resources: fullPromptResources
-    });
-
-    return {
-      id: scenario.id,
-      description: scenario.description,
-      scenario_class: scenario.scenario_class,
-      measurement_class: scenario.measurement_class,
-      mode: scenario.touch ? "touch-route" : "query-route",
-      loaded_units: loadedUnitIds,
-      loaded_modules: loadedModules,
-      required_modules: scenario.requiredModules,
-      precision,
-      recall,
-      exact_hit: recall === 1,
-      route_bytes: routeBytes,
-      oracle_bytes: oracleBytes,
-      byte_savings_vs_full_load: 1 - routeBytes / fullLoadBytes,
-      route_tokens_estimated: routeTokens,
-      oracle_tokens_estimated: oracleTokens,
-      prompt_envelope_bytes: promptEnvelope.bytes,
-      prompt_envelope_tokens_estimated: promptEnvelope.tokens_estimated,
-      full_prompt_envelope_bytes: fullPromptEnvelope.bytes,
-      full_prompt_envelope_tokens_estimated: fullPromptEnvelope.tokens_estimated,
-      prompt_envelope_overhead_bytes: promptEnvelope.bytes - routeBytes,
-      prompt_envelope_overhead_tokens_estimated: promptEnvelope.tokens_estimated - routeTokens,
-      prompt_envelope_savings_vs_full_prompt: 1 - promptEnvelope.bytes / fullPromptEnvelope.bytes,
-      token_savings_vs_full_load: 1 - routeTokens / fullLoadTokens,
-      token_overfetch_ratio: routeTokens / oracleTokens,
-      byte_overfetch_ratio: routeBytes / oracleBytes
-    };
-  });
-
-  return {
-    objective_touch: summarizeLoadingResults(
-      scenarioResults.filter((scenario) => scenario.measurement_class === "objective")
-    ),
-    exploratory_query: summarizeLoadingResults(
-      scenarioResults.filter((scenario) => scenario.measurement_class === "exploratory")
-    ),
-    combined: summarizeLoadingResults(scenarioResults),
-    scenario_results: scenarioResults
-  };
-}
-
-function summarizeLoadingResults(scenarioResults) {
-  if (scenarioResults.length === 0) {
-    return {
-      scenario_count: 0,
-      hit_rate: 0,
-      average_precision: 0,
-      average_recall: 0,
-      median_prompt_envelope_tokens_estimated: 0,
-      median_prompt_envelope_bytes: 0,
-      max_prompt_envelope_tokens_estimated: 0,
-      max_prompt_envelope_bytes: 0,
-      median_prompt_envelope_overhead_tokens_estimated: 0,
-      median_prompt_envelope_overhead_bytes: 0,
-      median_prompt_envelope_savings_vs_full_prompt: 0,
-      median_route_tokens_estimated: 0,
-      median_route_bytes: 0,
-      max_route_tokens_estimated: 0,
-      max_route_bytes: 0,
-      median_token_savings_vs_full_load: 0,
-      median_byte_savings_vs_full_load: 0,
-      median_token_overfetch_ratio: 0,
-      median_byte_overfetch_ratio: 0
-    };
-  }
-
-  return {
-    scenario_count: scenarioResults.length,
-    hit_rate: scenarioResults.filter((result) => result.exact_hit).length / scenarioResults.length,
-    average_precision: scenarioResults.reduce((sum, result) => sum + result.precision, 0) / scenarioResults.length,
-    average_recall: scenarioResults.reduce((sum, result) => sum + result.recall, 0) / scenarioResults.length,
-    median_prompt_envelope_tokens_estimated: median(
-      scenarioResults.map((result) => result.prompt_envelope_tokens_estimated)
-    ),
-    median_prompt_envelope_bytes: median(scenarioResults.map((result) => result.prompt_envelope_bytes)),
-    max_prompt_envelope_tokens_estimated: Math.max(...scenarioResults.map((result) => result.prompt_envelope_tokens_estimated)),
-    max_prompt_envelope_bytes: Math.max(...scenarioResults.map((result) => result.prompt_envelope_bytes)),
-    median_prompt_envelope_overhead_tokens_estimated: median(
-      scenarioResults.map((result) => result.prompt_envelope_overhead_tokens_estimated)
-    ),
-    median_prompt_envelope_overhead_bytes: median(
-      scenarioResults.map((result) => result.prompt_envelope_overhead_bytes)
-    ),
-    median_prompt_envelope_savings_vs_full_prompt: median(
-      scenarioResults.map((result) => result.prompt_envelope_savings_vs_full_prompt)
-    ),
-    median_route_tokens_estimated: median(scenarioResults.map((result) => result.route_tokens_estimated)),
-    median_route_bytes: median(scenarioResults.map((result) => result.route_bytes)),
-    max_route_tokens_estimated: Math.max(...scenarioResults.map((result) => result.route_tokens_estimated)),
-    max_route_bytes: Math.max(...scenarioResults.map((result) => result.route_bytes)),
-    median_token_savings_vs_full_load: median(
-      scenarioResults.map((result) => result.token_savings_vs_full_load)
-    ),
-    median_byte_savings_vs_full_load: median(
-      scenarioResults.map((result) => result.byte_savings_vs_full_load)
-    ),
-    median_token_overfetch_ratio: median(scenarioResults.map((result) => result.token_overfetch_ratio)),
-    median_byte_overfetch_ratio: median(scenarioResults.map((result) => result.byte_overfetch_ratio))
-  };
-}
-
-function buildProfilePromptResources(indexResources, unitContentMap, units) {
-  return [
-    ...indexResources.map((resource) => ({
-      path: resource.path,
-      title: resource.title,
-      kind: resource.kind,
-      content: resource.content
-    })),
-    ...units.map((unit) => ({
-      path: unit.path,
-      title: unit.title,
-      kind: "unit",
-      module_ids: unit.module_ids,
-      content: unitContentMap.get(unit.id)
-    }))
-  ];
-}
-
-function loadTouchUnits(profile, scenario) {
-  const mappedUnits = profile.touch_map[scenario.touch] ?? [];
-  if (mappedUnits.length > 0) {
-    return dedupe(mappedUnits);
-  }
-  return loadSemanticUnits(profile, scenario);
-}
-
-function loadSemanticUnits(profile, scenario) {
-  const remaining = new Set(scenario.requiredModules);
-  const selected = [];
-  const lowerConcepts = scenario.concepts.map((concept) => concept.toLowerCase());
-  const pool = profile.units.map((unit) => ({
-    ...unit,
-    score: scoreUnit(unit, lowerConcepts)
-  }));
-
-  while (remaining.size > 0 && selected.length < pool.length) {
-    const candidates = pool
-      .filter((unit) => !selected.includes(unit.id))
-      .map((unit) => ({
-        ...unit,
-        coverage_gain: unit.module_ids.filter((moduleId) => remaining.has(moduleId)).length
-      }))
-      .filter((unit) => unit.coverage_gain > 0 || unit.score > 0)
-      .sort((left, right) => {
-        const rightComposite = right.coverage_gain * 5 + right.score;
-        const leftComposite = left.coverage_gain * 5 + left.score;
-        if (rightComposite !== leftComposite) {
-          return rightComposite - leftComposite;
-        }
-        return left.tokens_estimated - right.tokens_estimated;
-      });
-
-    if (candidates.length === 0) {
-      break;
-    }
-
-    const best = candidates[0];
-    selected.push(best.id);
-    for (const moduleId of best.module_ids) {
-      remaining.delete(moduleId);
-    }
-  }
-
-  return selected;
-}
-
-function scoreUnit(unit, concepts) {
-  const haystack = [unit.title, unit.summary, ...(unit.tags ?? []), ...(unit.module_ids ?? [])]
-    .join(" ")
-    .toLowerCase();
-  let score = 0;
-  for (const concept of concepts) {
-    if (haystack.includes(concept)) {
-      score += 2;
-      continue;
-    }
-    const conceptParts = concept.split(/[\s-]+/);
-    if (conceptParts.some((part) => part.length > 2 && haystack.includes(part))) {
-      score += 1;
-    }
-  }
-  return score;
-}
-
-function selectOracleUnits(units, requiredModules) {
-  const selected = [];
-  const remaining = new Set(requiredModules);
-  const pool = [...units];
-
-  while (remaining.size > 0) {
-    const candidates = pool
-      .filter((unit) => !selected.includes(unit))
-      .map((unit) => ({
-        unit,
-        coverage_gain: unit.module_ids.filter((moduleId) => remaining.has(moduleId)).length
-      }))
-      .filter((item) => item.coverage_gain > 0)
-      .sort((left, right) => {
-        if (right.coverage_gain !== left.coverage_gain) {
-          return right.coverage_gain - left.coverage_gain;
-        }
-        return left.unit.tokens_estimated - right.unit.tokens_estimated;
-      });
-
-    if (candidates.length === 0) {
-      break;
-    }
-
-    const best = candidates[0].unit;
-    selected.push(best);
-    for (const moduleId of best.module_ids) {
-      remaining.delete(moduleId);
-    }
-  }
-
-  return selected;
 }
 
 function renderComparisonReport(results) {
@@ -563,11 +295,62 @@ function renderComparisonReport(results) {
         aodsBaseline.fidelity.exact_size.human_docs.byte_count
   );
   const diversity = aodsBaseline.diversity;
+  const openSourceRouting = aodsBaseline.open_source_routing;
   const externalSample = results.field_sample ?? diversity.external_sample;
   const runtimeCapture = aodsBaseline.runtime_capture;
-  const runtimeCaptureRow = runtimeCapture
-    ? `| Runtime-backed local sample (AODS-only) | ${runtimeCapture.scenario.id}, exact provider request ${runtimeCapture.runtime_request.request_body_bytes} bytes, rendered prompt ${runtimeCapture.benchmark_prompt.bytes} bytes, ratio ${formatRatio(runtimeCapture.runtime_request.request_vs_prompt_ratio)}x |`
+  const runtimeCaptureObjective = runtimeCapture?.summary?.objective_touch ?? null;
+  const runtimeObjectiveLifecycle = runtimeCapture?.objective_lifecycle?.summary ?? null;
+  const runtimeRepresentativeLifecycle = runtimeCapture?.representative_lifecycle ?? null;
+  const runtimeAttribution = runtimeCapture?.runtime_attribution ?? null;
+  const runtimeAttributionDelta = runtimeAttribution?.combined_median_delta ?? null;
+  const runtimeAttributionTopScenario = runtimeAttribution?.heaviest_tool_loop_delta_scenarios?.[0] ?? null;
+  const runtimeProfiles = Object.values(runtimeCapture?.runtime_profiles ?? {});
+  const localRuntimeProfiles = runtimeProfiles.filter((runtimeProfile) => runtimeProfile.profile.mode !== "hosted");
+  const hostedRuntimeProfiles = runtimeProfiles.filter((runtimeProfile) => runtimeProfile.profile.mode === "hosted");
+  const runtimeCaptureRow = runtimeCaptureObjective
+    ? `| Runtime-backed local matrix (AODS representative) | ${runtimeCapture.summary.scenario_count} scenarios, objective median exact provider request ${Math.round(runtimeCaptureObjective.median_request_body_bytes)} bytes, rendered prompt ${Math.round(runtimeCaptureObjective.median_prompt_bytes)} bytes, ratio ${formatRatio(runtimeCaptureObjective.median_request_vs_prompt_ratio)}x${runtimeObjectiveLifecycle ? `; AODS objective full-run median ${runtimeObjectiveLifecycle.median_request_count} request(s), ${Math.round(runtimeObjectiveLifecycle.median_total_request_body_bytes)} total bytes, classed as ${runtimeObjectiveLifecycle.median_first_request_count} first / ${runtimeObjectiveLifecycle.median_followup_prompt_requests} follow-up / ${runtimeObjectiveLifecycle.median_tool_loop_request_count} tool-loop / ${runtimeObjectiveLifecycle.median_auxiliary_request_count} auxiliary, with ${Math.round(runtimeObjectiveLifecycle.median_tool_loop_request_body_bytes)} tool-loop bytes` : ""}${runtimeRepresentativeLifecycle ? `; representative full run ${runtimeRepresentativeLifecycle.request_count} request(s), ${runtimeRepresentativeLifecycle.total_request_body_bytes} total bytes` : ""}${runtimeAttributionDelta ? `; hosted-vs-local combined delta ${Math.round(runtimeAttributionDelta.total_request_body_bytes_delta)} bytes with ${Math.round(runtimeAttributionDelta.tool_loop_request_body_bytes_delta)} tool-loop bytes` : ""} |`
     : "";
+  const runtimeBaselineRows = results.baselines
+    .filter((baseline) => baseline.runtime_capture?.summary?.objective_touch)
+    .map((baseline) => {
+      const objective = baseline.runtime_capture.summary.objective_touch;
+      return `| ${baseline.label} | ${objective.scenario_count} | ${Math.round(
+        objective.median_prompt_bytes
+      )} | ${Math.round(objective.median_request_body_bytes)} | ${Math.round(
+        objective.median_runtime_added_bytes
+      )} | ${formatRatio(objective.median_request_vs_prompt_ratio)}x |`;
+    })
+    .join("\n");
+  const additionalRuntimeSections = runtimeProfiles
+    .filter((runtimeProfile) => runtimeProfile.profile.id !== runtimeCapture?.profile?.id)
+    .map((runtimeProfile) => {
+      const rows = Object.values(runtimeProfile.baseline_matrices ?? {})
+        .map((baseline) => {
+          const objective = baseline.summary.objective_touch;
+          return `| ${baseline.label} | ${objective.scenario_count} | ${Math.round(
+            objective.median_prompt_bytes
+          )} | ${Math.round(objective.median_request_body_bytes)} | ${Math.round(
+            objective.median_runtime_added_bytes
+          )} | ${formatRatio(objective.median_request_vs_prompt_ratio)}x |`;
+        })
+        .join("\n");
+      const objectiveLifecycle = runtimeProfile.baseline_matrices?.aods?.objective_lifecycle?.summary ?? null;
+      const representativeLifecycle = runtimeProfile.baseline_matrices?.aods?.representative_lifecycle ?? null;
+      return `### ${runtimeProfile.profile.id}\n\n| Baseline | Objective scenarios | Median rendered prompt | Median exact request body | Median added runtime bytes | Median request/prompt ratio |\n| --- | ---: | ---: | ---: | ---: | ---: |\n${rows}\n\n${
+        objectiveLifecycle
+          ? `AODS objective full-run lifecycle: **${objectiveLifecycle.scenario_count}** scenarios, median **${objectiveLifecycle.median_request_count}** provider requests, median **${Math.round(objectiveLifecycle.median_total_request_body_bytes)} bytes** total request body, classed as median **${objectiveLifecycle.median_first_request_count}** first request, **${objectiveLifecycle.median_followup_prompt_requests}** follow-up prompt requests, **${objectiveLifecycle.median_tool_loop_request_count}** tool-loop requests, and **${objectiveLifecycle.median_auxiliary_request_count}** auxiliary side requests, with median **${Math.round(objectiveLifecycle.median_tool_loop_request_body_bytes)} bytes** in tool-loop traffic and ratio **${formatRatio(objectiveLifecycle.median_total_request_vs_prompt_ratio)}x** vs the rendered prompt.`
+          : "AODS objective full-run lifecycle: not captured."
+      }\n\n${
+        representativeLifecycle
+          ? `Representative AODS full-run lifecycle: **${representativeLifecycle.request_count}** provider requests, **${representativeLifecycle.total_request_body_bytes} bytes** total request body, split into **${representativeLifecycle.first_request_count}** first request, **${representativeLifecycle.followup_prompt_request_count}** follow-up prompt requests, **${representativeLifecycle.tool_loop_request_count}** tool-loop requests, and **${representativeLifecycle.auxiliary_request_count}** auxiliary side requests; tool-loop traffic contributes **${representativeLifecycle.tool_loop_request_body_bytes} bytes** and the full run stays at **${formatRatio(representativeLifecycle.total_request_vs_prompt_ratio)}x** vs the rendered prompt.`
+          : "Representative AODS full-run lifecycle: not captured."
+      }${
+        runtimeProfile.profile.mode === "hosted" && runtimeAttributionDelta
+          ? `\n\nHosted-vs-local attribution: combined median delta **${runtimeAttributionDelta.total_request_body_bytes_delta} bytes**, with **${runtimeAttributionDelta.tool_loop_request_body_bytes_delta} bytes** from tool-loop traffic and **${runtimeAttributionDelta.followup_prompt_request_body_bytes_delta} bytes** from follow-up prompt traffic; the heaviest tool-loop delta scenario is **${runtimeAttributionTopScenario?.scenario_id ?? "n/a"}** at **${runtimeAttributionTopScenario?.tool_loop_request_body_bytes_delta ?? 0}** extra tool-loop bytes.`
+          : ""
+      }`;
+    })
+    .join("\n\n");
   const externalSampleSummary = externalSample
     ? `- **External field sample:** ${externalSample.corpus_count} open-source corpora, ${externalSample.scenario_count} grep-first scenario seeds, formats ${Object.entries(
         externalSample.formats
@@ -583,7 +366,7 @@ function renderComparisonReport(results) {
 - **Dataset:** ${corpus.system_name} benchmark corpus with **${corpus.total_modules}** modules, **${corpus.total_human_surfaces}** human surfaces, **${corpus.total_items}** lifecycle items, **${corpus.shared_loading_queries}** shared loading queries, and **${corpus.drift_scenarios}** drift scenarios
 - **Internal AODS result:** full lifecycle coverage, full fact preservation, **${byteSizeDelta}** by exact bytes, **${formatPercent(
     aodsBaseline.loading.objective_touch.hit_rate
-  )}** objective touch-route hit rate, objective median rendered prompt envelope **${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} bytes**${runtimeCapture ? `, supplemental local runtime request **${runtimeCapture.runtime_request.request_body_bytes} bytes** on ${runtimeCapture.scenario.id}` : ""}, and **${formatPercent(aodsBaseline.drift.combined_recall)}** combined drift recall
+  )}** objective touch-route hit rate, objective median rendered prompt envelope **${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} bytes**${runtimeCaptureObjective ? `, supplemental AODS objective median runtime request **${Math.round(runtimeCaptureObjective.median_request_body_bytes)} bytes** across ${runtimeCapture.summary.scenario_count} scenarios, **${localRuntimeProfiles.length}** local CLI runtime profiles${hostedRuntimeProfiles.length ? `, and **${hostedRuntimeProfiles.length}** optional hosted relay-backed profile${hostedRuntimeProfiles.length === 1 ? "" : "s"}` : ""}` : ""}, **${formatPercent(openSourceRouting.top_1_hit_rate)}** real-corpus top-1 routing hit rate, **${formatPercent(openSourceRouting.seed_title_rerank.top_1_hit_rate)}** title-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.structure_aware_rerank.top_1_hit_rate)}** structure-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.path_family_rerank.top_1_hit_rate)}** path-family-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.api_surface_rerank.top_1_hit_rate)}** API-surface-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.section_evidence_pack.full_file_evidence_retention_rate)}** section-evidence full-file retention, **${formatPercent(openSourceRouting.scenario_evidence_bundle.full_scenario_term_coverage_rate)}** scenario-evidence full coverage, **${formatPercent(openSourceRouting.scenario_cost_aware_bundle.full_scenario_term_coverage_rate)}** cost-aware scenario coverage, **${formatPercent(openSourceRouting.scenario_term_reachability.full_reachable_term_coverage_rate)}** reachable scenario coverage, **${formatPercent(openSourceRouting.scenario_claim_support.full_claim_support_rate)}** claim-support coverage, **${formatPercent(openSourceRouting.scenario_claim_support.exact_gap_recovered_rate)}** exact-gap recovered, **${formatPercent(openSourceRouting.scenario_claim_support_pack.full_bundle_claim_support_preservation_rate)}** claim-support-pack preservation, **${formatPercent(openSourceRouting.scenario_answer_check.full_answer_check_rate)}** answer-check coverage, **${formatPercent(openSourceRouting.scenario_answer_check.claim_gap_recovered_rate)}** answer-check claim-gap recovered, **${formatPercent(openSourceRouting.scenario_answer_locality.full_target_local_answer_check_rate)}** target-local answer-check coverage, **${formatPercent(openSourceRouting.scenario_answer_locality.cross_file_answer_recovery_rate)}** cross-file answer recovery, **${formatPercent(openSourceRouting.scenario_answer_authority.full_authority_scoped_answer_check_rate)}** authority-scoped answer-check coverage across **${openSourceRouting.scenario_answer_authority.scoped_scenario_count}** scoped scenarios, **${formatPercent(openSourceRouting.scenario_answer_authority.out_of_scope_answer_recovery_rate)}** out-of-scope answer recovery, **${formatPercent(openSourceRouting.scenario_answer_authority_reachability.mean_authority_reachable_answer_check_coverage)}** authority-reachable mean coverage, **${formatPercent(openSourceRouting.scenario_answer_authority_reachability.mean_authority_reachable_gain_vs_scoped_pack)}** reachability gain vs scoped pack, **${formatPercent(openSourceRouting.scenario_answer_authority_reachability.scenarios_with_missing_authority_answer_support_rate)}** authority-local missing-support rate, **${formatPercent(openSourceRouting.scenario_answer_authority_pack.full_authority_reachable_answer_preservation_rate)}** authority-aware reachable-support preservation, **${formatPercent(openSourceRouting.scenario_answer_authority_pack.mean_authority_pack_gain_vs_scoped_pack)}** authority-aware gain vs scoped pack, median authority-aware pack **${Math.round(openSourceRouting.scenario_answer_authority_pack.median_selected_pack_bytes)} bytes**, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family.full_local_family_answer_check_rate)}** local-family full coverage across **${openSourceRouting.scenario_answer_authority_local_family.strict_file_scope_scenario_count}** strict-file scopes, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family.mean_local_family_gain_vs_authority_scope)}** local-family gain vs exact scope, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family_pack.full_local_family_support_preservation_rate)}** local-family support preservation, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family_pack.mean_local_family_pack_gain_vs_authority_scope)}** local-family pack gain vs exact scope, median local-family pack **${Math.round(openSourceRouting.scenario_answer_authority_local_family_pack.median_selected_pack_bytes)} bytes**, **${formatPercent(openSourceRouting.scenario_term_reachability.scenarios_with_unreachable_terms_rate)}** scenarios with unreachable terms, **${formatPercent(aodsBaseline.release_surface.combined_recall)}** release-surface trust recall, **${formatPercent(aodsBaseline.behavior_drift.route_behavior_recall)}** route-behavior drift recall with **${formatPercent(aodsBaseline.behavior_drift.built_in_recall)}** built-in route-behavior recall, and **${formatPercent(aodsBaseline.drift.combined_recall)}** combined drift recall
 - **External comparison headline:** AODS is the only baseline in round one with **${formatPercent(
     strongestGovernance.governance.native_drift_recall
   )}** native drift recall, while **${smallestCorpus.label}** is the smallest corpus by exact bytes and **${bestPrecision.label}** has the highest objective loading precision
@@ -670,16 +453,24 @@ AODS-native governance signals remain separate because the other archetypes do n
 ${runtimeCaptureRow}
 | Loading (objective) | ${formatPercent(aodsBaseline.loading.objective_touch.hit_rate)} hit rate, ${formatPercent(aodsBaseline.loading.objective_touch.average_precision)} average precision, ${formatPercent(aodsBaseline.loading.objective_touch.average_recall)} average recall, ${formatPercent(aodsBaseline.loading.objective_touch.median_byte_savings_vs_full_load)} median byte savings |
 | Loading (advisory) | ${formatPercent(aodsBaseline.loading.exploratory_query.hit_rate)} hit rate, ${formatPercent(aodsBaseline.loading.exploratory_query.average_precision)} average precision, ${formatPercent(aodsBaseline.loading.exploratory_query.average_recall)} average recall, ${formatPercent(aodsBaseline.loading.exploratory_query.median_token_savings_vs_full_load)} median token savings |
-| Drift | ${formatPercent(aodsBaseline.drift.built_in_recall)} built-in recall, ${formatPercent(aodsBaseline.drift.semantic_recall)} semantic-applicable recall, ${formatPercent(aodsBaseline.drift.structural_governance_recall)} structural-governance recall, ${formatPercent(aodsBaseline.drift.combined_recall)} combined recall |
+| Real-corpus routing (supplemental) | ${formatPercent(openSourceRouting.top_1_hit_rate)} baseline top-1, ${formatPercent(openSourceRouting.top_3_hit_rate)} baseline top-3, ${formatPercent(openSourceRouting.mean_reciprocal_rank)} baseline MRR, ${formatPercent(openSourceRouting.seed_title_rerank.top_1_hit_rate)} title-reranked top-1, ${formatPercent(openSourceRouting.seed_title_rerank.mean_reciprocal_rank)} title-reranked MRR, ${formatPercent(openSourceRouting.structure_aware_rerank.top_1_hit_rate)} structure-reranked top-1, ${formatPercent(openSourceRouting.structure_aware_rerank.mean_reciprocal_rank)} structure-reranked MRR, ${formatPercent(openSourceRouting.path_family_rerank.top_1_hit_rate)} path-family-reranked top-1, ${formatPercent(openSourceRouting.path_family_rerank.mean_reciprocal_rank)} path-family-reranked MRR, ${formatPercent(openSourceRouting.api_surface_rerank.top_1_hit_rate)} API-surface-reranked top-1, ${formatPercent(openSourceRouting.api_surface_rerank.mean_reciprocal_rank)} API-surface-reranked MRR, ${formatPercent(openSourceRouting.section_context.section_hit_rate)} section hit rate, ${formatPercent(openSourceRouting.section_evidence_pack.full_file_evidence_retention_rate)} evidence retention, ${formatPercent(openSourceRouting.scenario_evidence_bundle.full_scenario_term_coverage_rate)} scenario-evidence coverage, ${formatPercent(openSourceRouting.scenario_cost_aware_bundle.full_scenario_term_coverage_rate)} cost-aware scenario-evidence coverage, ${formatPercent(openSourceRouting.scenario_term_reachability.full_reachable_term_coverage_rate)} reachable scenario-evidence coverage, ${formatPercent(openSourceRouting.scenario_claim_support.full_claim_support_rate)} claim-support coverage, ${formatPercent(openSourceRouting.scenario_claim_support.exact_gap_recovered_rate)} exact-gap recovered, ${formatPercent(openSourceRouting.scenario_claim_support_pack.full_bundle_claim_support_preservation_rate)} claim-support-pack preservation, ${formatPercent(openSourceRouting.scenario_answer_check.full_answer_check_rate)} answer-check coverage, ${formatPercent(openSourceRouting.scenario_answer_check.claim_gap_recovered_rate)} answer-check claim-gap recovered, ${formatPercent(openSourceRouting.scenario_answer_locality.full_target_local_answer_check_rate)} target-local answer-check coverage, ${formatPercent(openSourceRouting.scenario_answer_locality.cross_file_answer_recovery_rate)} cross-file answer recovery, ${formatPercent(openSourceRouting.scenario_answer_authority.full_authority_scoped_answer_check_rate)} authority-scoped answer-check coverage across ${openSourceRouting.scenario_answer_authority.scoped_scenario_count} scoped scenarios, ${formatPercent(openSourceRouting.scenario_answer_authority.out_of_scope_answer_recovery_rate)} out-of-scope answer recovery, ${formatPercent(openSourceRouting.scenario_answer_authority_reachability.full_authority_reachable_answer_check_rate)} authority-reachable answer-check coverage, ${formatPercent(openSourceRouting.scenario_answer_authority_reachability.mean_authority_reachable_gain_vs_scoped_pack)} authority-reachable gain vs scoped pack, ${formatPercent(openSourceRouting.scenario_answer_authority_reachability.scenarios_with_missing_authority_answer_support_rate)} authority-local missing-support rate, ${formatPercent(openSourceRouting.scenario_answer_authority_pack.full_authority_reachable_answer_preservation_rate)} authority-aware reachable-support preservation, ${formatPercent(openSourceRouting.scenario_answer_authority_pack.mean_authority_pack_gain_vs_scoped_pack)} authority-aware gain vs scoped pack, median authority-aware pack ${Math.round(openSourceRouting.scenario_answer_authority_pack.median_selected_pack_bytes)} bytes, ${formatPercent(openSourceRouting.scenario_answer_authority_local_family.full_local_family_answer_check_rate)} local-family full coverage across ${openSourceRouting.scenario_answer_authority_local_family.strict_file_scope_scenario_count} strict-file scopes, ${formatPercent(openSourceRouting.scenario_answer_authority_local_family.mean_local_family_gain_vs_authority_scope)} local-family gain vs exact scope, ${formatPercent(openSourceRouting.scenario_answer_authority_local_family.authority_gap_explained_by_local_family_rate)} exact-scope gaps explained by local family, ${formatPercent(openSourceRouting.scenario_answer_authority_local_family_pack.full_local_family_support_preservation_rate)} local-family support preservation, ${formatPercent(openSourceRouting.scenario_answer_authority_local_family_pack.mean_local_family_pack_gain_vs_authority_scope)} local-family pack gain vs exact scope, median local-family pack ${Math.round(openSourceRouting.scenario_answer_authority_local_family_pack.median_selected_pack_bytes)} bytes, ${formatPercent(openSourceRouting.scenario_term_reachability.scenarios_with_unreachable_terms_rate)} unreachable-term scenarios, median selected section ${Math.round(openSourceRouting.section_context.median_selected_section_bytes)} bytes, median evidence pack ${Math.round(openSourceRouting.section_evidence_pack.median_selected_pack_bytes)} bytes, median scenario bundle ${Math.round(openSourceRouting.scenario_evidence_bundle.median_selected_bundle_bytes)} bytes, median cost-aware bundle ${Math.round(openSourceRouting.scenario_cost_aware_bundle.median_selected_bundle_bytes)} bytes, median claim-support pack ${Math.round(openSourceRouting.scenario_claim_support_pack.median_selected_pack_bytes)} bytes across ${openSourceRouting.scenario_count} grep-first seeds |
+| Drift | ${formatPercent(aodsBaseline.drift.built_in_recall)} built-in recall, ${formatPercent(aodsBaseline.drift.semantic_recall)} semantic-applicable recall, ${formatPercent(aodsBaseline.drift.structural_governance_recall)} structural-governance recall, ${formatPercent(aodsBaseline.behavior_drift.route_behavior_recall)} route-behavior recall with ${formatPercent(aodsBaseline.behavior_drift.built_in_recall)} built-in route-behavior recall, ${formatPercent(aodsBaseline.drift.combined_recall)} combined recall |
 | Diversity audit | ${diversity.dataset_count} synthetic dataset, domains ${diversity.domains.join(", ")}, languages ${diversity.languages.join(", ")}, sync modes ${diversity.sync_modes.present.join(", ") || "none"}${externalSample ? `, external field sample ${externalSample.corpus_count} corpora / ${externalSample.scenario_count} seeds` : ""} |
+
+## Runtime-backed objective supplement
+
+| Baseline | Objective scenarios | Median rendered prompt | Median exact request body | Median added runtime bytes | Median request/prompt ratio |
+| --- | ---: | ---: | ---: | ---: | ---: |
+${runtimeBaselineRows}
 | Overhead | ${aodsBaseline.overhead.bookkeeping_entries} bookkeeping entries, ${formatRatio(aodsBaseline.overhead.bookkeeping_entries_per_artifact)} per artifact, ${aodsBaseline.overhead.touch_route_count} touch routes, ${aodsBaseline.overhead.role_count} roles |
 
-**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, and one supplemental runtime request-body sample as separate measurements.
+**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, first-request runtime cost, objective full-run lifecycle cost, and representative request-loop detail as separate measurements, and it now also exposes a first route-behavior drift split: deterministic under-read / over-read mutations are fully measurable and are now directly caught by paired-route consistency checks in the built-in validator layer.
 
-## Benchmark objectivity and diversity audit
+${additionalRuntimeSections ? `## Additional runtime supplements\n\n${additionalRuntimeSections}\n\n` : ""}## Benchmark objectivity and diversity audit
 
 - **Primary scoreboard basis:** exact bytes + objective touch-route scenarios
-- **Context-footprint basis:** objective median rendered prompt-envelope bytes remain the shared scoreboard metric, while the new AODS-only local runtime sample shows what one real Copilot CLI provider request body looks like on top of that routed prompt
+- **Supplemental real-corpus routing basis:** deterministic grep-term ranking over ${openSourceRouting.scenario_count} curated open-source seeds, including harder API-vs-reference sibling collisions, plus separate seed-title rerank, structure-aware rerank, path-family rerank, API-surface rerank, section-context compression, section-evidence packing, rank-order top-3 scenario-evidence bundling, cost-aware top-3 scenario-evidence bundling, a reachability audit that separates retrieval misses from scenario phrases that never appear anywhere in the source corpus, a claim-support lane that allows deterministic per-scenario alias groups for clearly equivalent wording, a claim-support-pack lane that compresses those already-supported bundles down to cross-file section packs, an answer-check lane that distinguishes wording drift from concrete answer insufficiency, an answer-locality lane that shows when those concrete answers still depend on cross-file borrowed evidence, an authority-scoped answer lane that separates acceptable in-scope borrowing from out-of-scope answer recovery, an authority-reachability lane that separates true authority gaps from pack-selection misses inside the declared scope, an authority-aware answer-pack lane that greedily compresses the declared authority scope down to the smallest section bundle that still preserves all currently reachable in-scope answer support, a local-family authority lane that widens strict exact-file scopes to the target directory family so the benchmark can distinguish “missing from the docs” from “distributed across sibling docs nearby”, and a local-family answer-pack lane that then compresses that sibling-family scope back down to the smallest section bundle that still preserves all currently supported nearby answer checks
+- **Context-footprint basis:** objective median rendered prompt-envelope bytes remain the shared scoreboard metric, while the new cross-baseline runtime matrices show first-request provider cost, objective full-run lifecycle cost, and representative request-loop detail on top of those routed prompts across the current loading scenario set${hostedRuntimeProfiles.length ? `, including ${hostedRuntimeProfiles.length} optional hosted relay-backed field lane(s)` : ""}
 - **Advisory-only signals:** estimated token counts + exploratory query-route scenarios
 - **Dataset count:** ${diversity.dataset_count}
 - **Domains:** ${diversity.domains.join(", ")}
@@ -765,10 +556,10 @@ For large projects today, the benchmark supports this practical reading:
 
 - These corpora are **benchmark archetypes**, not full upstream toolchain integrations.
 - Advisory metrics still include deterministic chars-per-token estimates and exploratory query-route proxies.
-- The common scoreboard still uses renderer-based prompt-envelope bytes; the new runtime capture is currently an AODS-only supplemental sample, not a fair cross-baseline runtime matrix.
+- The common scoreboard still uses renderer-based prompt-envelope bytes; the new runtime capture is a shared local Copilot CLI supplement, not yet a broader multi-runtime fairness baseline.
 - The benchmark corpus is synthetic but lifecycle-complete, so this is a strong laboratory signal rather than a universal field sample.
-- The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed toolchain samples.
-- The benchmark still needs more diversity: more languages, more real-world corpora beyond the current three-project supplement, and more runtime-backed toolchain samples.
+- The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed cross-toolchain samples.
+- The benchmark still needs more diversity: more languages, more real-world corpora beyond the current three-project supplement, and more runtime-backed cross-toolchain samples.
 - Round two should add Backstage or TechDocs runtime execution, plus narrower spec-first comparators such as OpenAPI, AsyncAPI, or TypeSpec for partial-domain benchmarking.
 
 If AODS keeps outperforming these archetypes on loading and governance while reducing corpus cost, then the case for wider adoption becomes materially stronger.

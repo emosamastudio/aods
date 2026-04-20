@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-boot-protocol",
-  "v": 6,
+  "v": 7,
   "context": "Defines zero-knowledge bootstrap protocol. AODS v3 adds layer-aware progressive disclosure: root first, capsule next, detail on demand, evidence only on explicit review or debugging paths. Large corpora may also expose boot_by_touch for file-scoped authoring routes, manifest runtime-contract summaries for risk-aware loading, task-stage-aware query routing, and lexical query routing for grep-compatible discovery.",
   "assumptions": [
     "Agent has filesystem access to corpus root directory",
@@ -51,7 +51,7 @@
     {
       "sid": "touch-routing",
       "topic": "file scoped authoring routes",
-      "content": "If task is anchored to one touched file and manifest.boot_by_touch contains matching route -> prefer route.load_modules over broad role boot or query routing. Exact path beats glob. Higher-specificity glob beats lower-specificity glob. Always include touched module itself when touched path equals modules[].path. Use boot_by_role, query routing, or boot_sequence only when no touch route exists.",
+      "content": "If task is anchored to one touched file and manifest.boot_by_touch contains matching route -> prefer route.load_modules over broad role boot or query routing. Exact path beats glob. Higher-specificity glob beats lower-specificity glob. Always include touched module itself when touched path equals modules[].path. If a paired human_primary and its paired agent_primary both declare exact touch routes for the same intent, keep the human route inside the paired agent route and include the pair's semantic modules in the human route. Use boot_by_role, query routing, or boot_sequence only when no touch route exists.",
       "content_type": "logic",
       "refs": [
         "cold-start",

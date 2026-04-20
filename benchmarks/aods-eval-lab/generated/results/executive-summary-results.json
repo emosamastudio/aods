@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-04-20T05:28:28.595Z",
+  "benchmark_project": "benchmarks/aods-eval-lab",
+  "assessed_version": "0.6.0",
+  "release_recommendation": "ready-for-next-version",
+  "decision_basis": {
+    "coverage_pass": true,
+    "fidelity_pass": true,
+    "progressive_loading_pass": true,
+    "drift_and_trust_pass": true
+  },
+  "key_evidence": {
+    "lifecycle_phase_coverage": 1,
+    "fact_preservation_rate": 1,
+    "objective_touch_route_hit_rate": 1,
+    "median_prompt_envelope_bytes": 12372,
+    "median_byte_savings_vs_full_load": 0.7604270273854519,
+    "built_in_drift_recall": 1,
+    "release_surface_reality_recall": 1,
+    "open_source_api_surface_top1_hit_rate": 1,
+    "hosted_runtime_total_delta_bytes": 32322,
+    "hosted_runtime_tool_loop_delta_bytes": 48211
+  },
+  "hosted_repeatability": {
+    "successful_run_count": 3,
+    "total_delta_band": {
+      "sample_count": 3,
+      "min": 16457,
+      "max": 32322,
+      "span": 15865,
+      "median": 18193,
+      "mean": 22324,
+      "stdev": 7105.088645940082
+    },
+    "first_request_delta_band": {
+      "sample_count": 3,
+      "min": 0,
+      "max": 0,
+      "span": 0,
+      "median": 0,
+      "mean": 0,
+      "stdev": 0
+    },
+    "tool_loop_delta_band": {
+      "sample_count": 3,
+      "min": 33752,
+      "max": 48211,
+      "span": 14459,
+      "median": 35488,
+      "mean": 39150.333333333336,
+      "stdev": 6445.938480073238
+    },
+    "findings": {
+      "first_request_delta_is_stable": true,
+      "tool_loop_delta_dominates_all_runs": true,
+      "hosted_loop_split_is_repeat_sensitive": true
+    }
+  },
+  "management_reading": [
+    "AODS passes the benchmark on representability, information preservation, task-time context control, and anti-drift / trust controls.",
+    "The practical win comes from governed routing and validation rather than from shrinking the full repository corpus.",
+    "Hosted field inflation remains concentrated in tool-loop traffic across repeat runs, while the exact follow-up vs tool-loop split stays repeat-sensitive.",
+    "The benchmark is now strong enough to support publishing the next version, with broader field diversity left as a follow-on improvement wave."
+  ],
+  "residual_risks": [
+    "Repository-scale corpus bytes remain roughly flat because governance metadata offsets local artifact compression.",
+    "Hosted request-loop decomposition is still repeat-sensitive across successful runs.",
+    "The open-source field sample is still English-only and narrower than a full cross-toolchain matrix."
+  ],
+  "recommended_next_action": "publish-next-version",
+  "summary_generated_at": "2026-04-20T05:28:28.594Z"
+}

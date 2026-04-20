@@ -227,8 +227,10 @@
       "match": "README.md",
       "intent": "write",
       "load_modules": [
+        "spec-artifact-types",
         "spec-surface-governance",
-        "spec-boot-protocol"
+        "spec-boot-protocol",
+        "spec-validation"
       ],
       "reason": "README is a human surface; pair it against agent authority first."
     },
@@ -266,6 +268,7 @@
       "intent": "write",
       "load_modules": [
         "spec-surface-governance",
+        "spec-artifact-types",
         "spec-boot-protocol",
         "spec-validation"
       ],

@@ -4,7 +4,7 @@
 
 AODS is a documentation standard and CLI for teams that want AI agents to work from a clear, governed source of truth instead of piecing together context from scattered project docs.
 
-**Latest release:** `v0.5.1`
+**Latest release:** `v0.6.0`
 
 In this README, **human-oriented docs** means files mainly written for people to read, such as README files, SOPs, or checklists. **Agent-oriented docs** means structured files that agents and tooling can route, validate, and compare. For compatibility, the schema and CLI still use field names such as `human_primary`, `agent_primary`, and `sync_source=agent-primary`.
 
@@ -47,7 +47,7 @@ Requires **Node 18+**.
 1. Install the tagged GitHub release into your project:
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.5.1
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.6.0
 ```
 
 2. Verify the CLI is available:
@@ -162,11 +162,15 @@ For horizontal comparison, the benchmark uses three outside baselines:
 | **Objective median loaded payload** | **10839 bytes** | Routed working set stays far below full-corpus size |
 | **Objective median prompt envelope** | **12372 bytes** | Closer proxy to actual context-window occupation |
 | **Task-stage coverage** | **100.0%** across **5** explicit stages | Routed scenarios now declare orientation, plan, action, verification, and evidence explicitly |
-| **Supplemental runtime sample** | **not captured in current run** | Runtime capture remains optional and is absent from the latest benchmark pass |
+| **Supplemental runtime matrix** | **25975 bytes** AODS objective-median exact provider request across **9** scenarios, with shared runtime captures now covering **4** round-one baselines and **3** runtime profiles; the primary AODS combined full-run median over **9** scenarios is **1** request(s) / **25975 bytes** with **0** tool-loop request(s) / **0 tool-loop bytes**; objective full-run median is **1** request(s) / **25975 bytes**; exploratory full-run median is **1** request(s) / **26675 bytes**; representative full run is **1** request(s) / **25975 bytes**; local Claude Code shows **14879 bytes** on the same AODS objective set and combined full-run median **4** request(s) / **96260 bytes** with **2** tool-loop request(s) / **66516 tool-loop bytes**, objective full-run median **4** request(s) / **96260 bytes**, exploratory full-run median **4** request(s) / **99060 bytes**, representative full run **4** request(s) / **96260 bytes**; hosted relay-backed Claude shows **14879 bytes** and combined full-run median **4** request(s) / **128582 bytes** with **3** tool-loop request(s) / **114727 tool-loop bytes**, objective full-run median **5** request(s) / **157342 bytes**, exploratory full-run median **2** request(s) / **49544 bytes**, representative full run **4** request(s) / **129595 bytes**; hosted-vs-local combined delta is **32322 bytes** with **48211 bytes** in tool-loop traffic and top scenario **ops-doc-edit** | AODS Copilot first-request median is **2.10x** the rendered prompt envelope, and the runtime supplement now separates first-request, follow-up, tool-loop, and auxiliary-side lifecycle cost while also attributing hosted-vs-local inflation to specific request classes and scenarios |
 | **Objective touch-route hit rate** | **100.0%** | All objective routing scenarios hit the required modules |
 | **Objective median byte savings vs full load** | **76.0%** | Routed work is materially smaller than full-load work |
 | **Built-in drift recall** | **100.0%** | Current validator and hook layer catches all current benchmark hazards |
 | **Built-in false-positive rate** | **0.0%** | No misfire on the benchmark control scenario set |
+| **Route-behavior drift recall** | **100.0%** with **100.0%** built-in recall | Runtime companion underreach / overreach is now measurable as loaded-module-set drift, and the current validator + hook layer now catches the current synthetic route-behavior pack. |
+| **Open-source routing realism** | **40.0%** baseline top-1, **70.0%** title rerank top-1, **80.0%** structure rerank top-1, **85.0%** path-family rerank top-1, **100.0%** API-surface rerank top-1, **100.0%** section hit rate, **100.0%** full-file evidence retention, **65.0%** scenario-evidence full coverage, **65.0%** cost-aware full coverage, **100.0%** reachable-term full coverage, **85.0%** claim-support full coverage, **20.0%** exact-gap recovered, **100.0%** claim-support-pack preservation, **100.0%** answer-check full coverage, **15.0%** answer-check claim-gap recovered, **55.0%** target-local answer-check full coverage, **45.0%** cross-file answer recovery, **65.0%** authority-scoped answer-check full coverage across **20** scoped scenarios, **35.0%** out-of-scope answer recovery, **65.0%** authority-reachable answer-check full coverage, **7.5%** mean authority-reachable gain vs scoped pack, **35.0%** scenarios still missing authority-local answer support, **100.0%** authority-aware reachable-support preservation, **7.5%** authority-aware mean gain vs scoped pack, median authority-aware pack **1120 bytes**, **100.0%** local-family full coverage across **18** strict-file scopes, **19.4%** local-family mean gain vs exact scope, **38.9%** exact-scope gaps explained by local family, **100.0%** local-family support preservation, **19.4%** local-family pack mean gain vs exact scope, median local-family pack **969 bytes**, **35.0%** scenarios with unreachable terms, median selected section **450 bytes**, median evidence pack **1120 bytes**, median scenario bundle **12796 bytes**, median cost-aware bundle **12113 bytes**, median claim-support pack **1605 bytes** | Real corpora now pressure the routing story beyond the synthetic pack, and the harder API-vs-reference sibling seeds now show where path-first cleanup overfits, how API-surface signals recover the right file, how multi-section evidence packing preserves file-level evidence, how a cost-aware top-3 bundle can cut answer-support context without giving up scenario coverage, where remaining exact-term misses are benchmark phrase-realism gaps rather than corpus-available retrieval misses, how a small claim-support alias layer recovers the clear phrase-drift cases without masking the still-unresolved tasks, how a cross-file section pack can preserve that normalized claim support while shrinking the bundle further, how explicit answer checks separate wording drift from concrete answer insufficiency, how the answer-locality audit exposes which concrete answers still depend on cross-file borrowed evidence, how the authority-scoped lane distinguishes acceptable in-scope borrowing from out-of-scope answer recovery, how the authority-reachability lane measures both the in-scope coverage recovered by widening from the selected pack to the full authority scope and the scenarios that still remain true authority gaps, how the authority-aware pack lane shows that those in-scope answers can now be preserved in a much smaller scope-limited section pack, how the new local-family lane shows that the remaining strict exact-file authority misses are still documented nearby in sibling docs under the same target family, and how the new local-family pack lane shows that this sibling-local answer support can also be preserved in a much smaller family-scoped section pack |
+| **Generated surface recall** | **100.0%** with **0.0%** false positives | Deterministic generated human surfaces are guarded against manual drift |
+| **Release-surface reality recall** | **100.0%** with **0.0%** false positives | `--reality` catches missing, placeholder-only, wrong-kind, and duplicate current release surfaces |
 | **Benchmark diversity** | **2 datasets**, **5 task stages** | Stronger than the original single-corpus pack, still synthetic and English-only |
 
 ## Horizontal comparison
@@ -192,10 +196,60 @@ For horizontal comparison, the benchmark uses three outside baselines:
 | Objective median prompt-envelope bytes | 12372 bytes | 12372 bytes | +0 bytes | flat |
 | Built-in drift recall | 100.0% | 100.0% | +0.0 pts | flat |
 | Built-in false-positive rate | 0.0% | 0.0% | +0.0 pts | flat |
+| Route-behavior drift recall | 100.0% | 100.0% | +0.0 pts | flat |
+| Built-in route-behavior recall | 100.0% | 100.0% | +0.0 pts | flat |
+| Route-behavior false-positive rate | 0.0% | 0.0% | +0.0 pts | flat |
+| Generated surface recall | 100.0% | 100.0% | +0.0 pts | flat |
+| Generated surface false-positive rate | 0.0% | 0.0% | +0.0 pts | flat |
+| Release-surface reality recall | 100.0% | 100.0% | +0.0 pts | flat |
+| Release-surface reality false-positive rate | 0.0% | 0.0% | +0.0 pts | flat |
+| Open-source routing top-1 hit rate | 40.0% | 40.0% | +0.0 pts | flat |
+| Open-source routing MRR | 59.9% | 59.9% | +0.0 pts | flat |
+| Open-source rerank top-1 hit rate | 70.0% | 70.0% | +0.0 pts | flat |
+| Open-source rerank MRR | 83.8% | 83.8% | +0.0 pts | flat |
+| Open-source structure rerank top-1 hit rate | 80.0% | 80.0% | +0.0 pts | flat |
+| Open-source structure rerank MRR | 88.8% | 88.8% | +0.0 pts | flat |
+| Open-source path-family rerank top-1 hit rate | 85.0% | 85.0% | +0.0 pts | flat |
+| Open-source path-family rerank MRR | 92.5% | 92.5% | +0.0 pts | flat |
+| Open-source API-surface rerank top-1 hit rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source API-surface rerank MRR | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source section hit rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source section median bytes | 450 bytes | 450 bytes | +0 bytes | flat |
+| Open-source section-evidence full-file retention rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source section-evidence median bytes | 1120 bytes | 1120 bytes | +0 bytes | flat |
+| Open-source scenario-evidence full coverage rate | 65.0% | 65.0% | +0.0 pts | flat |
+| Open-source scenario-evidence median bytes | 12796 bytes | 12796 bytes | +0 bytes | flat |
+| Open-source cost-aware scenario-evidence full coverage rate | 65.0% | 65.0% | +0.0 pts | flat |
+| Open-source cost-aware scenario-evidence median bytes | 12113 bytes | 12113 bytes | +0 bytes | flat |
+| Open-source reachable scenario-evidence full coverage rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source scenario unreachable-term rate | 35.0% | 35.0% | +0.0 pts | flat |
+| Open-source claim-support full coverage rate | 85.0% | 85.0% | +0.0 pts | flat |
+| Open-source claim-support exact-gap recovered rate | 20.0% | 20.0% | +0.0 pts | flat |
+| Open-source claim-support pack preservation rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source claim-support pack median bytes | 1605 bytes | 1605 bytes | +0 bytes | flat |
+| Open-source answer-check full coverage rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source answer-check claim-gap recovered rate | 15.0% | 15.0% | +0.0 pts | flat |
+| Open-source target-local answer-check full coverage rate | 55.0% | 55.0% | +0.0 pts | flat |
+| Open-source cross-file answer-check recovered rate | 45.0% | 45.0% | +0.0 pts | flat |
+| Open-source explicit answer-authority scenario rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source authority-scoped answer-check full coverage rate | 65.0% | 65.0% | +0.0 pts | flat |
+| Open-source out-of-scope answer recovery rate | 35.0% | 35.0% | +0.0 pts | flat |
+| Open-source authority-reachable answer-check full coverage rate | 65.0% | 65.0% | +0.0 pts | flat |
+| Open-source authority-reachable mean gain vs scoped pack | 7.5% | 7.5% | +0.0 pts | flat |
+| Open-source authority-local missing-support rate | 35.0% | 35.0% | +0.0 pts | flat |
+| Open-source authority-aware reachable-support preservation rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source authority-aware mean gain vs scoped pack | 7.5% | 7.5% | +0.0 pts | flat |
+| Open-source authority-aware median pack bytes | 1120 bytes | 1120 bytes | +0 bytes | flat |
+| Open-source local-family answer-check full coverage rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source local-family mean gain vs exact scope | 19.4% | 19.4% | +0.0 pts | flat |
+| Open-source exact-scope gaps explained by local family rate | 38.9% | 38.9% | +0.0 pts | flat |
+| Open-source local-family support preservation rate | 100.0% | 100.0% | +0.0 pts | flat |
+| Open-source local-family pack mean gain vs exact scope | 19.4% | 19.4% | +0.0 pts | flat |
+| Open-source local-family pack median bytes | 969 bytes | 969 bytes | +0 bytes | flat |
 | External sample corpus count | 3 | 3 | +0 | flat |
-| External sample scenario count | 17 | 17 | +0 | flat |
+| External sample scenario count | 20 | 20 | +0 | flat |
 | Task stage coverage | 100.0% | 100.0% | +0.0 pts | flat |
-| Runtime request-body bytes | n/a | n/a | n/a | no prior baseline |
+| Runtime median request-body bytes | 25975 bytes | 25975 bytes | +0 bytes | flat |
 | Exploratory query precision | 100.0% | 100.0% | +0.0 pts | flat |
 <!-- BENCHMARK_SYNC:END -->
 
@@ -370,7 +424,7 @@ node ./bin/aods.mjs upgrade ./examples/seven-plane-pilot --dry-run
 node ./bin/aods.mjs scaffold corpus ../my-corpus --sys my-system
 node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy --layer detail --scope "Control plane semantics"
 node ./bin/aods.mjs scaffold authoring-module ./examples/compiled-pilot-source/authoring.json shift-ops-log --category reference --layer detail --scope "Shift operations log authority"
-node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-capsule --load shift-ops-policy --intent write
+node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-root --load shift-ops-capsule --load shift-ops-policy --intent write
 node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-log --agent-primary shift-ops-runbook --human-primary SHIFT-OPS-LOG.md
 node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-guide --agent-primary shift-ops-policy --human-primary SHIFT-OPS-GUIDE.md --generated-profile checklist
 ```
@@ -421,7 +475,7 @@ This project is released under the **MIT License**. See [`LICENSE`](./LICENSE).
 
 AODS now uses two version tracks:
 
-- **Release version:** Git tags and package releases such as `v0.5.1`
+- **Release version:** Git tags and package releases such as `v0.6.0`
 - **Release-aligned skill version:** packaged skills under `skills/` stay aligned to the same release tag
 - **Schema compatibility:** surface-local markers such as `aods_v` and `authoring_v`
 

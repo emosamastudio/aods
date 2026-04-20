@@ -1,0 +1,83 @@
+[
+  {
+    "id": "control-route-reason-edit",
+    "description": "Touch-route reason text changes without changing routed modules.",
+    "scenario_class": "control-neutral",
+    "behavior_class": "control",
+    "loadingScenarioId": "ops-doc-edit",
+    "changedFiles": [
+      "indexes/runtime.json"
+    ],
+    "isControl": true,
+    "expectBuiltInDetection": false,
+    "expectBehaviorDetection": false,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "indexes/runtime.json",
+        "find": "\"reason\":\"Operations doc edits need policy and evidence authority.\"",
+        "replace": "\"reason\":\"Operations doc edits need policy and evidence authority. This note clarifies the same routing intent without changing the routed module set.\""
+      }
+    ]
+  },
+  {
+    "id": "ops-touch-underreach-evidence",
+    "description": "Operations touch-route silently drops required evidence authority.",
+    "scenario_class": "route-underreach",
+    "behavior_class": "underreach",
+    "loadingScenarioId": "ops-doc-edit",
+    "changedFiles": [
+      "indexes/runtime.json"
+    ],
+    "expectBuiltInDetection": true,
+    "expectBehaviorDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "indexes/runtime.json",
+        "find": "\"match\":\"docs/04-operations-and-governance.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-capsule\",\"operations-governance\",\"evidence-reference\"],\"reason\":\"Operations doc edits need policy and evidence authority.\"",
+        "replace": "\"match\":\"docs/04-operations-and-governance.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-capsule\",\"operations-governance\"],\"reason\":\"Operations doc edits need policy and evidence authority.\""
+      }
+    ]
+  },
+  {
+    "id": "architecture-touch-underreach-root",
+    "description": "Architecture module route keeps the contract module but silently drops root topology context.",
+    "scenario_class": "route-underreach",
+    "behavior_class": "underreach",
+    "loadingScenarioId": "architecture-module-edit",
+    "changedFiles": [
+      "indexes/runtime.json"
+    ],
+    "expectBuiltInDetection": true,
+    "expectBehaviorDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "indexes/runtime.json",
+        "find": "\"match\":\"modules/architecture-contracts.json\",\"intent\":\"write\",\"load_modules\":[\"atlas-root\",\"atlas-capsule\",\"architecture-contracts\"],\"reason\":\"Architecture edits need route and contract context.\"",
+        "replace": "\"match\":\"modules/architecture-contracts.json\",\"intent\":\"write\",\"load_modules\":[\"atlas-capsule\",\"architecture-contracts\"],\"reason\":\"Architecture edits need route and contract context.\""
+      }
+    ]
+  },
+  {
+    "id": "ops-touch-overreach-architecture",
+    "description": "Operations touch-route silently widens into unrelated architecture context.",
+    "scenario_class": "route-overreach",
+    "behavior_class": "overreach",
+    "loadingScenarioId": "ops-doc-edit",
+    "changedFiles": [
+      "indexes/runtime.json"
+    ],
+    "expectBuiltInDetection": true,
+    "expectBehaviorDetection": true,
+    "operations": [
+      {
+        "type": "replace",
+        "file": "indexes/runtime.json",
+        "find": "\"match\":\"docs/04-operations-and-governance.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-capsule\",\"operations-governance\",\"evidence-reference\"],\"reason\":\"Operations doc edits need policy and evidence authority.\"",
+        "replace": "\"match\":\"docs/04-operations-and-governance.md\",\"intent\":\"write\",\"load_modules\":[\"atlas-capsule\",\"operations-governance\",\"evidence-reference\",\"architecture-contracts\"],\"reason\":\"Operations doc edits need policy and evidence authority.\""
+      }
+    ]
+  }
+]

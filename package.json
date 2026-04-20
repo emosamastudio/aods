@@ -1,6 +1,6 @@
 {
   "name": "aods",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": false,
   "description": "AODS standard and CLI for agent-first documentation, routing, and anti-drift governance",
   "type": "module",
@@ -58,10 +58,12 @@
     "benchmark:catalog-open-corpora": "npm --prefix ./benchmarks/aods-eval-lab run catalog-open-corpora",
     "benchmark:evaluate": "npm --prefix ./benchmarks/aods-eval-lab run evaluate",
     "benchmark:runtime-capture": "npm --prefix ./benchmarks/aods-eval-lab run runtime-capture",
+    "benchmark:runtime-capture:hosted": "npm --prefix ./benchmarks/aods-eval-lab run runtime-capture:hosted",
+    "benchmark:runtime-capture:hosted:repeatability": "npm --prefix ./benchmarks/aods-eval-lab run runtime-capture:hosted:repeatability",
     "benchmark:compare": "npm --prefix ./benchmarks/aods-eval-lab run compare",
     "benchmark:summary": "npm --prefix ./benchmarks/aods-eval-lab run summary",
     "benchmark:test": "npm --prefix ./benchmarks/aods-eval-lab run test",
-    "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:compare && npm run benchmark:summary && npm run benchmark:test",
+    "benchmark:all": "npm run benchmark:evaluate && npm run benchmark:compare && npm run benchmark:test && npm run benchmark:summary",
     "validate:repo": "npm run validate:all && npm run benchmark:all",
     "release:self-check": "npm run validate:repo && npm pack --dry-run"
   },

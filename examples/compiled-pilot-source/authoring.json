@@ -765,6 +765,7 @@
         "match": "README.md",
         "intent": "write",
         "load": [
+          "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
           "shift-ops-governance",

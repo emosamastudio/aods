@@ -9,6 +9,7 @@ import {
   ARTIFACTS,
   DATASETS,
   DRIFT_SCENARIOS,
+  BEHAVIOR_DRIFT_SCENARIOS,
   HUMAN_DOCS,
   LOADING_SCENARIOS,
   MODULE_BLUEPRINTS,
@@ -86,6 +87,7 @@ export function generateAll() {
   });
   writeJson(path.join(paths.fixtureScenarioRoot, "loading-scenarios.json"), LOADING_SCENARIOS);
   writeJson(path.join(paths.fixtureScenarioRoot, "drift-scenarios.json"), DRIFT_SCENARIOS);
+  writeJson(path.join(paths.fixtureScenarioRoot, "behavior-drift-scenarios.json"), BEHAVIOR_DRIFT_SCENARIOS);
 
   return {
     ...paths,

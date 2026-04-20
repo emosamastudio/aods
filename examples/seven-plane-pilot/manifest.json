@@ -203,8 +203,10 @@
       "match": "README.md",
       "intent": "write",
       "load_modules": [
+        "north-star-os-root",
         "north-star-os-capsule",
-        "north-star-os-detail"
+        "north-star-os-detail",
+        "work-graph-backbone"
       ],
       "reason": "README is the paired human surface for the pilot corpus."
     },
@@ -223,7 +225,8 @@
       "load_modules": [
         "north-star-os-root",
         "north-star-os-capsule",
-        "north-star-os-detail"
+        "north-star-os-detail",
+        "work-graph-backbone"
       ],
       "reason": "capsule edits affect summary routing across the full system."
     },

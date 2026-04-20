@@ -9,15 +9,15 @@ const DEFAULT_FETCH_ROOT = path.join(PROJECT_ROOT, "generated", "open-source-cor
 const DEFAULT_OUTPUT_JSON = path.join(PROJECT_ROOT, "generated", "results", "open-source-scenario-catalog.json");
 const DEFAULT_OUTPUT_REPORT = path.join(PROJECT_ROOT, "reports", "open-source-scenario-catalog.md");
 
-export function runOpenSourceScenarioCatalog(argv = [], overrides = {}) {
-  const options = parseArgs(argv, overrides);
+export function buildOpenSourceScenarioCatalog(overrides = {}) {
+  const options = buildOptions(overrides);
   const manifest = readJson(options.manifestPath);
   const selectedCorpora = selectCorpora(manifest.corpora ?? [], options.ids);
   const fetchById = buildFetchIndex(selectedCorpora, options);
 
   const corpora = selectedCorpora.map((corpus) => catalogCorpus(corpus, fetchById.get(corpus.id)));
   const scenarioEntries = corpora.flatMap((corpus) => corpus.scenarios);
-  const catalog = {
+  return {
     generated_at: new Date().toISOString(),
     manifest_path: options.manifestPath,
     fetch_results_path: options.fetchResultsPath,
@@ -32,6 +32,19 @@ export function runOpenSourceScenarioCatalog(argv = [], overrides = {}) {
       formats: countValues(scenarioEntries.flatMap((scenario) => [scenario.format]))
     }
   };
+}
+
+export function loadOpenSourceScenarioCatalog(overrides = {}) {
+  const options = buildOptions(overrides);
+  if (isCatalogOutputFresh(options)) {
+    return readJson(options.outputJsonPath);
+  }
+  return buildOpenSourceScenarioCatalog(options);
+}
+
+export function runOpenSourceScenarioCatalog(argv = [], overrides = {}) {
+  const options = parseArgs(argv, overrides);
+  const catalog = buildOpenSourceScenarioCatalog(options);
 
   writeJson(options.outputJsonPath, catalog);
   writeText(options.outputReportPath, renderReport(catalog));
@@ -45,9 +58,9 @@ export function runOpenSourceScenarioCatalog(argv = [], overrides = {}) {
   return catalog;
 }
 
-function parseArgs(argv, overrides) {
-  const options = {
-    ids: [],
+function buildOptions(overrides = {}) {
+  return {
+    ids: [...(overrides.ids ?? [])],
     manifestPath: overrides.manifestPath ?? DEFAULT_MANIFEST_PATH,
     fetchResultsPath: overrides.fetchResultsPath ?? DEFAULT_FETCH_RESULTS_PATH,
     fetchRoot: overrides.fetchRoot ?? DEFAULT_FETCH_ROOT,
@@ -55,6 +68,10 @@ function parseArgs(argv, overrides) {
     outputReportPath: overrides.outputReportPath ?? DEFAULT_OUTPUT_REPORT,
     json: overrides.json ?? false
   };
+}
+
+function parseArgs(argv, overrides) {
+  const options = buildOptions(overrides);
 
   const queue = [...argv];
   while (queue.length > 0) {
@@ -91,6 +108,23 @@ function parseArgs(argv, overrides) {
   }
 
   return options;
+}
+
+function isCatalogOutputFresh(options) {
+  if (!fs.existsSync(options.outputJsonPath)) {
+    return false;
+  }
+  const outputMtimeMs = fs.statSync(options.outputJsonPath).mtimeMs;
+  if (fs.statSync(options.manifestPath).mtimeMs > outputMtimeMs) {
+    return false;
+  }
+  if (!fs.existsSync(options.fetchResultsPath)) {
+    return false;
+  }
+  if (fs.statSync(options.fetchResultsPath).mtimeMs > outputMtimeMs) {
+    return false;
+  }
+  return true;
 }
 
 function requireValue(flag, queue) {
@@ -185,6 +219,9 @@ function catalogSeed(corpus, corpusRoot, seed) {
     benchmark_roles: seed.benchmark_roles ?? [],
     benchmark_dimensions: seed.benchmark_dimensions ?? [],
     grep_terms: seed.grep_terms ?? [],
+    answer_support: seed.answer_support ?? [],
+    answer_checks: seed.answer_checks ?? [],
+    answer_authority: seed.answer_authority ?? null,
     why: seed.why,
     byte_count: measured.bytes,
     line_count: measured.lines,
@@ -298,7 +335,7 @@ ${rows}
 - Scenario classes: ${formatCountSummary(catalog.summary.scenario_classes)}
 - Formats: ${formatCountSummary(catalog.summary.formats)}
 
-These scenario seeds are curated for **grep-first / lexical-addressable** benchmark work. Each seed carries concrete file paths plus \`grep_terms\`, so benchmark-v2 can measure routing against the retrieval style common in current code agents.
+These scenario seeds are curated for **grep-first / lexical-addressable** benchmark work. Each seed carries concrete file paths plus \`grep_terms\`, some seeds declare optional \`answer_support\` alias groups so benchmark-v2 can distinguish exact-string misses from claim-support coverage, some now declare explicit \`answer_checks\` so the benchmark can distinguish wording gaps from concrete answer-support gaps, and some also declare \`answer_authority\` scopes so the benchmark can separate acceptable in-scope cross-file support from out-of-scope borrowing.
 
 ## Corpus overview
 

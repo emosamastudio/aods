@@ -4,7 +4,7 @@
 
 AODS 是一套文档标准和 CLI，适合那些希望让 AI agent 基于清晰、可验证、可治理的事实源工作，而不是从零散项目文档里拼接上下文的团队。
 
-**当前最新版本：** `v0.5.1`
+**当前最新版本：** `v0.6.0`
 
 在这份 README 里，**面向人阅读的文档** 指 README、SOP、检查清单这类主要给人看的文件；**面向 agent 的结构化文档** 指那些可以被 agent 和工具路由、校验、比较的结构化文件。为了兼容，schema 和 CLI 仍然保留 `human_primary`、`agent_primary`、`sync_source=agent-primary` 这类字段名。
 
@@ -47,7 +47,7 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 1. 先把带版本 tag 的 GitHub 发布版安装到你的项目里：
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.5.1
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.6.0
 ```
 
 2. 确认 CLI 可用：
@@ -162,11 +162,15 @@ benchmark 明确区分了三种“大小”信号：
 | **Objective median loaded payload** | **10839 bytes** | 路由后的 working set 明显小于全库 |
 | **Objective median prompt envelope** | **12372 bytes** | 更接近真实上下文窗口占用 |
 | **Task-stage coverage** | **100.0%**，覆盖 **5** 个显式阶段 | benchmark 结果现在显式标注 orientation、plan、action、verification、evidence |
-| **补充型 runtime 样本** | **本轮未采集** | runtime capture 仍是可选补充项，当前这次 benchmark 没有采样 |
+| **补充型 runtime 矩阵** | **25975 bytes** 的 AODS objective 中位 provider request，覆盖 **9** 个场景；共享 runtime 采集现已覆盖 **4** 个 round-one 基线和 **3** 个 runtime profile；主 profile 的 AODS 全场景完整运行中位数（**9** 个场景）是 **1** 次请求 / **25975 bytes**；objective 完整运行中位数是 **1** 次请求 / **25975 bytes**；exploratory 完整运行中位数是 **1** 次请求 / **26675 bytes**；代表性完整运行是 **1** 次请求 / **25975 bytes**；本地 Claude Code 在同一组 AODS objective 场景上的中位请求是 **14879 bytes**，全场景完整运行中位数是 **4** 次请求 / **96260 bytes**，objective 完整运行中位数是 **4** 次请求 / **96260 bytes**，exploratory 完整运行中位数是 **4** 次请求 / **99060 bytes**，代表性完整运行是 **4** 次请求 / **96260 bytes**；hosted relay-backed Claude 的中位请求是 **14879 bytes**，全场景完整运行中位数是 **4** 次请求 / **128582 bytes**，objective 完整运行中位数是 **5** 次请求 / **157342 bytes**，exploratory 完整运行中位数是 **2** 次请求 / **49544 bytes**，代表性完整运行是 **4** 次请求 / **129595 bytes**；hosted 相比 local 的全场景完整运行中位增量是 **32322 bytes**，其中 **48211 bytes** 来自 tool-loop，最重场景是 **ops-doc-edit** | AODS 的 Copilot 首请求中位成本大约是 rendered prompt envelope 的 **2.10x**，而且这个 runtime 补充证据现在已经把首请求、follow-up、tool-loop、auxiliary-side 四类成本分开，并能把 hosted-vs-local 的膨胀归因到具体请求类别和具体场景 |
 | **Objective touch-route hit rate** | **100.0%** | 所有 objective routing 场景都命中了所需模块 |
 | **Objective median byte savings vs full load** | **76.0%** | 路由后的工作集显著小于 full-load |
 | **Built-in drift recall** | **100.0%** | 当前 validator + hook 层能抓到当前 benchmark 中的全部风险 |
 | **Built-in false-positive rate** | **0.0%** | 当前 control 场景没有误报 |
+| **Route-behavior drift recall** | **100.0%**，其中 built-in recall 是 **100.0%** | runtime companion 的 underreach / overreach 现在已经能按 loaded-module-set 漂移来衡量，而且当前 validator + hook 层已经能抓住这批合成场景。 |
+| **Open-source routing realism** | **40.0%** baseline top-1、**70.0%** title rerank top-1、**80.0%** structure rerank top-1、**85.0%** path-family rerank top-1、**100.0%** API-surface rerank top-1、**100.0%** section hit rate、**100.0%** full-file evidence retention、**65.0%** scenario-evidence full coverage、**65.0%** cost-aware full coverage、**100.0%** reachable-term full coverage、**85.0%** claim-support full coverage、**20.0%** exact-gap recovered、**100.0%** claim-support-pack preservation、**100.0%** answer-check 全覆盖率、**15.0%** answer-check 恢复 claim gap 比率、**55.0%** target-local answer-check 全覆盖率、**45.0%** cross-file answer recovery、**65.0%** authority-scoped answer-check 全覆盖率（覆盖 **20** 个 scoped scenarios）、**35.0%** out-of-scope answer recovery、**65.0%** authority-reachable answer-check 全覆盖率、**7.5%** authority-reachable 相对 scoped pack 的平均增益、**35.0%** 仍缺少 authority-local answer support 的场景比率、**100.0%** authority-aware reachable-support preservation、**7.5%** authority-aware 相对 scoped pack 的平均增益、authority-aware 中位 pack **1120 bytes**、**100.0%** local-family 全覆盖率（覆盖 **18** 个 strict-file scenarios）、**19.4%** local-family 相对 exact scope 的平均增益、**38.9%** 被 local family 解释的 exact-scope gap 比率、**100.0%** local-family support preservation、**19.4%** local-family pack 相对 exact scope 的平均增益、local-family 中位 pack **969 bytes**、**35.0%** scenarios with unreachable terms，中位选中 section **450 bytes**、中位 evidence pack **1120 bytes**、中位 scenario bundle **12796 bytes**、中位 cost-aware bundle **12113 bytes**、中位 claim-support pack **1605 bytes** | 真实开源语料现在开始给 routing 能力施压，而新增的 API/reference 同名兄弟文档不仅暴露出路径优先 heuristic 的过拟合边界，也证明 API-surface 信号可以把这类缺口补回来；进一步的 multi-section evidence pack 能在不退回 full file 的前提下保住 file-level evidence，而 cost-aware top-3 scenario bundle 则证明可以在不牺牲 coverage 的前提下进一步压低 answer-support 的上下文成本；reachability audit 把剩余 exact miss 中属于 benchmark phrase-realism 的部分单独拆了出来，claim-support lane 则把其中确实存在等价表述的场景显式恢复出来，cross-file section pack 进一步证明这些已恢复的 claim support 还可以在更小的上下文里保留下来，而显式 answer checks 则把 wording drift 与真正的 answer insufficiency 分开了，answer-locality audit 继续把“能答出来”和“答案是否仍然主要扎根在目标文档”区分开来，authority-scoped lane 进一步把“允许的跨文件借证”和“越出声明权威范围的 answer recovery”区分开来，authority-reachability lane 继续衡量“从当前 pack 放宽到完整 authority scope 后还能追回多少覆盖”以及“哪些场景即使在 authority 内仍然是真正的答案缺口”，authority-aware pack lane 进一步证明这些 authority 内可达的答案现在可以在更小的 scope-limited section pack 里保留下来，新的 local-family lane 则继续证明剩余 strict exact-file authority miss 其实仍然分布在同一目标目录下的兄弟文档里，新的 local-family pack lane 则进一步证明这类 sibling-local answer support 也可以被压回一个更小的 family-scoped section pack |
+| **Generated surface recall** | **100.0%**，误报率 **0.0%** | deterministic generated human surface 已经被显式保护，不允许手工漂移 |
+| **Release-surface reality recall** | **100.0%**，误报率 **0.0%** | `--reality` 能抓到缺失、占位目录、类型错误和重复 current surface |
 | **Benchmark diversity** | **2 个数据集**、**5 个任务阶段** | 比最初的单语料基线更强，但仍是 synthetic 且 English-only |
 
 ## 横向对比
@@ -192,10 +196,60 @@ benchmark 明确区分了三种“大小”信号：
 | Objective 中位 prompt-envelope 字节数 | 12372 bytes | 12372 bytes | +0 bytes | 持平 |
 | 内建 drift recall | 100.0% | 100.0% | +0.0 pts | 持平 |
 | 内建误报率 | 0.0% | 0.0% | +0.0 pts | 持平 |
+| route-behavior drift recall | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 内建 route-behavior recall | 100.0% | 100.0% | +0.0 pts | 持平 |
+| route-behavior 误报率 | 0.0% | 0.0% | +0.0 pts | 持平 |
+| 生成 surface recall | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 生成 surface 误报率 | 0.0% | 0.0% | +0.0 pts | 持平 |
+| 发布面 reality recall | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 发布面 reality 误报率 | 0.0% | 0.0% | +0.0 pts | 持平 |
+| 开源语料 routing top-1 命中率 | 40.0% | 40.0% | +0.0 pts | 持平 |
+| 开源语料 routing MRR | 59.9% | 59.9% | +0.0 pts | 持平 |
+| 开源语料 rerank top-1 命中率 | 70.0% | 70.0% | +0.0 pts | 持平 |
+| 开源语料 rerank MRR | 83.8% | 83.8% | +0.0 pts | 持平 |
+| 开源语料 structure rerank top-1 命中率 | 80.0% | 80.0% | +0.0 pts | 持平 |
+| 开源语料 structure rerank MRR | 88.8% | 88.8% | +0.0 pts | 持平 |
+| 开源语料 path-family rerank top-1 命中率 | 85.0% | 85.0% | +0.0 pts | 持平 |
+| 开源语料 path-family rerank MRR | 92.5% | 92.5% | +0.0 pts | 持平 |
+| 开源语料 API-surface rerank top-1 命中率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 API-surface rerank MRR | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 section 命中率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 section 中位字节数 | 450 bytes | 450 bytes | +0 bytes | 持平 |
+| 开源语料 section-evidence 全文件证据保留率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 section-evidence 中位字节数 | 1120 bytes | 1120 bytes | +0 bytes | 持平 |
+| 开源语料 scenario-evidence 全覆盖率 | 65.0% | 65.0% | +0.0 pts | 持平 |
+| 开源语料 scenario-evidence 中位字节数 | 12796 bytes | 12796 bytes | +0 bytes | 持平 |
+| 开源语料 cost-aware scenario-evidence 全覆盖率 | 65.0% | 65.0% | +0.0 pts | 持平 |
+| 开源语料 cost-aware scenario-evidence 中位字节数 | 12113 bytes | 12113 bytes | +0 bytes | 持平 |
+| 开源语料 reachable scenario-evidence 全覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 scenario 不可达术语占比 | 35.0% | 35.0% | +0.0 pts | 持平 |
+| 开源语料 claim-support 全覆盖率 | 85.0% | 85.0% | +0.0 pts | 持平 |
+| 开源语料 claim-support 恢复 exact gap 比率 | 20.0% | 20.0% | +0.0 pts | 持平 |
+| 开源语料 claim-support pack 保留率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 claim-support pack 中位字节数 | 1605 bytes | 1605 bytes | +0 bytes | 持平 |
+| 开源语料 answer-check 全覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 answer-check 恢复 claim gap 比率 | 15.0% | 15.0% | +0.0 pts | 持平 |
+| 开源语料 target-local answer-check 全覆盖率 | 55.0% | 55.0% | +0.0 pts | 持平 |
+| 开源语料 cross-file answer recovery 比率 | 45.0% | 45.0% | +0.0 pts | 持平 |
+| 开源语料显式 answer-authority 场景比率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 authority-scoped answer-check 全覆盖率 | 65.0% | 65.0% | +0.0 pts | 持平 |
+| 开源语料 out-of-scope answer recovery 比率 | 35.0% | 35.0% | +0.0 pts | 持平 |
+| 开源语料 authority-reachable answer-check 全覆盖率 | 65.0% | 65.0% | +0.0 pts | 持平 |
+| 开源语料 authority-reachable 相对 scoped pack 的平均增益 | 7.5% | 7.5% | +0.0 pts | 持平 |
+| 开源语料 authority-local 缺失 answer support 比率 | 35.0% | 35.0% | +0.0 pts | 持平 |
+| 开源语料 authority-aware reachable-support preservation 比率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 authority-aware 相对 scoped pack 的平均增益 | 7.5% | 7.5% | +0.0 pts | 持平 |
+| 开源语料 authority-aware 中位 pack bytes | 1120 bytes | 1120 bytes | +0 bytes | 持平 |
+| 开源语料 local-family answer-check 全覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 local-family 相对 exact scope 的平均增益 | 19.4% | 19.4% | +0.0 pts | 持平 |
+| 开源语料被 local family 解释的 exact-scope gap 比率 | 38.9% | 38.9% | +0.0 pts | 持平 |
+| 开源语料 local-family support preservation 比率 | 100.0% | 100.0% | +0.0 pts | 持平 |
+| 开源语料 local-family pack 相对 exact scope 的平均增益 | 19.4% | 19.4% | +0.0 pts | 持平 |
+| 开源语料 local-family 中位 pack bytes | 969 bytes | 969 bytes | +0 bytes | 持平 |
 | 外部样本语料数 | 3 | 3 | +0 | 持平 |
-| 外部样本场景数 | 17 | 17 | +0 | 持平 |
+| 外部样本场景数 | 20 | 20 | +0 | 持平 |
 | 任务阶段覆盖率 | 100.0% | 100.0% | +0.0 pts | 持平 |
-| Runtime request-body 字节数 | n/a | n/a | n/a | 没有更早基线 |
+| Runtime 中位 request-body 字节数 | 25975 bytes | 25975 bytes | +0 bytes | 持平 |
 | Exploratory query precision | 100.0% | 100.0% | +0.0 pts | 持平 |
 <!-- BENCHMARK_SYNC:END -->
 
@@ -368,7 +422,7 @@ node ./bin/aods.mjs upgrade ./examples/seven-plane-pilot --dry-run
 node ./bin/aods.mjs scaffold corpus ../my-corpus --sys my-system
 node ./bin/aods.mjs scaffold module ../my-corpus control-plane --category policy --layer detail --scope "Control plane semantics"
 node ./bin/aods.mjs scaffold authoring-module ./examples/compiled-pilot-source/authoring.json shift-ops-log --category reference --layer detail --scope "Shift operations log authority"
-node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-capsule --load shift-ops-policy --intent write
+node ./bin/aods.mjs scaffold authoring-touch ./examples/compiled-pilot-source/authoring.json --match README.md --load shift-ops-root --load shift-ops-capsule --load shift-ops-policy --intent write
 node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-log --agent-primary shift-ops-runbook --human-primary SHIFT-OPS-LOG.md
 node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/authoring.json --pair-id pair-shift-ops-guide --agent-primary shift-ops-policy --human-primary SHIFT-OPS-GUIDE.md --generated-profile checklist
 ```
@@ -419,7 +473,7 @@ node ./bin/aods.mjs scaffold authoring-pair ./examples/compiled-pilot-source/aut
 
 AODS 现在区分两条版本线：
 
-- **发布版本：** Git tag / package release，例如 `v0.5.1`
+- **发布版本：** Git tag / package release，例如 `v0.6.0`
 - **与发布版对齐的 skill 版本：** `skills/` 下的技能与同一个 release tag 对齐
 - **Schema 兼容版本：** 各 surface 内部使用的兼容性标记，例如 `aods_v` 和 `authoring_v`
 

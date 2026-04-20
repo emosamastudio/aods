@@ -29,6 +29,11 @@
           "benchmark_roles": ["architect", "operator"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["production deployment", "scheduler", "workers", "database"],
+          "answer_authority": {
+            "allowed_path_prefixes": [
+              "airflow-core/docs/administration-and-deployment/production-deployment.rst"
+            ]
+          },
           "why": "Tests architecture-plus-operations retrieval for deployment planning."
         },
         {
@@ -40,6 +45,9 @@
           "benchmark_roles": ["security-lead", "operator"],
           "benchmark_dimensions": ["coverage", "routing", "drift"],
           "grep_terms": ["security model", "permissions", "roles", "access"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["airflow-core/docs/security/security_model.rst"]
+          },
           "why": "Exercises security semantics that must survive compression and anti-drift checks."
         },
         {
@@ -51,6 +59,27 @@
           "benchmark_roles": ["release-manager", "maintainer"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["release process", "vote", "release candidate", "branch"],
+          "answer_checks": [
+            {
+              "id": "release-process",
+              "match_any": ["release process", "version policy"]
+            },
+            {
+              "id": "release-candidate",
+              "match_any": ["release candidate"]
+            },
+            {
+              "id": "release-branch",
+              "match_any": ["branch", "stable"]
+            },
+            {
+              "id": "release-managers",
+              "match_any": ["release managers", "release manager's key"]
+            }
+          ],
+          "answer_authority": {
+            "allowed_path_prefixes": ["airflow-core/docs/release-process.rst"]
+          },
           "why": "Covers procedural release governance rather than pure product docs."
         },
         {
@@ -62,6 +91,9 @@
           "benchmark_roles": ["project-manager", "maintainer"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["governance", "committee", "committer", "decision"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["GOVERNANCE.md"]
+          },
           "why": "Adds top-level governance and ownership language that many product corpora omit."
         },
         {
@@ -73,6 +105,11 @@
           "benchmark_roles": ["operator", "sre"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["metrics", "monitoring", "telemetry", "prometheus"],
+          "answer_authority": {
+            "allowed_path_prefixes": [
+              "airflow-core/docs/administration-and-deployment/logging-monitoring/"
+            ]
+          },
           "why": "Provides an operations-heavy retrieval case beyond deployment setup."
         }
       ]
@@ -107,6 +144,9 @@
           "benchmark_roles": ["architect", "operator"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["architecture", "repo server", "application controller", "api server"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/operator-manual/architecture.md"]
+          },
           "why": "Gives a real architecture surface for grep-first routing benchmarks."
         },
         {
@@ -118,6 +158,27 @@
           "benchmark_roles": ["release-manager", "maintainer"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["release cadence", "minor release", "patch release", "branch"],
+          "answer_support": [
+            {
+              "id": "release-cadence",
+              "match_any": ["release cadence", "release cycle", "schedule"]
+            },
+            {
+              "id": "minor-release",
+              "match_any": ["minor release"]
+            },
+            {
+              "id": "patch-release",
+              "match_any": ["patch release"]
+            },
+            {
+              "id": "branch",
+              "match_any": ["branch"]
+            }
+          ],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/developer-guide/release-process-and-cadence.md"]
+          },
           "why": "Captures cadence planning and ownership rules, not just release commands."
         },
         {
@@ -129,6 +190,27 @@
           "benchmark_roles": ["release-manager", "operator"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["releasing", "release manager", "changelog", "version"],
+          "answer_checks": [
+            {
+              "id": "release-automation",
+              "match_any": ["release automation", "github actions", "automated fashion"]
+            },
+            {
+              "id": "release-branch",
+              "match_any": ["release branch"]
+            },
+            {
+              "id": "changelog",
+              "match_any": ["changelog"]
+            },
+            {
+              "id": "version",
+              "match_any": ["version", "version file"]
+            }
+          ],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/developer-guide/releasing.md"]
+          },
           "why": "Acts as a procedural release runbook for benchmark-v2 task seeds."
         },
         {
@@ -140,6 +222,27 @@
           "benchmark_roles": ["product-manager", "maintainer"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["roadmap", "goals", "focus areas", "future"],
+          "answer_checks": [
+            {
+              "id": "roadmap-location",
+              "match_any": ["github project"]
+            },
+            {
+              "id": "release-planning",
+              "match_any": ["release process and cadence"]
+            },
+            {
+              "id": "goals",
+              "match_any": ["goals"]
+            },
+            {
+              "id": "future-direction",
+              "match_any": ["future"]
+            }
+          ],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/roadmap.md"]
+          },
           "why": "Adds roadmap and planning semantics that synthetic operational corpora underrepresent."
         },
         {
@@ -151,6 +254,9 @@
           "benchmark_roles": ["security-lead", "maintainer"],
           "benchmark_dimensions": ["coverage", "routing", "drift"],
           "grep_terms": ["security", "vulnerability", "report", "disclosure"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["SECURITY.md"]
+          },
           "why": "Provides security-response language useful for drift and authority tests."
         },
         {
@@ -162,6 +268,12 @@
           "benchmark_roles": ["architect", "developer"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["proposal", "config management plugin", "plugin v2", "design"],
+          "answer_authority": {
+            "allowed_path_prefixes": [
+              "docs/proposals/config-management-plugin-v2.md",
+              "docs/operator-manual/config-management-plugins.md"
+            ]
+          },
           "why": "Supplies proposal-style design material, which is a common project-lifecycle artifact."
         }
       ]
@@ -192,6 +304,9 @@
           "benchmark_roles": ["architect", "operator"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["technical overview", "hub", "proxy", "single-user server"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/reference/technical-overview.md"]
+          },
           "why": "Adds a clean reference architecture slice for cross-project loading tests."
         },
         {
@@ -203,6 +318,9 @@
           "benchmark_roles": ["operator", "sre"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["monitoring", "metrics", "prometheus", "health"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/reference/monitoring.md"]
+          },
           "why": "Provides operational monitoring material in a different docs style from Airflow."
         },
         {
@@ -214,6 +332,9 @@
           "benchmark_roles": ["operator", "maintainer"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["upgrading", "upgrade", "migrate", "database"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/howto/upgrading.md"]
+          },
           "why": "Adds upgrade and migration guidance, which is a practical lifecycle checkpoint."
         },
         {
@@ -225,6 +346,27 @@
           "benchmark_roles": ["security-lead", "architect"],
           "benchmark_dimensions": ["coverage", "routing", "drift"],
           "grep_terms": ["web security", "csrf", "cookies", "host"],
+          "answer_support": [
+            {
+              "id": "web-security",
+              "match_any": ["web security"]
+            },
+            {
+              "id": "csrf",
+              "match_any": ["csrf", "xsrf tokens"]
+            },
+            {
+              "id": "cookies",
+              "match_any": ["cookies"]
+            },
+            {
+              "id": "host",
+              "match_any": ["host"]
+            }
+          ],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/explanation/websecurity.md"]
+          },
           "why": "Adds explanation-style security reasoning instead of only policy checklists."
         },
         {
@@ -236,6 +378,27 @@
           "benchmark_roles": ["product-manager", "maintainer"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["roadmap", "milestones", "development", "future"],
+          "answer_support": [
+            {
+              "id": "roadmap",
+              "match_any": ["roadmap"]
+            },
+            {
+              "id": "milestones",
+              "match_any": ["milestones", "next step", "next steps", "now", "soon", "later"]
+            },
+            {
+              "id": "development",
+              "match_any": ["development"]
+            },
+            {
+              "id": "future",
+              "match_any": ["future"]
+            }
+          ],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/contributing/roadmap.md"]
+          },
           "why": "Extends planning coverage into a contributor-facing open-source workflow."
         },
         {
@@ -247,7 +410,70 @@
           "benchmark_roles": ["developer", "operator"],
           "benchmark_dimensions": ["coverage", "routing"],
           "grep_terms": ["security basics", "tokens", "permissions", "services"],
+          "answer_support": [
+            {
+              "id": "security-basics",
+              "match_any": ["security basics", "security settings"]
+            },
+            {
+              "id": "tokens",
+              "match_any": ["tokens"]
+            },
+            {
+              "id": "permissions",
+              "match_any": ["permissions"]
+            },
+            {
+              "id": "services",
+              "match_any": ["services"]
+            }
+          ],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/tutorial/getting-started/security-basics.md"]
+          },
           "why": "Captures tutorial-style onboarding material that should still remain routable."
+        },
+        {
+          "id": "authenticators-api-reference",
+          "title": "Authenticators",
+          "path": "docs/source/reference/api/auth.md",
+          "scenario_class": "reference-api",
+          "lifecycle_phases": ["build", "operate"],
+          "benchmark_roles": ["developer", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["autoconfigurable", "localauthenticator", "sharedpasswordauthenticator", "pamauthenticator"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/reference/api/auth.md"]
+          },
+          "why": "Adds an API-vs-reference sibling collision where title and path family are similar but the target is the class-level API surface."
+        },
+        {
+          "id": "services-api-reference",
+          "title": "Services",
+          "path": "docs/source/reference/api/service.md",
+          "scenario_class": "reference-api",
+          "lifecycle_phases": ["build", "operate"],
+          "benchmark_roles": ["developer", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["jupyterhub.services.service", "proxy_spec", "oauth_client_id", "autoconfigurable"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/reference/api/service.md"]
+          },
+          "why": "Pressures the router with a same-title reference pair where the API module docs should outrank the higher-level conceptual services page."
+        },
+        {
+          "id": "spawners-api-reference",
+          "title": "Spawners",
+          "path": "docs/source/reference/api/spawner.md",
+          "scenario_class": "reference-api",
+          "lifecycle_phases": ["build", "operate"],
+          "benchmark_roles": ["developer", "maintainer"],
+          "benchmark_dimensions": ["coverage", "routing"],
+          "grep_terms": ["localprocessspawner", "template_namespace", "move_certs", "autoconfigurable"],
+          "answer_authority": {
+            "allowed_path_prefixes": ["docs/source/reference/api/spawner.md"]
+          },
+          "why": "Adds another API-vs-reference collision so the field sample can catch path-first heuristics that over-promote broader conceptual docs."
         }
       ]
     },

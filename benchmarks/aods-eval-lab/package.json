@@ -9,6 +9,8 @@
     "catalog-open-corpora": "node ./src/catalog-open-source-corpora.mjs",
     "evaluate": "node ./src/evaluate.mjs",
     "runtime-capture": "node ./src/runtime-capture.mjs",
+    "runtime-capture:hosted": "AODS_RUNTIME_CAPTURE_INCLUDE_HOSTED=1 node ./src/runtime-capture.mjs",
+    "runtime-capture:hosted:repeatability": "AODS_RUNTIME_CAPTURE_INCLUDE_HOSTED=1 AODS_RUNTIME_CAPTURE_HOSTED_REPEATABILITY_RUNS=3 node ./src/runtime-capture.mjs",
     "compare": "node ./src/compare.mjs",
     "summary": "node ./src/summary.mjs",
     "test": "node --test"
