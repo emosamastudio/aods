@@ -7,7 +7,7 @@
 - **External comparison headline:** AODS is the only baseline in round one with **100.0%** native drift recall, while **AODS** is the smallest corpus by exact bytes and **AODS** has the highest objective loading precision
 - **External field sample:** 3 open-source corpora, 20 grep-first scenario seeds, formats rst=4, markdown=16
 
-**Round-one verdict:** AODS now has a defensible benchmark position. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That means its value proposition is real for agent-heavy, drift-sensitive programs, but its corpus cost still needs optimization before it can replace lower-friction defaults everywhere.
+**Round-one verdict:** AODS now has a defensible result on this benchmark. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That makes it a credible option for agent-heavy, drift-sensitive programs in the current benchmark, while its corpus cost still needs optimization before it can compete with lower-friction defaults more broadly.
 
 ## Evaluation scope
 
@@ -104,7 +104,7 @@ AODS-native governance signals remain separate because the other archetypes do n
 | DITA topic corpus | 5 | 1320 | 13981 | 12661 | 10.59x |
 | Overhead | 45 bookkeeping entries, 1.25 per artifact, 21 touch routes, 5 roles |
 
-**Internal reading:** AODS already proves lifecycle completeness and information preservation on this corpus. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, first-request runtime cost, objective full-run lifecycle cost, and representative request-loop detail as separate measurements, and it now also exposes a first route-behavior drift split: deterministic under-read / over-read mutations are fully measurable and are now directly caught by paired-route consistency checks in the built-in validator layer.
+**Internal reading:** On this corpus, AODS shows lifecycle completeness and information preservation. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, first-request runtime cost, objective full-run lifecycle cost, and representative request-loop detail as separate measurements, and it now also exposes a first route-behavior drift split: deterministic under-read / over-read mutations are fully measurable and are now directly caught by paired-route consistency checks in the built-in validator layer.
 
 ## Additional runtime supplements
 
@@ -199,9 +199,9 @@ These are **not** fair common metrics. They are shown separately because only AO
 
 ## Interpretation
 
-### What AODS proves
+### What AODS currently shows
 
-- AODS remains the strongest option when the target problem includes **native authority modeling**, **paired human+agent surfaces**, and **drift-aware governance**.
+- In this round, AODS is the clearest fit when the target problem includes **native authority modeling**, **paired human+agent surfaces**, and **drift-aware governance**.
 - AODS is no longer being judged only against itself; it now has external archetype baselines on the same dataset and scenario set.
 - AODS is now being judged on an objective scoreboard built from exact size metrics, loaded payload size, rendered prompt-envelope size, and touch-route behavior rather than on heuristic token-only summaries.
 
@@ -227,8 +227,7 @@ For large projects today, the benchmark supports this practical reading:
 - Advisory metrics still include deterministic chars-per-token estimates and exploratory query-route proxies.
 - The common scoreboard still uses renderer-based prompt-envelope bytes; the new runtime capture is a shared local Copilot CLI supplement, not yet a broader multi-runtime fairness baseline.
 - The benchmark corpus is synthetic but lifecycle-complete, so this is a strong laboratory signal rather than a universal field sample.
-- The benchmark still needs more diversity: more languages, more real-world corpora, and more runtime-backed cross-toolchain samples.
 - The benchmark still needs more diversity: more languages, more real-world corpora beyond the current three-project supplement, and more runtime-backed cross-toolchain samples.
 - Round two should add Backstage or TechDocs runtime execution, plus narrower spec-first comparators such as OpenAPI, AsyncAPI, or TypeSpec for partial-domain benchmarking.
 
-If AODS keeps outperforming these archetypes on loading and governance while reducing corpus cost, then the case for wider adoption becomes materially stronger.
+If AODS continues to outperform these archetypes on loading and governance while reducing corpus cost, then the case for wider adoption becomes materially stronger.

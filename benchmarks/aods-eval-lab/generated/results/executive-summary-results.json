@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-23T04:09:11.582Z",
+  "generated_at": "2026-04-23T07:00:04.344Z",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "assessed_version": "0.6.0",
   "release_recommendation": "ready-for-next-version",
@@ -57,10 +57,10 @@
     }
   },
   "management_reading": [
-    "AODS passes the benchmark on representability, information preservation, task-time context control, and anti-drift / trust controls.",
+    "On the current benchmark pack, AODS passes the current checks for representability, information preservation, task-time context control, and anti-drift / trust controls.",
     "The practical win comes from governed routing and validation rather than from shrinking the full repository corpus.",
     "Hosted field inflation remains concentrated in tool-loop traffic across repeat runs, while the exact follow-up vs tool-loop split stays repeat-sensitive.",
-    "The benchmark is now strong enough to support publishing the next version, with broader field diversity left as a follow-on improvement wave."
+    "The current benchmark result supports publishing the next version if release timing is otherwise appropriate, with broader field diversity left as a follow-on improvement wave."
   ],
   "residual_risks": [
     "Repository-scale corpus bytes remain roughly flat because governance metadata offsets local artifact compression.",
@@ -68,5 +68,5 @@
     "The open-source field sample is still English-only and narrower than a full cross-toolchain matrix."
   ],
   "recommended_next_action": "publish-next-version",
-  "summary_generated_at": "2026-04-23T04:09:11.582Z"
+  "summary_generated_at": "2026-04-23T07:00:04.343Z"
 }

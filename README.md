@@ -37,12 +37,12 @@ In this README, **human-oriented docs** means files mainly written for people to
 
 The practical value is simple: **AODS tries to make it explicit what an agent should read, which surface is authoritative, what must stay aligned, and what should fail early instead of drifting silently.**
 
-## What `v0.6.0` already demonstrates
+## What `v0.6.0` currently shows
 
-- **A real release exists now.** You can inspect and download [`v0.6.0`](https://github.com/emosamastudio/aods/releases/tag/v0.6.0) today.
-- **The current benchmark passes the main claims we care about.** On the current pack, AODS passes coverage / representability, information preservation, task-time progressive loading, and anti-drift / trust controls.
+- **A tagged GitHub release is available now.** You can inspect and download [`v0.6.0`](https://github.com/emosamastudio/aods/releases/tag/v0.6.0) today.
+- **The current benchmark supports the main claims we care about on the current pack.** On this pack, AODS clears the current checks for coverage / representability, information preservation, task-time progressive loading, and anti-drift / trust controls.
 - **The practical win is governed routing, not “smaller JSON”.** The current benchmark explicitly says the value comes from routing and validation rather than shrinking the full repository corpus.
-- **Hosted runtime evidence now has repeatability support.** Across successful hosted runs, extra cost remains concentrated in tool-loop traffic, while the exact hosted loop decomposition is still treated as repeat-sensitive field evidence rather than a fixed universal law.
+- **Hosted runtime evidence now includes repeatability support.** Across successful hosted runs, extra cost remains concentrated in tool-loop traffic, while the exact hosted loop decomposition is still treated as repeat-sensitive field evidence rather than a fixed universal law.
 
 ## The problem
 
@@ -320,10 +320,10 @@ AODS is valuable **not mainly because the current benchmark is slightly smaller 
 
 1. **It gives agents a native routing model.** `root -> capsule -> detail` is a real contract, not a vague convention.
 2. **It gives teams a governed way to keep reader-friendly docs and structured sources aligned.** `surface_pairs`, `sync_source`, `shared_invariants`, and conservative paired-claim checks turn drift from a social problem into a technical one.
-3. **It separates repository-scale weight from per-task context cost.** The benchmark now proves those are different signals, and recent optimization waves improved both without weakening governance.
+3. **It separates repository-scale weight from per-task context cost.** The benchmark now measures those as different signals, and recent optimization waves improved both without weakening governance.
 4. **It is getting easier to adopt.** The compiled-authoring path now supports artifact-first modules instead of forcing synthetic prose just to satisfy the format.
 
-The current value proposition is therefore:
+A simpler adoption rule is:
 
 > **Use AODS when you need governed, AI-friendly project documentation with explicit routing and drift controls, not when your only goal is the smallest possible repository size.**
 

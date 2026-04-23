@@ -653,12 +653,12 @@ export function buildExecutiveSummary(current, summary) {
         }
       : null,
     management_reading: [
-      "AODS passes the benchmark on representability, information preservation, task-time context control, and anti-drift / trust controls.",
+      "On the current benchmark pack, AODS passes the current checks for representability, information preservation, task-time context control, and anti-drift / trust controls.",
       "The practical win comes from governed routing and validation rather than from shrinking the full repository corpus.",
       hostedRepeatability
         ? "Hosted field inflation remains concentrated in tool-loop traffic across repeat runs, while the exact follow-up vs tool-loop split stays repeat-sensitive."
         : "Hosted field evidence remains supplemental and directional rather than a universal release gate.",
-      "The benchmark is now strong enough to support publishing the next version, with broader field diversity left as a follow-on improvement wave."
+      "The current benchmark result supports publishing the next version if release timing is otherwise appropriate, with broader field diversity left as a follow-on improvement wave."
     ],
     residual_risks: [
       "Repository-scale corpus bytes remain roughly flat because governance metadata offsets local artifact compression.",
@@ -783,7 +783,7 @@ function renderExecutiveSummary(summary) {
 
 ## Release recommendation
 
-- Recommendation: **Ready to publish the next version**
+- Recommendation: **Current benchmark result supports publishing the next version**
 - Assessed version: **${summary.assessed_version}**
 - Executive summary generated at: **${summary.generated_at}**
 
@@ -795,7 +795,7 @@ function renderExecutiveSummary(summary) {
 | Information preservation | ${summary.decision_basis.fidelity_pass ? "**Pass**" : "**Watch**"} | ${formatPercent(summary.key_evidence.fact_preservation_rate)} fact preservation |
 | Task-time progressive loading | ${summary.decision_basis.progressive_loading_pass ? "**Pass**" : "**Watch**"} | ${formatPercent(summary.key_evidence.objective_touch_route_hit_rate)} touch-route hit rate, ${Math.round(summary.key_evidence.median_prompt_envelope_bytes)}-byte median prompt envelope, ${formatPercent(summary.key_evidence.median_byte_savings_vs_full_load)} median byte savings |
 | Drift and release-surface trust | ${summary.decision_basis.drift_and_trust_pass ? "**Pass**" : "**Watch**"} | ${formatPercent(summary.key_evidence.built_in_drift_recall)} built-in drift recall, ${formatPercent(summary.key_evidence.release_surface_reality_recall)} release-surface reality recall |
-| External routing realism | **Supplemental strength** | ${formatPercent(summary.key_evidence.open_source_api_surface_top1_hit_rate)} API-surface rerank top-1 hit rate |
+| External routing realism | **Supplemental signal** | ${formatPercent(summary.key_evidence.open_source_api_surface_top1_hit_rate)} API-surface rerank top-1 hit rate |
 
 ## Management reading
 
@@ -820,7 +820,7 @@ ${summary.residual_risks.map((item) => `- ${item}`).join("\n")}
 
 ## Recommended next action
 
-- **Publish the next version**, then continue widening language coverage and the fair field matrix in a later benchmark wave.
+- **If release timing is otherwise appropriate, publish the next version**, then continue widening language coverage and the fair field matrix in a later benchmark wave.
 `;
 }
 

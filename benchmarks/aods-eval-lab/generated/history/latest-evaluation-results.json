@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-23T04:09:11.153Z",
+  "generated_at": "2026-04-23T07:00:03.896Z",
   "system_under_test": ".",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "validation": {
     "corpus": "aods-corpus",
-    "timestamp": "2026-04-23T04:08:59.813Z",
+    "timestamp": "2026-04-23T06:59:53.200Z",
     "levels": {
       "L1": {
         "pass": true,
