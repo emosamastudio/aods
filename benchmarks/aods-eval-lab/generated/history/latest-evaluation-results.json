@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-23T07:00:03.896Z",
+  "generated_at": "2026-04-23T07:47:30.014Z",
   "system_under_test": ".",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "validation": {
     "corpus": "aods-corpus",
-    "timestamp": "2026-04-23T06:59:53.200Z",
+    "timestamp": "2026-04-23T07:47:19.477Z",
     "levels": {
       "L1": {
         "pass": true,
@@ -22056,7 +22056,7 @@
     "top_3_hit_rate": 0.75,
     "mean_reciprocal_rank": 0.5988250244379277,
     "zero_hit_rate": 0,
-    "median_candidate_file_count": 31.5,
+    "median_candidate_file_count": 31,
     "mean_target_term_coverage": 0.775,
     "median_top_1_bytes": 14015,
     "median_top_1_tokens_estimated": 3415.5,
@@ -22082,7 +22082,7 @@
             "airflow-core/docs/administration-and-deployment/production-deployment.rst"
           ]
         },
-        "candidate_file_count": 56,
+        "candidate_file_count": 55,
         "target_rank": 2,
         "reciprocal_rank": 0.5,
         "target_term_coverage": 1,
@@ -22106,7 +22106,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 23.41896201700453
+            "weighted_term_score": 23.573451594306057
           },
           {
             "path": "airflow-core/docs/administration-and-deployment/production-deployment.rst",
@@ -22125,14 +22125,14 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 1,
             "path_token_overlap": 1,
-            "weighted_term_score": 23.41896201700453
+            "weighted_term_score": 23.573451594306057
           },
           {
-            "path": "RELEASE_NOTES.rst",
-            "byte_count": 367759,
-            "tokens_estimated": 91913,
+            "path": "chart/RELEASE_NOTES.rst",
+            "byte_count": 77254,
+            "tokens_estimated": 19314,
             "matched_term_count": 3,
-            "total_term_hits": 190,
+            "total_term_hits": 214,
             "title_exact_heading": 0,
             "title_token_overlap": 0,
             "basename_token_overlap": 0,
@@ -22144,7 +22144,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 19.393670941208995
+            "weighted_term_score": 19.54816051851052
           }
         ]
       },
@@ -22178,10 +22178,10 @@
         "top_candidates": [
           {
             "path": "RELEASE_NOTES.rst",
-            "byte_count": 367759,
-            "tokens_estimated": 91913,
+            "byte_count": 372812,
+            "tokens_estimated": 93176,
             "matched_term_count": 4,
-            "total_term_hits": 148,
+            "total_term_hits": 158,
             "title_exact_heading": 0,
             "title_token_overlap": 0,
             "basename_token_overlap": 0,
@@ -22399,8 +22399,8 @@
           },
           {
             "path": "RELEASE_NOTES.rst",
-            "byte_count": 367759,
-            "tokens_estimated": 91913,
+            "byte_count": 372812,
+            "tokens_estimated": 93176,
             "matched_term_count": 2,
             "total_term_hits": 4,
             "title_exact_heading": 0,
@@ -22458,7 +22458,7 @@
             "airflow-core/docs/administration-and-deployment/logging-monitoring/"
           ]
         },
-        "candidate_file_count": 28,
+        "candidate_file_count": 27,
         "target_rank": 3,
         "reciprocal_rank": 0.3333333333333333,
         "target_term_coverage": 0.5,
@@ -22467,10 +22467,10 @@
         "top_candidates": [
           {
             "path": "RELEASE_NOTES.rst",
-            "byte_count": 367759,
-            "tokens_estimated": 91913,
+            "byte_count": 372812,
+            "tokens_estimated": 93176,
             "matched_term_count": 4,
-            "total_term_hits": 70,
+            "total_term_hits": 71,
             "title_exact_heading": 0,
             "title_token_overlap": 0,
             "basename_token_overlap": 0,
@@ -22482,7 +22482,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 33.35077895792718
+            "weighted_term_score": 33.57310287438835
           },
           {
             "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-architecture.rst",
@@ -22501,7 +22501,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 20.605475076597948
+            "weighted_term_score": 20.827798993059112
           },
           {
             "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/metrics.rst",
@@ -22520,7 +22520,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 1,
             "path_token_overlap": 1,
-            "weighted_term_score": 21.732318857172366
+            "weighted_term_score": 21.95464277363353
           }
         ]
       },
@@ -22545,7 +22545,7 @@
             "docs/operator-manual/architecture.md"
           ]
         },
-        "candidate_file_count": 224,
+        "candidate_file_count": 226,
         "target_rank": 50,
         "reciprocal_rank": 0.02,
         "target_term_coverage": 0.75,
@@ -22569,7 +22569,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0.3333333333333333,
             "path_token_overlap": 0.3333333333333333,
-            "weighted_term_score": 23.75960766645396
+            "weighted_term_score": 23.739467506136286
           },
           {
             "path": "docs/operator-manual/metrics.md",
@@ -22588,7 +22588,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0.6666666666666666,
             "path_token_overlap": 0.6666666666666666,
-            "weighted_term_score": 15.865973723099405
+            "weighted_term_score": 15.815052175877497
           },
           {
             "path": "docs/proposals/backend-support-appset.md",
@@ -22607,7 +22607,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 11.166239717624606
+            "weighted_term_score": 11.151113009266744
           }
         ]
       },
@@ -22683,7 +22683,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 18.88357012459778
+            "weighted_term_score": 18.903372145237206
           },
           {
             "path": "docs/user-guide/tracking_strategies.md",
@@ -22702,7 +22702,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 20.943053246932543
+            "weighted_term_score": 20.967805772731822
           },
           {
             "path": "docs/developer-guide/releasing.md",
@@ -22721,7 +22721,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 15.217082360798745
+            "weighted_term_score": 15.236884381438172
           }
         ]
       },
@@ -22798,7 +22798,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 1,
             "path_token_overlap": 1,
-            "weighted_term_score": 32.85683209303082
+            "weighted_term_score": 32.89643613430967
           },
           {
             "path": "docs/operator-manual/upgrading/2.6-2.7.md",
@@ -22817,7 +22817,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 10.641829361036411
+            "weighted_term_score": 10.661631381675836
           },
           {
             "path": "SECURITY.md",
@@ -22836,7 +22836,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 11.334976541596358
+            "weighted_term_score": 11.354778562235783
           }
         ]
       },
@@ -22910,7 +22910,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 14.459949592625062
+            "weighted_term_score": 14.479751613264487
           },
           {
             "path": "docs/proposals/001-proposal-template.md",
@@ -22929,7 +22929,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 16.693541814132157
+            "weighted_term_score": 16.71334383477158
           },
           {
             "path": "docs/proposals/parameterized-config-management-plugins.md",
@@ -22948,7 +22948,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 14.459949592625062
+            "weighted_term_score": 14.479751613264487
           }
         ]
       },
@@ -22997,7 +22997,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0.5,
             "path_token_overlap": 0.5,
-            "weighted_term_score": 50.301225317673854
+            "weighted_term_score": 50.35568087443227
           },
           {
             "path": "docs/operator-manual/security.md",
@@ -23016,7 +23016,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0.5,
             "path_token_overlap": 0.5,
-            "weighted_term_score": 12.079845486618133
+            "weighted_term_score": 12.099647507257561
           },
           {
             "path": "docs/operator-manual/upgrading/2.14-3.0.md",
@@ -23035,7 +23035,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 17.280196614266366
+            "weighted_term_score": 17.304949140065645
           }
         ]
       },
@@ -23085,7 +23085,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0.8,
             "path_token_overlap": 0.8,
-            "weighted_term_score": 28.360237208523646
+            "weighted_term_score": 28.394890744642645
           },
           {
             "path": "docs/proposals/parameterized-config-management-plugins.md",
@@ -23104,7 +23104,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0.4,
             "path_token_overlap": 0.4,
-            "weighted_term_score": 29.870236044313643
+            "weighted_term_score": 29.909840085592496
           },
           {
             "path": "docs/proposals/002-ui-extensions.md",
@@ -23123,7 +23123,7 @@
             "query_api_surface_signal": 0,
             "path_sequence_overlap": 0,
             "path_token_overlap": 0,
-            "weighted_term_score": 22.054447827136908
+            "weighted_term_score": 22.08415085809605
           }
         ]
       },
@@ -24000,10 +24000,10 @@
       "top_3_hit_rate": 0.95,
       "mean_reciprocal_rank": 0.8375,
       "zero_hit_rate": 0,
-      "median_candidate_file_count": 31.5,
+      "median_candidate_file_count": 31,
       "mean_target_term_coverage": 0.775,
-      "median_top_1_bytes": 6725,
-      "median_top_1_tokens_estimated": 1681,
+      "median_top_1_bytes": 6725.5,
+      "median_top_1_tokens_estimated": 1681.5,
       "scenario_results": [
         {
           "id": "apache-airflow-production-deployment",
@@ -24026,7 +24026,7 @@
               "airflow-core/docs/administration-and-deployment/production-deployment.rst"
             ]
           },
-          "candidate_file_count": 56,
+          "candidate_file_count": 55,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 1,
@@ -24050,7 +24050,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 23.41896201700453
+              "weighted_term_score": 23.573451594306057
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/index.rst",
@@ -24069,7 +24069,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 2.023811075585411
+              "weighted_term_score": 2.051210049773526
             },
             {
               "path": "airflow-core/docs/security/security_model.rst",
@@ -24088,7 +24088,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 23.41896201700453
+              "weighted_term_score": 23.573451594306057
             }
           ]
         },
@@ -24256,8 +24256,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 1,
               "total_term_hits": 10,
               "title_exact_heading": 0,
@@ -24275,10 +24275,10 @@
             },
             {
               "path": "chart/RELEASE_NOTES.rst",
-              "byte_count": 72480,
-              "tokens_estimated": 18120,
+              "byte_count": 77254,
+              "tokens_estimated": 19314,
               "matched_term_count": 1,
-              "total_term_hits": 1,
+              "total_term_hits": 2,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0.5,
@@ -24290,7 +24290,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 3.33214389523559
+              "weighted_term_score": 6.66428779047118
             }
           ]
         },
@@ -24343,8 +24343,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 2,
               "total_term_hits": 4,
               "title_exact_heading": 0,
@@ -24402,7 +24402,7 @@
               "airflow-core/docs/administration-and-deployment/logging-monitoring/"
             ]
           },
-          "candidate_file_count": 28,
+          "candidate_file_count": 27,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 0.5,
@@ -24426,14 +24426,14 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 21.732318857172366
+              "weighted_term_score": 21.95464277363353
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 4,
-              "total_term_hits": 70,
+              "total_term_hits": 71,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0,
@@ -24445,7 +24445,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 33.35077895792718
+              "weighted_term_score": 33.57310287438835
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-architecture.rst",
@@ -24464,7 +24464,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.605475076597948
+              "weighted_term_score": 20.827798993059112
             }
           ]
         },
@@ -24489,7 +24489,7 @@
               "docs/operator-manual/architecture.md"
             ]
           },
-          "candidate_file_count": 224,
+          "candidate_file_count": 226,
           "target_rank": 4,
           "reciprocal_rank": 0.25,
           "target_term_coverage": 0.75,
@@ -24513,7 +24513,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.3333333333333333,
               "path_token_overlap": 0.3333333333333333,
-              "weighted_term_score": 8.743165227376435
+              "weighted_term_score": 8.715630782718955
             },
             {
               "path": "docs/user-guide/commands/argocd_proj_windows_enable-manual-sync.md",
@@ -24532,7 +24532,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.3333333333333333,
               "path_token_overlap": 0.3333333333333333,
-              "weighted_term_score": 8.743165227376435
+              "weighted_term_score": 8.715630782718955
             },
             {
               "path": "docs/developer-guide/architecture/components.md",
@@ -24551,7 +24551,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.3333333333333333,
               "path_token_overlap": 0.3333333333333333,
-              "weighted_term_score": 23.75960766645396
+              "weighted_term_score": 23.739467506136286
             }
           ]
         },
@@ -24612,8 +24612,8 @@
           "top_candidates": [
             {
               "path": "docs/developer-guide/release-process-and-cadence.md",
-              "byte_count": 7246,
-              "tokens_estimated": 1811,
+              "byte_count": 7247,
+              "tokens_estimated": 1812,
               "matched_term_count": 2,
               "total_term_hits": 7,
               "title_exact_heading": 1,
@@ -24627,7 +24627,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 26.27454877432049
+              "weighted_term_score": 26.29930130011977
             },
             {
               "path": "docs/user-guide/tracking_strategies.md",
@@ -24646,7 +24646,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.943053246932543
+              "weighted_term_score": 20.967805772731822
             },
             {
               "path": "SECURITY.md",
@@ -24665,7 +24665,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.88357012459778
+              "weighted_term_score": 18.903372145237206
             }
           ]
         },
@@ -24742,7 +24742,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 32.85683209303082
+              "weighted_term_score": 32.89643613430967
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -24761,7 +24761,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 14.037455697649111
+              "weighted_term_score": 14.057257718288536
             },
             {
               "path": "SECURITY.md",
@@ -24780,7 +24780,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 11.334976541596358
+              "weighted_term_score": 11.354778562235783
             }
           ]
         },
@@ -24854,7 +24854,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 11.800648546557147
+              "weighted_term_score": 11.81054955687686
             },
             {
               "path": "docs/proposals/decouple-application-sync-user-using-impersonation.md",
@@ -24873,7 +24873,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             },
             {
               "path": "docs/proposals/source-verification-policies.md",
@@ -24892,7 +24892,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             }
           ]
         },
@@ -24941,7 +24941,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 50.301225317673854
+              "weighted_term_score": 50.35568087443227
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -24960,7 +24960,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 12.079845486618133
+              "weighted_term_score": 12.099647507257561
             },
             {
               "path": "docs/operator-manual/applicationset/Security.md",
@@ -24979,7 +24979,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 5.416954241596583
+              "weighted_term_score": 5.426855251916296
             }
           ]
         },
@@ -25029,7 +25029,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.8,
               "path_token_overlap": 0.8,
-              "weighted_term_score": 28.360237208523646
+              "weighted_term_score": 28.394890744642645
             },
             {
               "path": "docs/proposals/parameterized-config-management-plugins.md",
@@ -25048,7 +25048,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 29.870236044313643
+              "weighted_term_score": 29.909840085592496
             },
             {
               "path": "docs/operator-manual/config-management-plugins.md",
@@ -25067,7 +25067,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 15.631576434353468
+              "weighted_term_score": 15.651378454992894
             }
           ]
         },
@@ -25945,7 +25945,7 @@
       "top_3_hit_rate": 0.95,
       "mean_reciprocal_rank": 0.8875,
       "zero_hit_rate": 0,
-      "median_candidate_file_count": 31.5,
+      "median_candidate_file_count": 31,
       "mean_target_term_coverage": 0.775,
       "median_top_1_bytes": 6007,
       "median_top_1_tokens_estimated": 1501.5,
@@ -25971,7 +25971,7 @@
               "airflow-core/docs/administration-and-deployment/production-deployment.rst"
             ]
           },
-          "candidate_file_count": 56,
+          "candidate_file_count": 55,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 1,
@@ -25995,7 +25995,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 23.41896201700453
+              "weighted_term_score": 23.573451594306057
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/index.rst",
@@ -26014,7 +26014,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 2.023811075585411
+              "weighted_term_score": 2.051210049773526
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/check-health.rst",
@@ -26033,7 +26033,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 19.393670941208995
+              "weighted_term_score": 19.54816051851052
             }
           ]
         },
@@ -26201,8 +26201,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 1,
               "total_term_hits": 10,
               "title_exact_heading": 0,
@@ -26220,10 +26220,10 @@
             },
             {
               "path": "chart/RELEASE_NOTES.rst",
-              "byte_count": 72480,
-              "tokens_estimated": 18120,
+              "byte_count": 77254,
+              "tokens_estimated": 19314,
               "matched_term_count": 1,
-              "total_term_hits": 1,
+              "total_term_hits": 2,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0.5,
@@ -26235,7 +26235,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 3.33214389523559
+              "weighted_term_score": 6.66428779047118
             }
           ]
         },
@@ -26288,8 +26288,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 2,
               "total_term_hits": 4,
               "title_exact_heading": 0,
@@ -26347,7 +26347,7 @@
               "airflow-core/docs/administration-and-deployment/logging-monitoring/"
             ]
           },
-          "candidate_file_count": 28,
+          "candidate_file_count": 27,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 0.5,
@@ -26371,14 +26371,14 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 21.732318857172366
+              "weighted_term_score": 21.95464277363353
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 4,
-              "total_term_hits": 70,
+              "total_term_hits": 71,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0,
@@ -26390,7 +26390,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 33.35077895792718
+              "weighted_term_score": 33.57310287438835
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-architecture.rst",
@@ -26409,7 +26409,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.605475076597948
+              "weighted_term_score": 20.827798993059112
             }
           ]
         },
@@ -26434,7 +26434,7 @@
               "docs/operator-manual/architecture.md"
             ]
           },
-          "candidate_file_count": 224,
+          "candidate_file_count": 226,
           "target_rank": 4,
           "reciprocal_rank": 0.25,
           "target_term_coverage": 0.75,
@@ -26458,7 +26458,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.3333333333333333,
               "path_token_overlap": 0.3333333333333333,
-              "weighted_term_score": 8.743165227376435
+              "weighted_term_score": 8.715630782718955
             },
             {
               "path": "docs/user-guide/commands/argocd_proj_windows_enable-manual-sync.md",
@@ -26477,7 +26477,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.3333333333333333,
               "path_token_overlap": 0.3333333333333333,
-              "weighted_term_score": 8.743165227376435
+              "weighted_term_score": 8.715630782718955
             },
             {
               "path": "docs/developer-guide/architecture/components.md",
@@ -26496,7 +26496,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.3333333333333333,
               "path_token_overlap": 0.3333333333333333,
-              "weighted_term_score": 23.75960766645396
+              "weighted_term_score": 23.739467506136286
             }
           ]
         },
@@ -26557,8 +26557,8 @@
           "top_candidates": [
             {
               "path": "docs/developer-guide/release-process-and-cadence.md",
-              "byte_count": 7246,
-              "tokens_estimated": 1811,
+              "byte_count": 7247,
+              "tokens_estimated": 1812,
               "matched_term_count": 2,
               "total_term_hits": 7,
               "title_exact_heading": 1,
@@ -26572,7 +26572,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 26.27454877432049
+              "weighted_term_score": 26.29930130011977
             },
             {
               "path": "docs/user-guide/tracking_strategies.md",
@@ -26591,7 +26591,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.943053246932543
+              "weighted_term_score": 20.967805772731822
             },
             {
               "path": "SECURITY.md",
@@ -26610,7 +26610,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.88357012459778
+              "weighted_term_score": 18.903372145237206
             }
           ]
         },
@@ -26687,7 +26687,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 32.85683209303082
+              "weighted_term_score": 32.89643613430967
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -26706,7 +26706,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 14.037455697649111
+              "weighted_term_score": 14.057257718288536
             },
             {
               "path": "SECURITY.md",
@@ -26725,7 +26725,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 11.334976541596358
+              "weighted_term_score": 11.354778562235783
             }
           ]
         },
@@ -26799,7 +26799,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 11.800648546557147
+              "weighted_term_score": 11.81054955687686
             },
             {
               "path": "docs/proposals/decouple-application-sync-user-using-impersonation.md",
@@ -26818,7 +26818,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             },
             {
               "path": "docs/proposals/source-verification-policies.md",
@@ -26837,7 +26837,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             }
           ]
         },
@@ -26886,7 +26886,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 50.301225317673854
+              "weighted_term_score": 50.35568087443227
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -26905,7 +26905,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 12.079845486618133
+              "weighted_term_score": 12.099647507257561
             },
             {
               "path": "docs/operator-manual/applicationset/Security.md",
@@ -26924,7 +26924,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 5.416954241596583
+              "weighted_term_score": 5.426855251916296
             }
           ]
         },
@@ -26974,7 +26974,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.8,
               "path_token_overlap": 0.8,
-              "weighted_term_score": 28.360237208523646
+              "weighted_term_score": 28.394890744642645
             },
             {
               "path": "docs/proposals/parameterized-config-management-plugins.md",
@@ -26993,7 +26993,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 29.870236044313643
+              "weighted_term_score": 29.909840085592496
             },
             {
               "path": "docs/operator-manual/config-management-plugins.md",
@@ -27012,7 +27012,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 15.631576434353468
+              "weighted_term_score": 15.651378454992894
             }
           ]
         },
@@ -27890,7 +27890,7 @@
       "top_3_hit_rate": 1,
       "mean_reciprocal_rank": 0.925,
       "zero_hit_rate": 0,
-      "median_candidate_file_count": 31.5,
+      "median_candidate_file_count": 31,
       "mean_target_term_coverage": 0.775,
       "median_top_1_bytes": 6007,
       "median_top_1_tokens_estimated": 1501.5,
@@ -27916,7 +27916,7 @@
               "airflow-core/docs/administration-and-deployment/production-deployment.rst"
             ]
           },
-          "candidate_file_count": 56,
+          "candidate_file_count": 55,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 1,
@@ -27940,7 +27940,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 23.41896201700453
+              "weighted_term_score": 23.573451594306057
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/index.rst",
@@ -27959,7 +27959,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 2.023811075585411
+              "weighted_term_score": 2.051210049773526
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/check-health.rst",
@@ -27978,7 +27978,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 19.393670941208995
+              "weighted_term_score": 19.54816051851052
             }
           ]
         },
@@ -28146,8 +28146,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 1,
               "total_term_hits": 10,
               "title_exact_heading": 0,
@@ -28165,10 +28165,10 @@
             },
             {
               "path": "chart/RELEASE_NOTES.rst",
-              "byte_count": 72480,
-              "tokens_estimated": 18120,
+              "byte_count": 77254,
+              "tokens_estimated": 19314,
               "matched_term_count": 1,
-              "total_term_hits": 1,
+              "total_term_hits": 2,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0.5,
@@ -28180,7 +28180,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 3.33214389523559
+              "weighted_term_score": 6.66428779047118
             }
           ]
         },
@@ -28233,8 +28233,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 2,
               "total_term_hits": 4,
               "title_exact_heading": 0,
@@ -28292,7 +28292,7 @@
               "airflow-core/docs/administration-and-deployment/logging-monitoring/"
             ]
           },
-          "candidate_file_count": 28,
+          "candidate_file_count": 27,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 0.5,
@@ -28316,14 +28316,14 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 21.732318857172366
+              "weighted_term_score": 21.95464277363353
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 4,
-              "total_term_hits": 70,
+              "total_term_hits": 71,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0,
@@ -28335,7 +28335,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 33.35077895792718
+              "weighted_term_score": 33.57310287438835
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-architecture.rst",
@@ -28354,7 +28354,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.605475076597948
+              "weighted_term_score": 20.827798993059112
             }
           ]
         },
@@ -28379,7 +28379,7 @@
               "docs/operator-manual/architecture.md"
             ]
           },
-          "candidate_file_count": 224,
+          "candidate_file_count": 226,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 0.75,
@@ -28403,7 +28403,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 15.628773104016116
+              "weighted_term_score": 15.617552923168807
             },
             {
               "path": "docs/operator-manual/metrics.md",
@@ -28422,7 +28422,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.6666666666666666,
               "path_token_overlap": 0.6666666666666666,
-              "weighted_term_score": 15.865973723099405
+              "weighted_term_score": 15.815052175877497
             },
             {
               "path": "docs/operator-manual/server-commands/argocd-application-controller.md",
@@ -28441,7 +28441,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.6666666666666666,
               "path_token_overlap": 0.6666666666666666,
-              "weighted_term_score": 15.865973723099405
+              "weighted_term_score": 15.815052175877497
             }
           ]
         },
@@ -28502,8 +28502,8 @@
           "top_candidates": [
             {
               "path": "docs/developer-guide/release-process-and-cadence.md",
-              "byte_count": 7246,
-              "tokens_estimated": 1811,
+              "byte_count": 7247,
+              "tokens_estimated": 1812,
               "matched_term_count": 2,
               "total_term_hits": 7,
               "title_exact_heading": 1,
@@ -28517,7 +28517,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 26.27454877432049
+              "weighted_term_score": 26.29930130011977
             },
             {
               "path": "docs/user-guide/tracking_strategies.md",
@@ -28536,7 +28536,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.943053246932543
+              "weighted_term_score": 20.967805772731822
             },
             {
               "path": "SECURITY.md",
@@ -28555,7 +28555,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.88357012459778
+              "weighted_term_score": 18.903372145237206
             }
           ]
         },
@@ -28632,7 +28632,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 32.85683209303082
+              "weighted_term_score": 32.89643613430967
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -28651,7 +28651,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 14.037455697649111
+              "weighted_term_score": 14.057257718288536
             },
             {
               "path": "SECURITY.md",
@@ -28670,7 +28670,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 11.334976541596358
+              "weighted_term_score": 11.354778562235783
             }
           ]
         },
@@ -28744,7 +28744,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 11.800648546557147
+              "weighted_term_score": 11.81054955687686
             },
             {
               "path": "docs/proposals/decouple-application-sync-user-using-impersonation.md",
@@ -28763,7 +28763,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             },
             {
               "path": "docs/proposals/source-verification-policies.md",
@@ -28782,7 +28782,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             }
           ]
         },
@@ -28831,7 +28831,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 50.301225317673854
+              "weighted_term_score": 50.35568087443227
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -28850,7 +28850,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 12.079845486618133
+              "weighted_term_score": 12.099647507257561
             },
             {
               "path": "docs/operator-manual/applicationset/Security.md",
@@ -28869,7 +28869,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 5.416954241596583
+              "weighted_term_score": 5.426855251916296
             }
           ]
         },
@@ -28919,7 +28919,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.8,
               "path_token_overlap": 0.8,
-              "weighted_term_score": 28.360237208523646
+              "weighted_term_score": 28.394890744642645
             },
             {
               "path": "docs/proposals/parameterized-config-management-plugins.md",
@@ -28938,7 +28938,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 29.870236044313643
+              "weighted_term_score": 29.909840085592496
             },
             {
               "path": "docs/operator-manual/config-management-plugins.md",
@@ -28957,7 +28957,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 15.631576434353468
+              "weighted_term_score": 15.651378454992894
             }
           ]
         },
@@ -29835,7 +29835,7 @@
       "top_3_hit_rate": 1,
       "mean_reciprocal_rank": 1,
       "zero_hit_rate": 0,
-      "median_candidate_file_count": 31.5,
+      "median_candidate_file_count": 31,
       "mean_target_term_coverage": 0.775,
       "median_top_1_bytes": 5023,
       "median_top_1_tokens_estimated": 1256,
@@ -29861,7 +29861,7 @@
               "airflow-core/docs/administration-and-deployment/production-deployment.rst"
             ]
           },
-          "candidate_file_count": 56,
+          "candidate_file_count": 55,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 1,
@@ -29885,7 +29885,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 23.41896201700453
+              "weighted_term_score": 23.573451594306057
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/index.rst",
@@ -29904,7 +29904,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 2.023811075585411
+              "weighted_term_score": 2.051210049773526
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/check-health.rst",
@@ -29923,7 +29923,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 19.393670941208995
+              "weighted_term_score": 19.54816051851052
             }
           ]
         },
@@ -30091,8 +30091,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 1,
               "total_term_hits": 10,
               "title_exact_heading": 0,
@@ -30110,10 +30110,10 @@
             },
             {
               "path": "chart/RELEASE_NOTES.rst",
-              "byte_count": 72480,
-              "tokens_estimated": 18120,
+              "byte_count": 77254,
+              "tokens_estimated": 19314,
               "matched_term_count": 1,
-              "total_term_hits": 1,
+              "total_term_hits": 2,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0.5,
@@ -30125,7 +30125,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 3.33214389523559
+              "weighted_term_score": 6.66428779047118
             }
           ]
         },
@@ -30178,8 +30178,8 @@
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 2,
               "total_term_hits": 4,
               "title_exact_heading": 0,
@@ -30237,7 +30237,7 @@
               "airflow-core/docs/administration-and-deployment/logging-monitoring/"
             ]
           },
-          "candidate_file_count": 28,
+          "candidate_file_count": 27,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 0.5,
@@ -30261,14 +30261,14 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 21.732318857172366
+              "weighted_term_score": 21.95464277363353
             },
             {
               "path": "RELEASE_NOTES.rst",
-              "byte_count": 367759,
-              "tokens_estimated": 91913,
+              "byte_count": 372812,
+              "tokens_estimated": 93176,
               "matched_term_count": 4,
-              "total_term_hits": 70,
+              "total_term_hits": 71,
               "title_exact_heading": 0,
               "title_token_overlap": 0,
               "basename_token_overlap": 0,
@@ -30280,7 +30280,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 33.35077895792718
+              "weighted_term_score": 33.57310287438835
             },
             {
               "path": "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-architecture.rst",
@@ -30299,7 +30299,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.605475076597948
+              "weighted_term_score": 20.827798993059112
             }
           ]
         },
@@ -30324,7 +30324,7 @@
               "docs/operator-manual/architecture.md"
             ]
           },
-          "candidate_file_count": 224,
+          "candidate_file_count": 226,
           "target_rank": 1,
           "reciprocal_rank": 1,
           "target_term_coverage": 0.75,
@@ -30348,7 +30348,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 15.628773104016116
+              "weighted_term_score": 15.617552923168807
             },
             {
               "path": "docs/operator-manual/metrics.md",
@@ -30367,7 +30367,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.6666666666666666,
               "path_token_overlap": 0.6666666666666666,
-              "weighted_term_score": 15.865973723099405
+              "weighted_term_score": 15.815052175877497
             },
             {
               "path": "docs/operator-manual/server-commands/argocd-application-controller.md",
@@ -30386,7 +30386,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.6666666666666666,
               "path_token_overlap": 0.6666666666666666,
-              "weighted_term_score": 15.865973723099405
+              "weighted_term_score": 15.815052175877497
             }
           ]
         },
@@ -30447,8 +30447,8 @@
           "top_candidates": [
             {
               "path": "docs/developer-guide/release-process-and-cadence.md",
-              "byte_count": 7246,
-              "tokens_estimated": 1811,
+              "byte_count": 7247,
+              "tokens_estimated": 1812,
               "matched_term_count": 2,
               "total_term_hits": 7,
               "title_exact_heading": 1,
@@ -30462,7 +30462,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 26.27454877432049
+              "weighted_term_score": 26.29930130011977
             },
             {
               "path": "docs/user-guide/tracking_strategies.md",
@@ -30481,7 +30481,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 20.943053246932543
+              "weighted_term_score": 20.967805772731822
             },
             {
               "path": "SECURITY.md",
@@ -30500,7 +30500,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.88357012459778
+              "weighted_term_score": 18.903372145237206
             }
           ]
         },
@@ -30577,7 +30577,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 32.85683209303082
+              "weighted_term_score": 32.89643613430967
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -30596,7 +30596,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 14.037455697649111
+              "weighted_term_score": 14.057257718288536
             },
             {
               "path": "SECURITY.md",
@@ -30615,7 +30615,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 11.334976541596358
+              "weighted_term_score": 11.354778562235783
             }
           ]
         },
@@ -30689,7 +30689,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 1,
               "path_token_overlap": 1,
-              "weighted_term_score": 11.800648546557147
+              "weighted_term_score": 11.81054955687686
             },
             {
               "path": "docs/proposals/decouple-application-sync-user-using-impersonation.md",
@@ -30708,7 +30708,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             },
             {
               "path": "docs/proposals/source-verification-policies.md",
@@ -30727,7 +30727,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0,
               "path_token_overlap": 0,
-              "weighted_term_score": 18.195674515883493
+              "weighted_term_score": 18.220427041682775
             }
           ]
         },
@@ -30776,7 +30776,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 50.301225317673854
+              "weighted_term_score": 50.35568087443227
             },
             {
               "path": "docs/operator-manual/security.md",
@@ -30795,7 +30795,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 12.079845486618133
+              "weighted_term_score": 12.099647507257561
             },
             {
               "path": "docs/operator-manual/applicationset/Security.md",
@@ -30814,7 +30814,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.5,
               "path_token_overlap": 0.5,
-              "weighted_term_score": 5.416954241596583
+              "weighted_term_score": 5.426855251916296
             }
           ]
         },
@@ -30864,7 +30864,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.8,
               "path_token_overlap": 0.8,
-              "weighted_term_score": 28.360237208523646
+              "weighted_term_score": 28.394890744642645
             },
             {
               "path": "docs/proposals/parameterized-config-management-plugins.md",
@@ -30883,7 +30883,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 29.870236044313643
+              "weighted_term_score": 29.909840085592496
             },
             {
               "path": "docs/operator-manual/config-management-plugins.md",
@@ -30902,7 +30902,7 @@
               "query_api_surface_signal": 0,
               "path_sequence_overlap": 0.4,
               "path_token_overlap": 0.4,
-              "weighted_term_score": 15.631576434353468
+              "weighted_term_score": 15.651378454992894
             }
           ]
         },
@@ -31954,7 +31954,7 @@
           "selected_section_heading": "Release Process And Cadence",
           "selected_section_bytes": 30,
           "selected_section_tokens_estimated": 8,
-          "context_reduction_vs_top_file": 0.9958597847088049,
+          "context_reduction_vs_top_file": 0.9958603560093832,
           "section_match": true,
           "target_section_rank_within_selected_file": 1
         },
@@ -32375,7 +32375,7 @@
           "selected_term_coverage": 0.5,
           "file_term_coverage": 0.5,
           "pack_term_recall_vs_top_file": 1,
-          "context_reduction_vs_top_file": 0.8571625724537676,
+          "context_reduction_vs_top_file": 0.8571822823237202,
           "pack_covers_file_evidence": true
         },
         {
@@ -32881,12 +32881,12 @@
             "RELEASE_NOTES.rst"
           ],
           "selected_file_count": 2,
-          "selected_bundle_bytes": 368920,
-          "selected_bundle_tokens_estimated": 92204,
+          "selected_bundle_bytes": 373973,
+          "selected_bundle_tokens_estimated": 93467,
           "top_file_term_coverage": 0.75,
           "bundle_term_coverage": 1,
           "bundle_term_gain_vs_top_file": 0.25,
-          "context_growth_vs_top_file": 316.7605512489233,
+          "context_growth_vs_top_file": 321.11283376399655,
           "covers_all_scenario_terms": true
         },
         {
@@ -32915,12 +32915,12 @@
             "RELEASE_NOTES.rst"
           ],
           "selected_file_count": 2,
-          "selected_bundle_bytes": 372775,
-          "selected_bundle_tokens_estimated": 93167,
+          "selected_bundle_bytes": 377828,
+          "selected_bundle_tokens_estimated": 94430,
           "top_file_term_coverage": 0.5,
           "bundle_term_coverage": 1,
           "bundle_term_gain_vs_top_file": 0.5,
-          "context_growth_vs_top_file": 73.31718500797449,
+          "context_growth_vs_top_file": 74.32456140350877,
           "covers_all_scenario_terms": true
         },
         {
@@ -33010,12 +33010,12 @@
             "docs/user-guide/tracking_strategies.md"
           ],
           "selected_file_count": 2,
-          "selected_bundle_bytes": 13150,
-          "selected_bundle_tokens_estimated": 3287,
+          "selected_bundle_bytes": 13151,
+          "selected_bundle_tokens_estimated": 3288,
           "top_file_term_coverage": 0.5,
           "bundle_term_coverage": 0.75,
           "bundle_term_gain_vs_top_file": 0.25,
-          "context_growth_vs_top_file": 0.814794369307204,
+          "context_growth_vs_top_file": 0.8146819373533876,
           "covers_all_scenario_terms": false
         },
         {
@@ -33599,8 +33599,8 @@
       "mean_bundle_term_gain_vs_top_file": 0.1375,
       "zero_selected_bundle_rate": 0,
       "median_selected_bundle_file_count": 1,
-      "median_selected_bundle_bytes": 12112.5,
-      "median_selected_bundle_tokens_estimated": 3028.5,
+      "median_selected_bundle_bytes": 12113,
+      "median_selected_bundle_tokens_estimated": 3029,
       "median_context_growth_vs_top_file": 0,
       "scenario_results": [
         {
@@ -33885,12 +33885,12 @@
             "SECURITY.md"
           ],
           "selected_file_count": 2,
-          "selected_bundle_bytes": 11896,
-          "selected_bundle_tokens_estimated": 2974,
+          "selected_bundle_bytes": 11897,
+          "selected_bundle_tokens_estimated": 2975,
           "top_file_term_coverage": 0.5,
           "bundle_term_coverage": 0.75,
           "bundle_term_gain_vs_top_file": 0.25,
-          "context_growth_vs_top_file": 0.641733370135247,
+          "context_growth_vs_top_file": 0.6416448185456052,
           "covers_all_scenario_terms": false
         },
         {
@@ -34468,7 +34468,7 @@
     "scenario_cost_aware_bundle_delta_vs_rank": {
       "full_scenario_term_coverage_rate_delta": 0,
       "mean_bundle_term_coverage_delta": 0,
-      "median_selected_bundle_bytes_delta": -683.5,
+      "median_selected_bundle_bytes_delta": -683,
       "median_context_growth_vs_top_file_delta": 0,
       "improved_coverage_count": 0,
       "worsened_coverage_count": 0,
@@ -36228,7 +36228,7 @@
           "bundle_claim_support_coverage": 1,
           "claim_support_coverage": 1,
           "pack_claim_support_recall_vs_bundle": 1,
-          "context_reduction_vs_bundle": 0.9340954942837929,
+          "context_reduction_vs_bundle": 0.9341010338740859,
           "pack_covers_bundle_claim_support": true,
           "covers_all_claim_support": true,
           "exact_gap_recovered": true
@@ -40905,8 +40905,8 @@
           "authority_reachable_gain_vs_scoped_pack": 0,
           "authority_gap_explained_by_reachability": false,
           "authority_scope_missing_answer_support": false,
-          "authority_reachable_file_count": 10,
-          "authority_reachable_section_count": 50,
+          "authority_reachable_file_count": 9,
+          "authority_reachable_section_count": 47,
           "authority_reachable_only_answer_check_ids": [],
           "answer_check_authority_reachability_results": [
             {
@@ -40917,7 +40917,6 @@
               "authority_reachable_supporting_file_paths": [
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/index.rst",
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-architecture.rst",
-                "airflow-core/docs/administration-and-deployment/logging-monitoring/metric_tables.rst",
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/metrics.rst"
               ]
             },
@@ -42208,10 +42207,10 @@
           "selected_file_count": 3,
           "selected_pack_bytes": 3407,
           "selected_pack_tokens_estimated": 854,
-          "authority_scope_file_count": 10,
-          "authority_scope_section_count": 50,
-          "authority_scope_bytes": 74263,
-          "context_reduction_vs_authority_scope": 0.9541225105368757,
+          "authority_scope_file_count": 9,
+          "authority_scope_section_count": 47,
+          "authority_scope_bytes": 54710,
+          "context_reduction_vs_authority_scope": 0.937726192652166,
           "authority_pack_only_answer_check_ids": [],
           "authority_pack_missed_reachable_answer_check_ids": [],
           "answer_check_authority_pack_results": [
@@ -42376,8 +42375,8 @@
           "selected_pack_tokens_estimated": 224,
           "authority_scope_file_count": 1,
           "authority_scope_section_count": 10,
-          "authority_scope_bytes": 7246,
-          "context_reduction_vs_authority_scope": 0.8774496273806238,
+          "authority_scope_bytes": 7247,
+          "context_reduction_vs_authority_scope": 0.8774665378777425,
           "authority_pack_only_answer_check_ids": [
             "minor-release",
             "patch-release"
@@ -43497,8 +43496,8 @@
           "local_family_gain_vs_authority_scope": 0,
           "authority_gap_explained_by_local_family": false,
           "local_family_missing_answer_support": false,
-          "local_family_file_count": 25,
-          "local_family_section_count": 167,
+          "local_family_file_count": 24,
+          "local_family_section_count": 164,
           "local_family_only_answer_check_ids": [],
           "answer_check_local_family_results": [
             {
@@ -43525,7 +43524,6 @@
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/check-health.rst",
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-architecture.rst",
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/logging-tasks.rst",
-                "airflow-core/docs/administration-and-deployment/logging-monitoring/metric_tables.rst",
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/metrics.rst",
                 "airflow-core/docs/administration-and-deployment/modules_management.rst",
                 "airflow-core/docs/administration-and-deployment/plugins.rst",
@@ -43561,7 +43559,6 @@
                 "airflow-core/docs/administration-and-deployment/dagfile-processing.rst",
                 "airflow-core/docs/administration-and-deployment/listeners.rst",
                 "airflow-core/docs/administration-and-deployment/logging-monitoring/check-health.rst",
-                "airflow-core/docs/administration-and-deployment/logging-monitoring/metric_tables.rst",
                 "airflow-core/docs/administration-and-deployment/plugins.rst",
                 "airflow-core/docs/administration-and-deployment/priority-weight.rst",
                 "airflow-core/docs/administration-and-deployment/production-deployment.rst",
@@ -43676,8 +43673,8 @@
           "local_family_gain_vs_authority_scope": 0,
           "authority_gap_explained_by_local_family": false,
           "local_family_missing_answer_support": false,
-          "local_family_file_count": 96,
-          "local_family_section_count": 688,
+          "local_family_file_count": 95,
+          "local_family_section_count": 685,
           "local_family_only_answer_check_ids": [],
           "answer_check_local_family_results": [
             {
@@ -43743,7 +43740,7 @@
           "authority_gap_explained_by_local_family": true,
           "local_family_missing_answer_support": false,
           "local_family_file_count": 102,
-          "local_family_section_count": 1339,
+          "local_family_section_count": 1357,
           "local_family_only_answer_check_ids": [
             "decision"
           ],
@@ -43862,7 +43859,7 @@
           "authority_gap_explained_by_local_family": true,
           "local_family_missing_answer_support": false,
           "local_family_file_count": 152,
-          "local_family_section_count": 1302,
+          "local_family_section_count": 1312,
           "local_family_only_answer_check_ids": [
             "repo server",
             "application controller"
@@ -44098,8 +44095,8 @@
           "local_family_gain_vs_authority_scope": 0.5,
           "authority_gap_explained_by_local_family": true,
           "local_family_missing_answer_support": false,
-          "local_family_file_count": 399,
-          "local_family_section_count": 3427,
+          "local_family_file_count": 401,
+          "local_family_section_count": 3457,
           "local_family_only_answer_check_ids": [
             "goals",
             "future-direction"
@@ -44215,8 +44212,8 @@
           "local_family_gain_vs_authority_scope": 0,
           "authority_gap_explained_by_local_family": false,
           "local_family_missing_answer_support": false,
-          "local_family_file_count": 402,
-          "local_family_section_count": 3437,
+          "local_family_file_count": 404,
+          "local_family_section_count": 3467,
           "local_family_only_answer_check_ids": [],
           "answer_check_local_family_results": [
             {
@@ -45049,10 +45046,10 @@
           "selected_file_count": 3,
           "selected_pack_bytes": 941,
           "selected_pack_tokens_estimated": 237,
-          "local_family_scope_file_count": 25,
-          "local_family_scope_section_count": 167,
-          "local_family_scope_bytes": 217441,
-          "context_reduction_vs_local_family_scope": 0.9956723892918079,
+          "local_family_scope_file_count": 24,
+          "local_family_scope_section_count": 164,
+          "local_family_scope_bytes": 198315,
+          "context_reduction_vs_local_family_scope": 0.9952550235736076,
           "local_family_pack_only_answer_check_ids": [],
           "local_family_pack_missed_supported_answer_check_ids": [],
           "answer_check_local_family_pack_results": [
@@ -45207,10 +45204,10 @@
           "selected_file_count": 2,
           "selected_pack_bytes": 4599,
           "selected_pack_tokens_estimated": 1150,
-          "local_family_scope_file_count": 96,
-          "local_family_scope_section_count": 688,
-          "local_family_scope_bytes": 864310,
-          "context_reduction_vs_local_family_scope": 0.9946789924911201,
+          "local_family_scope_file_count": 95,
+          "local_family_scope_section_count": 685,
+          "local_family_scope_bytes": 845435,
+          "context_reduction_vs_local_family_scope": 0.9945601968217544,
           "local_family_pack_only_answer_check_ids": [],
           "local_family_pack_missed_supported_answer_check_ids": [],
           "answer_check_local_family_pack_results": [
@@ -45287,9 +45284,9 @@
           "selected_pack_bytes": 1526,
           "selected_pack_tokens_estimated": 383,
           "local_family_scope_file_count": 102,
-          "local_family_scope_section_count": 1339,
-          "local_family_scope_bytes": 1313205,
-          "context_reduction_vs_local_family_scope": 0.9988379575161532,
+          "local_family_scope_section_count": 1357,
+          "local_family_scope_bytes": 1307382,
+          "context_reduction_vs_local_family_scope": 0.9988327818495283,
           "local_family_pack_only_answer_check_ids": [
             "decision"
           ],
@@ -45437,9 +45434,9 @@
           "selected_pack_bytes": 613,
           "selected_pack_tokens_estimated": 154,
           "local_family_scope_file_count": 152,
-          "local_family_scope_section_count": 1302,
-          "local_family_scope_bytes": 1056169,
-          "context_reduction_vs_local_family_scope": 0.9994196004616686,
+          "local_family_scope_section_count": 1312,
+          "local_family_scope_bytes": 1061616,
+          "context_reduction_vs_local_family_scope": 0.9994225784087655,
           "local_family_pack_only_answer_check_ids": [
             "repo server",
             "application controller"
@@ -45524,8 +45521,8 @@
           "selected_pack_tokens_estimated": 379,
           "local_family_scope_file_count": 6,
           "local_family_scope_section_count": 52,
-          "local_family_scope_bytes": 29308,
-          "context_reduction_vs_local_family_scope": 0.9485805923297393,
+          "local_family_scope_bytes": 29309,
+          "context_reduction_vs_local_family_scope": 0.9485823467194378,
           "local_family_pack_only_answer_check_ids": [
             "minor-release",
             "patch-release",
@@ -45609,8 +45606,8 @@
           "selected_pack_tokens_estimated": 554,
           "local_family_scope_file_count": 6,
           "local_family_scope_section_count": 52,
-          "local_family_scope_bytes": 29308,
-          "context_reduction_vs_local_family_scope": 0.9245939675174014,
+          "local_family_scope_bytes": 29309,
+          "context_reduction_vs_local_family_scope": 0.9245965403118496,
           "local_family_pack_only_answer_check_ids": [],
           "local_family_pack_missed_supported_answer_check_ids": [],
           "answer_check_local_family_pack_results": [
@@ -45691,10 +45688,10 @@
           "selected_file_count": 4,
           "selected_pack_bytes": 408,
           "selected_pack_tokens_estimated": 104,
-          "local_family_scope_file_count": 399,
-          "local_family_scope_section_count": 3427,
-          "local_family_scope_bytes": 2619060,
-          "context_reduction_vs_local_family_scope": 0.9998442189182378,
+          "local_family_scope_file_count": 401,
+          "local_family_scope_section_count": 3457,
+          "local_family_scope_bytes": 2643443,
+          "context_reduction_vs_local_family_scope": 0.9998456558359685,
           "local_family_pack_only_answer_check_ids": [
             "goals",
             "future-direction"
@@ -45776,10 +45773,10 @@
           "selected_file_count": 3,
           "selected_pack_bytes": 997,
           "selected_pack_tokens_estimated": 250,
-          "local_family_scope_file_count": 402,
-          "local_family_scope_section_count": 3437,
-          "local_family_scope_bytes": 2629957,
-          "context_reduction_vs_local_family_scope": 0.9996209063494194,
+          "local_family_scope_file_count": 404,
+          "local_family_scope_section_count": 3467,
+          "local_family_scope_bytes": 2654340,
+          "context_reduction_vs_local_family_scope": 0.9996243887369365,
           "local_family_pack_only_answer_check_ids": [],
           "local_family_pack_missed_supported_answer_check_ids": [],
           "answer_check_local_family_pack_results": [
@@ -46955,16 +46952,16 @@
           "label": "Apache Airflow",
           "license": "Apache-2.0",
           "scenario_count": 5,
-          "source_file_count": 104,
-          "source_byte_count": 1327467
+          "source_file_count": 105,
+          "source_byte_count": 1321662
         },
         {
           "id": "argo-cd",
           "label": "Argo CD",
           "license": "Apache-2.0",
           "scenario_count": 6,
-          "source_file_count": 426,
-          "source_byte_count": 6411630
+          "source_file_count": 428,
+          "source_byte_count": 6436280
         },
         {
           "id": "jupyterhub",

@@ -1190,7 +1190,7 @@ This repository uses \`benchmarks/aods-eval-lab\` as its primary regression harn
 - Compression ratio (human/AODS): **${formatRatio(fidelity.compression_ratio_human_to_aods)}**
 - Token reduction vs human docs: **${formatPercent(fidelity.token_reduction_vs_human)}**
 - Median per-artifact compression ratio: **${formatRatio(fidelity.median_artifact_compression_ratio)}**
-- Interpretation: **exact size and estimated token views agree on the same result: local artifact compression exists, but full-corpus governance overhead makes the generated AODS corpus larger than the paired human docs in this benchmark. This is a repository-scale measurement, not a direct reading of task-time context pressure.**
+- Interpretation: **exact size and estimated token views agree on the same overall result: local artifact compression exists, while full-corpus governance overhead keeps the repository-scale outcome near parity with the paired human docs in this benchmark. This is a repository-scale measurement, not a direct reading of task-time context pressure.**
 
 ### 3. Objective touch-route loading gate and working-set context footprint
 
@@ -1573,7 +1573,7 @@ ${openSourceRouting.scenario_results
             (item) => item.id === scenario.id
           );
           if (!authorityScenario?.authority_scope_declared) {
-            return "n/a";
+            return "not scoped";
           }
           return `${formatPercent(authorityScenario.authority_scoped_answer_check_coverage ?? 0)}${
             authorityScenario.requires_out_of_scope_evidence ? " +out-of-scope" : ""
@@ -1583,7 +1583,7 @@ ${openSourceRouting.scenario_results
             (item) => item.id === scenario.id
           );
           if (!reachabilityScenario?.authority_scope_declared) {
-            return "n/a";
+            return "not scoped";
           }
           return `${formatPercent(reachabilityScenario.authority_reachable_answer_check_coverage ?? 0)}${
             reachabilityScenario.authority_gap_explained_by_reachability ? " +pack-miss" : ""
@@ -1593,7 +1593,7 @@ ${openSourceRouting.scenario_results
             (item) => item.id === scenario.id
           );
           if (!authorityPackScenario?.authority_scope_declared) {
-            return "n/a";
+            return "not scoped";
           }
           return `${formatPercent(authorityPackScenario.authority_pack_answer_check_coverage ?? 0)} / ${formatPercent(
             authorityPackScenario.authority_pack_recall_vs_reachable ?? 0
@@ -1603,7 +1603,7 @@ ${openSourceRouting.scenario_results
             (item) => item.id === scenario.id
           );
           if (!localFamilyScenario?.strict_target_file_authority_scope) {
-            return "n/a";
+            return "not strict-file scoped";
           }
           return `${formatPercent(localFamilyScenario.local_family_answer_check_coverage ?? 0)}${
             localFamilyScenario.authority_gap_explained_by_local_family ? " +family-scope" : ""
@@ -1614,7 +1614,7 @@ ${openSourceRouting.scenario_results
               (item) => item.id === scenario.id
             );
           if (!localFamilyPackScenario?.strict_target_file_authority_scope) {
-            return "n/a";
+            return "not strict-file scoped";
           }
           return `${formatPercent(
             localFamilyPackScenario.local_family_pack_answer_check_coverage ?? 0

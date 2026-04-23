@@ -16,8 +16,8 @@ These scenario seeds are curated for **grep-first / lexical-addressable** benchm
 
 | Corpus | License | Seeds | Source files | Source bytes | Why this corpus stays in the pack |
 | --- | --- | ---: | ---: | ---: | --- |
-| Apache Airflow | Apache-2.0 | 5 | 104 | 1327467 | Balanced lifecycle corpus with architecture, deployment, security, release, and governance slices. |
-| Argo CD | Apache-2.0 | 6 | 426 | 6411630 | Strong mix of ops, developer, release, roadmap, and proposal material for dual-surface governance tests. |
+| Apache Airflow | Apache-2.0 | 5 | 105 | 1321662 | Balanced lifecycle corpus with architecture, deployment, security, release, and governance slices. |
+| Argo CD | Apache-2.0 | 6 | 428 | 6436280 | Strong mix of ops, developer, release, roadmap, and proposal material for dual-surface governance tests. |
 | JupyterHub | BSD-3-Clause | 9 | 66 | 746026 | Clean explanation/how-to/reference/tutorial split with release and security material for task-routing benchmarks. |
 
 ## Apache Airflow
@@ -35,7 +35,7 @@ These scenario seeds are curated for **grep-first / lexical-addressable** benchm
 | Seed | Class | Lifecycle phases | Benchmark roles | File | Bytes |
 | --- | --- | --- | --- | --- | ---: |
 | Operator manual architecture | ops-architecture | design, operate | architect, operator | `docs/operator-manual/architecture.md` | 1397 |
-| Release process and cadence | release-governance | planning, release, governance | release-manager, maintainer | `docs/developer-guide/release-process-and-cadence.md` | 7246 |
+| Release process and cadence | release-governance | planning, release, governance | release-manager, maintainer | `docs/developer-guide/release-process-and-cadence.md` | 7247 |
 | Releasing | release-operations | release, operate | release-manager, operator | `docs/developer-guide/releasing.md` | 5748 |
 | Roadmap | roadmap-governance | vision, planning, governance | product-manager, maintainer | `docs/roadmap.md` | 245 |
 | Security policy | security-governance | build, operate, governance | security-lead, maintainer | `SECURITY.md` | 4650 |

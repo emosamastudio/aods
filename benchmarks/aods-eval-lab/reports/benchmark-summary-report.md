@@ -2,8 +2,8 @@
 
 ## Run window
 
-- Current evaluation: **2026-04-23T07:00:03.896Z**
-- Previous evaluation: **2026-04-23T04:09:11.153Z**
+- Current evaluation: **2026-04-23T07:47:30.014Z**
+- Previous evaluation: **2026-04-23T07:33:40.242Z**
 
 ## Metric delta table
 

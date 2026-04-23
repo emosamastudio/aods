@@ -1,10 +1,10 @@
 # AODS benchmark executive summary
 
-## Release recommendation
+## Current maintainer assessment
 
 - Recommendation: **Current benchmark result supports publishing the next version**
 - Assessed version: **0.6.0**
-- Executive summary generated at: **2026-04-23T07:00:04.344Z**
+- Executive summary generated at: **2026-04-23T07:47:30.408Z**
 
 ## Decision card
 
@@ -16,7 +16,7 @@
 | Drift and release-surface trust | **Pass** | 100.0% built-in drift recall, 100.0% release-surface reality recall |
 | External routing realism | **Supplemental signal** | 100.0% API-surface rerank top-1 hit rate |
 
-## Management reading
+## Maintainer reading
 
 1. On the current benchmark pack, AODS passes the current checks for representability, information preservation, task-time context control, and anti-drift / trust controls.
 1. The practical win comes from governed routing and validation rather than from shrinking the full repository corpus.

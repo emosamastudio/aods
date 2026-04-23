@@ -13,7 +13,7 @@ The Slack notification service configuration includes following settings:
 | `icon`               | False        | `string`       | The app icon.   | `:robot_face:` or `https://example.com/image.png` |
 | `insecureSkipVerify` | False        | `bool`         |                 | `true` |
 | `signingSecret`       | False        | `string`       |                 | `8f742231b10e8888abcd99yyyzzz85a5` |
-| `token`              | **True**     | `string`       | The app's OAuth access token. | `xoxb-REDACTED-TOKEN` |
+| `token`              | **True**     | `string`       | The app's OAuth access token. | `<REDACTED-SLACK-TOKEN>` |
 | `username`           | False        | `string`       | The app username. | `argocd` |
 | `disableUnfurl`      | False        | `bool`         | Disable slack unfurling links in messages | `true` |
 | `maxIdleConns`        | False        | `int`          | Maximum number of idle (keep-alive) connections across all hosts.                               | —                      |

@@ -231,6 +231,14 @@ function renderComparisonReport(results) {
   const strongestGovernance = [...results.baselines].sort(
     (left, right) => right.governance.native_drift_recall - left.governance.native_drift_recall
   )[0];
+  const smallestCorpusClause =
+    smallestCorpus.id === "aods"
+      ? "AODS is currently the smallest corpus by exact bytes"
+      : `${smallestCorpus.label} is the smallest corpus by exact bytes`;
+  const bestPrecisionClause =
+    bestPrecision.id === "aods"
+      ? "AODS also has the highest objective loading precision"
+      : `${bestPrecision.label} has the highest objective loading precision`;
   const objectiveRows = results.baselines
     .map(
       (baseline) =>
@@ -369,10 +377,10 @@ function renderComparisonReport(results) {
   )}** objective touch-route hit rate, objective median rendered prompt envelope **${aodsBaseline.loading.objective_touch.median_prompt_envelope_bytes} bytes**${runtimeCaptureObjective ? `, supplemental AODS objective median runtime request **${Math.round(runtimeCaptureObjective.median_request_body_bytes)} bytes** across ${runtimeCapture.summary.scenario_count} scenarios, **${localRuntimeProfiles.length}** local CLI runtime profiles${hostedRuntimeProfiles.length ? `, and **${hostedRuntimeProfiles.length}** optional hosted relay-backed profile${hostedRuntimeProfiles.length === 1 ? "" : "s"}` : ""}` : ""}, **${formatPercent(openSourceRouting.top_1_hit_rate)}** real-corpus top-1 routing hit rate, **${formatPercent(openSourceRouting.seed_title_rerank.top_1_hit_rate)}** title-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.structure_aware_rerank.top_1_hit_rate)}** structure-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.path_family_rerank.top_1_hit_rate)}** path-family-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.api_surface_rerank.top_1_hit_rate)}** API-surface-reranked top-1 routing hit rate, **${formatPercent(openSourceRouting.section_evidence_pack.full_file_evidence_retention_rate)}** section-evidence full-file retention, **${formatPercent(openSourceRouting.scenario_evidence_bundle.full_scenario_term_coverage_rate)}** scenario-evidence full coverage, **${formatPercent(openSourceRouting.scenario_cost_aware_bundle.full_scenario_term_coverage_rate)}** cost-aware scenario coverage, **${formatPercent(openSourceRouting.scenario_term_reachability.full_reachable_term_coverage_rate)}** reachable scenario coverage, **${formatPercent(openSourceRouting.scenario_claim_support.full_claim_support_rate)}** claim-support coverage, **${formatPercent(openSourceRouting.scenario_claim_support.exact_gap_recovered_rate)}** exact-gap recovered, **${formatPercent(openSourceRouting.scenario_claim_support_pack.full_bundle_claim_support_preservation_rate)}** claim-support-pack preservation, **${formatPercent(openSourceRouting.scenario_answer_check.full_answer_check_rate)}** answer-check coverage, **${formatPercent(openSourceRouting.scenario_answer_check.claim_gap_recovered_rate)}** answer-check claim-gap recovered, **${formatPercent(openSourceRouting.scenario_answer_locality.full_target_local_answer_check_rate)}** target-local answer-check coverage, **${formatPercent(openSourceRouting.scenario_answer_locality.cross_file_answer_recovery_rate)}** cross-file answer recovery, **${formatPercent(openSourceRouting.scenario_answer_authority.full_authority_scoped_answer_check_rate)}** authority-scoped answer-check coverage across **${openSourceRouting.scenario_answer_authority.scoped_scenario_count}** scoped scenarios, **${formatPercent(openSourceRouting.scenario_answer_authority.out_of_scope_answer_recovery_rate)}** out-of-scope answer recovery, **${formatPercent(openSourceRouting.scenario_answer_authority_reachability.mean_authority_reachable_answer_check_coverage)}** authority-reachable mean coverage, **${formatPercent(openSourceRouting.scenario_answer_authority_reachability.mean_authority_reachable_gain_vs_scoped_pack)}** reachability gain vs scoped pack, **${formatPercent(openSourceRouting.scenario_answer_authority_reachability.scenarios_with_missing_authority_answer_support_rate)}** authority-local missing-support rate, **${formatPercent(openSourceRouting.scenario_answer_authority_pack.full_authority_reachable_answer_preservation_rate)}** authority-aware reachable-support preservation, **${formatPercent(openSourceRouting.scenario_answer_authority_pack.mean_authority_pack_gain_vs_scoped_pack)}** authority-aware gain vs scoped pack, median authority-aware pack **${Math.round(openSourceRouting.scenario_answer_authority_pack.median_selected_pack_bytes)} bytes**, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family.full_local_family_answer_check_rate)}** local-family full coverage across **${openSourceRouting.scenario_answer_authority_local_family.strict_file_scope_scenario_count}** strict-file scopes, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family.mean_local_family_gain_vs_authority_scope)}** local-family gain vs exact scope, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family_pack.full_local_family_support_preservation_rate)}** local-family support preservation, **${formatPercent(openSourceRouting.scenario_answer_authority_local_family_pack.mean_local_family_pack_gain_vs_authority_scope)}** local-family pack gain vs exact scope, median local-family pack **${Math.round(openSourceRouting.scenario_answer_authority_local_family_pack.median_selected_pack_bytes)} bytes**, **${formatPercent(openSourceRouting.scenario_term_reachability.scenarios_with_unreachable_terms_rate)}** scenarios with unreachable terms, **${formatPercent(aodsBaseline.release_surface.combined_recall)}** release-surface trust recall, **${formatPercent(aodsBaseline.behavior_drift.route_behavior_recall)}** route-behavior drift recall with **${formatPercent(aodsBaseline.behavior_drift.built_in_recall)}** built-in route-behavior recall, and **${formatPercent(aodsBaseline.drift.combined_recall)}** combined drift recall
 - **External comparison headline:** AODS is the only baseline in round one with **${formatPercent(
     strongestGovernance.governance.native_drift_recall
-  )}** native drift recall, while **${smallestCorpus.label}** is the smallest corpus by exact bytes and **${bestPrecision.label}** has the highest objective loading precision
+  )}** native drift recall; **${smallestCorpusClause}**; **${bestPrecisionClause}**
 - ${externalSampleSummary.slice(2)}
 
-**Round-one verdict:** AODS now has a defensible result on this benchmark. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That makes it a credible option for agent-heavy, drift-sensitive programs in the current benchmark, while its corpus cost still needs optimization before it can compete with lower-friction defaults more broadly.
+**Round-one verdict:** AODS now has a defensible result on this benchmark. Its corpus-size advantage in this round is marginal rather than decisive, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That makes it a credible option for agent-heavy, drift-sensitive programs in the current benchmark, while its corpus cost still needs optimization before it can compete with lower-friction defaults more broadly.
 
 ## Evaluation scope
 
@@ -462,7 +470,10 @@ ${runtimeCaptureRow}
 | Baseline | Objective scenarios | Median rendered prompt | Median exact request body | Median added runtime bytes | Median request/prompt ratio |
 | --- | ---: | ---: | ---: | ---: | ---: |
 ${runtimeBaselineRows}
-| Overhead | ${aodsBaseline.overhead.bookkeeping_entries} bookkeeping entries, ${formatRatio(aodsBaseline.overhead.bookkeeping_entries_per_artifact)} per artifact, ${aodsBaseline.overhead.touch_route_count} touch routes, ${aodsBaseline.overhead.role_count} roles |
+ 
+Benchmark overhead reference: ${aodsBaseline.overhead.bookkeeping_entries} bookkeeping entries, ${formatRatio(
+    aodsBaseline.overhead.bookkeeping_entries_per_artifact
+  )} per artifact, ${aodsBaseline.overhead.touch_route_count} touch routes, ${aodsBaseline.overhead.role_count} roles.
 
 **Internal reading:** On this corpus, AODS shows lifecycle completeness and information preservation. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, first-request runtime cost, objective full-run lifecycle cost, and representative request-loop detail as separate measurements, and it now also exposes a first route-behavior drift split: deterministic under-read / over-read mutations are fully measurable and are now directly caught by paired-route consistency checks in the built-in validator layer.
 
@@ -541,7 +552,7 @@ ${governanceRows}
 - **Markdown + YAML** pressures AODS on simplicity and practical docs-as-code ergonomics.
 - **llms.txt** pressures AODS on minimal AI-facing overhead.
 - **DITA** pressures AODS on modular structured documentation lineage and reusable topic architecture.
-- All three baselines show that AODS does **not** yet win on corpus size by exact bytes, which keeps the compression claim unproven at repository scale.
+- The current baseline table shows that AODS's corpus-size edge is marginal, which keeps compression from being the main adoption case at repository scale.
 
 ### Current judgment
 

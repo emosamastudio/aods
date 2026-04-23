@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-04-23T07:00:04.343Z",
+  "generated_at": "2026-04-23T07:47:30.407Z",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "current_run": {
-    "evaluation_generated_at": "2026-04-23T07:00:03.896Z",
-    "comparison_generated_at": "2026-04-23T07:00:03.907Z"
+    "evaluation_generated_at": "2026-04-23T07:47:30.014Z",
+    "comparison_generated_at": "2026-04-23T07:47:30.026Z"
   },
   "previous_run": {
-    "evaluation_generated_at": "2026-04-23T04:09:11.153Z",
-    "comparison_generated_at": "2026-04-23T04:09:11.165Z"
+    "evaluation_generated_at": "2026-04-23T07:33:40.242Z",
+    "comparison_generated_at": "2026-04-23T07:33:40.253Z"
   },
   "metrics": [
     {
@@ -463,8 +463,8 @@
       "category": "supplemental",
       "label": "Open-source cost-aware scenario-evidence median bytes",
       "direction": "lower",
-      "current_value": 12112.5,
-      "previous_value": 12112.5,
+      "current_value": 12113,
+      "previous_value": 12113,
       "current_display": "12113 bytes",
       "previous_display": "12113 bytes",
       "delta_value": 0,

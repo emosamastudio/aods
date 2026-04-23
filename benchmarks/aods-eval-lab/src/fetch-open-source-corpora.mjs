@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
-import { PROJECT_ROOT, ensureDir, measureFiles, readJson, writeJson, writeText } from "./helpers.mjs";
+import { PROJECT_ROOT, REPO_ROOT, ensureDir, measureFiles, readJson, writeJson, writeText } from "./helpers.mjs";
 
 const MANIFEST_PATH = path.join(PROJECT_ROOT, "fixtures", "open-source", "corpora.json");
 const DEFAULT_OUTPUT_ROOT = path.join(PROJECT_ROOT, "generated", "open-source-corpora");
@@ -206,12 +206,13 @@ function renderReport(report) {
         `| ${corpus.label} | ${corpus.license} | ${corpus.file_count} | ${corpus.byte_count} | ${corpus.sanitized_match_count ?? 0} | ${corpus.pressure} |`
     )
     .join("\n");
+  const publicOutputRoot = formatPublicOutputRoot(report.output_root);
 
   return `# Open-source corpora fetch report
 
 ## Summary
 
-- Output root: \`${report.output_root}\`
+- Output root: \`${publicOutputRoot}\`
 - Selected corpora: **${report.corpora.length}**
 
 ## Corpus table
@@ -220,6 +221,14 @@ function renderReport(report) {
 | --- | --- | ---: | ---: | ---: | --- |
 ${rows}
 `;
+}
+
+function formatPublicOutputRoot(outputRoot) {
+  const relativeRoot = path.relative(REPO_ROOT, outputRoot);
+  if (!relativeRoot.startsWith("..") && !path.isAbsolute(relativeRoot)) {
+    return relativeRoot.replaceAll(path.sep, "/");
+  }
+  return "(custom local output directory)";
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

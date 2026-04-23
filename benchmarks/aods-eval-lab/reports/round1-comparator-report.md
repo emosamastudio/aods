@@ -4,10 +4,10 @@
 
 - **Dataset:** AODS Benchmark Pack benchmark corpus with **11** modules, **8** human surfaces, **36** lifecycle items, **9** shared loading queries, and **9** drift scenarios
 - **Internal AODS result:** full lifecycle coverage, full fact preservation, **0.3% smaller than the human-doc baseline** by exact bytes, **100.0%** objective touch-route hit rate, objective median rendered prompt envelope **12372 bytes**, supplemental AODS objective median runtime request **25975 bytes** across 9 scenarios, **2** local CLI runtime profiles, and **1** optional hosted relay-backed profile, **40.0%** real-corpus top-1 routing hit rate, **70.0%** title-reranked top-1 routing hit rate, **80.0%** structure-reranked top-1 routing hit rate, **85.0%** path-family-reranked top-1 routing hit rate, **100.0%** API-surface-reranked top-1 routing hit rate, **100.0%** section-evidence full-file retention, **65.0%** scenario-evidence full coverage, **65.0%** cost-aware scenario coverage, **100.0%** reachable scenario coverage, **85.0%** claim-support coverage, **20.0%** exact-gap recovered, **100.0%** claim-support-pack preservation, **100.0%** answer-check coverage, **15.0%** answer-check claim-gap recovered, **55.0%** target-local answer-check coverage, **45.0%** cross-file answer recovery, **65.0%** authority-scoped answer-check coverage across **20** scoped scenarios, **35.0%** out-of-scope answer recovery, **90.0%** authority-reachable mean coverage, **7.5%** reachability gain vs scoped pack, **35.0%** authority-local missing-support rate, **100.0%** authority-aware reachable-support preservation, **7.5%** authority-aware gain vs scoped pack, median authority-aware pack **1120 bytes**, **100.0%** local-family full coverage across **18** strict-file scopes, **19.4%** local-family gain vs exact scope, **100.0%** local-family support preservation, **19.4%** local-family pack gain vs exact scope, median local-family pack **969 bytes**, **35.0%** scenarios with unreachable terms, **100.0%** release-surface trust recall, **100.0%** route-behavior drift recall with **100.0%** built-in route-behavior recall, and **100.0%** combined drift recall
-- **External comparison headline:** AODS is the only baseline in round one with **100.0%** native drift recall, while **AODS** is the smallest corpus by exact bytes and **AODS** has the highest objective loading precision
+- **External comparison headline:** AODS is the only baseline in round one with **100.0%** native drift recall; **AODS is currently the smallest corpus by exact bytes**; **AODS also has the highest objective loading precision**
 - **External field sample:** 3 open-source corpora, 20 grep-first scenario seeds, formats rst=4, markdown=16
 
-**Round-one verdict:** AODS now has a defensible result on this benchmark. It is not the lightest representation by exact corpus size, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That makes it a credible option for agent-heavy, drift-sensitive programs in the current benchmark, while its corpus cost still needs optimization before it can compete with lower-friction defaults more broadly.
+**Round-one verdict:** AODS now has a defensible result on this benchmark. Its corpus-size advantage in this round is marginal rather than decisive, but it is the only round-one profile that combines strong objective loading with native authority and governance controls. That makes it a credible option for agent-heavy, drift-sensitive programs in the current benchmark, while its corpus cost still needs optimization before it can compete with lower-friction defaults more broadly.
 
 ## Evaluation scope
 
@@ -102,7 +102,8 @@ AODS-native governance signals remain separate because the other archetypes do n
 | Markdown + YAML | 5 | 5844 | 18865 | 13094 | 3.20x |
 | llms.txt | 5 | 7178 | 20172 | 13064 | 2.79x |
 | DITA topic corpus | 5 | 1320 | 13981 | 12661 | 10.59x |
-| Overhead | 45 bookkeeping entries, 1.25 per artifact, 21 touch routes, 5 roles |
+ 
+Benchmark overhead reference: 45 bookkeeping entries, 1.25 per artifact, 21 touch routes, 5 roles.
 
 **Internal reading:** On this corpus, AODS shows lifecycle completeness and information preservation. The weak spot is not representational coverage; it is corpus weight. Diversity is materially better than before because the benchmark now has an external field-sample supplement, but the fair common scoreboard is still narrower than a true field matrix. The benchmark now treats repository-scale corpus bytes, loaded payload bytes, rendered prompt-envelope bytes, first-request runtime cost, objective full-run lifecycle cost, and representative request-loop detail as separate measurements, and it now also exposes a first route-behavior drift split: deterministic under-read / over-read mutations are fully measurable and are now directly caught by paired-route consistency checks in the built-in validator layer.
 
@@ -210,7 +211,7 @@ These are **not** fair common metrics. They are shown separately because only AO
 - **Markdown + YAML** pressures AODS on simplicity and practical docs-as-code ergonomics.
 - **llms.txt** pressures AODS on minimal AI-facing overhead.
 - **DITA** pressures AODS on modular structured documentation lineage and reusable topic architecture.
-- All three baselines show that AODS does **not** yet win on corpus size by exact bytes, which keeps the compression claim unproven at repository scale.
+- The current baseline table shows that AODS's corpus-size edge is marginal, which keeps compression from being the main adoption case at repository scale.
 
 ### Current judgment
 

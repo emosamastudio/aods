@@ -1,8 +1,8 @@
 # Product lifecycle
 
-> **Reading surface:** Human-readable companion to the agent-primary module `product-lifecycle`. Grounded in [`manifest.json`](../manifest.json) and [`indexes/runtime.json#pair:pair-product-lifecycle`](../indexes/runtime.json). Agent-primary modules remain authoritative; this surface exists for operator orientation. ([`indexes/runtime.json#pair:pair-product-lifecycle`](../indexes/runtime.json))
+> **Reading surface:** Standalone human-readable example derived from an agent-primary `product-lifecycle` module. In this repository it is published as an illustrative reading surface rather than as a fully linked compiled corpus companion.
 >
-> **Covers:** goals, non-goals, discovery findings, roadmap milestones, verification plan, architecture decision records (ADRs), and the release summary prompt template. ([`modules/product-lifecycle.json`](../modules/product-lifecycle.json))
+> **Covers:** goals, non-goals, discovery findings, roadmap milestones, verification plan, architecture decision records (ADRs), and the release summary prompt template.
 
 ---
 
@@ -108,9 +108,4 @@ A prompt template is provided for generating rollout summaries without changing 
 
 ## Cross-references
 
-| Surface | Path |
-|---|---|
-| AI-facing index | [`llms.txt`](../llms.txt) |
-| Architecture and contracts | [`docs/02-architecture-and-contracts.md`](02-architecture-and-contracts.md) |
-| Delivery workflows | [`docs/03-delivery-workflows.md`](03-delivery-workflows.md) |
-| Operations and governance | [`docs/04-operations-and-governance.md`](04-operations-and-governance.md) |
+This standalone example does not publish the full companion surface set. Treat it as a single illustrative reading surface, not as a complete docs bundle.

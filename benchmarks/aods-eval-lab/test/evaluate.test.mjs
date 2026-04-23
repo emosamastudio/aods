@@ -1018,7 +1018,7 @@ test("benchmark summary writes current-vs-previous delta outputs", () => {
     assert.ok(fs.existsSync(executiveSummaryReportPath));
     const executiveReport = fs.readFileSync(executiveSummaryReportPath, "utf8");
     assert.match(executiveReport, /AODS benchmark executive summary/);
-    assert.match(executiveReport, /Release recommendation/);
+    assert.match(executiveReport, /Current maintainer assessment/);
     assert.match(executiveReport, /supports publishing the next version/);
     assert.match(executiveReport, /Hosted repeatability snapshot/);
   } finally {
