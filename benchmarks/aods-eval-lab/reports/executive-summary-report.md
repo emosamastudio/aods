@@ -4,7 +4,7 @@
 
 - Recommendation: **Ready to publish the next version**
 - Assessed version: **0.6.0**
-- Executive summary generated at: **2026-04-20T05:28:28.595Z**
+- Executive summary generated at: **2026-04-23T04:09:11.582Z**
 
 ## Decision card
 

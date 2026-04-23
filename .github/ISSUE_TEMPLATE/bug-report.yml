@@ -1,0 +1,84 @@
+name: Bug report
+description: Report a concrete problem in the AODS CLI, validation behavior, docs, or examples.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please include a minimal reproduction whenever possible.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you start
+      options:
+        - label: I checked the README and current release notes first.
+          required: true
+        - label: I am reporting a concrete repo problem rather than a broad thesis discussion.
+          required: true
+  - type: input
+    id: version
+    attributes:
+      label: AODS version
+      description: Example: v0.6.0
+      placeholder: v0.6.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - validate
+        - route
+        - compile
+        - scaffold
+        - hook
+        - benchmark
+        - examples
+        - documentation
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the problem clearly and concretely.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Include commands, file paths, and sample input when possible.
+      placeholder: |
+        1. Run ...
+        2. Edit ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version, and any relevant agent/tooling context.
+      placeholder: |
+        OS:
+        Node:
+        Command:
+        Repo shape:
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Logs, screenshots, or links if helpful.
+    validations:
+      required: false

@@ -1,0 +1,67 @@
+name: Failure case or counterexample
+description: Share a concrete case where AODS or the agent-primary thesis does not fit, breaks down, or needs challenge.
+title: "[Failure case]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Counterexamples are welcome. Please be as concrete as possible so the case can improve the project or the thesis.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you start
+      options:
+        - label: I am sharing a concrete failure case or challenge, not only a general opinion.
+          required: true
+        - label: I understand that benchmark-backed claims should be challenged with evidence where possible.
+          required: true
+  - type: dropdown
+    id: failure_type
+    attributes:
+      label: What kind of failure is this?
+      options:
+        - routing failure
+        - authority mismatch
+        - anti-drift gap
+        - authoring overhead too high
+        - benchmark realism gap
+        - project type does not fit AODS
+        - conceptual challenge to agent-primary
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Scenario
+      description: What was the project or task context?
+    validations:
+      required: true
+  - type: textarea
+    id: breakdown
+    attributes:
+      label: Where did the current model break down?
+      description: Be specific about what AODS could not express, route, validate, or govern well.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why does this matter?
+      description: What real risk, cost, or limitation does this reveal?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or reproduction
+      description: Link examples, commands, mock corpus slices, or benchmark-relevant evidence if available.
+    validations:
+      required: false
+  - type: textarea
+    id: better_path
+    attributes:
+      label: What would a better solution look like?
+      description: If you have a better alternative, boundary, or narrower claim, describe it here.
+    validations:
+      required: false

@@ -846,6 +846,28 @@ function replaceMarkedBlock(filePath, replacement) {
   fs.writeFileSync(filePath, updated);
 }
 
+function renderEnglishPublishedMetricPrimer() {
+  return `**If you are new to these labels:** all **objective** medians below are medians across the benchmark's main regression-gate scenarios, not the exploratory prompts.
+
+| Label | What it means |
+| --- | --- |
+| **Full-corpus size** | Total size of the whole documentation corpus on disk |
+| **Loaded payload / loaded bytes** | The routed source content actually loaded for the task before prompt wrapper text is added |
+| **Prompt envelope / prompt-envelope bytes** | That same loaded content after the benchmark wraps it in task metadata, instructions, path labels, and resource separators |
+| **Runtime request body bytes** | The exact bytes a real CLI/runtime sends to the model provider, which can be larger than the rendered prompt envelope because of protocol and request-loop overhead |`;
+}
+
+function renderChinesePublishedMetricPrimer() {
+  return `**如果你第一次看这些指标：** 下面所有 **objective** 的 median，都是在 benchmark 那组主回归场景里取的中位数，不是 exploratory prompt 的中位数。
+
+| 标签 | 实际含义 |
+| --- | --- |
+| **Full-corpus size** | 整个文档语料在磁盘上的总大小 |
+| **Loaded payload / loaded bytes** | 为了完成任务而实际加载的源内容，在加上 prompt 包装文字之前的体积 |
+| **Prompt envelope / prompt-envelope bytes** | 同一批已加载内容，再加上任务元数据、指令、路径标签、资源分隔符后的体积 |
+| **Runtime request body bytes** | 真实 CLI / runtime 发给模型提供方的精确请求体大小；因为协议和请求循环开销，它可能大于 rendered prompt envelope |`;
+}
+
 function renderEnglishPublishedBenchmark(evaluation, comparison, summary) {
   const humanBytes = evaluation.fidelity.exact_size.human_docs.byte_count;
   const aodsBytes = evaluation.fidelity.exact_size.aods_corpus.byte_count;
@@ -907,6 +929,8 @@ function renderEnglishPublishedBenchmark(evaluation, comparison, summary) {
 
   return `## Current benchmark result
 
+${renderEnglishPublishedMetricPrimer()}
+
 | Dimension | Current result | Reading |
 | --- | --- | --- |
 | **Coverage** | **${formatPercent(evaluation.coverage.lifecycle_phase_coverage)}** lifecycle, **${formatPercent(evaluation.coverage.structured_type_coverage)}** structured types, **${formatPercent(evaluation.coverage.generic_type_coverage)}** generic types | The benchmark pack is fully representable in AODS |
@@ -932,7 +956,14 @@ ${runtimeLine}
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 ${comparisonRows}
 
-**How to read this table:** the non-AODS baselines stay lighter on bytes, but they score **0.0%** on the benchmark's objective touch-route contract because they do not provide AODS-style native routing and paired-surface governance. Their smaller loaded byte counts are therefore not evidence of equivalent governed retrieval.
+**How to read this table without misreading it:**
+
+1. **Check objective touch-route hit rate first.** If a baseline is at **0.0%**, its loaded-byte figure is **not** the cost of a successful governed retrieval. It is only the size of whatever the benchmark managed to load before failing the routing contract.
+2. **Only compare loaded bytes and prompt-envelope bytes as efficiency signals after the route contract is satisfied.** In the current round, AODS is the only baseline that both preserves the facts and completes the objective touch-route contract.
+3. **So DITA's 718-byte median should not be read as “DITA solved the same task with 15x less context.”** It should be read as “the benchmark did not get the required authority-bearing modules through that contract at all.”
+4. **AODS's higher loaded-byte number is the cost of actually loading the authority-bearing working set that the task required.** In this round, that is the relevant trade: more routed context in exchange for **100.0%** objective hit rate plus native routing / governance support.
+
+Put differently: lower bytes with a failed route contract is not a win on the same job; it is a cheaper miss.
 
 ## Latest benchmark delta
 
@@ -1002,6 +1033,8 @@ function renderChinesePublishedBenchmark(evaluation, comparison, summary) {
 
   return `## 当前 benchmark 结果
 
+${renderChinesePublishedMetricPrimer()}
+
 | 维度 | 当前结果 | 解读 |
 | --- | --- | --- |
 | **Coverage** | **${formatPercent(evaluation.coverage.lifecycle_phase_coverage)}** 生命周期、**${formatPercent(evaluation.coverage.structured_type_coverage)}** structured types、**${formatPercent(evaluation.coverage.generic_type_coverage)}** generic types | 当前 benchmark pack 可以被 AODS 完整表达 |
@@ -1027,7 +1060,14 @@ ${runtimeLine}
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 ${comparisonRows}
 
-**怎么读这张表：** 非 AODS 基线在 bytes 上更轻，但它们在 benchmark 的 objective touch-route contract 上是 **0.0%**，因为这些格式没有提供 AODS 风格的原生 routing 和 paired-surface governance。所以它们更小的 loaded bytes，**不等价于**“在受治理检索上做到同样的事”。
+**怎么读这张表，才不会误读：**
+
+1. **先看 objective touch-route hit rate。** 如果一个基线是 **0.0%**，那它的 loaded bytes 就**不是**“成功完成这类受治理检索任务的成本”，而只是 benchmark 在未满足路由契约前实际加载到的那点内容大小。
+2. **只有在 route contract 成立以后，loaded bytes 和 prompt-envelope bytes 才能被当成效率指标来横向比较。** 在当前这一轮里，只有 AODS 同时满足了 fact preservation 和 objective touch-route contract。
+3. **所以 DITA 的 718-byte 中位数，不能被读成“DITA 用 15 倍更少的上下文完成了同一个任务”。** 更准确的读法是：在这个契约下，benchmark 根本没有把任务所需的 authority-bearing modules 成功命中出来。
+4. **AODS 更高的 loaded-byte 数字，本质上是在为“把任务真正需要的 authority-bearing working set 加载出来”付费。** 在当前这轮 benchmark 里，相关 trade-off 是：更多 routed context，换来 **100.0%** 的 objective hit rate，以及原生 routing / governance 支持。
+
+换句话说：**在 route contract 失败的前提下，更小的 bytes 不是“同一任务更省”，而是“更便宜地 miss 了任务”。**
 
 ## 最新 benchmark 变化
 

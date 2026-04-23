@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Agent-primary thesis or open-ended discussion
+    url: https://github.com/emosamastudio/aods/discussions
+    about: Use Discussions for conceptual questions, framework tradeoffs, and research-oriented debate.
+  - name: Read the v0.6.0 benchmark executive summary
+    url: https://github.com/emosamastudio/aods/blob/main/benchmarks/aods-eval-lab/reports/executive-summary-report.md
+    about: Start here if you want the shortest evidence-backed overview before opening an issue.

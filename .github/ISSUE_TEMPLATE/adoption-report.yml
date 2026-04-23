@@ -1,0 +1,69 @@
+name: Adoption report
+description: Share how you tried AODS in a real project and what happened.
+title: "[Adoption]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adoption reports are one of the most useful inputs for AODS. Even partial trials are valuable.
+  - type: input
+    id: project_type
+    attributes:
+      label: Project type
+      description: What kind of project did you try AODS on?
+      placeholder: SaaS backend, internal platform, open-source CLI, docs-heavy product, etc.
+    validations:
+      required: true
+  - type: input
+    id: size
+    attributes:
+      label: Rough project size
+      description: Team size, repo size, or any rough complexity indicator.
+      placeholder: 5 engineers, monorepo, many runbooks, etc.
+    validations:
+      required: false
+  - type: textarea
+    id: agent_usage
+    attributes:
+      label: How are agents used today?
+      description: Describe the current agent workflow in this project.
+    validations:
+      required: true
+  - type: textarea
+    id: pain
+    attributes:
+      label: What problem were you trying to solve?
+      description: Routing confusion, unclear authority, drift, task-time context blowup, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: trial
+    attributes:
+      label: What did you actually try?
+      description: Which AODS command, example, or workflow did you use?
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What helped, and what still felt hard?
+      description: The most useful reports include both positive and negative findings.
+    validations:
+      required: true
+  - type: dropdown
+    id: shareability
+    attributes:
+      label: Can this example be referenced publicly?
+      options:
+        - yes
+        - yes, but anonymized
+        - no
+    validations:
+      required: true
+  - type: textarea
+    id: links
+    attributes:
+      label: Links or artifacts
+      description: Repo link, sample corpus, screenshots, or notes if you can share them.
+    validations:
+      required: false

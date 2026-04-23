@@ -8,6 +8,42 @@ AODS is a documentation standard and CLI for teams that want AI agents to work f
 
 In this README, **human-oriented docs** means files mainly written for people to read, such as README files, SOPs, or checklists. **Agent-oriented docs** means structured files that agents and tooling can route, validate, and compare. For compatibility, the schema and CLI still use field names such as `human_primary`, `agent_primary`, and `sync_source=agent-primary`.
 
+## Start here
+
+| If you want to... | Start here |
+| --- | --- |
+| Understand AODS in 2 minutes | [What AODS is — and is not](#what-aods-is--and-is-not) |
+| Try it on a real repo in 10 minutes | [Install](#install) and [Quick start](#quick-start) |
+| Read evidence instead of pitch | [`v0.6.0` executive summary](./benchmarks/aods-eval-lab/reports/executive-summary-report.md) and [Current benchmark result](#current-benchmark-result) |
+| Download the current release | [GitHub Release `v0.6.0`](https://github.com/emosamastudio/aods/releases/tag/v0.6.0) |
+| Join the agent-primary discussion | [GitHub Discussions](https://github.com/emosamastudio/aods/discussions) |
+| Report a bug, adoption note, or failure case | [GitHub Issues](https://github.com/emosamastudio/aods/issues) |
+
+## What AODS is — and is not
+
+**AODS is**:
+
+- a documentation standard for agent-first project knowledge
+- a CLI for compile / validate / route / scaffold workflows
+- a governance layer for routing, authority, anti-drift, and task-time context control
+- a benchmarked reference implementation with published evidence
+
+**AODS is not**:
+
+- just “another JSON docs format”
+- mainly a full-repository compression play
+- a generic semantic truth engine that understands all contradictions
+- necessary for every small code-first project with minimal non-code authority
+
+The practical value is simple: **AODS tries to make it explicit what an agent should read, which surface is authoritative, what must stay aligned, and what should fail early instead of drifting silently.**
+
+## What `v0.6.0` already demonstrates
+
+- **A real release exists now.** You can inspect and download [`v0.6.0`](https://github.com/emosamastudio/aods/releases/tag/v0.6.0) today.
+- **The current benchmark passes the main claims we care about.** On the current pack, AODS passes coverage / representability, information preservation, task-time progressive loading, and anti-drift / trust controls.
+- **The practical win is governed routing, not “smaller JSON”.** The current benchmark explicitly says the value comes from routing and validation rather than shrinking the full repository corpus.
+- **Hosted runtime evidence now has repeatability support.** Across successful hosted runs, extra cost remains concentrated in tool-loop traffic, while the exact hosted loop decomposition is still treated as repeat-sensitive field evidence rather than a fixed universal law.
+
 ## The problem
 
 Project documentation is usually optimized for people first. That creates four recurring failures for code agents:
@@ -141,6 +177,15 @@ The benchmark explicitly separates three size signals:
 
 That distinction matters because **a larger repository does not automatically mean a larger per-task context footprint**.
 
+If you are new to the benchmark table, read the most confusing labels this way:
+
+| Label | What it actually means |
+| --- | --- |
+| **Objective** | The benchmark's main regression-gate scenario set, not the exploratory prompts |
+| **Objective median loaded bytes** | The median amount of routed source content actually loaded for those objective scenarios before prompt wrapper text is added |
+| **Objective median prompt-envelope bytes** | The median size after that same routed content is wrapped in benchmark prompt scaffolding |
+| **Runtime request body bytes** | The exact bytes a real CLI/runtime sends to the provider; this can be larger than the prompt envelope because request-loop and protocol overhead are included |
+
 The lab now also includes an **optional local runtime-capture supplement**. It records one exact Copilot CLI provider request body for a routed AODS scenario, so the benchmark can compare its rendered prompt-envelope proxy against a real runtime payload shape.
 
 For horizontal comparison, the benchmark uses three outside baselines:
@@ -153,6 +198,15 @@ For horizontal comparison, the benchmark uses three outside baselines:
 
 <!-- BENCHMARK_SYNC:START -->
 ## Current benchmark result
+
+**If you are new to these labels:** all **objective** medians below are medians across the benchmark's main regression-gate scenarios, not the exploratory prompts.
+
+| Label | What it means |
+| --- | --- |
+| **Full-corpus size** | Total size of the whole documentation corpus on disk |
+| **Loaded payload / loaded bytes** | The routed source content actually loaded for the task before prompt wrapper text is added |
+| **Prompt envelope / prompt-envelope bytes** | That same loaded content after the benchmark wraps it in task metadata, instructions, path labels, and resource separators |
+| **Runtime request body bytes** | The exact bytes a real CLI/runtime sends to the model provider, which can be larger than the rendered prompt envelope because of protocol and request-loop overhead |
 
 | Dimension | Current result | Reading |
 | --- | --- | --- |
@@ -182,7 +236,14 @@ For horizontal comparison, the benchmark uses three outside baselines:
 | **llms.txt** | 100.0% | 100.0% | 46977 | 0.0% | 6480 | 7178 |
 | **DITA topic corpus** | 100.0% | 100.0% | 65595 | 0.0% | 718 | 1320 |
 
-**How to read this table:** the non-AODS baselines stay lighter on bytes, but they score **0.0%** on the benchmark's objective touch-route contract because they do not provide AODS-style native routing and paired-surface governance. Their smaller loaded byte counts are therefore not evidence of equivalent governed retrieval.
+**How to read this table without misreading it:**
+
+1. **Check objective touch-route hit rate first.** If a baseline is at **0.0%**, its loaded-byte figure is **not** the cost of a successful governed retrieval. It is only the size of whatever the benchmark managed to load before failing the routing contract.
+2. **Only compare loaded bytes and prompt-envelope bytes as efficiency signals after the route contract is satisfied.** In the current round, AODS is the only baseline that both preserves the facts and completes the objective touch-route contract.
+3. **So DITA's 718-byte median should not be read as “DITA solved the same task with 15x less context.”** It should be read as “the benchmark did not get the required authority-bearing modules through that contract at all.”
+4. **AODS's higher loaded-byte number is the cost of actually loading the authority-bearing working set that the task required.** In this round, that is the relevant trade: more routed context in exchange for **100.0%** objective hit rate plus native routing / governance support.
+
+Put differently: lower bytes with a failed route contract is not a win on the same job; it is a cheaper miss.
 
 ## Latest benchmark delta
 
@@ -284,6 +345,24 @@ The benchmark still shows clear limits:
 - The benchmark is still synthetic and English-only.
 - `bidirectional` remains an explicitly gated experimental sync mode: the reference hook requires manual review when paired docs in this mode change instead of pretending auto-merge is solved.
 - `phase` and `feature` pair scopes are not yet covered in the benchmark pack.
+
+## FAQ for first-time readers
+
+### Why not just keep writing README files and ordinary Markdown?
+
+Because ordinary docs do not usually provide **native routing, explicit authority, pair-level sync contracts, or anti-drift enforcement**. They can still be useful human surfaces inside AODS, but they are not enough on their own for agent-governed work.
+
+### Is AODS mainly claiming that JSON is smaller?
+
+No. The benchmark explicitly separates full-corpus size from task-time working-set size. The practical win is **governed context assembly and trust controls**, not a simplistic “whole repo always gets smaller” claim.
+
+### Why not solve this with `llms.txt`, search, or RAG?
+
+Those approaches can help discovery, but they do not by themselves declare **authority**, express **paired human/agent surfaces**, or enforce **anti-drift contracts**. AODS is trying to model those governance surfaces directly.
+
+### When should I probably *not* use AODS?
+
+If your project is small, code-first, has very little non-code authority, and does not depend heavily on agent-mediated work, ordinary docs may be simpler. AODS becomes more useful when requirements, runbooks, release rules, evidence, and cross-role handoffs need explicit machine-readable boundaries.
 
 ## Quick start
 
@@ -460,12 +539,17 @@ Two rules matter:
 ## Key resources
 
 - **Reader-friendly overview:** this README
+- **Release download:** [`v0.6.0` on GitHub Releases](https://github.com/emosamastudio/aods/releases/tag/v0.6.0)
+- **Benchmark executive summary:** `benchmarks/aods-eval-lab/reports/executive-summary-report.md`
+- **Contributing guide:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- **Open discussion and thesis debate:** `https://github.com/emosamastudio/aods/discussions`
 - **Agent bootstrap:** `manifest.json`
 - **Internal AODS evaluation:** `benchmarks/aods-eval-lab/reports/aods-evaluation-report.md`
 - **Round-one comparison report:** `benchmarks/aods-eval-lab/reports/round1-comparator-report.md`
 - **Machine-readable evaluation results:** `benchmarks/aods-eval-lab/generated/results/evaluation-results.json`
 - **Machine-readable comparison results:** `benchmarks/aods-eval-lab/generated/results/round1-comparator-results.json`
 - **Research archive index:** `research/README.md`
+- **Share questions, counterexamples, or failure cases:** `https://github.com/emosamastudio/aods/issues`
 
 ## License
 

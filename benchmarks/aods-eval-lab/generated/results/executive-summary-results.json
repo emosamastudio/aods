@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-20T05:28:28.595Z",
+  "generated_at": "2026-04-23T04:09:11.582Z",
   "benchmark_project": "benchmarks/aods-eval-lab",
   "assessed_version": "0.6.0",
   "release_recommendation": "ready-for-next-version",
@@ -68,5 +68,5 @@
     "The open-source field sample is still English-only and narrower than a full cross-toolchain matrix."
   ],
   "recommended_next_action": "publish-next-version",
-  "summary_generated_at": "2026-04-20T05:28:28.594Z"
+  "summary_generated_at": "2026-04-23T04:09:11.582Z"
 }
