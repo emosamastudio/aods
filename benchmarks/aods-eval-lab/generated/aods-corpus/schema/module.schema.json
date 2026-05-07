@@ -1514,6 +1514,71 @@
         }
       }
     },
+    "implementation_acceptance_status": {
+      "type": "string",
+      "enum": ["planned", "satisfied", "partial", "waived", "blocked"],
+      "description": "Review posture for a declared implementation acceptance criterion."
+    },
+    "implementation_acceptance_check_type": {
+      "type": "string",
+      "enum": ["evidence-ref", "validator-rule", "fixture", "manual-review"],
+      "description": "How this acceptance criterion is expected to be verified."
+    },
+    "implementation_acceptance_blocking": {
+      "type": "string",
+      "enum": ["none", "strict", "release", "drift"],
+      "description": "Gate posture if this criterion is not satisfied."
+    },
+    "implementation_acceptance_criterion_ref": {
+      "type": "object",
+      "required": ["id", "surface_ref", "requirement", "check_type", "blocking", "status", "authority_surface"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$",
+          "description": "Stable criterion identifier within module.meta.implementation.acceptance_criteria[]."
+        },
+        "surface_ref": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Module section or artifact ref whose contract requirement this criterion verifies."
+        },
+        "requirement": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Short human-readable requirement that links contract intent to implementation evidence."
+        },
+        "check_type": {
+          "$ref": "#/definitions/implementation_acceptance_check_type"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]{1,64}$"
+          },
+          "description": "IDs from module.meta.implementation.evidence[] that support this criterion."
+        },
+        "validator_rule": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Optional validator rule name that verifies this criterion."
+        },
+        "blocking": {
+          "$ref": "#/definitions/implementation_acceptance_blocking"
+        },
+        "status": {
+          "$ref": "#/definitions/implementation_acceptance_status"
+        },
+        "authority_surface": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Section or artifact ref that owns this acceptance criterion."
+        }
+      }
+    },
     "implementation_meta": {
       "type": "object",
       "required": ["repo_id", "paths", "status", "authority_surface"],
@@ -1558,6 +1623,14 @@
             "$ref": "#/definitions/implementation_evidence_ref"
           },
           "description": "Evidence anchors that make current or planned implementation linkage reviewable without executing external commands."
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/implementation_acceptance_criterion_ref"
+          },
+          "description": "Contract-to-evidence criteria that state why an implementation linkage is acceptable."
         }
       }
     },

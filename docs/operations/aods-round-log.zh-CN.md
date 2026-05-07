@@ -2,6 +2,64 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-09
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-09 |
+| 开始时间 | 2026-05-07 14:15 Asia/Shanghai |
+| 结束时间 | 2026-05-07 14:15 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-029 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-09
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `schema/`、`lib/compile.mjs`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、compiled-pilot source/output、benchmark generated corpus schema、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、任意 evidence command 自动执行、跨仓库执行器 |
+| 外部依赖 | 无公开写操作；本轮只使用本地验证 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-07-09
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-029 | 未开始 | 已完成 | 落地 implementation acceptance criteria 最小模型：module meta criteria、manifest acceptance_summary、compiler summary、validator missing/duplicate/ref/manual/blocking checks、compiled-pilot satisfied+planned criteria、focused regressions | `schema/module.schema.json`、`schema/manifest.schema.json`、`lib/compile.mjs`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、compiled-pilot source/output、benchmark generated corpus schema、`benchmarks/aods-eval-lab/test/scaffold.test.mjs` |
+
+## 验证记录：R-2026-05-07-09
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-029 | Previous-round quality review | `rg ... U-028/U-029`、`npm run validate:all`、`git diff --check HEAD` | 通过 | U-028 文档一致，工作区仅 `MEMORY.md` 未跟踪 |
+| U-029 | RED acceptance criteria regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 失败后修复 | 新增 missing criteria test 先失败：compile 仍成功，证明 gate 不存在 |
+| U-029 | Focused implementation criteria regressions | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 20 tests passing；覆盖 missing criteria、missing evidence ref、duplicate criterion id、manual review warning |
+| U-029 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-029 | Benchmark test gate | `npm run benchmark:test` | 通过 | 43 tests passing |
+| U-029 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-09
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-07-09
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-029 |
+| 完成任务 | 1 | implementation acceptance criteria 最小切片完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 5 | 下一轮首选 U-030 drift remediation workflow |
+
 ## 回合摘要：R-2026-05-07-08
 
 | 项 | 内容 |

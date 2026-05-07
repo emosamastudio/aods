@@ -10,29 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S6 v0.8 backlog / contract drift planning |
-| 当前回合 | R-2026-05-07-08 |
-| 未完成任务数量 | 6 |
-| 已完成任务数量 | 33 |
+| 当前阶段 | S6 implementation acceptance criteria / contract drift |
+| 当前回合 | R-2026-05-07-09 |
+| 未完成任务数量 | 5 |
+| 已完成任务数量 | 34 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-08 |
-| 开始时间 | 2026-05-07 13:52 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-09 |
+| 开始时间 | 2026-05-07 14:15 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-028 |
-| 本轮范围 | v0.7 release 后 open issue 复盘、v0.8 backlog triage、下一 contract/code drift 切片写入台账 |
-| 排除范围 | runtime/schema/spec 实现、GitHub issue 关闭或评论、release 发布、Polaris sibling repo、任意 evidence command 自动执行 |
-| 验证计划 | `git diff --check`；`npm run validate:all` |
+| 选中任务 | U-029 |
+| 本轮范围 | implementation acceptance criteria 最小切片：schema / compiler / validator / focused tests / compiled-pilot example / spec docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、任意 evidence command 自动执行、跨仓库执行器 |
+| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-029 | S6 | 落地 implementation acceptance criteria 最小模型 | P0 | 未开始 | module meta 能声明 contract-to-evidence criteria；manifest summary 镜像计数 / 状态；validator 覆盖 missing criteria、duplicate id、missing evidence ref、manual review warning；compiled-pilot source-first example 覆盖 satisfied + planned/manual criteria；focused / repo / benchmark tests 通过 | U-027、U-028 | 下一轮首选任务；对应 `#49/#43/#60` |
 | U-030 | S6 | 定义 drift remediation workflow 最小模型 | P1 | 未开始 | spec 定义 add-authority / mark-experimental / waive / remove / migrate 等 remediation action；validator finding 能指向 remediation path；strict/release/drift gate 行为明确 | U-029 | 对应 `#43/#60` |
 | U-031 | S6 | 定义 decision provenance boundary 最小模型 | P1 | 未开始 | 明确 agent-consumable decision、source evidence、derived summary、stale/unresolved evidence 对消费的影响；至少有 spec + validation guidance | U-029 | 对应 `#38/#60` |
 | U-032 | S6 | 定义 read-model freshness / watermark profile 最小切片 | P1 | 未开始 | read-model contract profile 能表达 snapshot_id / exported_at / source watermark / partial stale semantics；validator 对 stable read-model 缺 freshness 发出 gate | U-029、U-031 | 对应 `#35/#60` |
@@ -76,6 +75,7 @@
 | 31 | U-026 | S4 | 执行 v0.7 release branch / PR，排除 `MEMORY.md` | P0 | 2026-05-07 | Branch `codex/aods-v0.7-rc`、PR `#61`、GitHub Release `v0.7.0`、issue sync、staged set excludes `MEMORY.md` | `npm run release:self-check`、`git diff --cached --check`、`git push -u origin codex/aods-v0.7-rc`、`gh pr create --draft ...`、`gh pr merge 61 --squash`、`gh release create v0.7.0` | Release: `https://github.com/emosamastudio/aods/releases/tag/v0.7.0` |
 | 32 | U-027 | S5 | 落地 implementation evidence 最小切片 | P0 | 2026-05-07 | `schema/module.schema.json`、`schema/manifest.schema.json`、`lib/compile.mjs`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、compiled-pilot source/output、benchmark generated corpus schema、focused regressions、PR `#62` merged | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check`、`git push -u origin codex/aods-implementation-evidence`、`gh pr create --draft ...`、`gh pr ready 62`、`gh pr merge 62 --squash --delete-branch` | module meta 已可声明 evidence；manifest 只镜像 `evidence_summary`；reality 检查可解析 repo 的 path-like evidence locator；不执行 evidence command |
 | 33 | U-028 | S6 | 完成 v0.8 backlog triage 并选择下一段 contract drift 切片 | P0 | 2026-05-07 | `docs/operations/aods-v0.8-backlog.zh-CN.md`、operations README、task ledger、round log、handoff | `gh issue list --state open --limit 50 --json ...`、`gh issue view 60/41/43/49/35/38/48 --json ...`、`git diff --check`、`npm run validate:all` | 下一轮首选 U-029：implementation acceptance criteria；`MEMORY.md` 继续不进仓库 |
+| 34 | U-029 | S6 | 落地 implementation acceptance criteria 最小模型 | P0 | 2026-05-07 | `schema/module.schema.json`、`schema/manifest.schema.json`、`lib/compile.mjs`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、compiled-pilot source/output、benchmark generated corpus schema、focused regressions | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | module meta 已可声明 `acceptance_criteria[]`；manifest 只镜像 `acceptance_summary`；current implementation 必须有 criteria；不执行任意 evidence command |
 
 ## 失败或阻塞任务
 
@@ -114,3 +114,4 @@
 | 2026-05-07 | 100% | 93% | 74% | `U-020`、`U-021`、`U-022`、`U-023`、`U-024`、`U-025`、`U-026` 完成 | v0.7 已发布为 GitHub Release `v0.7.0`；PR `#61` 已 merge；13 个 v0.7 覆盖 issues 已关闭，`#60/#41` 已评论保留；`MEMORY.md` 未进仓库。 |
 | 2026-05-07 | 100% | 94% | 76% | `U-027` 完成 | implementation evidence 最小切片已落地并通过 focused、repo-level、benchmark test 验证；AODS 现在能让 current implementation linkage 携带可审查证据摘要和 reality locator 检查。 |
 | 2026-05-07 | 100% | 95% | 78% | `U-028` 完成 | v0.8 backlog 已重新排队；下一主线确定为 implementation acceptance criteria，把 contract requirement 映射到 evidence / validator / fixture / manual review。 |
+| 2026-05-07 | 100% | 96% | 80% | `U-029` 完成 | implementation acceptance criteria 已落地；AODS 现在能把 current implementation linkage 绑定到 contract requirement、evidence refs、validator/fixture/manual review posture 和 manifest summary。 |

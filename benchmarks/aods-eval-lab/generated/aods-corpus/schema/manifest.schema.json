@@ -377,6 +377,10 @@
         "evidence_summary": {
           "$ref": "#/definitions/implementation_evidence_summary_ref",
           "description": "Lightweight manifest summary of module.meta.implementation.evidence[] by status."
+        },
+        "acceptance_summary": {
+          "$ref": "#/definitions/implementation_acceptance_summary_ref",
+          "description": "Lightweight manifest summary of module.meta.implementation.acceptance_criteria[] by status and manual-review posture."
         }
       }
     },
@@ -408,6 +412,49 @@
           "minimum": 0
         },
         "blocked": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "implementation_acceptance_summary_ref": {
+      "type": "object",
+      "required": [
+        "total",
+        "satisfied",
+        "planned",
+        "partial",
+        "waived",
+        "blocked",
+        "manual_review"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "satisfied": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "planned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partial": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "waived": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "manual_review": {
           "type": "integer",
           "minimum": 0
         }

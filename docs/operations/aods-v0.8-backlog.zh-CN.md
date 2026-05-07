@@ -4,6 +4,8 @@
 日期：2026-05-07
 适用范围：v0.7 release 后的 open issue 复盘、代码漂移主线排序、下一最小实现切片选择
 
+执行状态：U-029 implementation acceptance criteria 已完成；下一首选任务为 U-030 drift remediation workflow。
+
 ## 结论
 
 v0.8 不应先做完整 capability negotiation，也不应直接进入行为级代码理解。当前最推荐路线是沿着 U-027 implementation evidence 继续推进，把“证据存在”升级为“规范 contract 与证据之间有机器可读的验收关系”。

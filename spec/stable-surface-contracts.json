@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 5,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, root and module implementation topology, implementation evidence, schema version compatibility, and adapter-facing capability minimums.",
+  "v": 6,
+  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, root and module implementation topology, implementation evidence, implementation acceptance criteria, schema version compatibility, and adapter-facing capability minimums.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -40,7 +40,7 @@
     {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
-      "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, and evidence anchors. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. The manifest carries evidence_summary only, with counts for total, current, planned, stale, and blocked. Current implementation linkage must declare at least one evidence anchor so current status is reviewable. Evidence locators are declarative; validators may check repo-relative locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, and U-027 landed declarative implementation evidence.",
+      "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
       "content_type": "rules",
       "refs": [
         "contract-completeness-profiles"
@@ -196,13 +196,18 @@
           ],
           [
             "module.meta.implementation",
-            "repo_id, paths, status, pr_refs, authority_surface, evidence[]",
-            "landed in U-009; evidence landed in U-027"
+            "repo_id, paths, status, pr_refs, authority_surface, evidence[], acceptance_criteria[]",
+            "landed in U-009; evidence landed in U-027; acceptance criteria landed in U-029"
           ],
           [
             "manifest.modules[].implementation.evidence_summary",
             "total, current, planned, stale, blocked",
             "landed in U-027"
+          ],
+          [
+            "manifest.modules[].implementation.acceptance_summary",
+            "total, satisfied, planned, partial, waived, blocked, manual_review",
+            "landed in U-029"
           ],
           [
             "validate --reality topology summary",
@@ -411,6 +416,11 @@
     {
       "v": 5,
       "delta": "Added declarative implementation evidence anchors, manifest evidence summaries, and reality locator checks for path-like evidence.",
+      "breaking": false
+    },
+    {
+      "v": 6,
+      "delta": "Added implementation acceptance criteria as contract-to-evidence linkage with manifest acceptance summaries.",
       "breaking": false
     }
   ],

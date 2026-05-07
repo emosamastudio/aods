@@ -366,6 +366,32 @@
               "freshness_policy": "on-schema-change",
               "authority_surface": "shift-ops-policy:approval-policy"
             }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "approval-policy-contract",
+              "surface_ref": "shift-ops-policy:approval-policy",
+              "requirement": "Approval policy implementation enforces database approver, release-window, and rollback-owner requirements.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "approval-policy-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-policy:approval-policy"
+            },
+            {
+              "id": "approval-release-window-review",
+              "surface_ref": "shift-ops-policy:approval-policy",
+              "requirement": "Release-window CI check is planned and must become current before release readiness relies on it.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "approval-release-window-check"
+              ],
+              "blocking": "none",
+              "status": "planned",
+              "authority_surface": "shift-ops-policy:approval-policy"
+            }
           ]
         }
       },

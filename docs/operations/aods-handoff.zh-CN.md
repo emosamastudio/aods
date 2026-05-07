@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage，下一轮首选 U-029 implementation acceptance criteria；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；下一轮首选 U-030 drift remediation workflow；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -71,17 +71,17 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-026 | 执行 v0.7 release branch / PR / Release / issue sync | PR `#61` 已 merge；GitHub Release `v0.7.0` 已创建；13 个 v0.7 覆盖 issues 已关闭；`#60/#41` 已评论保留；`MEMORY.md` 未进仓库 |
 | U-027 | 落地 implementation evidence 最小切片 | module meta evidence、manifest `evidence_summary`、validator current-evidence gate、reality locator checks、compiled-pilot current+planned evidence；focused / repo / benchmark tests 均通过 |
 | U-028 | 完成 v0.8 backlog triage | `aods-v0.8-backlog.zh-CN.md` 已落盘；U-029 到 U-034 已写入未完成任务；下一轮首选 implementation acceptance criteria |
+| U-029 | 落地 implementation acceptance criteria 最小切片 | module meta `acceptance_criteria[]`、manifest `acceptance_summary`、validator criteria gate、compiled-pilot satisfied+planned criteria；focused / repo / benchmark tests 均通过 |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-029 | 落地 implementation acceptance criteria 最小模型 | 下一轮首选；连接 contract requirement 与 evidence |
-| 2 | U-030 | 定义 drift remediation workflow 最小模型 | 接 U-029 |
-| 3 | U-031 | 定义 decision provenance boundary 最小模型 | 接 U-029 |
-| 4 | U-032 | 定义 read-model freshness / watermark profile 最小切片 | 接 U-031 |
-| 5 | U-033 | 定义 fixture and golden export conventions | 接 U-029 |
-| 6 | U-034 | 重新裁剪 capability negotiation 最小模型 | 当前不做 handshake |
+| 1 | U-030 | 定义 drift remediation workflow 最小模型 | 下一轮首选；接 U-029 |
+| 2 | U-031 | 定义 decision provenance boundary 最小模型 | 接 U-029 |
+| 3 | U-032 | 定义 read-model freshness / watermark profile 最小切片 | 接 U-031 |
+| 4 | U-033 | 定义 fixture and golden export conventions | 接 U-029 |
+| 5 | U-034 | 重新裁剪 capability negotiation 最小模型 | 当前不做 handshake |
 
 ## 失败和风险
 
@@ -99,6 +99,6 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-029 | 落地 implementation acceptance criteria 最小模型 | schema / compiler / validator / compiled-pilot / focused tests / repo validation 通过 |
-| 2 | U-030 | 定义 drift remediation workflow 最小模型 | remediation action 与 gate 行为进入 spec / validator guidance |
-| 3 | U-031 | 定义 decision provenance boundary 最小模型 | agent-consumable decision provenance boundary 明确 |
+| 1 | U-030 | 定义 drift remediation workflow 最小模型 | remediation action 与 gate 行为进入 spec / validator guidance |
+| 2 | U-031 | 定义 decision provenance boundary 最小模型 | agent-consumable decision provenance boundary 明确 |
+| 3 | U-032 | 定义 read-model freshness / watermark profile 最小切片 | freshness metadata 与 stale / partial semantics 明确 |
