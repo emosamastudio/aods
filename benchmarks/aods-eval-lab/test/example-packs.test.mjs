@@ -27,6 +27,13 @@ const EVENT_MODULE_PATH = path.join(
   "modules",
   "shift-ops-change-event-log.json"
 );
+const ADAPTER_MODULE_PATH = path.join(
+  REPO_ROOT,
+  "examples",
+  "compiled-pilot",
+  "modules",
+  "shift-ops-adapter-capability.json"
+);
 const COMPILED_MANIFEST_PATH = path.join(REPO_ROOT, "examples", "compiled-pilot", "manifest.json");
 const FIXTURE_MANIFEST_PATH = path.join(
   REPO_ROOT,
@@ -153,4 +160,45 @@ test("compiled pilot includes event correction supersession example pack", () =>
   assert.equal(fixture.kind, "positive");
   assert.equal(fixture.input.path, "../authoring.json");
   assert.ok(fixture.golden_exports.some((entry) => entry.id === "event-correction-supersession-module"));
+});
+
+test("compiled pilot includes adapter capability exposure example pack", () => {
+  const source = JSON.parse(fs.readFileSync(SOURCE_PATH, "utf8"));
+  const module = source.modules.find((entry) => entry.id === "shift-ops-adapter-capability");
+  assert.ok(module);
+  assert.ok(module.tags.includes("adapter"));
+  assert.ok(module.tags.includes("capability"));
+  assert.ok(module.tags.includes("exposure"));
+  assert.equal(module.meta.implementation.repo_id, "shift-ops-worker");
+  assert.deepEqual(module.meta.implementation.evidence.map((entry) => entry.id), [
+    "adapter-capability-contract-test",
+    "adapter-exposure-fixture"
+  ]);
+  assert.deepEqual(module.meta.implementation.acceptance_criteria.map((entry) => entry.id), [
+    "adapter-provider-capability-contract",
+    "adapter-consumer-requirement-contract"
+  ]);
+  assert.ok(module.sections.some((entry) => entry.sid === "adapter-provider-capability"));
+  assert.ok(module.sections.some((entry) => entry.sid === "adapter-consumer-requirement"));
+  assert.ok(module.sections.some((entry) => entry.sid === "adapter-exposure-audit"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "adapter-capability-table"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "adapter-consumer-requirement-table"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "adapter-exposure-audit-table"));
+
+  const compiled = JSON.parse(fs.readFileSync(ADAPTER_MODULE_PATH, "utf8"));
+  assert.equal(compiled.meta.implementation.evidence.length, 2);
+  assert.equal(compiled.meta.implementation.acceptance_criteria.length, 2);
+
+  const manifest = JSON.parse(fs.readFileSync(COMPILED_MANIFEST_PATH, "utf8"));
+  const manifestModule = manifest.modules.find((entry) => entry.id === "shift-ops-adapter-capability");
+  assert.ok(manifestModule);
+  assert.equal(manifestModule.implementation.evidence_summary.total, 2);
+  assert.equal(manifestModule.implementation.acceptance_summary.total, 2);
+
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const fixture = fixtureManifest.fixtures.find((entry) => entry.id === "positive-adapter-capability-exposure-pack");
+  assert.ok(fixture);
+  assert.equal(fixture.kind, "positive");
+  assert.equal(fixture.input.path, "../authoring.json");
+  assert.ok(fixture.golden_exports.some((entry) => entry.id === "adapter-capability-exposure-module"));
 });

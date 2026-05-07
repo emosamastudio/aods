@@ -1,6 +1,6 @@
 # AODS Surface-family Example Pack Plan
 
-状态：U-053 event + correction/supersession 包已落地
+状态：U-054 adapter + capability/exposure 包已落地
 日期：2026-05-07
 适用范围：GitHub `#56` common AODS surface family examples
 
@@ -8,9 +8,9 @@
 
 `#56` 不应一次性变成全量示例库。当前最高价值、最低风险路线是先做 example pack triage，再选择一个 schema/runtime 已稳定的最小示例包。
 
-已落地前三包为 **U-051 read-model + implementation-linkage canonical example pack**、**U-052 command + receipt canonical example pack** 和 **U-053 event + correction/supersession canonical example pack**。原因：read-model freshness、implementation evidence、acceptance criteria、fixture/golden convention、command/receipt/audit/risk 边界、event correction/supersession guidance 已经落地，能够用现有 validator 和 compiled-pilot source-first 结构验证；adapter/policy-gate 仍更容易扩散到 runtime 或协议栈。
+已落地前四包为 **U-051 read-model + implementation-linkage canonical example pack**、**U-052 command + receipt canonical example pack**、**U-053 event + correction/supersession canonical example pack** 和 **U-054 adapter + capability/exposure canonical example pack**。原因：read-model freshness、implementation evidence、acceptance criteria、fixture/golden convention、command/receipt/audit/risk 边界、event correction/supersession guidance、adapter capability/exposure guidance 已经落地，能够用现有 validator 和 compiled-pilot source-first 结构验证；artifact/export/policy-gate 仍需最后分批处理。
 
-下一轮首选 **U-054 adapter + capability/exposure canonical example pack**。它展示 adapter-facing stable surface 的 provider capability、consumer requirement、local/remote exposure、audit notes 和 implementation acceptance linkage；仍不实现 negotiation handshake、auth runtime、dynamic probing 或 remote gateway。
+下一轮首选 **U-055 artifact/export/policy-gate canonical example pack**。它展示 artifact type、golden export、policy gate、validation notes 和 implementation acceptance linkage；仍不实现 conformance runner、自动 golden update 或全量 fixture 迁移。
 
 ## 输入信号
 
@@ -29,8 +29,8 @@
 | 1 | read-model + implementation-linkage | 展示 stable read model 如何声明 freshness、watermark、implementation evidence、acceptance criteria | 已完成 U-051：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不新增 runtime fetcher、不执行 evidence command、不做全量 domain model |
 | 2 | command + receipt | 展示 write-capable surface 的 command、receipt、audit metadata 和 risk taxonomy | 已完成 U-052：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不实现 command executor、不建 event bus |
 | 3 | event + correction/supersession | 展示 append-only event、correction_of、supersedes、projection guidance | 已完成 U-053：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不实现 event store、不做 replay/migration |
-| 4 | adapter + capability/exposure | 展示 provider capability、consumer requirement、local/remote exposure、audit notes | 下一轮首选：minimal authoring example + compile/validate regression | 不做 negotiation handshake、不做 auth runtime |
-| 5 | artifact/export/policy-gate | 展示 artifact type、golden export、policy gate 与 validation notes | fixture/golden example expansion | 不做 conformance runner、不迁移全部 examples |
+| 4 | adapter + capability/exposure | 展示 provider capability、consumer requirement、local/remote exposure、audit notes | 已完成 U-054：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 negotiation handshake、不做 auth runtime |
+| 5 | artifact/export/policy-gate | 展示 artifact type、golden export、policy gate 与 validation notes | 下一轮首选：minimal authoring example + compile/validate regression | 不做 conformance runner、不迁移全部 examples |
 
 ## 已执行：U-051 最小包
 
@@ -118,7 +118,7 @@
 4. `examples/compiled-pilot-source/fixtures/fixture-manifest.json` 已新增 positive event correction/supersession fixture。
 5. `benchmarks/aods-eval-lab/test/example-packs.test.mjs` 已扩展覆盖 event source、compiled module、manifest summary 和 fixture metadata。
 
-## U-054 候选包
+## 已执行：U-054 最小包
 
 ### 目标
 
@@ -136,6 +136,33 @@
 ### 非目标
 
 不实现 negotiation handshake，不做 auth runtime，不做 dynamic probing，不建 remote API gateway。
+
+### 验收结果
+
+1. `examples/compiled-pilot-source/authoring.json` 已新增 `shift-ops-adapter-capability`。
+2. `examples/compiled-pilot/modules/shift-ops-adapter-capability.json` 已由 `npm run compile:pilot` 生成。
+3. 模块包含 provider capability、consumer requirement、exposure/audit posture、implementation evidence、acceptance criteria。
+4. `examples/compiled-pilot-source/fixtures/fixture-manifest.json` 已新增 positive adapter capability/exposure fixture。
+5. `benchmarks/aods-eval-lab/test/example-packs.test.mjs` 已扩展覆盖 adapter source、compiled module、manifest summary 和 fixture metadata。
+
+## U-055 候选包
+
+### 目标
+
+在 compiled-pilot source-first example 中加入 artifact/export/policy-gate canonical example pack，展示 artifact type、golden export、policy gate、validation notes 和 implementation acceptance linkage。
+
+### 验收边界
+
+| 文件 | 变更 |
+|---|---|
+| `examples/compiled-pilot-source/authoring.json` | 新增或扩展一个 artifact/export/policy-gate module，声明 artifact type、golden export、policy gate、validation notes、implementation evidence、acceptance criteria |
+| `examples/compiled-pilot-source/fixtures/fixture-manifest.json` | 增加对应 positive fixture / golden export 记录 |
+| `examples/compiled-pilot/` | 由 `npm run compile:pilot` 生成 |
+| `benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 扩展 focused regression |
+
+### 非目标
+
+不实现 conformance runner，不做自动 golden update，不迁移全部 examples，不重写 fixture convention。
 
 ## Deferred
 

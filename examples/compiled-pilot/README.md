@@ -8,7 +8,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - Pair ID: `pair-shift-ops-readme`
 - Sync source: `agent-primary`
 - Agent primary: `shift-ops-capsule`
-- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-change-command`, `shift-ops-change-event-log`, `shift-ops-governance`, `shift-ops-runbook`
+- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-change-command`, `shift-ops-change-event-log`, `shift-ops-adapter-capability`, `shift-ops-governance`, `shift-ops-runbook`
 
 ## Canonical facts
 
@@ -23,6 +23,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - `shift-ops-readiness-read-model` (reference): Canonical read-model example for release readiness status, freshness, watermark, implementation evidence, and acceptance criteria.
 - `shift-ops-change-command` (workflow): Canonical command + receipt example for operational change requests without implementing a command executor.
 - `shift-ops-change-event-log` (reference): Canonical event + correction/supersession example for operational change history without implementing an event store.
+- `shift-ops-adapter-capability` (protocol): Canonical adapter + capability/exposure example for shift operations integration surfaces without implementing negotiation runtime.
 - `shift-ops-governance` (policy): Implementation governance authority for release readiness, acceptance evidence, and review routing for shift operations changes.
 - `shift-ops-runbook` (workflow): Authoritative incident runbook for sev1 response and immediate stabilization.
 
@@ -34,7 +35,7 @@ Summary routing for shift operations detail modules.
 
 #### capsule summary and next routes
 
-Routes: policy, readiness, command, event, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
+Routes: policy, readiness, command, event, adapter, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
 
 ### shift-ops-root
 
@@ -42,7 +43,7 @@ Root routing for the shift operations pilot. Use at cold start before loading ca
 
 #### root routing overview
 
-Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
+Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
 
 Artifacts:
 - `route-table` (mapping-table): First-hop routing from cold start.
@@ -107,6 +108,27 @@ Artifacts:
 - `change-event-field-table` (mapping-table): Canonical field guide for append-only change events.
 - `change-event-correction-table` (mapping-table): Correction and supersession fields for append-only event surfaces.
 - `change-event-projection-guidance-table` (mapping-table): Consumer guidance for corrected event projection.
+
+### shift-ops-adapter-capability
+
+Canonical adapter + capability/exposure example for shift operations integration surfaces without implementing negotiation runtime.
+
+#### adapter provider capability claim
+
+Provider capability claim names adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. Capability claim is metadata only and does not create runtime discovery, auth exchange, fallback ranking, or dynamic probing.
+
+#### adapter consumer requirement
+
+Consumer requirement names required capability_id, accepted contract_profile, required_schema_version_policy, transport_scope need, freshness requirement, redaction floor, exposure class, and blocking posture. Compatibility result may be compatible, incompatible, partial, or unknown; it does not select providers or execute adapters.
+
+#### adapter exposure and audit posture
+
+Adapter-facing exposure requires exposure_class, auth_boundary, redaction_floor, freshness_requirement, compatibility_policy, risk_labels, audit_anchor, and consumer_guidance. Audit notes record actor, source, target, adapter_id, capability_id, policy_decision, timestamp, and correlation_id. This example does not host a remote gateway.
+
+Artifacts:
+- `adapter-capability-table` (mapping-table): Canonical provider capability fields for adapter-facing surfaces.
+- `adapter-consumer-requirement-table` (mapping-table): Canonical consumer requirement fields for metadata-only capability comparison.
+- `adapter-exposure-audit-table` (mapping-table): Exposure and audit posture for adapter-facing capability claims.
 
 ### shift-ops-governance
 

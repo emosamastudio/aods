@@ -23,6 +23,7 @@
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
           "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
           "shift-ops-governance"
         ]
       },
@@ -45,6 +46,7 @@
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
           "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
           "shift-ops-governance"
         ]
       }
@@ -87,7 +89,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, and the surface inventory when current corpus surfaces must be checked.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, the adapter module for capability exposure, and the surface inventory when current corpus surfaces must be checked.",
       "tags": [
         "root",
         "routing",
@@ -129,13 +131,14 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
             "shift-ops-capsule:system-capsule",
             "shift-ops-governance:implementation-governance",
             "shift-ops-change-command:change-command",
-            "shift-ops-change-event-log:change-event-correction-supersession"
+            "shift-ops-change-event-log:change-event-correction-supersession",
+            "shift-ops-adapter-capability:adapter-provider-capability"
           ],
           "artifact_refs": [
             "route-table",
@@ -181,6 +184,10 @@
               [
                 "change event correction and supersession",
                 "shift-ops-change-event-log:change-event-correction-supersession"
+              ],
+              [
+                "adapter capability and exposure",
+                "shift-ops-adapter-capability:adapter-provider-capability"
               ],
               [
                 "incident response",
@@ -235,7 +242,7 @@
       "layer": "capsule",
       "priority": "critical",
       "scope": "Summary routing for shift operations detail modules.",
-      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, governance, or runbook detail.",
+      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, adapter, governance, or runbook detail.",
       "tags": [
         "capsule",
         "routing",
@@ -255,6 +262,7 @@
             "shift-ops-policy:approval-policy",
             "shift-ops-change-command:change-command",
             "shift-ops-change-event-log:change-event-correction-supersession",
+            "shift-ops-adapter-capability:adapter-provider-capability",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -272,6 +280,7 @@
             "readiness read model",
             "command module",
             "event module",
+            "adapter module",
             "governance module",
             "runbook module"
           ],
@@ -284,7 +293,7 @@
       "capsule": {
         "read_when": [
           "Need summary routing after cold start",
-          "Need policy, readiness, command, event, governance, or incident detail"
+          "Need policy, readiness, command, event, adapter, governance, or incident detail"
         ],
         "core_question": "Which detail module should answer the current shift operations question?",
         "routes_to": [
@@ -292,6 +301,7 @@
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
           "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -304,13 +314,14 @@
         {
           "sid": "system-capsule",
           "topic": "capsule summary and next routes",
-          "content": "Routes: policy, readiness, command, event, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content": "Routes: policy, readiness, command, event, adapter, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
           "content_type": "rules",
           "refs": [
             "shift-ops-policy:approval-policy",
             "shift-ops-readiness-read-model:release-readiness-read-model",
             "shift-ops-change-command:change-command",
             "shift-ops-change-event-log:change-event-correction-supersession",
+            "shift-ops-adapter-capability:adapter-provider-capability",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -1269,6 +1280,299 @@
       ]
     },
     {
+      "id": "shift-ops-adapter-capability",
+      "category": "protocol",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical adapter + capability/exposure example for shift operations integration surfaces without implementing negotiation runtime.",
+      "context": "Adapter + capability/exposure example pack for adapter-facing stable surfaces. Use when authors need provider capability, consumer requirement, exposure posture, audit notes, implementation evidence, and acceptance criteria without handshake, auth runtime, dynamic probing, or remote gateway semantics.",
+      "tags": [
+        "adapter",
+        "capability",
+        "exposure",
+        "audit",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "adapter-capability-contract-v1",
+            "capability-exposure-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "platform-adapter-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "adapter-capability-validator"
+          ],
+          "resources": [
+            "release readiness record",
+            "change command receipt",
+            "adapter capability claim"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "adapter-capability-status",
+            "exposure-class-status"
+          ],
+          "checkpoints": [
+            "provider-capability-declared",
+            "consumer-requirement-compared",
+            "exposure-audit-recorded"
+          ],
+          "outputs": [
+            "adapter-capability-claim",
+            "adapter-exposure-review"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-worker",
+          "paths": [
+            "workers/adapters/src/capabilities.ts",
+            "workers/adapters/tests/capabilities.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-331"
+          ],
+          "authority_surface": "shift-ops-adapter-capability:adapter-provider-capability",
+          "evidence": [
+            {
+              "id": "adapter-capability-contract-test",
+              "kind": "test",
+              "locator": "workers/adapters/tests/capabilities.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-adapter-capability:adapter-provider-capability"
+            },
+            {
+              "id": "adapter-exposure-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/adapters/capability-exposure.json",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-adapter-capability:adapter-exposure-audit"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "adapter-provider-capability-contract",
+              "surface_ref": "shift-ops-adapter-capability:adapter-provider-capability",
+              "requirement": "Provider capability declares adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "adapter-capability-contract-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-adapter-capability:adapter-provider-capability"
+            },
+            {
+              "id": "adapter-consumer-requirement-contract",
+              "surface_ref": "shift-ops-adapter-capability:adapter-consumer-requirement",
+              "requirement": "Consumer requirement declares required capability_id, accepted contract profile, required schema policy, transport need, freshness requirement, redaction floor, exposure class, and blocking posture.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "adapter-exposure-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-adapter-capability:adapter-consumer-requirement"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "adapter-provider-capability",
+          "topic": "adapter provider capability claim",
+          "content": "Provider capability claim names adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. Capability claim is metadata only and does not create runtime discovery, auth exchange, fallback ranking, or dynamic probing.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "adapter-capability-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "adapter-consumer-requirement",
+          "topic": "adapter consumer requirement",
+          "content": "Consumer requirement names required capability_id, accepted contract_profile, required_schema_version_policy, transport_scope need, freshness requirement, redaction floor, exposure class, and blocking posture. Compatibility result may be compatible, incompatible, partial, or unknown; it does not select providers or execute adapters.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-adapter-capability:adapter-provider-capability"
+          ],
+          "artifact_refs": [
+            "adapter-consumer-requirement-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "adapter-exposure-audit",
+          "topic": "adapter exposure and audit posture",
+          "content": "Adapter-facing exposure requires exposure_class, auth_boundary, redaction_floor, freshness_requirement, compatibility_policy, risk_labels, audit_anchor, and consumer_guidance. Audit notes record actor, source, target, adapter_id, capability_id, policy_decision, timestamp, and correlation_id. This example does not host a remote gateway.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "adapter-exposure-audit-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "adapter-capability-table",
+          "type": "mapping-table",
+          "usage": "Canonical provider capability fields for adapter-facing surfaces.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "adapter_id",
+                "stable adapter identity",
+                "yes"
+              ],
+              [
+                "capability_id",
+                "named capability such as readiness.query or change.submit",
+                "yes"
+              ],
+              [
+                "contract_profile",
+                "read-model|command|later explicit capability profile",
+                "yes"
+              ],
+              [
+                "transport_scope",
+                "local-only|hosted|hybrid",
+                "yes"
+              ],
+              [
+                "evidence_anchor",
+                "authority or evidence ref supporting the claim",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "adapter-consumer-requirement-table",
+          "type": "mapping-table",
+          "usage": "Canonical consumer requirement fields for metadata-only capability comparison.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "required_capability_id",
+                "capability the consumer needs",
+                "yes"
+              ],
+              [
+                "accepted_contract_profile",
+                "contract profile the consumer can process",
+                "yes"
+              ],
+              [
+                "freshness_requirement",
+                "freshness floor for consumed data",
+                "yes"
+              ],
+              [
+                "redaction_floor",
+                "minimum redaction posture",
+                "yes"
+              ],
+              [
+                "blocking_posture",
+                "strict|warning|manual-review|none",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "adapter-exposure-audit-table",
+          "type": "mapping-table",
+          "usage": "Exposure and audit posture for adapter-facing capability claims.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "requirement",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "exposure_class",
+                "adapter-facing with declared local/remote boundary",
+                "does not host remote gateway"
+              ],
+              [
+                "auth_boundary",
+                "names auth posture expected by consumers",
+                "does not implement auth runtime"
+              ],
+              [
+                "risk_labels",
+                "network, credential, cost, and production-mutation risk labels",
+                "does not enforce policy"
+              ],
+              [
+                "audit_anchor",
+                "evidence or authority surface supporting the action trace",
+                "does not create audit store"
+              ],
+              [
+                "correlation_id",
+                "trace identifier for adapter-facing action records",
+                "does not perform dynamic probing"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "shift-ops-runbook",
       "category": "workflow",
       "layer": "detail",
@@ -1684,6 +1988,7 @@
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
           "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1699,6 +2004,7 @@
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
           "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1754,6 +2060,19 @@
         "reason": "Event edits require command receipt linkage, correction and supersession posture, projection guidance, and implementation-linkage evidence."
       },
       {
+        "match": "modules/shift-ops-adapter-capability.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-adapter-capability",
+          "shift-ops-governance"
+        ],
+        "reason": "Adapter edits require provider capability, consumer requirement, exposure posture, audit notes, and implementation-linkage evidence."
+      },
+      {
         "match": "modules/shift-ops-runbook.json",
         "intent": "write",
         "load": [
@@ -1773,6 +2092,7 @@
           "shift-ops-policy",
           "shift-ops-change-command",
           "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1791,6 +2111,7 @@
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
           "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
