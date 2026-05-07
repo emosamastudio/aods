@@ -21,6 +21,9 @@
 | `aods-expanded-task-plan.zh-CN.md` | U-058 后的扩展任务池、批量执行规则和下一批推荐 | 高 |
 | `aods-glossary-registry-plan.zh-CN.md` | `#57` glossary / canonical-term registry v2 boundary、schema/validator/example 后续任务裁剪 | 高 |
 | `aods-external-citation-plan.zh-CN.md` | `#58` external citation / provenance metadata boundary、schema/validator/example 后续任务裁剪 | 高 |
+| `aods-github-public-sync-triage.zh-CN.md` | `#54-#58`、`#60/#41` 的本地覆盖与公开状态差异、owner 审批矩阵 | 高 |
+| `aods-next-code-drift-slice.zh-CN.md` | 下一段代码漂移最小切片选择，确认 U-071 implementation reality locator hardening | 高 |
+| `aods-route-discoverability-review.zh-CN.md` | `#9/#10/#17` 与 route / boot_by_touch discoverability 残留复盘，新增 U-076 建议 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -46,9 +49,12 @@
 16. 读 `aods-expanded-task-plan.zh-CN.md`
 17. 读 `aods-glossary-registry-plan.zh-CN.md`
 18. 读 `aods-external-citation-plan.zh-CN.md`
-19. 读 `aods-v0.7-rc-gate.zh-CN.md`
-20. 读 `aods-handoff.zh-CN.md`
-21. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+19. 读 `aods-github-public-sync-triage.zh-CN.md`
+20. 读 `aods-next-code-drift-slice.zh-CN.md`
+21. 读 `aods-route-discoverability-review.zh-CN.md`
+22. 读 `aods-v0.7-rc-gate.zh-CN.md`
+23. 读 `aods-handoff.zh-CN.md`
+24. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 

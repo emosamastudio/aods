@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-08
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-08 |
+| 开始时间 | 2026-05-08 02:06 Asia/Shanghai |
+| 结束时间 | 2026-05-08 02:14 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | docs/read-only triage；不执行 public sync、不改 schema/runtime |
+| 本轮选中任务 | U-068、U-069、U-070 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-08
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/`、`docs/README.md` |
+| 禁止触碰 | GitHub issue comment/close/label、PR、release、schema/validator/runtime、route ranking、compiled corpus semantic output、Polaris sibling repo、public README benchmark sync 区块、`MEMORY.md` |
+| 外部依赖 | `gh issue view` 只读；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-08
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-068 | 未开始 | 已完成 | 只读复盘 `#54-#58`、`#60/#41` 的 GitHub 状态与本地覆盖；形成 public sync 审批矩阵 | `docs/operations/aods-github-public-sync-triage.zh-CN.md`、operations docs |
+| 2 | U-069 | 未开始 | 已完成 | 对 topology、implementation linkage、evidence、acceptance、freshness、citation、behavioral drift 候选做最小切片选择 | `docs/operations/aods-next-code-drift-slice.zh-CN.md`、operations docs |
+| 3 | U-070 | 未开始 | 已完成 | 复盘 `#9/#10/#17`、当前 `boot_by_touch`、route smoke、strict validation warnings；新增 U-076 route help 残留任务 | `docs/operations/aods-route-discoverability-review.zh-CN.md`、operations docs |
+
+## 验证记录：R-2026-05-08-08
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-068/U-069/U-070 | Previous-round quality review | `git status --short`、`git log -1 --stat --oneline`、`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run validate:all`、`git diff --check` | 通过 | U-067 提交后工作区仅 untracked `MEMORY.md`；example pack regression、repo validation、diff whitespace 均通过后进入本轮 |
+| U-068 | GitHub issue read-only review | `gh issue view 54/55/56/57/58/60/41 --json ...` | 通过 | `#54-#58` 仍 open；`#60/#41` 保持 open；本轮未执行公开写操作 |
+| U-070 | Closed route issue review | `gh issue view 9/10/17 --json ...` | 通过 | 三个 issue 均 closed，且已有 v0.7 release comment |
+| U-070 | Route touch smoke | `node ./bin/aods.mjs route . --touch lib/route.mjs --intent write --json` | 通过 | 选择 `spec-boot-protocol`、`spec-surface-governance`、`spec-validation` |
+| U-070 | Route query smoke | `node ./bin/aods.mjs route . --query "boot_by_touch route discoverability warnings" --stage plan --intent read --json` | 通过 | query route 命中 validation / boot protocol / authority governance |
+| U-069 | Drift route smoke | `node ./bin/aods.mjs route . --query "implementation evidence acceptance freshness citation drift" --stage plan --intent read --json` | 通过 | query route 命中 `spec-validation`，支持 U-071 作为下一 drift slice |
+| U-070 | Strict validation JSON | `node ./bin/aods.mjs validate . --strict --json` | 通过 | L1-L4 pass，warnings=0 |
+| U-068/U-069/U-070 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-068/U-069/U-070 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-08
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-070 | U-076 | 增加 route 子命令 help / discoverability smoke test | P2 | `node ./bin/aods.mjs route --help` 或等价入口输出 route 用法；focused CLI regression 覆盖；不改变 route ranking | U-071 旁路低风险小修 |
+
+## 回合结束摘要：R-2026-05-08-08
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 3 | U-068、U-069、U-070 |
+| 完成任务 | 3 | public sync triage、next drift slice、route discoverability review 完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | public sync 仍需 owner 授权，但不阻塞本轮 docs/read-only 成果 |
+| 新增任务 | 1 | U-076 route subcommand help / smoke test |
+| 剩余未完成任务 | 6 | 下一轮首选 U-071；也可先做 U-076 小修 |
+
 ## 回合摘要：R-2026-05-08-07
 
 | 项 | 内容 |

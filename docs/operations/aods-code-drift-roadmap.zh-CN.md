@@ -1,13 +1,13 @@
 # AODS 代码漂移路线
 
-状态：下一阶段设计路线
+状态：历史路线；最新下一切片见 `aods-next-code-drift-slice.zh-CN.md`
 日期：2026-05-07
 
 ## 结论
 
 代码漂移在 AODS 后续规划内，而且应该成为 AODS 区别于普通文档格式的核心能力之一。但推进方式必须是 authority-first：先让规范声明、实现位置、证据 artifacts 和验证结果形成闭环，再逐步进入行为一致性检测。
 
-下一步不做全量代码扫描器，也不让 LLM 直接判定代码是否符合规范。下一步做 `implementation evidence` 最小切片：让 AODS 能表达“这个 stable surface 的实现证据在哪里、由什么命令或 artifact 证明、什么时候算过期、validator 能否看到它”。
+下一步不做全量代码扫描器，也不让 LLM 直接判定代码是否符合规范。最初下一步是 `implementation evidence` 最小切片；该切片已在 U-027 完成。U-069 后的最新选择是 U-071：强化 implementation reality locator drift 检查，让 descriptive / unresolved repo locator 和 path-like evidence locator 的现实可检查性更明确。
 
 ## 要解决的问题
 

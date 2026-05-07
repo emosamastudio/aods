@@ -31,6 +31,9 @@
 | `docs/operations/aods-expanded-task-plan.zh-CN.md` | U-058 后的扩展任务池、批量执行规则和下一批推荐。 |
 | `docs/operations/aods-glossary-registry-plan.zh-CN.md` | `#57` glossary / canonical-term registry v2 boundary 和后续 schema/validator/example 任务裁剪。 |
 | `docs/operations/aods-external-citation-plan.zh-CN.md` | `#58` external citation / provenance metadata boundary 和后续 schema/validator/example 任务裁剪。 |
+| `docs/operations/aods-github-public-sync-triage.zh-CN.md` | `#54-#58`、`#60/#41` 的本地覆盖与公开状态差异、owner 审批矩阵。 |
+| `docs/operations/aods-next-code-drift-slice.zh-CN.md` | 下一段代码漂移最小切片选择，确认 U-071 implementation reality locator hardening。 |
+| `docs/operations/aods-route-discoverability-review.zh-CN.md` | `#9/#10/#17` 与 route / boot_by_touch discoverability 残留复盘，新增 U-076 建议。 |
 
 ## 当前维护边界
 

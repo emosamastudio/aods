@@ -10,36 +10,34 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S10 external citation canonical example pack |
-| 当前回合 | R-2026-05-08-07 |
-| 未完成任务数量 | 8 |
-| 已完成任务数量 | 72 |
+| 当前阶段 | S11 public sync / drift / route triage |
+| 当前回合 | R-2026-05-08-08 |
+| 未完成任务数量 | 6 |
+| 已完成任务数量 | 75 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-07 |
-| 开始时间 | 2026-05-08 01:50 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-08 |
+| 开始时间 | 2026-05-08 02:06 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-067 |
-| 本轮范围 | external citation / provenance canonical example pack：source-first governance module 示例、external current authority、unsupported assumption、decision_provenance citation refs、fixture manifest、focused regression、compiled-pilot 输出、operations docs 同步 |
-| 排除范围 | citation crawler、remote fetch、URL availability check、fact checker、cross-corpus resolver、unsupported factual claim detector、LLM faithfulness judge、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块 |
-| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`；`npm run compile:pilot`；`npm run validate:all`；`git diff --check`；`npm run benchmark:test` 不作为本轮通过 gate，因为 hosted repeatability 外部捕获仍不可复现 |
-| 新任务处理规则 | 本轮不新增任务 ID；U-068/U-069/U-070 作为下一批 docs/read-only triage 候选。 |
+| 选中任务 | U-068、U-069、U-070 |
+| 本轮范围 | docs/read-only triage：GitHub issue local/public status matrix、下一段代码漂移最小切片选择、boot_by_touch / route discoverability residual review、operations docs 同步 |
+| 排除范围 | GitHub 公开写操作、schema/validator/runtime 实现、route ranking 改动、release 发布、Polaris sibling repo、public README benchmark sync 区块、`MEMORY.md` |
+| 验证计划 | `gh issue view` 只读审查；`node ./bin/aods.mjs route ... --json`；`node ./bin/aods.mjs validate . --strict --json`；`npm run validate:all`；`git diff --check` |
+| 新任务处理规则 | 本轮新增 U-076 route subcommand help / discoverability smoke test；只入未完成队列，不在本轮实现。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-068 | S11 | 复盘 GitHub issue 本地覆盖与公开状态差异 | P2 | 未开始 | `#54-#58`、`#60/#41` 等 issue 的本地覆盖、剩余缺口、是否建议评论/关闭形成审批矩阵；不执行公开写操作 | U-061 | Batch D 候选 |
-| U-069 | S11 | 选择下一段代码漂移最小切片 | P1 | 未开始 | 从 topology、implementation linkage、evidence、acceptance、freshness、citation 中选择下一个 deterministic drift gate，输出最小实现任务；排除全量代码扫描器和 LLM-only 判定 | U-061 | Batch D 候选 |
-| U-070 | S11 | 复盘 boot-by-touch / route discoverability 残留 | P2 | 未开始 | 审查 `#9/#10/#17` 与当前 routing warnings，确定是否需要低风险 route authoring guidance 或测试；不削弱 strict gate | U-061 | Batch D 候选 |
 | U-071 | S11 | 强化 implementation reality locator drift 检查 | P1 | 未开始 | 对 duplicate/descriptive locator、missing path、stale evidence locator 的诊断做最小改进；focused regression、`npm run validate:all`、`npm run benchmark:test` 均通过 | U-069 | drift implementation 候选 |
 | U-072 | S11 | 更新 public docs navigation for completed example packs | P2 | 未开始 | README / operations docs 指向六类 example pack 现状；benchmark sync 区块只从 generator 改；不夸大 coverage；`git diff --check` 和必要 validate 通过 | U-068 | docs 候选 |
 | U-073 | S11 | 制定 v0.12 backlog triage | P2 | 未开始 | 将 `#33/#35/#37/#38/#39/#43-#52/#59/#60` 中未覆盖项重新排序到 v0.12+，输出下一批任务；不实现新能力 | U-069 | docs 候选 |
 | U-074 | S11 | 执行 v0.11 累积变更 release readiness gate | P1 | 未开始 | `release:self-check`、必要 focused tests、diff hygiene、release notes skeleton 通过；不发布 release | U-073 | 单独执行 |
 | U-075 | S11 | GitHub issue / PR / release public sync execution | P1 | 未开始 | 仅在 owner 明确批准后评论/关闭 issue、创建 PR 或 release；同步前确认 staged set 不含 `MEMORY.md` | U-074 | 需 owner 授权，单独执行 |
+| U-076 | S11 | 增加 route 子命令 help / discoverability smoke test | P2 | 未开始 | `node ./bin/aods.mjs route --help` 或等价入口输出 route 用法；focused CLI regression 覆盖；不改变 route ranking | U-070 | route DX 候选 |
 
 ## 已完成任务
 
@@ -117,6 +115,9 @@
 | 70 | U-065 | S10 | 落地 external citation metadata 最小 schema 与 compile mirror | P1 | 2026-05-08 | `schema/module.schema.json`、`examples/compiled-pilot/schema/module.schema.json`、`benchmarks/aods-eval-lab/generated/aods-corpus/schema/module.schema.json`、`spec/validation-rules.json`、source-first focused regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | module sections、artifacts、decision_provenance 现在支持 `citation_refs[]`，`module.meta.external_citations[]` 支持 source_type、locator、version_or_date、authority_relation、claim_posture、uncertainty、review_status；不实现 crawler、remote fetch 或事实核验 |
 | 71 | U-066 | S10 | 落地 external citation validator gates | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check`；`npm run benchmark:test` 因 hosted repeatability 外部捕获不可复现而未作为本轮通过 gate | validator 已检查 citation id uniqueness、citation_refs resolution、authoritative locator/version completeness、assumption posture、stable agent-consumable current authoritative citation；不做 unsupported factual claim detector 或 LLM faithfulness judge |
 | 72 | U-067 | S10 | 增加 external citation / provenance canonical example pack | P2 | 2026-05-08 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/modules/shift-ops-governance.json`、`examples/compiled-pilot/manifest.json`、`examples/compiled-pilot/README.md`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` 按预期失败；`npm run compile:pilot`；`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`；`npm run validate:all`；`git diff --check` | compiled-pilot governance module 现在展示 current external authority、unsupported assumption、section/artifact/provenance citation refs 和 fixture golden export；不实现 crawler、remote fetch、fact checker、claim detector 或 resolver |
+| 73 | U-068 | S11 | 复盘 GitHub issue 本地覆盖与公开状态差异 | P2 | 2026-05-08 | `docs/operations/aods-github-public-sync-triage.zh-CN.md`、operations docs | `gh issue view 54/55/56/57/58/60/41 --json ...`、`npm run validate:all`、`git diff --check` | `#54-#58` 本地覆盖已领先公开状态；建议先 U-072 public docs navigation，再由 owner 批准后评论/关闭；`#60/#41` 保持 open |
+| 74 | U-069 | S11 | 选择下一段代码漂移最小切片 | P1 | 2026-05-08 | `docs/operations/aods-next-code-drift-slice.zh-CN.md`、operations docs | `node ./bin/aods.mjs route . --query "implementation evidence acceptance freshness citation drift" --stage plan --intent read --json`、`npm run validate:all`、`git diff --check` | 下一段选择 U-071 implementation reality locator drift hardening；不做全量扫描器、LLM judge、remote clone 或 evidence command executor |
+| 75 | U-070 | S11 | 复盘 boot-by-touch / route discoverability 残留 | P2 | 2026-05-08 | `docs/operations/aods-route-discoverability-review.zh-CN.md`、operations docs | `gh issue view 9/10/17 --json ...`、`node ./bin/aods.mjs route . --touch lib/route.mjs --intent write --json`、`node ./bin/aods.mjs validate . --strict --json`、`npm run validate:all`、`git diff --check` | `#9/#10/#17` 保持 closed；本地 strict warnings=0；新增 U-076 作为 route subcommand help 残留，不在本轮实现 |
 
 ## 失败或阻塞任务
 
@@ -187,3 +188,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-064` 完成 | glossary registry canonical example pack 已落地；compiled-pilot 现在展示 v2 canonical term record、aliases、deprecated term、owner、linked surfaces 和 fixture manifest golden export，下一步进入 external citation Batch C。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-065`、`U-066` 完成 | Batch C 已完成：external citation schema / source-first mirror 与 deterministic validator gates 已落地；下一步优先 U-067 external citation canonical example pack。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-067` 完成 | external citation canonical example pack 已落地；compiled-pilot governance module 现在展示 current external authority、unsupported assumption、internal decision provenance citation refs 和 fixture regression，下一步优先 Batch D：U-068/U-069/U-070。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-068`、`U-069`、`U-070` 完成 | Batch D 已完成：GitHub issue 本地/公开状态矩阵、下一段代码漂移最小切片和 route discoverability 残留均已复盘；下一步优先 U-071 implementation reality locator drift hardening，也可先做 U-076 route help 小修。 |

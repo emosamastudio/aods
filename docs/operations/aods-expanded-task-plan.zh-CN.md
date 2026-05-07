@@ -31,14 +31,15 @@
 | U-065 | S10 | schema / compile | P1 | 已完成 | 落地 external citation metadata 最小 schema | module-level `external_citations[]` 与 local `citation_refs[]` 已进入 module schema；source-first regression 覆盖 compile mirror |
 | U-066 | S10 | validator | P1 | 已完成 | 落地 external citation validator gates | citation id unique、citation ref resolution、authoritative completeness、assumption posture、stable currentness 均有 deterministic gate |
 | U-067 | S10 | example / regression | P2 | 已完成 | 增加 external citation / provenance canonical example pack | compiled-pilot example 已展示 current external authority、internal decision provenance、unsupported assumption 分界；fixture 与 focused regression 覆盖 |
-| U-068 | S11 | public sync triage | P2 | docs-only 可同轮 | 复盘 GitHub issue 本地覆盖与公开状态差异 | `#54-#58`、`#60/#41` 等 issue 的本地覆盖、剩余缺口、是否建议评论/关闭形成审批矩阵；不执行公开写操作 |
-| U-069 | S11 | drift planning | P1 | 可与 U-068 同轮 | 选择下一段代码漂移最小切片 | 从 topology、implementation linkage、evidence、acceptance、freshness、citation 中选择下一个 deterministic drift gate；排除全量代码扫描器 |
-| U-070 | S11 | docs / routing | P2 | 可与 U-069 同轮 | 复盘 boot-by-touch / route discoverability 残留 | 审查 `#9/#10/#17` 和当前 routing warnings，确定是否需要低风险 route authoring guidance 或测试；不削弱 strict gate |
+| U-068 | S11 | public sync triage | P2 | 已完成 | 复盘 GitHub issue 本地覆盖与公开状态差异 | `#54-#58`、`#60/#41` 本地覆盖与公开状态矩阵已完成；不执行公开写操作 |
+| U-069 | S11 | drift planning | P1 | 已完成 | 选择下一段代码漂移最小切片 | 已选择 U-071 implementation reality locator drift hardening；排除全量代码扫描器 |
+| U-070 | S11 | docs / routing | P2 | 已完成 | 复盘 boot-by-touch / route discoverability 残留 | `#9/#10/#17` 保持 closed；新增 U-076 route help / smoke test 残留任务 |
 | U-071 | S11 | validation hardening | P1 | U-069 后 | 强化 implementation reality locator drift 检查 | 对 duplicate/descriptive locator、missing path、stale evidence locator 的诊断做最小改进；focused regression + `validate:all` |
 | U-072 | S11 | docs / examples | P2 | 可与 U-068 同轮 | 更新 public docs navigation for completed example packs | README/operations 指向六类 example pack 现状；benchmark sync 区块只从 generator 改；不夸大 coverage |
 | U-073 | S11 | backlog triage | P2 | docs-only 可同轮 | 制定 v0.12 backlog triage | 将 `#33/#35/#37/#38/#39/#43-#52/#59/#60` 中未覆盖项重新排序到 v0.12+；不实现新能力 |
 | U-074 | S11 | release gate | P1 | 单独执行 | 执行 v0.11 累积变更 release readiness gate | `release:self-check`、必要 focused tests、diff hygiene、release notes skeleton；不发布 release |
 | U-075 | S11 | public sync | P1 | 需 owner 授权，单独执行 | GitHub issue / PR / release public sync execution | 仅在 owner 明确批准后评论/关闭 issue、创建 PR 或 release；同步前确认 staged set 不含 `MEMORY.md` |
+| U-076 | S11 | route DX | P2 | 可单独小修 | 增加 route 子命令 help / discoverability smoke test | `node ./bin/aods.mjs route --help` 或等价入口输出 route 用法；focused CLI regression 覆盖；不改变 route ranking |
 
 ## 下一批推荐
 
@@ -49,7 +50,9 @@
 | Batch B2 | U-064 | 已完成；example pack 验证新 glossary registry shape，且未引入 runtime 或 external citation 变更 | compiled-pilot source-first example、fixture manifest、focused regression、`npm run validate:all`、`npm run benchmark:test` |
 | Batch C | U-065 + U-066 | 已完成；citation schema 和 validator 已按同一边界落地，并由 focused regression 覆盖 source-first mirror 与 deterministic gates | citation focused regression、`npm run validate:all`、`git diff --check`；hosted repeatability 依赖外部捕获，不作为本轮 gate |
 | Batch C2 | U-067 | 已完成；example pack 验证 external citation registry / provenance refs 的 canonical authoring 用法 | compiled-pilot source-first example、fixture manifest、focused regression、`npm run validate:all` |
-| Batch D | U-068 + U-069 + U-070 | 下一批首选；都是 docs/read-only triage，可扩展下一阶段任务池但不改变语义面 | `gh issue list/view`、`rg`、`git diff --check`、`npm run validate:all` |
+| Batch D | U-068 + U-069 + U-070 | 已完成；GitHub public sync、next drift slice、route discoverability residual 均已复盘 | `gh issue list/view`、`rg`、route smoke、`git diff --check`、`npm run validate:all` |
+| Batch E | U-071 | 下一批首选；回到代码漂移主线，强化 implementation reality locator diagnostics | focused regression、`npm run validate:all`、`git diff --check` |
+| Batch E-alt | U-076 | 可作为低风险小修先做；改善 route CLI 自发现，不改变 routing semantics | CLI help regression、`npm run validate:all`、`git diff --check` |
 
 ## 当前非目标
 
