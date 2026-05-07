@@ -2,6 +2,63 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-02
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-02 |
+| 开始时间 | 2026-05-08 00:29 Asia/Shanghai |
+| 结束时间 | 2026-05-08 00:29 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10；按 owner 最新要求优先规划更多任务并批量推进低冲突任务 |
+| 本轮选中任务 | U-059 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-02
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/aods-expanded-task-plan.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-work-rules.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、`docs/operations/README.md`、`docs/README.md` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、compile 输出、example pack 实现、glossary schema、external citation metadata、public README benchmark sync 区块 |
+| 外部依赖 | `gh issue list --state open --limit 100 --json ...` 只读审查；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-02
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-059 | 未开始 | 已完成 | 扩展 U-058 后任务池并制定批量执行规则：新增 expanded task plan，更新 task ledger、work rules、v0.11 backlog、handoff、round log 和 docs navigation | `docs/operations/aods-expanded-task-plan.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-work-rules.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md` |
+
+## 验证记录：R-2026-05-08-02
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-059 | Previous-round quality review | `npm run validate:all`、`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`git diff --check` | 通过 | U-058 提交后工作区仅 untracked `MEMORY.md`；repo validation、focused example-pack regression 和 diff whitespace 均通过后继续推进 |
+| U-059 | GitHub issue read-only review | `gh issue list --state open --limit 100 --json number,title,labels,updatedAt,url` | 通过 | 当前 open issue 中 `#57/#58` 仍是 v0.11 下一组低风险 boundary tasks，`#60/#41` 等高优先级治理 issue 留作后续路线输入 |
+| U-059 | Expanded task pool review | 人工审查 `aods-expanded-task-plan.zh-CN.md`、task ledger、handoff、v0.11 backlog | 通过 | U-060 到 U-075 已入账，且区分 docs-only、schema/validator、release/public sync 的批量准入和依赖 |
+| U-059 | Repo validation gate | `npm run validate:all` | 通过 | 本轮为 operations docs 变更，仍跑 repo-level gate 防止生成面或 compiled corpus 被意外破坏 |
+| U-059 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-02
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-059 / `#57` | U-060 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | P1 | 明确 aliases、deprecated terms、scope、owner、linked surfaces 与 current `manifest.glossary` 的关系；只做边界裁剪和后续任务 | Batch A 首选 |
+| U-059 / `#58` | U-061 | 裁剪 external citation / provenance metadata boundary 与最小实现路线 | P1 | 明确 external source、authority relation、claim posture、access date、unsupported assumption 的最小边界；只做边界裁剪和后续任务 | Batch A 首选 |
+| U-059 | U-062 - U-075 | schema/validator/example、drift、public docs、release gate、GitHub sync 后续任务池 | P1/P2 | 详见 `aods-expanded-task-plan.zh-CN.md` 与任务台账未完成任务表 | 后续按依赖分批 |
+
+## 回合结束摘要：R-2026-05-08-02
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-059 |
+| 完成任务 | 1 | 扩展任务池与批量执行规则完成 |
+| 失败任务 | 0 | U-058 复核通过；本轮 docs planning 未发现阻塞 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 16 | U-060 到 U-075 |
+| 剩余未完成任务 | 16 | 下一轮首选 Batch A：U-060 + U-061 |
+
 ## 回合摘要：R-2026-05-08-01
 
 | 项 | 内容 |
@@ -48,7 +105,7 @@
 
 | 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
 |---|---|---|---|---|---|
-| U-058 / `#57` | U-059 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | P1 | 审查当前 root `manifest.glossary`、authoring compile mirror、schema/validator touch points 和 `#57` 需求，明确 aliases、deprecated terms、scope、owner、linked surfaces 的最小边界；只做设计裁剪和后续任务，不直接实现 schema、validator、migration tool 或 term resolver runtime | 下一轮首选 |
+| U-058 / `#57` | U-060 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | P1 | 审查当前 root `manifest.glossary`、authoring compile mirror、schema/validator touch points 和 `#57` 需求，明确 aliases、deprecated terms、scope、owner、linked surfaces 的最小边界；只做设计裁剪和后续任务，不直接实现 schema、validator、migration tool 或 term resolver runtime | 原提议 ID 为 U-059；R-2026-05-08-02 扩展任务池后顺延为 U-060 |
 
 ## 回合结束摘要：R-2026-05-08-01
 
@@ -58,8 +115,8 @@
 | 完成任务 | 1 | resource surface canonical example pack 完成 |
 | 失败任务 | 0 | U-057 复核通过；RED regression 为预期 TDD 红灯 |
 | 阻塞任务 | 0 | 无 |
-| 新增任务 | 1 | U-059 |
-| 剩余未完成任务 | 1 | U-059 glossary / canonical-term registry v2 boundary triage |
+| 新增任务 | 1 | U-060 |
+| 剩余未完成任务 | 1 | U-060 glossary / canonical-term registry v2 boundary triage |
 
 ## 回合摘要：R-2026-05-07-37
 

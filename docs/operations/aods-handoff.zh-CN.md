@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；U-041 v0.10 backlog triage 已完成；U-042 standard risk taxonomy boundary 已落地；U-043 local-only versus remote-capable constraints 已落地；U-044 audit-log requirements for commands and adapters 已落地；U-045 lifecycle state-machine profile for operational objects 已落地；U-046 observability metadata for validation and routing decisions 已落地；U-047 documentation / authoring quality backlog triage 已完成；U-048 human-surface synchronization quality metrics boundary 已落地；U-049 agent-primary density examples and authoring guidance 已落地；U-050 canonical surface-family example pack triage 已完成；U-051 read-model + implementation-linkage canonical example pack 已落地；U-052 command + receipt canonical example pack 已落地；U-053 event + correction/supersession canonical example pack 已落地；U-054 adapter + capability/exposure canonical example pack 已落地；U-055 artifact/export/policy-gate canonical example pack 已落地；U-056 surface-family example pack 收束复盘已完成；U-057 resource surface boundary triage 已完成；U-058 resource surface canonical example pack 已落地并补齐 `#56` 本地 residual gap；下一轮首选 U-059 glossary / canonical-term registry v2 boundary triage；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已按 owner 最新要求扩展后续任务池和批量执行规则，新增 U-060 到 U-075；下一轮首选 Batch A：U-060 glossary / canonical-term registry v2 boundary triage + U-061 external citation / provenance metadata boundary triage。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -26,9 +26,10 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | 11 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | 读取 v0.9 write/event/governance 候选路线 |
 | 12 | `docs/operations/aods-v0.10-backlog.zh-CN.md` | 读取 v0.10 risk/exposure/audit hardening 候选路线 |
 | 13 | `docs/operations/aods-v0.11-backlog.zh-CN.md` | 读取 documentation / authoring quality 候选路线 |
-| 14 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 15 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 16 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 14 | `docs/operations/aods-expanded-task-plan.zh-CN.md` | 读取扩展任务池、批量执行规则和下一批推荐 |
+| 15 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 16 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 17 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -104,12 +105,18 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-056 | 复盘 surface-family example pack 收束质量并制定下一阶段 backlog triage | 已只读审查 `#56/#57/#58`；确认 `#56` 五个已裁剪包已完成但 resource residual gap 仍存在；下一步先做 U-057 resource boundary triage，`#57/#58` 后移 |
 | U-057 | 裁剪 resource surface canonical example boundary 与最小示例路线 | 已确认 resource 先作为 declared resource surface / resource scope 示例表达 identity、scope、owner、read/write risk、exposure、cleanup、evidence 和 acceptance linkage；下一步 U-058 落地 source-first example pack |
 | U-058 | 落地 resource surface canonical example pack 最小切片 | compiled-pilot source-first example 已包含 resource identity、scope、owner、read/write risk、exposure class、cleanup posture、implementation evidence、acceptance criteria、fixture manifest 和 focused regression；resource runtime、scheduler、cleanup executor、permission broker 继续 deferred |
+| U-059 | 扩展 U-058 后任务池并制定批量执行规则 | 已新增扩展任务计划，任务池扩展为 U-060 到 U-075；后续每轮仍先审查上一轮质量，审查通过后可批量执行低冲突任务 |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-059 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | 下一轮首选；审查 current `manifest.glossary`、authoring compile mirror、schema/validator touch points 和 `#57` 需求；只做边界裁剪和后续任务，不直接实现 schema、validator、migration tool 或 term resolver runtime |
+| 1 | U-060 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | Batch A 首选；审查 current `manifest.glossary`、authoring compile mirror、schema/validator touch points 和 `#57` 需求；只做边界裁剪和后续任务，不直接实现 schema、validator、migration tool 或 term resolver runtime |
+| 2 | U-061 | 裁剪 external citation / provenance metadata boundary 与最小实现路线 | Batch A 首选；审查 `#58`、当前 decision provenance、artifact metadata 和 external source 表达缺口；只做边界裁剪和后续任务，不实现 crawler、claim detector 或 cross-corpus resolver |
+| 3 | U-062 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | U-060 后的 Batch B 候选 |
+| 4 | U-063 | 落地 glossary registry deterministic validator gates | U-062 后的 Batch B 候选 |
+| 5 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | U-061 后的 Batch C 候选 |
+| 6 | U-066 | 落地 external citation validator gates | U-065 后的 Batch C 候选 |
 
 ## 失败和风险
 
@@ -149,10 +156,12 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | artifact/export example pack 扩散风险 | artifact/export/policy-gate 示例容易扩成 conformance runner、自动 golden update、fixture rewrite 或全量迁移 | U-055 已只表达 artifact type、golden export、policy gate、validation notes、implementation evidence 和 acceptance criteria |
 | post-example-pack triage 扩散风险 | `#56` 收束复盘容易直接跳入 glossary schema v2、external citation registry 或 resource runtime | U-056 应只做质量复盘和下一阶段排序，不实现 schema/provenance/runtime 变更 |
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
-| glossary registry 扩散风险 | `#57` 容易直接扩成 schema v2、term resolver runtime、migration tool 或 deprecated-term validator | U-059 只能先裁剪 boundary 与最小实现路线，不直接实现 schema、validator 或 resolver runtime |
+| glossary registry 扩散风险 | `#57` 容易直接扩成 schema v2、term resolver runtime、migration tool 或 deprecated-term validator | U-060 只能先裁剪 boundary 与最小实现路线，不直接实现 schema、validator 或 resolver runtime |
+| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 只能先裁剪 boundary 与最小实现路线，不直接实现 crawler、claim detector 或 resolver |
+| batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-059 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | 明确 aliases、deprecated terms、scope、owner、linked surfaces 与 current `manifest.glossary` 的关系；决定是否进入 schema / compile / validator 最小切片；只做边界裁剪和计划 |
+| 1 | U-060 + U-061 | Batch A：glossary boundary + external citation boundary | 明确 `#57/#58` 的最小边界、依赖和后续 schema / validator 任务；只做边界裁剪和计划 |

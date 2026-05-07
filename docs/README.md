@@ -28,6 +28,7 @@
 | `docs/operations/aods-v0.10-backlog.zh-CN.md` | v0.10 risk/exposure/audit hardening 候选路线和 U-041 triage 记录。 |
 | `docs/operations/aods-v0.11-backlog.zh-CN.md` | v0.11 documentation / authoring quality 候选路线和 U-047 triage 记录。 |
 | `docs/operations/aods-surface-family-example-plan.zh-CN.md` | `#56` surface-family example pack 分批路线、U-051 read-model、U-052 command/receipt、U-053 event/correction、U-054 adapter/capability、U-055 artifact/export/policy-gate、U-058 resource 包结果和本地收束结论。 |
+| `docs/operations/aods-expanded-task-plan.zh-CN.md` | U-058 后的扩展任务池、批量执行规则和下一批推荐。 |
 
 ## 当前维护边界
 
