@@ -258,3 +258,40 @@ test("stable contracts define standard risk taxonomy for agent-consumable surfac
   assert.ok(nonGoalRows.includes("dynamic_risk_scanner"));
   assert.ok(nonGoalRows.includes("approval_workflow"));
 });
+
+test("stable contracts define local-only versus remote-capable constraints", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "local-remote-exposure-constraints");
+  assert.ok(section);
+  assert.match(section.content, /local-only/);
+  assert.match(section.content, /local-export/);
+  assert.match(section.content, /remote-read/);
+  assert.match(section.content, /remote-write/);
+  assert.match(section.content, /adapter-facing/);
+  assert.match(section.content, /upgrade gates/);
+  assert.match(section.content, /redaction/);
+  assert.match(section.content, /auth/);
+  assert.match(section.content, /freshness/);
+  assert.match(section.content, /compatibility/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "local-remote-exposure-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "local_only",
+    "local_export",
+    "remote_read",
+    "remote_write",
+    "adapter_facing",
+    "upgrade_gate"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "local-remote-exposure-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("remote_api_gateway"));
+  assert.ok(nonGoalRows.includes("auth_runtime"));
+  assert.ok(nonGoalRows.includes("network_broker"));
+  assert.ok(nonGoalRows.includes("automatic_exposure_upgrader"));
+});

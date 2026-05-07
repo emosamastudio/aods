@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 16,
-  "context": "Defines minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, deprecation, risk taxonomy, topology, evidence, provenance, schema compatibility, adapter capability, and capability matching.",
+  "v": 17,
+  "context": "Defines minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, deprecation, risk taxonomy, local/remote exposure, topology, evidence, provenance, schema compatibility, adapter capability, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -13,7 +13,8 @@
     "Overlapping stable surfaces need declared canonical, derived, alias, conflict, and migration posture before consumers merge claims",
     "Stable surfaces that depend on other surfaces need explicit hard, optional, blocking, derivation, emission, and consumption ordering before validation or routing treats them as independently consumable",
     "Deprecated or removed stable surfaces need replacement, migration, affected version, removal, and validation behavior before consumers can safely move",
-    "Agent-consumable surfaces need canonical risk categories before routing, adapter, command, or release policy treats risk labels as comparable"
+    "Agent-consumable surfaces need canonical risk categories before routing, adapter, command, or release policy treats risk labels as comparable",
+    "Local-only and remote-capable surfaces need exposure constraints before local exports are reused as adapter or API contracts"
   ],
   "sections": [
     {
@@ -169,6 +170,26 @@
       "criticality": "must"
     },
     {
+      "sid": "local-remote-exposure-constraints",
+      "topic": "local-only versus remote-capable surface constraints",
+      "content": "local-only, local-export, remote-read, remote-write, and adapter-facing are exposure classes for stable surfaces, not transport implementations. local-only means a surface may expose local paths, debug details, handles, environment assumptions, repo-only evidence, or other local diagnostic material for local agents only; it must declare consumer_scope, allowed_locations, risk_floor, redaction posture, freshness posture when data is read, compatibility posture when consumers cache it, and the reason it is not remote-safe. local-export means a file or artifact is generated locally and may be shared only across its declared export boundary; it must declare export_format, artifact scope, redaction, freshness, compatibility, and consumer guidance so a generated file is not mistaken for an API contract. remote-read means an external consumer may read the surface through a remote, API, hosted, or adapter boundary; it adds auth boundary, redaction floor, freshness requirement, compatibility policy, rate/cost/network risk labels, and audit anchor expectations before stable consumption. remote-write means a remote consumer may mutate state through a command, adapter, resource, or workflow; it adds command, receipt, event or projection linkage, idempotency posture, policy decision, human approval when risk requires it, rollback posture, and production-mutation risk before the write is treated as stable. adapter-facing means a surface is stable for adapters only when adapter capability minimum, standard risk taxonomy labels, redaction, auth, freshness, compatibility, and evidence anchors are declared. upgrade gates are required before any local-only or local-export surface is promoted to remote-read, remote-write, or adapter-facing use: the replacement authority or exposure review must declare exposure_class, upgrade_gate, risk labels, redaction, auth, freshness, compatibility, audit anchor, and consumer guidance. Future validation may warn when a local-only surface is referenced by remote consumers without an explicit upgrade gate. This boundary does not create a remote_api_gateway, auth_runtime, network_broker, automatic_exposure_upgrader, sandbox, remote transport runtime, or policy enforcement runtime; human review still owns whether an exposure upgrade is safe.",
+      "content_type": "rules",
+      "refs": [
+        "standard-risk-taxonomy",
+        "redaction-policy-model",
+        "adapter-capability-minimum",
+        "capability-negotiation-retriage",
+        "command-receipt-event-triad",
+        "schema-versioning-compatibility",
+        "spec-authority-governance:surface-lifecycle-exposure"
+      ],
+      "artifact_refs": [
+        "local-remote-exposure-field-table",
+        "local-remote-exposure-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
       "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
@@ -244,7 +265,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, local/remote exposure vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, remote API gateway, auth runtime, network broker, automatic exposure upgrader, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export runtime, generated artifact runtime, remote transport runtime, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a local-only or local-export surface is safe to upgrade for remote-read, remote-write, or adapter-facing exposure, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -256,6 +277,7 @@
         "surface-dependency-ordering",
         "deprecation-migration-format",
         "standard-risk-taxonomy",
+        "local-remote-exposure-constraints",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -1027,6 +1049,102 @@
       }
     },
     {
+      "artifact_id": "local-remote-exposure-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum exposure classes and upgrade gates for local-only and remote-capable stable surfaces.",
+      "content": {
+        "key_columns": [
+          "exposure_class"
+        ],
+        "columns": [
+          "exposure_class",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "local_only",
+            "consumer_scope, allowed_locations, risk_floor, redaction_posture, freshness_posture, compatibility_posture, non_remote_reason",
+            "local agent, repo, diagnostic, debug, or evidence-only consumption",
+            "sandbox or local policy runtime"
+          ],
+          [
+            "local_export",
+            "export_format, artifact_scope, export_boundary, redaction_posture, freshness_posture, compatibility_posture, consumer_guidance",
+            "generated file or artifact shared only within a declared export boundary",
+            "export runtime or distribution service"
+          ],
+          [
+            "remote_read",
+            "exposure_class, auth_boundary, redaction_floor, freshness_requirement, compatibility_policy, risk_labels, audit_anchor",
+            "remote, API, hosted, or adapter consumer may read the surface",
+            "remote API gateway"
+          ],
+          [
+            "remote_write",
+            "command_ref, receipt_ref, event_or_projection_ref, idempotency_posture, policy_decision, approval_gate, rollback_posture, production_mutation_risk",
+            "remote consumer may mutate state through a command, adapter, resource, or workflow",
+            "command executor or auth runtime"
+          ],
+          [
+            "adapter_facing",
+            "adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, redaction, auth, freshness, compatibility, risk_labels, evidence_anchor",
+            "adapter capability claim may be consumed as stable",
+            "negotiation session or dynamic provider discovery"
+          ],
+          [
+            "upgrade_gate",
+            "source_surface, target_exposure_class, replacement_authority_or_review, risk_labels, redaction, auth, freshness, compatibility, audit_anchor, consumer_guidance",
+            "promotion from local-only or local-export to remote-read, remote-write, or adapter-facing use",
+            "automatic exposure upgrader"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "local-remote-exposure-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred runtime surfaces for local-only versus remote-capable exposure constraints.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "remote_api_gateway",
+            "exposure metadata describes whether a surface may be read remotely but does not host an API boundary",
+            "future transport task"
+          ],
+          [
+            "auth_runtime",
+            "auth fields describe boundary expectations but do not evaluate identity or permissions",
+            "future identity/runtime task"
+          ],
+          [
+            "network_broker",
+            "network risk labels describe remote exposure and egress posture but do not broker traffic",
+            "future network runtime task"
+          ],
+          [
+            "automatic_exposure_upgrader",
+            "local-only to remote-capable promotion requires declared authority or review, not automatic inference",
+            "future governance workflow task"
+          ],
+          [
+            "remote_transport_runtime",
+            "transport execution needs protocol, retry, identity, and operational behavior beyond static metadata",
+            "future adapter/runtime task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -1402,6 +1520,13 @@
             "source": "validation"
           },
           {
+            "id": "local-remote-exposure-boundary",
+            "condition": "local-only or local-export surface is referenced by remote-read, remote-write, or adapter-facing consumer without exposure_class, upgrade_gate, redaction, auth, freshness, compatibility, and risk posture",
+            "action": "future L3 warning: local-only surfaces should not be reused by remote consumers without explicit exposure upgrade gates",
+            "priority": 45,
+            "source": "validation"
+          },
+          {
             "id": "implementation-metadata-mirror",
             "condition": "manifest.modules[].implementation exists XOR module.meta.implementation exists",
             "action": "L2 error: implementation linkage summary must be mirrored",
@@ -1555,6 +1680,11 @@
       "v": 16,
       "delta": "Added standard risk taxonomy boundaries for agent-consumable read, write, adapter, and resource surfaces.",
       "breaking": false
+    },
+    {
+      "v": 17,
+      "delta": "Added local-only versus remote-capable exposure constraints for local exports, remote reads, remote writes, and adapter-facing surfaces.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -1580,7 +1710,8 @@
         "issue-50",
         "issue-51",
         "issue-52",
-        "issue-44"
+        "issue-44",
+        "issue-46"
       ],
       "confidence": "high",
       "review_chain": [
@@ -1611,7 +1742,8 @@
         "authority-hierarchy-posture",
         "dependency-ordering-posture",
         "deprecation-migration-posture",
-        "risk-taxonomy-posture"
+        "risk-taxonomy-posture",
+        "local-remote-exposure-posture"
       ]
     },
     "redaction": {
@@ -1640,6 +1772,7 @@
           "dependency ordering",
           "deprecation and migration",
           "risk taxonomy",
+          "local and remote exposure",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -1647,9 +1780,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v16",
+          "snapshot_id": "spec-stable-surface-contracts-v17",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=16",
+          "source_watermark": "module.v=17",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",
