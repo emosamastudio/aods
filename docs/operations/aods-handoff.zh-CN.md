@@ -1,13 +1,13 @@
 # AODS Agent Handoff
 
 日期：2026-05-07
-分支：`codex/aods-implementation-evidence`
-最新提交：当前分支包含 U-027 实现提交和 PR 记录提交
+分支：`main`
+最新提交：`831e10b`（PR `#62` squash merge）
 状态：开发中
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。当前分支已完成 U-027 implementation evidence 最小切片并创建 PR `#62`；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -30,8 +30,8 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 
 | 项 | 状态 | 说明 |
 |---|---|---|
-| 分支 | `codex/aods-implementation-evidence` | 从 `main` 创建的 U-027 实现分支 |
-| 最新提交 | U-027 PR 分支提交 | 基于 v0.7 release completion 之后的 `main`；已 push 到 `origin/codex/aods-implementation-evidence` |
+| 分支 | `main` | 本地 HEAD 与 `origin/main` 对齐 |
+| 最新提交 | `831e10b` | PR `#62` squash merge：`[codex] Add implementation evidence validation (#62)` |
 | 剩余 dirty | 仅 untracked `MEMORY.md` | `MEMORY.md` 为本地记忆文件，不进仓库 |
 
 ## 已完成工作
@@ -72,7 +72,7 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 
 ## 未完成工作
 
-当前任务台账无未完成项。U-027 已完成并创建 PR `#62`；下一轮应先审查 / 合并该 PR，再进入 v0.8 backlog 或下一段 contract drift。
+当前任务台账无未完成项。U-027 已完成并通过 PR `#62` merge；下一轮应进入 v0.8 backlog 复盘或下一段 contract drift。
 
 ## 失败和风险
 
@@ -82,13 +82,13 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | ref 语义误读风险 | `U-013` 当前只定义 canonical ref / resolution posture 的 spec boundary | 后续如继续做 ref 能力，必须显式区分 identifier / resolution status 与实际 fetch/runtime dereference，不要假设现状已支持自动跨 corpus 解析 |
 | dirty worktree 混轮风险 | 当前工作树仅剩本地 untracked `MEMORY.md` | 后续 public push / PR 前确认 staged set / working tree 不包含 `MEMORY.md` |
 | release 渠道混淆风险 | 正式版本发布已定为 GitHub Releases-only | 后续若出现 npm publish 相关建议或脚本扩张，不应把 registry 发布重新当成完成条件，除非 owner 明确改策略 |
-| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | 当前仅创建 ready PR `#62`；未合并、未评论或关闭 issue、未发布 release |
+| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | PR `#62` 已 merge；本轮未评论或关闭 issue、未发布 release |
 | 代码漂移范围扩散风险 | drift 问题容易扩大成未裁剪的全量静态/语义分析器 | 下一步只从 topology、implementation linkage、implementation evidence 和 contract drift 最小闭环推进 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | 新任务 | 审查并合并 U-027 PR | PR `#62` 通过审查和 CI 后再 merge |
-| 2 | 新任务 | 复盘 v0.7 release 后的 open issues | 保留 `#60/#41` 和 deferred issues，重新排 v0.8 backlog |
-| 3 | 新任务 | 选择下一段 contract drift 切片 | 从 evidence freshness、implementation fingerprint、或 contract diff 中裁剪一个最小闭环 |
+| 1 | 新任务 | 复盘 v0.7 release 后的 open issues | 保留 `#60/#41` 和 deferred issues，重新排 v0.8 backlog |
+| 2 | 新任务 | 选择下一段 contract drift 切片 | 从 evidence freshness、implementation fingerprint、或 contract diff 中裁剪一个最小闭环 |
+| 3 | 新任务 | 如需继续 GitHub hygiene | 只读检查 open PR / issue / release surfaces，公开动作继续单独记录 |

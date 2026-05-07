@@ -41,6 +41,7 @@
 | U-027 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
 | U-027 | Branch push | `source ~/.zshrc && proxy_on && git push -u origin codex/aods-implementation-evidence` | 通过 | Branch pushed；`MEMORY.md` 未跟踪且未进入远端 |
 | U-027 | PR create | `source ~/.zshrc && proxy_on && gh pr create --draft ...`、`gh pr ready 62` | 通过 | PR `#62` created and marked ready: `https://github.com/emosamastudio/aods/pull/62` |
+| U-027 | PR merge | `source ~/.zshrc && proxy_on && gh pr merge 62 --squash --delete-branch` | 通过 | PR `#62` merged to `main` as `831e10b` |
 
 ## 新发现任务：R-2026-05-07-07
 
@@ -55,7 +56,7 @@
 | 项 | 数量 | 说明 |
 |---|---:|---|
 | 选中任务 | 1 | U-027 |
-| 完成任务 | 1 | implementation evidence 最小切片完成并创建 ready PR `#62` |
+| 完成任务 | 1 | implementation evidence 最小切片完成并通过 PR `#62` merge |
 | 失败任务 | 0 | 无 |
 | 阻塞任务 | 0 | 无 |
 | 新增任务 | 0 | 无 |
