@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S9 audit-log requirements boundary |
-| 当前回合 | R-2026-05-07-24 |
+| 当前阶段 | S9 lifecycle state-machine boundary |
+| 当前回合 | R-2026-05-07-25 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 49 |
+| 已完成任务数量 | 50 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-24 |
-| 开始时间 | 2026-05-07 19:08 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-25 |
+| 开始时间 | 2026-05-07 19:28 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-044 |
-| 本轮范围 | audit-log requirements for commands and adapters 最小边界：actor、source、target、command、idempotency key、policy decision、receipt reference、timestamp、correlation identifiers、receipts/events linkage；spec docs、focused regression、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、audit log store、workflow engine、SIEM integration、observability backend、policy engine、identity provider、event bus runtime |
+| 选中任务 | U-045 |
+| 本轮范围 | lifecycle state-machine profile for operational objects 最小边界：lifecycle state/display status、initial/terminal states、transitions、guards、timeout/expiration、retry policy、cancellation semantics、cleanup semantics、event/receipt links；spec docs、focused regression、operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、workflow engine、scheduler、retry runtime、cleanup executor、state persistence runtime、operational dashboard |
 | 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,7 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-045 | S9 | 定义 lifecycle state-machine profile for operational objects 最小边界 | P1 | 未开始 | lifecycle state 与 display status 区分、initial/terminal states、transitions、guards、timeout/expiration、retry、cancellation、cleanup、event/receipt links 最小语义进入 spec；不实现 workflow engine | U-035、U-036、U-044 | 对应 `#37`；下一轮首选 |
+| U-046 | S9 | 定义 observability metadata for validation and routing decisions 最小边界 | P3 | 未开始 | validate/route output 的 rule id、severity、source location、dependency path、routing reason、selected/skipped modules、suggested next action 最小 machine-readable observability fields 进入 spec；不重写 CLI output subsystem | U-039、U-041、U-045 | 对应 `#59`；下一轮首选 |
 
 ## 已完成任务
 
@@ -87,6 +87,7 @@
 | 47 | U-042 | S9 | 定义 standard risk taxonomy 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | agent-consumable surfaces 现在有 read/write、credential、filesystem、network、external-send、cost、production-mutation、human-approval 的最小 risk vocabulary；不实现 runtime policy engine、permission broker 或 approval workflow |
 | 48 | U-043 | S9 | 定义 local-only versus remote-capable constraints 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 local-only、local-export、remote-read、remote-write、adapter-facing 和 upgrade_gate 的最小 exposure vocabulary；不实现 remote API gateway、auth runtime、network broker 或 automatic exposure upgrader |
 | 49 | U-044 | S9 | 定义 audit-log requirements for commands and adapters 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | commands/adapters 现在有 actor、source、target、command reference、idempotency key、policy decision、receipt reference、timestamp、correlation identifier 的最小 audit metadata；不实现 audit log store、workflow engine、SIEM integration 或 observability backend |
+| 50 | U-045 | S9 | 定义 lifecycle state-machine profile for operational objects 最小边界 | P1 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | long-running operational objects 现在有 lifecycle state/display status、initial/terminal states、transition、guard、timeout/expiration、retry、cancellation、cleanup、event/receipt link 的最小 state-machine profile；不实现 workflow engine、scheduler、retry runtime 或 cleanup executor |
 
 ## 失败或阻塞任务
 
@@ -141,3 +142,4 @@
 | 2026-05-07 | 100% | 100% | 98% | `U-042` 完成 | standard risk taxonomy boundary 已落地；AODS 现在能为 agent-consumable surfaces 表达读取、写入、凭据、文件系统、网络、外部发送、成本、生产变更和人工审批风险，runtime policy 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-043` 完成 | local-only versus remote-capable constraints 已落地；AODS 现在能区分 local-only、local-export、remote-read、remote-write、adapter-facing 和 upgrade gates，远程网关、认证运行时和自动暴露升级继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-044` 完成 | audit-log requirements boundary 已落地；AODS 现在能为 commands/adapters 表达 action trace 的 actor、source、target、command、idempotency、policy、receipt、timestamp 和 correlation metadata，audit store 继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 99% | `U-045` 完成 | lifecycle state-machine profile 已落地；AODS 现在能为 long-running operational objects 表达 lifecycle state、display status、terminal behavior、transition guard、timeout、retry、cancel、cleanup 和 event/receipt linkage，workflow runtime 继续 deferred。 |

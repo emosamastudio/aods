@@ -338,3 +338,48 @@ test("stable contracts define audit-log requirements for commands and adapters",
   assert.ok(nonGoalRows.includes("siem_integration"));
   assert.ok(nonGoalRows.includes("observability_backend"));
 });
+
+test("stable contracts define lifecycle state-machine profile for operational objects", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "lifecycle-state-machine-profile");
+  assert.ok(section);
+  assert.match(section.content, /lifecycle state-machine profile/);
+  assert.match(section.content, /operational objects/);
+  assert.match(section.content, /lifecycle state/);
+  assert.match(section.content, /display status/);
+  assert.match(section.content, /initial states/);
+  assert.match(section.content, /terminal states/);
+  assert.match(section.content, /transitions/);
+  assert.match(section.content, /guards/);
+  assert.match(section.content, /timeout/);
+  assert.match(section.content, /expiration/);
+  assert.match(section.content, /retry policy/);
+  assert.match(section.content, /cancellation semantics/);
+  assert.match(section.content, /cleanup semantics/);
+  assert.match(section.content, /events or receipts/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "lifecycle-state-machine-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "state_identity",
+    "initial_state",
+    "terminal_state",
+    "transition",
+    "guard",
+    "timeout_expiration",
+    "retry_policy",
+    "cancellation_semantics",
+    "cleanup_semantics",
+    "event_receipt_link"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "lifecycle-state-machine-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("workflow_engine"));
+  assert.ok(nonGoalRows.includes("scheduler"));
+  assert.ok(nonGoalRows.includes("retry_runtime"));
+  assert.ok(nonGoalRows.includes("cleanup_executor"));
+});

@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 18,
-  "context": "Defines minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, deprecation, risk taxonomy, local/remote exposure, command/adapter audit-log requirements, topology, evidence, provenance, schema compatibility, adapter capability, and capability matching.",
+  "v": 19,
+  "context": "Defines stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, topology, provenance, schema compatibility, adapters, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -15,7 +15,8 @@
     "Deprecated or removed stable surfaces need replacement, migration, affected version, removal, and validation behavior before consumers can safely move",
     "Agent-consumable surfaces need canonical risk categories before routing, adapter, command, or release policy treats risk labels as comparable",
     "Local-only and remote-capable surfaces need exposure constraints before local exports are reused as adapter or API contracts",
-    "Commands and adapters need audit-log requirements before consumers rely on action traces, receipts, policy decisions, or failure reconstruction"
+    "Commands and adapters need audit-log requirements before consumers rely on action traces, receipts, policy decisions, or failure reconstruction",
+    "Long-running operational objects need explicit lifecycle state-machine profiles before implementations compare status, retries, cancellation, timeout, cleanup, or terminal behavior"
   ],
   "sections": [
     {
@@ -210,6 +211,25 @@
       "criticality": "must"
     },
     {
+      "sid": "lifecycle-state-machine-profile",
+      "topic": "lifecycle state-machine profile for operational objects",
+      "content": "A lifecycle state-machine profile defines the minimum stable contract for long-running operational objects. operational objects are jobs, runs, sessions, exports, imports, deployments, migrations, tasks, workflows, or adapter operations whose state changes over time. lifecycle state is the authoritative machine state used for validation, routing, automation, and recovery; display status is a human-facing label and must not replace lifecycle state. initial states identify where an object may start after creation, import, resume, or restoration. terminal states identify states such as succeeded, failed, canceled, expired, superseded, or abandoned after which normal transitions stop unless an explicit correction or replacement event exists. transitions declare from_state, to_state, trigger, actor boundary, authority surface, and state transition authority. guards declare preconditions, policy gates, risk gates, approval gates, freshness checks, dependency checks, and known-gap handling before a transition is stable. timeout and expiration describe timeout_at, expires_at, staleness, timeout_action, expiration_action, and consumer guidance. retry policy describes retryable states, retry limits, backoff posture, idempotency requirements, and retry terminal behavior. cancellation semantics describe who can cancel, when cancellation is allowed, cancellation side effects, receipt linkage, and resulting terminal state. cleanup semantics describe cleanup trigger, resource scope, retained evidence, irreversible deletion posture, and consumer guidance. State changes must link to events or receipts through receipt_ref, event_or_projection_ref, audit anchor, or correction/supersession link when applicable. Future validation can warn when long-running operational objects lack lifecycle state-machine profile metadata. This boundary does not create a workflow_engine, scheduler, retry_runtime, cleanup_executor, object factory, state persistence runtime, or operational dashboard.",
+      "content_type": "rules",
+      "refs": [
+        "command-receipt-event-triad",
+        "event-correction-supersession",
+        "command-adapter-audit-log-requirements",
+        "surface-dependency-ordering",
+        "standard-risk-taxonomy",
+        "schema-versioning-compatibility"
+      ],
+      "artifact_refs": [
+        "lifecycle-state-machine-field-table",
+        "lifecycle-state-machine-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
       "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
@@ -285,7 +305,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, local/remote exposure vocabulary, command/adapter audit-log requirements vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, remote API gateway, auth runtime, network broker, automatic exposure upgrader, audit log store, workflow engine, SIEM integration, observability backend, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export runtime, generated artifact runtime, remote transport runtime, audit storage runtime, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a local-only or local-export surface is safe to upgrade for remote-read, remote-write, or adapter-facing exposure, whether command or adapter audit metadata is sufficient to reconstruct action traces, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, local/remote exposure vocabulary, command/adapter audit-log requirements vocabulary, lifecycle state-machine vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, remote API gateway, auth runtime, network broker, automatic exposure upgrader, audit log store, workflow engine, scheduler, retry runtime, cleanup executor, SIEM integration, observability backend, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export runtime, generated artifact runtime, remote transport runtime, audit storage runtime, state persistence runtime, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a local-only or local-export surface is safe to upgrade for remote-read, remote-write, or adapter-facing exposure, whether command or adapter audit metadata is sufficient to reconstruct action traces, whether a lifecycle state-machine profile is sufficient for long-running operational objects, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -299,6 +319,7 @@
         "standard-risk-taxonomy",
         "local-remote-exposure-constraints",
         "command-adapter-audit-log-requirements",
+        "lifecycle-state-machine-profile",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -1280,6 +1301,126 @@
       }
     },
     {
+      "artifact_id": "lifecycle-state-machine-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum lifecycle state-machine profile fields for long-running operational objects.",
+      "content": {
+        "key_columns": [
+          "lifecycle_field"
+        ],
+        "columns": [
+          "lifecycle_field",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "state_identity",
+            "state_id, state_kind, lifecycle_state, display_status, owner_surface",
+            "distinguishes authoritative lifecycle state from human-facing status",
+            "UI status framework"
+          ],
+          [
+            "initial_state",
+            "state_id, creation_trigger, resume_trigger, import_trigger, allowed_entry_conditions",
+            "defines where an operational object may start",
+            "object factory"
+          ],
+          [
+            "terminal_state",
+            "state_id, terminal_kind, finality, replacement_or_correction_allowed, consumer_guidance",
+            "defines when normal state transitions stop",
+            "workflow engine"
+          ],
+          [
+            "transition",
+            "from_state, to_state, trigger, actor_boundary, authority_surface, event_or_receipt_ref",
+            "defines allowed state movement and trace linkage",
+            "transition executor"
+          ],
+          [
+            "guard",
+            "precondition, policy_gate, risk_gate, approval_gate, freshness_check, dependency_check",
+            "defines conditions that must hold before transition",
+            "policy engine"
+          ],
+          [
+            "timeout_expiration",
+            "timeout_at, expires_at, staleness, timeout_action, expiration_action, consumer_guidance",
+            "defines time-based lifecycle behavior",
+            "scheduler"
+          ],
+          [
+            "retry_policy",
+            "retryable_states, retry_limit, backoff_posture, idempotency_requirement, retry_terminal_behavior",
+            "defines how failed or pending attempts may repeat",
+            "retry runtime"
+          ],
+          [
+            "cancellation_semantics",
+            "cancel_actor, allowed_states, cancel_side_effects, receipt_ref, resulting_terminal_state",
+            "defines who can cancel and what state results",
+            "workflow engine"
+          ],
+          [
+            "cleanup_semantics",
+            "cleanup_trigger, resource_scope, retained_evidence, deletion_posture, consumer_guidance",
+            "defines resource cleanup and retained audit posture",
+            "cleanup executor"
+          ],
+          [
+            "event_receipt_link",
+            "receipt_ref, event_or_projection_ref, audit_anchor, correction_or_supersession_ref",
+            "links state changes to events or receipts",
+            "event bus runtime"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "lifecycle-state-machine-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred runtime surfaces for lifecycle state-machine profiles.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "workflow_engine",
+            "profile metadata defines allowed states and transitions but does not execute workflows",
+            "future workflow runtime task"
+          ],
+          [
+            "scheduler",
+            "timeout and expiration fields describe timing posture but do not run timers",
+            "future runtime scheduling task"
+          ],
+          [
+            "retry_runtime",
+            "retry policy metadata describes repeat behavior but does not perform retries",
+            "future command/runtime task"
+          ],
+          [
+            "cleanup_executor",
+            "cleanup semantics describe resource posture but do not delete or mutate resources",
+            "future resource runtime task"
+          ],
+          [
+            "state_persistence_runtime",
+            "state identity describes durable shape but does not provide storage or locking",
+            "future persistence task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -1669,6 +1810,13 @@
             "source": "validation"
           },
           {
+            "id": "lifecycle-state-machine-boundary",
+            "condition": "long-running operational object lacks lifecycle state, display status distinction, initial state, terminal states, transitions, guards, timeout/expiration, retry, cancellation, cleanup, or event/receipt links",
+            "action": "future L3 warning: long-running operational objects should expose lifecycle state-machine profile metadata before consumers rely on state transitions",
+            "priority": 47,
+            "source": "validation"
+          },
+          {
             "id": "implementation-metadata-mirror",
             "condition": "manifest.modules[].implementation exists XOR module.meta.implementation exists",
             "action": "L2 error: implementation linkage summary must be mirrored",
@@ -1832,6 +1980,11 @@
       "v": 18,
       "delta": "Added audit-log requirements for command and adapter action traces, including actor, source, target, idempotency, policy, receipt, timestamp, and correlation metadata.",
       "breaking": false
+    },
+    {
+      "v": 19,
+      "delta": "Added lifecycle state-machine profile boundaries for long-running operational objects.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -1859,7 +2012,8 @@
         "issue-52",
         "issue-44",
         "issue-46",
-        "issue-45"
+        "issue-45",
+        "issue-37"
       ],
       "confidence": "high",
       "review_chain": [
@@ -1892,7 +2046,8 @@
         "deprecation-migration-posture",
         "risk-taxonomy-posture",
         "local-remote-exposure-posture",
-        "command-adapter-audit-posture"
+        "command-adapter-audit-posture",
+        "lifecycle-state-machine-posture"
       ]
     },
     "redaction": {
@@ -1923,6 +2078,7 @@
           "risk taxonomy",
           "local and remote exposure",
           "command and adapter audit log",
+          "lifecycle state machine",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -1930,9 +2086,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v18",
+          "snapshot_id": "spec-stable-surface-contracts-v19",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=18",
+          "source_watermark": "module.v=19",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",
