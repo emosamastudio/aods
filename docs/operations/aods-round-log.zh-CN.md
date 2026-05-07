@@ -2,6 +2,62 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-37
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-37 |
+| 开始时间 | 2026-05-07 23:52 Asia/Shanghai |
+| 结束时间 | 2026-05-07 23:52 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-057 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-37
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/`、`docs/README.md` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、新增 resource runtime、scheduler、cleanup executor、permission broker、新增 example pack 实现、glossary schema、external citation metadata |
+| 外部依赖 | 无公开写操作；只读审查当前 spec/schema/example 中的 resource vocabulary |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-07-37
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-057 | 未开始 | 已完成 | 裁剪 resource surface canonical example boundary：确认 `runtime_contract.resources` 是执行环境假设，不等同于 stable resource profile；将下一步限定为 declared resource surface example pack；新增 U-058 作为下一轮首选 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/README.md`、`docs/operations/README.md` |
+
+## 验证记录：R-2026-05-07-37
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-057 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`npm run validate:all`、`git diff --check` | 通过 | U-056 提交后工作区仅 untracked `MEMORY.md`；repo validation 和 diff whitespace 均通过后继续推进 |
+| U-057 | Resource vocabulary review | `rg -n "resource" spec/stable-surface-contracts.json schema/module.schema.json spec/artifact-types.json examples/compiled-pilot-source/authoring.json` | 通过 | 当前语义足以支持 declared resource surface example；不需要抢先新增 schema profile 或 runtime object |
+| U-057 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 均通过，warnings=0 |
+| U-057 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-37
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-057 / `#56` | U-058 | 落地 resource surface canonical example pack 最小切片 | P1 | 在 compiled-pilot source-first example 中加入 resource surface 首包，覆盖 resource identity、scope、owner、read/write risk、exposure class、lifecycle cleanup posture、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 schema、validator、resource runtime、scheduler、cleanup executor 或 permission broker | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-37
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-057 |
+| 完成任务 | 1 | resource surface boundary triage 完成 |
+| 失败任务 | 0 | U-056 复核通过；本轮 docs triage 未发现阻塞 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-058 |
+| 剩余未完成任务 | 1 | U-058 resource surface canonical example pack |
+
 ## 回合摘要：R-2026-05-07-36
 
 | 项 | 内容 |

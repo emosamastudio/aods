@@ -10,29 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S10 resource surface boundary triage |
-| 当前回合 | R-2026-05-07-36 |
+| 当前阶段 | S10 resource surface example pack |
+| 当前回合 | R-2026-05-07-37 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 61 |
+| 已完成任务数量 | 62 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-36 |
-| 开始时间 | 2026-05-07 23:43 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-37 |
+| 开始时间 | 2026-05-07 23:52 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-056 |
-| 本轮范围 | surface-family example pack 收束质量复盘与下一阶段 backlog triage：审查 `#56/#57/#58`、更新 operations docs、写入下一任务 |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、新增 example pack、conformance runner、glossary schema、external citation metadata |
-| 验证计划 | `gh issue view 56/57/58` 只读审查；`npm run validate:all`；`git diff --check` |
+| 选中任务 | U-057 |
+| 本轮范围 | resource surface canonical example boundary 与最小示例路线：审查现有 resource 语义、更新 operations docs、写入下一任务 |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、新增 source-first resource example pack、resource runtime、scheduler、cleanup executor、permission broker |
+| 验证计划 | 现有 spec/schema resource 只读审查；`npm run validate:all`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-057 | S10 | 裁剪 resource surface canonical example boundary 与最小示例路线 | P1 | 未开始 | 明确 `resource` 在 AODS 中与 `runtime_contract.resources`、local/remote exposure、risk taxonomy、lifecycle cleanup、surface inventory 的关系；决定是否进入 source-first compiled-pilot resource example pack；只做边界裁剪和计划，不实现 schema、validator、resource runtime 或示例包 | U-056 | 下一轮首选；用于关闭 `#56` residual resource gap 前的范围控制 |
+| U-058 | S10 | 落地 resource surface canonical example pack 最小切片 | P1 | 未开始 | 在 compiled-pilot source-first example 中加入 resource surface 首包，覆盖 resource identity、scope、owner、read/write risk、exposure class、lifecycle cleanup posture、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 schema、validator、resource runtime、scheduler、cleanup executor 或 permission broker | U-057 | 下一轮首选；用于补齐 `#56` residual resource gap |
 
 ## 已完成任务
 
@@ -99,6 +99,7 @@
 | 59 | U-054 | S10 | 落地 adapter + capability/exposure canonical example pack 最小切片 | P2 | 2026-05-07 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot 现在包含 adapter + capability/exposure canonical example pack；覆盖 provider capability、consumer requirement、exposure/audit posture、implementation evidence 和 acceptance criteria；不实现 negotiation handshake、auth runtime、dynamic probing 或 remote gateway |
 | 60 | U-055 | S10 | 落地 artifact/export/policy-gate canonical example pack 最小切片 | P2 | 2026-05-07 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot 现在包含 artifact/export/policy-gate canonical example pack；覆盖 artifact type、golden export、policy gate、validation notes、implementation evidence 和 acceptance criteria；不实现 conformance runner、自动 golden update 或全量 fixture 迁移 |
 | 61 | U-056 | S10 | 复盘 surface-family example pack 收束质量并制定下一阶段 backlog triage | P1 | 2026-05-07 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md` | `gh issue view 56/57/58 --json ...`、`npm run validate:all`、`git diff --check` | `#56` 已裁剪五包完成但仍有 resource family residual gap；下一轮首选 U-057 resource surface boundary triage；`#57/#58` 保留为后续 schema/provenance 任务 |
+| 62 | U-057 | S10 | 裁剪 resource surface canonical example boundary 与最小示例路线 | P1 | 2026-05-07 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md` | `rg -n "resource" spec/stable-surface-contracts.json schema/module.schema.json spec/artifact-types.json examples/compiled-pilot-source/authoring.json`、`npm run validate:all`、`git diff --check` | resource 被裁剪为 declared surface/resource scope，不作为新 schema profile；下一轮首选 U-058 resource surface example pack，不实现 runtime/scheduler/cleanup executor |
 
 ## 失败或阻塞任务
 
@@ -161,3 +162,4 @@
 | 2026-05-07 | 100% | 100% | 99% | `U-054` 完成 | adapter + capability/exposure canonical example pack 已落地；AODS compiled-pilot 现在能展示 adapter-facing provider capability、consumer requirement、exposure/audit posture、implementation evidence 和 acceptance criteria，negotiation/auth/probing/remote gateway 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-055` 完成 | artifact/export/policy-gate canonical example pack 已落地；AODS compiled-pilot 现在能展示 generated artifact export、golden export review、policy gate、validation notes、implementation evidence 和 acceptance criteria，conformance runner、自动 golden update 和全量 fixture 迁移继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-056` 完成 | surface-family example pack 收束复盘已完成；`#56` 五个已裁剪包已落地，但原 issue 的 resource example 仍未独立覆盖，下一步先裁剪 resource surface 边界，再决定是否补 source-first example pack。 |
+| 2026-05-07 | 100% | 100% | 99% | `U-057` 完成 | resource surface 边界已裁剪；resource 暂不作为新 schema profile，而作为声明式 surface/resource scope 示例进入下一轮，覆盖 ownership、risk、exposure、cleanup、evidence 和 acceptance linkage。 |
