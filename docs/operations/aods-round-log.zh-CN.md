@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-10
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-10 |
+| 开始时间 | 2026-05-07 14:23 Asia/Shanghai |
+| 结束时间 | 2026-05-07 14:38 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-030 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-10
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/validate.mjs`、`spec/validation-rules.json`、`spec/authority-governance.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、完整审批系统、任意 evidence command 自动执行、跨仓库执行器 |
+| 外部依赖 | 无公开写操作；本轮只使用本地验证 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-10
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-030 | 未开始 | 已完成 | 定义 drift remediation workflow 最小模型：validator JSON issue remediation、文本输出 remediation hint、validation report schema、authority remediation action table、focused regression、operations docs | `lib/validate.mjs`、`spec/validation-rules.json`、`spec/authority-governance.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、operations docs |
+
+## 验证记录：R-2026-05-07-10
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-030 | Previous-round quality review | `git status --short --branch`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | U-029 后工作区仅本轮预期改动和 untracked `MEMORY.md`；focused baseline 通过 |
+| U-030 | RED remediation regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 失败后修复 | 新增 JSON remediation guidance test 先失败，证明 validator issue 未携带 remediation |
+| U-030 | Focused remediation regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 21 tests passing；覆盖 `implementation-acceptance-criteria-required` 的 JSON action/gate/guidance 与文本输出 hint |
+| U-030 | Spec JSON parse | `node -e ... JSON.parse(...)` | 通过 | `spec/validation-rules.json`、`spec/authority-governance.json` 语法有效 |
+| U-030 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-030 | Benchmark test gate | `npm run benchmark:test` | 通过 | 44 tests passing；benchmark generated result 噪音已恢复 |
+| U-030 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-10
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-07-10
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-030 |
+| 完成任务 | 1 | drift remediation workflow 最小切片完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 4 | 下一轮首选 U-031 decision provenance boundary |
+
 ## 回合摘要：R-2026-05-07-09
 
 | 项 | 内容 |

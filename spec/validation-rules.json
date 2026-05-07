@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 21,
-  "context": "Defines validation rules for AODS corpus integrity, including schema, references, surface governance, stable-surface contracts, root and module topology metadata, implementation evidence, implementation acceptance criteria, severity/gating policy, reality checks, and AOP discipline.",
+  "v": 22,
+  "context": "Defines validation rules for AODS corpus integrity, including schema, references, surface governance, stable-surface contracts, root and module topology metadata, implementation evidence, implementation acceptance criteria, remediation guidance, severity/gating policy, reality checks, and AOP discipline.",
   "assumptions": [
     "Validator has access to all files in corpus",
     "JSON Schema draft-07 validation is available"
@@ -89,19 +89,20 @@
     {
       "sid": "validation-output",
       "topic": "validation report format",
-      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, stale_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_reason?:str}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str}. severity_class is optional because the current runtime still emits error/warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy.",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, stale_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_reason?:str}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error/warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket.",
       "content_type": "prose",
       "refs": [],
       "artifact_refs": [
         "validation-report-schema",
-        "validation-level-matrix"
+        "validation-level-matrix",
+        "validation-remediation-actions"
       ],
       "criticality": "should"
     },
     {
       "sid": "severity-gating-policy",
       "topic": "validation severity and gate policy",
-      "content": "v0.7 defines six governance severity classes: info, warning, strict-error, drift-blocking, security-blocking, and release-blocking. The current validator runtime still emits error and warning buckets, so these classes are a policy layer above the existing machine output rather than a full runtime rewrite. info is advisory only and does not block validate, strict, reality, or release. warning is advisory in normal validate output but fails strict compile or strict validate because strict mode already treats warnings as gate blockers. strict-error is the default failing class and must block compile, validate, strict, and any reality run that hits the finding. drift-blocking is a strict-error subclass for authority, pairing, invariant, or topology-drift findings; when present it must block strict, reality, and release. security-blocking is a strict-error subclass for redaction, sensitive leakage, auth, or trust-boundary violations; it must block validate, strict, reality, and release. release-blocking is the publication-facing class for version, adapter, packaging, or compatibility posture findings that may be tolerated during local iteration but must fail any release or export gate. This keeps the current validator honest while giving future refs, adapter contracts, and release sensors one shared gate vocabulary.",
+      "content": "v0.7 defines six governance severity classes: info, warning, strict-error, drift-blocking, security-blocking, and release-blocking. The current validator runtime still emits error and warning buckets, so these classes are a policy layer above the existing machine output rather than a full runtime rewrite. info is advisory only and does not block validate, strict, reality, or release. warning is advisory in normal validate output but fails strict compile or strict validate because strict mode already treats warnings as gate blockers. strict-error is the default failing class and must block compile, validate, strict, and any reality run that hits the finding. drift-blocking is a strict-error subclass for authority, pairing, invariant, topology, implementation evidence, or implementation acceptance drift findings; when present it must block strict, reality, and release. security-blocking is a strict-error subclass for redaction, sensitive leakage, auth, or trust-boundary violations; it must block validate, strict, reality, and release. release-blocking is the publication-facing class for version, adapter, packaging, or compatibility posture findings that may be tolerated during local iteration but must fail any release or export gate. Remediation gate labels identify the intended response path for a finding; they do not soften or bypass the runtime bucket. This keeps the current validator honest while giving future refs, adapter contracts, and release sensors one shared gate vocabulary.",
       "content_type": "rules",
       "refs": [
         "validation-output",
@@ -110,7 +111,8 @@
       ],
       "artifact_refs": [
         "validation-severity-taxonomy",
-        "validation-gate-matrix"
+        "validation-gate-matrix",
+        "validation-remediation-actions"
       ],
       "criticality": "must"
     }
@@ -269,6 +271,96 @@
             "fail once release-quality posture is expected",
             "fail when release depends on reality evidence",
             "fail"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "validation-remediation-actions",
+      "type": "mapping-table",
+      "usage": "Standard next-action guidance for validation findings that expose implementation or contract drift.",
+      "content": {
+        "key_columns": [
+          "action"
+        ],
+        "columns": [
+          "action",
+          "gate",
+          "applies_to",
+          "meaning"
+        ],
+        "rows": [
+          [
+            "add-authority",
+            "drift-blocking",
+            "stable surface consumed without AODS authority",
+            "declare the authority entry, owner, lifecycle, contract profile, and redaction posture before stable consumption"
+          ],
+          [
+            "mark-internal-or-experimental",
+            "warning",
+            "implementation-visible surface not ready for stable consumption",
+            "downgrade exposure until authority and contract completeness are available"
+          ],
+          [
+            "remove-or-migrate-consumption",
+            "drift-blocking",
+            "stable consumer depends on non-authorized or removed surface",
+            "remove the dependency or migrate it to an authorized replacement"
+          ],
+          [
+            "add-evidence",
+            "drift-blocking",
+            "current implementation linkage lacks evidence anchors",
+            "declare module.meta.implementation.evidence[] with reviewable proof anchors"
+          ],
+          [
+            "fix-evidence-id",
+            "drift-blocking",
+            "implementation evidence ids are duplicated within a module",
+            "rename or merge duplicate evidence ids so each proof anchor has one stable identity"
+          ],
+          [
+            "fix-evidence-locator",
+            "drift-blocking",
+            "path-like evidence locator is missing under validate --reality",
+            "restore the evidence path or update the locator before treating implementation status as current"
+          ],
+          [
+            "add-acceptance-criteria",
+            "drift-blocking",
+            "current implementation linkage lacks contract acceptance criteria",
+            "declare module.meta.implementation.acceptance_criteria[] linking contract requirements to evidence, validator rules, fixtures, or manual review"
+          ],
+          [
+            "fix-acceptance-criteria-id",
+            "drift-blocking",
+            "implementation acceptance criteria ids are duplicated within a module",
+            "rename or merge duplicate criteria ids so each contract requirement has one stable identity"
+          ],
+          [
+            "add-evidence-ref",
+            "drift-blocking",
+            "evidence-ref acceptance criterion has no evidence_refs entries",
+            "add at least one evidence_refs entry so the requirement is tied to proof"
+          ],
+          [
+            "resolve-evidence-ref",
+            "drift-blocking",
+            "acceptance criterion references unknown evidence",
+            "point evidence_refs at declared evidence ids or add the missing evidence anchor"
+          ],
+          [
+            "satisfy-or-waive-criterion",
+            "drift-blocking",
+            "blocking acceptance criterion is blocked, partial, or waived",
+            "make the criterion satisfied or record an explicit waiver/remediation before stable consumption"
+          ],
+          [
+            "automate-or-review",
+            "warning",
+            "acceptance criterion relies on manual review",
+            "prefer automated evidence where possible and keep the manual review anchor current when automation is not available"
           ]
         ]
       }
@@ -664,6 +756,25 @@
               },
               "message": {
                 "type": "string"
+              },
+              "remediation": {
+                "type": "object",
+                "required": [
+                  "action",
+                  "gate",
+                  "guidance"
+                ],
+                "properties": {
+                  "action": {
+                    "type": "string"
+                  },
+                  "gate": {
+                    "type": "string"
+                  },
+                  "guidance": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -764,6 +875,11 @@
     {
       "v": 21,
       "delta": "Added implementation acceptance criteria validation and manifest acceptance summary matching.",
+      "breaking": false
+    },
+    {
+      "v": 22,
+      "delta": "Added optional validation issue remediation guidance for implementation and contract drift findings.",
       "breaking": false
     }
   ],

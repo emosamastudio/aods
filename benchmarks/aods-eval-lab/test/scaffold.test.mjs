@@ -640,6 +640,97 @@ test("manual implementation acceptance criteria stay visible as warnings", () =>
   assert.match(validate.stdout, /implementation-acceptance-criteria-manual-review/);
 });
 
+test("validator JSON includes remediation guidance for implementation drift findings", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-remediation-guidance-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "change-handler-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "current",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "change-handler-test"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+  const detailPath = path.join(compiledRoot, detailRef.path);
+  const detail = JSON.parse(fs.readFileSync(detailPath, "utf8"));
+  delete detail.meta.implementation.acceptance_criteria;
+  fs.writeFileSync(detailPath, `${JSON.stringify(detail, null, 2)}\n`);
+
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(validate.status, 0);
+  const report = JSON.parse(validate.stdout);
+  const issue = report.levels.L2.errors.find((entry) => entry.rule === "implementation-acceptance-criteria-required");
+  assert.ok(issue);
+  assert.deepEqual(issue.remediation, {
+    action: "add-acceptance-criteria",
+    gate: "drift-blocking",
+    guidance: "Declare module.meta.implementation.acceptance_criteria[] that links the current implementation contract to evidence, validator rules, fixtures, or manual review."
+  });
+
+  const textValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(textValidate.status, 0);
+  assert.match(textValidate.stdout, /remediation=add-acceptance-criteria\/drift-blocking/);
+});
+
 test("reality validation rejects missing path-like implementation evidence locators", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-reality-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);

@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-authority-governance",
-  "v": 4,
-  "context": "Defines stable-surface authority, implementation overrun posture, cross-surface reference boundary, and lifecycle/exposure states for AODS-declared surfaces, then routes stable contract detail to the dedicated contract authority module.",
+  "v": 5,
+  "context": "Defines stable-surface authority, implementation overrun posture, drift remediation posture, cross-surface reference boundary, and lifecycle/exposure states for AODS-declared surfaces, then routes stable contract detail to the dedicated contract authority module.",
   "assumptions": [
     "Implementation may expose local or experimental surfaces before AODS makes them stable",
     "Stable external, adapter-facing, exported, or agent-consumable surfaces require explicit AODS authority"
@@ -11,12 +11,13 @@
     {
       "sid": "stable-surface-authority",
       "topic": "stable surface authority and over-implementation",
-      "content": "No stable surface without AODS authority. A surface is AODS-authorized only when an authority entry declares identity, owner, lifecycle/exposure state, minimum contract profile, and redaction posture when sensitive data can appear. The detailed contract floor for redaction, completeness profiles, root topology linkage, schema version posture, and adapter capability minimums lives in spec-stable-surface-contracts. Implementation may exceed the spec only while internal or experimental; it must not become stable external, adapter-facing, exported, or agent-consumable contract by accident. unspecified implementation surface defaults to internal-only. over-implemented means implementation exposes behavior or data that no AODS authority entry defines; remediation is document authority, mark internal/experimental, gate exposure, or remove from stable consumption.",
+      "content": "No stable surface without AODS authority. A surface is AODS-authorized only when an authority entry declares identity, owner, lifecycle/exposure state, minimum contract profile, and redaction posture when sensitive data can appear. The detailed contract floor for redaction, completeness profiles, root topology linkage, schema version posture, and adapter capability minimums lives in spec-stable-surface-contracts. Implementation may exceed the spec only while internal or experimental; it must not become stable external, adapter-facing, exported, or agent-consumable contract by accident. unspecified implementation surface defaults to internal-only. over-implemented means implementation exposes behavior or data that no AODS authority entry defines; remediation is document authority, mark internal/experimental, gate exposure, remove from stable consumption, or migrate consumers to an authorized replacement. Implementation evidence and acceptance criteria drift findings use the same remediation vocabulary: add-evidence, fix-evidence-id, fix-evidence-locator, add-acceptance-criteria, fix-acceptance-criteria-id, add-evidence-ref, resolve-evidence-ref, satisfy-or-waive-criterion, and automate-or-review are maintainer actions, not automatic validator repairs.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
         "stable-authority-state-table",
-        "over-implementation-remediation"
+        "over-implementation-remediation",
+        "drift-remediation-action-table"
       ],
       "criticality": "must"
     },
@@ -186,7 +187,7 @@
             "id": "gate-or-mark",
             "type": "action",
             "actor": "maintainer",
-            "action": "mark internal or experimental, or remove from stable external consumption",
+            "action": "mark internal or experimental, remove from stable external consumption, or migrate consumers to an authorized replacement",
             "next": "gated"
           },
           {
@@ -203,6 +204,90 @@
             "action": "surface is not stable-consumable until authority exists",
             "next": null
           }
+        ]
+      }
+    },
+    {
+      "artifact_id": "drift-remediation-action-table",
+      "type": "mapping-table",
+      "usage": "Canonical maintainer actions when validation or review detects authority, topology, implementation evidence, or acceptance criteria drift.",
+      "content": {
+        "key_columns": [
+          "action"
+        ],
+        "columns": [
+          "action",
+          "gate",
+          "trigger",
+          "required_response"
+        ],
+        "rows": [
+          [
+            "add-authority",
+            "drift-blocking",
+            "stable consumer needs an implementation-visible surface with no AODS authority entry",
+            "add authority identity, owner, lifecycle, contract profile, and redaction posture"
+          ],
+          [
+            "mark-internal-or-experimental",
+            "warning",
+            "surface exists but is not ready for stable, external, adapter-facing, exported, or agent-consumable use",
+            "downgrade exposure and prevent stable consumers until the authority chain is complete"
+          ],
+          [
+            "remove-or-migrate-consumption",
+            "drift-blocking",
+            "consumer relies on a removed, non-authorized, or non-stable surface without explicit experimental posture",
+            "remove the dependency or route to an authorized replacement"
+          ],
+          [
+            "add-evidence",
+            "drift-blocking",
+            "current implementation linkage has no reviewable evidence anchor",
+            "declare evidence metadata with stable ids, locators, freshness policy, and authority surface"
+          ],
+          [
+            "fix-evidence-id",
+            "drift-blocking",
+            "implementation evidence ids are duplicated within a module",
+            "rename or merge duplicate evidence anchors so each proof anchor has one stable identity"
+          ],
+          [
+            "fix-evidence-locator",
+            "drift-blocking",
+            "path-like implementation evidence locator is missing under reality validation",
+            "restore the evidence path or update the locator before claiming current implementation status"
+          ],
+          [
+            "add-acceptance-criteria",
+            "drift-blocking",
+            "current implementation linkage has no contract requirement checks",
+            "declare acceptance criteria that map requirements to evidence refs, validator rules, fixtures, or manual review"
+          ],
+          [
+            "fix-acceptance-criteria-id",
+            "drift-blocking",
+            "implementation acceptance criteria ids are duplicated within a module",
+            "rename or merge duplicate criteria so each contract requirement has one stable identity"
+          ],
+          [
+            "add-evidence-ref",
+            "drift-blocking",
+            "evidence-ref acceptance criterion has no evidence_refs entries",
+            "add at least one evidence_refs entry so the requirement is tied to proof"
+          ],
+          [
+            "resolve-evidence-ref",
+            "drift-blocking",
+            "acceptance criteria reference evidence ids that are not declared",
+            "add the missing evidence anchor or update evidence_refs"
+          ],
+          [
+            "satisfy-or-waive-criterion",
+            "drift-blocking",
+            "blocking acceptance criterion is blocked, partial, or waived",
+            "restore satisfied status or record explicit waiver/remediation before stable consumption"
+          ]
         ]
       }
     },
@@ -378,6 +463,11 @@
     {
       "v": 4,
       "delta": "Added the minimum cross-surface reference boundary, accountable owner requirement, and explicit unresolved resolution-state posture.",
+      "breaking": false
+    },
+    {
+      "v": 5,
+      "delta": "Added canonical drift remediation actions for authority, implementation evidence, and acceptance criteria findings.",
       "breaking": false
     }
   ],
