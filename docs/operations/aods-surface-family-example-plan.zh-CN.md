@@ -1,22 +1,24 @@
 # AODS Surface-family Example Pack Plan
 
-状态：U-055 artifact/export/policy-gate 包已落地
+状态：U-056 收束复盘完成，resource residual gap 待裁剪
 日期：2026-05-07
 适用范围：GitHub `#56` common AODS surface family examples
 
 ## 结论
 
-`#56` 不应一次性变成全量示例库。当前最高价值、最低风险路线是先做 example pack triage，再选择一个 schema/runtime 已稳定的最小示例包。
+`#56` 不应一次性变成全量示例库。当前最高价值、最低风险路线是先做 example pack triage，再选择 schema/runtime 已稳定的最小示例包。
 
 已落地五包为 **U-051 read-model + implementation-linkage canonical example pack**、**U-052 command + receipt canonical example pack**、**U-053 event + correction/supersession canonical example pack**、**U-054 adapter + capability/exposure canonical example pack** 和 **U-055 artifact/export/policy-gate canonical example pack**。原因：read-model freshness、implementation evidence、acceptance criteria、fixture/golden convention、command/receipt/audit/risk 边界、event correction/supersession guidance、adapter capability/exposure guidance、artifact export policy gate 都已经能用现有 validator 和 compiled-pilot source-first 结构验证。
 
-下一轮首选 **U-056 surface-family example pack 收束质量复盘与下一阶段 backlog triage**。它检查 `#56` 分批路线是否仍有 resource example 残留、GitHub issue 是否需要同步、以及 `#57/#58` 是否进入下一阶段；仍不直接实现 schema/provenance 变更。
+U-056 收束复盘结论：`#56` 原验收仍包含 `resource` family，当前五包没有独立 resource surface example。`#56` 不应关闭；下一轮首选 **U-057 resource surface canonical example boundary triage**。它先裁剪 resource 与 runtime resources、exposure、risk、lifecycle cleanup、surface inventory 的关系，再决定是否进入 source-first example pack；仍不直接实现 schema/provenance/resource runtime。
 
 ## 输入信号
 
 | 来源 | 信号 | 判断 |
 |---|---|---|
 | GitHub `#56` | 需要 read model、command、event、resource、adapter、artifact、export、policy-gate canonical examples | 范围完整但过宽，必须分批 |
+| GitHub `#57` | 需要 glossary / canonical-term registry 支持 aliases、deprecated terms、scope、owner、linked surfaces | 有价值但需要 schema/design，排在 resource residual gap 之后 |
+| GitHub `#58` | 需要 external-source citation / provenance metadata | 有价值但需要 provenance/schema 独立裁剪，排在 resource residual gap 之后 |
 | U-032 | read-model freshness / watermark profile 已落地 | 适合作为首个 example pack |
 | U-027/U-029 | implementation evidence 和 acceptance criteria 已落地 | 能与 read-model example 串成 contract-to-evidence 闭环 |
 | U-033 | fixture/golden export convention 已落地 | example pack 可放入 source-first example + fixture manifest |
@@ -31,6 +33,26 @@
 | 3 | event + correction/supersession | 展示 append-only event、correction_of、supersedes、projection guidance | 已完成 U-053：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不实现 event store、不做 replay/migration |
 | 4 | adapter + capability/exposure | 展示 provider capability、consumer requirement、local/remote exposure、audit notes | 已完成 U-054：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 negotiation handshake、不做 auth runtime |
 | 5 | artifact/export/policy-gate | 展示 artifact type、golden export、policy gate 与 validation notes | 已完成 U-055：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 conformance runner、不迁移全部 examples |
+| 6 | resource | 展示 resource surface 的 scope、read/write risk、exposure、ownership、lifecycle cleanup 和 validation notes | 未完成；U-056 确认为 residual gap，U-057 先裁剪边界 | 不做 resource runtime、不做 scheduler/cleanup executor、不新增 schema |
+
+## U-056 收束复盘
+
+### 审查输入
+
+| 来源 | 结论 |
+|---|---|
+| GitHub `#56` | 原验收明确要求 read model、command、event、resource、adapter、artifact、export、policy-gate examples。 |
+| U-051 到 U-055 | 已覆盖 read-model、command、event、adapter、artifact/export/policy-gate。 |
+| 当前 spec/schema | `runtime_contract.resources`、risk taxonomy、local/remote exposure、lifecycle cleanup 都提到 resource，但尚无独立 resource surface example 或 resource profile。 |
+| GitHub `#57/#58` | 都有价值，但会触及 schema/provenance，不应抢在 residual resource gap 之前执行。 |
+
+### 复盘结论
+
+1. 已裁剪五包质量合格，均有 source-first example、compiled output、fixture manifest、focused regression 和 repo-level validation。
+2. `#56` 仍 open 是合理状态，因为 resource family 尚未独立覆盖。
+3. 直接补 resource example 存在范围风险：resource 在当前 AODS 中横跨 runtime resources、local/remote exposure、risk taxonomy、lifecycle cleanup 和 surface inventory，不应在未裁剪边界前写 example。
+4. 下一步应先做 U-057 resource surface boundary triage；若边界稳定，再新增 resource canonical example pack。
+5. `#57` glossary registry 和 `#58` external citation metadata 继续保留为后续 schema/provenance 设计任务。
 
 ## 已执行：U-051 最小包
 
@@ -173,7 +195,7 @@
 5. `benchmarks/aods-eval-lab/test/example-packs.test.mjs` 已扩展覆盖 artifact/export source、compiled module、manifest summary 和 fixture metadata。
 6. 本轮未新增 schema，未改 validator/runtime，未实现 conformance runner、自动 golden update 或全量 fixture 迁移。
 
-## U-056 候选任务
+## U-056 已执行
 
 ### 目标
 
@@ -192,6 +214,33 @@
 
 不关闭或评论 GitHub issue，不实现 schema/provenance 变更，不新增 example pack，不重写文档门户。
 
+### 验收结果
+
+1. 已只读审查 GitHub `#56/#57/#58`。
+2. 已确认 `#56` 已完成五个已裁剪 example pack，但仍有 `resource` residual gap。
+3. 已确认当前不关闭或评论 `#56`，因为原验收未完全覆盖。
+4. 已确认 `#57/#58` 不进入下一轮首选，避免在 resource residual gap 之前扩成 schema/provenance 工作。
+5. 已新增 U-057 resource surface boundary triage 作为下一轮首选。
+
+## U-057 候选任务
+
+### 目标
+
+裁剪 resource surface canonical example boundary 与最小示例路线，明确 resource 在 AODS 中与 `runtime_contract.resources`、local/remote exposure、risk taxonomy、lifecycle cleanup、surface inventory 的关系。
+
+### 验收边界
+
+| 文件 | 变更 |
+|---|---|
+| `docs/operations/aods-surface-family-example-plan.zh-CN.md` | 增加 resource family 边界、非目标和是否进入 example pack 的建议 |
+| `docs/operations/aods-v0.11-backlog.zh-CN.md` | 更新 `#56/#57/#58` 后续排序 |
+| `docs/operations/aods-task-ledger.zh-CN.md` | 写入 resource example pack 或 schema/provenance 后续任务 |
+| `docs/operations/aods-round-log.zh-CN.md` | 记录复核和 triage 证据 |
+
+### 非目标
+
+不实现 schema、validator、resource runtime、scheduler、cleanup executor、permission broker 或 source-first resource example pack。
+
 ## Deferred
 
 | Deferred item | 原因 |
@@ -199,4 +248,6 @@
 | 全量 example library | 会扩大维护面，并且会把 `#56` 与后续 schema/runtime 工作耦合 |
 | command/event runtime examples | 需要先确认 write/event runtime semantics 是否还要继续扩展 |
 | adapter negotiation examples | 需要等待 capability/exposure/audit metadata 更稳定 |
+| glossary registry schema | 需要先关闭 `#56` resource residual gap，再进入 `#57` schema/design |
+| external citation metadata | 需要先关闭 `#56` resource residual gap，再进入 `#58` provenance/schema |
 | docs portal linking | 公开文档导航需另立任务，不能混入 example pack 首包 |

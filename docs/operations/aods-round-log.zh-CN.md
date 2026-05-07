@@ -2,6 +2,62 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-36
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-36 |
+| 开始时间 | 2026-05-07 23:43 Asia/Shanghai |
+| 结束时间 | 2026-05-07 23:43 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-056 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-36
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/`、`docs/README.md` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、新增 example pack、conformance runner、glossary schema、external citation metadata |
+| 外部依赖 | `gh issue view 56/57/58` 只读审查；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-07-36
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-056 | 未开始 | 已完成 | 复盘 U-051 到 U-055 五个 example pack，确认 `#56` 原验收中的 resource family 尚未独立覆盖；将下一轮首选裁剪为 U-057 resource surface boundary triage，并保留 `#57/#58` 为后续 schema/provenance 任务 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/README.md` |
+
+## 验证记录：R-2026-05-07-36
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-056 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`git diff --check`、`npm run validate:all` | 通过 | U-055 提交后工作区仅 untracked `MEMORY.md`；focused + repo validation 通过后继续推进 |
+| U-056 | GitHub issue read-only review | `gh issue view 56/57/58 --json ...` | 通过 | `#56` 仍 open 且原验收包含 resource；`#57/#58` 分别是 glossary schema 与 external citation provenance 后续候选 |
+| U-056 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 均通过，warnings=0；compiled-pilot modules=10 |
+| U-056 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-36
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-056 / `#56` | U-057 | 裁剪 resource surface canonical example boundary 与最小示例路线 | P1 | 明确 `resource` 在 AODS 中与 `runtime_contract.resources`、local/remote exposure、risk taxonomy、lifecycle cleanup、surface inventory 的关系；决定是否进入 source-first compiled-pilot resource example pack；只做边界裁剪和计划，不实现 schema、validator、resource runtime 或示例包 | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-36
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-056 |
+| 完成任务 | 1 | surface-family example pack 收束质量复盘完成 |
+| 失败任务 | 0 | U-055 复核通过；本轮只读审查和 docs triage 未发现阻塞 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-057 |
+| 剩余未完成任务 | 1 | U-057 resource surface canonical example boundary triage |
+
 ## 回合摘要：R-2026-05-07-35
 
 | 项 | 内容 |
