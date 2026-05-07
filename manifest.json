@@ -199,7 +199,7 @@
     {
       "id": "spec-stable-surface-contracts",
       "path": "spec/stable-surface-contracts.json",
-      "scope": "Minimal stable-surface contracts for redaction, completeness profiles, read-model freshness, command/event audit linkage, event correction, known gaps, authority hierarchy, topology linkage, decision provenance, schema compatibility, and adapter capability.",
+      "scope": "Minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, topology, provenance, schema compatibility, and adapter capability.",
       "category": "policy",
       "layer": "detail",
       "deps": [
@@ -236,7 +236,8 @@
           "topology-pilot-boundary",
           "adapter-capability-posture",
           "known-gap-posture",
-          "authority-hierarchy-posture"
+          "authority-hierarchy-posture",
+          "dependency-ordering-posture"
         ]
       },
       "redaction": {

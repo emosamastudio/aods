@@ -8,7 +8,7 @@
 
 v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 oracle 开始。当前最高价值路线是继续收束 write-capable 和 event-facing stable surfaces 的最小审计语义，让 AODS 在进入更深的 runtime / conformance 前先能表达“写入请求、尝试记录、状态后果之间如何追踪”。
 
-已执行的最小切片包括 **U-035 command / receipt / event triad boundary**、**U-036 event correction / supersession boundary**、**U-037 partial implementation / known-gap metadata boundary** 和 **U-038 ownership and authority hierarchy boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。U-037 覆盖 GitHub issue `#47` 的最低可验证边界，只做 partial / known-gap metadata vocabulary，不实现全量 roadmap system、自动豁免或 release override。U-038 覆盖 GitHub issue `#50` 的最低可验证边界，只做 ownership / authority hierarchy vocabulary，不实现自动冲突解析器、ownership inference 或 cross-corpus authority runtime。
+已执行的最小切片包括 **U-035 command / receipt / event triad boundary**、**U-036 event correction / supersession boundary**、**U-037 partial implementation / known-gap metadata boundary**、**U-038 ownership and authority hierarchy boundary** 和 **U-039 dependency ordering between surfaces boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。U-037 覆盖 GitHub issue `#47` 的最低可验证边界，只做 partial / known-gap metadata vocabulary，不实现全量 roadmap system、自动豁免或 release override。U-038 覆盖 GitHub issue `#50` 的最低可验证边界，只做 ownership / authority hierarchy vocabulary，不实现自动冲突解析器、ownership inference 或 cross-corpus authority runtime。U-039 覆盖 GitHub issue `#51` 的最低可验证边界，只做 dependency ordering vocabulary，不实现 package manager、runtime scheduler 或 cross-repo dependency executor。
 
 ## 输入信号
 
@@ -121,6 +121,30 @@ v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 
 3. focused regression 覆盖 ownership section、field table 和 non-goals。
 4. 本轮不新增 schema，不改 validator runtime，不实现 automatic conflict resolver、ownership inference、cross-corpus authority runtime 或 automatic migration tool。
 
+## 已执行切片：U-039
+
+### 目标
+
+定义 stable surfaces 之间的 dependency ordering 最小边界，让命令、receipt、event、adapter、export、generated index、validator 和 route 可以表达它们依赖、阻塞、派生、发出或消费哪些 surface，而不是让消费者把每个 surface 当成独立可用。
+
+### 最小模型
+
+| 项 | 含义 | 非目标 |
+|---|---|---|
+| requires | hard dependency；target 缺失或不稳定时阻断 stable use | 不做 package manager resolution |
+| blocks | 声明 promotion、routing、release 或 stable consumption 被什么阻断 | 不做 automatic approval workflow |
+| derives_from | generated / projected / summarized / indexed / exported surface 的 source 和 derivation rule | 不做 automatic build runner |
+| emits | command、workflow、adapter、event source 产生 receipt、event、projection、export 或 generated surface | 不做 event bus runtime |
+| consumes | command、adapter、validator、route、export 或 generated artifact 读取的 input surface | 不做 runtime data fetch |
+| optional_dependency | 非阻塞依赖、fallback behavior、degraded posture | 不执行 automatic fallback |
+
+### 验收结果
+
+1. `spec/stable-surface-contracts.json` 定义 surface dependency ordering section 和 mapping artifacts。
+2. `manifest.json` scope 与 runtime summary 已同步 dependency ordering posture。
+3. focused regression 覆盖 dependency section、field table 和 non-goals。
+4. 本轮不新增 schema，不改 validator runtime，不实现 package manager、runtime scheduler、cross-repo dependency executor 或 automatic topological build runner。
+
 ## 下一轮建议
 
-下一轮若继续当前路线，首选 **U-039 dependency ordering between surfaces boundary**，覆盖 issue `#51`。它应只定义 requires、blocks、derives_from、emits、consumes、optional dependency 和 hard/optional posture，不应实现 package manager、runtime scheduler 或跨 repo dependency executor。
+下一轮若继续当前路线，首选 **U-040 deprecation and migration format boundary**，覆盖 issue `#52`。它应只定义 deprecation fields、replacement links、migration guidance、affected versions、removal version 和 validation behavior，不应实现 automatic migration tool。

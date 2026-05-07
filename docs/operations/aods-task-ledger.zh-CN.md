@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S8 ownership authority hierarchy |
-| 当前回合 | R-2026-05-07-18 |
+| 当前阶段 | S8 dependency ordering boundary |
+| 当前回合 | R-2026-05-07-19 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 43 |
+| 已完成任务数量 | 44 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-18 |
-| 开始时间 | 2026-05-07 17:13 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-19 |
+| 开始时间 | 2026-05-07 17:23 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-038 |
-| 本轮范围 | ownership and authority hierarchy 最小边界：overlapping surfaces 的 canonical authority、derived surface、alias、conflict policy、migration guidance；spec docs、focused regression、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、automatic conflict resolver、ownership inference、cross-corpus authority runtime、automatic migration tool |
+| 选中任务 | U-039 |
+| 本轮范围 | dependency ordering between surfaces 最小边界：requires、blocks、derives_from、emits、consumes、optional dependency、hard/optional/advisory/unknown dependency strength；spec docs、focused regression、operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、package manager、runtime scheduler、cross-repo dependency executor、automatic topological build runner |
 | 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,7 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-039 | S8 | 定义 dependency ordering between surfaces 最小边界 | P2 | 未开始 | requires、blocks、derives_from、emits、consumes、optional dependencies 的最小语义进入 spec；区分 hard/optional dependency；不做 package manager 或 runtime scheduler | U-038 | 对应 `#51`；下一轮首选 |
+| U-040 | S8 | 定义 deprecation and migration format 最小边界 | P2 | 未开始 | deprecation fields、replacement links、migration guidance、affected versions、removal version、validation behavior 最小语义进入 spec；不做自动迁移工具 | U-038、U-039 | 对应 `#52`；下一轮首选 |
 
 ## 已完成任务
 
@@ -81,6 +81,7 @@
 | 41 | U-036 | S8 | 定义 event correction / supersession 最小边界 | P1 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | append-only event surfaces 现在有 correction_event、supersession_link、retraction、projection_guidance 的 spec-level boundary；不实现 event store/replay/migration |
 | 42 | U-037 | S8 | 定义 partial implementation / known-gap metadata 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 partial implementation / known gap 的 missing_capabilities、blocking_status、owner、expected_remediation、consumer guidance 最小边界；不实现 roadmap system、automatic waiver 或 release override |
 | 43 | U-038 | S8 | 定义 ownership and authority hierarchy 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | overlapping stable surfaces 现在有 canonical_authority、derived_surface、alias_surface、conflict_policy、migration_guidance 最小边界；不实现 automatic conflict resolver 或 cross-corpus authority runtime |
+| 44 | U-039 | S8 | 定义 dependency ordering between surfaces 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 requires、blocks、derives_from、emits、consumes、optional_dependency 的最小 ordering vocabulary；不实现 package manager、runtime scheduler 或 cross-repo dependency executor |
 
 ## 失败或阻塞任务
 
@@ -129,3 +130,4 @@
 | 2026-05-07 | 100% | 100% | 92% | `U-036` 完成 | event correction / supersession boundary 已落地；AODS 现在能为 append-only event surfaces 表达 correction、supersession、retraction 和 projection guidance 的最小语义。 |
 | 2026-05-07 | 100% | 100% | 93% | `U-037` 完成 | partial implementation / known-gap metadata boundary 已落地；AODS 现在能为稳定消费表达缺失能力、阻塞姿态、owner、补救动作和消费者指引，自动豁免与 roadmap runtime 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 94% | `U-038` 完成 | ownership and authority hierarchy boundary 已落地；AODS 现在能为 overlapping stable surfaces 表达 canonical、derived、alias、conflict 和 migration posture，自动冲突解析继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 95% | `U-039` 完成 | dependency ordering boundary 已落地；AODS 现在能为 stable surfaces 表达 requires、blocks、derives_from、emits、consumes 和 optional dependency ordering，runtime scheduler 继续 deferred。 |

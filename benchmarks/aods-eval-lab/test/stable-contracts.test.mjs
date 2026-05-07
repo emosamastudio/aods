@@ -153,3 +153,36 @@ test("stable contracts define ownership and authority hierarchy for overlapping 
   assert.ok(nonGoalRows.includes("cross_corpus_authority_runtime"));
   assert.ok(nonGoalRows.includes("ownership_inference"));
 });
+
+test("stable contracts define dependency ordering between surfaces", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "surface-dependency-ordering");
+  assert.ok(section);
+  assert.match(section.content, /dependency ordering/);
+  assert.match(section.content, /requires/);
+  assert.match(section.content, /blocks/);
+  assert.match(section.content, /derives_from/);
+  assert.match(section.content, /emits/);
+  assert.match(section.content, /consumes/);
+  assert.match(section.content, /optional dependency/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "surface-dependency-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "requires",
+    "blocks",
+    "derives_from",
+    "emits",
+    "consumes",
+    "optional_dependency"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "surface-dependency-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("package_manager"));
+  assert.ok(nonGoalRows.includes("runtime_scheduler"));
+  assert.ok(nonGoalRows.includes("cross_repo_dependency_executor"));
+});

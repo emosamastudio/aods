@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 13,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, command receipt event triads, event correction and supersession, partial implementation and known-gap metadata, ownership and authority hierarchy, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
+  "v": 14,
+  "context": "Defines minimal stable-surface contracts for redaction, profiles, read-model freshness, command/event audit linkage, event correction, known gaps, authority hierarchy, dependency ordering, topology linkage, evidence and acceptance, decision provenance, schema compatibility, adapter capability, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -10,7 +10,8 @@
     "Write-capable surfaces need audit linkage before command semantics are exposed as stable",
     "Append-only event surfaces need correction semantics before consumers treat event history as stable truth",
     "Partial implementation gaps need explicit owner, blocking posture, remediation, and consumer guidance before being treated as non-blocking",
-    "Overlapping stable surfaces need declared canonical, derived, alias, conflict, and migration posture before consumers merge claims"
+    "Overlapping stable surfaces need declared canonical, derived, alias, conflict, and migration posture before consumers merge claims",
+    "Stable surfaces that depend on other surfaces need explicit hard, optional, blocking, derivation, emission, and consumption ordering before validation or routing treats them as independently consumable"
   ],
   "sections": [
     {
@@ -111,6 +112,24 @@
       "criticality": "should"
     },
     {
+      "sid": "surface-dependency-ordering",
+      "topic": "dependency ordering between stable surfaces",
+      "content": "dependency ordering declares how stable surfaces depend on one another before validation, routing, release review, or agent consumption treats them as independently usable. requires means a hard dependency: the source surface cannot be consumed as stable unless the target surface exists and has an acceptable lifecycle and contract posture. blocks means a surface prevents another surface from promotion, release, routing, or stable consumption until a named condition is resolved. derives_from means a generated, summarized, projected, indexed, or exported surface is derived from a source authority and must declare derivation_rule, freshness posture, and consumer guidance. emits means a command, workflow, adapter, event source, or runtime contract produces a receipt, event, projection, export, or generated surface. consumes means a command, adapter, validator, route, export, or generated artifact reads another surface as input. optional dependency means a dependency may improve fidelity, routing, evidence, or diagnostics but must name fallback behavior and degraded posture when absent. dependency_strength is hard, optional, advisory, or unknown; hard dependencies block stable consumption when missing or unstable, optional dependencies require fallback guidance, advisory dependencies provide context only, and unknown dependencies require human review before stable consumption. This boundary does not create a package manager, runtime scheduler, cross_repo dependency executor, automatic topological build runner, or remote fetch mechanism. It only gives consumers a deterministic vocabulary for dependency order and degraded use.",
+      "content_type": "rules",
+      "refs": [
+        "ownership-authority-hierarchy",
+        "contract-completeness-profiles",
+        "command-receipt-event-triad",
+        "schema-versioning-compatibility",
+        "spec-boot-protocol:task-stage-routing"
+      ],
+      "artifact_refs": [
+        "surface-dependency-field-table",
+        "surface-dependency-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
       "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
@@ -186,7 +205,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -195,6 +214,7 @@
         "event-correction-supersession",
         "partial-known-gap-metadata",
         "ownership-authority-hierarchy",
+        "surface-dependency-ordering",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -676,6 +696,97 @@
       }
     },
     {
+      "artifact_id": "surface-dependency-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for dependency ordering between stable surfaces.",
+      "content": {
+        "key_columns": [
+          "relationship"
+        ],
+        "columns": [
+          "relationship",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "requires",
+            "source_surface, target_surface, dependency_strength, required_posture, missing_behavior",
+            "hard dependency that blocks stable use when missing or unstable",
+            "package manager resolution"
+          ],
+          [
+            "blocks",
+            "blocking_surface, blocked_surface, block_reason, release_gate, remediation_ref",
+            "declares what prevents promotion, routing, release, or stable consumption",
+            "automatic approval workflow"
+          ],
+          [
+            "derives_from",
+            "derived_surface, source_surface, derivation_rule, freshness_posture, divergence_policy",
+            "ties generated, projected, summarized, indexed, or exported surfaces to their source",
+            "automatic build runner"
+          ],
+          [
+            "emits",
+            "emitter_surface, emitted_surface, emission_kind, ordering_key, audit_anchor",
+            "links commands, workflows, adapters, or event sources to receipts, events, projections, exports, or generated surfaces",
+            "event bus runtime"
+          ],
+          [
+            "consumes",
+            "consumer_surface, input_surface, consumption_mode, freshness_requirement, absence_behavior",
+            "states what a command, adapter, validator, route, export, or generated artifact reads as input",
+            "runtime data fetch"
+          ],
+          [
+            "optional_dependency",
+            "source_surface, target_surface, dependency_strength, fallback_behavior, degraded_posture",
+            "documents non-blocking dependencies and degraded behavior when absent",
+            "automatic fallback execution"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-dependency-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for dependency ordering between stable surfaces.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "package_manager",
+            "dependency metadata describes stable consumption order but does not install, resolve, or version packages",
+            "future packaging or distribution task"
+          ],
+          [
+            "runtime_scheduler",
+            "execution order, retries, timeouts, and concurrency require runtime-specific semantics",
+            "future runtime orchestration task"
+          ],
+          [
+            "cross_repo_dependency_executor",
+            "running dependency checks across repositories requires repo resolution, trust, and command execution policy",
+            "future implementation runtime task"
+          ],
+          [
+            "automatic_topological_build_runner",
+            "building or regenerating derived surfaces is an execution workflow, not a static dependency declaration",
+            "future conformance or build task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -1030,6 +1141,13 @@
             "source": "validation"
           },
           {
+            "id": "surface-dependency-ordering-boundary",
+            "condition": "stable surface declares dependency on another surface without relationship type, dependency_strength, target_surface, missing_behavior, or fallback/degraded posture for optional dependencies",
+            "action": "future L3 warning: stable surface dependencies should expose ordering and degraded-use posture before routing or stable consumption",
+            "priority": 42,
+            "source": "validation"
+          },
+          {
             "id": "implementation-metadata-mirror",
             "condition": "manifest.modules[].implementation exists XOR module.meta.implementation exists",
             "action": "L2 error: implementation linkage summary must be mirrored",
@@ -1168,6 +1286,11 @@
       "v": 13,
       "delta": "Added ownership and authority hierarchy boundaries for overlapping stable surfaces.",
       "breaking": false
+    },
+    {
+      "v": 14,
+      "delta": "Added dependency ordering boundaries for stable surfaces that require, block, derive from, emit, consume, or optionally depend on other surfaces.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -1190,7 +1313,8 @@
         "issue-28",
         "issue-40",
         "issue-47",
-        "issue-50"
+        "issue-50",
+        "issue-51"
       ],
       "confidence": "high",
       "review_chain": [
@@ -1218,7 +1342,8 @@
         "topology-pilot-boundary",
         "adapter-capability-posture",
         "known-gap-posture",
-        "authority-hierarchy-posture"
+        "authority-hierarchy-posture",
+        "dependency-ordering-posture"
       ]
     },
     "redaction": {
@@ -1244,6 +1369,7 @@
           "event correction and supersession",
           "partial implementation and known gaps",
           "ownership and authority hierarchy",
+          "dependency ordering",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -1251,9 +1377,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v13",
+          "snapshot_id": "spec-stable-surface-contracts-v14",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=13",
+          "source_watermark": "module.v=14",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",
