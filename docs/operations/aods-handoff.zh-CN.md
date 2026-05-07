@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已按 owner 最新要求扩展后续任务池和批量执行规则，新增 U-060 到 U-075；下一轮首选 Batch A：U-060 glossary / canonical-term registry v2 boundary triage + U-061 external citation / provenance metadata boundary triage。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已扩展后续任务池和批量执行规则；U-060/U-061 已完成 glossary registry v2 与 external citation metadata 的 boundary triage。下一轮首选 Batch B：U-062 glossary registry v2 schema / authoring compile mirror + U-063 deterministic validator gates。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -27,9 +27,11 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | 12 | `docs/operations/aods-v0.10-backlog.zh-CN.md` | 读取 v0.10 risk/exposure/audit hardening 候选路线 |
 | 13 | `docs/operations/aods-v0.11-backlog.zh-CN.md` | 读取 documentation / authoring quality 候选路线 |
 | 14 | `docs/operations/aods-expanded-task-plan.zh-CN.md` | 读取扩展任务池、批量执行规则和下一批推荐 |
-| 15 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 16 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 17 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 15 | `docs/operations/aods-glossary-registry-plan.zh-CN.md` | 读取 glossary registry v2 boundary |
+| 16 | `docs/operations/aods-external-citation-plan.zh-CN.md` | 读取 external citation metadata boundary |
+| 17 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 18 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 19 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -106,17 +108,19 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | U-057 | 裁剪 resource surface canonical example boundary 与最小示例路线 | 已确认 resource 先作为 declared resource surface / resource scope 示例表达 identity、scope、owner、read/write risk、exposure、cleanup、evidence 和 acceptance linkage；下一步 U-058 落地 source-first example pack |
 | U-058 | 落地 resource surface canonical example pack 最小切片 | compiled-pilot source-first example 已包含 resource identity、scope、owner、read/write risk、exposure class、cleanup posture、implementation evidence、acceptance criteria、fixture manifest 和 focused regression；resource runtime、scheduler、cleanup executor、permission broker 继续 deferred |
 | U-059 | 扩展 U-058 后任务池并制定批量执行规则 | 已新增扩展任务计划，任务池扩展为 U-060 到 U-075；后续每轮仍先审查上一轮质量，审查通过后可批量执行低冲突任务 |
+| U-060 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | 已确认 v1 string glossary 兼容，v2 record 最小字段、validator gate 和 U-062/U-063/U-064 后续任务已裁剪 |
+| U-061 | 裁剪 external citation / provenance metadata boundary 与最小实现路线 | 已确认 external citation 独立于 internal provenance / decision_provenance，module-level citation registry + local citation refs 为最小模型，U-065/U-066/U-067 后续任务已裁剪 |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-060 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | Batch A 首选；审查 current `manifest.glossary`、authoring compile mirror、schema/validator touch points 和 `#57` 需求；只做边界裁剪和后续任务，不直接实现 schema、validator、migration tool 或 term resolver runtime |
-| 2 | U-061 | 裁剪 external citation / provenance metadata boundary 与最小实现路线 | Batch A 首选；审查 `#58`、当前 decision provenance、artifact metadata 和 external source 表达缺口；只做边界裁剪和后续任务，不实现 crawler、claim detector 或 cross-corpus resolver |
-| 3 | U-062 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | U-060 后的 Batch B 候选 |
-| 4 | U-063 | 落地 glossary registry deterministic validator gates | U-062 后的 Batch B 候选 |
-| 5 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | U-061 后的 Batch C 候选 |
-| 6 | U-066 | 落地 external citation validator gates | U-065 后的 Batch C 候选 |
+| 1 | U-062 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | Batch B 首选；依据 U-060 允许 v1 string 或 v2 record glossary，并保持 companion / source-first compile mirror |
+| 2 | U-063 | 落地 glossary registry deterministic validator gates | Batch B 首选；依据 U-060 检查 term id、alias collision、deprecated replacement、linked surface refs |
+| 3 | U-064 | 增加 glossary registry canonical example pack | U-063 后可同轮或下一轮 |
+| 4 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | U-061 后的 Batch C 候选 |
+| 5 | U-066 | 落地 external citation validator gates | U-065 后的 Batch C 候选 |
+| 6 | U-067 | 增加 external citation / provenance canonical example pack | U-066 后可同轮或下一轮 |
 
 ## 失败和风险
 
@@ -156,12 +160,12 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | artifact/export example pack 扩散风险 | artifact/export/policy-gate 示例容易扩成 conformance runner、自动 golden update、fixture rewrite 或全量迁移 | U-055 已只表达 artifact type、golden export、policy gate、validation notes、implementation evidence 和 acceptance criteria |
 | post-example-pack triage 扩散风险 | `#56` 收束复盘容易直接跳入 glossary schema v2、external citation registry 或 resource runtime | U-056 应只做质量复盘和下一阶段排序，不实现 schema/provenance/runtime 变更 |
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
-| glossary registry 扩散风险 | `#57` 容易直接扩成 schema v2、term resolver runtime、migration tool 或 deprecated-term validator | U-060 只能先裁剪 boundary 与最小实现路线，不直接实现 schema、validator 或 resolver runtime |
-| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 只能先裁剪 boundary 与最小实现路线，不直接实现 crawler、claim detector 或 resolver |
+| glossary registry 扩散风险 | `#57` 容易直接扩成 schema v2、term resolver runtime、migration tool 或 deprecated-term validator | U-060 已裁剪 boundary；U-062/U-063 只能落 schema + deterministic gates，不实现 resolver/runtime 或全文扫描 |
+| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 已裁剪 boundary；U-065/U-066 只能落 schema + deterministic gates，不实现 crawler、claim detector 或 resolver |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-060 + U-061 | Batch A：glossary boundary + external citation boundary | 明确 `#57/#58` 的最小边界、依赖和后续 schema / validator 任务；只做边界裁剪和计划 |
+| 1 | U-062 + U-063 | Batch B：glossary schema / compile mirror + deterministic validator gates | 按 U-060 boundary 落地 v1/v2 glossary schema、source-first compile mirror、term id / alias / deprecated replacement / linked surface validator gates |

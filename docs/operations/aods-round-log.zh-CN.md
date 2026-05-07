@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-03
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-03 |
+| 开始时间 | 2026-05-08 00:41 Asia/Shanghai |
+| 结束时间 | 2026-05-08 00:41 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10；本轮执行 Batch A 两个低冲突 boundary tasks |
+| 本轮选中任务 | U-060、U-061 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-03
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/aods-glossary-registry-plan.zh-CN.md`、`docs/operations/aods-external-citation-plan.zh-CN.md`、`docs/operations/aods-expanded-task-plan.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、`docs/operations/README.md`、`docs/README.md` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、compile 输出、example pack 实现、term resolver runtime、citation crawler、fact checker、cross-corpus resolver、public README benchmark sync 区块 |
+| 外部依赖 | `gh issue view 57/58 --json ...` 只读审查；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-03
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-060 | 未开始 | 已完成 | 裁剪 glossary / canonical-term registry v2 boundary：审查 `#57`、当前 root/companion glossary、authoring schema、compile mirror、module glossary section、AOP canonical term guidance 和 authority alias vocabulary | `docs/operations/aods-glossary-registry-plan.zh-CN.md`、operations docs |
+| 2 | U-061 | 未开始 | 已完成 | 裁剪 external citation / provenance metadata boundary：审查 `#58`、当前 module provenance、manifest provenance summary、artifact decision_provenance、prompt citation behavior 和 AOP uncertainty markers | `docs/operations/aods-external-citation-plan.zh-CN.md`、operations docs |
+
+## 验证记录：R-2026-05-08-03
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-060/U-061 | Previous-round quality review | `npm run validate:all`、`git diff --check` | 通过 | U-059 提交后工作区仅 untracked `MEMORY.md`；repo validation 与 diff whitespace 均通过后继续推进 |
+| U-060 | GitHub issue read-only review | `gh issue view 57 --json number,title,body,labels,state,url,comments` | 通过 | `#57` 要求 aliases、deprecated terms、scope、owner、linked surfaces 和 deprecated term warnings |
+| U-061 | GitHub issue read-only review | `gh issue view 58 --json number,title,body,labels,state,url,comments` | 通过 | `#58` 要求 external source citation、internal authority distinction、uncertainty / assumption markers 和 optional strict warnings |
+| U-060 | Glossary touch-point review | `rg` + schema / compile excerpts | 通过 | 当前 glossary 是 v1 key-string shorthand，authoring 与 manifest schema 同构，compile 直接复制到 companion |
+| U-061 | Provenance / citation touch-point review | `rg` + spec / test excerpts | 通过 | 当前 provenance 和 decision_provenance 覆盖内部 trace / evidence gate，但无 external citation registry |
+| U-060/U-061 | Repo validation gate | `npm run validate:all` | 通过 | 本轮为 operations docs 变更，仍跑 repo-level gate 防止生成面或 compiled corpus 被意外破坏 |
+| U-060/U-061 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-03
+
+本轮没有新增任务 ID；U-062 到 U-067 已在 U-059 入账，本轮只细化其 boundary。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-060 | U-062 / U-063 / U-064 | glossary schema、validator、example pack 后续实现 | P1/P2 | 详见 `aods-glossary-registry-plan.zh-CN.md` | 已入账 |
+| U-061 | U-065 / U-066 / U-067 | external citation schema、validator、example pack 后续实现 | P1/P2 | 详见 `aods-external-citation-plan.zh-CN.md` | 已入账 |
+
+## 回合结束摘要：R-2026-05-08-03
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 2 | U-060、U-061 |
+| 完成任务 | 2 | glossary registry boundary 和 external citation boundary 均完成 |
+| 失败任务 | 0 | U-059 复核通过；本轮 docs boundary 未发现阻塞 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 只细化已入账 U-062 到 U-067 |
+| 剩余未完成任务 | 14 | 下一轮首选 Batch B：U-062 + U-063 |
+
 ## 回合摘要：R-2026-05-08-02
 
 | 项 | 内容 |

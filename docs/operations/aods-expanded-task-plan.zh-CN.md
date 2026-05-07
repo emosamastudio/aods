@@ -23,8 +23,8 @@
 
 | 任务 ID | 阶段 | 类型 | 优先级 | 批量建议 | 任务 | 验收标准 |
 |---|---|---|---|---|---|---|
-| U-060 | S10 | boundary triage | P1 | 可与 U-061 同轮 | 裁剪 glossary / canonical-term registry v2 boundary | 明确 `manifest.glossary` v1 与 aliases、deprecated terms、scope、owner、linked surfaces 的关系；输出 schema/compile/validator 最小实现任务；不实现 resolver runtime |
-| U-061 | S10 | boundary triage | P1 | 可与 U-060 同轮 | 裁剪 external citation / provenance metadata boundary | 区分 internal authority、external source、inferred guidance、unsupported assumption、decision provenance；输出最小实现任务；不做 crawler 或 factual claim detector |
+| U-060 | S10 | boundary triage | P1 | 已完成 | 裁剪 glossary / canonical-term registry v2 boundary | 已明确 `manifest.glossary` v1 兼容策略、v2 record 最小字段、deterministic validator gates 和 U-062/U-063/U-064 后续任务 |
+| U-061 | S10 | boundary triage | P1 | 已完成 | 裁剪 external citation / provenance metadata boundary | 已明确 internal provenance / decision_provenance / external citation 分工、module-level citation registry、citation refs、stable consumption gates 和 U-065/U-066/U-067 后续任务 |
 | U-062 | S10 | schema / compile | P1 | U-060 后独立或与 U-063 同轮 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | schema 支持 canonical term records、aliases、deprecated terms、owner/scope；authoring 编译到 manifest；source-first regression 覆盖 mirror |
 | U-063 | S10 | validator | P1 | U-062 后可同轮 | 落地 glossary registry validator gates | duplicate canonical term、alias collision、deprecated replacement missing、scope ref missing 均有 deterministic gate；不做自然语言术语扫描 |
 | U-064 | S10 | example / regression | P2 | 可与 U-063 同轮 | 增加 glossary registry canonical example pack | compiled-pilot source-first example、compiled output、fixture manifest、focused regression 展示 canonical/alias/deprecated term |
@@ -44,8 +44,8 @@
 
 | 批次 | 任务 | 理由 | 验证 |
 |---|---|---|---|
-| Batch A | U-060 + U-061 | 都是 boundary triage，互不改 schema/runtime，可同时为 `#57/#58` 解除设计不确定性 | `gh issue view 57/58`、`rg` 现状审查、`npm run validate:all`、`git diff --check` |
-| Batch B | U-062 + U-063 | glossary schema 和 validator 依赖同一边界，可用一个 focused regression 覆盖 compile mirror 与 deterministic gates | glossary focused regression、`npm run validate:all`、`npm run benchmark:test` |
+| Batch A | U-060 + U-061 | 已完成；两个 boundary triage 已解除 `#57/#58` 的设计不确定性 | `gh issue view 57/58`、`rg` 现状审查、`npm run validate:all`、`git diff --check` |
+| Batch B | U-062 + U-063 | 下一批首选；glossary schema 和 validator 依赖同一边界，可用一个 focused regression 覆盖 compile mirror 与 deterministic gates | glossary focused regression、`npm run validate:all`、`npm run benchmark:test` |
 | Batch C | U-065 + U-066 | citation schema 和 validator 依赖同一边界，可一起闭合 external citation 的 stable-consumption gate | citation focused regression、`npm run validate:all`、`npm run benchmark:test` |
 | Batch D | U-068 + U-069 + U-070 | 都是 docs/read-only triage，可扩展下一阶段任务池但不改变语义面 | `gh issue list/view`、`rg`、`git diff --check`、`npm run validate:all` |
 

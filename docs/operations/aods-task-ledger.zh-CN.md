@@ -10,30 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S10 expanded task pool / batch execution planning |
-| 当前回合 | R-2026-05-08-02 |
-| 未完成任务数量 | 16 |
-| 已完成任务数量 | 64 |
+| 当前阶段 | S10 glossary and external citation boundary |
+| 当前回合 | R-2026-05-08-03 |
+| 未完成任务数量 | 14 |
+| 已完成任务数量 | 66 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-02 |
-| 开始时间 | 2026-05-08 00:29 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-03 |
+| 开始时间 | 2026-05-08 00:41 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-059 |
-| 本轮范围 | 扩展 U-058 后的任务池与批量执行规则：operations plan、task ledger、handoff、v0.11 backlog、work rules、docs navigation、round log |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、compile 输出、example pack 实现、glossary schema、external citation metadata、public README benchmark sync 区块 |
+| 选中任务 | U-060、U-061 |
+| 本轮范围 | Batch A boundary triage：glossary / canonical-term registry v2 plan、external citation / provenance metadata plan、operations docs 同步 |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、compile 输出、example pack 实现、term resolver runtime、citation crawler、fact checker、cross-corpus resolver、public README benchmark sync 区块 |
 | 验证计划 | `npm run validate:all`；`git diff --check` |
-| 新任务处理规则 | 本轮按 owner 最新要求扩大任务池；新增任务已入账为 U-060 到 U-075，后续每轮仍先做上一轮质量审查。 |
+| 新任务处理规则 | 本轮不新增任务 ID，只把已入账 U-062 到 U-067 的后续实现边界细化到计划文件。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-060 | S10 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | P1 | 未开始 | 审查当前 root `manifest.glossary`、authoring compile mirror、schema/validator touch points 和 `#57` 需求，明确 aliases、deprecated terms、scope、owner、linked surfaces 的最小边界；只做设计裁剪和后续任务，不直接实现 schema、validator、migration tool 或 term resolver runtime | U-059 | 下一轮 Batch A 首选，可与 U-061 同轮 |
-| U-061 | S10 | 裁剪 external citation / provenance metadata boundary 与最小实现路线 | P1 | 未开始 | 审查 `#58`、当前 decision provenance、artifact metadata 和 external source 表达缺口，明确 external source、authority relation、claim posture、access date、unsupported assumption 的最小边界；只做设计裁剪和后续任务，不直接实现 citation crawler、claim detector 或 cross-corpus resolver | U-059 | 下一轮 Batch A 首选，可与 U-060 同轮 |
 | U-062 | S10 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | P1 | 未开始 | schema 支持 canonical term records、aliases、deprecated terms、owner/scope/linked surfaces；authoring source 编译到 manifest；source-first regression 覆盖 mirror；不做自然语言术语扫描或 resolver runtime | U-060 | Batch B 候选 |
 | U-063 | S10 | 落地 glossary registry deterministic validator gates | P1 | 未开始 | duplicate canonical term、alias collision、deprecated replacement missing、scope ref missing 均有 deterministic gate 和 focused regression；不做全文 lint、自动 rewrite 或 migration tool | U-062 | Batch B 候选 |
 | U-064 | S10 | 增加 glossary registry canonical example pack | P2 | 未开始 | compiled-pilot source-first example、compiled output、fixture manifest、focused regression 展示 canonical term、alias、deprecated term、linked surface；不新增 runtime | U-063 | 可与 U-063 同轮 |
@@ -116,7 +114,9 @@
 | 61 | U-056 | S10 | 复盘 surface-family example pack 收束质量并制定下一阶段 backlog triage | P1 | 2026-05-07 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md` | `gh issue view 56/57/58 --json ...`、`npm run validate:all`、`git diff --check` | `#56` 已裁剪五包完成但仍有 resource family residual gap；下一轮首选 U-057 resource surface boundary triage；`#57/#58` 保留为后续 schema/provenance 任务 |
 | 62 | U-057 | S10 | 裁剪 resource surface canonical example boundary 与最小示例路线 | P1 | 2026-05-07 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md` | `rg -n "resource" spec/stable-surface-contracts.json schema/module.schema.json spec/artifact-types.json examples/compiled-pilot-source/authoring.json`、`npm run validate:all`、`git diff --check` | resource 被裁剪为 declared surface/resource scope，不作为新 schema profile；下一轮首选 U-058 resource surface example pack，不实现 runtime/scheduler/cleanup executor |
 | 63 | U-058 | S10 | 落地 resource surface canonical example pack 最小切片 | P1 | 2026-05-08 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/modules/shift-ops-resource-surface.json`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot 现在包含 resource surface canonical example pack；覆盖 resource identity、scope、owner、read/write risk、exposure class、cleanup posture、implementation evidence 和 acceptance criteria；不实现 resource runtime、scheduler、cleanup executor 或 permission broker |
-| 64 | U-059 | S10 | 扩展 U-058 后任务池并制定批量执行规则 | P1 | 2026-05-08 | `docs/operations/aods-expanded-task-plan.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-work-rules.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、docs navigation | `npm run validate:all`、`git diff --check` | 已将后续任务池扩展到 U-060 到 U-075，并明确 docs-only、schema/validator、release/public sync 的批量准入与非目标；下一轮首选 Batch A：U-060 + U-061 |
+| 64 | U-059 | S10 | 扩展 U-058 后任务池并制定批量执行规则 | P1 | 2026-05-08 | `docs/operations/aods-expanded-task-plan.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-work-rules.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、docs navigation | `npm run validate:all`、`git diff --check` | 已将后续任务池扩展到 U-060 到 U-075，并明确 docs-only、schema/validator、release/public sync 的批量准入与非目标；原 Batch A 已由 U-060/U-061 完成 |
+| 65 | U-060 | S10 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | P1 | 2026-05-08 | `docs/operations/aods-glossary-registry-plan.zh-CN.md`、operations docs | `gh issue view 57 --json ...`、`rg` glossary touch points、`npm run validate:all`、`git diff --check` | 已确认 v1 string glossary 保持兼容；v2 record 最小字段为 definition、aliases、deprecated_terms、scope、owner、linked_surfaces、status；后续 U-062/U-063/U-064 分别落 schema/validator/example，不实现 resolver runtime |
+| 66 | U-061 | S10 | 裁剪 external citation / provenance metadata boundary 与最小实现路线 | P1 | 2026-05-08 | `docs/operations/aods-external-citation-plan.zh-CN.md`、operations docs | `gh issue view 58 --json ...`、`rg` provenance/citation touch points、`npm run validate:all`、`git diff --check` | 已确认 external citation 独立于 internal provenance 和 decision_provenance；最小模型为 module-level citation registry + local citation refs；后续 U-065/U-066/U-067 分别落 schema/validator/example，不实现 crawler、fact checker 或 resolver |
 
 ## 失败或阻塞任务
 
@@ -182,3 +182,4 @@
 | 2026-05-07 | 100% | 100% | 99% | `U-057` 完成 | resource surface 边界已裁剪；resource 暂不作为新 schema profile，而作为声明式 surface/resource scope 示例进入下一轮，覆盖 ownership、risk、exposure、cleanup、evidence 和 acceptance linkage。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-058` 完成 | resource surface canonical example pack 已落地；AODS compiled-pilot 现在能展示 resource identity、scope、owner、read/write risk、exposure、cleanup、evidence 和 acceptance linkage，resource runtime、scheduler、cleanup executor、permission broker 继续 deferred。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-059` 完成 | 任务池已扩展到 U-060 到 U-075；后续从单任务线性推进调整为质量审查通过后的低冲突 batch execution，下一批优先 U-060 glossary boundary 与 U-061 external citation boundary。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-060`、`U-061` 完成 | Batch A 已完成：glossary registry v2 与 external citation metadata 的最小边界、兼容策略、validator gate 和后续 schema/validator/example 任务已裁剪；下一批可进入 U-062/U-063 glossary schema + validator。 |

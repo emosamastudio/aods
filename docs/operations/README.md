@@ -19,6 +19,8 @@
 | `aods-v0.11-backlog.zh-CN.md` | v0.10 队列收束后的 documentation / authoring quality 候选路线 | 高 |
 | `aods-surface-family-example-plan.zh-CN.md` | `#56` surface-family example pack 分批路线、U-051 read-model、U-052 command/receipt、U-053 event/correction、U-054 adapter/capability、U-055 artifact/export/policy-gate、U-058 resource 包结果和本地收束结论 | 高 |
 | `aods-expanded-task-plan.zh-CN.md` | U-058 后的扩展任务池、批量执行规则和下一批推荐 | 高 |
+| `aods-glossary-registry-plan.zh-CN.md` | `#57` glossary / canonical-term registry v2 boundary、schema/validator/example 后续任务裁剪 | 高 |
+| `aods-external-citation-plan.zh-CN.md` | `#58` external citation / provenance metadata boundary、schema/validator/example 后续任务裁剪 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -42,9 +44,11 @@
 14. 读 `aods-v0.11-backlog.zh-CN.md`
 15. 读 `aods-surface-family-example-plan.zh-CN.md`
 16. 读 `aods-expanded-task-plan.zh-CN.md`
-17. 读 `aods-v0.7-rc-gate.zh-CN.md`
-18. 读 `aods-handoff.zh-CN.md`
-19. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+17. 读 `aods-glossary-registry-plan.zh-CN.md`
+18. 读 `aods-external-citation-plan.zh-CN.md`
+19. 读 `aods-v0.7-rc-gate.zh-CN.md`
+20. 读 `aods-handoff.zh-CN.md`
+21. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 

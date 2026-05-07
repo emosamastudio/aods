@@ -29,6 +29,8 @@
 | `docs/operations/aods-v0.11-backlog.zh-CN.md` | v0.11 documentation / authoring quality 候选路线和 U-047 triage 记录。 |
 | `docs/operations/aods-surface-family-example-plan.zh-CN.md` | `#56` surface-family example pack 分批路线、U-051 read-model、U-052 command/receipt、U-053 event/correction、U-054 adapter/capability、U-055 artifact/export/policy-gate、U-058 resource 包结果和本地收束结论。 |
 | `docs/operations/aods-expanded-task-plan.zh-CN.md` | U-058 后的扩展任务池、批量执行规则和下一批推荐。 |
+| `docs/operations/aods-glossary-registry-plan.zh-CN.md` | `#57` glossary / canonical-term registry v2 boundary 和后续 schema/validator/example 任务裁剪。 |
+| `docs/operations/aods-external-citation-plan.zh-CN.md` | `#58` external citation / provenance metadata boundary 和后续 schema/validator/example 任务裁剪。 |
 
 ## 当前维护边界
 
