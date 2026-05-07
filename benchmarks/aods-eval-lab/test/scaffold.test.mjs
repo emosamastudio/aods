@@ -202,6 +202,226 @@ test("authoring source can pin compiled manifest timestamps", () => {
   assert.equal(manifest.updated, "2026-01-02T03:04:05Z");
 });
 
+test("authoring source can compile root project topology", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-topology-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "example/demo-docs",
+      role: "design",
+      branch: "main",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "example/demo-api",
+        role: "service",
+        branch: "main",
+        status: "current"
+      },
+      {
+        id: "demo-worker",
+        locator: "example/demo-worker",
+        role: "worker",
+        branch: "release-next",
+        status: "planned"
+      }
+    ],
+    topology_type: "multi-repo",
+    status: "partial",
+    notes: "Compile path should preserve root topology metadata."
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+
+  assert.deepEqual(manifest.project_topology, source.corpus.project_topology);
+});
+
+test("authoring source compiles implementation linkage and reports topology-aware reality summary", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-implementation-linkage-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      branch: "main",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        branch: "main",
+        status: "current"
+      }
+    ],
+    topology_type: "multi-repo",
+    status: "partial"
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js",
+        "test/change.test.js"
+      ],
+      status: "current",
+      pr_refs: [
+        "PR-77"
+      ],
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifestPath = path.join(compiledRoot, "manifest.json");
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+  assert.deepEqual(detailRef.implementation, detailModule.meta.implementation);
+
+  const realityJson = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--reality", "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(realityJson.status, 0);
+  const realityReport = JSON.parse(realityJson.stdout);
+  assert.deepEqual(realityReport.topology, {
+    linked_modules: 1,
+    unlinked_modules: 0,
+    checked_paths: 0,
+    missing_paths: 0,
+    unchecked_reason: "some topology repo locators are descriptive only or cannot be resolved from --repo-root"
+  });
+  assert.equal(realityReport.levels.L3.warnings.some((issue) => issue.rule === "topology-reality-unchecked"), false);
+
+  detailRef.implementation.repo_id = "demo-worker";
+  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  const mismatchValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(mismatchValidate.status, 0);
+  assert.match(mismatchValidate.stdout, /implementation-metadata-match/);
+
+  const detailPath = path.join(compiledRoot, detailRef.path);
+  const detail = JSON.parse(fs.readFileSync(detailPath, "utf8"));
+  detail.meta.implementation.repo_id = "demo-worker";
+  fs.writeFileSync(detailPath, `${JSON.stringify(detail, null, 2)}\n`);
+  const invalidRepoValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidRepoValidate.status, 0);
+  assert.match(invalidRepoValidate.stdout, /implementation-repo-ref/);
+});
+
+test("authoring source compiles stable contract metadata summaries", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-stable-contract-summaries-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    redaction: {
+      has_sensitive_payloads: true,
+      sensitive_classes: [
+        "secret"
+      ],
+      redaction_posture: "handle-only",
+      exposure_policy: "Stable consumers may receive handles only."
+    },
+    contract: {
+      profile: "read-model",
+      required_fields: [
+        "source",
+        "fields",
+        "freshness"
+      ]
+    },
+    schema_versioning: {
+      breaking_policy: "versioned",
+      compatibility_window: "one minor release",
+      removal_guidance: "Declare a replacement before removal."
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+
+  assert.deepEqual(detailRef.redaction, {
+    has_sensitive_payloads: true,
+    redaction_posture: "handle-only"
+  });
+  assert.deepEqual(detailRef.contract, {
+    profile: "read-model"
+  });
+  assert.deepEqual(detailRef.schema_versioning, {
+    breaking_policy: "versioned"
+  });
+  runCli(["validate", compiledRoot, "--strict"]);
+});
+
+test("project topology rejects duplicate implementation repo ids", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-duplicate-implementation-repos-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      },
+      {
+        id: "demo-api",
+        locator: "external/demo-worker",
+        role: "worker",
+        status: "partial"
+      }
+    ]
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, compiledRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /implementation-repo-id-unique/);
+});
+
 test("authoring scaffold helpers update source, pair surfaces, and compile successfully", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-scaffold-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
@@ -351,6 +571,174 @@ test("validate --strict turns warning-only output into a failing gate", () => {
   assert.equal(strictValidateReport.levels.L3.pass, false);
   assert.equal(strictValidateReport.summary.errors, 0);
   assert.equal(strictValidateReport.summary.warnings, 1);
+});
+
+test("large corpora warn when boot_by_touch is empty", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-empty-touch-routes-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  for (let index = 1; index <= 9; index += 1) {
+    runCli([
+      "scaffold",
+      "authoring-module",
+      sourcePath,
+      `policy-module-${index}`,
+      "--category",
+      "policy",
+      "--layer",
+      "detail",
+      "--scope",
+      `Policy module ${index}`
+    ]);
+  }
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifestPath = path.join(compiledRoot, "manifest.json");
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  delete manifest.boot_by_touch;
+  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  const runtimePath = path.join(compiledRoot, "indexes", "runtime.json");
+  const runtime = JSON.parse(fs.readFileSync(runtimePath, "utf8"));
+  runtime.boot_by_touch = [];
+  fs.writeFileSync(runtimePath, `${JSON.stringify(runtime)}\n`);
+
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(validate.status, 0);
+  assert.match(validate.stdout, /WARN boot-by-touch-empty-large-corpus/);
+
+  const strictValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--strict"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(strictValidate.status, 0);
+  assert.match(strictValidate.stdout, /boot-by-touch-empty-large-corpus/);
+});
+
+test("capsule size diagnostics include compared token counts", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-capsule-diagnostics-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const capsuleRef = manifest.modules.find((entry) => entry.category === "capsule");
+  const detailRef = manifest.modules.find((entry) => entry.layer === "detail");
+  const capsulePath = path.join(compiledRoot, capsuleRef.path);
+  const detailPath = path.join(compiledRoot, detailRef.path);
+  const capsule = JSON.parse(fs.readFileSync(capsulePath, "utf8"));
+  const detail = JSON.parse(fs.readFileSync(detailPath, "utf8"));
+
+  capsule.sections[0].content = Array.from({ length: 80 }, (_, index) => `capsule detail ${index}`).join(" ");
+  detail.sections[0].content = "short detail.";
+  fs.writeFileSync(capsulePath, `${JSON.stringify(capsule, null, 2)}\n`);
+  fs.writeFileSync(detailPath, `${JSON.stringify(detail, null, 2)}\n`);
+
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(validate.status, 0);
+  assert.match(validate.stdout, /WARN capsule-shorter-than-detail/);
+  assert.match(validate.stdout, /capsule content \(\d+ tokens approx\) is not shorter than routed module/);
+  assert.match(validate.stdout, /\(\d+ tokens approx\)/);
+});
+
+test("stable contract metadata requires mirror and sensitive completeness", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-stable-contract-metadata-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+
+  const manifestPath = path.join(compiledRoot, "manifest.json");
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.layer === "detail");
+  const detailPath = path.join(compiledRoot, detailRef.path);
+  const detail = JSON.parse(fs.readFileSync(detailPath, "utf8"));
+
+  detail.meta = {
+    ...(detail.meta ?? {}),
+    redaction: {
+      has_sensitive_payloads: true,
+      redaction_posture: "redact"
+    },
+    contract: {
+      profile: "read-model"
+    },
+    schema_versioning: {
+      breaking_policy: "versioned"
+    }
+  };
+  fs.writeFileSync(detailPath, `${JSON.stringify(detail, null, 2)}\n`);
+
+  detailRef.redaction = {
+    has_sensitive_payloads: false,
+    redaction_posture: "none"
+  };
+  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(validate.status, 0);
+  assert.match(validate.stdout, /redaction-metadata-match/);
+  assert.match(validate.stdout, /redaction-sensitive-completeness/);
+  assert.match(validate.stdout, /contract-metadata-mirror/);
+  assert.match(validate.stdout, /schema-versioning-metadata-mirror/);
+});
+
+test("shared invariants tolerate case and punctuation normalization without weakening drift checks", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-shared-invariants-normalized-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  runCli([
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "delivery-gates",
+    "--category",
+    "policy",
+    "--layer",
+    "detail",
+    "--scope",
+    "Delivery gate authority"
+  ]);
+  runCli([
+    "scaffold",
+    "authoring-pair",
+    sourcePath,
+    "--pair-id",
+    "pair-delivery-guide",
+    "--agent-primary",
+    "delivery-gates",
+    "--human-primary",
+    "DELIVERY-GUIDE.md"
+  ]);
+
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const module = source.modules.find((entry) => entry.id === "delivery-gates");
+  module.sections[0].content = "Rollback owner must be named before execution.";
+  const humanFile = source.files.find((file) => file.path === "DELIVERY-GUIDE.md");
+  delete humanFile.source_path;
+  humanFile.content = "rollback owner must be named before execution";
+  source.surface_pairs.find((pair) => pair.pair_id === "pair-delivery-guide").shared_invariants = [
+    "Rollback owner must be named before execution."
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  runCli(["validate", compiledRoot, "--strict"]);
 });
 
 test("implementation-governance pattern scaffolds delivery-governor artifacts", () => {

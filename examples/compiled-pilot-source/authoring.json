@@ -42,7 +42,37 @@
           "shift-ops-governance"
         ]
       }
-    ]
+    ],
+    "project_topology": {
+      "design_repo": {
+        "id": "shift-ops-docs",
+        "locator": "example/shift-ops-docs",
+        "role": "design",
+        "branch": "main",
+        "status": "current"
+      },
+      "implementation_repos": [
+        {
+          "id": "shift-ops-control-plane",
+          "locator": "example/shift-ops-control-plane",
+          "role": "service",
+          "branch": "main",
+          "status": "current",
+          "notes": "Operational approval and release-gating service."
+        },
+        {
+          "id": "shift-ops-worker",
+          "locator": "example/shift-ops-worker",
+          "role": "worker",
+          "branch": "release-next",
+          "status": "partial",
+          "notes": "Incident automation and evidence collection worker."
+        }
+      ],
+      "topology_type": "multi-repo",
+      "status": "partial",
+      "notes": "Design corpus is separate from implementation repos to exercise cross-repo topology."
+    }
   },
   "modules": [
     {
@@ -307,6 +337,18 @@
           "outputs": [
             "approval-evidence"
           ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/approval/src/policy.ts",
+            "services/approval/tests/policy.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-142"
+          ],
+          "authority_surface": "shift-ops-policy:approval-policy"
         }
       },
       "sections": [
@@ -407,6 +449,19 @@
           "outputs": [
             "incident-bridge-record"
           ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-worker",
+          "paths": [
+            "workers/incidents/src/sev1-handler.ts",
+            "workers/incidents/docs/rollback.md"
+          ],
+          "status": "partial",
+          "pr_refs": [
+            "INC-204",
+            "PR-318"
+          ],
+          "authority_surface": "shift-ops-runbook:incident-response"
         }
       },
       "sections": [

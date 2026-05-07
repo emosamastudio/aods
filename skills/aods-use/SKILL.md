@@ -9,8 +9,8 @@ Use this skill as an operations adapter, not as a second copy of the AODS spec.
 
 ## Version alignment
 
-- Release version: `v0.6.0`
-- Package version: `0.6.0`
+- Release version: `v0.7.0`
+- Package version: `0.7.0`
 - Compatibility markers: `aods_v=3`, `authoring_v=1`
 - Source of truth: installed AODS CLI plus repo `schema/`, `spec/`, and manifest surfaces
 

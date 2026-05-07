@@ -1408,6 +1408,117 @@
         }
       }
     },
+    "redaction_meta": {
+      "type": "object",
+      "required": ["has_sensitive_payloads", "redaction_posture"],
+      "additionalProperties": false,
+      "properties": {
+        "has_sensitive_payloads": {
+          "type": "boolean",
+          "description": "True when the module or governed surface may expose sensitive payloads."
+        },
+        "sensitive_classes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["pii", "credentials", "medical", "financial", "proprietary", "regulated", "secret", "other"]
+          },
+          "description": "Declared classes of sensitive payloads. Empty or omitted only when has_sensitive_payloads=false."
+        },
+        "redaction_posture": {
+          "type": "string",
+          "enum": ["none", "omit", "redact", "handle-only", "debug-only"],
+          "description": "Minimum exposure posture for sensitive payloads."
+        },
+        "exposure_policy": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Short policy that states who may consume the unredacted surface and what must be removed before broader exposure."
+        }
+      }
+    },
+    "contract_meta": {
+      "type": "object",
+      "required": ["profile"],
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": ["read-model", "command", "implementation-linkage"],
+          "description": "v0.7 minimum contract completeness profile for stable consumption."
+        },
+        "required_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Profile-required fields that this module or surface promises to carry."
+        }
+      }
+    },
+    "implementation_meta": {
+      "type": "object",
+      "required": ["repo_id", "paths", "status", "authority_surface"],
+      "additionalProperties": false,
+      "properties": {
+        "repo_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$",
+          "description": "ID of the linked implementation repository declared in manifest.project_topology.implementation_repos[].id."
+        },
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "aods://schema/manifest/v3#/definitions/relative_path"
+          },
+          "description": "Implementation-relative files or directories that carry the module's current implementation."
+        },
+        "status": {
+          "$ref": "aods://schema/manifest/v3#/definitions/topology_status",
+          "description": "Implementation posture for the linked repo/path set."
+        },
+        "pr_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "description": "Optional PR, issue, or change references that support the linkage claim."
+        },
+        "authority_surface": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Section or artifact ref inside this module that owns the linkage claim."
+        }
+      }
+    },
+    "schema_versioning_meta": {
+      "type": "object",
+      "required": ["breaking_policy"],
+      "additionalProperties": false,
+      "properties": {
+        "breaking_policy": {
+          "type": "string",
+          "enum": ["strict", "versioned", "experimental"],
+          "description": "Compatibility posture for stable or adapter-facing consumers."
+        },
+        "compatibility_window": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Declared support window for deprecated or versioned consumers."
+        },
+        "removal_guidance": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Migration or replacement guidance required before removed state."
+        }
+      }
+    },
     "module_meta": {
       "type": "object",
       "additionalProperties": false,
@@ -1424,6 +1535,18 @@
         },
         "runtime_contract": {
           "$ref": "#/definitions/runtime_contract_meta"
+        },
+        "redaction": {
+          "$ref": "#/definitions/redaction_meta"
+        },
+        "contract": {
+          "$ref": "#/definitions/contract_meta"
+        },
+        "implementation": {
+          "$ref": "#/definitions/implementation_meta"
+        },
+        "schema_versioning": {
+          "$ref": "#/definitions/schema_versioning_meta"
         },
         "capsule": {
           "type": "object",

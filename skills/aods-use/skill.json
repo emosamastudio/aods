@@ -1,7 +1,7 @@
 {
   "name": "aods-use",
-  "skill_version": "0.6.0",
-  "aligned_release": "v0.6.0",
+  "skill_version": "0.7.0",
+  "aligned_release": "v0.7.0",
   "entrypoint": "SKILL.md",
   "compatibility": {
     "aods_v": 3,

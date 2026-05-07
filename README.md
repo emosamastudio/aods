@@ -4,7 +4,7 @@
 
 AODS is a documentation standard and CLI for teams that want AI agents to work from a clear, governed source of truth instead of piecing together context from scattered project docs.
 
-**Latest release:** `v0.6.0`
+**Latest release:** `v0.7.0`
 
 In this README, **human-oriented docs** means files mainly written for people to read, such as README files, SOPs, or checklists. **Agent-oriented docs** means structured files that agents and tooling can route, validate, and compare. For compatibility, the schema and CLI still use field names such as `human_primary`, `agent_primary`, and `sync_source=agent-primary`.
 
@@ -14,8 +14,8 @@ In this README, **human-oriented docs** means files mainly written for people to
 | --- | --- |
 | Understand AODS in 2 minutes | [What AODS is — and is not](#what-aods-is--and-is-not) |
 | Try it on a real repo in 10 minutes | [Install](#install) and [Quick start](#quick-start) |
-| Read evidence instead of pitch | [`v0.6.0` executive summary](./benchmarks/aods-eval-lab/reports/executive-summary-report.md) and [Current benchmark result](#current-benchmark-result) |
-| Download the current release | [GitHub Release `v0.6.0`](https://github.com/emosamastudio/aods/releases/tag/v0.6.0) |
+| Read evidence instead of pitch | [`v0.7.0` executive summary](./benchmarks/aods-eval-lab/reports/executive-summary-report.md) and [Current benchmark result](#current-benchmark-result) |
+| Download the current release | [GitHub Release `v0.7.0`](https://github.com/emosamastudio/aods/releases/tag/v0.7.0) |
 | Join the agent-primary discussion | [GitHub Discussions](https://github.com/emosamastudio/aods/discussions) |
 | Report a bug, adoption note, or failure case | [GitHub Issues](https://github.com/emosamastudio/aods/issues) |
 
@@ -37,9 +37,9 @@ In this README, **human-oriented docs** means files mainly written for people to
 
 The practical value is simple: **AODS tries to make it explicit what an agent should read, which surface is authoritative, what must stay aligned, and what should fail early instead of drifting silently.**
 
-## What `v0.6.0` currently shows
+## What `v0.7.0` currently shows
 
-- **A tagged GitHub release is available now.** You can inspect and download [`v0.6.0`](https://github.com/emosamastudio/aods/releases/tag/v0.6.0) today.
+- **A tagged GitHub release is available now.** You can inspect and download [`v0.7.0`](https://github.com/emosamastudio/aods/releases/tag/v0.7.0) today.
 - **The current benchmark supports the main claims we care about on the current pack.** On this pack, AODS clears the current checks for coverage / representability, information preservation, task-time progressive loading, and anti-drift / trust controls.
 - **The practical win is governed routing, not “smaller JSON”.** The current benchmark explicitly says the value comes from routing and validation rather than shrinking the full repository corpus.
 - **Hosted runtime evidence now includes repeatability support.** Across successful hosted runs, extra cost remains concentrated in tool-loop traffic, while the exact hosted loop decomposition is still treated as repeat-sensitive field evidence rather than a fixed universal law.
@@ -83,7 +83,7 @@ Requires **Node 18+**.
 1. Install the tagged GitHub release into your project:
 
 ```bash
-npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.6.0
+npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.7.0
 ```
 
 2. Verify the CLI is available:
@@ -539,7 +539,7 @@ Two rules matter:
 ## Key resources
 
 - **Reader-friendly overview:** this README
-- **Release download:** [`v0.6.0` on GitHub Releases](https://github.com/emosamastudio/aods/releases/tag/v0.6.0)
+- **Release download:** [`v0.7.0` on GitHub Releases](https://github.com/emosamastudio/aods/releases/tag/v0.7.0)
 - **Benchmark executive summary:** `benchmarks/aods-eval-lab/reports/executive-summary-report.md`
 - **Contributing guide:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 - **Open discussion and thesis debate:** `https://github.com/emosamastudio/aods/discussions`
@@ -559,7 +559,7 @@ This project is released under the **MIT License**. See [`LICENSE`](./LICENSE).
 
 AODS now uses two version tracks:
 
-- **Release version:** Git tags and package releases such as `v0.6.0`
+- **Release version:** Git tags and package releases such as `v0.7.0`
 - **Release-aligned skill version:** packaged skills under `skills/` stay aligned to the same release tag
 - **Schema compatibility:** surface-local markers such as `aods_v` and `authoring_v`
 

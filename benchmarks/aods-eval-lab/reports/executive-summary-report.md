@@ -3,8 +3,8 @@
 ## Current maintainer assessment
 
 - Recommendation: **Current benchmark result supports publishing the next version**
-- Assessed version: **0.6.0**
-- Executive summary generated at: **2026-04-23T07:47:30.408Z**
+- Assessed version: **0.7.0**
+- Executive summary generated at: **2026-05-07T04:48:01.430Z**
 
 ## Decision card
 
