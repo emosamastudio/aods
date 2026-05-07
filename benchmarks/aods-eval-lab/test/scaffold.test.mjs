@@ -245,6 +245,109 @@ test("authoring source can compile root project topology", () => {
   assert.deepEqual(manifest.project_topology, source.corpus.project_topology);
 });
 
+test("authoring source compiles glossary registry v2 records", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-glossary-registry-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  source.corpus.glossary = {
+    system: "Demo system shorthand definition",
+    "release-window": {
+      definition: "Approved deployment window for production changes.",
+      aliases: [
+        "release slot",
+        "deployment window"
+      ],
+      deprecated_terms: [
+        {
+          term: "ship window",
+          replacement: "release-window",
+          reason: "Use one canonical term for release coordination.",
+          status: "deprecated"
+        }
+      ],
+      scope: "system",
+      owner: detailModule.id,
+      linked_surfaces: [
+        `${detailModule.id}:${detailModule.sections[0].sid}`
+      ],
+      status: "current"
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const companion = JSON.parse(fs.readFileSync(path.join(compiledRoot, manifest.companion_index), "utf8"));
+
+  assert.deepEqual(companion.glossary, source.corpus.glossary);
+});
+
+test("glossary registry validation rejects ambiguous aliases and unresolved refs during compile", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-glossary-registry-invalid-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  source.corpus.glossary = {
+    "release-window": {
+      definition: "Approved deployment window for production changes.",
+      aliases: [
+        "window"
+      ],
+      deprecated_terms: [
+        {
+          term: "ship window",
+          replacement: "missing-term",
+          reason: "Replacement must resolve to a current term.",
+          status: "deprecated"
+        }
+      ],
+      linked_surfaces: [
+        `${detailModule.id}:missing-section`
+      ],
+      status: "current"
+    },
+    "maintenance-window": {
+      definition: "Operational maintenance interval.",
+      aliases: [
+        "window"
+      ],
+      status: "current"
+    },
+    "ops-window": {
+      definition: "Module-scoped operational interval.",
+      deprecated_terms: [
+        {
+          term: "module-only",
+          replacement: "release-window",
+          reason: "Replacement must resolve inside the same scope.",
+          status: "deprecated"
+        }
+      ],
+      scope: "module:ops",
+      status: "current"
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, compiledRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /glossary-alias-unique/);
+  assert.match(compile.stdout, /glossary-deprecated-replacement-ref/);
+  assert.match(compile.stdout, /module-only -> release-window/);
+  assert.match(compile.stdout, /glossary-linked-surface-ref/);
+});
+
 test("authoring source compiles implementation linkage and reports topology-aware reality summary", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-implementation-linkage-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);

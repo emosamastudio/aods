@@ -79,11 +79,7 @@
           "$ref": "aods://schema/manifest/v3#/definitions/project_topology_ref"
         },
         "glossary": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string",
-            "maxLength": 200
-          }
+          "$ref": "aods://schema/manifest/v3#/definitions/glossary_map"
         },
         "roles": {
           "type": "array",

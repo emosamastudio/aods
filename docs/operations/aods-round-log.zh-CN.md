@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-04
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-04 |
+| 开始时间 | 2026-05-08 00:52 Asia/Shanghai |
+| 结束时间 | 2026-05-08 00:58 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 低冲突 schema / validator batch；本轮执行 Batch B 两个紧耦合任务 |
+| 本轮选中任务 | U-062、U-063 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-04
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `schema/manifest.schema.json`、`schema/manifest-companion.schema.json`、`schema/authoring.schema.json`、`lib/validate.mjs`、`spec/validation-rules.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、generated schema copies、`docs/operations/` |
+| 禁止触碰 | external citation schema/validator、glossary canonical example pack、term resolver runtime、自然语言术语扫描、migration tool、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块 |
+| 外部依赖 | 无；本轮不访问公开写接口 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-04
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-062 | 未开始 | 已完成 | 按 U-060 boundary 落地 glossary registry v2 schema：root / companion / authoring glossary 复用 `glossary_map`，兼容 v1 string shorthand 和 v2 canonical term record | `schema/manifest.schema.json`、`schema/manifest-companion.schema.json`、`schema/authoring.schema.json`、focused source-first regression |
+| 2 | U-063 | 未开始 | 已完成 | 增加 deterministic validator gates：`term_id` key match、same-scope alias collision、deprecated replacement resolution、linked surface ref resolution | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json` |
+
+## 验证记录：R-2026-05-08-04
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-062/U-063 | Previous-round quality review | `git status --short`、`git log -1 --stat --oneline`、`npm run validate:all`、`git diff --check` | 通过 | U-060/U-061 提交后工作区仅 untracked `MEMORY.md`；repo validation 与 diff whitespace 均通过后继续推进 |
+| U-062 | TDD RED | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 按预期失败 | 新增 source-first v2 glossary regression 后，旧 schema 只接受 string glossary，失败命中 schema gap |
+| U-062/U-063 | Focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | source-first positive mirror 与 negative deterministic gates 均通过 |
+| U-063 | Scoped replacement review | 人工 diff review + focused regression | 通过 | 返工修复 deprecated replacement term-id 原先可跨 scope 全局解析的问题，并补充 `module-only -> release-window` scoped negative case |
+| U-062/U-063 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-062/U-063 | Benchmark gate | `npm run benchmark:test` | 通过 | 69 个 benchmark / regression tests 全部通过；timestamp-only generated result churn 已排除出本轮 diff |
+| U-062/U-063 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-04
+
+本轮没有新增任务 ID；U-064 继续作为 glossary registry canonical example pack 后续任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-062/U-063 | 无 | 无新增；继续执行已入账 U-064 | P2 | source-first example、compiled output、fixture manifest、focused regression 覆盖 glossary v2 canonical term record | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-08-04
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 2 | U-062、U-063 |
+| 完成任务 | 2 | glossary registry schema / compile mirror 与 deterministic validator gates 均完成 |
+| 失败任务 | 0 | RED regression 按预期失败；scope review 发现 replacement ref 边界偏宽后已返工，最终 focused / repo / benchmark gate 均通过 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | U-064 已在既有任务池中 |
+| 剩余未完成任务 | 12 | 下一轮首选 U-064 glossary registry canonical example pack |
+
 ## 回合摘要：R-2026-05-08-03
 
 | 项 | 内容 |

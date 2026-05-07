@@ -1,6 +1,6 @@
 # AODS Glossary / Canonical-Term Registry Boundary
 
-状态：U-060 已完成
+状态：U-060/U-062/U-063 已完成；U-064 待执行
 日期：2026-05-08
 对应 GitHub issue：`#57`
 
@@ -54,9 +54,18 @@
 
 | 任务 | 内容 | 非目标 |
 |---|---|---|
-| U-062 | 落地 schema / authoring / compile mirror：允许 v1 string 或 v2 record glossary | 不做 validator lint，不改 routing resolver |
-| U-063 | 落地 deterministic validator gates：term id、alias collision、deprecated replacement、linked surface refs | 不做全文术语扫描或自动迁移 |
-| U-064 | 在 compiled-pilot 增加 glossary registry canonical example pack | 不新增 runtime resolver |
+| U-062 | 已完成：落地 schema / authoring / compile mirror，允许 v1 string 或 v2 record glossary | 未做 routing resolver |
+| U-063 | 已完成：落地 deterministic validator gates，覆盖 term id、alias collision、deprecated replacement、linked surface refs | 未做全文术语扫描或自动迁移 |
+| U-064 | 待执行：在 compiled-pilot 增加 glossary registry canonical example pack | 不新增 runtime resolver |
+
+## 已落地结果
+
+| 项 | 结果 |
+|---|---|
+| Schema | `manifest.schema.json` 定义共享 `glossary_map` / `glossary_term` / `deprecated_glossary_term`；manifest root、manifest companion、authoring source 均复用同一 shape |
+| Compile mirror | source-first authoring glossary v2 record 可编译进 manifest / companion，不需要 hand-edit generated corpus |
+| Validator | `term_id` 与 key 不一致、同 scope alias collision、deprecated replacement 未解析、linked surface ref 未解析均进入 deterministic L2 gate |
+| Regression | `scaffold.test.mjs` 覆盖 source-first positive compile mirror 与 negative compile-time validation |
 
 ## 非目标
 

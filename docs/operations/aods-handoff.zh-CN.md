@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已扩展后续任务池和批量执行规则；U-060/U-061 已完成 glossary registry v2 与 external citation metadata 的 boundary triage。下一轮首选 Batch B：U-062 glossary registry v2 schema / authoring compile mirror + U-063 deterministic validator gates。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已扩展后续任务池和批量执行规则；U-060/U-061 已完成 glossary registry v2 与 external citation metadata 的 boundary triage；U-062/U-063 已落地 glossary registry v2 schema、source-first compile mirror 和 deterministic validator gates。下一轮首选 U-064 glossary registry canonical example pack。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -110,17 +110,17 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | U-059 | 扩展 U-058 后任务池并制定批量执行规则 | 已新增扩展任务计划，任务池扩展为 U-060 到 U-075；后续每轮仍先审查上一轮质量，审查通过后可批量执行低冲突任务 |
 | U-060 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | 已确认 v1 string glossary 兼容，v2 record 最小字段、validator gate 和 U-062/U-063/U-064 后续任务已裁剪 |
 | U-061 | 裁剪 external citation / provenance metadata boundary 与最小实现路线 | 已确认 external citation 独立于 internal provenance / decision_provenance，module-level citation registry + local citation refs 为最小模型，U-065/U-066/U-067 后续任务已裁剪 |
+| U-062 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | root / companion / authoring glossary 支持 v1 string shorthand 与 v2 canonical term record；source-first compile mirror 已有 focused regression |
+| U-063 | 落地 glossary registry deterministic validator gates | validator 已检查 `term_id` key match、alias collision、deprecated replacement resolution、linked surface ref resolution；不做自然语言扫描或 resolver runtime |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-062 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | Batch B 首选；依据 U-060 允许 v1 string 或 v2 record glossary，并保持 companion / source-first compile mirror |
-| 2 | U-063 | 落地 glossary registry deterministic validator gates | Batch B 首选；依据 U-060 检查 term id、alias collision、deprecated replacement、linked surface refs |
-| 3 | U-064 | 增加 glossary registry canonical example pack | U-063 后可同轮或下一轮 |
-| 4 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | U-061 后的 Batch C 候选 |
-| 5 | U-066 | 落地 external citation validator gates | U-065 后的 Batch C 候选 |
-| 6 | U-067 | 增加 external citation / provenance canonical example pack | U-066 后可同轮或下一轮 |
+| 1 | U-064 | 增加 glossary registry canonical example pack | 下一轮首选；用 compiled-pilot source-first example 验证 U-062/U-063 新能力 |
+| 2 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | U-061 后的 Batch C 候选 |
+| 3 | U-066 | 落地 external citation validator gates | U-065 后的 Batch C 候选 |
+| 4 | U-067 | 增加 external citation / provenance canonical example pack | U-066 后可同轮或下一轮 |
 
 ## 失败和风险
 
@@ -160,7 +160,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | artifact/export example pack 扩散风险 | artifact/export/policy-gate 示例容易扩成 conformance runner、自动 golden update、fixture rewrite 或全量迁移 | U-055 已只表达 artifact type、golden export、policy gate、validation notes、implementation evidence 和 acceptance criteria |
 | post-example-pack triage 扩散风险 | `#56` 收束复盘容易直接跳入 glossary schema v2、external citation registry 或 resource runtime | U-056 应只做质量复盘和下一阶段排序，不实现 schema/provenance/runtime 变更 |
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
-| glossary registry 扩散风险 | `#57` 容易直接扩成 schema v2、term resolver runtime、migration tool 或 deprecated-term validator | U-060 已裁剪 boundary；U-062/U-063 只能落 schema + deterministic gates，不实现 resolver/runtime 或全文扫描 |
+| glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-063 已只落 schema + deterministic gates；U-064 只能补 source-first example pack，不实现 resolver/runtime 或全文扫描 |
 | external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 已裁剪 boundary；U-065/U-066 只能落 schema + deterministic gates，不实现 crawler、claim detector 或 resolver |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
 
@@ -168,4 +168,4 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-062 + U-063 | Batch B：glossary schema / compile mirror + deterministic validator gates | 按 U-060 boundary 落地 v1/v2 glossary schema、source-first compile mirror、term id / alias / deprecated replacement / linked surface validator gates |
+| 1 | U-064 | Glossary registry canonical example pack | 在 compiled-pilot source-first example、compiled output、fixture manifest 和 focused regression 中展示 canonical term、alias、deprecated term、linked surface；不新增 resolver runtime |
