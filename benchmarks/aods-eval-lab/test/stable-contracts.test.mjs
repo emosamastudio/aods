@@ -295,3 +295,46 @@ test("stable contracts define local-only versus remote-capable constraints", () 
   assert.ok(nonGoalRows.includes("network_broker"));
   assert.ok(nonGoalRows.includes("automatic_exposure_upgrader"));
 });
+
+test("stable contracts define audit-log requirements for commands and adapters", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "command-adapter-audit-log-requirements");
+  assert.ok(section);
+  assert.match(section.content, /audit-log requirements/);
+  assert.match(section.content, /commands/);
+  assert.match(section.content, /adapters/);
+  assert.match(section.content, /actor/);
+  assert.match(section.content, /source/);
+  assert.match(section.content, /target/);
+  assert.match(section.content, /command/);
+  assert.match(section.content, /idempotency key/);
+  assert.match(section.content, /policy decision/);
+  assert.match(section.content, /receipt reference/);
+  assert.match(section.content, /timestamp/);
+  assert.match(section.content, /correlation identifiers/);
+  assert.match(section.content, /receipts\/events/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "command-adapter-audit-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "audit_actor",
+    "audit_source",
+    "audit_target",
+    "command_reference",
+    "idempotency_key",
+    "policy_decision",
+    "receipt_reference",
+    "timestamp",
+    "correlation_identifier"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "command-adapter-audit-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("audit_log_store"));
+  assert.ok(nonGoalRows.includes("workflow_engine"));
+  assert.ok(nonGoalRows.includes("siem_integration"));
+  assert.ok(nonGoalRows.includes("observability_backend"));
+});

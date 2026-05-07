@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；U-041 v0.10 backlog triage 已完成；U-042 standard risk taxonomy boundary 已落地；U-043 local-only versus remote-capable constraints 已落地；下一轮首选 U-044 audit-log requirements for commands and adapters；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；U-041 v0.10 backlog triage 已完成；U-042 standard risk taxonomy boundary 已落地；U-043 local-only versus remote-capable constraints 已落地；U-044 audit-log requirements for commands and adapters 已落地；下一轮首选 U-045 lifecycle state-machine profile for operational objects；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -88,12 +88,13 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-041 | 完成 v0.10 backlog triage | 下一段路线收敛为 risk / exposure / audit hardening；首选 U-042 standard risk taxonomy boundary；已覆盖但 GitHub 仍 open 的 issue 不重复执行 |
 | U-042 | 定义 standard risk taxonomy 最小边界 | agent-consumable surfaces 的 read_risk、write_risk、credential_risk、filesystem_risk、network_risk、external_send_risk、cost_risk、production_mutation_risk、human_approval 已进入 spec-level boundary；runtime policy engine、permission broker、approval workflow 继续 deferred |
 | U-043 | 定义 local-only versus remote-capable constraints 最小边界 | local-only、local-export、remote-read、remote-write、adapter-facing、upgrade_gate 已进入 spec-level boundary；remote API gateway、auth runtime、network broker、automatic exposure upgrader 继续 deferred |
+| U-044 | 定义 audit-log requirements for commands and adapters 最小边界 | actor、source、target、command_reference、idempotency_key、policy_decision、receipt_reference、timestamp、correlation_identifier 已进入 spec-level boundary；audit log store、workflow engine、SIEM integration、observability backend 继续 deferred |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-044 | 定义 audit-log requirements for commands and adapters 最小边界 | 下一轮首选；对应 `#45`；不实现 audit log store |
+| 1 | U-045 | 定义 lifecycle state-machine profile for operational objects 最小边界 | 下一轮首选；对应 `#37`；不实现 workflow engine |
 
 ## 失败和风险
 
@@ -119,10 +120,11 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | deprecation / migration 扩散风险 | deprecation and migration 容易扩成 automatic migration tool、consumer rewrite、runtime compatibility shim、stored data transform 或 backward compatibility guarantee | U-040 只落 spec-level migration vocabulary；自动迁移、兼容 shim 和存量数据转换必须另立任务 |
 | risk taxonomy 扩散风险 | risk taxonomy 容易扩成 runtime policy engine、permission broker、dynamic risk scanner、approval workflow 或 cost accounting runtime | U-042 只应先落 spec-level risk vocabulary；执行策略、审批流和动态扫描必须另立任务 |
 | local / remote exposure 扩散风险 | local-only versus remote-capable constraints 容易扩成 remote API gateway、auth runtime、network broker、sandbox 或 automatic exposure upgrader | U-043 只落 spec-level exposure vocabulary；远程网关、认证运行时和自动升级必须另立任务 |
-| audit-log 扩散风险 | audit-log requirements 容易扩成 audit log store、workflow engine、SIEM integration 或完整 observability subsystem | U-044 应只落 commands/adapters 的最小 audit metadata 与 receipt/event linkage；存储和观测系统必须另立任务 |
+| audit-log 扩散风险 | audit-log requirements 容易扩成 audit log store、workflow engine、SIEM integration 或完整 observability subsystem | U-044 只落 commands/adapters 的最小 audit metadata 与 receipt/event linkage；存储和观测系统必须另立任务 |
+| lifecycle state-machine 扩散风险 | lifecycle profile 容易扩成 workflow engine、scheduler、retry runtime、cleanup executor 或完整 operational object runtime | U-045 应只落 state-machine profile vocabulary；执行、调度和清理必须另立任务 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-044 | 定义 audit-log requirements for commands and adapters 最小边界 | actor/source/target/command/idempotency key/policy decision/receipt reference/timestamp/correlation identifiers 最小 audit metadata 进入 spec；commands/adapters audit requirements 连接 command receipt event triad；不实现 audit log store |
+| 1 | U-045 | 定义 lifecycle state-machine profile for operational objects 最小边界 | lifecycle state 与 display status 区分、initial/terminal states、transitions、guards、timeout/expiration、retry、cancellation、cleanup、event/receipt links 最小语义进入 spec；不实现 workflow engine |

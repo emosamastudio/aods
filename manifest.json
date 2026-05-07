@@ -199,7 +199,7 @@
     {
       "id": "spec-stable-surface-contracts",
       "path": "spec/stable-surface-contracts.json",
-      "scope": "Minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, deprecation/migration, risk, local/remote exposure, topology, provenance, schema compatibility, and adapter capability.",
+      "scope": "Stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, topology, provenance, schema compatibility, adapters, and capability matching.",
       "category": "policy",
       "layer": "detail",
       "deps": [
@@ -240,7 +240,8 @@
           "dependency-ordering-posture",
           "deprecation-migration-posture",
           "risk-taxonomy-posture",
-          "local-remote-exposure-posture"
+          "local-remote-exposure-posture",
+          "command-adapter-audit-posture"
         ]
       },
       "redaction": {
