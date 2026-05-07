@@ -42,6 +42,10 @@
       "maxLength": 300,
       "description": "One-line system purpose. Agent uses this to confirm it has the right corpus."
     },
+    "project_topology": {
+      "$ref": "#/definitions/project_topology_ref",
+      "description": "Optional root topology summary that links the design corpus to one or more implementation repositories."
+    },
     "companion_index": {
       "$ref": "#/definitions/relative_path",
       "description": "Optional path to a second-hop manifest companion. Use to externalize glossary, roles, touch routes, and paired-surface maps so manifest.json stays small at bootstrap."
@@ -225,6 +229,150 @@
         "runtime_contract": {
           "$ref": "#/definitions/runtime_contract_ref",
           "description": "Optional runtime contract summary for bootstrap risk and output awareness. Mirrors side_effects and outputs from module.meta.runtime_contract."
+        },
+        "redaction": {
+          "$ref": "#/definitions/redaction_ref",
+          "description": "Optional redaction summary for bootstrap risk awareness. Mirrors module.meta.redaction summary fields."
+        },
+        "contract": {
+          "$ref": "#/definitions/contract_ref",
+          "description": "Optional contract profile summary. Mirrors module.meta.contract summary fields."
+        },
+        "schema_versioning": {
+          "$ref": "#/definitions/schema_versioning_ref",
+          "description": "Optional stable compatibility summary. Mirrors module.meta.schema_versioning summary fields."
+        },
+        "implementation": {
+          "$ref": "#/definitions/implementation_ref",
+          "description": "Optional implementation linkage summary. Mirrors module.meta.implementation summary fields."
+        }
+      }
+    },
+    "topology_status": {
+      "type": "string",
+      "enum": [
+        "not-started",
+        "planned",
+        "in-progress",
+        "partial",
+        "current",
+        "blocked",
+        "deprecated",
+        "removed"
+      ]
+    },
+    "topology_repo_ref": {
+      "type": "object",
+      "required": [
+        "id",
+        "locator",
+        "role",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$"
+        },
+        "locator": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Repository locator, slug, or URL-like identifier."
+        },
+        "role": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,48}$"
+        },
+        "branch": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "status": {
+          "$ref": "#/definitions/topology_status"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "project_topology_ref": {
+      "type": "object",
+      "required": [
+        "design_repo",
+        "implementation_repos"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "design_repo": {
+          "$ref": "#/definitions/topology_repo_ref"
+        },
+        "implementation_repos": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/topology_repo_ref"
+          }
+        },
+        "topology_type": {
+          "type": "string",
+          "enum": [
+            "mono-repo",
+            "multi-repo",
+            "hybrid"
+          ]
+        },
+        "status": {
+          "$ref": "#/definitions/topology_status"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "implementation_ref": {
+      "type": "object",
+      "required": [
+        "repo_id",
+        "paths",
+        "status",
+        "authority_surface"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "repo_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$",
+          "description": "ID of the linked implementation repository. Must match manifest.project_topology.implementation_repos[].id."
+        },
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/relative_path"
+          },
+          "description": "Implementation-relative files or directories that carry the module's current implementation."
+        },
+        "status": {
+          "$ref": "#/definitions/topology_status",
+          "description": "Implementation posture for the linked repo/path set."
+        },
+        "pr_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "description": "Optional PR, issue, or change references that support the linkage claim."
+        },
+        "authority_surface": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Module section or artifact ref that owns the linkage claim."
         }
       }
     },
@@ -339,6 +487,63 @@
             "type": "string"
           },
           "description": "Named durable outputs expected from this module's governed execution path."
+        }
+      }
+    },
+    "redaction_ref": {
+      "type": "object",
+      "required": [
+        "has_sensitive_payloads",
+        "redaction_posture"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "has_sensitive_payloads": {
+          "type": "boolean"
+        },
+        "redaction_posture": {
+          "type": "string",
+          "enum": [
+            "none",
+            "omit",
+            "redact",
+            "handle-only",
+            "debug-only"
+          ]
+        }
+      }
+    },
+    "contract_ref": {
+      "type": "object",
+      "required": [
+        "profile"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": [
+            "read-model",
+            "command",
+            "implementation-linkage"
+          ]
+        }
+      }
+    },
+    "schema_versioning_ref": {
+      "type": "object",
+      "required": [
+        "breaking_policy"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "breaking_policy": {
+          "type": "string",
+          "enum": [
+            "strict",
+            "versioned",
+            "experimental"
+          ]
         }
       }
     },

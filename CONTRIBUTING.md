@@ -89,6 +89,8 @@ For full release-grade verification:
 npm run release:self-check
 ```
 
+Official AODS version publication is handled through **GitHub Releases**. `release:self-check` verifies repo and package readiness locally; it does not require npm registry publication.
+
 ## Communication
 
 English and Chinese contributions are both welcome.

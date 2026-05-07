@@ -1,9 +1,9 @@
 {
   "aods_v": 3,
   "sys": "aods-spec",
-  "sys_v": 11,
+  "sys_v": 15,
   "created": "2026-04-13T00:00:00Z",
-  "updated": "2026-04-16T04:14:34Z",
+  "updated": "2026-05-02T06:12:52Z",
   "purpose": "AODS v3 self-referential specification. Adds dual-surface pairing, layer-aware progressive disclosure, capsule modules, and structured governance patterns without introducing new artifact classes.",
   "glossary": {
     "aods": "Agent-Optimized Documentation System — format and conventions for agent-first documentation",
@@ -34,6 +34,8 @@
         "spec-aop",
         "spec-artifact-types",
         "spec-boot-protocol",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-surface-governance",
         "spec-validation"
       ]
@@ -48,6 +50,7 @@
       ],
       "required_modules": [
         "spec-boot-protocol",
+        "spec-authority-governance",
         "spec-artifact-types",
         "spec-surface-governance"
       ]
@@ -155,13 +158,106 @@
       }
     },
     {
+      "id": "spec-authority-governance",
+      "path": "spec/authority-governance.json",
+      "scope": "Stable-surface authority, implementation overrun posture, cross-surface ref boundary, lifecycle/exposure states, and adapter-consumption authority rules for AODS-declared surfaces.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [
+        "spec-surface-governance"
+      ],
+      "tags": [
+        "authority",
+        "surface",
+        "lifecycle",
+        "governance"
+      ],
+      "tokens_approx": 4369,
+      "priority": "critical",
+      "control": {
+        "role": "guide",
+        "method": "computational",
+        "timing": [
+          "runtime",
+          "pre-commit"
+        ]
+      },
+      "provenance": {
+        "memory_role": "authority",
+        "confidence": "high"
+      },
+      "runtime_contract": {
+        "side_effects": [
+          "surface-authority-decision"
+        ],
+        "outputs": [
+          "authority-posture",
+          "lifecycle-posture"
+        ]
+      }
+    },
+    {
+      "id": "spec-stable-surface-contracts",
+      "path": "spec/stable-surface-contracts.json",
+      "scope": "Minimal stable-surface contracts for redaction, contract completeness profiles, root and module topology linkage, schema version compatibility, and adapter capability minimums.",
+      "category": "policy",
+      "layer": "detail",
+      "deps": [
+        "spec-authority-governance",
+        "spec-surface-governance"
+      ],
+      "tags": [
+        "contract",
+        "redaction",
+        "topology",
+        "versioning"
+      ],
+      "tokens_approx": 5591,
+      "priority": "critical",
+      "control": {
+        "role": "guide",
+        "method": "computational",
+        "timing": [
+          "runtime",
+          "pre-commit"
+        ]
+      },
+      "provenance": {
+        "memory_role": "authority",
+        "confidence": "high"
+      },
+      "runtime_contract": {
+        "side_effects": [
+          "contract-governance-decision"
+        ],
+        "outputs": [
+          "contract-posture",
+          "redaction-posture",
+          "topology-pilot-boundary",
+          "adapter-capability-posture"
+        ]
+      },
+      "redaction": {
+        "has_sensitive_payloads": false,
+        "redaction_posture": "none"
+      },
+      "contract": {
+        "profile": "read-model"
+      },
+      "schema_versioning": {
+        "breaking_policy": "versioned"
+      }
+    },
+    {
       "id": "spec-validation",
       "path": "spec/validation-rules.json",
-      "scope": "Corpus validation: structural checks, referential integrity, surface-governance coverage, provenance/runtime-contract enforcement, completeness, and AOP compliance.",
+      "scope": "Corpus validation: structural checks, referential integrity, implementation linkage + topology reality summaries, severity/gating policy, surface-governance coverage, provenance/runtime-contract enforcement, stable-contract integrity, and AOP compliance.",
       "category": "policy",
       "layer": "detail",
       "deps": [
         "spec-aop",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-surface-governance"
       ],
       "tags": [
@@ -169,7 +265,7 @@
         "quality",
         "integrity"
       ],
-      "tokens_approx": 4808,
+      "tokens_approx": 9651,
       "priority": "standard",
       "control": {
         "role": "sensor",
@@ -203,6 +299,8 @@
       "spec-aop",
       "spec-artifact-types",
       "spec-boot-protocol",
+      "spec-authority-governance",
+      "spec-stable-surface-contracts",
       "spec-surface-governance",
       "spec-validation"
     ],
@@ -218,6 +316,8 @@
       "intent": "write",
       "load_modules": [
         "spec-boot-protocol",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-surface-governance",
         "spec-validation"
       ],
@@ -228,6 +328,8 @@
       "intent": "write",
       "load_modules": [
         "spec-artifact-types",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-surface-governance",
         "spec-boot-protocol",
         "spec-validation"
@@ -248,6 +350,8 @@
       "intent": "write",
       "load_modules": [
         "spec-boot-protocol",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-surface-governance",
         "spec-validation"
       ],
@@ -268,6 +372,8 @@
       "intent": "write",
       "load_modules": [
         "spec-surface-governance",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-artifact-types",
         "spec-boot-protocol",
         "spec-validation"
@@ -275,10 +381,34 @@
       "reason": "surface governance edits affect pairing, authority, and bootstrap discipline."
     },
     {
+      "match": "spec/authority-governance.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
+        "spec-surface-governance",
+        "spec-validation"
+      ],
+      "reason": "authority governance edits define stable-surface authority and lifecycle posture."
+    },
+    {
+      "match": "spec/stable-surface-contracts.json",
+      "intent": "write",
+      "load_modules": [
+        "spec-stable-surface-contracts",
+        "spec-authority-governance",
+        "spec-surface-governance",
+        "spec-validation"
+      ],
+      "reason": "stable-surface contract edits define redaction, profile, topology, and compatibility posture."
+    },
+    {
       "match": "spec/validation-rules.json",
       "intent": "write",
       "load_modules": [
         "spec-validation",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-aop",
         "spec-surface-governance"
       ],
@@ -290,6 +420,8 @@
       "load_modules": [
         "spec-validation",
         "spec-artifact-types",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-surface-governance"
       ],
       "reason": "schema edits change what validation and artifact semantics can enforce."
@@ -308,6 +440,8 @@
       "intent": "write",
       "load_modules": [
         "spec-validation",
+        "spec-authority-governance",
+        "spec-stable-surface-contracts",
         "spec-surface-governance",
         "spec-artifact-types"
       ],

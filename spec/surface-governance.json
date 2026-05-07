@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-surface-governance",
-  "v": 9,
-  "context": "Defines dual-surface pairing, authority resolution, capsule routing, sync discipline, explicit control taxonomy, provenance summaries, conservative claim-diff posture, and opt-in deterministic human-surface generation for corpora where agent-primary modules coexist with human-facing surfaces. bidirectional sync remains experimental until merge protocol exists.",
+  "v": 11,
+  "context": "Capsule for dual-surface pairing, authority resolution, stable-surface governance, capsule routing, sync discipline, control taxonomy, provenance summaries, claim-diff posture, and deterministic human-surface generation. Routes detailed stable-surface authority, lifecycle, and stable contract rules to detail governance modules. bidirectional sync remains experimental until merge protocol exists.",
   "assumptions": [
     "Corpus may include human-facing surfaces outside JSON module registry",
     "manifest.surface_pairs is global pairing registry",
@@ -479,6 +479,16 @@
       "v": 7,
       "delta": "Added explicit provenance summary vs full-trace contract so manifest bootstrap can stay light while module meta carries source and review anchors.",
       "breaking": false
+    },
+    {
+      "v": 10,
+      "delta": "Added stable-surface authority and lifecycle/exposure rules for over-implementation governance.",
+      "breaking": false
+    },
+    {
+      "v": 11,
+      "delta": "Routed capsule readers toward stable-surface contract details for redaction and completeness posture.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -537,6 +547,10 @@
       ],
       "core_question": "How should agent-primary and human-facing surfaces stay paired, layered, and authority-safe?",
       "routes_to": [
+        "spec-authority-governance:stable-surface-authority",
+        "spec-authority-governance:surface-lifecycle-exposure",
+        "spec-stable-surface-contracts:redaction-policy-model",
+        "spec-stable-surface-contracts:contract-completeness-profiles",
         "spec-artifact-types:surface-governance-patterns",
         "spec-validation:structural"
       ],
@@ -544,6 +558,8 @@
         "detail beats capsule on semantic conflict",
         "evidence never becomes sole semantic source",
         "manifest.surface_pairs is global pairing registry",
+        "stable surfaces require explicit AODS authority",
+        "stable surfaces need explicit contract and redaction posture before broad consumption",
         "bidirectional sync is experimental until merge protocol exists"
       ]
     }

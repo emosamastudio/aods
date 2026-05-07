@@ -1,0 +1,426 @@
+{
+  "aods_v": 3,
+  "module_id": "spec-authority-governance",
+  "v": 4,
+  "context": "Defines stable-surface authority, implementation overrun posture, cross-surface reference boundary, and lifecycle/exposure states for AODS-declared surfaces, then routes stable contract detail to the dedicated contract authority module.",
+  "assumptions": [
+    "Implementation may expose local or experimental surfaces before AODS makes them stable",
+    "Stable external, adapter-facing, exported, or agent-consumable surfaces require explicit AODS authority"
+  ],
+  "sections": [
+    {
+      "sid": "stable-surface-authority",
+      "topic": "stable surface authority and over-implementation",
+      "content": "No stable surface without AODS authority. A surface is AODS-authorized only when an authority entry declares identity, owner, lifecycle/exposure state, minimum contract profile, and redaction posture when sensitive data can appear. The detailed contract floor for redaction, completeness profiles, root topology linkage, schema version posture, and adapter capability minimums lives in spec-stable-surface-contracts. Implementation may exceed the spec only while internal or experimental; it must not become stable external, adapter-facing, exported, or agent-consumable contract by accident. unspecified implementation surface defaults to internal-only. over-implemented means implementation exposes behavior or data that no AODS authority entry defines; remediation is document authority, mark internal/experimental, gate exposure, or remove from stable consumption.",
+      "content_type": "rules",
+      "refs": [],
+      "artifact_refs": [
+        "stable-authority-state-table",
+        "over-implementation-remediation"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "surface-lifecycle-exposure",
+      "topic": "surface lifecycle and exposure states",
+      "content": "Surface lifecycle declares who may consume a surface and what stability promise applies. internal -> implementation detail only. experimental -> visible for trials but no compatibility promise. local-only -> safe for local tools or local exports but not remote or adapter consumption. adapter-facing -> machine consumer surface with declared auth, version, freshness, redaction, and audit expectations. stable -> public AODS-authorized contract with compatibility expectations. deprecated -> still valid but replacement or removal path is declared. removed -> invalid for new consumption and references should route to migration guidance. Minimum promotion path is internal or experimental -> stable, and stable -> deprecated -> removed. Stable consumers should not depend on non-stable surfaces unless the dependency is explicitly marked experimental.",
+      "content_type": "rules",
+      "refs": [
+        "stable-surface-authority"
+      ],
+      "artifact_refs": [
+        "surface-lifecycle-state-table",
+        "surface-lifecycle-transition-table"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "stable-consumption-gate",
+      "topic": "stable consumption gate",
+      "content": "Stable consumption requires an explicit authority chain. A consumer may treat a surface as stable only when the AODS corpus identifies the surface, names the responsible owner, declares the lifecycle state, defines the minimum contract profile, and states redaction expectations for sensitive payloads. Consumer-facing adapters, exported schemas, public CLI output shapes, generated human-primary surfaces, runtime companion indexes, and implementation topology records are stable-consumable only after this chain exists. Missing authority does not make the implementation invalid by itself; it makes stable consumption invalid. The safe default is to keep the surface internal, local-only, or experimental until the authority chain is complete. A validation sensor should prefer a visible warning or error over a success-shaped pass when a stable dependency points at an internal, experimental, or unspecified surface. The gate also applies when a surface is copied into a release artifact, mirrored into an adapter package, mentioned as a supported integration, or made available through generated runtime indexes; publication counts as exposure even if the implementation existed earlier.",
+      "content_type": "rules",
+      "refs": [
+        "stable-surface-authority",
+        "surface-lifecycle-exposure"
+      ],
+      "artifact_refs": [
+        "stable-authority-state-table"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "lifecycle-promotion-review",
+      "topic": "lifecycle promotion and demotion review",
+      "content": "Lifecycle changes are review events because they change who may rely on a surface. Promotion from internal or experimental to adapter-facing or stable requires contract completeness, owner assignment, compatibility posture, and redaction posture before exposure. Promotion from local-only to adapter-facing requires an additional check that local assumptions are not being exported as remote guarantees. Demotion from stable to deprecated requires a replacement path or a declared removal reason. Removal requires migration guidance for existing references and route cleanup so agents do not keep loading obsolete authority. Any lifecycle transition that expands consumption should be treated as a trust-boundary change, not as routine documentation cleanup. Any transition that narrows consumption should preserve enough evidence for agents and reviewers to understand why the older surface is no longer authoritative. Reviews record the before state, after state, consumer impact, and validation evidence.",
+      "content_type": "rules",
+      "refs": [
+        "surface-lifecycle-exposure",
+        "stable-consumption-gate"
+      ],
+      "artifact_refs": [
+        "surface-lifecycle-transition-table",
+        "over-implementation-remediation"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "cross-surface-ref-boundary",
+      "topic": "cross-surface reference boundary and unresolved state",
+      "content": "AODS refs are canonical identifiers, not runtime fetch instructions. A stable cross-surface reference claim should identify the owning authority surface, the target canonical ref, and a resolution_status that makes the trust posture explicit. v0.7 keeps the minimum status set small: resolved, redirected, deprecated, and unresolved. resolved means the target exists and is the intended authority. redirected means the old ref must route to a replacement target without pretending the old identity still owns semantics. deprecated means the target still exists under a removal or migration posture. unresolved means the reference claim is known but the target is absent, not yet registered, or intentionally withheld from current resolution. unresolved is a blocking trust state for stable-consumable surfaces; validator should not silently treat it as advisory success and should not auto-fetch external corpora to guess a target. The owner field matters because a ref without accountable authority becomes navigation-shaped prose rather than contract. This boundary is intentionally narrow for v0.7: it does not add cross-repo fetch, automatic discovery, external dereference, or semantic alias resolution. It only makes ref trust posture explicit so future runtime or adapter work does not smuggle unresolved authority through success-shaped routing.",
+      "content_type": "rules",
+      "refs": [
+        "stable-surface-authority",
+        "stable-consumption-gate"
+      ],
+      "artifact_refs": [
+        "reference-resolution-state-table"
+      ],
+      "criticality": "must"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "stable-authority-state-table",
+      "type": "mapping-table",
+      "usage": "Terminology for implementation/specification authority posture.",
+      "content": {
+        "key_columns": [
+          "state"
+        ],
+        "columns": [
+          "state",
+          "meaning",
+          "default_consumption",
+          "remediation"
+        ],
+        "rows": [
+          [
+            "specified",
+            "AODS authority entry defines the surface contract",
+            "allowed according to lifecycle and exposure state",
+            "keep authority current"
+          ],
+          [
+            "implemented",
+            "implementation exposes the surface and matches authority",
+            "allowed when lifecycle permits",
+            "validate against authority"
+          ],
+          [
+            "partial",
+            "some declared contract exists or is implemented but not complete",
+            "limited consumption only",
+            "declare known gaps before stable exposure"
+          ],
+          [
+            "unspecified",
+            "implementation-visible behavior or data has no AODS authority entry",
+            "internal-only",
+            "document authority or gate exposure"
+          ],
+          [
+            "experimental",
+            "surface is intentionally unstable for trial use",
+            "opt-in only",
+            "promote through lifecycle when contract is complete"
+          ],
+          [
+            "over-implemented",
+            "implementation surface exceeds specification and is being consumed as if stable",
+            "not AODS-authorized",
+            "document, downgrade exposure, or remove consumption"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "over-implementation-remediation",
+      "type": "process-flow",
+      "usage": "Default remediation path when implementation exposes more than AODS authority declares.",
+      "content": {
+        "entry": "surface-detected",
+        "actors": [
+          "maintainer",
+          "validator"
+        ],
+        "terminals": [
+          "authorized",
+          "gated"
+        ],
+        "steps": [
+          {
+            "id": "surface-detected",
+            "type": "action",
+            "actor": "validator",
+            "action": "detect implementation-visible surface or declared surface reference",
+            "next": "authority-exists"
+          },
+          {
+            "id": "authority-exists",
+            "type": "decision",
+            "actor": "maintainer",
+            "action": "AODS authority entry exists?",
+            "next": {
+              "yes": "authorized",
+              "no": "choose-remediation"
+            }
+          },
+          {
+            "id": "choose-remediation",
+            "type": "decision",
+            "actor": "maintainer",
+            "action": "stable consumption needed now?",
+            "next": {
+              "yes": "document-authority",
+              "no": "gate-or-mark"
+            }
+          },
+          {
+            "id": "document-authority",
+            "type": "action",
+            "actor": "maintainer",
+            "action": "add authority entry with owner, lifecycle, contract profile, and redaction posture",
+            "next": "authorized"
+          },
+          {
+            "id": "gate-or-mark",
+            "type": "action",
+            "actor": "maintainer",
+            "action": "mark internal or experimental, or remove from stable external consumption",
+            "next": "gated"
+          },
+          {
+            "id": "authorized",
+            "type": "action",
+            "actor": "validator",
+            "action": "surface is AODS-authorized for declared exposure",
+            "next": null
+          },
+          {
+            "id": "gated",
+            "type": "action",
+            "actor": "validator",
+            "action": "surface is not stable-consumable until authority exists",
+            "next": null
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-lifecycle-state-table",
+      "type": "mapping-table",
+      "usage": "Canonical lifecycle and exposure states for AODS-declared surfaces.",
+      "content": {
+        "key_columns": [
+          "state"
+        ],
+        "columns": [
+          "state",
+          "meaning",
+          "allowed_consumers",
+          "stability_promise"
+        ],
+        "rows": [
+          [
+            "internal",
+            "implementation detail",
+            "maintainers only",
+            "none"
+          ],
+          [
+            "experimental",
+            "trial surface",
+            "explicit opt-in consumers",
+            "none"
+          ],
+          [
+            "local-only",
+            "safe for local tools or local exports",
+            "local agent or local automation",
+            "local contract only"
+          ],
+          [
+            "adapter-facing",
+            "machine-consumer surface",
+            "declared adapters or providers",
+            "versioned compatibility expected"
+          ],
+          [
+            "stable",
+            "AODS-authorized public contract",
+            "declared consumers",
+            "compatibility expected"
+          ],
+          [
+            "deprecated",
+            "stable but scheduled for replacement or removal",
+            "existing consumers",
+            "compatibility within deprecation window"
+          ],
+          [
+            "removed",
+            "no longer valid for consumption",
+            "none",
+            "migration guidance only"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-lifecycle-transition-table",
+      "type": "mapping-table",
+      "usage": "Allowed minimal lifecycle transitions for v0.7 governance.",
+      "content": {
+        "key_columns": [
+          "from",
+          "to"
+        ],
+        "columns": [
+          "from",
+          "to",
+          "allowed",
+          "condition"
+        ],
+        "rows": [
+          [
+            "internal",
+            "experimental",
+            "yes",
+            "trial exposure is intentional"
+          ],
+          [
+            "experimental",
+            "stable",
+            "yes",
+            "authority entry and completeness profile are satisfied"
+          ],
+          [
+            "local-only",
+            "adapter-facing",
+            "yes",
+            "remote capability, redaction, version, and audit posture are declared"
+          ],
+          [
+            "stable",
+            "deprecated",
+            "yes",
+            "replacement or removal guidance is declared"
+          ],
+          [
+            "deprecated",
+            "removed",
+            "yes",
+            "deprecation window or replacement path has elapsed"
+          ],
+          [
+            "removed",
+            "stable",
+            "no",
+            "new authority must be declared instead of reviving removed surface"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "reference-resolution-state-table",
+      "type": "mapping-table",
+      "usage": "Minimum trust posture for stable cross-surface references.",
+      "content": {
+        "key_columns": [
+          "resolution_status"
+        ],
+        "columns": [
+          "resolution_status",
+          "meaning",
+          "stable_consumption_rule"
+        ],
+        "rows": [
+          [
+            "resolved",
+            "canonical target exists and remains authoritative",
+            "stable consumption allowed when other authority gates pass"
+          ],
+          [
+            "redirected",
+            "old ref routes to a replacement target",
+            "stable consumption allowed only when replacement target is explicit"
+          ],
+          [
+            "deprecated",
+            "target still exists under migration or removal posture",
+            "stable consumption allowed only within declared deprecation policy"
+          ],
+          [
+            "unresolved",
+            "target absent, not registered, or intentionally unavailable",
+            "stable consumption blocked; do not auto-resolve by guesswork"
+          ]
+        ]
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "v": 1,
+      "delta": "Initial authority governance module for stable-surface authority and lifecycle exposure states.",
+      "breaking": false
+    },
+    {
+      "v": 2,
+      "delta": "Clarified that stable-surface contract detail is delegated to spec-stable-surface-contracts.",
+      "breaking": false
+    },
+    {
+      "v": 3,
+      "delta": "Clarified that root topology and minimum adapter capability posture also route through spec-stable-surface-contracts.",
+      "breaking": false
+    },
+    {
+      "v": 4,
+      "delta": "Added the minimum cross-surface reference boundary, accountable owner requirement, and explicit unresolved resolution-state posture.",
+      "breaking": false
+    }
+  ],
+  "meta": {
+    "stability": "evolving",
+    "review_cycle": "on-change",
+    "control": {
+      "role": "guide",
+      "method": "computational",
+      "timing": [
+        "runtime",
+        "pre-commit"
+      ]
+    },
+    "provenance": {
+      "memory_role": "authority",
+      "sources": [
+        "aods-v0.7-owner-roadmap",
+        "issue-29",
+        "issue-32"
+      ],
+      "confidence": "high",
+      "review_chain": [
+        "maintainer-review",
+        "validate:strict"
+      ]
+    },
+    "runtime_contract": {
+      "tools": [
+        "validator",
+        "route"
+      ],
+      "resources": [
+        "AODS authority entries",
+        "declared surfaces"
+      ],
+      "side_effects": [
+        "surface-authority-decision"
+      ],
+      "outputs": [
+        "authority-posture",
+        "lifecycle-posture"
+      ]
+    }
+  }
+}

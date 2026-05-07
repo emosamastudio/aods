@@ -1,0 +1,31 @@
+# AODS 文档入口
+
+本目录是 AODS 仓库内部维护面的文档入口。
+
+公开介绍和安装说明继续以根目录 `README.md` / `README.zh-CN.md` 为主；`docs/` 负责说明**如何维护 AODS 这个项目本身**，包括任务台账、回合、交接、进度口径。
+
+## 必读顺序
+
+1. `docs/operations/README.md`
+2. `docs/operations/aods-task-ledger.zh-CN.md`
+3. `docs/operations/aods-work-rules.zh-CN.md`
+4. `docs/operations/aods-handoff.zh-CN.md`
+5. `docs/operations/aods-round-log.zh-CN.md`
+
+## 目录职责
+
+| 路径 | 作用 |
+|---|---|
+| `docs/README.md` | AODS 仓库内部维护入口。 |
+| `docs/operations/README.md` | operations 子目录入口，列出当前权威治理面。 |
+| `docs/operations/aods-task-ledger.zh-CN.md` | 当前权威任务台账。 |
+| `docs/operations/aods-work-rules.zh-CN.md` | AODS 项目专属工作规约。 |
+| `docs/operations/aods-round-log.zh-CN.md` | 当前回合和历史回合锁定记录。 |
+| `docs/operations/aods-progress-ledger.zh-CN.md` | 阶段定义和进度变化。 |
+| `docs/operations/aods-handoff.zh-CN.md` | 接手入口和风险边界。 |
+
+## 当前维护边界
+
+1. 公开 README、schema、spec、lib、benchmarks、examples 都仍属于项目维护范围。
+2. benchmark sync 区块、generated benchmark 输出和 source generator 之间必须保持一致，不可只改生成结果。
+3. 如果修改的是 AODS 语义面，优先遵循 AODS 自己的 compiled-corpus-first 权威结构，而不是把 README 当成第一权威。

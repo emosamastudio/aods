@@ -75,6 +75,9 @@
           "type": "string",
           "maxLength": 300
         },
+        "project_topology": {
+          "$ref": "aods://schema/manifest/v3#/definitions/project_topology_ref"
+        },
         "glossary": {
           "type": "object",
           "additionalProperties": {
