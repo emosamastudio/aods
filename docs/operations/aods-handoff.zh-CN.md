@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。当前分支已完成 U-027 implementation evidence 最小切片并创建 draft PR `#62`；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。当前分支已完成 U-027 implementation evidence 最小切片并创建 PR `#62`；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -72,7 +72,7 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 
 ## 未完成工作
 
-当前任务台账无未完成项。U-027 已完成并创建 draft PR `#62`；下一轮应先审查 / 合并该 PR，再进入 v0.8 backlog 或下一段 contract drift。
+当前任务台账无未完成项。U-027 已完成并创建 PR `#62`；下一轮应先审查 / 合并该 PR，再进入 v0.8 backlog 或下一段 contract drift。
 
 ## 失败和风险
 
