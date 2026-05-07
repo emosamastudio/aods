@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-14
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-14 |
+| 开始时间 | 2026-05-07 16:10 Asia/Shanghai |
+| 结束时间 | 2026-05-07 16:18 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-034 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-14
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、runtime discovery、auth exchange、dynamic probe、provider selection、fallback ranking、完整 negotiation handshake、任意 evidence command 自动执行 |
+| 外部依赖 | 无公开写操作；本轮只使用本地验证 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-14
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-034 | 未开始 | 已完成 | 重新裁剪 capability negotiation 最小模型：provider capability、consumer requirement、compatibility matching、evidence link 的 metadata-only 边界；明确 runtime discovery/auth/dynamic probe/provider selection 等非目标 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、operations docs |
+
+## 验证记录：R-2026-05-07-14
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-034 | Previous-round quality review | `git status --short --branch`、`git log --oneline -5`、`npm run validate:all` | 通过 | U-033 提交后工作区仅 untracked `MEMORY.md`；repo validation 仍通过后继续推进 |
+| U-034 | RED capability re-triage regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 失败后修复 | 新增 metadata-only negotiation boundary test 先失败：缺少 `capability-negotiation-retriage` |
+| U-034 | Focused stable contract regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | 1 test passing；覆盖 provider/consumer/matching/evidence-link 边界和 non-goals |
+| U-034 | Spec JSON parse | `node -e ... JSON.parse(...)` | 通过 | stable contracts、manifest 语法有效 |
+| U-034 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-034 | Benchmark test gate | `npm run benchmark:test` | 通过 | 48 tests passing；benchmark generated result 噪音已恢复 |
+| U-034 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-14
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-07-14
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-034 |
+| 完成任务 | 1 | capability negotiation re-triage 最小切片完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 0 | 当前台账清空；下一轮先重新审查 open issues / owner roadmap |
+
 ## 回合摘要：R-2026-05-07-13
 
 | 项 | 内容 |

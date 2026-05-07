@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 8,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, and adapter-facing capability minimums.",
+  "v": 9,
+  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -81,6 +81,22 @@
       "criticality": "must"
     },
     {
+      "sid": "capability-negotiation-retriage",
+      "topic": "capability negotiation minimum boundary",
+      "content": "Capability negotiation remains a deferred runtime protocol. The v0.8 re-triage defines only metadata boundaries so adapter-facing claims can be compared without creating a handshake. provider capability means a provider declares capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. consumer requirement means a consumer declares required capability_id, accepted contract_profile, required schema_version_policy, transport_scope needs, freshness requirement, redaction floor, and blocking posture. compatibility matching means deterministic metadata comparison of provider capability to consumer requirement; it can say compatible, incompatible, partial, or unknown. evidence link means provider and consumer claims can point at implementation evidence, acceptance criteria, fixture manifests, or authority sections. This re-triage does not introduce negotiation sessions, runtime discovery, auth exchange, provider selection, fallback ranking, dynamic probing, remote execution, or transport retries. If a future task needs those behaviors, it must start from these metadata fields and add a separate protocol surface instead of overloading adapter-facing prose.",
+      "content_type": "rules",
+      "refs": [
+        "adapter-capability-minimum",
+        "topology-pilot-design",
+        "schema-versioning-compatibility"
+      ],
+      "artifact_refs": [
+        "capability-negotiation-boundary-table",
+        "capability-negotiation-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
       "sid": "decision-provenance-boundary",
       "topic": "agent consumable decision provenance boundary",
       "content": "Agent-consumable decisions are stable only when their source boundary is explicit. A decision artifact may declare decision_provenance to identify whether the decision is consumed by agents, held for human review, or internal. The basis states whether the decision comes directly from source evidence, from a derived summary, or from a mixed boundary. source_refs must point at sections or artifacts that authorize the decision. evidence_refs may point at proof anchors. summary_ref is required when the decision is derived from a summary or mixed with a summary because agents must know where synthesis happened. evidence_status is current, stale, unresolved, or withheld. consumption_gate is stable, review-required, blocked, or experimental. An agent-consumable decision cannot be stable when evidence is stale, unresolved, or withheld. Stale evidence means reviewers must refresh or downgrade before stable consumption. Unresolved evidence means agents must not treat the decision as authoritative. Withheld evidence means a stable consumer needs another allowed authority or an explicit review gate. This boundary does not create a full provenance framework, evidence warehouse, or cross-corpus resolver. It only prevents derived decision summaries from becoming stable agent instructions without source and evidence posture.",
@@ -98,7 +114,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, root topology semantics, compatibility language, decision provenance boundaries, and a trimmed adapter capability floor. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, or implementation fingerprinting. It also does not make every future profile stable. write-model, event, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether a decision summary is faithful to evidence, and whether an adapter capability claim is adequately evidenced. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. write-model, event, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -106,7 +122,8 @@
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
-        "adapter-capability-minimum"
+        "adapter-capability-minimum",
+        "capability-negotiation-retriage"
       ],
       "artifact_refs": [],
       "criticality": "must"
@@ -458,6 +475,85 @@
       }
     },
     {
+      "artifact_id": "capability-negotiation-boundary-table",
+      "type": "mapping-table",
+      "usage": "Metadata-only boundary for capability negotiation re-triage.",
+      "content": {
+        "key_columns": [
+          "surface"
+        ],
+        "columns": [
+          "surface",
+          "minimum_fields",
+          "allowed_result",
+          "non_goal"
+        ],
+        "rows": [
+          [
+            "provider_capability",
+            "capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, evidence_anchor",
+            "declared capability claim",
+            "runtime discovery"
+          ],
+          [
+            "consumer_requirement",
+            "capability_id, accepted_contract_profile, required_schema_version_policy, transport_scope, freshness_requirement, redaction_floor, blocking",
+            "declared consumer need",
+            "automatic binding"
+          ],
+          [
+            "compatibility_matching",
+            "capability_id match, compatible profile, compatible schema policy, compatible transport, freshness meets requirement, redaction meets floor",
+            "compatible, incompatible, partial, or unknown",
+            "negotiation session"
+          ],
+          [
+            "evidence_link",
+            "authority_ref, implementation_evidence_ref, acceptance_criteria_ref, fixture_ref",
+            "reviewable proof anchor",
+            "command execution"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "capability-negotiation-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for capability negotiation.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "runtime_discovery",
+            "requires a protocol surface and trust boundary beyond static metadata",
+            "future adapter runtime task"
+          ],
+          [
+            "auth_exchange",
+            "requires credential, scope, and transport security semantics",
+            "future security and adapter protocol task"
+          ],
+          [
+            "dynamic_probe",
+            "requires executing provider behavior and defining retry or timeout posture",
+            "future conformance or runtime task"
+          ],
+          [
+            "provider_selection",
+            "requires ranking, fallback, and conflict policy across multiple providers",
+            "future negotiation policy task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "stable-contract-validation-rules",
       "type": "rule-set",
       "usage": "Deterministic validation posture for stable-surface contract metadata.",
@@ -615,6 +711,11 @@
       "v": 8,
       "delta": "Added read-model freshness and watermark metadata requirements for stable read-model contracts.",
       "breaking": false
+    },
+    {
+      "v": 9,
+      "delta": "Re-triaged capability negotiation into metadata-only provider, consumer, compatibility matching, and evidence-link boundaries.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -690,9 +791,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v8",
+          "snapshot_id": "spec-stable-surface-contracts-v9",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=8",
+          "source_watermark": "module.v=9",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",
