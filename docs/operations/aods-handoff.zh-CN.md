@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；下一轮首选 U-038 ownership and authority hierarchy boundary；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；下一轮首选 U-039 dependency ordering between surfaces boundary；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -81,12 +81,13 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-035 | 定义 command / receipt / event triad 最小边界 | write-capable stable surfaces 的 command、receipt、event_or_projection、triad_linkage 已进入 spec-level audit boundary；executor/event runtime/correction semantics 继续 deferred |
 | U-036 | 定义 event correction / supersession 最小边界 | append-only event surfaces 的 correction_event、supersession_link、retraction、projection_guidance 已进入 spec-level boundary；event store/replay/migration 继续 deferred |
 | U-037 | 定义 partial implementation / known-gap metadata 最小边界 | partial implementation / known gap 的 missing_capabilities、blocking_status、owner、expected_remediation、consumer guidance 已进入 spec-level boundary；roadmap system、automatic waiver、release override 继续 deferred |
+| U-038 | 定义 ownership and authority hierarchy 最小边界 | overlapping stable surfaces 的 canonical_authority、derived_surface、alias_surface、conflict_policy、migration_guidance 已进入 spec-level boundary；automatic conflict resolver、ownership inference、cross-corpus authority runtime 继续 deferred |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-038 | 定义 ownership and authority hierarchy 最小边界 | 下一轮首选；对应 `#50`；不实现自动冲突解析器 |
+| 1 | U-039 | 定义 dependency ordering between surfaces 最小边界 | 下一轮首选；对应 `#51`；不实现 package manager 或 runtime scheduler |
 
 ## 失败和风险
 
@@ -107,9 +108,10 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | command / event 扩散风险 | triad 容易扩成 command executor、event bus runtime、exactly-once delivery 或 correction semantics | U-035 只落 spec-level audit linkage；runtime 和 event correction 必须另立任务 |
 | event correction 扩散风险 | correction / supersession 容易扩成 event store、automatic replay、read-model migration 或 domain truth 判定 | U-036 只落 spec-level correction vocabulary；runtime 和 migration 必须另立任务 |
 | known-gap 扩散风险 | partial / known-gap metadata 容易扩成全量 roadmap system、automatic waiver、release override 或 validator bypass | U-037 只落 spec-level consumption posture vocabulary；豁免、发布覆盖和 roadmap runtime 必须另立任务 |
+| authority hierarchy 扩散风险 | ownership / authority hierarchy 容易扩成 automatic conflict resolver、ownership inference、cross-corpus authority runtime 或 automatic migration tool | U-038 只落 spec-level overlap vocabulary；冲突解析、跨 corpus runtime 和迁移工具必须另立任务 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-038 | 定义 ownership and authority hierarchy 最小边界 | overlapping surfaces 的 canonical authority、derived surfaces、aliases、conflict policy、migration guidance 最小语义进入 spec；不实现自动冲突解析器 |
+| 1 | U-039 | 定义 dependency ordering between surfaces 最小边界 | requires、blocks、derives_from、emits、consumes、optional dependency 的最小语义进入 spec；区分 hard/optional dependency；不实现 package manager 或 runtime scheduler |

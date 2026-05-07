@@ -1,15 +1,16 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 12,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, command receipt event triads, event correction and supersession, partial implementation and known-gap metadata, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
+  "v": 13,
+  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, command receipt event triads, event correction and supersession, partial implementation and known-gap metadata, ownership and authority hierarchy, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
     "Adapter capability posture should be explicit before remote integrations are described as stable",
     "Write-capable surfaces need audit linkage before command semantics are exposed as stable",
     "Append-only event surfaces need correction semantics before consumers treat event history as stable truth",
-    "Partial implementation gaps need explicit owner, blocking posture, remediation, and consumer guidance before being treated as non-blocking"
+    "Partial implementation gaps need explicit owner, blocking posture, remediation, and consumer guidance before being treated as non-blocking",
+    "Overlapping stable surfaces need declared canonical, derived, alias, conflict, and migration posture before consumers merge claims"
   ],
   "sections": [
     {
@@ -93,6 +94,23 @@
       "criticality": "should"
     },
     {
+      "sid": "ownership-authority-hierarchy",
+      "topic": "overlapping surface ownership and authority hierarchy",
+      "content": "Overlapping surfaces are stable only when authority hierarchy is explicit. overlapping surfaces means two or more modules, sections, artifacts, human surfaces, generated indexes, commands, events, or views describe the same object, lifecycle state, command, event, decision, or exported claim. canonical authority means the single surface whose claim wins for a named overlap_scope. derived surface means a surface generated from, summarized from, projected from, or constrained by the canonical authority; it must name source_authority, derivation_rule, freshness_posture, and divergence_policy before stable consumption. alias means another stable identifier, route, or surface name that intentionally points at the same authority; aliases must name alias_of, allowed_use, and deprecation posture when the alias is temporary. conflict policy means the declared response when surfaces disagree: canonical-wins, derived-refresh-required, human-review-required, block-consumption, or deprecated-alias. migration guidance means the replacement, compatibility window, consumer action, and removal posture for aliases, deprecated derived surfaces, or authority moves. This boundary does not create an automatic conflict resolver, infer ownership from paths or names, fetch external corpora, run cross_corpus authority runtime, or choose domain truth. It only makes overlap consumable without asking agents to guess which surface owns the claim.",
+      "content_type": "rules",
+      "refs": [
+        "spec-authority-governance:stable-surface-authority",
+        "spec-authority-governance:cross-surface-ref-boundary",
+        "schema-versioning-compatibility",
+        "partial-known-gap-metadata"
+      ],
+      "artifact_refs": [
+        "ownership-authority-field-table",
+        "ownership-authority-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
       "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
@@ -168,7 +186,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -176,6 +194,7 @@
         "command-receipt-event-triad",
         "event-correction-supersession",
         "partial-known-gap-metadata",
+        "ownership-authority-hierarchy",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -572,6 +591,91 @@
       }
     },
     {
+      "artifact_id": "ownership-authority-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for overlapping surface ownership and authority hierarchy.",
+      "content": {
+        "key_columns": [
+          "field_family"
+        ],
+        "columns": [
+          "field_family",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "canonical_authority",
+            "overlap_scope, canonical_surface, authority_owner, authority_reason, conflict_policy",
+            "identifies the single winning authority for a named overlap",
+            "domain truth decision"
+          ],
+          [
+            "derived_surface",
+            "derived_surface, source_authority, derivation_rule, freshness_posture, divergence_policy",
+            "keeps summaries, projections, indexes, and generated surfaces tied to their source",
+            "automatic regeneration"
+          ],
+          [
+            "alias_surface",
+            "alias_surface, alias_of, allowed_use, deprecation_posture, replacement_ref",
+            "lets old names or routes point at the same authority without creating competing truth",
+            "automatic redirect runtime"
+          ],
+          [
+            "conflict_policy",
+            "conflict_policy, detection_surface, consumer_action, review_gate",
+            "tells consumers how to behave when overlapping claims disagree",
+            "automatic conflict resolver"
+          ],
+          [
+            "migration_guidance",
+            "replacement_ref, compatibility_window, consumer_action, removal_posture",
+            "supports authority moves, aliases, and deprecated derived surfaces",
+            "automatic migration tool"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "ownership-authority-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for overlapping surface ownership and authority hierarchy.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "automatic_conflict_resolver",
+            "choosing truth across competing claims needs domain authority and review beyond static metadata",
+            "future governance or conformance task"
+          ],
+          [
+            "cross_corpus_authority_runtime",
+            "fetching, ranking, and merging authority across corpora requires a separate resolver and trust model",
+            "future cross-corpus runtime task"
+          ],
+          [
+            "ownership_inference",
+            "file paths, names, or git ownership are evidence hints, not declared authority",
+            "future implementation analysis task"
+          ],
+          [
+            "automatic_migration_tool",
+            "rewriting consumers or moving data requires runtime-specific migration machinery",
+            "future migration task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -919,6 +1023,13 @@
             "source": "validation"
           },
           {
+            "id": "ownership-authority-boundary",
+            "condition": "stable overlapping surfaces declare competing authority without canonical_authority, derived_surface, alias_surface, conflict_policy, or migration_guidance posture",
+            "action": "future L3 warning: overlapping stable surfaces should expose authority hierarchy before consumers merge claims",
+            "priority": 41,
+            "source": "validation"
+          },
+          {
             "id": "implementation-metadata-mirror",
             "condition": "manifest.modules[].implementation exists XOR module.meta.implementation exists",
             "action": "L2 error: implementation linkage summary must be mirrored",
@@ -1052,6 +1163,11 @@
       "v": 12,
       "delta": "Added partial implementation and known-gap metadata boundaries for stable consumption posture.",
       "breaking": false
+    },
+    {
+      "v": 13,
+      "delta": "Added ownership and authority hierarchy boundaries for overlapping stable surfaces.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -1073,7 +1189,8 @@
         "issue-30",
         "issue-28",
         "issue-40",
-        "issue-47"
+        "issue-47",
+        "issue-50"
       ],
       "confidence": "high",
       "review_chain": [
@@ -1100,7 +1217,8 @@
         "redaction-posture",
         "topology-pilot-boundary",
         "adapter-capability-posture",
-        "known-gap-posture"
+        "known-gap-posture",
+        "authority-hierarchy-posture"
       ]
     },
     "redaction": {
@@ -1125,6 +1243,7 @@
           "command receipt event triad",
           "event correction and supersession",
           "partial implementation and known gaps",
+          "ownership and authority hierarchy",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -1132,9 +1251,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v12",
+          "snapshot_id": "spec-stable-surface-contracts-v13",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=12",
+          "source_watermark": "module.v=13",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

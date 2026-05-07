@@ -122,3 +122,34 @@ test("stable contracts define partial implementation and known gap metadata boun
   assert.ok(nonGoalRows.includes("automatic_waiver"));
   assert.ok(nonGoalRows.includes("release_override"));
 });
+
+test("stable contracts define ownership and authority hierarchy for overlapping surfaces", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "ownership-authority-hierarchy");
+  assert.ok(section);
+  assert.match(section.content, /overlapping surfaces/);
+  assert.match(section.content, /canonical authority/);
+  assert.match(section.content, /derived surface/);
+  assert.match(section.content, /alias/);
+  assert.match(section.content, /conflict policy/);
+  assert.match(section.content, /migration guidance/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "ownership-authority-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "canonical_authority",
+    "derived_surface",
+    "alias_surface",
+    "conflict_policy",
+    "migration_guidance"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "ownership-authority-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("automatic_conflict_resolver"));
+  assert.ok(nonGoalRows.includes("cross_corpus_authority_runtime"));
+  assert.ok(nonGoalRows.includes("ownership_inference"));
+});

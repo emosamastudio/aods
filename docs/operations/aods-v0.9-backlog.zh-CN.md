@@ -8,7 +8,7 @@
 
 v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 oracle 开始。当前最高价值路线是继续收束 write-capable 和 event-facing stable surfaces 的最小审计语义，让 AODS 在进入更深的 runtime / conformance 前先能表达“写入请求、尝试记录、状态后果之间如何追踪”。
 
-已执行的最小切片包括 **U-035 command / receipt / event triad boundary**、**U-036 event correction / supersession boundary** 和 **U-037 partial implementation / known-gap metadata boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。U-037 覆盖 GitHub issue `#47` 的最低可验证边界，只做 partial / known-gap metadata vocabulary，不实现全量 roadmap system、自动豁免或 release override。
+已执行的最小切片包括 **U-035 command / receipt / event triad boundary**、**U-036 event correction / supersession boundary**、**U-037 partial implementation / known-gap metadata boundary** 和 **U-038 ownership and authority hierarchy boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。U-037 覆盖 GitHub issue `#47` 的最低可验证边界，只做 partial / known-gap metadata vocabulary，不实现全量 roadmap system、自动豁免或 release override。U-038 覆盖 GitHub issue `#50` 的最低可验证边界，只做 ownership / authority hierarchy vocabulary，不实现自动冲突解析器、ownership inference 或 cross-corpus authority runtime。
 
 ## 输入信号
 
@@ -98,6 +98,29 @@ v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 
 3. focused regression 覆盖 known-gap section、field table 和 non-goals。
 4. 本轮不新增 schema，不改 validator runtime，不实现 roadmap system、automatic waiver、release override 或 validator bypass。
 
+## 已执行切片：U-038
+
+### 目标
+
+定义 overlapping stable surfaces 的 ownership and authority hierarchy 最小边界，避免多个模块、section、artifact、人类 surface、generated index、command、event 或 view 描述同一 claim 时，由 agent 自行猜测谁是权威。
+
+### 最小模型
+
+| 项 | 含义 | 非目标 |
+|---|---|---|
+| canonical_authority | overlap_scope、canonical_surface、authority_owner、authority_reason、conflict_policy | 不替 domain authority 做 truth decision |
+| derived_surface | source_authority、derivation_rule、freshness_posture、divergence_policy | 不做自动 regeneration |
+| alias_surface | alias_of、allowed_use、deprecation_posture、replacement_ref | 不做 runtime redirect |
+| conflict_policy | canonical-wins、derived-refresh-required、human-review-required、block-consumption、deprecated-alias | 不做 automatic conflict resolver |
+| migration_guidance | replacement_ref、compatibility_window、consumer_action、removal_posture | 不做 automatic migration tool |
+
+### 验收结果
+
+1. `spec/stable-surface-contracts.json` 定义 ownership and authority hierarchy section 和 mapping artifacts。
+2. `manifest.json` scope 与 runtime summary 已同步 authority hierarchy posture。
+3. focused regression 覆盖 ownership section、field table 和 non-goals。
+4. 本轮不新增 schema，不改 validator runtime，不实现 automatic conflict resolver、ownership inference、cross-corpus authority runtime 或 automatic migration tool。
+
 ## 下一轮建议
 
-下一轮若继续当前路线，首选 **U-038 ownership and authority hierarchy boundary**，覆盖 issue `#50`。它应只定义 overlapping surfaces 的 canonical authority、derived surface、alias、conflict policy 与 migration guidance，不应实现自动冲突解析器或跨 corpus authority runtime。
+下一轮若继续当前路线，首选 **U-039 dependency ordering between surfaces boundary**，覆盖 issue `#51`。它应只定义 requires、blocks、derives_from、emits、consumes、optional dependency 和 hard/optional posture，不应实现 package manager、runtime scheduler 或跨 repo dependency executor。
