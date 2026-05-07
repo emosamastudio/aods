@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；当前台账无未完成任务，下一轮应先复盘 open issues / owner roadmap 后再建新任务；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；下一轮首选 U-036 event correction / supersession boundary；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -23,9 +23,10 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | 8 | `docs/operations/aods-github-sync-approval.zh-CN.md` | 读取 GitHub 公开动作审批矩阵 |
 | 9 | `docs/operations/aods-code-drift-roadmap.zh-CN.md` | 读取代码漂移路线和 implementation evidence 最小切片 |
 | 10 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | 读取 v0.8 backlog、open issue 排序和下一 drift 切片 |
-| 11 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 12 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 13 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 11 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | 读取 v0.9 write/event/governance 候选路线 |
+| 12 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 13 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 14 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -77,12 +78,13 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-032 | 定义 read-model freshness / watermark profile 最小切片 | contract `read_model.freshness` schema、stable read-model missing freshness validator gate、read-model freshness remediation guidance；focused / repo / benchmark tests 均通过 |
 | U-033 | 定义 fixture and golden export conventions 最小切片 | fixture manifest v1、positive/negative 命名、golden export 更新流程、compiled-pilot positive fixture example；focused / repo / benchmark tests 均通过 |
 | U-034 | 重新裁剪 capability negotiation 最小模型 | provider capability、consumer requirement、compatibility matching、evidence link 已裁剪为 metadata-only 边界；handshake/discovery/auth/probing 继续 deferred |
+| U-035 | 定义 command / receipt / event triad 最小边界 | write-capable stable surfaces 的 command、receipt、event_or_projection、triad_linkage 已进入 spec-level audit boundary；executor/event runtime/correction semantics 继续 deferred |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 无 | 无 | 当前台账无未完成任务 | 下一轮先重新审查 open issues / owner roadmap |
+| 1 | U-036 | 定义 event correction / supersession 最小边界 | 下一轮首选；对应 `#39`；不实现 event store / replay runtime |
 
 ## 失败和风险
 
@@ -100,9 +102,10 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | read-model freshness 语义扩散风险 | freshness 容易扩成跨仓库 source fetch、数据管道水位自动计算或全量读模型复制框架 | U-032 只落 declared snapshot/export/watermark/staleness metadata 与 missing freshness gate；source watermark 充分性仍归人工 review |
 | fixture / golden 扩散风险 | convention 容易扩成完整 conformance runner、自动 golden update 或全量 fixture 迁移 | U-033 只落命名、manifest 字段和更新审查流程；runner 和全量迁移必须另立任务 |
 | capability negotiation 扩散风险 | negotiation 容易扩成 runtime discovery、auth exchange、provider selection、fallback ranking 或 dynamic probing | U-034 只落 metadata-only matching boundary；完整协议必须另立任务 |
+| command / event 扩散风险 | triad 容易扩成 command executor、event bus runtime、exactly-once delivery 或 correction semantics | U-035 只落 spec-level audit linkage；runtime 和 event correction 必须另立任务 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | 待定 | 重新审查 open issues / owner roadmap 后建新任务 | 任务先入 ledger，再进入下一轮 |
+| 1 | U-036 | 定义 event correction / supersession 最小边界 | correction_of、supersedes、retraction reason、replacement event、projection guidance 最小语义进入 spec；不实现 event runtime |

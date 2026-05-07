@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S7 capability negotiation re-triage |
-| 当前回合 | R-2026-05-07-14 |
-| 未完成任务数量 | 0 |
-| 已完成任务数量 | 39 |
+| 当前阶段 | S8 write-capable triad boundary |
+| 当前回合 | R-2026-05-07-15 |
+| 未完成任务数量 | 1 |
+| 已完成任务数量 | 40 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-14 |
-| 开始时间 | 2026-05-07 16:10 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-15 |
+| 开始时间 | 2026-05-07 16:25 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-034 |
-| 本轮范围 | capability negotiation re-triage 最小切片：provider capability、consumer requirement、compatibility matching、evidence link 的 metadata-only 边界；明确 deferred handshake/discovery/auth/probing；spec docs、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、runtime discovery、auth exchange、dynamic probe、provider selection、fallback ranking、完整 negotiation handshake、任意 evidence command 自动执行 |
+| 选中任务 | U-035 |
+| 本轮范围 | command / receipt / event triad 最小边界：write-capable stable surfaces 的 command、receipt、event_or_projection、triad_linkage vocabulary；spec docs、focused regression、operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、command executor、event bus runtime、correction / supersession semantics、exactly-once delivery guarantee、任意 command 执行 |
 | 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,7 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| 无 | - | 当前无未完成任务 | - | - | 下一轮应先重新审查 GitHub open issue / owner roadmap，再新建任务进入台账 | - | - |
+| U-036 | S8 | 定义 event correction / supersession 最小边界 | P1 | 未开始 | append-only event surfaces 的 correction_of、supersedes、retraction reason、replacement event、projection guidance 最小语义进入 spec；不实现 event store / replay runtime / 数据迁移 | U-035 | 对应 `#39`；下一轮首选 |
 
 ## 已完成任务
 
@@ -77,6 +77,7 @@
 | 37 | U-032 | S6 | 定义 read-model freshness / watermark profile 最小切片 | P1 | 2026-05-07 | `schema/module.schema.json`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、benchmark generated corpus schema、focused read-model freshness regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable read-model contract 可声明 `read_model.freshness` 的 snapshot/export/watermark/staleness；validator 阻断缺 freshness 的 stable read-model profile |
 | 38 | U-033 | S6 | 定义 fixture and golden export conventions | P2 | 2026-05-07 | `spec/validation-rules.json`、`manifest.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、focused fixture convention regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | fixture manifest v1、positive/negative fixture 命名、golden export 更新流程已进入 spec；compiled-pilot source 提供一个 conventional positive fixture |
 | 39 | U-034 | S7 | 重新裁剪 capability negotiation 最小模型 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、focused stable contract regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | capability negotiation 被裁剪为 provider capability、consumer requirement、compatibility matching、evidence link 的 metadata-only 边界；明确不做 handshake/discovery/auth/probing |
+| 40 | U-035 | S8 | 定义 command / receipt / event triad 最小边界 | P1 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | write-capable stable surfaces 现在有 command、receipt、event_or_projection、triad_linkage 的 spec-level audit boundary；不新增 executor/event runtime/correction semantics |
 
 ## 失败或阻塞任务
 
@@ -121,3 +122,4 @@
 | 2026-05-07 | 100% | 99% | 86% | `U-032` 完成 | read-model freshness / watermark profile 已落地；AODS 现在能要求 stable read-model contract 声明 snapshot、exported_at、source_watermark 与 staleness，降低快照代码漂移和陈旧读模型风险。 |
 | 2026-05-07 | 100% | 99% | 88% | `U-033` 完成 | fixture and golden export conventions 已落地；AODS 现在有 positive/negative fixture、fixture manifest 与 golden export 更新审查的稳定最小约定。 |
 | 2026-05-07 | 100% | 100% | 90% | `U-034` 完成 | capability negotiation re-triage 已落地；AODS 现在明确 provider/consumer/matching/evidence-link 的 metadata-only 最小边界，完整 handshake 继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 91% | `U-035` 完成 | command / receipt / event triad boundary 已落地；AODS 现在能为 write-capable stable surfaces 表达最小 audit linkage，完整 event runtime 和 correction semantics 继续 deferred。 |

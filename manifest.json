@@ -199,7 +199,7 @@
     {
       "id": "spec-stable-surface-contracts",
       "path": "spec/stable-surface-contracts.json",
-      "scope": "Minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, root and module topology linkage, decision provenance, schema version compatibility, adapter capability minimums, and metadata-only capability matching boundaries.",
+      "scope": "Minimal stable-surface contracts for redaction, completeness profiles, read-model freshness, command receipt event triads, topology linkage, decision provenance, schema compatibility, adapter capability, and metadata-only capability matching.",
       "category": "policy",
       "layer": "detail",
       "deps": [

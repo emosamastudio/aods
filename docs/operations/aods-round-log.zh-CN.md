@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-15
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-15 |
+| 开始时间 | 2026-05-07 16:25 Asia/Shanghai |
+| 结束时间 | 2026-05-07 16:37 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-035 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-15
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/README.md`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、command executor、event bus runtime、correction / supersession semantics、exactly-once delivery guarantee、任意 command 执行 |
+| 外部依赖 | `gh issue list/view` 只读读取 open issues；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-15
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-035 | 未开始 | 已完成 | 复盘 GitHub open issues / owner roadmap 后，定义 command / receipt / event triad 最小边界：command、receipt、event_or_projection、triad_linkage；明确 executor/event runtime/correction semantics 非目标 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs |
+
+## 验证记录：R-2026-05-07-15
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-035 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all` | 通过 | U-034 提交后工作区仅 untracked `MEMORY.md`；focused + repo validation 通过后继续推进 |
+| U-035 | GitHub / roadmap triage | `gh issue list --repo emosamastudio/aods --state open --limit 100 --json ...`、`gh issue view 33/39/47/50 --json ...`、owner roadmap docs | 通过 | 首选 `#33`；`#39` 进入下一轮 U-036；未执行公开 GitHub 写操作 |
+| U-035 | RED triad regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 失败后修复 | 新增 command / receipt / event triad test 先失败：缺少 `command-receipt-event-triad` |
+| U-035 | Focused stable contract regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | 2 tests passing；覆盖 capability negotiation 与 command triad |
+| U-035 | Spec JSON parse | `node -e ... JSON.parse(...)` | 通过 | stable contracts、manifest 语法有效 |
+| U-035 | Repo validation gate | `npm run validate:all` | 先失败后通过 | 首次失败为 `manifest.modules[].scope` 超 300 字符；压缩 scope 后 root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-035 | Benchmark test gate | `npm run benchmark:test` | 通过 | 49 tests passing；benchmark generated result 噪音已恢复 |
+| U-035 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-15
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-035 / `#39` | U-036 | 定义 event correction / supersession 最小边界 | P1 | append-only event surfaces 的 correction_of、supersedes、retraction reason、replacement event、projection guidance 最小语义进入 spec；不实现 event store / replay runtime / 数据迁移 | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-15
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-035 |
+| 完成任务 | 1 | command / receipt / event triad 最小边界完成 |
+| 失败任务 | 0 | manifest scope 超长已返工修复并复验通过 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-036 |
+| 剩余未完成任务 | 1 | U-036 event correction / supersession boundary |
+
 ## 回合摘要：R-2026-05-07-14
 
 | 项 | 内容 |

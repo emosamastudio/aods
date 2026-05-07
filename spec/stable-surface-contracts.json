@@ -1,12 +1,13 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 9,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
+  "v": 10,
+  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, command receipt event triads, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
-    "Adapter capability posture should be explicit before remote integrations are described as stable"
+    "Adapter capability posture should be explicit before remote integrations are described as stable",
+    "Write-capable surfaces need audit linkage before command semantics are exposed as stable"
   ],
   "sections": [
     {
@@ -26,7 +27,7 @@
     {
       "sid": "contract-completeness-profiles",
       "topic": "minimal contract completeness profiles",
-      "content": "A contract completeness profile declares the minimum information required before a surface can be consumed as stable. v0.7 defines only three profiles. read-model covers read-only data surfaces such as generated indexes, schema views, summaries, or inventory outputs. It must identify the data source, field set, freshness posture, identity or key semantics, and failure or absence semantics. Stable read-model contracts must declare read_model.freshness with snapshot_id, exported_at, source_watermark, and staleness so consumers can tell which source snapshot they are reading. staleness may be current, stale, partial, or unknown. partial snapshots must explain partial_semantics or partial_reason before stable consumption. command covers action surfaces such as CLI commands, hooks, workflows, or agent-triggered operations. It must identify input shape, side effects, preconditions, authorization or actor boundary, idempotency posture, observable outputs, and failure semantics. implementation-linkage covers the design-to-reality bridge used by the topology pilot. It must identify implementation repository, path or path pattern, implementation status, optional PR or issue references, and the authority surface that owns the claim. Profiles do not define every possible field in the ecosystem. They define the lowest safe floor for stable consumption, so a consumer can tell whether it is reading data, invoking action, or following a design-to-implementation link. A stable surface without a profile remains under-specified even when prose is clear. The validator boundary for this round is deterministic and metadata based: read-model profile must declare freshness and watermark metadata; manifest/module contract summaries still mirror the profile only.",
+      "content": "A contract completeness profile declares the minimum information required before a surface can be consumed as stable. v0.7 defines only three profiles. read-model covers read-only data surfaces such as generated indexes, schema views, summaries, or inventory outputs. It must identify the data source, field set, freshness posture, identity or key semantics, and failure or absence semantics. Stable read-model contracts must declare read_model.freshness with snapshot_id, exported_at, source_watermark, and staleness so consumers can tell which source snapshot they are reading. staleness may be current, stale, partial, or unknown. partial snapshots must explain partial_semantics or partial_reason before stable consumption. command covers action surfaces such as CLI commands, hooks, workflows, or agent-triggered operations. It must identify input shape, side effects, preconditions, authorization or actor boundary, idempotency posture, observable outputs, and failure semantics. Stable write-capable command surfaces should also link command, receipt, and event or projection semantics before external consumers rely on writes. implementation-linkage covers the design-to-reality bridge used by the topology pilot. It must identify implementation repository, path or path pattern, implementation status, optional PR or issue references, and the authority surface that owns the claim. Profiles do not define every possible field in the ecosystem. They define the lowest safe floor for stable consumption, so a consumer can tell whether it is reading data, invoking action, or following a design-to-implementation link. A stable surface without a profile remains under-specified even when prose is clear. The validator boundary for this round is deterministic and metadata based: read-model profile must declare freshness and watermark metadata; manifest/module contract summaries still mirror the profile only.",
       "content_type": "rules",
       "refs": [
         "spec-authority-governance:stable-surface-authority"
@@ -34,9 +35,26 @@
       "artifact_refs": [
         "contract-profile-field-table",
         "read-model-freshness-field-table",
+        "command-receipt-event-field-table",
         "stable-contract-validation-rules"
       ],
       "criticality": "must"
+    },
+    {
+      "sid": "command-receipt-event-triad",
+      "topic": "write-capable command audit triad",
+      "content": "A write-capable stable surface should describe its command, receipt, and event or projection linkage before agents or adapters depend on it. command means the requested write intent: actor boundary, source, target, payload schema, schema version, preconditions, idempotency key, side effects, and authorization posture. receipt means the durable attempt record: receipt_id, command_ref, status, accepted_at or rejected_at, rejection_category, observable_outputs, and audit_anchor. event or projection means the observable state consequence: event_ref or projection_ref, emitted_at or materialized_at, schema version, ordering key, replay posture, and consumer guidance. triad linkage means the command points to the receipt, the receipt points back to the command and forward to any event or projection, and the event or projection can be traced to the receipt for audit and replay. Missing pieces may be declared as not-applicable only with an authority reason and consumer guidance. This boundary does not execute commands, require an event bus runtime, define correction or supersession semantics, create a general workflow engine, or guarantee exactly-once delivery. It only prevents stable write-capable surfaces from relying on prose-only auditability.",
+      "content_type": "rules",
+      "refs": [
+        "contract-completeness-profiles",
+        "decision-provenance-boundary",
+        "schema-versioning-compatibility"
+      ],
+      "artifact_refs": [
+        "command-receipt-event-field-table",
+        "command-receipt-event-non-goals"
+      ],
+      "criticality": "should"
     },
     {
       "sid": "topology-pilot-design",
@@ -114,11 +132,12 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. write-model, event, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, event correction and supersession semantics, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
         "contract-completeness-profiles",
+        "command-receipt-event-triad",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -267,6 +286,85 @@
             "read_model.failure_semantics",
             "recommended",
             "how generation or read failures are represented"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "command-receipt-event-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for write-capable command receipt event triads.",
+      "content": {
+        "key_columns": [
+          "surface"
+        ],
+        "columns": [
+          "surface",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "command",
+            "command_id, actor_boundary, source, target, payload_schema, schema_version, preconditions, idempotency_key, side_effects, authorization",
+            "declared write intent",
+            "command execution"
+          ],
+          [
+            "receipt",
+            "receipt_id, command_ref, status, accepted_at or rejected_at, rejection_category, observable_outputs, audit_anchor",
+            "durable attempt record",
+            "receipt store implementation"
+          ],
+          [
+            "event_or_projection",
+            "event_ref or projection_ref, receipt_ref, emitted_at or materialized_at, schema_version, ordering_key, replay_posture, consumer_guidance",
+            "observable state consequence",
+            "event bus or projection runtime"
+          ],
+          [
+            "triad_linkage",
+            "command_ref, receipt_ref, event_ref or projection_ref, not_applicable_reason, authority_surface",
+            "audit and replay traceability",
+            "exactly-once delivery guarantee"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "command-receipt-event-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for write-capable command receipt event triads.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "command_executor",
+            "executing writes requires runtime authorization, side-effect isolation, and rollback semantics beyond static contract metadata",
+            "future write-runtime task"
+          ],
+          [
+            "event_bus_runtime",
+            "durable delivery and projection materialization require infrastructure-specific semantics",
+            "future event/runtime task"
+          ],
+          [
+            "correction_semantics",
+            "correction, retraction, and supersession policy belongs to append-only event semantics",
+            "future issue-39 task"
+          ],
+          [
+            "exactly_once_delivery",
+            "delivery guarantees depend on runtime transport, storage, and idempotency implementation",
+            "future conformance or runtime task"
           ]
         ]
       }
@@ -591,6 +689,13 @@
             "source": "validation"
           },
           {
+            "id": "command-triad-boundary",
+            "condition": "stable write-capable command surface claims auditability but lacks command, receipt, event_or_projection, or explicit not-applicable linkage",
+            "action": "future L3 warning: write-capable command surfaces should expose triad linkage before stable consumption",
+            "priority": 37,
+            "source": "validation"
+          },
+          {
             "id": "schema-versioning-metadata-mirror",
             "condition": "manifest.modules[].schema_versioning exists XOR module.meta.schema_versioning exists",
             "action": "L2 error: schema versioning summary must be mirrored",
@@ -716,6 +821,11 @@
       "v": 9,
       "delta": "Re-triaged capability negotiation into metadata-only provider, consumer, compatibility matching, and evidence-link boundaries.",
       "breaking": false
+    },
+    {
+      "v": 10,
+      "delta": "Added write-capable command receipt event triad boundaries for command audit linkage.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -784,6 +894,7 @@
         "fields": [
           "redaction posture",
           "contract profile",
+          "command receipt event triad",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -791,9 +902,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v9",
+          "snapshot_id": "spec-stable-surface-contracts-v10",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=9",
+          "source_watermark": "module.v=10",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

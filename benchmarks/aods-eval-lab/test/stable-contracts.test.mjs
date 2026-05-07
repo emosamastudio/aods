@@ -34,3 +34,32 @@ test("stable contracts define capability negotiation as metadata-only re-triage"
   assert.ok(nonGoalRows.includes("auth_exchange"));
   assert.ok(nonGoalRows.includes("dynamic_probe"));
 });
+
+test("stable contracts define command receipt event triads for write-capable surfaces", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "command-receipt-event-triad");
+  assert.ok(section);
+  assert.match(section.content, /write-capable/);
+  assert.match(section.content, /command/);
+  assert.match(section.content, /receipt/);
+  assert.match(section.content, /event or projection/);
+  assert.match(section.content, /does not execute commands/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "command-receipt-event-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "command",
+    "receipt",
+    "event_or_projection",
+    "triad_linkage"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "command-receipt-event-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("command_executor"));
+  assert.ok(nonGoalRows.includes("event_bus_runtime"));
+  assert.ok(nonGoalRows.includes("correction_semantics"));
+});

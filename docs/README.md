@@ -24,6 +24,7 @@
 | `docs/operations/aods-progress-ledger.zh-CN.md` | 阶段定义和进度变化。 |
 | `docs/operations/aods-handoff.zh-CN.md` | 接手入口和风险边界。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
+| `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |
 
 ## 当前维护边界
 
