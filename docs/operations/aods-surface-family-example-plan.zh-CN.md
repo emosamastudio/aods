@@ -1,18 +1,18 @@
 # AODS Surface-family Example Pack Plan
 
-状态：U-057 resource 边界已裁剪，resource example pack 待落地
-日期：2026-05-07
+状态：U-058 resource example pack 已落地，`#56` 本地示例覆盖已收束
+日期：2026-05-08
 适用范围：GitHub `#56` common AODS surface family examples
 
 ## 结论
 
 `#56` 不应一次性变成全量示例库。当前最高价值、最低风险路线是先做 example pack triage，再选择 schema/runtime 已稳定的最小示例包。
 
-已落地五包为 **U-051 read-model + implementation-linkage canonical example pack**、**U-052 command + receipt canonical example pack**、**U-053 event + correction/supersession canonical example pack**、**U-054 adapter + capability/exposure canonical example pack** 和 **U-055 artifact/export/policy-gate canonical example pack**。原因：read-model freshness、implementation evidence、acceptance criteria、fixture/golden convention、command/receipt/audit/risk 边界、event correction/supersession guidance、adapter capability/exposure guidance、artifact export policy gate 都已经能用现有 validator 和 compiled-pilot source-first 结构验证。
+已落地六包为 **U-051 read-model + implementation-linkage canonical example pack**、**U-052 command + receipt canonical example pack**、**U-053 event + correction/supersession canonical example pack**、**U-054 adapter + capability/exposure canonical example pack**、**U-055 artifact/export/policy-gate canonical example pack** 和 **U-058 resource surface canonical example pack**。原因：read-model freshness、implementation evidence、acceptance criteria、fixture/golden convention、command/receipt/audit/risk 边界、event correction/supersession guidance、adapter capability/exposure guidance、artifact export policy gate、resource scope/risk/exposure/cleanup 都已经能用现有 validator 和 compiled-pilot source-first 结构验证。
 
 U-056 收束复盘结论：`#56` 原验收仍包含 `resource` family，当前五包没有独立 resource surface example。`#56` 不应关闭。
 
-U-057 边界裁剪结论：resource 暂不作为新的 schema profile 或 runtime object。当前最小可执行路线是把 resource surface 表达为 declared resource scope：包含 resource identity、scope、owner、read/write risk、exposure class、lifecycle cleanup posture、implementation evidence 和 acceptance criteria。下一轮首选 **U-058 resource surface canonical example pack**；仍不实现 schema、validator、resource runtime、scheduler、cleanup executor 或 permission broker。
+U-057 边界裁剪结论：resource 暂不作为新的 schema profile 或 runtime object。U-058 已按 declared resource surface 路线落地 source-first example pack，覆盖 resource identity、scope、owner、read/write risk、exposure class、lifecycle cleanup posture、implementation evidence 和 acceptance criteria；仍不实现 schema、validator、resource runtime、scheduler、cleanup executor 或 permission broker。`#56` 本地 example 覆盖已收束；公开 issue 状态同步需要 owner 批准。
 
 ## 输入信号
 
@@ -35,7 +35,7 @@ U-057 边界裁剪结论：resource 暂不作为新的 schema profile 或 runtim
 | 3 | event + correction/supersession | 展示 append-only event、correction_of、supersedes、projection guidance | 已完成 U-053：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不实现 event store、不做 replay/migration |
 | 4 | adapter + capability/exposure | 展示 provider capability、consumer requirement、local/remote exposure、audit notes | 已完成 U-054：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 negotiation handshake、不做 auth runtime |
 | 5 | artifact/export/policy-gate | 展示 artifact type、golden export、policy gate 与 validation notes | 已完成 U-055：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 conformance runner、不迁移全部 examples |
-| 6 | resource | 展示 resource surface 的 identity、scope、ownership、read/write risk、exposure、lifecycle cleanup 和 validation notes | U-057 已裁剪边界；下一轮 U-058 落地 source-first example pack | 不做 resource runtime、不做 scheduler/cleanup executor、不新增 schema |
+| 6 | resource | 展示 resource surface 的 identity、scope、ownership、read/write risk、exposure、lifecycle cleanup 和 validation notes | 已完成 U-058：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 resource runtime、不做 scheduler/cleanup executor、不新增 schema |
 
 ## U-056 收束复盘
 
@@ -251,7 +251,7 @@ U-057 边界裁剪结论：resource 暂不作为新的 schema profile 或 runtim
 4. 已决定进入 U-058 source-first resource example pack，补齐 `#56` residual gap。
 5. `#57/#58` 继续排在 resource example pack 之后，避免过早进入 glossary schema 或 external citation provenance。
 
-## 下一轮任务：U-058
+## 已执行切片：U-058
 
 ### 目标
 
@@ -271,6 +271,14 @@ U-057 边界裁剪结论：resource 暂不作为新的 schema profile 或 runtim
 
 不新增 schema，不改 validator/runtime，不实现 resource runtime、scheduler、cleanup executor、permission broker、remote gateway 或 policy engine。
 
+### 验收结果
+
+1. 已新增 `shift-ops-resource-surface` source-first module，声明 resource identity、scope、owner、read/write risk、exposure class、cleanup posture、implementation evidence 和 acceptance criteria。
+2. 已同步 `examples/compiled-pilot-source/fixtures/fixture-manifest.json`，新增 `positive-resource-surface-pack` 和 `resource-surface-module` golden export。
+3. 已由 `npm run compile:pilot` 生成 `examples/compiled-pilot/modules/shift-ops-resource-surface.json`，compiled-pilot 模块数从 10 增至 11。
+4. 已扩展 `benchmarks/aods-eval-lab/test/example-packs.test.mjs`，resource pack focused regression 先 RED 后 GREEN。
+5. 未新增 schema、validator、resource runtime、scheduler、cleanup executor、permission broker、remote gateway 或 policy engine。
+
 ## Deferred
 
 | Deferred item | 原因 |
@@ -278,6 +286,6 @@ U-057 边界裁剪结论：resource 暂不作为新的 schema profile 或 runtim
 | 全量 example library | 会扩大维护面，并且会把 `#56` 与后续 schema/runtime 工作耦合 |
 | command/event runtime examples | 需要先确认 write/event runtime semantics 是否还要继续扩展 |
 | adapter negotiation examples | 需要等待 capability/exposure/audit metadata 更稳定 |
-| glossary registry schema | 需要先关闭 `#56` resource residual gap，再进入 `#57` schema/design |
-| external citation metadata | 需要先关闭 `#56` resource residual gap，再进入 `#58` provenance/schema |
+| glossary registry schema | `#56` 本地覆盖已收束；下一阶段可进入 `#57` boundary triage，但不能直接实现 schema |
+| external citation metadata | 排在 `#57` boundary triage 之后，避免与 glossary schema 和 decision provenance 混线 |
 | docs portal linking | 公开文档导航需另立任务，不能混入 example pack 首包 |

@@ -41,6 +41,13 @@ const ARTIFACT_EXPORT_MODULE_PATH = path.join(
   "modules",
   "shift-ops-artifact-export-policy.json"
 );
+const RESOURCE_MODULE_PATH = path.join(
+  REPO_ROOT,
+  "examples",
+  "compiled-pilot",
+  "modules",
+  "shift-ops-resource-surface.json"
+);
 const COMPILED_MANIFEST_PATH = path.join(REPO_ROOT, "examples", "compiled-pilot", "manifest.json");
 const FIXTURE_MANIFEST_PATH = path.join(
   REPO_ROOT,
@@ -249,4 +256,50 @@ test("compiled pilot includes artifact export policy gate example pack", () => {
   assert.equal(fixture.kind, "positive");
   assert.equal(fixture.input.path, "../authoring.json");
   assert.ok(fixture.golden_exports.some((entry) => entry.id === "artifact-export-policy-gate-module"));
+});
+
+test("compiled pilot includes resource surface example pack", () => {
+  const source = JSON.parse(fs.readFileSync(SOURCE_PATH, "utf8"));
+  const module = source.modules.find((entry) => entry.id === "shift-ops-resource-surface");
+  assert.ok(module);
+  assert.ok(module.tags.includes("resource"));
+  assert.ok(module.tags.includes("surface"));
+  assert.ok(module.tags.includes("exposure"));
+  assert.equal(module.meta.implementation.repo_id, "shift-ops-control-plane");
+  assert.deepEqual(module.meta.runtime_contract.resources, [
+    "release readiness snapshot store",
+    "change receipt ledger"
+  ]);
+  assert.deepEqual(module.meta.implementation.evidence.map((entry) => entry.id), [
+    "resource-scope-contract-test",
+    "resource-cleanup-fixture"
+  ]);
+  assert.deepEqual(module.meta.implementation.acceptance_criteria.map((entry) => entry.id), [
+    "resource-scope-contract",
+    "resource-cleanup-contract"
+  ]);
+  assert.ok(module.sections.some((entry) => entry.sid === "resource-identity-scope"));
+  assert.ok(module.sections.some((entry) => entry.sid === "resource-risk-exposure"));
+  assert.ok(module.sections.some((entry) => entry.sid === "resource-cleanup-evidence"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "resource-scope-table"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "resource-risk-exposure-table"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "resource-cleanup-evidence-table"));
+
+  const compiled = JSON.parse(fs.readFileSync(RESOURCE_MODULE_PATH, "utf8"));
+  assert.equal(compiled.meta.implementation.evidence.length, 2);
+  assert.equal(compiled.meta.implementation.acceptance_criteria.length, 2);
+  assert.ok(compiled.artifacts.some((entry) => entry.artifact_id === "resource-scope-table"));
+
+  const manifest = JSON.parse(fs.readFileSync(COMPILED_MANIFEST_PATH, "utf8"));
+  const manifestModule = manifest.modules.find((entry) => entry.id === "shift-ops-resource-surface");
+  assert.ok(manifestModule);
+  assert.equal(manifestModule.implementation.evidence_summary.total, 2);
+  assert.equal(manifestModule.implementation.acceptance_summary.total, 2);
+
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const fixture = fixtureManifest.fixtures.find((entry) => entry.id === "positive-resource-surface-pack");
+  assert.ok(fixture);
+  assert.equal(fixture.kind, "positive");
+  assert.equal(fixture.input.path, "../authoring.json");
+  assert.ok(fixture.golden_exports.some((entry) => entry.id === "resource-surface-module"));
 });

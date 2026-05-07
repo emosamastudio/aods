@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-01
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-01 |
+| 开始时间 | 2026-05-08 00:14 Asia/Shanghai |
+| 结束时间 | 2026-05-08 00:14 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-058 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-01
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`docs/operations/`、`docs/README.md` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、resource runtime、scheduler、cleanup executor、permission broker、remote gateway、policy engine、glossary schema、external citation metadata |
+| 外部依赖 | 无公开写操作；本轮基于 U-057 已裁剪的 resource boundary |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；compiled-pilot 只由 `npm run compile:pilot` 生成 |
+
+## 任务执行记录：R-2026-05-08-01
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-058 | 未开始 | 已完成 | 落地 resource surface canonical example pack：新增 source-first resource module、resource scope / risk / exposure / cleanup mapping tables、implementation evidence、acceptance criteria、fixture manifest entry、compiled output 和 focused regression | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/modules/shift-ops-resource-surface.json`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs |
+
+## 验证记录：R-2026-05-08-01
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-058 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`npm run validate:all`、`git diff --check` | 通过 | U-057 提交后工作区仅 untracked `MEMORY.md`；repo validation 和 diff whitespace 均通过后继续推进 |
+| U-058 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 先失败 | 新增 resource pack test 后缺少 `shift-ops-resource-surface` source module，失败点为 `assert.ok(module)` |
+| U-058 | Compile source-first example | `npm run compile:pilot` | 通过 | compiled-pilot modules 从 10 增至 11，新增 `modules/shift-ops-resource-surface.json` |
+| U-058 | Focused regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 6/6 pass；source-first、compiled module、manifest summary、fixture metadata 均覆盖 |
+| U-058 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 均通过，warnings=0；compiled-pilot modules=11 |
+| U-058 | Benchmark regression | `npm run benchmark:test` | 通过 | 67/67 pass；generated result 噪音已恢复 |
+| U-058 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-01
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-058 / `#57` | U-059 | 裁剪 glossary / canonical-term registry v2 boundary 与最小实现路线 | P1 | 审查当前 root `manifest.glossary`、authoring compile mirror、schema/validator touch points 和 `#57` 需求，明确 aliases、deprecated terms、scope、owner、linked surfaces 的最小边界；只做设计裁剪和后续任务，不直接实现 schema、validator、migration tool 或 term resolver runtime | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-08-01
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-058 |
+| 完成任务 | 1 | resource surface canonical example pack 完成 |
+| 失败任务 | 0 | U-057 复核通过；RED regression 为预期 TDD 红灯 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-059 |
+| 剩余未完成任务 | 1 | U-059 glossary / canonical-term registry v2 boundary triage |
+
 ## 回合摘要：R-2026-05-07-37
 
 | 项 | 内容 |

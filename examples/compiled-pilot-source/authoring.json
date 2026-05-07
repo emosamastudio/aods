@@ -25,6 +25,7 @@
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
           "shift-ops-artifact-export-policy",
+          "shift-ops-resource-surface",
           "shift-ops-governance"
         ]
       },
@@ -49,6 +50,7 @@
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
           "shift-ops-artifact-export-policy",
+          "shift-ops-resource-surface",
           "shift-ops-governance"
         ]
       }
@@ -91,7 +93,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, the adapter module for capability exposure, the artifact export module for policy-gated golden exports, and the surface inventory when current corpus surfaces must be checked.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, the adapter module for capability exposure, the artifact export module for policy-gated golden exports, the resource module for declared resource scope, and the surface inventory when current corpus surfaces must be checked.",
       "tags": [
         "root",
         "routing",
@@ -133,7 +135,7 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Route artifact export and policy-gate questions to shift-ops-artifact-export-policy:artifact-export-surface. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Route artifact export and policy-gate questions to shift-ops-artifact-export-policy:artifact-export-surface. Route resource scope, risk, exposure, and cleanup posture questions to shift-ops-resource-surface:resource-identity-scope. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
             "shift-ops-capsule:system-capsule",
@@ -141,7 +143,8 @@
             "shift-ops-change-command:change-command",
             "shift-ops-change-event-log:change-event-correction-supersession",
             "shift-ops-adapter-capability:adapter-provider-capability",
-            "shift-ops-artifact-export-policy:artifact-export-surface"
+            "shift-ops-artifact-export-policy:artifact-export-surface",
+            "shift-ops-resource-surface:resource-identity-scope"
           ],
           "artifact_refs": [
             "route-table",
@@ -197,6 +200,10 @@
                 "shift-ops-artifact-export-policy:artifact-export-surface"
               ],
               [
+                "resource surface scope",
+                "shift-ops-resource-surface:resource-identity-scope"
+              ],
+              [
                 "incident response",
                 "shift-ops-runbook:incident-response"
               ]
@@ -249,7 +256,7 @@
       "layer": "capsule",
       "priority": "critical",
       "scope": "Summary routing for shift operations detail modules.",
-      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, adapter, artifact export, governance, or runbook detail.",
+      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, adapter, artifact export, resource, governance, or runbook detail.",
       "tags": [
         "capsule",
         "routing",
@@ -271,6 +278,7 @@
             "shift-ops-change-event-log:change-event-correction-supersession",
             "shift-ops-adapter-capability:adapter-provider-capability",
             "shift-ops-artifact-export-policy:artifact-export-surface",
+            "shift-ops-resource-surface:resource-identity-scope",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -290,6 +298,7 @@
             "event module",
             "adapter module",
             "artifact export module",
+            "resource module",
             "governance module",
             "runbook module"
           ],
@@ -312,6 +321,7 @@
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
           "shift-ops-artifact-export-policy",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -324,7 +334,7 @@
         {
           "sid": "system-capsule",
           "topic": "capsule summary and next routes",
-          "content": "Routes: policy, readiness, command, event, adapter, artifact export, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content": "Routes: policy, readiness, command, event, adapter, artifact export, resource, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
           "content_type": "rules",
           "refs": [
             "shift-ops-policy:approval-policy",
@@ -333,6 +343,7 @@
             "shift-ops-change-event-log:change-event-correction-supersession",
             "shift-ops-adapter-capability:adapter-provider-capability",
             "shift-ops-artifact-export-policy:artifact-export-surface",
+            "shift-ops-resource-surface:resource-identity-scope",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -1877,6 +1888,303 @@
       ]
     },
     {
+      "id": "shift-ops-resource-surface",
+      "category": "reference",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical resource surface example for declared resource identity, scope, risk, exposure, lifecycle cleanup, evidence, and acceptance criteria without implementing a resource runtime.",
+      "context": "Resource surface example pack for declared resources. Use when authors need resource identity, scope, owner, read/write risk, exposure class, lifecycle cleanup posture, implementation evidence, and acceptance criteria without scheduler, cleanup executor, permission broker, or resource runtime semantics.",
+      "tags": [
+        "resource",
+        "surface",
+        "exposure",
+        "cleanup",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "pre-commit"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "resource-surface-contract-v1",
+            "resource-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "resource-surface-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "resource-surface-validator"
+          ],
+          "resources": [
+            "release readiness snapshot store",
+            "change receipt ledger"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "resource-scope-status",
+            "resource-cleanup-status"
+          ],
+          "checkpoints": [
+            "resource-identity-declared",
+            "risk-exposure-recorded",
+            "cleanup-posture-linked"
+          ],
+          "outputs": [
+            "resource surface record",
+            "cleanup evidence note"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/resources/src/resource-surface.ts",
+            "services/resources/tests/resource-surface.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-333"
+          ],
+          "authority_surface": "shift-ops-resource-surface:resource-identity-scope",
+          "evidence": [
+            {
+              "id": "resource-scope-contract-test",
+              "kind": "test",
+              "locator": "services/resources/tests/resource-surface.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-resource-surface:resource-identity-scope"
+            },
+            {
+              "id": "resource-cleanup-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/resources/cleanup-posture.json",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-resource-surface:resource-cleanup-evidence"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "resource-scope-contract",
+              "surface_ref": "shift-ops-resource-surface:resource-identity-scope",
+              "requirement": "Resource surface declares resource_id, resource_kind, resource_scope, owner, authority_surface, and consumer_guidance.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "resource-scope-contract-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-resource-surface:resource-identity-scope"
+            },
+            {
+              "id": "resource-cleanup-contract",
+              "surface_ref": "shift-ops-resource-surface:resource-cleanup-evidence",
+              "requirement": "Resource cleanup posture declares cleanup_posture, evidence_anchor, lifecycle signal, and non-goal boundary without executor semantics.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "resource-cleanup-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-resource-surface:resource-cleanup-evidence"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "resource-identity-scope",
+          "topic": "resource identity and scope",
+          "content": "Resource surface declares resource_id, resource_kind, resource_scope, owner, authority_surface, and consumer_guidance. Resource scope is a declared contract surface; it does not create a resource runtime or permission broker.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "resource-scope-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "resource-risk-exposure",
+          "topic": "resource risk and exposure posture",
+          "content": "Resource risk posture declares read_risk, write_risk, exposure_class, credential_boundary, and approval_boundary. Risk labels guide consumers; they do not enforce runtime policy or perform dynamic scanning.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-adapter-capability:adapter-exposure-audit"
+          ],
+          "artifact_refs": [
+            "resource-risk-exposure-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "resource-cleanup-evidence",
+          "topic": "resource cleanup and evidence linkage",
+          "content": "Resource cleanup posture declares cleanup_posture, lifecycle_signal, evidence_anchor, acceptance_criterion, and non_goal. Cleanup evidence is reviewable metadata only; this example does not schedule cleanup or execute remediation.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "resource-cleanup-evidence-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "resource-scope-table",
+          "type": "mapping-table",
+          "usage": "Canonical fields for declared resource surface identity and scope.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "resource_id",
+                "stable identity of the declared resource surface",
+                "yes"
+              ],
+              [
+                "resource_kind",
+                "resource family such as store, ledger, queue, file, or endpoint",
+                "yes"
+              ],
+              [
+                "resource_scope",
+                "bounded read or write surface covered by this contract",
+                "yes"
+              ],
+              [
+                "owner",
+                "role accountable for resource posture",
+                "yes"
+              ],
+              [
+                "authority_surface",
+                "section or artifact that owns the resource declaration",
+                "yes"
+              ],
+              [
+                "consumer_guidance",
+                "how agents may consume or avoid the resource",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "resource-risk-exposure-table",
+          "type": "mapping-table",
+          "usage": "Risk and exposure posture fields for declared resources.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "read_risk",
+                "risk class for observing resource contents or state",
+                "does not scan data"
+              ],
+              [
+                "write_risk",
+                "risk class for mutating resource contents or state",
+                "does not authorize writes"
+              ],
+              [
+                "exposure_class",
+                "local-only, local-export, remote-read, remote-write, or adapter-facing posture",
+                "does not create network gateway"
+              ],
+              [
+                "credential_boundary",
+                "credential family or secret boundary needed by consumers",
+                "does not store credentials"
+              ],
+              [
+                "approval_boundary",
+                "human or policy gate expected before risky use",
+                "does not implement approval workflow"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "resource-cleanup-evidence-table",
+          "type": "mapping-table",
+          "usage": "Cleanup posture and evidence anchors for declared resource surfaces.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "cleanup_posture",
+                "none, manual, scheduled, lifecycle-bound, or external-owner declaration",
+                "does not execute cleanup"
+              ],
+              [
+                "lifecycle_signal",
+                "state or event that makes cleanup relevant",
+                "does not create scheduler"
+              ],
+              [
+                "evidence_anchor",
+                "test, fixture, file contract, or manual review proving declared posture",
+                "does not execute evidence command"
+              ],
+              [
+                "acceptance_criterion",
+                "contract-to-evidence criterion that makes the declaration consumable",
+                "does not waive strict validation"
+              ],
+              [
+                "failure_action",
+                "block, downgrade, or manual review when evidence is stale",
+                "does not remediate automatically"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "shift-ops-runbook",
       "category": "workflow",
       "layer": "detail",
@@ -2293,6 +2601,7 @@
           "shift-ops-change-command",
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -2309,6 +2618,7 @@
           "shift-ops-change-command",
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -2377,6 +2687,20 @@
         "reason": "Adapter edits require provider capability, consumer requirement, exposure posture, audit notes, and implementation-linkage evidence."
       },
       {
+        "match": "modules/shift-ops-resource-surface.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
+          "shift-ops-governance"
+        ],
+        "reason": "Resource edits require routing, resource scope, risk/exposure posture, cleanup evidence, and implementation-linkage evidence."
+      },
+      {
         "match": "modules/shift-ops-runbook.json",
         "intent": "write",
         "load": [
@@ -2397,6 +2721,7 @@
           "shift-ops-change-command",
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -2416,6 +2741,7 @@
         "shift-ops-change-command",
         "shift-ops-change-event-log",
         "shift-ops-adapter-capability",
+        "shift-ops-resource-surface",
         "shift-ops-governance",
         "shift-ops-runbook"
       ],

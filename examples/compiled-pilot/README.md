@@ -8,7 +8,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - Pair ID: `pair-shift-ops-readme`
 - Sync source: `agent-primary`
 - Agent primary: `shift-ops-capsule`
-- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-change-command`, `shift-ops-change-event-log`, `shift-ops-adapter-capability`, `shift-ops-governance`, `shift-ops-runbook`
+- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-change-command`, `shift-ops-change-event-log`, `shift-ops-adapter-capability`, `shift-ops-resource-surface`, `shift-ops-governance`, `shift-ops-runbook`
 
 ## Canonical facts
 
@@ -24,6 +24,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - `shift-ops-change-command` (workflow): Canonical command + receipt example for operational change requests without implementing a command executor.
 - `shift-ops-change-event-log` (reference): Canonical event + correction/supersession example for operational change history without implementing an event store.
 - `shift-ops-adapter-capability` (protocol): Canonical adapter + capability/exposure example for shift operations integration surfaces without implementing negotiation runtime.
+- `shift-ops-resource-surface` (reference): Canonical resource surface example for declared resource identity, scope, risk, exposure, lifecycle cleanup, evidence, and acceptance criteria without implementing a resource runtime.
 - `shift-ops-governance` (policy): Implementation governance authority for release readiness, acceptance evidence, and review routing for shift operations changes.
 - `shift-ops-runbook` (workflow): Authoritative incident runbook for sev1 response and immediate stabilization.
 
@@ -35,7 +36,7 @@ Summary routing for shift operations detail modules.
 
 #### capsule summary and next routes
 
-Routes: policy, readiness, command, event, adapter, artifact export, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
+Routes: policy, readiness, command, event, adapter, artifact export, resource, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
 
 ### shift-ops-root
 
@@ -43,7 +44,7 @@ Root routing for the shift operations pilot. Use at cold start before loading ca
 
 #### root routing overview
 
-Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Route artifact export and policy-gate questions to shift-ops-artifact-export-policy:artifact-export-surface. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
+Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Route artifact export and policy-gate questions to shift-ops-artifact-export-policy:artifact-export-surface. Route resource scope, risk, exposure, and cleanup posture questions to shift-ops-resource-surface:resource-identity-scope. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
 
 Artifacts:
 - `route-table` (mapping-table): First-hop routing from cold start.
@@ -129,6 +130,27 @@ Artifacts:
 - `adapter-capability-table` (mapping-table): Canonical provider capability fields for adapter-facing surfaces.
 - `adapter-consumer-requirement-table` (mapping-table): Canonical consumer requirement fields for metadata-only capability comparison.
 - `adapter-exposure-audit-table` (mapping-table): Exposure and audit posture for adapter-facing capability claims.
+
+### shift-ops-resource-surface
+
+Canonical resource surface example for declared resource identity, scope, risk, exposure, lifecycle cleanup, evidence, and acceptance criteria without implementing a resource runtime.
+
+#### resource identity and scope
+
+Resource surface declares resource_id, resource_kind, resource_scope, owner, authority_surface, and consumer_guidance. Resource scope is a declared contract surface; it does not create a resource runtime or permission broker.
+
+#### resource risk and exposure posture
+
+Resource risk posture declares read_risk, write_risk, exposure_class, credential_boundary, and approval_boundary. Risk labels guide consumers; they do not enforce runtime policy or perform dynamic scanning.
+
+#### resource cleanup and evidence linkage
+
+Resource cleanup posture declares cleanup_posture, lifecycle_signal, evidence_anchor, acceptance_criterion, and non_goal. Cleanup evidence is reviewable metadata only; this example does not schedule cleanup or execute remediation.
+
+Artifacts:
+- `resource-scope-table` (mapping-table): Canonical fields for declared resource surface identity and scope.
+- `resource-risk-exposure-table` (mapping-table): Risk and exposure posture fields for declared resources.
+- `resource-cleanup-evidence-table` (mapping-table): Cleanup posture and evidence anchors for declared resource surfaces.
 
 ### shift-ops-governance
 

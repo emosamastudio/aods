@@ -130,6 +130,26 @@
           "review_gate": "manual-diff"
         }
       ]
+    },
+    {
+      "id": "positive-resource-surface-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "resource-surface-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-resource-surface.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
     }
   ]
 }

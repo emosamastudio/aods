@@ -27,7 +27,7 @@
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |
 | `docs/operations/aods-v0.10-backlog.zh-CN.md` | v0.10 risk/exposure/audit hardening 候选路线和 U-041 triage 记录。 |
 | `docs/operations/aods-v0.11-backlog.zh-CN.md` | v0.11 documentation / authoring quality 候选路线和 U-047 triage 记录。 |
-| `docs/operations/aods-surface-family-example-plan.zh-CN.md` | `#56` surface-family example pack 分批路线、U-051 read-model、U-052 command/receipt、U-053 event/correction、U-054 adapter/capability、U-055 artifact/export/policy-gate 包结果、U-056 resource residual gap 复盘和 U-057 resource boundary triage。 |
+| `docs/operations/aods-surface-family-example-plan.zh-CN.md` | `#56` surface-family example pack 分批路线、U-051 read-model、U-052 command/receipt、U-053 event/correction、U-054 adapter/capability、U-055 artifact/export/policy-gate、U-058 resource 包结果和本地收束结论。 |
 
 ## 当前维护边界
 
