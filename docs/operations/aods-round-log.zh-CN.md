@@ -39,6 +39,8 @@
 | U-027 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
 | U-027 | Benchmark test gate | `npm run benchmark:test` | 通过 | 40 tests passing |
 | U-027 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+| U-027 | Branch push | `source ~/.zshrc && proxy_on && git push -u origin codex/aods-implementation-evidence` | 通过 | Branch pushed；`MEMORY.md` 未跟踪且未进入远端 |
+| U-027 | Draft PR | `source ~/.zshrc && proxy_on && gh pr create --draft ...` | 通过 | PR `#62` created: `https://github.com/emosamastudio/aods/pull/62` |
 
 ## 新发现任务：R-2026-05-07-07
 
@@ -53,7 +55,7 @@
 | 项 | 数量 | 说明 |
 |---|---:|---|
 | 选中任务 | 1 | U-027 |
-| 完成任务 | 1 | implementation evidence 最小切片完成 |
+| 完成任务 | 1 | implementation evidence 最小切片完成并创建 draft PR `#62` |
 | 失败任务 | 0 | 无 |
 | 阻塞任务 | 0 | 无 |
 | 新增任务 | 0 | 无 |
