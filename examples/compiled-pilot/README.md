@@ -8,7 +8,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - Pair ID: `pair-shift-ops-readme`
 - Sync source: `agent-primary`
 - Agent primary: `shift-ops-capsule`
-- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-change-command`, `shift-ops-governance`, `shift-ops-runbook`
+- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-change-command`, `shift-ops-change-event-log`, `shift-ops-governance`, `shift-ops-runbook`
 
 ## Canonical facts
 
@@ -22,6 +22,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - `shift-ops-policy` (policy): Authoritative approval policy for operational changes and production release windows.
 - `shift-ops-readiness-read-model` (reference): Canonical read-model example for release readiness status, freshness, watermark, implementation evidence, and acceptance criteria.
 - `shift-ops-change-command` (workflow): Canonical command + receipt example for operational change requests without implementing a command executor.
+- `shift-ops-change-event-log` (reference): Canonical event + correction/supersession example for operational change history without implementing an event store.
 - `shift-ops-governance` (policy): Implementation governance authority for release readiness, acceptance evidence, and review routing for shift operations changes.
 - `shift-ops-runbook` (workflow): Authoritative incident runbook for sev1 response and immediate stabilization.
 
@@ -33,7 +34,7 @@ Summary routing for shift operations detail modules.
 
 #### capsule summary and next routes
 
-Routes: policy, readiness, command, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
+Routes: policy, readiness, command, event, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
 
 ### shift-ops-root
 
@@ -41,7 +42,7 @@ Root routing for the shift operations pilot. Use at cold start before loading ca
 
 #### root routing overview
 
-Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
+Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
 
 Artifacts:
 - `route-table` (mapping-table): First-hop routing from cold start.
@@ -85,6 +86,27 @@ Artifacts:
 - `change-command-field-table` (mapping-table): Canonical field guide for the change command envelope.
 - `change-command-receipt-table` (mapping-table): Canonical field guide for the change command receipt.
 - `change-command-audit-risk-table` (mapping-table): Audit and risk posture for write-capable command surfaces.
+
+### shift-ops-change-event-log
+
+Canonical event + correction/supersession example for operational change history without implementing an event store.
+
+#### append-only change event
+
+Change event record is append-only. Required fields are event_id, event_type, receipt_ref, emitted_at, schema_version, ordering_key, payload_hash, and actor_ref. The original event is preserved even when later records correct, supersede, or retract its meaning.
+
+#### event correction and supersession
+
+Correction event names correction_of, correction_actor, correction_source, correction_reason, corrected_fields, supersedes, superseded_by, replacement_event, effective_at, and retraction_reason when applicable. Correction does not mutate the original event. Supersession links identify which event currently carries preferred truth.
+
+#### projection guidance for corrected events
+
+Projection guidance states whether read models, timelines, exports, and audit views should preserve, mark, hide, or replace corrected records. Guidance values are historical, advisory, blocking, or replacement. Consumers must not infer domain truth from correction metadata alone.
+
+Artifacts:
+- `change-event-field-table` (mapping-table): Canonical field guide for append-only change events.
+- `change-event-correction-table` (mapping-table): Correction and supersession fields for append-only event surfaces.
+- `change-event-projection-guidance-table` (mapping-table): Consumer guidance for corrected event projection.
 
 ### shift-ops-governance
 

@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；U-041 v0.10 backlog triage 已完成；U-042 standard risk taxonomy boundary 已落地；U-043 local-only versus remote-capable constraints 已落地；U-044 audit-log requirements for commands and adapters 已落地；U-045 lifecycle state-machine profile for operational objects 已落地；U-046 observability metadata for validation and routing decisions 已落地；U-047 documentation / authoring quality backlog triage 已完成；U-048 human-surface synchronization quality metrics boundary 已落地；U-049 agent-primary density examples and authoring guidance 已落地；U-050 canonical surface-family example pack triage 已完成；U-051 read-model + implementation-linkage canonical example pack 已落地；U-052 command + receipt canonical example pack 已落地；下一轮首选 U-053 event + correction/supersession canonical example pack；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；U-041 v0.10 backlog triage 已完成；U-042 standard risk taxonomy boundary 已落地；U-043 local-only versus remote-capable constraints 已落地；U-044 audit-log requirements for commands and adapters 已落地；U-045 lifecycle state-machine profile for operational objects 已落地；U-046 observability metadata for validation and routing decisions 已落地；U-047 documentation / authoring quality backlog triage 已完成；U-048 human-surface synchronization quality metrics boundary 已落地；U-049 agent-primary density examples and authoring guidance 已落地；U-050 canonical surface-family example pack triage 已完成；U-051 read-model + implementation-linkage canonical example pack 已落地；U-052 command + receipt canonical example pack 已落地；U-053 event + correction/supersession canonical example pack 已落地；下一轮首选 U-054 adapter + capability/exposure canonical example pack；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -98,12 +98,13 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-050 | Canonical surface-family example pack triage | `#56` 已拆为 read-model、command/receipt、event/correction、adapter/capability、artifact/export/policy-gate 五批 |
 | U-051 | 落地 read-model + implementation-linkage canonical example pack 最小切片 | compiled-pilot source-first example 已包含 read-model freshness、watermark、implementation evidence、acceptance criteria、fixture manifest 和 focused regression |
 | U-052 | 落地 command + receipt canonical example pack 最小切片 | compiled-pilot source-first example 已包含 command contract、receipt output、audit/risk posture、implementation evidence、acceptance criteria、fixture manifest 和 focused regression；command executor/event bus 继续 deferred |
+| U-053 | 落地 event + correction/supersession canonical example pack 最小切片 | compiled-pilot source-first example 已包含 append-only event shape、correction/supersession/retraction/projection guidance、implementation evidence、acceptance criteria、fixture manifest 和 focused regression；event store/replay/migration 继续 deferred |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-053 | 落地 event + correction/supersession canonical example pack 最小切片 | 下一轮首选；对应 `#56` 第三包；不实现 event store、replay、migration 或 event bus runtime |
+| 1 | U-054 | 落地 adapter + capability/exposure canonical example pack 最小切片 | 下一轮首选；对应 `#56` 第四包；不实现 negotiation handshake、auth runtime、dynamic probing 或 remote gateway |
 
 ## 失败和风险
 
@@ -138,10 +139,11 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | surface-family example pack 扩散风险 | canonical example packs 容易扩成全量示例库、fixture rewrite 或覆盖所有 surface families | U-050 已完成 triage；U-051 只做 read-model + implementation-linkage 首包 |
 | read-model example pack 扩散风险 | 首包容易扩成 command/event/adapter 示例、evidence command execution 或全量 domain model | U-051 已只改 source-first compiled-pilot example、fixture manifest、compiled output 和 focused regression |
 | command example pack 扩散风险 | command + receipt 示例容易扩成 command executor、event bus、approval workflow runtime 或 correction semantics | U-052 已只表达 command/receipt metadata、audit/risk posture、implementation evidence 和 acceptance criteria |
-| event example pack 扩散风险 | event + correction/supersession 示例容易扩成 event store、replay、migration、event bus runtime 或 exactly-once delivery | U-053 应只表达 append-only event shape、correction/supersession/retraction/projection guidance、implementation evidence 和 acceptance criteria |
+| event example pack 扩散风险 | event + correction/supersession 示例容易扩成 event store、replay、migration、event bus runtime 或 exactly-once delivery | U-053 已只表达 append-only event shape、correction/supersession/retraction/projection guidance、implementation evidence 和 acceptance criteria |
+| adapter example pack 扩散风险 | adapter + capability/exposure 示例容易扩成 negotiation handshake、auth runtime、dynamic probing、remote gateway 或 provider selection runtime | U-054 应只表达 provider capability、consumer requirement、exposure posture、audit notes、implementation evidence 和 acceptance criteria |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-053 | 落地 event + correction/supersession canonical example pack 最小切片 | 在 compiled-pilot source-first example 中加入 event + correction/supersession 首包，覆盖 event shape、correction_of、supersedes、retraction/projection guidance、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 event store、replay、migration 或 event bus runtime |
+| 1 | U-054 | 落地 adapter + capability/exposure canonical example pack 最小切片 | 在 compiled-pilot source-first example 中加入 adapter + capability/exposure 首包，覆盖 provider capability、consumer requirement、local/remote exposure、audit notes、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 negotiation handshake、auth runtime、dynamic probing 或 remote gateway |

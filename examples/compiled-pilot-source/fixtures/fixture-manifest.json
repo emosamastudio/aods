@@ -70,6 +70,26 @@
           "review_gate": "manual-diff"
         }
       ]
+    },
+    {
+      "id": "positive-event-correction-supersession-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "event-correction-supersession-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-change-event-log.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
     }
   ]
 }

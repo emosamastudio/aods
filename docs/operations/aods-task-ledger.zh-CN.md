@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S10 event correction example pack |
-| 当前回合 | R-2026-05-07-32 |
+| 当前阶段 | S10 adapter capability example pack |
+| 当前回合 | R-2026-05-07-33 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 57 |
+| 已完成任务数量 | 58 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-32 |
-| 开始时间 | 2026-05-07 21:02 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-33 |
+| 开始时间 | 2026-05-07 21:26 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-052 |
-| 本轮范围 | command + receipt canonical example pack：更新 compiled-pilot source-first example、fixture manifest、compiled output、focused regression 和 operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、event/adapter 示例、command executor、event bus、approval workflow runtime、correction/supersession semantics |
+| 选中任务 | U-053 |
+| 本轮范围 | event + correction/supersession canonical example pack：更新 compiled-pilot source-first example、fixture manifest、compiled output、focused regression 和 operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、adapter 示例、event store、replay、migration、event bus runtime、exactly-once delivery guarantee |
 | 验证计划 | focused example-pack regression；`npm run compile:pilot`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,7 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-053 | S10 | 落地 event + correction/supersession canonical example pack 最小切片 | P2 | 未开始 | 在 compiled-pilot source-first example 中加入 append-only event 首包，覆盖 event shape、correction_of、supersedes、retraction/projection guidance、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 event store、replay、migration 或 event bus runtime | U-052 | 对应 `#56` 第三包；下一轮首选 |
+| U-054 | S10 | 落地 adapter + capability/exposure canonical example pack 最小切片 | P2 | 未开始 | 在 compiled-pilot source-first example 中加入 adapter-facing 首包，覆盖 provider capability、consumer requirement、local/remote exposure、audit notes、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 negotiation handshake、auth runtime、dynamic probing 或 remote gateway | U-053 | 对应 `#56` 第四包；下一轮首选 |
 
 ## 已完成任务
 
@@ -95,6 +95,7 @@
 | 55 | U-050 | S10 | Canonical surface-family example pack triage | P2 | 2026-05-07 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、operations README、docs README、task ledger、handoff、round log、v0.11 backlog | `gh issue view 56 --json ...`、`git diff --check`、`npm run validate:all` | 已把 `#56` 裁剪为 read-model + implementation-linkage、command/receipt、event/correction、adapter/capability、artifact/export/policy-gate 五批；下一轮首选 U-051 |
 | 56 | U-051 | S10 | 落地 read-model + implementation-linkage canonical example pack 最小切片 | P2 | 2026-05-07 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot 现在包含 read-model + implementation-linkage canonical example pack；不覆盖 command/event/adapter，不执行 evidence command |
 | 57 | U-052 | S10 | 落地 command + receipt canonical example pack 最小切片 | P2 | 2026-05-07 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot 现在包含 command + receipt canonical example pack；覆盖 command contract、receipt output、audit/risk posture、implementation evidence 和 acceptance criteria；不实现 command executor、不建 event bus |
+| 58 | U-053 | S10 | 落地 event + correction/supersession canonical example pack 最小切片 | P2 | 2026-05-07 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot 现在包含 event + correction/supersession canonical example pack；覆盖 append-only event shape、correction/supersession/retraction/projection guidance、implementation evidence 和 acceptance criteria；不实现 event store、replay、migration 或 event bus runtime |
 
 ## 失败或阻塞任务
 
@@ -153,3 +154,4 @@
 | 2026-05-07 | 100% | 100% | 99% | `U-046` 完成 | validation/routing observability metadata 已落地；AODS 现在能为 validate/route 决策表达 rule、severity、source、dependency、selection、skip 和 next-action explanation vocabulary，CLI 输出重写和 observability runtime 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-047` 完成 | documentation / authoring quality backlog triage 已完成；下一路线收敛为 paired-surface sync quality metrics，避免直接扩散到全量示例库、glossary schema v2 或 external citation registry。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-052` 完成 | command + receipt canonical example pack 已落地；AODS compiled-pilot 现在能展示 write-capable stable command 的 receipt、audit/risk posture、implementation evidence 和 acceptance criteria，executor/event bus 继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 99% | `U-053` 完成 | event + correction/supersession canonical example pack 已落地；AODS compiled-pilot 现在能展示 append-only event 的 correction_of、supersedes、retraction/projection guidance、implementation evidence 和 acceptance criteria，event store/replay/migration 继续 deferred。 |

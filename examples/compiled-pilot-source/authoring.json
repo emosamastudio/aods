@@ -22,6 +22,7 @@
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
+          "shift-ops-change-event-log",
           "shift-ops-governance"
         ]
       },
@@ -43,6 +44,7 @@
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
+          "shift-ops-change-event-log",
           "shift-ops-governance"
         ]
       }
@@ -85,7 +87,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, and the surface inventory when current corpus surfaces must be checked.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, and the surface inventory when current corpus surfaces must be checked.",
       "tags": [
         "root",
         "routing",
@@ -127,12 +129,13 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
             "shift-ops-capsule:system-capsule",
             "shift-ops-governance:implementation-governance",
-            "shift-ops-change-command:change-command"
+            "shift-ops-change-command:change-command",
+            "shift-ops-change-event-log:change-event-correction-supersession"
           ],
           "artifact_refs": [
             "route-table",
@@ -174,6 +177,10 @@
               [
                 "change command and receipt",
                 "shift-ops-change-command:change-command"
+              ],
+              [
+                "change event correction and supersession",
+                "shift-ops-change-event-log:change-event-correction-supersession"
               ],
               [
                 "incident response",
@@ -228,7 +235,7 @@
       "layer": "capsule",
       "priority": "critical",
       "scope": "Summary routing for shift operations detail modules.",
-      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, governance, or runbook detail.",
+      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, governance, or runbook detail.",
       "tags": [
         "capsule",
         "routing",
@@ -247,6 +254,7 @@
           "sources": [
             "shift-ops-policy:approval-policy",
             "shift-ops-change-command:change-command",
+            "shift-ops-change-event-log:change-event-correction-supersession",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -263,6 +271,7 @@
             "policy module",
             "readiness read model",
             "command module",
+            "event module",
             "governance module",
             "runbook module"
           ],
@@ -275,13 +284,14 @@
       "capsule": {
         "read_when": [
           "Need summary routing after cold start",
-          "Need policy, readiness, command, governance, or incident detail"
+          "Need policy, readiness, command, event, governance, or incident detail"
         ],
         "core_question": "Which detail module should answer the current shift operations question?",
         "routes_to": [
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
+          "shift-ops-change-event-log",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -294,12 +304,13 @@
         {
           "sid": "system-capsule",
           "topic": "capsule summary and next routes",
-          "content": "Routes: policy, readiness, command, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content": "Routes: policy, readiness, command, event, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
           "content_type": "rules",
           "refs": [
             "shift-ops-policy:approval-policy",
             "shift-ops-readiness-read-model:release-readiness-read-model",
             "shift-ops-change-command:change-command",
+            "shift-ops-change-event-log:change-event-correction-supersession",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -970,6 +981,294 @@
       ]
     },
     {
+      "id": "shift-ops-change-event-log",
+      "category": "reference",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical event + correction/supersession example for operational change history without implementing an event store.",
+      "context": "Event + correction/supersession example pack for append-only stable surfaces. Use when authors need event shape, correction_of, supersedes, retraction posture, projection guidance, implementation evidence, and acceptance criteria without replay or event-bus semantics.",
+      "tags": [
+        "event",
+        "correction",
+        "supersession",
+        "projection",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-change-command",
+        "shift-ops-readiness-read-model",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "sensor",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "change-event-contract-v1",
+            "event-correction-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "release-manager-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "event-schema-validator"
+          ],
+          "resources": [
+            "change command receipt",
+            "change event record",
+            "release readiness record"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "event-schema-status",
+            "correction-link-status"
+          ],
+          "checkpoints": [
+            "event-shape-validated",
+            "correction-link-validated",
+            "projection-guidance-recorded"
+          ],
+          "outputs": [
+            "change-event-record",
+            "change-event-correction-record"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/change-events/src/schema.ts",
+            "services/change-events/tests/correction.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-257"
+          ],
+          "authority_surface": "shift-ops-change-event-log:change-event",
+          "evidence": [
+            {
+              "id": "change-event-append-test",
+              "kind": "test",
+              "locator": "services/change-events/tests/correction.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-change-event-log:change-event"
+            },
+            {
+              "id": "change-event-correction-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/change-events/correction-supersession.json",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-change-event-log:change-event-correction-supersession"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "change-event-append-contract",
+              "surface_ref": "shift-ops-change-event-log:change-event",
+              "requirement": "Change event record is append-only and includes event_id, event_type, receipt_ref, emitted_at, schema_version, ordering_key, and payload_hash.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-event-append-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-event-log:change-event"
+            },
+            {
+              "id": "change-event-correction-contract",
+              "surface_ref": "shift-ops-change-event-log:change-event-correction-supersession",
+              "requirement": "Correction record names correction_of, correction_actor, correction_reason, corrected_fields, supersedes, replacement_event, effective_at, and projection guidance without rewriting original events.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-event-correction-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-event-log:change-event-correction-supersession"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "change-event",
+          "topic": "append-only change event",
+          "content": "Change event record is append-only. Required fields are event_id, event_type, receipt_ref, emitted_at, schema_version, ordering_key, payload_hash, and actor_ref. The original event is preserved even when later records correct, supersede, or retract its meaning.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-change-command:change-command-receipt"
+          ],
+          "artifact_refs": [
+            "change-event-field-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "change-event-correction-supersession",
+          "topic": "event correction and supersession",
+          "content": "Correction event names correction_of, correction_actor, correction_source, correction_reason, corrected_fields, supersedes, superseded_by, replacement_event, effective_at, and retraction_reason when applicable. Correction does not mutate the original event. Supersession links identify which event currently carries preferred truth.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-change-event-log:change-event"
+          ],
+          "artifact_refs": [
+            "change-event-correction-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "change-event-projection-guidance",
+          "topic": "projection guidance for corrected events",
+          "content": "Projection guidance states whether read models, timelines, exports, and audit views should preserve, mark, hide, or replace corrected records. Guidance values are historical, advisory, blocking, or replacement. Consumers must not infer domain truth from correction metadata alone.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "change-event-projection-guidance-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "change-event-field-table",
+          "type": "mapping-table",
+          "usage": "Canonical field guide for append-only change events.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "event_id",
+                "stable event identifier",
+                "yes"
+              ],
+              [
+                "event_type",
+                "change.accepted|change.rejected|change.corrected|change.retracted",
+                "yes"
+              ],
+              [
+                "receipt_ref",
+                "receipt that caused or explains the event",
+                "yes"
+              ],
+              [
+                "ordering_key",
+                "key used for deterministic consumer ordering",
+                "yes"
+              ],
+              [
+                "payload_hash",
+                "hash of event payload for audit comparison",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-event-correction-table",
+          "type": "mapping-table",
+          "usage": "Correction and supersession fields for append-only event surfaces.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required_when"
+            ],
+            "rows": [
+              [
+                "correction_of",
+                "event_id being corrected",
+                "event_type == change.corrected"
+              ],
+              [
+                "corrected_fields",
+                "fields whose meaning is replaced or clarified",
+                "event_type == change.corrected"
+              ],
+              [
+                "supersedes",
+                "previous event replaced by this event",
+                "supersession exists"
+              ],
+              [
+                "replacement_event",
+                "event that should carry preferred truth",
+                "supersession or retraction exists"
+              ],
+              [
+                "retraction_reason",
+                "reason original event should be hidden, marked, or preserved",
+                "event_type == change.retracted"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-event-projection-guidance-table",
+          "type": "mapping-table",
+          "usage": "Consumer guidance for corrected event projection.",
+          "content": {
+            "key_columns": [
+              "projection_posture"
+            ],
+            "columns": [
+              "projection_posture",
+              "consumer_behavior",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "historical",
+                "preserve original and show correction link",
+                "does not choose current truth"
+              ],
+              [
+                "advisory",
+                "show corrected field warning to consumers",
+                "does not block export"
+              ],
+              [
+                "blocking",
+                "require manual review before consumer use",
+                "does not run automatic replay"
+              ],
+              [
+                "replacement",
+                "prefer replacement_event while retaining original event",
+                "does not rewrite history"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "shift-ops-runbook",
       "category": "workflow",
       "layer": "detail",
@@ -1384,6 +1683,7 @@
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
+          "shift-ops-change-event-log",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1398,6 +1698,7 @@
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
+          "shift-ops-change-event-log",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1440,6 +1741,19 @@
         "reason": "Command edits require policy authority, readiness preconditions, receipt posture, and implementation-linkage evidence."
       },
       {
+        "match": "modules/shift-ops-change-event-log.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-governance"
+        ],
+        "reason": "Event edits require command receipt linkage, correction and supersession posture, projection guidance, and implementation-linkage evidence."
+      },
+      {
         "match": "modules/shift-ops-runbook.json",
         "intent": "write",
         "load": [
@@ -1458,6 +1772,7 @@
           "shift-ops-capsule",
           "shift-ops-policy",
           "shift-ops-change-command",
+          "shift-ops-change-event-log",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1475,6 +1790,7 @@
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
           "shift-ops-change-command",
+          "shift-ops-change-event-log",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],

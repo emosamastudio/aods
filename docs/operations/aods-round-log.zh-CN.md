@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-33
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-33 |
+| 开始时间 | 2026-05-07 21:26 Asia/Shanghai |
+| 结束时间 | 2026-05-07 21:26 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-053 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-33
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、adapter 示例、event store、replay、migration、event bus runtime、exactly-once delivery guarantee |
+| 外部依赖 | 无公开写操作；本轮基于 U-050 已裁剪的 event + correction/supersession 第三包 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；compiled-pilot 只由 `npm run compile:pilot` 生成 |
+
+## 任务执行记录：R-2026-05-07-33
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-053 | 未开始 | 已完成 | 落地 event + correction/supersession canonical example pack：新增 source-first event module、append-only event shape、correction/supersession/retraction/projection guidance、implementation evidence、acceptance criteria、fixture manifest entry、compiled output 和 focused regression | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/modules/shift-ops-change-event-log.json`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs |
+
+## 验证记录：R-2026-05-07-33
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-053 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`git diff --check`、`npm run validate:all` | 通过 | U-052 提交后工作区仅 untracked `MEMORY.md`；focused + repo validation 通过后继续推进 |
+| U-053 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 先失败 | 缺少 `shift-ops-change-event-log` source module，证明测试覆盖本轮缺口 |
+| U-053 | Compile source-first example | `npm run compile:pilot` | 通过 | errors=0 warnings=0；compiled-pilot modules=8，并生成 `shift-ops-change-event-log.json` |
+| U-053 | Focused regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 3/3 pass；source-first、compiled module、compiled manifest summary、fixture metadata 均覆盖 |
+| U-053 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 均通过，warnings=0；compiled-pilot modules=8 |
+| U-053 | Benchmark regression | `npm run benchmark:test` | 通过 | 64/64 pass；生成型 result 噪音已恢复 |
+| U-053 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-33
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-053 / `#56` | U-054 | 落地 adapter + capability/exposure canonical example pack 最小切片 | P2 | 在 compiled-pilot source-first example 中加入 adapter-facing 首包，覆盖 provider capability、consumer requirement、local/remote exposure、audit notes、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 negotiation handshake、auth runtime、dynamic probing 或 remote gateway | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-33
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-053 |
+| 完成任务 | 1 | event + correction/supersession canonical example pack 完成 |
+| 失败任务 | 0 | U-052 复核通过；本轮 RED 测试按预期失败后实现，未发现需返工的问题 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-054 |
+| 剩余未完成任务 | 1 | U-054 adapter + capability/exposure canonical example pack |
+
 ## 回合摘要：R-2026-05-07-32
 
 | 项 | 内容 |
