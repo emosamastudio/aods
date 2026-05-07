@@ -1,13 +1,14 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 10,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, command receipt event triads, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
+  "v": 11,
+  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, command receipt event triads, event correction and supersession, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, adapter-facing capability minimums, and capability negotiation re-triage.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
     "Adapter capability posture should be explicit before remote integrations are described as stable",
-    "Write-capable surfaces need audit linkage before command semantics are exposed as stable"
+    "Write-capable surfaces need audit linkage before command semantics are exposed as stable",
+    "Append-only event surfaces need correction semantics before consumers treat event history as stable truth"
   ],
   "sections": [
     {
@@ -52,7 +53,24 @@
       ],
       "artifact_refs": [
         "command-receipt-event-field-table",
-        "command-receipt-event-non-goals"
+        "command-receipt-event-non-goals",
+        "event-correction-field-table"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "event-correction-supersession",
+      "topic": "append-only event correction boundary",
+      "content": "An append-only event surface must not silently rewrite historical truth. Stable event consumers need explicit correction and supersession semantics before event history, timelines, or projections are treated as authoritative. correction_event means a new event that names correction_of, correction_actor, correction_source, correction_reason, corrected_fields, and replacement event posture without mutating the original event. supersession_link means an event may declare supersedes, superseded_by, replacement_event, and effective_at so consumers can identify which record currently carries the preferred truth. retraction means a correction class that states retraction_reason, retracted_event, replacement_event when one exists, and whether consumers should hide, mark, or preserve the original event. projection guidance means the authority surface tells readers how corrected events should appear in read models, timelines, exports, and audit views; it distinguishes historical, advisory, blocking, and replacement posture. This boundary does not allow history rewrite, implement an event store runtime, run automatic replay, migrate historical data, or decide domain truth by itself. Human review still owns whether the correction reason is adequate and whether a projection can safely consume the corrected event.",
+      "content_type": "rules",
+      "refs": [
+        "command-receipt-event-triad",
+        "schema-versioning-compatibility",
+        "decision-provenance-boundary"
+      ],
+      "artifact_refs": [
+        "event-correction-field-table",
+        "event-correction-non-goals"
       ],
       "criticality": "should"
     },
@@ -132,12 +150,13 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, event correction and supersession semantics, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
         "contract-completeness-profiles",
         "command-receipt-event-triad",
+        "event-correction-supersession",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -365,6 +384,85 @@
             "exactly_once_delivery",
             "delivery guarantees depend on runtime transport, storage, and idempotency implementation",
             "future conformance or runtime task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "event-correction-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for append-only event correction and supersession boundaries.",
+      "content": {
+        "key_columns": [
+          "surface"
+        ],
+        "columns": [
+          "surface",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "correction_event",
+            "event_id, correction_of, correction_actor, correction_source, correction_reason, corrected_fields, replacement_event",
+            "new event records the correction without mutating original history",
+            "history rewrite"
+          ],
+          [
+            "supersession_link",
+            "supersedes, superseded_by, replacement_event, effective_at, supersession_reason",
+            "current preferred truth is traceable from prior event to replacement",
+            "automatic conflict resolution"
+          ],
+          [
+            "retraction",
+            "retracted_event, retraction_reason, replacement_event, consumer_visibility, audit_anchor",
+            "invalid or withdrawn event remains auditable",
+            "data deletion or erasure workflow"
+          ],
+          [
+            "projection_guidance",
+            "projection_posture, display_rule, audit_rule, read_model_rule, export_rule",
+            "consumers know whether to show historical, advisory, blocking, or replacement posture",
+            "automatic replay or read-model migration"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "event-correction-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for event correction and supersession semantics.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "history_rewrite",
+            "append-only semantics require preserving original events and adding correction records",
+            "not allowed for append-only stable event surfaces"
+          ],
+          [
+            "event_store_runtime",
+            "storage, ordering, retention, and delivery behavior depends on implementation infrastructure",
+            "future event runtime task"
+          ],
+          [
+            "automatic_replay",
+            "rebuilding read models requires runtime execution and migration policy beyond static metadata",
+            "future conformance or migration task"
+          ],
+          [
+            "domain_truth_decision",
+            "whether a correction reason is sufficient remains owned by domain authority and human review",
+            "future governance review task"
           ]
         ]
       }
@@ -696,6 +794,13 @@
             "source": "validation"
           },
           {
+            "id": "event-correction-boundary",
+            "condition": "stable append-only event surface claims auditability but lacks correction, supersession, retraction, or projection guidance semantics",
+            "action": "future L3 warning: append-only event surfaces should expose correction and supersession posture before stable consumption",
+            "priority": 38,
+            "source": "validation"
+          },
+          {
             "id": "schema-versioning-metadata-mirror",
             "condition": "manifest.modules[].schema_versioning exists XOR module.meta.schema_versioning exists",
             "action": "L2 error: schema versioning summary must be mirrored",
@@ -826,6 +931,11 @@
       "v": 10,
       "delta": "Added write-capable command receipt event triad boundaries for command audit linkage.",
       "breaking": false
+    },
+    {
+      "v": 11,
+      "delta": "Added append-only event correction and supersession boundaries for stable event surfaces.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -895,6 +1005,7 @@
           "redaction posture",
           "contract profile",
           "command receipt event triad",
+          "event correction and supersession",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -902,9 +1013,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v10",
+          "snapshot_id": "spec-stable-surface-contracts-v11",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=10",
+          "source_watermark": "module.v=11",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

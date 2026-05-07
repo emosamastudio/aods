@@ -8,7 +8,7 @@
 
 v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 oracle 开始。当前最高价值路线是继续收束 write-capable 和 event-facing stable surfaces 的最小审计语义，让 AODS 在进入更深的 runtime / conformance 前先能表达“写入请求、尝试记录、状态后果之间如何追踪”。
 
-本轮首选并已执行的最小切片是 **U-035 command / receipt / event triad boundary**。它覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。
+已执行的最小切片包括 **U-035 command / receipt / event triad boundary** 和 **U-036 event correction / supersession boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。
 
 ## 输入信号
 
@@ -26,7 +26,7 @@ v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 
 |---:|---|---|---|---|
 | 1 | Command / receipt / event triad boundary | `#33` | 给 write-capable stable surfaces 建立最小 audit linkage | 不执行 command；不建 event bus；不做 correction semantics |
 | 2 | Event correction / supersession boundary | `#39` | 让 append-only surfaces 能表达更正、撤回、替换和 projection guidance | 不做 event store；不改历史数据；不实现 replay runtime |
-| 3 | Partial implementation / known-gap metadata | `#47` | 让 planned / partial / waived gaps 可被 agent 和 release gate 读取 | 不做全量 roadmap system |
+| 3 | Partial implementation / known-gap metadata | `#47` | 让 planned / partial / waived gaps 可被 agent 和 release gate 读取 | 不做全量 roadmap system 或自动豁免机制 |
 | 4 | Ownership and authority hierarchy | `#50` | 处理 overlapping surfaces 的 canonical / derived / alias / conflict policy | 不做自动冲突解析器 |
 | 5 | Dependency ordering between surfaces | `#51` | 给 surface lifecycle 和 migration 顺序提供可读拓扑 | 不做 package manager |
 | 6 | Deprecation and migration format | `#52` | 让 deprecated / removed surfaces 有稳定迁移说明 | 不做自动迁移工具 |
@@ -53,6 +53,28 @@ v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 
 3. focused regression 覆盖 triad section、field table 和 non-goals。
 4. 本轮不新增 schema，不改 validator runtime，不执行任意 command。
 
+## 已执行切片：U-036
+
+### 目标
+
+定义 append-only event surfaces 的 correction、supersession、retraction 和 projection guidance 最小边界，避免 event surfaces 把历史记录改写、撤回或替换语义留给自然语言解释。
+
+### 最小模型
+
+| 项 | 含义 | 非目标 |
+|---|---|---|
+| correction_event | 新事件声明 correction_of、actor/source、reason、corrected fields、replacement posture | 不改写原事件 |
+| supersession_link | supersedes / superseded_by / replacement_event / effective_at 可追踪 | 不自动解决冲突 |
+| retraction | retracted_event、retraction reason、replacement event、consumer visibility、audit anchor | 不做删除或擦除流程 |
+| projection_guidance | read model、timeline、export、audit view 如何显示 correction posture | 不自动 replay 或迁移 read model |
+
+### 验收结果
+
+1. `spec/stable-surface-contracts.json` 定义 event correction / supersession section 和 mapping artifacts。
+2. `manifest.json` scope 已同步 event correction。
+3. focused regression 覆盖 correction section、field table 和 non-goals。
+4. 本轮不新增 schema，不改 validator runtime，不实现 event store、replay runtime 或数据迁移。
+
 ## 下一轮建议
 
-下一轮若继续当前路线，首选 **U-036 event correction / supersession boundary**，覆盖 issue `#39`。它应只定义 append-only event surfaces 的 correction_of、supersedes、retraction reason、replacement event 和 projection guidance，不应实现 event store、replay runtime 或数据迁移。
+下一轮若继续当前路线，首选 **U-037 partial implementation / known-gap metadata boundary**，覆盖 issue `#47`。它应只定义 missing capability、blocking status、owner、expected remediation、consumer guidance 与 validation severity interaction，不应实现全量 roadmap system、自动豁免机制或 release waiver runtime。

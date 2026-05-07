@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S8 write-capable triad boundary |
-| 当前回合 | R-2026-05-07-15 |
+| 当前阶段 | S8 event correction boundary |
+| 当前回合 | R-2026-05-07-16 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 40 |
+| 已完成任务数量 | 41 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-15 |
-| 开始时间 | 2026-05-07 16:25 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-16 |
+| 开始时间 | 2026-05-07 16:45 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-035 |
-| 本轮范围 | command / receipt / event triad 最小边界：write-capable stable surfaces 的 command、receipt、event_or_projection、triad_linkage vocabulary；spec docs、focused regression、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、command executor、event bus runtime、correction / supersession semantics、exactly-once delivery guarantee、任意 command 执行 |
+| 选中任务 | U-036 |
+| 本轮范围 | event correction / supersession 最小边界：append-only event surfaces 的 correction_event、supersession_link、retraction、projection_guidance vocabulary；spec docs、focused regression、operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、history rewrite、event store runtime、automatic replay、read-model migration、domain truth decision |
 | 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,7 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-036 | S8 | 定义 event correction / supersession 最小边界 | P1 | 未开始 | append-only event surfaces 的 correction_of、supersedes、retraction reason、replacement event、projection guidance 最小语义进入 spec；不实现 event store / replay runtime / 数据迁移 | U-035 | 对应 `#39`；下一轮首选 |
+| U-037 | S8 | 定义 partial implementation / known-gap metadata 最小边界 | P2 | 未开始 | partial / known-gap metadata 的 missing capabilities、blocking status、owner、expected remediation、consumer guidance 最小语义进入 spec；不做全量 roadmap system 或自动豁免机制 | U-029、U-035 | 对应 `#47`；下一轮首选 |
 
 ## 已完成任务
 
@@ -78,6 +78,7 @@
 | 38 | U-033 | S6 | 定义 fixture and golden export conventions | P2 | 2026-05-07 | `spec/validation-rules.json`、`manifest.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、focused fixture convention regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | fixture manifest v1、positive/negative fixture 命名、golden export 更新流程已进入 spec；compiled-pilot source 提供一个 conventional positive fixture |
 | 39 | U-034 | S7 | 重新裁剪 capability negotiation 最小模型 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、focused stable contract regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | capability negotiation 被裁剪为 provider capability、consumer requirement、compatibility matching、evidence link 的 metadata-only 边界；明确不做 handshake/discovery/auth/probing |
 | 40 | U-035 | S8 | 定义 command / receipt / event triad 最小边界 | P1 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | write-capable stable surfaces 现在有 command、receipt、event_or_projection、triad_linkage 的 spec-level audit boundary；不新增 executor/event runtime/correction semantics |
+| 41 | U-036 | S8 | 定义 event correction / supersession 最小边界 | P1 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | append-only event surfaces 现在有 correction_event、supersession_link、retraction、projection_guidance 的 spec-level boundary；不实现 event store/replay/migration |
 
 ## 失败或阻塞任务
 
@@ -123,3 +124,4 @@
 | 2026-05-07 | 100% | 99% | 88% | `U-033` 完成 | fixture and golden export conventions 已落地；AODS 现在有 positive/negative fixture、fixture manifest 与 golden export 更新审查的稳定最小约定。 |
 | 2026-05-07 | 100% | 100% | 90% | `U-034` 完成 | capability negotiation re-triage 已落地；AODS 现在明确 provider/consumer/matching/evidence-link 的 metadata-only 最小边界，完整 handshake 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 91% | `U-035` 完成 | command / receipt / event triad boundary 已落地；AODS 现在能为 write-capable stable surfaces 表达最小 audit linkage，完整 event runtime 和 correction semantics 继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 92% | `U-036` 完成 | event correction / supersession boundary 已落地；AODS 现在能为 append-only event surfaces 表达 correction、supersession、retraction 和 projection guidance 的最小语义。 |

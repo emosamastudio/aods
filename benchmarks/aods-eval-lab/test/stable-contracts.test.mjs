@@ -63,3 +63,32 @@ test("stable contracts define command receipt event triads for write-capable sur
   assert.ok(nonGoalRows.includes("event_bus_runtime"));
   assert.ok(nonGoalRows.includes("correction_semantics"));
 });
+
+test("stable contracts define event correction and supersession boundaries", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "event-correction-supersession");
+  assert.ok(section);
+  assert.match(section.content, /append-only event/);
+  assert.match(section.content, /correction_of/);
+  assert.match(section.content, /supersedes/);
+  assert.match(section.content, /replacement event/);
+  assert.match(section.content, /projection guidance/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "event-correction-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "correction_event",
+    "supersession_link",
+    "retraction",
+    "projection_guidance"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "event-correction-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("history_rewrite"));
+  assert.ok(nonGoalRows.includes("event_store_runtime"));
+  assert.ok(nonGoalRows.includes("automatic_replay"));
+});
