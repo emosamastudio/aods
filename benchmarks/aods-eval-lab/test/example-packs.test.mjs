@@ -48,6 +48,13 @@ const RESOURCE_MODULE_PATH = path.join(
   "modules",
   "shift-ops-resource-surface.json"
 );
+const GOVERNANCE_MODULE_PATH = path.join(
+  REPO_ROOT,
+  "examples",
+  "compiled-pilot",
+  "modules",
+  "shift-ops-governance.json"
+);
 const COMPILED_MANIFEST_PATH = path.join(REPO_ROOT, "examples", "compiled-pilot", "manifest.json");
 const FIXTURE_MANIFEST_PATH = path.join(
   REPO_ROOT,
@@ -339,4 +346,53 @@ test("compiled pilot includes glossary registry canonical example pack", () => {
   assert.equal(fixture.kind, "positive");
   assert.equal(fixture.input.path, "../authoring.json");
   assert.ok(fixture.golden_exports.some((entry) => entry.id === "glossary-registry-companion"));
+});
+
+test("compiled pilot includes external citation provenance example pack", () => {
+  const source = JSON.parse(fs.readFileSync(SOURCE_PATH, "utf8"));
+  const module = source.modules.find((entry) => entry.id === "shift-ops-governance");
+  assert.ok(module);
+  assert.ok(module.tags.includes("external-citation"));
+  assert.ok(module.tags.includes("provenance"));
+  assert.deepEqual(module.meta.external_citations.map((entry) => entry.citation_id), [
+    "release-calendar-api-doc",
+    "launch-window-exception-assumption"
+  ]);
+  assert.equal(module.meta.external_citations[0].source_type, "api-doc");
+  assert.equal(module.meta.external_citations[0].authority_relation, "external-authority");
+  assert.equal(module.meta.external_citations[0].claim_posture, "authoritative-claim");
+  assert.equal(module.meta.external_citations[0].review_status, "current");
+  assert.equal(module.meta.external_citations[1].source_type, "assumption");
+  assert.equal(module.meta.external_citations[1].authority_relation, "unsupported-assumption");
+  assert.equal(module.meta.external_citations[1].claim_posture, "assumption");
+  assert.equal(module.meta.external_citations[1].review_status, "unresolved");
+
+  const reviewPolicy = module.sections.find((entry) => entry.sid === "review-routing-policy");
+  assert.deepEqual(reviewPolicy.citation_refs, [
+    "release-calendar-api-doc"
+  ]);
+  const implementationNotes = module.sections.find((entry) => entry.sid === "implementation-notes");
+  assert.deepEqual(implementationNotes.citation_refs, [
+    "launch-window-exception-assumption"
+  ]);
+  const reviewRouting = module.artifacts.find((entry) => entry.artifact_id === "review-routing");
+  assert.deepEqual(reviewRouting.decision_provenance.citation_refs, [
+    "release-calendar-api-doc"
+  ]);
+  assert.equal(reviewRouting.decision_provenance.consumer_surface, "agent-consumable");
+  assert.equal(reviewRouting.decision_provenance.consumption_gate, "stable");
+
+  const compiled = JSON.parse(fs.readFileSync(GOVERNANCE_MODULE_PATH, "utf8"));
+  assert.deepEqual(compiled.meta.external_citations, module.meta.external_citations);
+  const compiledReviewRouting = compiled.artifacts.find((entry) => entry.artifact_id === "review-routing");
+  assert.deepEqual(compiledReviewRouting.decision_provenance.citation_refs, [
+    "release-calendar-api-doc"
+  ]);
+
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const fixture = fixtureManifest.fixtures.find((entry) => entry.id === "positive-external-citation-provenance-pack");
+  assert.ok(fixture);
+  assert.equal(fixture.kind, "positive");
+  assert.equal(fixture.input.path, "../authoring.json");
+  assert.ok(fixture.golden_exports.some((entry) => entry.id === "external-citation-provenance-module"));
 });

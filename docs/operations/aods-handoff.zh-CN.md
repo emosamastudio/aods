@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已扩展后续任务池和批量执行规则；U-060/U-061 已完成 glossary registry v2 与 external citation metadata 的 boundary triage；U-062/U-064 已落地 glossary registry v2 schema、validator 和 canonical example pack；U-065/U-066 已落地 external citation schema / source-first mirror 与 deterministic validator gates。下一轮首选 U-067 external citation / provenance canonical example pack。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已扩展后续任务池和批量执行规则；U-060/U-061 已完成 glossary registry v2 与 external citation metadata 的 boundary triage；U-062 到 U-064 已落地 glossary registry v2 schema、validator 和 canonical example pack；U-065 到 U-067 已落地 external citation schema、validator 和 canonical example pack。下一轮首选 Batch D：U-068/U-069/U-070 docs/read-only triage。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -115,12 +115,15 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | U-064 | 增加 glossary registry canonical example pack | compiled-pilot source-first example 已展示 canonical term、alias、deprecated term、owner、linked surfaces、compiled companion golden export 和 focused regression |
 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | module-level `external_citations[]` 与 section/artifact/decision_provenance `citation_refs[]` 已进入 module schema；source-first positive regression 覆盖 compile mirror；不实现 crawler 或 remote fetch |
 | U-066 | 落地 external citation validator gates | validator 已检查 citation id uniqueness、citation ref resolution、authoritative locator/version completeness、assumption posture、stable current authoritative citation；不做 fact checker 或 LLM faithfulness judge |
+| U-067 | 增加 external citation / provenance canonical example pack | compiled-pilot governance module 已展示 current external authority、unsupported assumption、section/artifact/decision_provenance citation refs、fixture manifest 和 focused regression；不实现 crawler、remote fetch、fact checker、claim detector 或 resolver |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-067 | 增加 external citation / provenance canonical example pack | 下一轮首选；用 compiled-pilot source-first example 展示 external source、internal decision provenance、unsupported assumption 分界 |
+| 1 | U-068 | 复盘 GitHub issue 本地覆盖与公开状态差异 | Batch D 候选；只做本地审批矩阵，不执行公开写操作 |
+| 2 | U-069 | 选择下一段代码漂移最小切片 | Batch D 候选；从已有 deterministic drift gates 中选择下一步，不做全量代码扫描器 |
+| 3 | U-070 | 复盘 boot-by-touch / route discoverability 残留 | Batch D 候选；只审查 routing warnings 与低风险 authoring guidance，不削弱 strict gate |
 
 ## 失败和风险
 
@@ -161,7 +164,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | post-example-pack triage 扩散风险 | `#56` 收束复盘容易直接跳入 glossary schema v2、external citation registry 或 resource runtime | U-056 应只做质量复盘和下一阶段排序，不实现 schema/provenance/runtime 变更 |
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
 | glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-064 已只落 schema、deterministic gates 和 source-first example pack；后续不要把 example 解读为 resolver/runtime 或全文扫描 |
-| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061/U-065/U-066 已裁剪并落地 schema + deterministic gates；后续 U-067 只能做 canonical example pack，不实现 crawler、claim detector 或 resolver |
+| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 到 U-067 已裁剪并落地 schema、deterministic gates 和 canonical example pack；后续不要把 example 解读为 crawler、claim detector、remote fetch 或 resolver |
 | hosted repeatability 外部捕获风险 | benchmark summary 测试依赖 optional hosted repeatability 数据，本轮 hosted 捕获运行 11 分钟无输出后终止 | 本轮以 focused regression、`validate:all` 和 diff hygiene 为通过 gate；后续若要恢复 full `benchmark:test` gate，需要可用 hosted relay / Keychain / 网络环境或先裁剪 benchmark 入口问题 |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
 
@@ -169,4 +172,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-067 | External citation / provenance canonical example pack | 在 compiled-pilot source-first example 中展示 current external authority、unsupported assumption、internal decision provenance 与 fixture regression；不实现 crawler、fact checker 或 cross-corpus resolver |
+| 1 | U-068 | GitHub issue 本地覆盖与公开状态差异复盘 | `#54-#58`、`#60/#41` 等 issue 的本地覆盖、剩余缺口、是否建议评论/关闭形成审批矩阵；不执行公开写操作 |
+| 2 | U-069 | 下一段代码漂移最小切片选择 | 从 topology、implementation linkage、evidence、acceptance、freshness、citation 中选择下一个 deterministic drift gate；排除全量代码扫描器 |
+| 3 | U-070 | boot-by-touch / route discoverability 残留复盘 | 审查 `#9/#10/#17` 和当前 routing warnings，确定是否需要低风险 route authoring guidance 或测试；不削弱 strict gate |

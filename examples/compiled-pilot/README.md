@@ -162,11 +162,11 @@ Use this module to govern release readiness for production changes in shift oper
 
 #### scripted expert human review split
 
-Scripted checks cover deterministic release-window and evidence-completeness rules. Expert review covers database schema, control-flow, or rollback-risk changes. Human review covers emergency fixes, launch-window exceptions, or other irreversible customer-visible changes. Route to the strictest required lane when multiple routes apply.
+Scripted checks cover deterministic release-window and evidence-completeness rules. Expert review covers database schema, control-flow, or rollback-risk changes. Human review covers emergency fixes, launch-window exceptions, or other irreversible customer-visible changes. Route to the strictest required lane when multiple routes apply. Release-window routing cites a current external calendar API authority.
 
 #### pattern customization checklist
 
-Keep this module aligned with shift-ops-policy approval rules and shift-ops-runbook incident constraints. Split it only if routine change governance and emergency-change governance diverge in owner, cadence, or retained evidence.
+Keep this module aligned with shift-ops-policy approval rules and shift-ops-runbook incident constraints. Split it only if routine change governance and emergency-change governance diverge in owner, cadence, or retained evidence. Treat launch-window exception frequency as an unresolved assumption until supported by local evidence.
 
 Artifacts:
 - `implementation-matrix` (mapping-table): Track implementation status, acceptance evidence, and review ownership per workstream.

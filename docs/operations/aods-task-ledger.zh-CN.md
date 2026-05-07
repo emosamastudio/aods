@@ -10,29 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S10 external citation schema and validation |
-| 当前回合 | R-2026-05-08-06 |
-| 未完成任务数量 | 9 |
-| 已完成任务数量 | 71 |
+| 当前阶段 | S10 external citation canonical example pack |
+| 当前回合 | R-2026-05-08-07 |
+| 未完成任务数量 | 8 |
+| 已完成任务数量 | 72 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-06 |
-| 开始时间 | 2026-05-08 01:15 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-07 |
+| 开始时间 | 2026-05-08 01:50 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-065、U-066 |
-| 本轮范围 | external citation schema / validator：module-level citation registry、section/artifact/provenance citation refs、source-first regression、deterministic stable-consumption gates、operations docs 同步 |
-| 排除范围 | external citation example pack、citation crawler、remote fetch、fact checker、cross-corpus resolver、term resolver runtime、自然语言术语扫描、migration tool、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块 |
-| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`；`npm run validate:all`；`npm run benchmark:generate`；`git diff --check`；`npm run benchmark:test` 仅作为 best-effort，因为 hosted repeatability 外部捕获不可复现 |
-| 新任务处理规则 | 本轮不新增任务 ID；U-067 作为下一批 external citation canonical example pack 候选。 |
+| 选中任务 | U-067 |
+| 本轮范围 | external citation / provenance canonical example pack：source-first governance module 示例、external current authority、unsupported assumption、decision_provenance citation refs、fixture manifest、focused regression、compiled-pilot 输出、operations docs 同步 |
+| 排除范围 | citation crawler、remote fetch、URL availability check、fact checker、cross-corpus resolver、unsupported factual claim detector、LLM faithfulness judge、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块 |
+| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`；`npm run compile:pilot`；`npm run validate:all`；`git diff --check`；`npm run benchmark:test` 不作为本轮通过 gate，因为 hosted repeatability 外部捕获仍不可复现 |
+| 新任务处理规则 | 本轮不新增任务 ID；U-068/U-069/U-070 作为下一批 docs/read-only triage 候选。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-067 | S10 | 增加 external citation / provenance canonical example pack | P2 | 未开始 | compiled-pilot example 展示 external source、internal decision provenance、unsupported assumption 分界；fixture manifest 和 focused regression 覆盖；不实现 citation crawler | U-066 | 可与 U-066 同轮 |
 | U-068 | S11 | 复盘 GitHub issue 本地覆盖与公开状态差异 | P2 | 未开始 | `#54-#58`、`#60/#41` 等 issue 的本地覆盖、剩余缺口、是否建议评论/关闭形成审批矩阵；不执行公开写操作 | U-061 | Batch D 候选 |
 | U-069 | S11 | 选择下一段代码漂移最小切片 | P1 | 未开始 | 从 topology、implementation linkage、evidence、acceptance、freshness、citation 中选择下一个 deterministic drift gate，输出最小实现任务；排除全量代码扫描器和 LLM-only 判定 | U-061 | Batch D 候选 |
 | U-070 | S11 | 复盘 boot-by-touch / route discoverability 残留 | P2 | 未开始 | 审查 `#9/#10/#17` 与当前 routing warnings，确定是否需要低风险 route authoring guidance 或测试；不削弱 strict gate | U-061 | Batch D 候选 |
@@ -117,6 +116,7 @@
 | 69 | U-064 | S10 | 增加 glossary registry canonical example pack | P2 | 2026-05-08 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot/indexes/runtime.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot glossary registry 现在展示 canonical term、aliases、deprecated term、owner、linked surfaces 和 companion golden export；不实现 resolver runtime、全文扫描或 migration tool |
 | 70 | U-065 | S10 | 落地 external citation metadata 最小 schema 与 compile mirror | P1 | 2026-05-08 | `schema/module.schema.json`、`examples/compiled-pilot/schema/module.schema.json`、`benchmarks/aods-eval-lab/generated/aods-corpus/schema/module.schema.json`、`spec/validation-rules.json`、source-first focused regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | module sections、artifacts、decision_provenance 现在支持 `citation_refs[]`，`module.meta.external_citations[]` 支持 source_type、locator、version_or_date、authority_relation、claim_posture、uncertainty、review_status；不实现 crawler、remote fetch 或事实核验 |
 | 71 | U-066 | S10 | 落地 external citation validator gates | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check`；`npm run benchmark:test` 因 hosted repeatability 外部捕获不可复现而未作为本轮通过 gate | validator 已检查 citation id uniqueness、citation_refs resolution、authoritative locator/version completeness、assumption posture、stable agent-consumable current authoritative citation；不做 unsupported factual claim detector 或 LLM faithfulness judge |
+| 72 | U-067 | S10 | 增加 external citation / provenance canonical example pack | P2 | 2026-05-08 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/modules/shift-ops-governance.json`、`examples/compiled-pilot/manifest.json`、`examples/compiled-pilot/README.md`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` 按预期失败；`npm run compile:pilot`；`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`；`npm run validate:all`；`git diff --check` | compiled-pilot governance module 现在展示 current external authority、unsupported assumption、section/artifact/provenance citation refs 和 fixture golden export；不实现 crawler、remote fetch、fact checker、claim detector 或 resolver |
 
 ## 失败或阻塞任务
 
@@ -186,3 +186,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-062`、`U-063` 完成 | Batch B 已完成：glossary registry v2 schema、authoring/companion mirror 和 deterministic validator gates 已落地；下一步优先 U-064 glossary canonical example pack。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-064` 完成 | glossary registry canonical example pack 已落地；compiled-pilot 现在展示 v2 canonical term record、aliases、deprecated term、owner、linked surfaces 和 fixture manifest golden export，下一步进入 external citation Batch C。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-065`、`U-066` 完成 | Batch C 已完成：external citation schema / source-first mirror 与 deterministic validator gates 已落地；下一步优先 U-067 external citation canonical example pack。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-067` 完成 | external citation canonical example pack 已落地；compiled-pilot governance module 现在展示 current external authority、unsupported assumption、internal decision provenance citation refs 和 fixture regression，下一步优先 Batch D：U-068/U-069/U-070。 |

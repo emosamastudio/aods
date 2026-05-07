@@ -2355,19 +2355,25 @@
         {
           "sid": "review-routing-policy",
           "topic": "scripted expert human review split",
-          "content": "Scripted checks cover deterministic release-window and evidence-completeness rules. Expert review covers database schema, control-flow, or rollback-risk changes. Human review covers emergency fixes, launch-window exceptions, or other irreversible customer-visible changes. Route to the strictest required lane when multiple routes apply.",
+          "content": "Scripted checks cover deterministic release-window and evidence-completeness rules. Expert review covers database schema, control-flow, or rollback-risk changes. Human review covers emergency fixes, launch-window exceptions, or other irreversible customer-visible changes. Route to the strictest required lane when multiple routes apply. Release-window routing cites a current external calendar API authority.",
           "content_type": "rules",
           "artifact_refs": [
             "review-routing",
             "system-gates"
+          ],
+          "citation_refs": [
+            "release-calendar-api-doc"
           ],
           "criticality": "must"
         },
         {
           "sid": "implementation-notes",
           "topic": "pattern customization checklist",
-          "content": "Keep this module aligned with shift-ops-policy approval rules and shift-ops-runbook incident constraints. Split it only if routine change governance and emergency-change governance diverge in owner, cadence, or retained evidence.",
+          "content": "Keep this module aligned with shift-ops-policy approval rules and shift-ops-runbook incident constraints. Split it only if routine change governance and emergency-change governance diverge in owner, cadence, or retained evidence. Treat launch-window exception frequency as an unresolved assumption until supported by local evidence.",
           "content_type": "rules",
+          "citation_refs": [
+            "launch-window-exception-assumption"
+          ],
           "criticality": "should"
         }
       ],
@@ -2503,6 +2509,21 @@
           "artifact_id": "review-routing",
           "type": "decision-tree",
           "usage": "Route changes into scripted, expert, or human review lanes before execution.",
+          "decision_provenance": {
+            "consumer_surface": "agent-consumable",
+            "basis": "source-evidence",
+            "source_refs": [
+              "shift-ops-governance:review-routing-policy"
+            ],
+            "evidence_refs": [
+              "shift-ops-governance:system-gates"
+            ],
+            "evidence_status": "current",
+            "consumption_gate": "stable",
+            "citation_refs": [
+              "release-calendar-api-doc"
+            ]
+          },
           "content": {
             "root": "review-scope",
             "nodes": [
@@ -2597,7 +2618,27 @@
             "gate-record",
             "release-decision"
           ]
-        }
+        },
+        "external_citations": [
+          {
+            "citation_id": "release-calendar-api-doc",
+            "source_type": "api-doc",
+            "locator": "https://example.test/shift-ops/release-calendar",
+            "version_or_date": "2026-05-08",
+            "authority_relation": "external-authority",
+            "claim_posture": "authoritative-claim",
+            "uncertainty": "low",
+            "review_status": "current"
+          },
+          {
+            "citation_id": "launch-window-exception-assumption",
+            "source_type": "assumption",
+            "authority_relation": "unsupported-assumption",
+            "claim_posture": "assumption",
+            "uncertainty": "high",
+            "review_status": "unresolved"
+          }
+        ]
       },
       "priority": "standard",
       "tags": [
@@ -2605,7 +2646,9 @@
         "governance",
         "acceptance",
         "review",
-        "operations"
+        "operations",
+        "external-citation",
+        "provenance"
       ]
     }
   ],

@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-07
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-07 |
+| 开始时间 | 2026-05-08 01:50 Asia/Shanghai |
+| 结束时间 | 2026-05-08 02:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | external citation canonical example pack；不混入 crawler、fact checker、resolver 或 public sync |
+| 本轮选中任务 | U-067 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-07
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/` generated output、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`docs/operations/` |
+| 禁止触碰 | schema/validator runtime、citation crawler、remote fetch、URL availability check、fact checker、cross-corpus resolver、unsupported factual claim detector、LLM faithfulness judge、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块、`MEMORY.md` |
+| 外部依赖 | 无；本轮不依赖网络或公开写接口 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-07
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-067 | 未开始 | 已完成 | 增加 external citation / provenance canonical example pack：在 `shift-ops-governance` 中声明 current authoritative API doc 和 unresolved unsupported assumption，并让 section、implementation notes、artifact decision_provenance 使用 `citation_refs[]`；同步 fixture manifest 和 focused regression | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/modules/shift-ops-governance.json`、`examples/compiled-pilot/manifest.json`、`examples/compiled-pilot/README.md`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs` |
+
+## 验证记录：R-2026-05-08-07
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-067 | Previous-round quality review | `git status --short`、`git log -1 --stat --oneline`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | 通过 | U-065/U-066 提交后工作区仅 untracked `MEMORY.md`；focused scaffold、repo validation、diff whitespace 均通过后进入本轮 |
+| U-067 | TDD RED | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 按预期失败 | 新增 external citation example regression 后，旧 source module 缺少 `external-citation` tag 和 citation metadata |
+| U-067 | Compile gate | `npm run compile:pilot` | 通过 | source-first authoring 生成 compiled-pilot；validation errors=0 warnings=0 |
+| U-067 | Focused regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 8/8 pass；覆盖 source、compiled module、decision_provenance citation refs 和 fixture manifest |
+| U-067 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-067 | JSON sanity | `node -e 'JSON.parse(...)'` | 通过 | `authoring.json` 与 fixture manifest 均可解析 |
+| U-067 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+| U-067 | Benchmark gate | `npm run benchmark:test` | 未执行，不作为本轮 gate | 本轮只改 example pack；上一轮已记录 hosted repeatability 外部捕获不可复现，避免引入无关 generated report churn |
+
+## 新发现任务：R-2026-05-08-07
+
+本轮没有新增任务 ID；下一批继续执行已入账 U-068/U-069/U-070。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-067 | 无 | 无新增；继续执行 Batch D docs/read-only triage | P1/P2 | issue local/public status matrix、next drift slice、route discoverability residual review | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-08-07
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-067 |
+| 完成任务 | 1 | external citation / provenance canonical example pack 完成 |
+| 失败任务 | 0 | RED regression 按预期失败后已实现 source-first example、fixture 和 compiled output |
+| 阻塞任务 | 0 | 本轮核心 gate 不阻塞；full benchmark hosted lane 仍是外部环境风险 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 8 | 下一轮首选 Batch D：U-068 + U-069 + U-070 |
+
 ## 回合摘要：R-2026-05-08-06
 
 | 项 | 内容 |
