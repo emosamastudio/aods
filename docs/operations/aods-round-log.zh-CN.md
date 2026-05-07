@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-08
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-08 |
+| 开始时间 | 2026-05-07 13:52 Asia/Shanghai |
+| 结束时间 | 2026-05-07 13:52 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-028 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-08
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/`、`docs/README.md` |
+| 禁止触碰 | runtime/schema/spec 实现、GitHub issue 关闭或评论、release 发布、Polaris sibling repo、任意 evidence command 自动执行 |
+| 外部依赖 | GitHub open issue 只读查询；网络问题使用 `proxy_on` |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-07-08
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-028 | 未开始 | 已完成 | 复盘 v0.7 release 后 open issues，裁剪 v0.8 backlog，选择下一主线为 implementation acceptance criteria，并将 U-029 到 U-034 写回任务台账 | `docs/operations/aods-v0.8-backlog.zh-CN.md`、`docs/operations/aods-task-ledger.zh-CN.md`、operations README、handoff、round log |
+
+## 验证记录：R-2026-05-07-08
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-028 | Previous-round quality review | `git status --short --branch`、`git log --oneline --decorate -8`、handoff / ledger review | 通过 | 发现 handoff latest commit stale 后先返工修复；复查 `npm run validate:all` 通过 |
+| U-028 | GitHub open issue review | `source ~/.zshrc && proxy_on && gh issue list --state open --limit 50 --json ...`、`gh issue view 60/41/43/49/35/38/48 --json ...` | 通过 | 当前 24 个 open issues；`#60` 为 tracker，`#49` 是下一最小 contract drift 切片 |
+| U-028 | Governance/doc whitespace | `git diff --check` | 通过 | operations / docs 更新后 whitespace clean |
+| U-028 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+
+## 新发现任务：R-2026-05-07-08
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-028 | U-029 | 落地 implementation acceptance criteria 最小模型 | P0 | criteria schema / compiler / validator / compiled-pilot / focused tests 通过 | 未完成任务第 1 位 |
+| U-028 | U-030 | 定义 drift remediation workflow 最小模型 | P1 | remediation actions 与 gate 行为进入 spec / validator guidance | 未完成任务第 2 位 |
+| U-028 | U-031 | 定义 decision provenance boundary 最小模型 | P1 | agent-consumable decision provenance boundary 明确 | 未完成任务第 3 位 |
+| U-028 | U-032 | 定义 read-model freshness / watermark profile 最小切片 | P1 | read-model freshness metadata 与 stale / partial semantics 明确 | 未完成任务第 4 位 |
+| U-028 | U-033 | 定义 fixture and golden export conventions | P2 | fixture / golden export 命名与更新流程明确 | 未完成任务第 5 位 |
+| U-028 | U-034 | 重新裁剪 capability negotiation 最小模型 | P2 | provider / consumer matching 最小边界重新评估 | 未完成任务第 6 位 |
+
+## 回合结束摘要：R-2026-05-07-08
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-028 |
+| 完成任务 | 1 | v0.8 backlog triage 完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 6 | U-029 到 U-034 已进入未完成任务表 |
+| 剩余未完成任务 | 6 | 下一轮首选 U-029 implementation acceptance criteria |
+
 ## 回合摘要：R-2026-05-07-07
 
 | 项 | 内容 |
@@ -42,6 +103,7 @@
 | U-027 | Branch push | `source ~/.zshrc && proxy_on && git push -u origin codex/aods-implementation-evidence` | 通过 | Branch pushed；`MEMORY.md` 未跟踪且未进入远端 |
 | U-027 | PR create | `source ~/.zshrc && proxy_on && gh pr create --draft ...`、`gh pr ready 62` | 通过 | PR `#62` created and marked ready: `https://github.com/emosamastudio/aods/pull/62` |
 | U-027 | PR merge | `source ~/.zshrc && proxy_on && gh pr merge 62 --squash --delete-branch` | 通过 | PR `#62` merged to `main` as `831e10b` |
+| U-027 | Post-merge operations sync | `git commit -m "Record implementation evidence merge"`、`git push` | 通过 | main latest tracked commit `35c26f0`; PR `#62` merge commit remains `831e10b` |
 
 ## 新发现任务：R-2026-05-07-07
 

@@ -1,13 +1,13 @@
 # AODS Agent Handoff
 
 日期：2026-05-07
-分支：`main`
-最新提交：`831e10b`（PR `#62` squash merge）
+分支：`codex/aods-v0.8-backlog`
+最新提交：以 `git log -1 --oneline` 为准（本分支基线为 `35c26f0`；PR `#62` squash merge 为 `831e10b`）
 状态：开发中
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage，下一轮首选 U-029 implementation acceptance criteria；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -22,16 +22,17 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | 7 | `docs/operations/aods-dirty-worktree-attribution.zh-CN.md` | 读取 dirty worktree 归因和提交 / PR 拆分建议 |
 | 8 | `docs/operations/aods-github-sync-approval.zh-CN.md` | 读取 GitHub 公开动作审批矩阵 |
 | 9 | `docs/operations/aods-code-drift-roadmap.zh-CN.md` | 读取代码漂移路线和 implementation evidence 最小切片 |
-| 10 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 11 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 12 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 10 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | 读取 v0.8 backlog、open issue 排序和下一 drift 切片 |
+| 11 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 12 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 13 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
 | 项 | 状态 | 说明 |
 |---|---|---|
-| 分支 | `main` | 本地 HEAD 与 `origin/main` 对齐 |
-| 最新提交 | `831e10b` | PR `#62` squash merge：`[codex] Add implementation evidence validation (#62)` |
+| 分支 | `codex/aods-v0.8-backlog` | 从 `main` 创建，用于 v0.8 backlog triage |
+| 最新提交 | 以 `git log -1 --oneline` 为准 | 本分支基线 `35c26f0`；PR `#62` squash merge 为 `831e10b` |
 | 剩余 dirty | 仅 untracked `MEMORY.md` | `MEMORY.md` 为本地记忆文件，不进仓库 |
 
 ## 已完成工作
@@ -69,10 +70,18 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-025 | 完成 v0.7 RC gate decision | local RC candidate / conditional pass；`release:self-check` 通过；不直接发布 |
 | U-026 | 执行 v0.7 release branch / PR / Release / issue sync | PR `#61` 已 merge；GitHub Release `v0.7.0` 已创建；13 个 v0.7 覆盖 issues 已关闭；`#60/#41` 已评论保留；`MEMORY.md` 未进仓库 |
 | U-027 | 落地 implementation evidence 最小切片 | module meta evidence、manifest `evidence_summary`、validator current-evidence gate、reality locator checks、compiled-pilot current+planned evidence；focused / repo / benchmark tests 均通过 |
+| U-028 | 完成 v0.8 backlog triage | `aods-v0.8-backlog.zh-CN.md` 已落盘；U-029 到 U-034 已写入未完成任务；下一轮首选 implementation acceptance criteria |
 
 ## 未完成工作
 
-当前任务台账无未完成项。U-027 已完成并通过 PR `#62` merge；下一轮应进入 v0.8 backlog 复盘或下一段 contract drift。
+| 顺序 | 任务 ID | 目标 | 备注 |
+|---:|---|---|---|
+| 1 | U-029 | 落地 implementation acceptance criteria 最小模型 | 下一轮首选；连接 contract requirement 与 evidence |
+| 2 | U-030 | 定义 drift remediation workflow 最小模型 | 接 U-029 |
+| 3 | U-031 | 定义 decision provenance boundary 最小模型 | 接 U-029 |
+| 4 | U-032 | 定义 read-model freshness / watermark profile 最小切片 | 接 U-031 |
+| 5 | U-033 | 定义 fixture and golden export conventions | 接 U-029 |
+| 6 | U-034 | 重新裁剪 capability negotiation 最小模型 | 当前不做 handshake |
 
 ## 失败和风险
 
@@ -84,11 +93,12 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | release 渠道混淆风险 | 正式版本发布已定为 GitHub Releases-only | 后续若出现 npm publish 相关建议或脚本扩张，不应把 registry 发布重新当成完成条件，除非 owner 明确改策略 |
 | 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | PR `#62` 已 merge；本轮未评论或关闭 issue、未发布 release |
 | 代码漂移范围扩散风险 | drift 问题容易扩大成未裁剪的全量静态/语义分析器 | 下一步只从 topology、implementation linkage、implementation evidence 和 contract drift 最小闭环推进 |
+| acceptance criteria 过度设计风险 | criteria 容易扩成通用测试编排或 arbitrary command executor | U-029 必须限制为 contract-to-evidence linkage；validator 默认不执行任意 command |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | 新任务 | 复盘 v0.7 release 后的 open issues | 保留 `#60/#41` 和 deferred issues，重新排 v0.8 backlog |
-| 2 | 新任务 | 选择下一段 contract drift 切片 | 从 evidence freshness、implementation fingerprint、或 contract diff 中裁剪一个最小闭环 |
-| 3 | 新任务 | 如需继续 GitHub hygiene | 只读检查 open PR / issue / release surfaces，公开动作继续单独记录 |
+| 1 | U-029 | 落地 implementation acceptance criteria 最小模型 | schema / compiler / validator / compiled-pilot / focused tests / repo validation 通过 |
+| 2 | U-030 | 定义 drift remediation workflow 最小模型 | remediation action 与 gate 行为进入 spec / validator guidance |
+| 3 | U-031 | 定义 decision provenance boundary 最小模型 | agent-consumable decision provenance boundary 明确 |
