@@ -10,30 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S10 glossary registry example pack |
-| 当前回合 | R-2026-05-08-05 |
-| 未完成任务数量 | 11 |
-| 已完成任务数量 | 69 |
+| 当前阶段 | S10 external citation schema and validation |
+| 当前回合 | R-2026-05-08-06 |
+| 未完成任务数量 | 9 |
+| 已完成任务数量 | 71 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-05 |
-| 开始时间 | 2026-05-08 01:02 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-06 |
+| 开始时间 | 2026-05-08 01:15 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-064 |
-| 本轮范围 | glossary registry canonical example pack：compiled-pilot source-first glossary v2 record、compiled companion output、fixture manifest、focused regression、operations docs 同步 |
-| 排除范围 | external citation schema/validator、term resolver runtime、自然语言术语扫描、migration tool、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块 |
-| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`；`npm run compile:pilot`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
-| 新任务处理规则 | 本轮不新增任务 ID；U-065/U-066 作为下一批 external citation schema + validator 候选。 |
+| 选中任务 | U-065、U-066 |
+| 本轮范围 | external citation schema / validator：module-level citation registry、section/artifact/provenance citation refs、source-first regression、deterministic stable-consumption gates、operations docs 同步 |
+| 排除范围 | external citation example pack、citation crawler、remote fetch、fact checker、cross-corpus resolver、term resolver runtime、自然语言术语扫描、migration tool、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块 |
+| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`；`npm run validate:all`；`npm run benchmark:generate`；`git diff --check`；`npm run benchmark:test` 仅作为 best-effort，因为 hosted repeatability 外部捕获不可复现 |
+| 新任务处理规则 | 本轮不新增任务 ID；U-067 作为下一批 external citation canonical example pack 候选。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-065 | S10 | 落地 external citation metadata 最小 schema 与 compile mirror | P1 | 未开始 | artifact 或 surface-level citation 支持 source type、locator、claim posture、access date、authority relation；authoring compile mirror 覆盖 source-first；不实现 crawler 或 remote fetch | U-061 | Batch C 候选 |
-| U-066 | S10 | 落地 external citation validator gates | P1 | 未开始 | stable agent-consumable external claims 必须声明 citation posture；unresolved/unsupported posture 不能被标成 authoritative fact；focused regression 覆盖 negative cases；不做事实核验器 | U-065 | Batch C 候选 |
 | U-067 | S10 | 增加 external citation / provenance canonical example pack | P2 | 未开始 | compiled-pilot example 展示 external source、internal decision provenance、unsupported assumption 分界；fixture manifest 和 focused regression 覆盖；不实现 citation crawler | U-066 | 可与 U-066 同轮 |
 | U-068 | S11 | 复盘 GitHub issue 本地覆盖与公开状态差异 | P2 | 未开始 | `#54-#58`、`#60/#41` 等 issue 的本地覆盖、剩余缺口、是否建议评论/关闭形成审批矩阵；不执行公开写操作 | U-061 | Batch D 候选 |
 | U-069 | S11 | 选择下一段代码漂移最小切片 | P1 | 未开始 | 从 topology、implementation linkage、evidence、acceptance、freshness、citation 中选择下一个 deterministic drift gate，输出最小实现任务；排除全量代码扫描器和 LLM-only 判定 | U-061 | Batch D 候选 |
@@ -117,6 +115,8 @@
 | 67 | U-062 | S10 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | P1 | 2026-05-08 | `schema/manifest.schema.json`、`schema/manifest-companion.schema.json`、`schema/authoring.schema.json`、`spec/validation-rules.json`、source-first focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | root / companion / authoring glossary 均支持 v1 string shorthand 与 v2 canonical term record；source-first compile mirror 覆盖 record shape；不实现 resolver runtime |
 | 68 | U-063 | S10 | 落地 glossary registry deterministic validator gates | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | validator 已检查 `term_id` 与 key 一致、同 scope alias collision、deprecated replacement resolution、linked surface refs；不做自然语言扫描、自动 rewrite 或 migration tool |
 | 69 | U-064 | S10 | 增加 glossary registry canonical example pack | P2 | 2026-05-08 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot/indexes/runtime.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot glossary registry 现在展示 canonical term、aliases、deprecated term、owner、linked surfaces 和 companion golden export；不实现 resolver runtime、全文扫描或 migration tool |
+| 70 | U-065 | S10 | 落地 external citation metadata 最小 schema 与 compile mirror | P1 | 2026-05-08 | `schema/module.schema.json`、`examples/compiled-pilot/schema/module.schema.json`、`benchmarks/aods-eval-lab/generated/aods-corpus/schema/module.schema.json`、`spec/validation-rules.json`、source-first focused regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | module sections、artifacts、decision_provenance 现在支持 `citation_refs[]`，`module.meta.external_citations[]` 支持 source_type、locator、version_or_date、authority_relation、claim_posture、uncertainty、review_status；不实现 crawler、remote fetch 或事实核验 |
+| 71 | U-066 | S10 | 落地 external citation validator gates | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check`；`npm run benchmark:test` 因 hosted repeatability 外部捕获不可复现而未作为本轮通过 gate | validator 已检查 citation id uniqueness、citation_refs resolution、authoritative locator/version completeness、assumption posture、stable agent-consumable current authoritative citation；不做 unsupported factual claim detector 或 LLM faithfulness judge |
 
 ## 失败或阻塞任务
 
@@ -185,3 +185,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-060`、`U-061` 完成 | Batch A 已完成：glossary registry v2 与 external citation metadata 的最小边界、兼容策略、validator gate 和后续 schema/validator/example 任务已裁剪；下一批可进入 U-062/U-063 glossary schema + validator。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-062`、`U-063` 完成 | Batch B 已完成：glossary registry v2 schema、authoring/companion mirror 和 deterministic validator gates 已落地；下一步优先 U-064 glossary canonical example pack。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-064` 完成 | glossary registry canonical example pack 已落地；compiled-pilot 现在展示 v2 canonical term record、aliases、deprecated term、owner、linked surfaces 和 fixture manifest golden export，下一步进入 external citation Batch C。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-065`、`U-066` 完成 | Batch C 已完成：external citation schema / source-first mirror 与 deterministic validator gates 已落地；下一步优先 U-067 external citation canonical example pack。 |

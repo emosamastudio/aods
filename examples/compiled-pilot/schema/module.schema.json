@@ -89,6 +89,10 @@
           "items": { "type": "string" },
           "description": "Artifact IDs in this module referenced by this section."
         },
+        "citation_refs": {
+          "$ref": "#/definitions/external_citation_refs",
+          "description": "External citation IDs declared in module.meta.external_citations that support this section."
+        },
         "criticality": {
           "type": "string",
           "enum": ["must", "should", "may"],
@@ -148,6 +152,10 @@
         "decision_provenance": {
           "$ref": "#/definitions/decision_provenance_meta",
           "description": "Optional provenance boundary for agent-consumable decision artifacts. It identifies source anchors, evidence posture, and the consumption gate for derived or evidence-backed decisions."
+        },
+        "citation_refs": {
+          "$ref": "#/definitions/external_citation_refs",
+          "description": "External citation IDs declared in module.meta.external_citations that support this artifact."
         }
       },
       "allOf": [
@@ -1372,6 +1380,72 @@
       "type": "string",
       "enum": ["stable", "review-required", "blocked", "experimental"]
     },
+    "external_citation_source_type": {
+      "type": "string",
+      "enum": ["standard", "api-doc", "paper", "legal-policy", "web-page", "repository", "human-note", "assumption"]
+    },
+    "external_citation_authority_relation": {
+      "type": "string",
+      "enum": ["external-authority", "supporting-evidence", "background-context", "inferred-guidance", "unsupported-assumption"]
+    },
+    "external_citation_claim_posture": {
+      "type": "string",
+      "enum": ["authoritative-claim", "quoted-source", "paraphrase", "derived-guidance", "assumption"]
+    },
+    "external_citation_review_status": {
+      "type": "string",
+      "enum": ["current", "stale", "unresolved", "withheld"]
+    },
+    "external_citation_uncertainty": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high"]
+    },
+    "external_citation_ref": {
+      "type": "object",
+      "required": ["citation_id", "source_type", "authority_relation", "claim_posture", "review_status"],
+      "additionalProperties": false,
+      "properties": {
+        "citation_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,96}$",
+          "description": "Module-local external citation identifier used by citation_refs."
+        },
+        "source_type": {
+          "$ref": "#/definitions/external_citation_source_type"
+        },
+        "locator": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Source locator such as URL, repository path, paper DOI, standard section, or withheld locator label."
+        },
+        "version_or_date": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Publication date, retrieval date, commit, version, standard edition, or policy effective date."
+        },
+        "authority_relation": {
+          "$ref": "#/definitions/external_citation_authority_relation"
+        },
+        "claim_posture": {
+          "$ref": "#/definitions/external_citation_claim_posture"
+        },
+        "uncertainty": {
+          "$ref": "#/definitions/external_citation_uncertainty",
+          "default": "none"
+        },
+        "review_status": {
+          "$ref": "#/definitions/external_citation_review_status"
+        }
+      }
+    },
+    "external_citation_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]{1,96}$"
+      }
+    },
     "decision_provenance_meta": {
       "type": "object",
       "required": ["consumer_surface", "basis", "source_refs", "evidence_status", "consumption_gate"],
@@ -1421,6 +1495,10 @@
             "type": "string"
           },
           "description": "Review anchors that justify consuming a derived decision."
+        },
+        "citation_refs": {
+          "$ref": "#/definitions/external_citation_refs",
+          "description": "External citation IDs that support this provenance boundary without replacing source_refs or evidence_refs."
         }
       }
     },
@@ -1829,6 +1907,13 @@
         },
         "schema_versioning": {
           "$ref": "#/definitions/schema_versioning_meta"
+        },
+        "external_citations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/external_citation_ref"
+          },
+          "description": "Module-local registry of external sources. Internal AODS refs remain authoritative; these records preserve external evidence posture."
         },
         "capsule": {
           "type": "object",

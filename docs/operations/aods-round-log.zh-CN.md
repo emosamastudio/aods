@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-06
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-06 |
+| 开始时间 | 2026-05-08 01:15 Asia/Shanghai |
+| 结束时间 | 2026-05-08 01:49 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | external citation schema / validator；不混入 canonical example pack 或 crawler / fact checker |
+| 本轮选中任务 | U-065、U-066 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-06
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `schema/module.schema.json`、generated schema copies、`lib/validate.mjs`、`spec/validation-rules.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/` |
+| 禁止触碰 | external citation example pack、citation crawler、remote fetch、fact checker、cross-corpus resolver、LLM faithfulness judge、GitHub 公开写操作、release 发布、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | hosted runtime repeatability 捕获为 optional 外部资源；本轮不依赖其通过 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-06
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-065 | 未开始 | 已完成 | 增加 external citation registry / local refs schema：`module.meta.external_citations[]`、section/artifact/provenance `citation_refs[]`，并刷新 compiled-pilot 与 benchmark corpus schema copy | `schema/module.schema.json`、`examples/compiled-pilot/schema/module.schema.json`、`benchmarks/aods-eval-lab/generated/aods-corpus/schema/module.schema.json`、source-first regression |
+| 2 | U-066 | 未开始 | 已完成 | 增加 deterministic validator gates：citation id unique、citation ref resolution、authoritative completeness、assumption posture、stable currentness | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json` |
+
+## 验证记录：R-2026-05-08-06
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-065/U-066 | Previous-round quality review | `git status --short`、`git log -1 --stat --oneline`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | 通过 | U-064 提交后工作区仅 untracked `MEMORY.md`；上轮 focused / repo validation / diff hygiene 均通过后进入本轮 |
+| U-065/U-066 | TDD RED | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 按预期失败 | 新增 external citation positive / negative regression 后，旧 schema 拒绝 `external_citations` 与 `citation_refs` |
+| U-065/U-066 | Focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 27/27 pass；覆盖 source-first mirror 与五类 negative validator rules |
+| U-065/U-066 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-065 | Generated schema copy | `npm run benchmark:generate` | 通过 | benchmark corpus schema copy 已同步；result/report churn 已排除出本轮 diff |
+| U-065/U-066 | Benchmark gate | `npm run benchmark:test` | 未通过，不作为本轮 gate | 70/72 pass；失败点依赖 optional hosted repeatability 报告段。本轮尝试 hosted capture 运行 11 分钟无输出后终止，未改弱测试 |
+| U-065/U-066 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-06
+
+本轮没有新增任务 ID；hosted repeatability 外部捕获风险记录到 handoff，不插入当前任务池。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-065/U-066 | 无 | 无新增；继续执行已入账 U-067 | P2 | source-first external citation canonical example pack | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-08-06
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 2 | U-065、U-066 |
+| 完成任务 | 2 | external citation schema / source-first mirror 与 deterministic validator gates 完成 |
+| 失败任务 | 0 | RED regression 按预期失败后已实现；hosted benchmark 是外部捕获风险，不计入任务失败 |
+| 阻塞任务 | 0 | 本轮核心 gate 不阻塞；full benchmark hosted lane 后续需外部环境 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 9 | 下一轮首选 U-067 external citation / provenance canonical example pack |
+
 ## 回合摘要：R-2026-05-08-05
 
 | 项 | 内容 |

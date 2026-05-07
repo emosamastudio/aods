@@ -261,7 +261,7 @@
     {
       "id": "spec-validation",
       "path": "spec/validation-rules.json",
-      "scope": "Corpus validation: structural checks, referential integrity, glossary registry gates, implementation linkage and topology reality summaries, fixture and golden export conventions, severity/gating policy, surface-governance coverage, stable-contract integrity, and AOP compliance.",
+      "scope": "Corpus validation: structural checks, referential integrity, glossary/citation registry gates, implementation linkage and topology reality summaries, fixture/golden conventions, severity/gating policy, surface governance, stable-contract integrity, and AOP compliance.",
       "category": "policy",
       "layer": "detail",
       "deps": [

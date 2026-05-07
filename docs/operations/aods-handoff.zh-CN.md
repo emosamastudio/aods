@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已扩展后续任务池和批量执行规则；U-060/U-061 已完成 glossary registry v2 与 external citation metadata 的 boundary triage；U-062/U-064 已落地 glossary registry v2 schema、validator 和 canonical example pack。下一轮首选 Batch C：U-065 external citation metadata schema / compile mirror + U-066 external citation validator gates。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落地 implementation drift、authoring quality 和 six-pack surface examples；U-058 已补齐 `#56` 本地 resource residual gap。U-059 已扩展后续任务池和批量执行规则；U-060/U-061 已完成 glossary registry v2 与 external citation metadata 的 boundary triage；U-062/U-064 已落地 glossary registry v2 schema、validator 和 canonical example pack；U-065/U-066 已落地 external citation schema / source-first mirror 与 deterministic validator gates。下一轮首选 U-067 external citation / provenance canonical example pack。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -113,14 +113,14 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | U-062 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | root / companion / authoring glossary 支持 v1 string shorthand 与 v2 canonical term record；source-first compile mirror 已有 focused regression |
 | U-063 | 落地 glossary registry deterministic validator gates | validator 已检查 `term_id` key match、alias collision、deprecated replacement resolution、linked surface ref resolution；不做自然语言扫描或 resolver runtime |
 | U-064 | 增加 glossary registry canonical example pack | compiled-pilot source-first example 已展示 canonical term、alias、deprecated term、owner、linked surfaces、compiled companion golden export 和 focused regression |
+| U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | module-level `external_citations[]` 与 section/artifact/decision_provenance `citation_refs[]` 已进入 module schema；source-first positive regression 覆盖 compile mirror；不实现 crawler 或 remote fetch |
+| U-066 | 落地 external citation validator gates | validator 已检查 citation id uniqueness、citation ref resolution、authoritative locator/version completeness、assumption posture、stable current authoritative citation；不做 fact checker 或 LLM faithfulness judge |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | 下一轮 Batch C 首选；依据 U-061 落最小 citation registry / local refs |
-| 2 | U-066 | 落地 external citation validator gates | 下一轮 Batch C 首选；阻断 stable external claims 的 unsupported / unresolved authoritative posture |
-| 3 | U-067 | 增加 external citation / provenance canonical example pack | U-066 后可同轮或下一轮 |
+| 1 | U-067 | 增加 external citation / provenance canonical example pack | 下一轮首选；用 compiled-pilot source-first example 展示 external source、internal decision provenance、unsupported assumption 分界 |
 
 ## 失败和风险
 
@@ -161,11 +161,12 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-058 已连续落
 | post-example-pack triage 扩散风险 | `#56` 收束复盘容易直接跳入 glossary schema v2、external citation registry 或 resource runtime | U-056 应只做质量复盘和下一阶段排序，不实现 schema/provenance/runtime 变更 |
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
 | glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-064 已只落 schema、deterministic gates 和 source-first example pack；后续不要把 example 解读为 resolver/runtime 或全文扫描 |
-| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 已裁剪 boundary；U-065/U-066 只能落 schema + deterministic gates，不实现 crawler、claim detector 或 resolver |
+| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061/U-065/U-066 已裁剪并落地 schema + deterministic gates；后续 U-067 只能做 canonical example pack，不实现 crawler、claim detector 或 resolver |
+| hosted repeatability 外部捕获风险 | benchmark summary 测试依赖 optional hosted repeatability 数据，本轮 hosted 捕获运行 11 分钟无输出后终止 | 本轮以 focused regression、`validate:all` 和 diff hygiene 为通过 gate；后续若要恢复 full `benchmark:test` gate，需要可用 hosted relay / Keychain / 网络环境或先裁剪 benchmark 入口问题 |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-065 + U-066 | Batch C：external citation schema / compile mirror + validator gates | 按 U-061 boundary 落地 citation registry / local refs shape 和 deterministic stable-consumption gates；不实现 crawler、fact checker 或 cross-corpus resolver |
+| 1 | U-067 | External citation / provenance canonical example pack | 在 compiled-pilot source-first example 中展示 current external authority、unsupported assumption、internal decision provenance 与 fixture regression；不实现 crawler、fact checker 或 cross-corpus resolver |

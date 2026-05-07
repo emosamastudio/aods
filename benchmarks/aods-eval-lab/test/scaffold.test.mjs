@@ -348,6 +348,174 @@ test("glossary registry validation rejects ambiguous aliases and unresolved refs
   assert.match(compile.stdout, /glossary-linked-surface-ref/);
 });
 
+test("authoring source compiles external citation registry and local refs", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-external-citation-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    external_citations: [
+      {
+        citation_id: "api-doc-release-window",
+        source_type: "api-doc",
+        locator: "https://example.test/docs/release-window",
+        version_or_date: "2026-05-08",
+        authority_relation: "external-authority",
+        claim_posture: "authoritative-claim",
+        uncertainty: "low",
+        review_status: "current"
+      },
+      {
+        citation_id: "operator-assumption",
+        source_type: "assumption",
+        authority_relation: "unsupported-assumption",
+        claim_posture: "assumption",
+        uncertainty: "high",
+        review_status: "unresolved"
+      }
+    ]
+  };
+  detailModule.sections[0].citation_refs = [
+    "api-doc-release-window"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "citation-backed-decision",
+      type: "decision-tree",
+      usage: "Demonstrates external citation refs on a stable decision artifact.",
+      citation_refs: [
+        "api-doc-release-window"
+      ],
+      decision_provenance: {
+        consumer_surface: "agent-consumable",
+        basis: "source-evidence",
+        source_refs: [
+          `${detailModule.id}:${detailModule.sections[0].sid}`
+        ],
+        evidence_status: "current",
+        consumption_gate: "stable",
+        citation_refs: [
+          "api-doc-release-window"
+        ]
+      },
+      content: {
+        root: "route",
+        nodes: [
+          {
+            id: "route",
+            type: "action",
+            action: "use current external citation only after local authority review"
+          }
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+  const compiled = JSON.parse(fs.readFileSync(path.join(compiledRoot, detailRef.path), "utf8"));
+  assert.deepEqual(compiled.meta.external_citations, detailModule.meta.external_citations);
+  assert.deepEqual(compiled.sections[0].citation_refs, [
+    "api-doc-release-window"
+  ]);
+  const decisionArtifact = compiled.artifacts.find((artifact) => artifact.artifact_id === "citation-backed-decision");
+  assert.deepEqual(decisionArtifact.decision_provenance.citation_refs, [
+    "api-doc-release-window"
+  ]);
+});
+
+test("external citation validation rejects missing and unsafe authoritative refs", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-external-citation-invalid-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    external_citations: [
+      {
+        citation_id: "stale-authority",
+        source_type: "api-doc",
+        authority_relation: "external-authority",
+        claim_posture: "authoritative-claim",
+        review_status: "stale"
+      },
+      {
+        citation_id: "stale-authority",
+        source_type: "api-doc",
+        locator: "https://example.test/duplicate",
+        version_or_date: "2026-05-08",
+        authority_relation: "supporting-evidence",
+        claim_posture: "paraphrase",
+        review_status: "current"
+      },
+      {
+        citation_id: "assumption-as-authority",
+        source_type: "assumption",
+        authority_relation: "external-authority",
+        claim_posture: "authoritative-claim",
+        review_status: "current"
+      }
+    ]
+  };
+  detailModule.sections[0].citation_refs = [
+    "missing-citation"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "unsafe-cited-decision",
+      type: "decision-tree",
+      usage: "Negative citation validation fixture.",
+      decision_provenance: {
+        consumer_surface: "agent-consumable",
+        basis: "source-evidence",
+        source_refs: [
+          `${detailModule.id}:${detailModule.sections[0].sid}`
+        ],
+        evidence_status: "current",
+        consumption_gate: "stable",
+        citation_refs: [
+          "stale-authority"
+        ]
+      },
+      content: {
+        root: "route",
+        nodes: [
+          {
+            id: "route",
+            type: "action",
+            action: "invalid stable citation posture"
+          }
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, compiledRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /external-citation-id-unique/);
+  assert.match(compile.stdout, /external-citation-ref/);
+  assert.match(compile.stdout, /external-citation-authoritative-completeness/);
+  assert.match(compile.stdout, /external-citation-assumption-posture/);
+  assert.match(compile.stdout, /external-citation-stable-current/);
+});
+
 test("authoring source compiles implementation linkage and reports topology-aware reality summary", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-implementation-linkage-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
