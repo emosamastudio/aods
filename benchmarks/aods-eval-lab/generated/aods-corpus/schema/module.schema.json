@@ -1527,6 +1527,79 @@
             "type": "string"
           },
           "description": "Profile-required fields that this module or surface promises to carry."
+        },
+        "read_model": {
+          "$ref": "#/definitions/read_model_contract",
+          "description": "Read-model freshness and watermark profile for stable read-only surfaces."
+        }
+      }
+    },
+    "read_model_staleness": {
+      "type": "string",
+      "enum": ["current", "stale", "partial", "unknown"]
+    },
+    "read_model_freshness": {
+      "type": "object",
+      "required": ["snapshot_id", "exported_at", "source_watermark", "staleness"],
+      "additionalProperties": false,
+      "properties": {
+        "snapshot_id": {
+          "type": "string",
+          "description": "Stable identifier for the exported read-model snapshot."
+        },
+        "exported_at": {
+          "type": "string",
+          "description": "ISO-like export timestamp or deterministic build timestamp for the snapshot."
+        },
+        "source_watermark": {
+          "type": "string",
+          "description": "Source-side watermark, commit, event offset, data version, or equivalent freshness anchor."
+        },
+        "staleness": {
+          "$ref": "#/definitions/read_model_staleness",
+          "description": "Currentness posture of the snapshot relative to its source."
+        },
+        "partial_reason": {
+          "type": "string",
+          "description": "Required by convention when staleness=partial to explain the missing or lagging source segment."
+        }
+      }
+    },
+    "read_model_contract": {
+      "type": "object",
+      "required": ["freshness"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Authority or data source behind the read model."
+        },
+        "fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Stable fields exposed by the read model."
+        },
+        "identity": {
+          "type": "string",
+          "description": "Key or identity semantics for rows, records, or generated entries."
+        },
+        "freshness": {
+          "$ref": "#/definitions/read_model_freshness"
+        },
+        "absence_semantics": {
+          "type": "string",
+          "description": "Meaning of missing, empty, or withheld data."
+        },
+        "failure_semantics": {
+          "type": "string",
+          "description": "How generation or read failures are represented."
+        },
+        "partial_semantics": {
+          "type": "string",
+          "description": "How consumers should interpret partial or lagging snapshots."
         }
       }
     },

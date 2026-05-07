@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 23,
-  "context": "Defines validation rules for AODS corpus integrity, including schema, references, surface governance, stable-surface contracts, root and module topology metadata, implementation evidence, implementation acceptance criteria, decision provenance, remediation guidance, severity/gating policy, reality checks, and AOP discipline.",
+  "v": 24,
+  "context": "Defines validation rules for AODS corpus integrity, including schema, references, surface governance, stable-surface contracts, read-model freshness and watermarks, root and module topology metadata, implementation evidence, implementation acceptance criteria, decision provenance, remediation guidance, severity/gating policy, reality checks, and AOP discipline.",
   "assumptions": [
     "Validator has access to all files in corpus",
     "JSON Schema draft-07 validation is available"
@@ -11,7 +11,7 @@
     {
       "sid": "structural",
       "topic": "structural validation rules",
-      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. Module schema permits section-first, artifact-first, or mixed modules, but every module must declare at least one section or artifact. Artifact decision_provenance, when declared, validates consumer_surface + basis + source_refs + evidence_status + consumption_gate shape. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained. human_generation, when declared, stays within the allowed opt-in contract: mode=deterministic, profile=overview|checklist, title optional. manifest-companion roles are runtime role profiles: id required; scope may be omitted; required_modules may be omitted when boot_by_role already carries runtime bindings. project_topology, when declared, validates root design_repo plus implementation_repos[] structure. module.meta.implementation and manifest.modules[].implementation, when declared, validate repo_id + paths + status + authority_surface shape. module.meta.implementation.evidence[], when declared, validates id + kind + locator + status + authority_surface shape. module.meta.implementation.acceptance_criteria[], when declared, validates id + surface_ref + requirement + check_type + blocking + status + authority_surface shape. manifest.modules[].implementation.evidence_summary, when declared, validates total + current + planned + stale + blocked counters. manifest.modules[].implementation.acceptance_summary, when declared, validates total + satisfied + planned + partial + waived + blocked + manual_review counters. control metadata, provenance summaries, runtime-contract summaries, redaction summaries, contract profile summaries, implementation linkage summaries, and schema-versioning summaries, when declared, validate on both manifest.modules[] and module.meta. surface-inventory entries keep relative paths and typed current|reserved|future states.",
+      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. Module schema permits section-first, artifact-first, or mixed modules, but every module must declare at least one section or artifact. Artifact decision_provenance, when declared, validates consumer_surface + basis + source_refs + evidence_status + consumption_gate shape. Read-model contract metadata, when declared, validates read_model.freshness snapshot_id + exported_at + source_watermark + staleness shape. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained. human_generation, when declared, stays within the allowed opt-in contract: mode=deterministic, profile=overview|checklist, title optional. manifest-companion roles are runtime role profiles: id required; scope may be omitted; required_modules may be omitted when boot_by_role already carries runtime bindings. project_topology, when declared, validates root design_repo plus implementation_repos[] structure. module.meta.implementation and manifest.modules[].implementation, when declared, validate repo_id + paths + status + authority_surface shape. module.meta.implementation.evidence[], when declared, validates id + kind + locator + status + authority_surface shape. module.meta.implementation.acceptance_criteria[], when declared, validates id + surface_ref + requirement + check_type + blocking + status + authority_surface shape. manifest.modules[].implementation.evidence_summary, when declared, validates total + current + planned + stale + blocked counters. manifest.modules[].implementation.acceptance_summary, when declared, validates total + satisfied + planned + partial + waived + blocked + manual_review counters. control metadata, provenance summaries, runtime-contract summaries, redaction summaries, contract profile summaries, implementation linkage summaries, and schema-versioning summaries, when declared, validate on both manifest.modules[] and module.meta. surface-inventory entries keep relative paths and typed current|reserved|future states.",
       "content_type": "rules",
       "refs": [
         "referential",
@@ -64,7 +64,7 @@
     {
       "sid": "stable-contract-metadata",
       "topic": "redaction contract and schema-versioning metadata checks",
-      "content": "L2 MUST: if manifest.modules[].redaction or module.meta.redaction is declared, both sides stay present and has_sensitive_payloads + redaction_posture match. L2 MUST: if module.meta.redaction.has_sensitive_payloads == true, then sensitive_classes and exposure_policy must be present. L2 MUST: if manifest.modules[].contract or module.meta.contract is declared, both sides stay present and profile matches. L2 MUST: if artifact.decision_provenance is declared, source_refs, evidence_refs, and summary_ref must resolve to sections or artifacts; derived-summary or mixed decisions must name summary_ref; stable agent-consumable decisions require current evidence_status. L2 MUST: if manifest.modules[].implementation or module.meta.implementation is declared, both sides stay present and repo_id + paths + status + authority_surface + evidence_summary + acceptance_summary match. L2 MUST: implementation linkage requires manifest.project_topology.implementation_repos[] and the declared repo_id must resolve there. L2 MUST: current implementation linkage requires at least one evidence anchor and one acceptance criterion, duplicate evidence ids and duplicate criterion ids are rejected, evidence-ref criteria must resolve declared evidence ids, blocking unsatisfied criteria fail, and path-like evidence locators must exist when validate --reality can resolve the linked repository root. L3 SHOULD: manual-review criteria warn because they are reviewable but not automatically proven. L2 MUST: if manifest.modules[].schema_versioning or module.meta.schema_versioning is declared, both sides stay present and breaking_policy matches. These checks keep stable-surface contract posture visible at bootstrap instead of hiding it in deeper prose only.",
+      "content": "L2 MUST: if manifest.modules[].redaction or module.meta.redaction is declared, both sides stay present and has_sensitive_payloads + redaction_posture match. L2 MUST: if module.meta.redaction.has_sensitive_payloads == true, then sensitive_classes and exposure_policy must be present. L2 MUST: if manifest.modules[].contract or module.meta.contract is declared, both sides stay present and profile matches. L2 MUST: if module.meta.contract.profile == read-model, then module.meta.contract.read_model.freshness must declare snapshot_id, exported_at, source_watermark, and staleness before stable consumption. L2 MUST: if artifact.decision_provenance is declared, source_refs, evidence_refs, and summary_ref must resolve to sections or artifacts; derived-summary or mixed decisions must name summary_ref; stable agent-consumable decisions require current evidence_status. L2 MUST: if manifest.modules[].implementation or module.meta.implementation is declared, both sides stay present and repo_id + paths + status + authority_surface + evidence_summary + acceptance_summary match. L2 MUST: implementation linkage requires manifest.project_topology.implementation_repos[] and the declared repo_id must resolve there. L2 MUST: current implementation linkage requires at least one evidence anchor and one acceptance criterion, duplicate evidence ids and duplicate criterion ids are rejected, evidence-ref criteria must resolve declared evidence ids, blocking unsatisfied criteria fail, and path-like evidence locators must exist when validate --reality can resolve the linked repository root. L3 SHOULD: manual-review criteria warn because they are reviewable but not automatically proven. L2 MUST: if manifest.modules[].schema_versioning or module.meta.schema_versioning is declared, both sides stay present and breaking_policy matches. These checks keep stable-surface contract posture visible at bootstrap instead of hiding it in deeper prose only.",
       "content_type": "rules",
       "refs": [
         "surface-governance",
@@ -143,7 +143,7 @@
             "L2",
             "reference integrity",
             "error",
-            "broken refs; broken routes_to; missing human path; generated human surface drift; paired claim conflict; control metadata mismatch; provenance summary mismatch; runtime contract mismatch; redaction/contract/implementation/schema-versioning mirror mismatch; invalid implementation repo refs; missing implementation evidence; missing acceptance criteria; missing evidence locators; invalid acceptance evidence refs; invisible side effects; sensor declared in root/capsule; invalid process-flow targets; invalid topology endpoints; mapping-table row mismatch; missing or placeholder-only current surfaces in reality mode"
+            "broken refs; broken routes_to; missing human path; generated human surface drift; paired claim conflict; control metadata mismatch; provenance summary mismatch; runtime contract mismatch; redaction/contract/implementation/schema-versioning mirror mismatch; missing read-model freshness; invalid implementation repo refs; missing implementation evidence; missing acceptance criteria; missing evidence locators; invalid acceptance evidence refs; invisible side effects; sensor declared in root/capsule; invalid process-flow targets; invalid topology endpoints; mapping-table row mismatch; missing or placeholder-only current surfaces in reality mode"
           ],
           [
             "L3",
@@ -391,6 +391,12 @@
             "drift-blocking",
             "stable agent-consumable decision has stale, unresolved, or withheld evidence",
             "refresh the evidence or change consumption_gate to review-required, blocked, or experimental"
+          ],
+          [
+            "add-read-model-freshness",
+            "drift-blocking",
+            "stable read-model contract lacks snapshot freshness and source watermark metadata",
+            "declare module.meta.contract.read_model.freshness with snapshot_id, exported_at, source_watermark, and staleness before stable consumption"
           ]
         ]
       }
@@ -517,66 +523,73 @@
             "source": "validation"
           },
           {
+            "id": "read-model-freshness-required",
+            "condition": "module.contract.profile == read-model AND missing module.contract.read_model.freshness",
+            "action": "L2 error: stable read-model contracts must declare freshness and watermark metadata",
+            "priority": 56,
+            "source": "validation"
+          },
+          {
             "id": "schema-versioning-metadata-mirror",
             "condition": "module.schema_versioning.declared == true AND mirror_match(module.schema_versioning.summary, manifest.modules[].schema_versioning) == false",
             "action": "L2 error: manifest.modules[].schema_versioning must match module.meta.schema_versioning summary fields",
-            "priority": 56,
+            "priority": 57,
             "source": "validation"
           },
           {
             "id": "implementation-metadata-mirror",
             "condition": "module.implementation.declared == true AND mirror_match(module.implementation.summary, manifest.modules[].implementation) == false",
             "action": "L2 error: manifest.modules[].implementation must match module.meta.implementation summary fields",
-            "priority": 57,
+            "priority": 58,
             "source": "validation"
           },
           {
             "id": "implementation-repo-id-unique",
             "condition": "duplicate ids exist in manifest.project_topology.implementation_repos[]",
             "action": "L2 error: project_topology.implementation_repos[] ids must be unique",
-            "priority": 58,
+            "priority": 59,
             "source": "validation"
           },
           {
             "id": "implementation-repo-ref",
             "condition": "module.implementation.declared == true AND resolve(module.implementation.repo_id, manifest.project_topology.implementation_repos) == false",
             "action": "L2 error: module.meta.implementation.repo_id must resolve to manifest.project_topology.implementation_repos[]",
-            "priority": 59,
+            "priority": 60,
             "source": "validation"
           },
           {
             "id": "decision-provenance-source-ref",
             "condition": "artifact.decision_provenance exists AND any source_refs target is unresolved",
             "action": "L2 error: decision provenance source refs must resolve to sections or artifacts",
-            "priority": 60,
+            "priority": 61,
             "source": "validation"
           },
           {
             "id": "decision-provenance-evidence-ref",
             "condition": "artifact.decision_provenance exists AND any evidence_refs target is unresolved",
             "action": "L2 error: decision provenance evidence refs must resolve to sections or artifacts",
-            "priority": 61,
+            "priority": 62,
             "source": "validation"
           },
           {
             "id": "decision-provenance-summary-ref",
             "condition": "artifact.decision_provenance.summary_ref exists AND summary_ref target is unresolved",
             "action": "L2 error: decision provenance summary_ref must resolve to a section or artifact",
-            "priority": 62,
+            "priority": 63,
             "source": "validation"
           },
           {
             "id": "decision-provenance-derived-summary",
             "condition": "artifact.decision_provenance.basis is derived-summary or mixed AND summary_ref is missing",
             "action": "L2 error: derived decision provenance must identify the summary owner",
-            "priority": 63,
+            "priority": 64,
             "source": "validation"
           },
           {
             "id": "decision-provenance-stable-evidence",
             "condition": "artifact.decision_provenance.consumer_surface == agent-consumable AND consumption_gate == stable AND evidence_status IN stale, unresolved, withheld",
             "action": "L2 error: stable agent-consumable decisions require current evidence posture",
-            "priority": 64,
+            "priority": 65,
             "source": "validation"
           },
           {
@@ -950,6 +963,11 @@
     {
       "v": 23,
       "delta": "Added validation guidance for artifact-level decision provenance refs and stable agent-consumable decision evidence posture.",
+      "breaking": false
+    },
+    {
+      "v": 24,
+      "delta": "Added validation guidance and remediation action for stable read-model freshness and watermark metadata.",
       "breaking": false
     }
   ],

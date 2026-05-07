@@ -903,7 +903,23 @@ test("authoring source compiles stable contract metadata summaries", () => {
         "source",
         "fields",
         "freshness"
-      ]
+      ],
+      read_model: {
+        source: "demo-system",
+        fields: [
+          "id",
+          "status"
+        ],
+        identity: "id",
+        freshness: {
+          snapshot_id: "demo-snapshot-1",
+          exported_at: "2026-05-07T00:00:00Z",
+          source_watermark: "demo-watermark-1",
+          staleness: "current"
+        },
+        absence_semantics: "Missing records are absent from the source snapshot.",
+        failure_semantics: "Validation fails if the snapshot cannot be exported."
+      }
     },
     schema_versioning: {
       breaking_policy: "versioned",
@@ -929,6 +945,38 @@ test("authoring source compiles stable contract metadata summaries", () => {
     breaking_policy: "versioned"
   });
   runCli(["validate", compiledRoot, "--strict"]);
+});
+
+test("stable read-model contracts require freshness and watermark metadata", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-read-model-freshness-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    contract: {
+      profile: "read-model"
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, compiledRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /read-model-freshness-required/);
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+
+  assert.notEqual(validate.status, 0);
+  const report = JSON.parse(validate.stdout);
+  assert.ok(report.levels.L2.errors.some((entry) => entry.rule === "read-model-freshness-required"));
 });
 
 test("project topology rejects duplicate implementation repo ids", () => {

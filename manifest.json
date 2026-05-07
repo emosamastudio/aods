@@ -199,7 +199,7 @@
     {
       "id": "spec-stable-surface-contracts",
       "path": "spec/stable-surface-contracts.json",
-      "scope": "Minimal stable-surface contracts for redaction, contract completeness profiles, root and module topology linkage, schema version compatibility, and adapter capability minimums.",
+      "scope": "Minimal stable-surface contracts for redaction, contract completeness profiles, read-model freshness and watermarks, root and module topology linkage, decision provenance, schema version compatibility, and adapter capability minimums.",
       "category": "policy",
       "layer": "detail",
       "deps": [
