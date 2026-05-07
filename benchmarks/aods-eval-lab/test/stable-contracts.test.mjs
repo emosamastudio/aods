@@ -92,3 +92,33 @@ test("stable contracts define event correction and supersession boundaries", () 
   assert.ok(nonGoalRows.includes("event_store_runtime"));
   assert.ok(nonGoalRows.includes("automatic_replay"));
 });
+
+test("stable contracts define partial implementation and known gap metadata boundaries", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "partial-known-gap-metadata");
+  assert.ok(section);
+  assert.match(section.content, /partial implementation/);
+  assert.match(section.content, /known gap/);
+  assert.match(section.content, /missing_capabilities/);
+  assert.match(section.content, /blocking_status/);
+  assert.match(section.content, /consumer guidance/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "partial-known-gap-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "gap_identity",
+    "missing_capability",
+    "blocking_posture",
+    "remediation_plan",
+    "consumer_guidance"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "partial-known-gap-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("roadmap_system"));
+  assert.ok(nonGoalRows.includes("automatic_waiver"));
+  assert.ok(nonGoalRows.includes("release_override"));
+});

@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-17
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-17 |
+| 开始时间 | 2026-05-07 17:04 Asia/Shanghai |
+| 结束时间 | 2026-05-07 17:18 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-037 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-17
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、全量 roadmap system、automatic waiver、release override、validator bypass |
+| 外部依赖 | `gh issue view 50` 只读读取下一轮候选 issue；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-17
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-037 | 未开始 | 已完成 | 定义 partial implementation / known-gap metadata 最小边界：gap_identity、missing_capability、blocking_posture、remediation_plan、consumer_guidance；明确 roadmap system / automatic waiver / release override / validator bypass 非目标 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs |
+
+## 验证记录：R-2026-05-07-17
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-037 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all` | 通过 | U-036 提交后工作区仅有 RED 测试与 untracked `MEMORY.md`；focused + repo validation 通过后继续推进 |
+| U-037 | Issue scope confirmation | `gh issue view 47/50 --json ...`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-v0.9-backlog.zh-CN.md` | 通过 | `#47` 本轮只做 known-gap metadata boundary；`#50` 作为下一轮 U-038 |
+| U-037 | RED partial known-gap regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 失败后修复 | 新增 partial implementation / known-gap test 先失败：缺少 `partial-known-gap-metadata` |
+| U-037 | Focused stable contract regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | 4 tests passing；覆盖 capability negotiation、command triad、event correction、partial known-gap |
+| U-037 | Spec JSON parse | `node -e ... JSON.parse(...)` | 通过 | stable contracts、manifest 语法有效 |
+| U-037 | Repo validation gate | `npm run validate:all` | 先失败后通过 | 首次失败为 `runtime-contract-match`：manifest runtime summary 未同步 `known-gap-posture`；返工后 root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-037 | Benchmark test gate | `npm run benchmark:test` | 通过 | 51 tests passing；benchmark generated result 噪音已恢复 |
+| U-037 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-17
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-037 / `#50` | U-038 | 定义 ownership and authority hierarchy 最小边界 | P2 | overlapping surfaces 的 canonical authority、derived surfaces、aliases、conflict policy、migration guidance 最小语义进入 spec；不实现自动冲突解析器 | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-17
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-037 |
+| 完成任务 | 1 | partial implementation / known-gap metadata 最小边界完成 |
+| 失败任务 | 0 | manifest runtime summary mirror 问题已返工并复验通过 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-038 |
+| 剩余未完成任务 | 1 | U-038 ownership and authority hierarchy |
+
 ## 回合摘要：R-2026-05-07-16
 
 | 项 | 内容 |

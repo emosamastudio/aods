@@ -8,7 +8,7 @@
 
 v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 oracle 开始。当前最高价值路线是继续收束 write-capable 和 event-facing stable surfaces 的最小审计语义，让 AODS 在进入更深的 runtime / conformance 前先能表达“写入请求、尝试记录、状态后果之间如何追踪”。
 
-已执行的最小切片包括 **U-035 command / receipt / event triad boundary** 和 **U-036 event correction / supersession boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。
+已执行的最小切片包括 **U-035 command / receipt / event triad boundary**、**U-036 event correction / supersession boundary** 和 **U-037 partial implementation / known-gap metadata boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。U-037 覆盖 GitHub issue `#47` 的最低可验证边界，只做 partial / known-gap metadata vocabulary，不实现全量 roadmap system、自动豁免或 release override。
 
 ## 输入信号
 
@@ -75,6 +75,29 @@ v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 
 3. focused regression 覆盖 correction section、field table 和 non-goals。
 4. 本轮不新增 schema，不改 validator runtime，不实现 event store、replay runtime 或数据迁移。
 
+## 已执行切片：U-037
+
+### 目标
+
+定义 partial implementation / known-gap metadata 的最小边界，避免 planned、partial、waived 或 known gap 状态只靠自然语言说明，导致 agent 或 release gate 无法判断是否可以稳定消费。
+
+### 最小模型
+
+| 项 | 含义 | 非目标 |
+|---|---|---|
+| gap_identity | gap_id、surface_ref、gap_kind、declared_at、authority_surface | 不建 roadmap item identity service |
+| missing_capability | missing_capabilities、affected contract fields、lifecycle states、evidence refs | 不做自动 capability discovery |
+| blocking_posture | blocking_status、severity floor、target posture、release gate | 不做 automatic waiver 或 release override |
+| remediation_plan | owner、expected_remediation、review gate、due posture | 不做全量项目 roadmap system |
+| consumer_guidance | allowed use、downgrade path、human review requirement | 不执行 runtime fallback |
+
+### 验收结果
+
+1. `spec/stable-surface-contracts.json` 定义 partial implementation / known-gap section 和 mapping artifacts。
+2. `manifest.json` scope 已同步 known gap vocabulary。
+3. focused regression 覆盖 known-gap section、field table 和 non-goals。
+4. 本轮不新增 schema，不改 validator runtime，不实现 roadmap system、automatic waiver、release override 或 validator bypass。
+
 ## 下一轮建议
 
-下一轮若继续当前路线，首选 **U-037 partial implementation / known-gap metadata boundary**，覆盖 issue `#47`。它应只定义 missing capability、blocking status、owner、expected remediation、consumer guidance 与 validation severity interaction，不应实现全量 roadmap system、自动豁免机制或 release waiver runtime。
+下一轮若继续当前路线，首选 **U-038 ownership and authority hierarchy boundary**，覆盖 issue `#50`。它应只定义 overlapping surfaces 的 canonical authority、derived surface、alias、conflict policy 与 migration guidance，不应实现自动冲突解析器或跨 corpus authority runtime。
