@@ -8,7 +8,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - Pair ID: `pair-shift-ops-readme`
 - Sync source: `agent-primary`
 - Agent primary: `shift-ops-capsule`
-- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-governance`, `shift-ops-runbook`
+- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-governance`, `shift-ops-runbook`
 
 ## Canonical facts
 
@@ -17,9 +17,10 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 
 ## Coverage
 
-- `shift-ops-capsule` (capsule): Summary routing for shift operations. Use after root load to decide whether policy, governance, or runbook detail should open next.
+- `shift-ops-capsule` (capsule): Summary routing for shift operations detail modules.
 - `shift-ops-root` (architecture): Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.
 - `shift-ops-policy` (policy): Authoritative approval policy for operational changes and production release windows.
+- `shift-ops-readiness-read-model` (reference): Canonical read-model example for release readiness status, freshness, watermark, implementation evidence, and acceptance criteria.
 - `shift-ops-governance` (policy): Implementation governance authority for release readiness, acceptance evidence, and review routing for shift operations changes.
 - `shift-ops-runbook` (workflow): Authoritative incident runbook for sev1 response and immediate stabilization.
 
@@ -27,11 +28,11 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 
 ### shift-ops-capsule
 
-Summary routing for shift operations. Use after root load to decide whether policy, governance, or runbook detail should open next.
+Summary routing for shift operations detail modules.
 
 #### capsule summary and next routes
 
-Approval: shift-ops-policy:approval-policy. Delivery readiness: shift-ops-governance:implementation-governance. sev1: shift-ops-runbook:incident-response. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
+Routes: policy, readiness, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
 
 ### shift-ops-root
 
@@ -55,6 +56,17 @@ Production database schema changes require two approvers. Standard changes may d
 
 Artifacts:
 - `approval-rules` (rule-set): Constraint set for approving production changes.
+
+### shift-ops-readiness-read-model
+
+Canonical read-model example for release readiness status, freshness, watermark, implementation evidence, and acceptance criteria.
+
+#### release readiness read model
+
+Read model exposes release readiness status for release-manager decisions. Record identity=release_id, status, blocking_gate, last_approval_at, snapshot_id, exported_at, source_watermark, and staleness. Missing release_id means no current readiness record. Missing watermark means stale and requires manual review.
+
+Artifacts:
+- `readiness-field-table` (mapping-table): Canonical field guide for the release readiness read-model example pack.
 
 ### shift-ops-governance
 

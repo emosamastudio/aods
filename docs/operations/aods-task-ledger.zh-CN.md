@@ -10,29 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S10 read-model example pack |
-| 当前回合 | R-2026-05-07-30 |
+| 当前阶段 | S10 command receipt example pack |
+| 当前回合 | R-2026-05-07-31 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 55 |
+| 已完成任务数量 | 56 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-30 |
-| 开始时间 | 2026-05-07 20:38 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-31 |
+| 开始时间 | 2026-05-07 20:49 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-050 |
-| 本轮范围 | canonical surface-family example pack triage：对 read model、command、event、adapter、implementation-linkage 等 common surface family examples 做分批规划，选择一个最小 example pack；更新 operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、一次性全量示例库、fixture rewrite、公开文档门户重写 |
-| 验证计划 | `git diff --check`；`npm run validate:all` 复核语义面未漂移 |
+| 选中任务 | U-051 |
+| 本轮范围 | read-model + implementation-linkage canonical example pack：更新 compiled-pilot source-first example、fixture manifest、compiled output、focused regression 和 operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、command/event/adapter 示例、evidence command execution、全量 domain model |
+| 验证计划 | focused example-pack regression；`npm run compile:pilot`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-051 | S10 | 落地 read-model + implementation-linkage canonical example pack 最小切片 | P2 | 未开始 | 在 `examples/compiled-pilot-source/` 中加入 read-model + implementation-linkage 首包，覆盖 stable read-model contract、freshness/watermark、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不覆盖 command/event/adapter，不执行 evidence command | U-050 | 对应 `#56` 首包；下一轮首选 |
+| U-052 | S10 | 落地 command + receipt canonical example pack 最小切片 | P2 | 未开始 | 在 compiled-pilot source-first example 中加入 command + receipt 首包，覆盖 stable command contract、receipt output、audit metadata、risk posture、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不实现 command executor、不建 event bus | U-051 | 对应 `#56` 第二包；下一轮首选 |
 
 ## 已完成任务
 
@@ -93,6 +93,7 @@
 | 53 | U-048 | S10 | 定义 human-surface synchronization quality metrics 最小边界 | P2 | 2026-05-07 | `spec/surface-governance.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/surface-governance.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/surface-governance.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | paired human/agent surfaces 现在有 exact invariant coverage、semantic coverage、omitted constraints、stale examples、authority mismatch、sync freshness、quality report 最小 vocabulary；不实现新 diff engine、LLM semantic judge、dashboard 或自动修复器 |
 | 54 | U-049 | S10 | 补齐 agent-primary density examples and authoring guidance 最小切片 | P2 | 2026-05-07 | `spec/aop-writing-spec.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | AOP 现在有 canonical terms、explicit constraints、uncertainty markers、labeled examples 的最小 authoring guidance 和 good/bad examples；不实现 style linter、不重写文档门户 |
 | 55 | U-050 | S10 | Canonical surface-family example pack triage | P2 | 2026-05-07 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、operations README、docs README、task ledger、handoff、round log、v0.11 backlog | `gh issue view 56 --json ...`、`git diff --check`、`npm run validate:all` | 已把 `#56` 裁剪为 read-model + implementation-linkage、command/receipt、event/correction、adapter/capability、artifact/export/policy-gate 五批；下一轮首选 U-051 |
+| 56 | U-051 | S10 | 落地 read-model + implementation-linkage canonical example pack 最小切片 | P2 | 2026-05-07 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run compile:pilot`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | compiled-pilot 现在包含 read-model + implementation-linkage canonical example pack；不覆盖 command/event/adapter，不执行 evidence command |
 
 ## 失败或阻塞任务
 
