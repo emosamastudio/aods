@@ -1,13 +1,13 @@
 # AODS Agent Handoff
 
 日期：2026-05-07
-分支：`main`
-最新提交：`c8f0c9a`（当前轮工作仍在未提交工作树中）
+分支：`codex/aods-implementation-evidence`
+最新提交：当前分支包含 U-027 实现提交和 PR 记录提交
 状态：开发中
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`，`npm run release:self-check` 通过；`MEMORY.md` 明确未进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。当前分支已完成 U-027 implementation evidence 最小切片并创建 PR `#62`；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -30,9 +30,9 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 
 | 项 | 状态 | 说明 |
 |---|---|---|
-| 分支 | `main` | 当前本地分支 |
-| 最新提交 | `c8f0c9a` | 本地 HEAD 与 `origin/main` 对齐；当前接手修复和治理文档仍在未提交工作树中 |
-| 剩余 dirty | 有 | dirty 同时混有 v0.7 语义实现、benchmark/generated 输出、operations 文档、AODS `MEMORY.md` 以及接手 review fix；提交前必须按文件归因，不得整树 stage |
+| 分支 | `codex/aods-implementation-evidence` | 从 `main` 创建的 U-027 实现分支 |
+| 最新提交 | U-027 PR 分支提交 | 基于 v0.7 release completion 之后的 `main`；已 push 到 `origin/codex/aods-implementation-evidence` |
+| 剩余 dirty | 仅 untracked `MEMORY.md` | `MEMORY.md` 为本地记忆文件，不进仓库 |
 
 ## 已完成工作
 
@@ -68,10 +68,11 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-024 | 完成代码漂移路线设计 | 下一最小切片确定为 implementation evidence / contract drift；不做全量代码扫描器 |
 | U-025 | 完成 v0.7 RC gate decision | local RC candidate / conditional pass；`release:self-check` 通过；不直接发布 |
 | U-026 | 执行 v0.7 release branch / PR / Release / issue sync | PR `#61` 已 merge；GitHub Release `v0.7.0` 已创建；13 个 v0.7 覆盖 issues 已关闭；`#60/#41` 已评论保留；`MEMORY.md` 未进仓库 |
+| U-027 | 落地 implementation evidence 最小切片 | module meta evidence、manifest `evidence_summary`、validator current-evidence gate、reality locator checks、compiled-pilot current+planned evidence；focused / repo / benchmark tests 均通过 |
 
 ## 未完成工作
 
-当前任务台账无未完成项。下一条技术主线建议从 `docs/operations/aods-code-drift-roadmap.zh-CN.md` 的 implementation evidence / contract drift 最小切片开始。
+当前任务台账无未完成项。U-027 已完成并创建 PR `#62`；下一轮应先审查 / 合并该 PR，再进入 v0.8 backlog 或下一段 contract drift。
 
 ## 失败和风险
 
@@ -79,15 +80,15 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 |---|---|---|
 | README benchmark 手改风险 | sync 区块由 `summary.mjs` 生成 | 后续涉及 benchmark README 结论时必须从 generator 改 |
 | ref 语义误读风险 | `U-013` 当前只定义 canonical ref / resolution posture 的 spec boundary | 后续如继续做 ref 能力，必须显式区分 identifier / resolution status 与实际 fetch/runtime dereference，不要假设现状已支持自动跨 corpus 解析 |
-| dirty worktree 混轮风险 | 当前工作树混有本轮实现文件和更早未提交的 benchmark/generated 输出 | 后续提交前必须按文件归因，不要把旧 dirty 一起误归入本轮 |
+| dirty worktree 混轮风险 | 当前工作树仅剩本地 untracked `MEMORY.md` | 后续 public push / PR 前确认 staged set / working tree 不包含 `MEMORY.md` |
 | release 渠道混淆风险 | 正式版本发布已定为 GitHub Releases-only | 后续若出现 npm publish 相关建议或脚本扩张，不应把 registry 发布重新当成完成条件，除非 owner 明确改策略 |
-| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | 未获 owner 明确确认前，不 push、不建 PR、不评论或关闭 issue、不发布 release |
+| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | 当前仅创建 ready PR `#62`；未合并、未评论或关闭 issue、未发布 release |
 | 代码漂移范围扩散风险 | drift 问题容易扩大成未裁剪的全量静态/语义分析器 | 下一步只从 topology、implementation linkage、implementation evidence 和 contract drift 最小闭环推进 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | 新任务 | 设计 implementation evidence 最小切片 | 从 code drift roadmap 进入 schema / validator / regression 计划 |
+| 1 | 新任务 | 审查并合并 U-027 PR | PR `#62` 通过审查和 CI 后再 merge |
 | 2 | 新任务 | 复盘 v0.7 release 后的 open issues | 保留 `#60/#41` 和 deferred issues，重新排 v0.8 backlog |
-| 3 | 新任务 | 如需继续发布 hygiene | 检查 README release links、GitHub latest、tag 和 package version 是否持续对齐 |
+| 3 | 新任务 | 选择下一段 contract drift 切片 | 从 evidence freshness、implementation fingerprint、或 contract diff 中裁剪一个最小闭环 |

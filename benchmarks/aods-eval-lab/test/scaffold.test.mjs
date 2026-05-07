@@ -284,7 +284,25 @@ test("authoring source compiles implementation linkage and reports topology-awar
       pr_refs: [
         "PR-77"
       ],
-      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "change-handler-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "current",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        },
+        {
+          id: "change-handler-ci",
+          kind: "ci-check",
+          locator: "demo-api-change-handler",
+          status: "planned",
+          freshness_policy: "on-schema-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
     }
   };
   fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
@@ -294,7 +312,25 @@ test("authoring source compiles implementation linkage and reports topology-awar
   const manifestPath = path.join(compiledRoot, "manifest.json");
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
-  assert.deepEqual(detailRef.implementation, detailModule.meta.implementation);
+  assert.deepEqual(detailRef.implementation, {
+    repo_id: "demo-api",
+    paths: [
+      "src/handlers/change.js",
+      "test/change.test.js"
+    ],
+    status: "current",
+    pr_refs: [
+      "PR-77"
+    ],
+    authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+    evidence_summary: {
+      total: 2,
+      current: 1,
+      planned: 1,
+      stale: 0,
+      blocked: 0
+    }
+  });
 
   const realityJson = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--reality", "--json"], {
     cwd: REPO_ROOT,
@@ -307,6 +343,12 @@ test("authoring source compiles implementation linkage and reports topology-awar
     unlinked_modules: 0,
     checked_paths: 0,
     missing_paths: 0,
+    evidence_total: 2,
+    modules_with_evidence: 1,
+    modules_without_evidence: 0,
+    stale_evidence: 0,
+    checked_evidence_locators: 0,
+    missing_evidence_locators: 0,
     unchecked_reason: "some topology repo locators are descriptive only or cannot be resolved from --repo-root"
   });
   assert.equal(realityReport.levels.L3.warnings.some((issue) => issue.rule === "topology-reality-unchecked"), false);
@@ -330,6 +372,111 @@ test("authoring source compiles implementation linkage and reports topology-awar
   });
   assert.notEqual(invalidRepoValidate.status, 0);
   assert.match(invalidRepoValidate.stdout, /implementation-repo-ref/);
+});
+
+test("current implementation linkage requires declared evidence", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-required-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, path.join(tempDir, "compiled"), "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /implementation-evidence-required/);
+});
+
+test("reality validation rejects missing path-like implementation evidence locators", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-reality-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const repoRoot = path.join(tempDir, "external", "demo-api");
+  fs.mkdirSync(path.join(repoRoot, "src", "handlers"), { recursive: true });
+  fs.writeFileSync(path.join(repoRoot, "src", "handlers", "change.js"), "export function handleChange() {}\n");
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "missing-change-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "current",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const realityValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--reality", "--repo-root", tempDir], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(realityValidate.status, 0);
+  assert.match(realityValidate.stdout, /implementation-evidence-locator-exists/);
+  assert.match(realityValidate.stdout, /missing_evidence_locators=1/);
 });
 
 test("authoring source compiles stable contract metadata summaries", () => {

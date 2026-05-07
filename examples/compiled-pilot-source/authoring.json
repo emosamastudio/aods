@@ -348,7 +348,25 @@
           "pr_refs": [
             "PR-142"
           ],
-          "authority_surface": "shift-ops-policy:approval-policy"
+          "authority_surface": "shift-ops-policy:approval-policy",
+          "evidence": [
+            {
+              "id": "approval-policy-test",
+              "kind": "test",
+              "locator": "services/approval/tests/policy.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-policy:approval-policy"
+            },
+            {
+              "id": "approval-release-window-check",
+              "kind": "ci-check",
+              "locator": "approval-policy-release-window",
+              "status": "planned",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-policy:approval-policy"
+            }
+          ]
         }
       },
       "sections": [

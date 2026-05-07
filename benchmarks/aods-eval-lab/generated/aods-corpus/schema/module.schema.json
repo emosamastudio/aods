@@ -1458,6 +1458,62 @@
         }
       }
     },
+    "implementation_evidence_status": {
+      "type": "string",
+      "enum": ["planned", "current", "stale", "blocked"],
+      "description": "Review posture for a declared implementation evidence anchor."
+    },
+    "implementation_evidence_kind": {
+      "type": "string",
+      "enum": ["test", "ci-check", "fixture", "exported-symbol", "file-contract", "manual-review"],
+      "description": "Kind of evidence that supports the design-to-implementation linkage claim."
+    },
+    "implementation_evidence_freshness_policy": {
+      "type": "string",
+      "enum": ["none", "on-schema-change", "on-contract-change", "time-bound"],
+      "description": "When this evidence anchor should be reconsidered for freshness."
+    },
+    "implementation_evidence_ref": {
+      "type": "object",
+      "required": ["id", "kind", "locator", "status", "authority_surface"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$",
+          "description": "Stable evidence identifier within module.meta.implementation.evidence[]."
+        },
+        "kind": {
+          "$ref": "#/definitions/implementation_evidence_kind"
+        },
+        "locator": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Implementation-repo-relative file path, CI check name, exported symbol, or review locator for this evidence."
+        },
+        "command": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Optional human-run command that can refresh or inspect this evidence; validators do not execute it."
+        },
+        "expected_signal": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Observable pass signal or review output expected from the evidence anchor."
+        },
+        "freshness_policy": {
+          "$ref": "#/definitions/implementation_evidence_freshness_policy"
+        },
+        "status": {
+          "$ref": "#/definitions/implementation_evidence_status"
+        },
+        "authority_surface": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Section or artifact ref that owns the evidence claim."
+        }
+      }
+    },
     "implementation_meta": {
       "type": "object",
       "required": ["repo_id", "paths", "status", "authority_surface"],
@@ -1494,6 +1550,14 @@
           "type": "string",
           "maxLength": 160,
           "description": "Section or artifact ref inside this module that owns the linkage claim."
+        },
+        "evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/implementation_evidence_ref"
+          },
+          "description": "Evidence anchors that make current or planned implementation linkage reviewable without executing external commands."
         }
       }
     },
