@@ -1,21 +1,21 @@
 # AODS v0.7 RC Gate
 
-状态：RC gate decision
+状态：RC gate complete / release shipped
 日期：2026-05-07
 
 ## 决策
 
 v0.7 当前达到 **release branch candidate / conditional pass**：本地验证门禁已全绿，版本面已在 release branch 中切换到 `0.7.0`，v0.7 语义实现具备进入 PR 审查和 GitHub Release 准备的条件。
 
-但当前 **不应直接创建 GitHub Release tag**，原因是 release branch 尚未合并到 `main`。GitHub Release 应在 PR merge 后从 `main` 创建 `v0.7.0`。
+发布执行已完成：PR `#61` 已 merge 到 `main`，GitHub Release `v0.7.0` 已从 merged `main` 创建。
 
 ## 版本面
 
 | 项 | 当前值 | 判断 |
 |---|---|---|
 | `package.json` version | `0.7.0` | release branch 已切换 |
-| 本地最高 tag | `v0.6.0` | 尚无 `v0.7.0` tag |
-| GitHub latest release | `v0.6.0` | 当前公开 latest 仍正确 |
+| 本地最高 tag | `v0.7.0` | 已从 merged `main` 创建 |
+| GitHub latest release | `v0.7.0` | 当前公开 latest 已切换 |
 | README 公开 release | `v0.7.0` | release branch 已切换；merge 后必须立即创建 GitHub Release |
 | v0.7 版本号 | `0.7.0` / tag `v0.7.0` | owner 已确认进入发布执行 |
 
@@ -35,10 +35,10 @@ v0.7 当前达到 **release branch candidate / conditional pass**：本地验证
 
 | 阻断项 | 是否阻断 local RC candidate | 是否阻断 public release | 处理 |
 |---|---|---|---|
-| dirty worktree 尚未拆分 / commit | 否 | 是 | 按 dirty attribution 先拆 governance/docs、semantic、benchmark evidence、memory boundary |
-| version surfaces 已切换到 `0.7.0` | 否 | 否 | release branch 已完成；PR merge 后立即创建 tag/release |
-| GitHub issue close/comment 未审批 | 否 | 是 | 按 GitHub sync approval matrix 执行 |
-| no open PR | 否 | 是 | 需要先创建 PR 并完成 review / merge |
+| dirty worktree 尚未拆分 / commit | 否 | 否 | PR `#61` 已 merge；`MEMORY.md` intentionally untracked |
+| version surfaces 已切换到 `0.7.0` | 否 | 否 | 已发布 |
+| GitHub issue close/comment 未审批 | 否 | 否 | 已按矩阵完成 v0.7 issue sync |
+| no open PR | 否 | 否 | PR `#61` 已 merge |
 | npm registry publish 非目标 | 否 | 否 | 当前 release strategy 是 GitHub Releases-only |
 
 ## 建议 release note skeleton
@@ -63,7 +63,6 @@ Validation:
 
 ## 下一步执行顺序
 
-1. 提交并推送 `codex/aods-v0.7-rc` release branch，明确排除 `MEMORY.md`。
-2. 创建 PR 到 `main`。
-3. PR merge 后按 GitHub sync approval matrix 评论 / 关闭对应 issues。
-4. 从 `main` 创建 GitHub Release `v0.7.0`；不执行 npm registry publish，除非 owner 改变 release 策略。
+1. v0.7 release execution complete.
+2. 后续从 implementation evidence / contract drift 路线继续 v0.8 backlog。
+3. 不执行 npm registry publish，除非 owner 改变 release 策略。

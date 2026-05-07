@@ -28,7 +28,7 @@
 
 | 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
 |---:|---|---|---|---|---|
-| 1 | U-026 | 未开始 | 已完成 | 创建 `codex/aods-v0.7-rc`，切换 package / README / skill 版本面到 `0.7.0`，复跑 release self-check，提交并推送 branch，创建 draft PR `#61` | `package.json`、`package-lock.json`、README、`skills/aods-use/*`、`docs/operations/aods-v0.7-rc-gate.zh-CN.md`、PR `https://github.com/emosamastudio/aods/pull/61` |
+| 1 | U-026 | 未开始 | 已完成 | 创建 `codex/aods-v0.7-rc`，切换 package / README / skill 版本面到 `0.7.0`，复跑 release self-check，提交并推送 branch，创建并合并 PR `#61`，创建 GitHub Release `v0.7.0` | `package.json`、`package-lock.json`、README、`skills/aods-use/*`、`docs/operations/aods-v0.7-rc-gate.zh-CN.md`、PR `https://github.com/emosamastudio/aods/pull/61`、Release `https://github.com/emosamastudio/aods/releases/tag/v0.7.0` |
 
 ## 验证记录：R-2026-05-07-06
 
@@ -40,6 +40,9 @@
 | U-026 | Staged set check | `git diff --cached --check`、`git diff --cached --name-status` | 通过 | `MEMORY.md` 未进入 staged set |
 | U-026 | Branch push | `proxy_on && git push -u origin codex/aods-v0.7-rc` | 通过 | 前三次无代理 push 因网络失败；启用 `proxy_on` 后成功 |
 | U-026 | Draft PR | `proxy_on && gh pr create --draft ...` | 通过 | PR `#61` created |
+| U-026 | PR merge | `proxy_on && gh pr ready 61 && gh pr merge 61 --squash --delete-branch ...` | 通过 | PR `#61` merged to `main` as `7db085d` |
+| U-026 | GitHub Release | `proxy_on && gh release create v0.7.0 ...` | 通过 | Release `https://github.com/emosamastudio/aods/releases/tag/v0.7.0` created |
+| U-026 | Issue sync | `proxy_on && gh issue close/comment ...` | 通过 | Closed `#29/#32/#31/#30/#28/#42/#40/#34/#36/#53/#17/#10/#9`; commented `#60/#41` |
 
 ## 新发现任务：R-2026-05-07-06
 
@@ -54,11 +57,11 @@
 | 项 | 数量 | 说明 |
 |---|---:|---|
 | 选中任务 | 1 | U-026 |
-| 完成任务 | 1 | release branch pushed and draft PR created |
+| 完成任务 | 1 | release branch pushed, PR merged, GitHub Release created, issue sync complete |
 | 失败任务 | 0 | 无 |
 | 阻塞任务 | 0 | 无 |
 | 新增任务 | 0 | 无 |
-| 剩余未完成任务 | 0 | 后续继续执行 PR merge / GitHub Release / issue sync |
+| 剩余未完成任务 | 0 | v0.7 release execution complete |
 
 ## 回合摘要：R-2026-05-07-05
 
