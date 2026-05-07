@@ -8,12 +8,12 @@
 |---|---|
 | 回合 ID | R-2026-05-07-06 |
 | 开始时间 | 2026-05-07 12:36 Asia/Shanghai |
-| 结束时间 | 进行中 |
+| 结束时间 | 2026-05-07 13:00 Asia/Shanghai |
 | 执行者 | 主 agent |
 | 参与 subagent | 无 |
 | 本轮上限 | 默认 10 |
 | 本轮选中任务 | U-026 |
-| 本轮状态 | 进行中 |
+| 本轮状态 | 已完成 |
 
 ## 范围锁定：R-2026-05-07-06
 
@@ -28,7 +28,7 @@
 
 | 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
 |---:|---|---|---|---|---|
-| 1 | U-026 | 未开始 | 进行中 | 创建 `codex/aods-v0.7-rc`，切换 package / README / skill 版本面到 `0.7.0`，复跑 release self-check | `package.json`、`package-lock.json`、README、`skills/aods-use/*`、`docs/operations/aods-v0.7-rc-gate.zh-CN.md` |
+| 1 | U-026 | 未开始 | 已完成 | 创建 `codex/aods-v0.7-rc`，切换 package / README / skill 版本面到 `0.7.0`，复跑 release self-check，提交并推送 branch，创建 draft PR `#61` | `package.json`、`package-lock.json`、README、`skills/aods-use/*`、`docs/operations/aods-v0.7-rc-gate.zh-CN.md`、PR `https://github.com/emosamastudio/aods/pull/61` |
 
 ## 验证记录：R-2026-05-07-06
 
@@ -37,6 +37,28 @@
 | U-026 | Branch creation | `git switch -c codex/aods-v0.7-rc` | 通过 | release branch created |
 | U-026 | Version bump | `npm version 0.7.0 --no-git-tag-version` | 通过 | package / lock version switched |
 | U-026 | Full release self-check | `npm run release:self-check` | 通过 | `aods@0.7.0`；38 tests passing；dry-run tarball `aods-0.7.0.tgz` |
+| U-026 | Staged set check | `git diff --cached --check`、`git diff --cached --name-status` | 通过 | `MEMORY.md` 未进入 staged set |
+| U-026 | Branch push | `proxy_on && git push -u origin codex/aods-v0.7-rc` | 通过 | 前三次无代理 push 因网络失败；启用 `proxy_on` 后成功 |
+| U-026 | Draft PR | `proxy_on && gh pr create --draft ...` | 通过 | PR `#61` created |
+
+## 新发现任务：R-2026-05-07-06
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-07-06
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-026 |
+| 完成任务 | 1 | release branch pushed and draft PR created |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 0 | 后续继续执行 PR merge / GitHub Release / issue sync |
 
 ## 回合摘要：R-2026-05-07-05
 

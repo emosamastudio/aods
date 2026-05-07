@@ -10,10 +10,10 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S4 Release execution |
+| 当前阶段 | S4 Release PR ready / awaiting merge and GitHub Release |
 | 当前回合 | R-2026-05-07-06 |
-| 未完成任务数量 | 1 |
-| 已完成任务数量 | 30 |
+| 未完成任务数量 | 0 |
+| 已完成任务数量 | 31 |
 
 ## 当前回合锁定记录
 
@@ -30,9 +30,7 @@
 
 ## 未完成任务
 
-| 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
-|---|---|---|---|---|---|---|---|
-| U-026 | S4 | 执行 v0.7 release branch / PR，排除 `MEMORY.md` | P0 | 进行中 | version surfaces 切到 `0.7.0`；`npm run release:self-check` 通过；staged set 不包含 `MEMORY.md`；branch push 成功；创建 PR | U-025 | GitHub Release tag 需 PR merge 后执行 |
+当前无未完成任务。PR merge、GitHub Release 和 issue 同步将在本回合发布执行继续推进，若被远端策略阻塞则重新入账。
 
 ## 已完成任务
 
@@ -68,6 +66,7 @@
 | 28 | U-023 | S4 | 制定 GitHub issue / PR 同步审批矩阵 | P1 | 2026-05-07 | `docs/operations/aods-github-sync-approval.zh-CN.md`、operations README、round log、handoff、task ledger | `gh repo view --json ...`、`gh pr list --state open --json ...`、`gh issue list --state open --json ...`、`git diff --check` | GitHub 当前 public repo、0 open PR、37 open issues；公开动作仅列审批矩阵，未执行 |
 | 29 | U-024 | S5 | 设计代码漂移路线的最小下一切片 | P0 | 2026-05-07 | `docs/operations/aods-code-drift-roadmap.zh-CN.md`、operations README、round log、handoff、task ledger | `git diff --check` | 确定以 implementation evidence / contract drift 为下一主线；明确不做全量代码扫描器、不用 LLM 作唯一事实来源 |
 | 30 | U-025 | S4 | v0.7 release candidate gate decision | P1 | 2026-05-07 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md`、operations README、round log、handoff、task ledger | `jq '{name, version, scripts}' package.json`、`git tag --sort=-version:refname`、`gh release list --limit 20`、`npm run release:self-check`、`git diff --check` | local RC candidate / conditional pass；package / README / latest release 仍为 `0.6.0`，不直接发布 |
+| 31 | U-026 | S4 | 执行 v0.7 release branch / PR，排除 `MEMORY.md` | P0 | 2026-05-07 | Branch `codex/aods-v0.7-rc`、PR `#61`、version surfaces `0.7.0`、staged set excludes `MEMORY.md` | `npm run release:self-check`、`git diff --cached --check`、`git push -u origin codex/aods-v0.7-rc`、`gh pr create --draft ...` | PR: `https://github.com/emosamastudio/aods/pull/61` |
 
 ## 失败或阻塞任务
 
@@ -103,4 +102,4 @@
 | 2026-05-02 | 100% | 80% | 58% | `U-008`、`U-011`、`U-014` 完成 | root topology 已从 design-only 进入 schema + compiled-authoring + example 链路；severity/gating 与 adapter minimum contract 也已形成统一 spec vocabulary，后续主线收敛到 module linkage / reality summary / ref semantics。 |
 | 2026-05-02 | 100% | 85% | 63% | `U-009`、`U-010`、`U-013`、`U-018` 完成 | module implementation topology、`validate --reality` topology summary、cross-surface ref boundary、以及 shared-invariant normalization 已落盘；当前主线只剩 release alignment blocked work。 |
 | 2026-05-02 | 100% | 88% | 66% | `U-015` 完成 | release alignment checklist 已收敛；正式版本发布统一走 GitHub Releases，repo 当前台账已无未完成任务。 |
-| 2026-05-07 | 100% | 91% | 70% | `U-020`、`U-021`、`U-022`、`U-023`、`U-024`、`U-025` 完成 | 接手 review 中两个阻断项已修复并通过 focused / repo / benchmark / release gates；接手计划、代码漂移路线、dirty worktree 归因、GitHub 同步审批矩阵、RC gate 和后续发布审批点已写入 operations 文档。 |
+| 2026-05-07 | 100% | 92% | 72% | `U-020`、`U-021`、`U-022`、`U-023`、`U-024`、`U-025`、`U-026` 完成 | v0.7 release branch 已推送，PR `#61` 已创建；`MEMORY.md` 未进仓库；后续进入 PR merge、GitHub Release 和 issue sync。 |
