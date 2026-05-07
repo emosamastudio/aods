@@ -10,29 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S8 deprecation migration boundary |
-| 当前回合 | R-2026-05-07-20 |
-| 未完成任务数量 | 0 |
-| 已完成任务数量 | 45 |
+| 当前阶段 | S9 risk exposure backlog triage |
+| 当前回合 | R-2026-05-07-21 |
+| 未完成任务数量 | 1 |
+| 已完成任务数量 | 46 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-20 |
-| 开始时间 | 2026-05-07 17:54 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-21 |
+| 开始时间 | 2026-05-07 18:10 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-040 |
-| 本轮范围 | deprecation and migration format 最小边界：deprecation metadata、replacement links、migration guidance、affected versions、removal version、validation behavior；spec docs、focused regression、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、automatic migration tool、consumer rewrite、runtime compatibility shim、stored data transform、backward compatibility guarantee |
-| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
+| 选中任务 | U-041 |
+| 本轮范围 | v0.10 backlog triage：重新审查 open issue backlog / owner roadmap，选择 risk / exposure / audit hardening 下一段最小切片；operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、spec / schema / validator runtime 实现、runtime policy engine、permission broker、workflow engine |
+| 验证计划 | `npm run validate:all`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| 无 | - | 当前 v0.9 队列已清空，下一轮先重新 triage open issue backlog / owner roadmap | - | - | 不直接把 roadmap issue 当作实现切片 | - | `#60` 仍是路线图入口 |
+| U-042 | S9 | 定义 standard risk taxonomy 最小边界 | P2 | 未开始 | canonical risk categories、read/write risk distinction、cost、credential、filesystem、network、external-send、production-mutation、human-approval、capability negotiation interaction 最小语义进入 spec；不做 runtime policy engine | U-034、U-035、U-040、U-041 | 对应 `#44`；下一轮首选 |
 
 ## 已完成任务
 
@@ -83,6 +83,7 @@
 | 43 | U-038 | S8 | 定义 ownership and authority hierarchy 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | overlapping stable surfaces 现在有 canonical_authority、derived_surface、alias_surface、conflict_policy、migration_guidance 最小边界；不实现 automatic conflict resolver 或 cross-corpus authority runtime |
 | 44 | U-039 | S8 | 定义 dependency ordering between surfaces 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 requires、blocks、derives_from、emits、consumes、optional_dependency 的最小 ordering vocabulary；不实现 package manager、runtime scheduler 或 cross-repo dependency executor |
 | 45 | U-040 | S8 | 定义 deprecation and migration format 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 deprecation metadata、replacement links、migration guidance、affected versions、removal version 和 validation behavior 最小边界；不实现 automatic migration tool、consumer rewrite 或 runtime compatibility shim |
+| 46 | U-041 | S9 | 完成 v0.10 backlog triage 并选择 risk / exposure / audit hardening 下一切片 | P0 | 2026-05-07 | `docs/operations/aods-v0.10-backlog.zh-CN.md`、operations README、task ledger、round log、handoff | `gh issue list --repo emosamastudio/aods --state open --limit 100 --json ...`、`gh issue view 44/45/46/37/57/58/59/60 --json ...`、`npm run validate:all`、`git diff --check` | 下一轮首选 U-042 standard risk taxonomy boundary；已覆盖但 GitHub 仍 open 的 issue 不重复执行 |
 
 ## 失败或阻塞任务
 
@@ -133,3 +134,4 @@
 | 2026-05-07 | 100% | 100% | 94% | `U-038` 完成 | ownership and authority hierarchy boundary 已落地；AODS 现在能为 overlapping stable surfaces 表达 canonical、derived、alias、conflict 和 migration posture，自动冲突解析继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 95% | `U-039` 完成 | dependency ordering boundary 已落地；AODS 现在能为 stable surfaces 表达 requires、blocks、derives_from、emits、consumes 和 optional dependency ordering，runtime scheduler 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 96% | `U-040` 完成 | deprecation and migration format boundary 已落地；AODS 现在能为 deprecated / removed stable surfaces 表达替代链接、迁移指引、受影响版本、移除版本和验证行为，自动迁移工具继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 97% | `U-041` 完成 | v0.10 backlog triage 已完成；下一段路线收敛为 risk / exposure / audit hardening，首选 standard risk taxonomy boundary，避免重复执行已覆盖 issue。 |
