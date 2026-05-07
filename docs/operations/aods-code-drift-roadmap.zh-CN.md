@@ -7,7 +7,7 @@
 
 代码漂移在 AODS 后续规划内，而且应该成为 AODS 区别于普通文档格式的核心能力之一。但推进方式必须是 authority-first：先让规范声明、实现位置、证据 artifacts 和验证结果形成闭环，再逐步进入行为一致性检测。
 
-下一步不做全量代码扫描器，也不让 LLM 直接判定代码是否符合规范。最初下一步是 `implementation evidence` 最小切片；该切片已在 U-027 完成。U-069 后的最新选择是 U-071：强化 implementation reality locator drift 检查，让 descriptive / unresolved repo locator 和 path-like evidence locator 的现实可检查性更明确。
+下一步不做全量代码扫描器，也不让 LLM 直接判定代码是否符合规范。最初下一步是 `implementation evidence` 最小切片；该切片已在 U-027 完成。U-071 已强化 implementation reality locator drift 检查：descriptive / unresolved repo locator 现在以 structured `unchecked_repos[]` 和 actionable `unchecked_reason` 暴露，path-like evidence locator 仍只在可解析 repo root 下做 deterministic path existence smoke check。
 
 ## 要解决的问题
 

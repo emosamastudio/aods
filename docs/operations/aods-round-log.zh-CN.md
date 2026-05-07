@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-09
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-09 |
+| 开始时间 | 2026-05-08 02:24 Asia/Shanghai |
+| 结束时间 | 2026-05-08 02:33 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | implementation reality locator diagnostics + route subcommand help；不执行 public sync、不改 route ranking |
+| 本轮选中任务 | U-071、U-076 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-09
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/validate.mjs`、`lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/` |
+| 禁止触碰 | remote clone/fetch、全量代码扫描器、LLM judge、evidence command executor、route ranking、GitHub issue comment/close/label、PR、release、Polaris sibling repo、public README benchmark sync 区块、`MEMORY.md` |
+| 外部依赖 | 无；本轮不依赖网络或公开写接口 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-09
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-071 | 未开始 | 已完成 | 为 implementation reality unresolved repo locator 增加 structured `topology.unchecked_repos[]`，并将 `unchecked_reason` 改为 repo id + reason + locator 的 actionable 聚合；focused regression 覆盖 missing local locator 和 remote locator；同步 validation/stable contract spec 输出契约 | `lib/validate.mjs`、`spec/validation-rules.json`、`spec/stable-surface-contracts.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、operations docs |
+| 2 | U-076 | 未开始 | 已完成 | 增加 `aods route --help` 子命令帮助输出和 CLI discoverability regression；不改变 route ranking、query route 或 touch route 语义 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、operations docs |
+
+## 验证记录：R-2026-05-08-09
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-071/U-076 | Previous-round quality review | `git status --short`、`git log -1 --stat --oneline`、`npm run validate:all`、`git diff --check` | 通过 | U-068/U-069/U-070 提交后工作区仅 untracked `MEMORY.md`；repo validation、diff whitespace 均通过后进入本轮 |
+| U-071 | TDD RED | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 按预期失败 | 新增 structured unchecked repo regression 后，旧 reality summary 缺少 `topology.unchecked_repos[]` |
+| U-071 | Focused GREEN | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 28/28 pass；覆盖 structured unchecked repo diagnostics、existing topology reality summary、stable metadata mirror、duplicate repo id gate |
+| U-076 | TDD RED | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 按预期失败 | 新增 route help regression 后，旧实现报 `Unknown route arg: --help` |
+| U-076 | Route help smoke | `node ./bin/aods.mjs route --help` | 通过 | 输出 route 用法、`--stage` 说明与 route intent 枚举 |
+| U-071/U-076 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-071/U-076 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+| U-071/U-076 | Benchmark gate | `npm run benchmark:test` | 未执行，不作为本轮 gate | 本轮 focused regression 已覆盖 validator/CLI 行为；hosted repeatability lane 仍有外部捕获风险，避免引入无关 generated report churn |
+
+## 新发现任务：R-2026-05-08-09
+
+本轮没有新增任务 ID；下一批继续执行已入账 U-072/U-073。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-071/U-076 | 无 | 无新增；继续执行 public docs navigation 与 v0.12 backlog triage | P2 | README / operations docs 导航补强、deferred backlog 重新排序 | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-08-09
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 2 | U-071、U-076 |
+| 完成任务 | 2 | implementation reality locator diagnostics、route subcommand help 完成 |
+| 失败任务 | 0 | 两个 RED regression 均按预期失败后转绿 |
+| 阻塞任务 | 0 | public sync 和 release gate 仍需后续独立执行，不阻塞本轮 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 4 | 下一轮首选 U-072 + U-073；U-074/U-075 后续单独执行 |
+
 ## 回合摘要：R-2026-05-08-08
 
 | 项 | 内容 |

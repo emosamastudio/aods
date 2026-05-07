@@ -23,6 +23,11 @@ test("CLI help and compile errors expose allowed enum values", () => {
   assert.match(help, /module category: architecture \| protocol \| schema \| workflow \| policy \| config \| reference \| artifact \| capsule/);
   assert.match(help, /module scaffold pattern: implementation-governance/);
 
+  const routeHelp = runCli(["route", "--help"]);
+  assert.match(routeHelp, /aods route \[root\] \[--role <role-id>\]/);
+  assert.match(routeHelp, /--stage <stage>/);
+  assert.match(routeHelp, /route intent: any \| read \| write \| validate \| sync/);
+
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-discoverability-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
 
@@ -643,7 +648,14 @@ test("authoring source compiles implementation linkage and reports topology-awar
     stale_evidence: 0,
     checked_evidence_locators: 0,
     missing_evidence_locators: 0,
-    unchecked_reason: "some topology repo locators are descriptive only or cannot be resolved from --repo-root"
+    unchecked_repos: [
+      {
+        repo_id: "demo-api",
+        locator: "external/demo-api",
+        reason: "locator path does not exist under --repo-root"
+      }
+    ],
+    unchecked_reason: "demo-api locator path does not exist under --repo-root: external/demo-api"
   });
   assert.equal(realityReport.levels.L3.warnings.some((issue) => issue.rule === "topology-reality-unchecked"), false);
 
@@ -1149,6 +1161,111 @@ test("reality validation rejects missing path-like implementation evidence locat
   assert.notEqual(realityValidate.status, 0);
   assert.match(realityValidate.stdout, /implementation-evidence-locator-exists/);
   assert.match(realityValidate.stdout, /missing_evidence_locators=1/);
+});
+
+test("reality validation reports actionable unchecked implementation repo locators", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-locator-reality-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  runCli([
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "remote-detail",
+    "--category",
+    "policy",
+    "--layer",
+    "detail",
+    "--scope",
+    "Remote implementation authority"
+  ]);
+
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "missing-api",
+        locator: "external/missing-api",
+        role: "service",
+        status: "current"
+      },
+      {
+        id: "remote-api",
+        locator: "https://github.com/example/remote-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+
+  const linkedModules = [
+    { module: source.modules.find((entry) => entry.layer === "detail" && entry.id !== "remote-detail"), repoId: "missing-api" },
+    { module: source.modules.find((entry) => entry.id === "remote-detail"), repoId: "remote-api" }
+  ];
+  for (const { module, repoId } of linkedModules) {
+    module.meta = {
+      ...(module.meta ?? {}),
+      implementation: {
+        repo_id: repoId,
+        paths: [
+          "src/handler.js"
+        ],
+        status: "current",
+        authority_surface: `${module.id}:${module.sections[0].sid}`,
+        evidence: [
+          {
+            id: `${repoId}-manual-review`,
+            kind: "manual-review",
+            locator: "review-record",
+            status: "current",
+            authority_surface: `${module.id}:${module.sections[0].sid}`
+          }
+        ],
+        acceptance_criteria: [
+          {
+            id: `${repoId}-criterion`,
+            surface_ref: `${module.id}:${module.sections[0].sid}`,
+            requirement: "Manual review confirms implementation locator status before stable consumption.",
+            check_type: "manual-review",
+            blocking: "strict",
+            status: "satisfied",
+            authority_surface: `${module.id}:${module.sections[0].sid}`
+          }
+        ]
+      }
+    };
+  }
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const realityValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--reality", "--repo-root", tempDir, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(realityValidate.status, 0);
+  const report = JSON.parse(realityValidate.stdout);
+  assert.deepEqual(report.topology.unchecked_repos, [
+    {
+      repo_id: "missing-api",
+      locator: "external/missing-api",
+      reason: "locator path does not exist under --repo-root"
+    },
+    {
+      repo_id: "remote-api",
+      locator: "https://github.com/example/remote-api",
+      reason: "remote locator cannot be resolved from --repo-root"
+    }
+  ]);
+  assert.match(report.topology.unchecked_reason, /missing-api locator path does not exist under --repo-root: external\/missing-api/);
+  assert.match(report.topology.unchecked_reason, /remote-api remote locator cannot be resolved from --repo-root: https:\/\/github.com\/example\/remote-api/);
 });
 
 test("authoring source compiles stable contract metadata summaries", () => {

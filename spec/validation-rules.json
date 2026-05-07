@@ -104,7 +104,7 @@
     {
       "sid": "validation-output",
       "topic": "validation report format",
-      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, stale_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_reason?:str}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error/warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket.",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, stale_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_repos?:[{repo_id:str, locator:str, reason:str}], unchecked_reason?:str}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. unchecked_repos is emitted only when linked implementation repositories cannot be resolved from --repo-root; unchecked_reason is a human-readable aggregation of the same repo id, reason, and locator facts. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error/warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket.",
       "content_type": "prose",
       "refs": [],
       "artifact_refs": [
@@ -899,6 +899,46 @@
               },
               "missing_paths": {
                 "type": "integer"
+              },
+              "evidence_total": {
+                "type": "integer"
+              },
+              "modules_with_evidence": {
+                "type": "integer"
+              },
+              "modules_without_evidence": {
+                "type": "integer"
+              },
+              "stale_evidence": {
+                "type": "integer"
+              },
+              "checked_evidence_locators": {
+                "type": "integer"
+              },
+              "missing_evidence_locators": {
+                "type": "integer"
+              },
+              "unchecked_repos": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "repo_id",
+                    "locator",
+                    "reason"
+                  ],
+                  "properties": {
+                    "repo_id": {
+                      "type": "string"
+                    },
+                    "locator": {
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
               },
               "unchecked_reason": {
                 "type": "string"

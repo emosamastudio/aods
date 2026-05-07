@@ -11,33 +11,31 @@
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
 | 当前阶段 | S11 public sync / drift / route triage |
-| 当前回合 | R-2026-05-08-08 |
-| 未完成任务数量 | 6 |
-| 已完成任务数量 | 75 |
+| 当前回合 | R-2026-05-08-09 |
+| 未完成任务数量 | 4 |
+| 已完成任务数量 | 77 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-08 |
-| 开始时间 | 2026-05-08 02:06 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-09 |
+| 开始时间 | 2026-05-08 02:24 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-068、U-069、U-070 |
-| 本轮范围 | docs/read-only triage：GitHub issue local/public status matrix、下一段代码漂移最小切片选择、boot_by_touch / route discoverability residual review、operations docs 同步 |
-| 排除范围 | GitHub 公开写操作、schema/validator/runtime 实现、route ranking 改动、release 发布、Polaris sibling repo、public README benchmark sync 区块、`MEMORY.md` |
-| 验证计划 | `gh issue view` 只读审查；`node ./bin/aods.mjs route ... --json`；`node ./bin/aods.mjs validate . --strict --json`；`npm run validate:all`；`git diff --check` |
-| 新任务处理规则 | 本轮新增 U-076 route subcommand help / discoverability smoke test；只入未完成队列，不在本轮实现。 |
+| 选中任务 | U-071、U-076 |
+| 本轮范围 | implementation reality locator diagnostics hardening、route subcommand help / discoverability smoke test、operations docs 同步 |
+| 排除范围 | remote clone/fetch、全量代码扫描器、LLM judge、evidence command executor、route ranking 改动、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块、`MEMORY.md` |
+| 验证计划 | RED/GREEN focused scaffold regression；`node ./bin/aods.mjs route --help`；`npm run validate:all`；`git diff --check` |
+| 新任务处理规则 | 本轮不新增任务；新发现问题只入暂存区或下一轮候选，不抢占 U-071/U-076 范围。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-071 | S11 | 强化 implementation reality locator drift 检查 | P1 | 未开始 | 对 duplicate/descriptive locator、missing path、stale evidence locator 的诊断做最小改进；focused regression、`npm run validate:all`、`npm run benchmark:test` 均通过 | U-069 | drift implementation 候选 |
 | U-072 | S11 | 更新 public docs navigation for completed example packs | P2 | 未开始 | README / operations docs 指向六类 example pack 现状；benchmark sync 区块只从 generator 改；不夸大 coverage；`git diff --check` 和必要 validate 通过 | U-068 | docs 候选 |
 | U-073 | S11 | 制定 v0.12 backlog triage | P2 | 未开始 | 将 `#33/#35/#37/#38/#39/#43-#52/#59/#60` 中未覆盖项重新排序到 v0.12+，输出下一批任务；不实现新能力 | U-069 | docs 候选 |
 | U-074 | S11 | 执行 v0.11 累积变更 release readiness gate | P1 | 未开始 | `release:self-check`、必要 focused tests、diff hygiene、release notes skeleton 通过；不发布 release | U-073 | 单独执行 |
 | U-075 | S11 | GitHub issue / PR / release public sync execution | P1 | 未开始 | 仅在 owner 明确批准后评论/关闭 issue、创建 PR 或 release；同步前确认 staged set 不含 `MEMORY.md` | U-074 | 需 owner 授权，单独执行 |
-| U-076 | S11 | 增加 route 子命令 help / discoverability smoke test | P2 | 未开始 | `node ./bin/aods.mjs route --help` 或等价入口输出 route 用法；focused CLI regression 覆盖；不改变 route ranking | U-070 | route DX 候选 |
 
 ## 已完成任务
 
@@ -118,6 +116,8 @@
 | 73 | U-068 | S11 | 复盘 GitHub issue 本地覆盖与公开状态差异 | P2 | 2026-05-08 | `docs/operations/aods-github-public-sync-triage.zh-CN.md`、operations docs | `gh issue view 54/55/56/57/58/60/41 --json ...`、`npm run validate:all`、`git diff --check` | `#54-#58` 本地覆盖已领先公开状态；建议先 U-072 public docs navigation，再由 owner 批准后评论/关闭；`#60/#41` 保持 open |
 | 74 | U-069 | S11 | 选择下一段代码漂移最小切片 | P1 | 2026-05-08 | `docs/operations/aods-next-code-drift-slice.zh-CN.md`、operations docs | `node ./bin/aods.mjs route . --query "implementation evidence acceptance freshness citation drift" --stage plan --intent read --json`、`npm run validate:all`、`git diff --check` | 下一段选择 U-071 implementation reality locator drift hardening；不做全量扫描器、LLM judge、remote clone 或 evidence command executor |
 | 75 | U-070 | S11 | 复盘 boot-by-touch / route discoverability 残留 | P2 | 2026-05-08 | `docs/operations/aods-route-discoverability-review.zh-CN.md`、operations docs | `gh issue view 9/10/17 --json ...`、`node ./bin/aods.mjs route . --touch lib/route.mjs --intent write --json`、`node ./bin/aods.mjs validate . --strict --json`、`npm run validate:all`、`git diff --check` | `#9/#10/#17` 保持 closed；本地 strict warnings=0；新增 U-076 作为 route subcommand help 残留，不在本轮实现 |
+| 76 | U-071 | S11 | 强化 implementation reality locator drift 检查 | P1 | 2026-05-08 | `lib/validate.mjs`、`spec/validation-rules.json`、`spec/stable-surface-contracts.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` 按预期暴露缺少 `unchecked_repos`；GREEN focused scaffold regression；`npm run validate:all`；`git diff --check` | `validate --reality --json` 现在输出 structured `topology.unchecked_repos[]`，并把 `unchecked_reason` 改为 repo id + 原因 + locator；不做 remote clone/fetch、全量扫描器、LLM judge 或 evidence command executor |
+| 77 | U-076 | S11 | 增加 route 子命令 help / discoverability smoke test | P2 | 2026-05-08 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` 按预期暴露 `Unknown route arg: --help`；GREEN focused scaffold regression；`node ./bin/aods.mjs route --help`；`npm run validate:all`；`git diff --check` | `aods route --help` 现在输出 route 用法、stage 和 intent 枚举；未改变 route ranking 或 query/touch 选择语义 |
 
 ## 失败或阻塞任务
 
@@ -189,3 +189,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-065`、`U-066` 完成 | Batch C 已完成：external citation schema / source-first mirror 与 deterministic validator gates 已落地；下一步优先 U-067 external citation canonical example pack。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-067` 完成 | external citation canonical example pack 已落地；compiled-pilot governance module 现在展示 current external authority、unsupported assumption、internal decision provenance citation refs 和 fixture regression，下一步优先 Batch D：U-068/U-069/U-070。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-068`、`U-069`、`U-070` 完成 | Batch D 已完成：GitHub issue 本地/公开状态矩阵、下一段代码漂移最小切片和 route discoverability 残留均已复盘；下一步优先 U-071 implementation reality locator drift hardening，也可先做 U-076 route help 小修。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-071`、`U-076` 完成 | Batch E 已完成：implementation reality locator 现在给出 structured unchecked repo diagnostics；route 子命令帮助已补齐 smoke regression。下一步优先 U-072 public docs navigation 与 U-073 v0.12 backlog triage。 |

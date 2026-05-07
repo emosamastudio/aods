@@ -1,12 +1,12 @@
 # AODS Next Code Drift Slice
 
-状态：U-069 已完成
+状态：U-069 已完成；U-071 已执行
 日期：2026-05-08
 范围：选择下一段代码漂移最小切片；不实现全量代码扫描器
 
 ## 结论
 
-下一段代码漂移应选择 **U-071 implementation reality locator drift hardening**。理由是它延续现有 deterministic reality path，风险低、价值高，并且能把当前 `validate --reality` 中的 unchecked descriptive locator 从“可见风险”推进到“更可操作的诊断”。
+下一段代码漂移已选择并执行 **U-071 implementation reality locator drift hardening**。它延续现有 deterministic reality path，把 `validate --reality` 中的 unchecked descriptive locator 从“可见风险”推进到“更可操作的诊断”。
 
 不建议下一步做 behavioral drift、LLM semantic judge、cross-repo crawler 或 conformance runner。那些都依赖更强的 locator / evidence 基础，否则会把漂移检测建立在不可定位的现实面上。
 
@@ -25,19 +25,28 @@
 
 | 子项 | 内容 | 验收标准 |
 |---|---|---|
-| Locator diagnostics | 对 descriptive-only implementation repo locator 输出更具体的 `unchecked_reason` | `validate --reality --json` 能区分 descriptive locator、missing repo root、unresolvable external repo |
-| Duplicate / ambiguous locator | 对同一 implementation repo id 或 locator 的歧义继续保持阻断或明确诊断 | focused regression 覆盖 ambiguous reality mapping |
+| Locator diagnostics | 对 descriptive-only implementation repo locator 输出更具体的 `unchecked_reason` | 已完成：`validate --reality --json` 可区分 missing repo root、remote locator、out-of-root locator、empty locator |
+| Duplicate / ambiguous locator | 对同一 implementation repo id 的歧义继续保持阻断；locator 字符串重复不在本轮扩展 | U-021 已覆盖 duplicate repo id；本轮聚焦不可解析 locator 的 actionable diagnostics |
 | Path-like evidence smoke check | 只检查可解析 repo root 下的 path-like evidence locator 是否存在 | 不执行 command；只做 path existence |
 | Stale evidence visibility | stale evidence 在 reality summary 中保持计数和 warning | 不把 stale 自动升级为 release blocker，除非现有 gate 已定义 |
 | Documentation | 更新 code drift roadmap / task ledger / round log | 明确非目标：全量扫描器、LLM judge、remote clone |
 
+## U-071 执行结果
+
+| 输出 | 结果 |
+|---|---|
+| Structured diagnostics | `report.topology.unchecked_repos[]` 现在包含 `repo_id`、`locator`、`reason`，便于下游工具和人工审查定位不可检查的 implementation repo |
+| Human-readable summary | `unchecked_reason` 现在按 `repo_id reason: locator` 聚合，不再只给 generic “some locators cannot be resolved” |
+| Remote locator posture | `https://...` 与 `git@host:repo` 这类 remote locator 明确标为不能从 `--repo-root` 解析；本轮不 clone / fetch |
+| Missing local locator posture | `external/missing-api` 这类相对路径会报告 `locator path does not exist under --repo-root` |
+| Regression | focused scaffold regression 覆盖 structured unchecked repo 输出；existing topology-aware reality summary 期望同步更新 |
+
 ## 推荐任务流
 
-1. U-071：implementation reality locator drift hardening。
-2. U-072：public docs navigation，把已完成 example packs / registry / citation 用法串到公开入口。
-3. U-073：v0.12 backlog triage，把 behavioral drift、citation hygiene、capability negotiation runtime 等后续项重新排队。
-4. U-074：release readiness gate。
-5. U-075：owner 批准后执行 GitHub public sync。
+1. U-072：public docs navigation，把已完成 example packs / registry / citation 用法串到公开入口。
+2. U-073：v0.12 backlog triage，把 behavioral drift、citation hygiene、capability negotiation runtime 等后续项重新排队。
+3. U-074：release readiness gate。
+4. U-075：owner 批准后执行 GitHub public sync。
 
 ## 非目标
 

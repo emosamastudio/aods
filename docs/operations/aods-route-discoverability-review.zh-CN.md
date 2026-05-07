@@ -1,6 +1,6 @@
 # AODS Route Discoverability Review
 
-状态：U-070 已完成
+状态：U-070 已完成；U-076 已执行
 日期：2026-05-08
 范围：复盘 `#9/#10/#17` 与当前 routing warnings；不削弱 strict gate
 
@@ -8,7 +8,7 @@
 
 `#9/#10/#17` 的原始问题已在 v0.7 最小实现中关闭：paired invariant normalization、capsule-shorter diagnostics、large corpus empty `boot_by_touch` advisory、README route guidance、scaffold authoring touch/pair 支持都已经存在。当前 root corpus strict validation 没有 route / boot warnings。
 
-仍有一个低风险 discoverability 残留：`aods route --help` 当前返回 `Unknown route arg: --help`，而顶层 usage 里已经列出 route 参数。这不影响语义正确性，但会增加 CLI 自发现成本。建议新增 U-076，单独补 route 子命令 help / smoke test。
+低风险 discoverability 残留已由 U-076 修复：`aods route --help` 现在返回 route 子命令用法、`--stage` 说明和 route intent 枚举。该修复不改变 route ranking、query route、touch route 或 strict gate 语义。
 
 ## GitHub issue 状态
 
@@ -26,13 +26,13 @@
 | strict validation | 通过且 warnings=0 | `node ./bin/aods.mjs validate . --strict --json` 显示 L1-L4 pass |
 | touch route smoke | 通过 | `node ./bin/aods.mjs route . --touch lib/route.mjs --intent write --json` 选择 `spec-boot-protocol`、`spec-surface-governance`、`spec-validation` |
 | query route smoke | 通过 | `boot_by_touch route discoverability warnings` 可路由到 validation / boot protocol / authority governance |
-| route help | 残留缺口 | `node ./bin/aods.mjs route --help` 返回 unknown arg，缺少 subcommand-local help |
+| route help | 已补齐 | `node ./bin/aods.mjs route --help` 输出 route 用法、stage 与 intent 枚举 |
 
 ## 新增任务建议
 
 | 任务 ID | 优先级 | 任务 | 验收标准 |
 |---|---|---|---|
-| U-076 | P2 | 增加 route 子命令 help / discoverability smoke test | `node ./bin/aods.mjs route --help` 或等价入口输出 route 用法；focused CLI regression 覆盖；不改变 route ranking |
+| U-076 | P2 | 增加 route 子命令 help / discoverability smoke test | 已完成：`node ./bin/aods.mjs route --help` 输出 route 用法；focused CLI regression 覆盖；不改变 route ranking |
 
 ## 非目标
 
