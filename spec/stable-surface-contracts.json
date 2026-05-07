@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 15,
-  "context": "Defines minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, deprecation and migration, topology, evidence, provenance, schema compatibility, adapter capability, and capability matching.",
+  "v": 16,
+  "context": "Defines minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, deprecation, risk taxonomy, topology, evidence, provenance, schema compatibility, adapter capability, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -12,7 +12,8 @@
     "Partial implementation gaps need explicit owner, blocking posture, remediation, and consumer guidance before being treated as non-blocking",
     "Overlapping stable surfaces need declared canonical, derived, alias, conflict, and migration posture before consumers merge claims",
     "Stable surfaces that depend on other surfaces need explicit hard, optional, blocking, derivation, emission, and consumption ordering before validation or routing treats them as independently consumable",
-    "Deprecated or removed stable surfaces need replacement, migration, affected version, removal, and validation behavior before consumers can safely move"
+    "Deprecated or removed stable surfaces need replacement, migration, affected version, removal, and validation behavior before consumers can safely move",
+    "Agent-consumable surfaces need canonical risk categories before routing, adapter, command, or release policy treats risk labels as comparable"
   ],
   "sections": [
     {
@@ -149,6 +150,25 @@
       "criticality": "must"
     },
     {
+      "sid": "standard-risk-taxonomy",
+      "topic": "standard risk taxonomy for agent-consumable surfaces",
+      "content": "canonical risk categories let agent-consumable surfaces use comparable risk labels before routing, adapter, command, resource, or release policy treats a surface as safe. read risk describes what can be exposed when a surface is read, including sensitive payload, stale data, local-only information, or authority confusion. write risk describes state change caused by commands, adapters, resources, generated outputs, releases, or production mutation. credential risk marks token, secret, credential, handle-only, and debug-only exposure. filesystem risk marks local path, repo path, generated output, and stored artifact read or write access. network risk marks remote read, remote write, external fetch, public endpoint exposure, and egress. external-send risk marks email, issue, pull request, release, public post, or other external message surfaces. cost risk marks paid API, compute, storage, quota, and rate-limit consumption. production-mutation risk marks production data, config, deploy, release, and irreversible operational changes. human approval states when a risk label needs review, approval, strict gate, release gate, or security gate. capability negotiation may compare provider capability risk labels with consumer risk floors, but this metadata does not create runtime_policy_engine behavior. This boundary does not create a permission_broker, dynamic_risk_scanner, approval_workflow, sandbox, secret manager, network broker, or cost accounting runtime.",
+      "content_type": "rules",
+      "refs": [
+        "redaction-policy-model",
+        "contract-completeness-profiles",
+        "command-receipt-event-triad",
+        "adapter-capability-minimum",
+        "capability-negotiation-retriage",
+        "spec-validation:severity-gating-policy"
+      ],
+      "artifact_refs": [
+        "standard-risk-taxonomy-field-table",
+        "standard-risk-taxonomy-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
       "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
@@ -224,7 +244,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -235,6 +255,7 @@
         "ownership-authority-hierarchy",
         "surface-dependency-ordering",
         "deprecation-migration-format",
+        "standard-risk-taxonomy",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -892,6 +913,120 @@
       }
     },
     {
+      "artifact_id": "standard-risk-taxonomy-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum risk categories for agent-consumable surfaces.",
+      "content": {
+        "key_columns": [
+          "risk_family"
+        ],
+        "columns": [
+          "risk_family",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "read_risk",
+            "risk_level, sensitive_payload, staleness, local_only_data, authority_confusion, consumer_floor",
+            "states what may be exposed when a surface is read",
+            "automatic sensitive-data scanner"
+          ],
+          [
+            "write_risk",
+            "risk_level, mutation_scope, side_effects, idempotency_posture, rollback_posture, gate",
+            "states what can change when a command, adapter, or resource is invoked",
+            "runtime policy engine"
+          ],
+          [
+            "credential_risk",
+            "credential_kind, exposure_posture, handle_only, redaction_posture, rotation_or_revocation_guidance",
+            "marks token, secret, credential, and handle-only exposure posture",
+            "secret manager"
+          ],
+          [
+            "filesystem_risk",
+            "path_scope, access_mode, generated_output, persistent_artifact, destructive_posture",
+            "marks local path, repo path, generated output, and stored artifact risk",
+            "sandbox or filesystem broker"
+          ],
+          [
+            "network_risk",
+            "endpoint_scope, direction, public_exposure, egress_posture, remote_write",
+            "marks remote read, remote write, external fetch, public endpoint, and egress risk",
+            "network broker"
+          ],
+          [
+            "external_send_risk",
+            "channel, audience, public_visibility, irreversible_posture, approval_gate",
+            "marks external messages such as email, issue, pull request, release, or public post",
+            "external action executor"
+          ],
+          [
+            "cost_risk",
+            "cost_unit, quota_scope, rate_limit, budget_posture, approval_gate",
+            "marks paid API, compute, storage, quota, and rate-limit consumption",
+            "cost accounting runtime"
+          ],
+          [
+            "production_mutation_risk",
+            "environment, mutation_kind, blast_radius, rollback_posture, release_gate",
+            "marks production data, config, deploy, release, and irreversible operational changes",
+            "deploy controller"
+          ],
+          [
+            "human_approval",
+            "approval_required, approval_reason, gate_level, approver_role, exception_posture",
+            "states when a risk label requires review, approval, strict gate, release gate, or security gate",
+            "approval workflow"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "standard-risk-taxonomy-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for standard risk taxonomy metadata.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "runtime_policy_engine",
+            "risk labels describe posture but do not grant or deny runtime execution",
+            "future policy runtime task"
+          ],
+          [
+            "permission_broker",
+            "permission checks need runtime identity, scope, and trust semantics beyond static metadata",
+            "future permission task"
+          ],
+          [
+            "dynamic_risk_scanner",
+            "detecting risk from code or payloads requires scanning and inference outside this vocabulary",
+            "future analysis task"
+          ],
+          [
+            "approval_workflow",
+            "human approval routing requires workflow state, receipts, and authority assignment",
+            "future governance workflow task"
+          ],
+          [
+            "cost_accounting_runtime",
+            "cost measurement requires provider-specific metering and quota state",
+            "future runtime observability task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -1260,6 +1395,13 @@
             "source": "validation"
           },
           {
+            "id": "standard-risk-taxonomy-boundary",
+            "condition": "agent-consumable read, write, adapter, or resource surface lacks declared risk family, risk level, risk source, consumer floor, or human approval posture",
+            "action": "future L3 warning: agent-consumable surfaces should expose standard risk labels before routing, adapter, or release policy compares them",
+            "priority": 44,
+            "source": "validation"
+          },
+          {
             "id": "implementation-metadata-mirror",
             "condition": "manifest.modules[].implementation exists XOR module.meta.implementation exists",
             "action": "L2 error: implementation linkage summary must be mirrored",
@@ -1408,6 +1550,11 @@
       "v": 15,
       "delta": "Added deprecation and migration metadata boundaries for deprecated, replaced, and removed stable surfaces.",
       "breaking": false
+    },
+    {
+      "v": 16,
+      "delta": "Added standard risk taxonomy boundaries for agent-consumable read, write, adapter, and resource surfaces.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -1432,7 +1579,8 @@
         "issue-47",
         "issue-50",
         "issue-51",
-        "issue-52"
+        "issue-52",
+        "issue-44"
       ],
       "confidence": "high",
       "review_chain": [
@@ -1462,7 +1610,8 @@
         "known-gap-posture",
         "authority-hierarchy-posture",
         "dependency-ordering-posture",
-        "deprecation-migration-posture"
+        "deprecation-migration-posture",
+        "risk-taxonomy-posture"
       ]
     },
     "redaction": {
@@ -1490,6 +1639,7 @@
           "ownership and authority hierarchy",
           "dependency ordering",
           "deprecation and migration",
+          "risk taxonomy",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -1497,9 +1647,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v15",
+          "snapshot_id": "spec-stable-surface-contracts-v16",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=15",
+          "source_watermark": "module.v=16",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

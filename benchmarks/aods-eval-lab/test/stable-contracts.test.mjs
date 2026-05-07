@@ -217,3 +217,44 @@ test("stable contracts define deprecation and migration format for surfaces", ()
   assert.ok(nonGoalRows.includes("consumer_rewrite"));
   assert.ok(nonGoalRows.includes("runtime_compatibility_shim"));
 });
+
+test("stable contracts define standard risk taxonomy for agent-consumable surfaces", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "standard-risk-taxonomy");
+  assert.ok(section);
+  assert.match(section.content, /canonical risk categories/);
+  assert.match(section.content, /read risk/);
+  assert.match(section.content, /write risk/);
+  assert.match(section.content, /credential/);
+  assert.match(section.content, /filesystem/);
+  assert.match(section.content, /network/);
+  assert.match(section.content, /external-send/);
+  assert.match(section.content, /cost/);
+  assert.match(section.content, /production-mutation/);
+  assert.match(section.content, /human approval/);
+  assert.match(section.content, /capability negotiation/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "standard-risk-taxonomy-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "read_risk",
+    "write_risk",
+    "credential_risk",
+    "filesystem_risk",
+    "network_risk",
+    "external_send_risk",
+    "cost_risk",
+    "production_mutation_risk",
+    "human_approval"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "standard-risk-taxonomy-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("runtime_policy_engine"));
+  assert.ok(nonGoalRows.includes("permission_broker"));
+  assert.ok(nonGoalRows.includes("dynamic_risk_scanner"));
+  assert.ok(nonGoalRows.includes("approval_workflow"));
+});

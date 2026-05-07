@@ -10,29 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S9 risk exposure backlog triage |
-| 当前回合 | R-2026-05-07-21 |
+| 当前阶段 | S9 risk taxonomy boundary |
+| 当前回合 | R-2026-05-07-22 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 46 |
+| 已完成任务数量 | 47 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-21 |
-| 开始时间 | 2026-05-07 18:10 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-22 |
+| 开始时间 | 2026-05-07 18:23 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-041 |
-| 本轮范围 | v0.10 backlog triage：重新审查 open issue backlog / owner roadmap，选择 risk / exposure / audit hardening 下一段最小切片；operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、spec / schema / validator runtime 实现、runtime policy engine、permission broker、workflow engine |
-| 验证计划 | `npm run validate:all`；`git diff --check` |
+| 选中任务 | U-042 |
+| 本轮范围 | standard risk taxonomy 最小边界：canonical risk categories、read/write risk distinction、credential、filesystem、network、external-send、cost、production-mutation、human approval、capability negotiation interaction；spec docs、focused regression、operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、runtime policy engine、permission broker、dynamic risk scanner、approval workflow、cost accounting runtime |
+| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-042 | S9 | 定义 standard risk taxonomy 最小边界 | P2 | 未开始 | canonical risk categories、read/write risk distinction、cost、credential、filesystem、network、external-send、production-mutation、human-approval、capability negotiation interaction 最小语义进入 spec；不做 runtime policy engine | U-034、U-035、U-040、U-041 | 对应 `#44`；下一轮首选 |
+| U-043 | S9 | 定义 local-only versus remote-capable constraints 最小边界 | P2 | 未开始 | local-only、local-export、remote-read、remote-write、adapter-facing exposure classes、upgrade gates、redaction/auth/freshness/compatibility expectations 最小语义进入 spec；不做 remote API gateway 或 auth runtime | U-034、U-040、U-042 | 对应 `#46`；下一轮首选 |
 
 ## 已完成任务
 
@@ -84,6 +84,7 @@
 | 44 | U-039 | S8 | 定义 dependency ordering between surfaces 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 requires、blocks、derives_from、emits、consumes、optional_dependency 的最小 ordering vocabulary；不实现 package manager、runtime scheduler 或 cross-repo dependency executor |
 | 45 | U-040 | S8 | 定义 deprecation and migration format 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 deprecation metadata、replacement links、migration guidance、affected versions、removal version 和 validation behavior 最小边界；不实现 automatic migration tool、consumer rewrite 或 runtime compatibility shim |
 | 46 | U-041 | S9 | 完成 v0.10 backlog triage 并选择 risk / exposure / audit hardening 下一切片 | P0 | 2026-05-07 | `docs/operations/aods-v0.10-backlog.zh-CN.md`、operations README、task ledger、round log、handoff | `gh issue list --repo emosamastudio/aods --state open --limit 100 --json ...`、`gh issue view 44/45/46/37/57/58/59/60 --json ...`、`npm run validate:all`、`git diff --check` | 下一轮首选 U-042 standard risk taxonomy boundary；已覆盖但 GitHub 仍 open 的 issue 不重复执行 |
+| 47 | U-042 | S9 | 定义 standard risk taxonomy 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | agent-consumable surfaces 现在有 read/write、credential、filesystem、network、external-send、cost、production-mutation、human-approval 的最小 risk vocabulary；不实现 runtime policy engine、permission broker 或 approval workflow |
 
 ## 失败或阻塞任务
 
@@ -135,3 +136,4 @@
 | 2026-05-07 | 100% | 100% | 95% | `U-039` 完成 | dependency ordering boundary 已落地；AODS 现在能为 stable surfaces 表达 requires、blocks、derives_from、emits、consumes 和 optional dependency ordering，runtime scheduler 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 96% | `U-040` 完成 | deprecation and migration format boundary 已落地；AODS 现在能为 deprecated / removed stable surfaces 表达替代链接、迁移指引、受影响版本、移除版本和验证行为，自动迁移工具继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 97% | `U-041` 完成 | v0.10 backlog triage 已完成；下一段路线收敛为 risk / exposure / audit hardening，首选 standard risk taxonomy boundary，避免重复执行已覆盖 issue。 |
+| 2026-05-07 | 100% | 100% | 98% | `U-042` 完成 | standard risk taxonomy boundary 已落地；AODS 现在能为 agent-consumable surfaces 表达读取、写入、凭据、文件系统、网络、外部发送、成本、生产变更和人工审批风险，runtime policy 继续 deferred。 |

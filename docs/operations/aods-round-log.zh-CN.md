@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-22
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-22 |
+| 开始时间 | 2026-05-07 18:23 Asia/Shanghai |
+| 结束时间 | 2026-05-07 18:30 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-042 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-22
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、runtime policy engine、permission broker、dynamic risk scanner、approval workflow、cost accounting runtime |
+| 外部依赖 | `gh issue view 44` 只读确认 issue scope；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-22
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-042 | 未开始 | 已完成 | 定义 standard risk taxonomy 最小边界：read_risk、write_risk、credential_risk、filesystem_risk、network_risk、external_send_risk、cost_risk、production_mutation_risk、human_approval；明确 runtime policy engine / permission broker / dynamic risk scanner / approval workflow 非目标 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs |
+
+## 验证记录：R-2026-05-07-22
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-042 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`npm run validate:all` | 通过 | U-041 提交后工作区仅 untracked `MEMORY.md`；repo validation 通过后继续推进 |
+| U-042 | Issue scope confirmation | `gh issue view 44 --json ...`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-v0.10-backlog.zh-CN.md` | 通过 | `#44` 本轮只做 risk taxonomy boundary；不实现 runtime policy engine、permission broker、dynamic scanner 或 approval workflow |
+| U-042 | RED risk taxonomy regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 失败后修复 | 新增 risk taxonomy test 先失败：缺少 `standard-risk-taxonomy`；实现 spec section、artifacts、runtime output 后转绿 |
+| U-042 | Focused stable contract regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | 8 tests passing；覆盖 capability negotiation、command triad、event correction、partial known-gap、ownership authority、dependency ordering、deprecation migration、risk taxonomy |
+| U-042 | Spec JSON parse | `node -e ... JSON.parse(...)` | 通过 | stable contracts、manifest 语法有效 |
+| U-042 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-042 | Benchmark test gate | `npm run benchmark:test` | 通过 | 55 tests passing；benchmark generated result 噪音已恢复 |
+| U-042 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-22
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-042 / `#46` | U-043 | 定义 local-only versus remote-capable constraints 最小边界 | P2 | local-only、local-export、remote-read、remote-write、adapter-facing exposure classes、upgrade gates、redaction/auth/freshness/compatibility expectations 最小语义进入 spec；不做 remote API gateway 或 auth runtime | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-22
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-042 |
+| 完成任务 | 1 | standard risk taxonomy 最小边界完成 |
+| 失败任务 | 0 | RED regression 按预期失败后已实现修复；focused、repo、benchmark、diff gates 均已通过 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-043 |
+| 剩余未完成任务 | 1 | U-043 local-only versus remote-capable constraints |
+
 ## 回合摘要：R-2026-05-07-21
 
 | 项 | 内容 |
