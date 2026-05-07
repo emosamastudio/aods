@@ -303,3 +303,40 @@ test("compiled pilot includes resource surface example pack", () => {
   assert.equal(fixture.input.path, "../authoring.json");
   assert.ok(fixture.golden_exports.some((entry) => entry.id === "resource-surface-module"));
 });
+
+test("compiled pilot includes glossary registry canonical example pack", () => {
+  const source = JSON.parse(fs.readFileSync(SOURCE_PATH, "utf8"));
+  const releaseWindow = source.corpus.glossary["release-window"];
+  assert.equal(releaseWindow.definition, "Approved deployment window for production changes.");
+  assert.deepEqual(releaseWindow.aliases, [
+    "release slot",
+    "deployment window"
+  ]);
+  assert.deepEqual(releaseWindow.deprecated_terms, [
+    {
+      term: "ship window",
+      replacement: "release-window",
+      reason: "Use release-window as the canonical term for production change timing.",
+      status: "deprecated"
+    }
+  ]);
+  assert.equal(releaseWindow.scope, "system");
+  assert.equal(releaseWindow.owner, "shift-ops-policy");
+  assert.deepEqual(releaseWindow.linked_surfaces, [
+    "shift-ops-policy:approval-policy",
+    "shift-ops-readiness-read-model:release-readiness-read-model"
+  ]);
+  assert.equal(releaseWindow.status, "current");
+
+  const manifest = JSON.parse(fs.readFileSync(COMPILED_MANIFEST_PATH, "utf8"));
+  const companionPath = path.join(REPO_ROOT, "examples", "compiled-pilot", manifest.companion_index);
+  const companion = JSON.parse(fs.readFileSync(companionPath, "utf8"));
+  assert.deepEqual(companion.glossary["release-window"], releaseWindow);
+
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const fixture = fixtureManifest.fixtures.find((entry) => entry.id === "positive-glossary-registry-pack");
+  assert.ok(fixture);
+  assert.equal(fixture.kind, "positive");
+  assert.equal(fixture.input.path, "../authoring.json");
+  assert.ok(fixture.golden_exports.some((entry) => entry.id === "glossary-registry-companion"));
+});

@@ -27,7 +27,7 @@
 | U-061 | S10 | boundary triage | P1 | 已完成 | 裁剪 external citation / provenance metadata boundary | 已明确 internal provenance / decision_provenance / external citation 分工、module-level citation registry、citation refs、stable consumption gates 和 U-065/U-066/U-067 后续任务 |
 | U-062 | S10 | schema / compile | P1 | 已完成 | 落地 glossary registry v2 最小 schema 与 authoring compile mirror | root / companion / authoring glossary 支持 v1 string shorthand 与 v2 canonical term record；source-first regression 覆盖 mirror |
 | U-063 | S10 | validator | P1 | 已完成 | 落地 glossary registry validator gates | `term_id` key match、alias collision、deprecated replacement missing、linked surface ref missing 均有 deterministic gate；不做自然语言术语扫描 |
-| U-064 | S10 | example / regression | P2 | 下一批首选 | 增加 glossary registry canonical example pack | compiled-pilot source-first example、compiled output、fixture manifest、focused regression 展示 canonical/alias/deprecated term |
+| U-064 | S10 | example / regression | P2 | 已完成 | 增加 glossary registry canonical example pack | compiled-pilot source-first example、compiled output、fixture manifest、focused regression 展示 canonical/alias/deprecated term |
 | U-065 | S10 | schema / compile | P1 | U-061 后独立或与 U-066 同轮 | 落地 external citation metadata 最小 schema | artifact 或 surface-level citation 支持 source type、locator、claim posture、access date、authority relation；compile mirror 覆盖 source-first |
 | U-066 | S10 | validator | P1 | U-065 后可同轮 | 落地 external citation validator gates | stable agent-consumable external claims 必须有可解析 citation posture；unresolved/unsupported posture 不能被标成 authoritative fact |
 | U-067 | S10 | example / regression | P2 | 可与 U-066 同轮 | 增加 external citation / provenance canonical example pack | compiled-pilot example 展示 external source、internal decision provenance、unsupported assumption 分界；fixture 与 focused regression 覆盖 |
@@ -46,8 +46,8 @@
 |---|---|---|---|
 | Batch A | U-060 + U-061 | 已完成；两个 boundary triage 已解除 `#57/#58` 的设计不确定性 | `gh issue view 57/58`、`rg` 现状审查、`npm run validate:all`、`git diff --check` |
 | Batch B | U-062 + U-063 | 已完成；glossary schema 和 validator 已按同一边界落地，并由 focused regression 覆盖 compile mirror 与 deterministic gates | glossary focused regression、`npm run validate:all`、`npm run benchmark:test` |
-| Batch B2 | U-064 | 下一批首选；example pack 可验证新 glossary registry shape，且不引入 runtime 或 external citation 变更 | compiled-pilot source-first example、fixture manifest、focused regression、`npm run validate:all`、`npm run benchmark:test` |
-| Batch C | U-065 + U-066 | citation schema 和 validator 依赖同一边界，可一起闭合 external citation 的 stable-consumption gate | citation focused regression、`npm run validate:all`、`npm run benchmark:test` |
+| Batch B2 | U-064 | 已完成；example pack 验证新 glossary registry shape，且未引入 runtime 或 external citation 变更 | compiled-pilot source-first example、fixture manifest、focused regression、`npm run validate:all`、`npm run benchmark:test` |
+| Batch C | U-065 + U-066 | 下一批首选；citation schema 和 validator 依赖同一边界，可一起闭合 external citation 的 stable-consumption gate | citation focused regression、`npm run validate:all`、`npm run benchmark:test` |
 | Batch D | U-068 + U-069 + U-070 | 都是 docs/read-only triage，可扩展下一阶段任务池但不改变语义面 | `gh issue list/view`、`rg`、`git diff --check`、`npm run validate:all` |
 
 ## 当前非目标

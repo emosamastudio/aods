@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-05
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-05 |
+| 开始时间 | 2026-05-08 01:02 Asia/Shanghai |
+| 结束时间 | 2026-05-08 01:10 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 单个 example pack；不混入 external citation schema / validator |
+| 本轮选中任务 | U-064 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-05
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/indexes/runtime.json`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`docs/operations/` |
+| 禁止触碰 | external citation schema/validator、term resolver runtime、自然语言术语扫描、migration tool、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块 |
+| 外部依赖 | 无；本轮不访问公开写接口 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-05
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-064 | 未开始 | 已完成 | 增加 glossary registry canonical example pack：将 compiled-pilot source `release-window` 升为 v2 canonical term record，并新增 fixture manifest golden export 与 focused regression | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot/indexes/runtime.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs` |
+
+## 验证记录：R-2026-05-08-05
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-064 | Previous-round quality review | `git status --short`、`git log -1 --stat --oneline`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | 通过 | U-062/U-063 提交后工作区仅 untracked `MEMORY.md`；focused scaffold、repo validation、diff whitespace 均通过后继续推进 |
+| U-064 | TDD RED | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 按预期失败 | 新增 glossary example regression 后，旧 source glossary 仍是 v1 string，失败命中缺少 v2 record |
+| U-064 | Compile gate | `npm run compile:pilot` | 通过 | source-first authoring 生成 compiled-pilot companion glossary，无 validation error / warning |
+| U-064 | Focused regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 7/7 pass；覆盖 source glossary record、compiled companion、fixture manifest |
+| U-064 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-064 | Benchmark gate | `npm run benchmark:test` | 通过 | 70 个 benchmark / regression tests 全部通过；timestamp-only generated result churn 已排除出本轮 diff |
+| U-064 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-05
+
+本轮没有新增任务 ID；下一批继续执行已入账 U-065/U-066。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-064 | 无 | 无新增；继续执行 U-065/U-066 external citation batch | P1 | citation schema / compile mirror + deterministic validator gates | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-08-05
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-064 |
+| 完成任务 | 1 | glossary registry canonical example pack 完成 |
+| 失败任务 | 0 | RED regression 按预期失败后已实现 source-first example 与 fixture |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 11 | 下一轮首选 Batch C：U-065 + U-066 |
+
 ## 回合摘要：R-2026-05-08-04
 
 | 项 | 内容 |
