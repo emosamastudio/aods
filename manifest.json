@@ -121,7 +121,7 @@
     {
       "id": "spec-surface-governance",
       "path": "spec/surface-governance.json",
-      "scope": "Dual-surface pairing, authority resolution, capsule routing, provenance summaries, and sync discipline for corpora that mix agent and human surfaces.",
+      "scope": "Dual-surface pairing, authority resolution, capsule routing, provenance summaries, sync quality metrics, and sync discipline for mixed agent/human surfaces.",
       "category": "capsule",
       "layer": "capsule",
       "deps": [
@@ -134,7 +134,7 @@
         "authority",
         "routing"
       ],
-      "tokens_approx": 4595,
+      "tokens_approx": 5190,
       "priority": "critical",
       "control": {
         "role": "guide",
@@ -153,7 +153,8 @@
           "surface-sync-decision"
         ],
         "outputs": [
-          "pairing-state"
+          "pairing-state",
+          "sync-quality-posture"
         ]
       }
     },

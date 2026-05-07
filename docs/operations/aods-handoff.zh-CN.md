@@ -128,10 +128,11 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | lifecycle state-machine 扩散风险 | lifecycle profile 容易扩成 workflow engine、scheduler、retry runtime、cleanup executor 或完整 operational object runtime | U-045 只落 state-machine profile vocabulary；执行、调度和清理必须另立任务 |
 | validation/routing observability 扩散风险 | observability metadata 容易扩成 CLI output subsystem rewrite、dashboard、trace store 或 graph database | U-046 只落 machine-readable explanation vocabulary；输出重写和存储必须另立任务 |
 | documentation / authoring quality 扩散风险 | authoring quality backlog 容易扩成未裁剪的全量 authoring framework、文档门户重写或 retrieval runtime | U-047 已完成 triage；后续按 U-048 最小边界推进 |
-| sync quality metrics 扩散风险 | paired-surface quality metrics 容易扩成新 diff engine、LLM semantic judge、dashboard 或自动修复器 | U-048 应只定义 quality dimensions、drift classes 和 report vocabulary |
+| sync quality metrics 扩散风险 | paired-surface quality metrics 容易扩成新 diff engine、LLM semantic judge、dashboard 或自动修复器 | U-048 已只定义 quality dimensions、drift classes 和 report vocabulary |
+| authoring examples 扩散风险 | agent-primary density examples 容易扩成 style linter、全量写作框架或文档门户重写 | U-049 应只补最小 good/bad examples 和 authoring guidance，不改变 AOP 核心语义 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-048 | 定义 human-surface synchronization quality metrics 最小边界 | paired human/agent surfaces 的 exact invariant coverage、semantic coverage、omitted constraints、stale examples、authority mismatch、sync freshness、quality report 最小 vocabulary 进入 `spec/surface-governance.json`；不实现新 diff engine、LLM semantic judge、dashboard 或自动修复器 |
+| 1 | U-049 | 补齐 agent-primary density examples and authoring guidance 最小切片 | 在不改变 AOP 核心语义的前提下，为 canonical terms、explicit constraints、uncertainty markers、good/bad examples 补充最小教学表面；不做 style linter、不重写文档门户 |
