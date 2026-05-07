@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-26
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-26 |
+| 开始时间 | 2026-05-07 19:46 Asia/Shanghai |
+| 结束时间 | 2026-05-07 19:54 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-046 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-26
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、CLI output subsystem rewrite、dashboard、trace store、graph database、route ranking rewrite、telemetry storage |
+| 外部依赖 | `gh issue view 59` 只读确认 issue scope；无公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-26
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-046 | 未开始 | 已完成 | 定义 observability metadata for validation and routing decisions 最小边界：rule id、severity、source location、dependency path、routing reason、selected/skipped modules、suggested next action；排除 CLI output subsystem rewrite、dashboard、trace store、graph database | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs |
+
+## 验证记录：R-2026-05-07-26
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-046 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all` | 通过 | U-045 提交后工作区仅 untracked `MEMORY.md`；focused + repo validation 通过后继续推进 |
+| U-046 | Issue scope confirmation | `gh issue view 59 --json ...`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-v0.10-backlog.zh-CN.md` | 通过 | `#59` 本轮只做 validation/routing observability metadata boundary；不重写 CLI output subsystem、dashboard、trace store 或 graph database |
+| U-046 | RED observability regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 失败后修复 | 新增 observability metadata test 先失败：缺少 `validation-routing-observability-metadata`；实现 spec section、artifacts、runtime output 后转绿 |
+| U-046 | Focused stable contract regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | 12 tests passing；覆盖 capability negotiation、command triad、event correction、partial known-gap、ownership authority、dependency ordering、deprecation migration、risk taxonomy、local/remote exposure、audit-log requirements、lifecycle profile、validation/routing observability |
+| U-046 | Spec JSON parse | `node -e ... JSON.parse(...)` | 通过 | stable contracts、manifest 语法有效 |
+| U-046 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-046 | Benchmark test gate | `npm run benchmark:test` | 通过 | 59 tests passing；benchmark generated result 噪音已恢复 |
+| U-046 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-26
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-046 / v0.10 backlog | U-047 | 复盘 documentation / authoring quality backlog 并选择下一最小切片 | P1 | 重新审查 `#54-#58` 与当前 README/docs/authoring/retrieval quality，区分 docs-only、spec-boundary、validator/runtime 候选；不直接执行未裁剪语义改动 | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-26
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-046 |
+| 完成任务 | 1 | validation/routing observability metadata 最小边界完成 |
+| 失败任务 | 0 | RED regression 按预期失败后已实现修复；focused、repo、benchmark、diff gates 均已通过 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-047 |
+| 剩余未完成任务 | 1 | U-047 documentation / authoring quality backlog triage |
+
 ## 回合摘要：R-2026-05-07-25
 
 | 项 | 内容 |

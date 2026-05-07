@@ -383,3 +383,43 @@ test("stable contracts define lifecycle state-machine profile for operational ob
   assert.ok(nonGoalRows.includes("retry_runtime"));
   assert.ok(nonGoalRows.includes("cleanup_executor"));
 });
+
+test("stable contracts define observability metadata for validation and routing decisions", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "validation-routing-observability-metadata");
+  assert.ok(section);
+  assert.match(section.content, /observability metadata/);
+  assert.match(section.content, /validation/);
+  assert.match(section.content, /routing/);
+  assert.match(section.content, /rule id/);
+  assert.match(section.content, /severity/);
+  assert.match(section.content, /source location/);
+  assert.match(section.content, /dependency path/);
+  assert.match(section.content, /routing reason/);
+  assert.match(section.content, /selected modules/);
+  assert.match(section.content, /skipped modules/);
+  assert.match(section.content, /suggested next action/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "validation-routing-observability-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "rule_identity",
+    "severity",
+    "source_location",
+    "dependency_path",
+    "routing_reason",
+    "selected_module",
+    "skipped_module",
+    "suggested_next_action"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "validation-routing-observability-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("cli_output_rewrite"));
+  assert.ok(nonGoalRows.includes("dashboard"));
+  assert.ok(nonGoalRows.includes("trace_store"));
+  assert.ok(nonGoalRows.includes("graph_database"));
+});

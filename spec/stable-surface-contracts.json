@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 19,
-  "context": "Defines stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, topology, provenance, schema compatibility, adapters, and capability matching.",
+  "v": 20,
+  "context": "Defines stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, observability, topology, provenance, schema compatibility, adapters, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -16,7 +16,8 @@
     "Agent-consumable surfaces need canonical risk categories before routing, adapter, command, or release policy treats risk labels as comparable",
     "Local-only and remote-capable surfaces need exposure constraints before local exports are reused as adapter or API contracts",
     "Commands and adapters need audit-log requirements before consumers rely on action traces, receipts, policy decisions, or failure reconstruction",
-    "Long-running operational objects need explicit lifecycle state-machine profiles before implementations compare status, retries, cancellation, timeout, cleanup, or terminal behavior"
+    "Long-running operational objects need explicit lifecycle state-machine profiles before implementations compare status, retries, cancellation, timeout, cleanup, or terminal behavior",
+    "Validation and routing decisions need observable rule, location, dependency, route, skip, and next-action metadata before agents can debug why a surface loaded, failed, or was skipped"
   ],
   "sections": [
     {
@@ -230,6 +231,25 @@
       "criticality": "must"
     },
     {
+      "sid": "validation-routing-observability-metadata",
+      "topic": "observability metadata for validation and routing decisions",
+      "content": "Validation and routing decisions need observability metadata before agents treat pass, fail, selected, skipped, or fallback outcomes as explainable. Validation observability must identify rule id, severity, source location, dependency path when relevant, and suggested next action. rule id names the stable validation rule or future validation boundary that produced the decision. severity names the gate level or diagnostic posture so consumers can tell whether the result blocks, warns, advises, or only informs. source location names the file, json pointer, section ref, artifact ref, or line and column when available. dependency path names the dependency chain, ref path, blocking edge, missing target, or route dependency that caused the decision. Routing observability must identify routing reason, selected modules, skipped modules, fallback posture, dependency path when relevant, and suggested next action. routing reason explains why a route selected, loaded, skipped, degraded, or fell back for a module or surface. selected modules name the modules included in the working set and the selection reason. skipped modules name modules excluded from the working set with skip reason and consumer guidance. suggested next action names the smallest remediation, review, command, or authoring action available without executing it. This boundary defines machine-readable explanation vocabulary only. It does not rewrite the CLI output subsystem, build a dashboard, create a trace store, create a graph database, change route ranking, implement telemetry storage, or make every diagnostic complete.",
+      "content_type": "rules",
+      "refs": [
+        "spec-validation:severity-gating-policy",
+        "surface-dependency-ordering",
+        "partial-known-gap-metadata",
+        "command-adapter-audit-log-requirements",
+        "lifecycle-state-machine-profile",
+        "spec-boot-protocol:task-stage-routing"
+      ],
+      "artifact_refs": [
+        "validation-routing-observability-field-table",
+        "validation-routing-observability-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
       "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
@@ -305,7 +325,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, local/remote exposure vocabulary, command/adapter audit-log requirements vocabulary, lifecycle state-machine vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, remote API gateway, auth runtime, network broker, automatic exposure upgrader, audit log store, workflow engine, scheduler, retry runtime, cleanup executor, SIEM integration, observability backend, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export runtime, generated artifact runtime, remote transport runtime, audit storage runtime, state persistence runtime, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a local-only or local-export surface is safe to upgrade for remote-read, remote-write, or adapter-facing exposure, whether command or adapter audit metadata is sufficient to reconstruct action traces, whether a lifecycle state-machine profile is sufficient for long-running operational objects, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, local/remote exposure vocabulary, command/adapter audit-log requirements vocabulary, lifecycle state-machine vocabulary, validation/routing observability vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, remote API gateway, auth runtime, network broker, automatic exposure upgrader, audit log store, workflow engine, scheduler, retry runtime, cleanup executor, CLI output subsystem rewrite, dashboard, trace store, graph database, SIEM integration, observability backend, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export runtime, generated artifact runtime, remote transport runtime, audit storage runtime, state persistence runtime, telemetry storage, route ranking rewrite, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a local-only or local-export surface is safe to upgrade for remote-read, remote-write, or adapter-facing exposure, whether command or adapter audit metadata is sufficient to reconstruct action traces, whether a lifecycle state-machine profile is sufficient for long-running operational objects, whether validation or routing observability metadata is sufficient to explain a pass, fail, selection, skip, or fallback outcome, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -320,6 +340,7 @@
         "local-remote-exposure-constraints",
         "command-adapter-audit-log-requirements",
         "lifecycle-state-machine-profile",
+        "validation-routing-observability-metadata",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -1421,6 +1442,114 @@
       }
     },
     {
+      "artifact_id": "validation-routing-observability-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum observability metadata fields for validation and routing decisions.",
+      "content": {
+        "key_columns": [
+          "observability_field"
+        ],
+        "columns": [
+          "observability_field",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "rule_identity",
+            "rule_id, rule_family, source_rule, decision_kind",
+            "identifies which validation or routing rule produced the decision",
+            "validator engine rewrite"
+          ],
+          [
+            "severity",
+            "severity_level, gate_posture, blocking_status, diagnostic_scope",
+            "tells consumers whether the decision blocks, warns, advises, or informs",
+            "policy engine"
+          ],
+          [
+            "source_location",
+            "file, json_pointer, section_ref, artifact_ref, line, column",
+            "anchors diagnostics to the smallest available source location",
+            "source map runtime"
+          ],
+          [
+            "dependency_path",
+            "dependency_chain, ref_path, blocking_edge, missing_target, route_dependency",
+            "explains dependency-driven failures, skips, and degraded routes",
+            "graph database"
+          ],
+          [
+            "routing_reason",
+            "route_id, selected_reason, fallback_posture, query_stage, touch_match",
+            "explains why a route selected, skipped, degraded, or fell back",
+            "route ranking rewrite"
+          ],
+          [
+            "selected_module",
+            "module_id, selection_reason, dependency_reason, working_set_role",
+            "explains why a module entered the active working set",
+            "UI report builder"
+          ],
+          [
+            "skipped_module",
+            "module_id, skip_reason, dependency_reason, consumer_guidance",
+            "explains why a module was omitted from the active working set",
+            "dashboard"
+          ],
+          [
+            "suggested_next_action",
+            "action_kind, remediation_hint, review_gate, command_hint, owner_surface",
+            "points agents or maintainers to the smallest next remediation or review step",
+            "automatic fixer"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "validation-routing-observability-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred runtime surfaces for validation and routing observability.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "cli_output_rewrite",
+            "observability fields define explanation vocabulary but do not change text or JSON output formats",
+            "future CLI output task"
+          ],
+          [
+            "dashboard",
+            "selected and skipped module metadata can feed reports but does not build a visual UI",
+            "future human report task"
+          ],
+          [
+            "trace_store",
+            "correlation and dependency metadata may be recorded by future tools but this module does not store traces",
+            "future observability runtime task"
+          ],
+          [
+            "graph_database",
+            "dependency paths explain current decisions but do not persist or query a dependency graph",
+            "future graph/runtime task"
+          ],
+          [
+            "route_ranking_rewrite",
+            "routing reason explains current selection posture but does not change ranking behavior",
+            "future routing task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -1817,6 +1946,13 @@
             "source": "validation"
           },
           {
+            "id": "validation-routing-observability-boundary",
+            "condition": "validation or routing decision lacks rule id, severity, source location, dependency path, routing reason, selected module, skipped module, or suggested next action metadata",
+            "action": "future L3 warning: validation and routing decisions should expose machine-readable observability metadata before agents rely on explanation or debug output",
+            "priority": 48,
+            "source": "validation"
+          },
+          {
             "id": "implementation-metadata-mirror",
             "condition": "manifest.modules[].implementation exists XOR module.meta.implementation exists",
             "action": "L2 error: implementation linkage summary must be mirrored",
@@ -1985,6 +2121,11 @@
       "v": 19,
       "delta": "Added lifecycle state-machine profile boundaries for long-running operational objects.",
       "breaking": false
+    },
+    {
+      "v": 20,
+      "delta": "Added validation and routing observability metadata boundaries for rule, severity, source, dependency, route selection, skip, and next-action explanation.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -2013,7 +2154,8 @@
         "issue-44",
         "issue-46",
         "issue-45",
-        "issue-37"
+        "issue-37",
+        "issue-59"
       ],
       "confidence": "high",
       "review_chain": [
@@ -2047,7 +2189,8 @@
         "risk-taxonomy-posture",
         "local-remote-exposure-posture",
         "command-adapter-audit-posture",
-        "lifecycle-state-machine-posture"
+        "lifecycle-state-machine-posture",
+        "validation-routing-observability-posture"
       ]
     },
     "redaction": {
@@ -2079,6 +2222,7 @@
           "local and remote exposure",
           "command and adapter audit log",
           "lifecycle state machine",
+          "validation and routing observability",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -2086,9 +2230,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v19",
-          "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=19",
+          "snapshot_id": "spec-stable-surface-contracts-v20",
+          "exported_at": "2026-05-07T19:46:23+08:00",
+          "source_watermark": "module.v=20",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

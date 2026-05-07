@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；U-041 v0.10 backlog triage 已完成；U-042 standard risk taxonomy boundary 已落地；U-043 local-only versus remote-capable constraints 已落地；U-044 audit-log requirements for commands and adapters 已落地；U-045 lifecycle state-machine profile for operational objects 已落地；下一轮首选 U-046 observability metadata for validation and routing decisions；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；U-041 v0.10 backlog triage 已完成；U-042 standard risk taxonomy boundary 已落地；U-043 local-only versus remote-capable constraints 已落地；U-044 audit-log requirements for commands and adapters 已落地；U-045 lifecycle state-machine profile for operational objects 已落地；U-046 observability metadata for validation and routing decisions 已落地；下一轮首选 U-047 documentation / authoring quality backlog triage；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -90,12 +90,13 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-043 | 定义 local-only versus remote-capable constraints 最小边界 | local-only、local-export、remote-read、remote-write、adapter-facing、upgrade_gate 已进入 spec-level boundary；remote API gateway、auth runtime、network broker、automatic exposure upgrader 继续 deferred |
 | U-044 | 定义 audit-log requirements for commands and adapters 最小边界 | actor、source、target、command_reference、idempotency_key、policy_decision、receipt_reference、timestamp、correlation_identifier 已进入 spec-level boundary；audit log store、workflow engine、SIEM integration、observability backend 继续 deferred |
 | U-045 | 定义 lifecycle state-machine profile for operational objects 最小边界 | lifecycle state、display status、initial/terminal states、transition、guard、timeout/expiration、retry policy、cancellation、cleanup、event/receipt link 已进入 spec-level boundary；workflow engine、scheduler、retry runtime、cleanup executor 继续 deferred |
+| U-046 | 定义 observability metadata for validation and routing decisions 最小边界 | rule id、severity、source location、dependency path、routing reason、selected/skipped modules、suggested next action 已进入 spec-level boundary；CLI output subsystem rewrite、dashboard、trace store、graph database 继续 deferred |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-046 | 定义 observability metadata for validation and routing decisions 最小边界 | 下一轮首选；对应 `#59`；不重写 CLI output subsystem |
+| 1 | U-047 | 复盘 documentation / authoring quality backlog 并选择下一最小切片 | 下一轮首选；审查 `#54-#58`；不直接执行未裁剪语义改动 |
 
 ## 失败和风险
 
@@ -123,10 +124,11 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | local / remote exposure 扩散风险 | local-only versus remote-capable constraints 容易扩成 remote API gateway、auth runtime、network broker、sandbox 或 automatic exposure upgrader | U-043 只落 spec-level exposure vocabulary；远程网关、认证运行时和自动升级必须另立任务 |
 | audit-log 扩散风险 | audit-log requirements 容易扩成 audit log store、workflow engine、SIEM integration 或完整 observability subsystem | U-044 只落 commands/adapters 的最小 audit metadata 与 receipt/event linkage；存储和观测系统必须另立任务 |
 | lifecycle state-machine 扩散风险 | lifecycle profile 容易扩成 workflow engine、scheduler、retry runtime、cleanup executor 或完整 operational object runtime | U-045 只落 state-machine profile vocabulary；执行、调度和清理必须另立任务 |
-| validation/routing observability 扩散风险 | observability metadata 容易扩成 CLI output subsystem rewrite、dashboard、trace store 或 graph database | U-046 应只落 machine-readable explanation vocabulary；输出重写和存储必须另立任务 |
+| validation/routing observability 扩散风险 | observability metadata 容易扩成 CLI output subsystem rewrite、dashboard、trace store 或 graph database | U-046 只落 machine-readable explanation vocabulary；输出重写和存储必须另立任务 |
+| documentation / authoring quality 扩散风险 | authoring quality backlog 容易扩成未裁剪的全量 authoring framework、文档门户重写或 retrieval runtime | U-047 应先做 `#54-#58` triage，只选一个最小后续切片 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-046 | 定义 observability metadata for validation and routing decisions 最小边界 | validate/route output 的 rule id、severity、source location、dependency path、routing reason、selected/skipped modules、suggested next action 最小 machine-readable observability fields 进入 spec；不重写 CLI output subsystem |
+| 1 | U-047 | 复盘 documentation / authoring quality backlog 并选择下一最小切片 | 重新审查 `#54-#58` 与当前 README/docs/authoring/retrieval quality，区分 docs-only、spec-boundary、validator/runtime 候选；更新 backlog 和台账；不直接执行未裁剪语义改动 |

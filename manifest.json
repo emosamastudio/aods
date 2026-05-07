@@ -199,7 +199,7 @@
     {
       "id": "spec-stable-surface-contracts",
       "path": "spec/stable-surface-contracts.json",
-      "scope": "Stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, topology, provenance, schema compatibility, adapters, and capability matching.",
+      "scope": "Stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, observability, topology, provenance, schema compatibility, adapters, and capability matching.",
       "category": "policy",
       "layer": "detail",
       "deps": [
@@ -242,7 +242,8 @@
           "risk-taxonomy-posture",
           "local-remote-exposure-posture",
           "command-adapter-audit-posture",
-          "lifecycle-state-machine-posture"
+          "lifecycle-state-machine-posture",
+          "validation-routing-observability-posture"
         ]
       },
       "redaction": {
