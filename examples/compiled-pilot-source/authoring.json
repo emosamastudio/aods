@@ -21,6 +21,7 @@
           "shift-ops-capsule",
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
           "shift-ops-governance"
         ]
       },
@@ -41,6 +42,7 @@
           "shift-ops-capsule",
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
           "shift-ops-governance"
         ]
       }
@@ -83,7 +85,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, and the surface inventory when current corpus surfaces must be checked.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, and the surface inventory when current corpus surfaces must be checked.",
       "tags": [
         "root",
         "routing",
@@ -125,11 +127,12 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
             "shift-ops-capsule:system-capsule",
-            "shift-ops-governance:implementation-governance"
+            "shift-ops-governance:implementation-governance",
+            "shift-ops-change-command:change-command"
           ],
           "artifact_refs": [
             "route-table",
@@ -167,6 +170,10 @@
               [
                 "release readiness read model",
                 "shift-ops-readiness-read-model:release-readiness-read-model"
+              ],
+              [
+                "change command and receipt",
+                "shift-ops-change-command:change-command"
               ],
               [
                 "incident response",
@@ -221,7 +228,7 @@
       "layer": "capsule",
       "priority": "critical",
       "scope": "Summary routing for shift operations detail modules.",
-      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, governance, or runbook detail.",
+      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, governance, or runbook detail.",
       "tags": [
         "capsule",
         "routing",
@@ -239,6 +246,7 @@
           "memory_role": "working",
           "sources": [
             "shift-ops-policy:approval-policy",
+            "shift-ops-change-command:change-command",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -254,6 +262,7 @@
           "resources": [
             "policy module",
             "readiness read model",
+            "command module",
             "governance module",
             "runbook module"
           ],
@@ -266,12 +275,13 @@
       "capsule": {
         "read_when": [
           "Need summary routing after cold start",
-          "Need policy, readiness, governance, or incident detail"
+          "Need policy, readiness, command, governance, or incident detail"
         ],
         "core_question": "Which detail module should answer the current shift operations question?",
         "routes_to": [
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -284,11 +294,12 @@
         {
           "sid": "system-capsule",
           "topic": "capsule summary and next routes",
-          "content": "Routes: policy, readiness, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content": "Routes: policy, readiness, command, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
           "content_type": "rules",
           "refs": [
             "shift-ops-policy:approval-policy",
             "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -650,6 +661,308 @@
                 "source_watermark",
                 "freshness anchor for the exported snapshot",
                 "yes"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-change-command",
+      "category": "workflow",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical command + receipt example for operational change requests without implementing a command executor.",
+      "context": "Command + receipt example pack for write-capable stable surfaces. Use when authors need command shape, receipt output, audit metadata, risk posture, implementation evidence, and acceptance criteria without event-bus or executor semantics.",
+      "tags": [
+        "command",
+        "receipt",
+        "audit",
+        "risk",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-policy",
+        "shift-ops-readiness-read-model",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "contract": {
+          "profile": "command",
+          "required_fields": [
+            "command_id",
+            "change_id",
+            "requested_by",
+            "mode",
+            "idempotency_key",
+            "receipt"
+          ]
+        },
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "change-command-contract-v1",
+            "command-receipt-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "release-manager-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "command-validator"
+          ],
+          "resources": [
+            "change command request",
+            "approval record",
+            "release readiness record"
+          ],
+          "side_effects": [
+            "change-command-receipt"
+          ],
+          "telemetry": [
+            "command-contract-status",
+            "receipt-correlation-id"
+          ],
+          "checkpoints": [
+            "command-shape-validated",
+            "approval-precondition-checked",
+            "receipt-emitted"
+          ],
+          "outputs": [
+            "change-command-receipt"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/change-command/src/handler.ts",
+            "services/change-command/tests/receipt.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-244"
+          ],
+          "authority_surface": "shift-ops-change-command:change-command",
+          "evidence": [
+            {
+              "id": "change-command-contract-test",
+              "kind": "test",
+              "locator": "services/change-command/tests/receipt.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-change-command:change-command"
+            },
+            {
+              "id": "change-command-receipt-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/change-command/receipt-approved.json",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-change-command:change-command-receipt"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "change-command-contract",
+              "surface_ref": "shift-ops-change-command:change-command",
+              "requirement": "Change command includes command_id, change_id, requested_by, mode, idempotency_key, and enforces approval and readiness preconditions before emitting a receipt.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-command-contract-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-command:change-command"
+            },
+            {
+              "id": "change-receipt-contract",
+              "surface_ref": "shift-ops-change-command:change-command-receipt",
+              "requirement": "Change receipt returns receipt_id, status, policy_decision, audit_ref, correlation_id, and does not claim command execution in this example pack.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-command-receipt-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-command:change-command-receipt"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "change-command",
+          "topic": "change command contract",
+          "content": "Change command envelope requires command_id, change_id, requested_by, mode, idempotency_key, target_release_id, requested_at, and policy_context. Validator checks approval policy and release readiness preconditions before a receipt is emitted. This example does not execute the operational change.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-policy:approval-policy",
+            "shift-ops-readiness-read-model:release-readiness-read-model"
+          ],
+          "artifact_refs": [
+            "change-command-field-table",
+            "change-command-audit-risk-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "change-command-receipt",
+          "topic": "change command receipt",
+          "content": "Receipt output records receipt_id, command_id, change_id, status, policy_decision, audit_ref, correlation_id, emitted_at, and reason. Status values are accepted, rejected, or needs-review. Receipt confirms validation outcome only; it is not proof that the command executed.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "change-command-receipt-table",
+            "change-command-audit-risk-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "change-command-field-table",
+          "type": "mapping-table",
+          "usage": "Canonical field guide for the change command envelope.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "command_id",
+                "stable command identifier",
+                "yes"
+              ],
+              [
+                "change_id",
+                "operational change request identifier",
+                "yes"
+              ],
+              [
+                "requested_by",
+                "actor requesting the change",
+                "yes"
+              ],
+              [
+                "mode",
+                "standard|emergency",
+                "yes"
+              ],
+              [
+                "idempotency_key",
+                "dedupe key for repeated submissions",
+                "yes"
+              ],
+              [
+                "target_release_id",
+                "release readiness record to check",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-command-receipt-table",
+          "type": "mapping-table",
+          "usage": "Canonical field guide for the change command receipt.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "receipt_id",
+                "stable receipt identifier",
+                "yes"
+              ],
+              [
+                "status",
+                "accepted|rejected|needs-review",
+                "yes"
+              ],
+              [
+                "policy_decision",
+                "approval and readiness decision summary",
+                "yes"
+              ],
+              [
+                "audit_ref",
+                "audit-log reference for the validation outcome",
+                "yes"
+              ],
+              [
+                "correlation_id",
+                "trace identifier linking command and receipt",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-command-audit-risk-table",
+          "type": "mapping-table",
+          "usage": "Audit and risk posture for write-capable command surfaces.",
+          "content": {
+            "key_columns": [
+              "audit_field"
+            ],
+            "columns": [
+              "audit_field",
+              "risk_posture",
+              "requirement"
+            ],
+            "rows": [
+              [
+                "actor",
+                "write-capable",
+                "requested_by is recorded before validation"
+              ],
+              [
+                "source",
+                "remote-capable",
+                "source client or automation is recorded"
+              ],
+              [
+                "target",
+                "production-mutation",
+                "change_id and target_release_id are recorded"
+              ],
+              [
+                "idempotency_key",
+                "duplicate-submit",
+                "same key returns the existing receipt"
+              ],
+              [
+                "policy_decision",
+                "human-approval",
+                "approval and readiness checks are summarized"
+              ],
+              [
+                "correlation_id",
+                "audit-trace",
+                "command, receipt, and policy decision share a trace identifier"
               ]
             ]
           }
@@ -1070,6 +1383,7 @@
           "shift-ops-capsule",
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1083,6 +1397,7 @@
           "shift-ops-capsule",
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1112,6 +1427,19 @@
         "reason": "Read-model edits require policy authority, freshness posture, and implementation-linkage evidence."
       },
       {
+        "match": "modules/shift-ops-change-command.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-governance"
+        ],
+        "reason": "Command edits require policy authority, readiness preconditions, receipt posture, and implementation-linkage evidence."
+      },
+      {
         "match": "modules/shift-ops-runbook.json",
         "intent": "write",
         "load": [
@@ -1129,6 +1457,7 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-change-command",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -1145,6 +1474,7 @@
           "shift-ops-root",
           "shift-ops-policy",
           "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],

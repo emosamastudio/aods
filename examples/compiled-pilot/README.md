@@ -8,7 +8,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - Pair ID: `pair-shift-ops-readme`
 - Sync source: `agent-primary`
 - Agent primary: `shift-ops-capsule`
-- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-governance`, `shift-ops-runbook`
+- Agent supporting: `shift-ops-root`, `shift-ops-policy`, `shift-ops-readiness-read-model`, `shift-ops-change-command`, `shift-ops-governance`, `shift-ops-runbook`
 
 ## Canonical facts
 
@@ -21,6 +21,7 @@ Generated deterministically from AODS agent-primary authority. Do not edit manua
 - `shift-ops-root` (architecture): Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.
 - `shift-ops-policy` (policy): Authoritative approval policy for operational changes and production release windows.
 - `shift-ops-readiness-read-model` (reference): Canonical read-model example for release readiness status, freshness, watermark, implementation evidence, and acceptance criteria.
+- `shift-ops-change-command` (workflow): Canonical command + receipt example for operational change requests without implementing a command executor.
 - `shift-ops-governance` (policy): Implementation governance authority for release readiness, acceptance evidence, and review routing for shift operations changes.
 - `shift-ops-runbook` (workflow): Authoritative incident runbook for sev1 response and immediate stabilization.
 
@@ -32,7 +33,7 @@ Summary routing for shift operations detail modules.
 
 #### capsule summary and next routes
 
-Routes: policy, readiness, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
+Routes: policy, readiness, command, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.
 
 ### shift-ops-root
 
@@ -40,7 +41,7 @@ Root routing for the shift operations pilot. Use at cold start before loading ca
 
 #### root routing overview
 
-Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
+Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.
 
 Artifacts:
 - `route-table` (mapping-table): First-hop routing from cold start.
@@ -67,6 +68,23 @@ Read model exposes release readiness status for release-manager decisions. Recor
 
 Artifacts:
 - `readiness-field-table` (mapping-table): Canonical field guide for the release readiness read-model example pack.
+
+### shift-ops-change-command
+
+Canonical command + receipt example for operational change requests without implementing a command executor.
+
+#### change command contract
+
+Change command envelope requires command_id, change_id, requested_by, mode, idempotency_key, target_release_id, requested_at, and policy_context. Validator checks approval policy and release readiness preconditions before a receipt is emitted. This example does not execute the operational change.
+
+#### change command receipt
+
+Receipt output records receipt_id, command_id, change_id, status, policy_decision, audit_ref, correlation_id, emitted_at, and reason. Status values are accepted, rejected, or needs-review. Receipt confirms validation outcome only; it is not proof that the command executed.
+
+Artifacts:
+- `change-command-field-table` (mapping-table): Canonical field guide for the change command envelope.
+- `change-command-receipt-table` (mapping-table): Canonical field guide for the change command receipt.
+- `change-command-audit-risk-table` (mapping-table): Audit and risk posture for write-capable command surfaces.
 
 ### shift-ops-governance
 
