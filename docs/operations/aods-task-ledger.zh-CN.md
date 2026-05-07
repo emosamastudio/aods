@@ -10,29 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S10 authoring quality examples |
-| 当前回合 | R-2026-05-07-28 |
+| 当前阶段 | S10 surface-family example pack triage |
+| 当前回合 | R-2026-05-07-29 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 53 |
+| 已完成任务数量 | 54 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-28 |
-| 开始时间 | 2026-05-07 20:15 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-29 |
+| 开始时间 | 2026-05-07 20:25 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-048 |
-| 本轮范围 | paired-surface sync quality boundary：在 `spec/surface-governance.json` 定义 exact invariant coverage、semantic coverage、omitted constraints、stale examples、authority mismatch、sync freshness、quality report 词汇；同步 manifest 和 operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime diff engine、LLM semantic judge、dashboard、自动修复器 |
-| 验证计划 | focused surface-governance regression；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
+| 选中任务 | U-049 |
+| 本轮范围 | agent-primary density examples and authoring guidance：为 canonical terms、explicit constraints、uncertainty markers、good/bad examples 补充最小教学表面；同步 manifest 和 operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、AOP 核心语义改写、schema 改动、validator/runtime style linter、文档门户重写 |
+| 验证计划 | focused AOP regression；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-049 | S10 | 补齐 agent-primary density examples and authoring guidance 最小切片 | P2 | 未开始 | 在不改变 AOP 核心语义的前提下，为 canonical terms、explicit constraints、uncertainty markers、good/bad examples 补充最小教学表面；不做 style linter、不重写文档门户 | U-048 | 对应 `#54` 剩余 examples / guidance 缺口；下一轮首选 |
+| U-050 | S10 | Canonical surface-family example pack triage | P2 | 未开始 | 对 read model、command、event、adapter、implementation-linkage 等 common surface family examples 做分批规划，选择一个最小 example pack；不一次性新增全量示例库 | U-049 | 对应 `#56`；下一轮首选 |
 
 ## 已完成任务
 
@@ -91,6 +91,7 @@
 | 51 | U-046 | S9 | 定义 observability metadata for validation and routing decisions 最小边界 | P3 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | validation/routing decisions 现在有 rule id、severity、source location、dependency path、routing reason、selected/skipped modules、suggested next action 的最小 observability vocabulary；不重写 CLI output subsystem、dashboard、trace store 或 graph database |
 | 52 | U-047 | S10 | 复盘 documentation / authoring quality backlog 并选择下一最小切片 | P1 | 2026-05-07 | `docs/operations/aods-v0.11-backlog.zh-CN.md`、operations README、docs README、task ledger、handoff、round log | `gh issue view 54-58 --json ...`、`git diff --check`、`npm run validate:all` | 已确认 `#55` 是下一轮首选；`#54` 多数由 `spec-aop` 覆盖，`#56` 后续拆 example pack，`#57/#58` 需要独立 schema/provenance 设计 |
 | 53 | U-048 | S10 | 定义 human-surface synchronization quality metrics 最小边界 | P2 | 2026-05-07 | `spec/surface-governance.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/surface-governance.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/surface-governance.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | paired human/agent surfaces 现在有 exact invariant coverage、semantic coverage、omitted constraints、stale examples、authority mismatch、sync freshness、quality report 最小 vocabulary；不实现新 diff engine、LLM semantic judge、dashboard 或自动修复器 |
+| 54 | U-049 | S10 | 补齐 agent-primary density examples and authoring guidance 最小切片 | P2 | 2026-05-07 | `spec/aop-writing-spec.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | AOP 现在有 canonical terms、explicit constraints、uncertainty markers、labeled examples 的最小 authoring guidance 和 good/bad examples；不实现 style linter、不重写文档门户 |
 
 ## 失败或阻塞任务
 

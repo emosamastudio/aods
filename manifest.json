@@ -60,7 +60,7 @@
     {
       "id": "spec-aop",
       "path": "spec/aop-writing-spec.json",
-      "scope": "AOP writing rules: token-efficient prose, structure patterns, naming, anti-patterns.",
+      "scope": "AOP writing rules: token-efficient prose, structure patterns, naming, anti-patterns, density examples, and authoring guidance.",
       "category": "policy",
       "layer": "detail",
       "deps": [],
@@ -69,7 +69,7 @@
         "style",
         "authoring"
       ],
-      "tokens_approx": 1090,
+      "tokens_approx": 1970,
       "priority": "critical"
     },
     {

@@ -2,6 +2,64 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-29
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-29 |
+| 开始时间 | 2026-05-07 20:25 Asia/Shanghai |
+| 结束时间 | 2026-05-07 20:25 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-049 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-29
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `spec/aop-writing-spec.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、`docs/operations/aods-task-ledger.zh-CN.md`、`docs/operations/aods-handoff.zh-CN.md`、`docs/operations/aods-round-log.zh-CN.md`、`docs/operations/aods-v0.11-backlog.zh-CN.md` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、AOP 核心语义改写、schema 改动、validator/runtime style linter、文档门户重写 |
+| 外部依赖 | 无公开写操作；本轮基于 U-047 已审查的 `#54` 剩余 examples / guidance scope |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；compiled-pilot 生成噪音如出现则恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-29
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-049 | 未开始 | 已完成 | 补齐 agent-primary density examples and authoring guidance：canonical terms、explicit constraints、uncertainty markers、labeled examples，并新增最小 good/bad example table；明确不做 style linter 或文档门户重写 | `spec/aop-writing-spec.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、operations docs |
+
+## 验证记录：R-2026-05-07-29
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-049 | Previous-round quality review | `git status --short --branch`、`git show --stat --oneline HEAD`、`node --test ./benchmarks/aods-eval-lab/test/surface-governance.test.mjs`、`npm run validate:all` | 通过 | U-048 提交后工作区仅 untracked `MEMORY.md`；focused + repo validation 通过后继续推进 |
+| U-049 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/aop-writing.test.mjs` | 先失败 | 缺少 `agent-primary-density-examples` section，证明测试覆盖本轮缺口 |
+| U-049 | Focused regression | `node --test ./benchmarks/aods-eval-lab/test/aop-writing.test.mjs` | 通过 | section、authoring guidance table、good/bad example table 均覆盖 |
+| U-049 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 均通过，warnings=0 |
+| U-049 | Benchmark regression | `npm run benchmark:test` | 通过 | 61/61 pass；生成型 result 噪音已恢复 |
+| U-049 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-29
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-049 / `#56` | U-050 | Canonical surface-family example pack triage | P2 | 对 read model、command、event、adapter、implementation-linkage 等 common surface family examples 做分批规划，选择一个最小 example pack；不一次性新增全量示例库 | 下一轮首选 |
+
+## 回合结束摘要：R-2026-05-07-29
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-049 |
+| 完成任务 | 1 | agent-primary density examples and authoring guidance 完成 |
+| 失败任务 | 0 | U-048 复核通过；本轮 RED/GREEN 过程未发现需返工问题 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 1 | U-050 |
+| 剩余未完成任务 | 1 | U-050 canonical surface-family example pack triage |
+
 ## 回合摘要：R-2026-05-07-28
 
 | 项 | 内容 |
