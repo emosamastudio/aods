@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S6 read-model freshness / contract drift |
-| 当前回合 | R-2026-05-07-12 |
-| 未完成任务数量 | 2 |
-| 已完成任务数量 | 37 |
+| 当前阶段 | S6 fixture and golden export conventions / contract drift |
+| 当前回合 | R-2026-05-07-13 |
+| 未完成任务数量 | 1 |
+| 已完成任务数量 | 38 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-12 |
-| 开始时间 | 2026-05-07 15:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-13 |
+| 开始时间 | 2026-05-07 16:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-032 |
-| 本轮范围 | read-model freshness / watermark profile 最小切片：contract read_model freshness schema、stable read-model missing freshness validator gate、spec docs、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、write/event profile、完整 freshness 框架、cross-repo fetch、自动 source watermark 计算、任意 evidence command 自动执行 |
+| 选中任务 | U-033 |
+| 本轮范围 | fixture and golden export conventions 最小切片：positive/negative fixture 命名、fixture manifest 字段、golden export 更新流程、compiled-pilot source example fixture manifest、spec docs、operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、完整 conformance runner、自动 golden update、cross-repo fetch、全量 fixture 迁移、任意 evidence command 自动执行 |
 | 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,6 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-033 | S6 | 定义 fixture and golden export conventions | P2 | 未开始 | docs/spec 明确 fixture 目录、golden export 命名、positive/negative fixture、更新流程；examples 覆盖至少一个 conventional fixture | U-029 | 对应 `#48/#60` |
 | U-034 | S7 | 重新裁剪 capability negotiation 最小模型 | P2 | 未开始 | 在 acceptance criteria / adapter-facing profile 稳定后，重新判断 provider capability、consumer requirement、compatibility matching 的最小实现边界 | U-029、U-030 | 对应 `#41/#60`；当前不做 handshake |
 
 ## 已完成任务
@@ -76,6 +75,7 @@
 | 35 | U-030 | S6 | 定义 drift remediation workflow 最小模型 | P1 | 2026-05-07 | `lib/validate.mjs`、`spec/validation-rules.json`、`spec/authority-governance.json`、focused remediation regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | validator JSON / text output 现能为 implementation drift findings 给出 standardized remediation action/gate/guidance；不引入完整审批系统 |
 | 36 | U-031 | S6 | 定义 decision provenance boundary 最小模型 | P1 | 2026-05-07 | `schema/module.schema.json`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、benchmark generated corpus schema、focused decision provenance regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | artifact 可声明 `decision_provenance`；validator 检查 source/evidence/summary refs，并阻止 stale/unresolved/withheld evidence 被标成 stable agent-consumable |
 | 37 | U-032 | S6 | 定义 read-model freshness / watermark profile 最小切片 | P1 | 2026-05-07 | `schema/module.schema.json`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、benchmark generated corpus schema、focused read-model freshness regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable read-model contract 可声明 `read_model.freshness` 的 snapshot/export/watermark/staleness；validator 阻断缺 freshness 的 stable read-model profile |
+| 38 | U-033 | S6 | 定义 fixture and golden export conventions | P2 | 2026-05-07 | `spec/validation-rules.json`、`manifest.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、focused fixture convention regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | fixture manifest v1、positive/negative fixture 命名、golden export 更新流程已进入 spec；compiled-pilot source 提供一个 conventional positive fixture |
 
 ## 失败或阻塞任务
 
@@ -118,3 +118,4 @@
 | 2026-05-07 | 100% | 97% | 82% | `U-030` 完成 | drift remediation workflow 最小模型已落地；AODS 现在能把 implementation evidence / acceptance criteria drift findings 指向标准 remediation action 与 gate posture。 |
 | 2026-05-07 | 100% | 98% | 84% | `U-031` 完成 | decision provenance boundary 已落地；AODS 现在能让 agent-consumable decisions 声明 source/evidence/summary 边界，并阻断 stale/unresolved evidence 的 stable consumption。 |
 | 2026-05-07 | 100% | 99% | 86% | `U-032` 完成 | read-model freshness / watermark profile 已落地；AODS 现在能要求 stable read-model contract 声明 snapshot、exported_at、source_watermark 与 staleness，降低快照代码漂移和陈旧读模型风险。 |
+| 2026-05-07 | 100% | 99% | 88% | `U-033` 完成 | fixture and golden export conventions 已落地；AODS 现在有 positive/negative fixture、fixture manifest 与 golden export 更新审查的稳定最小约定。 |

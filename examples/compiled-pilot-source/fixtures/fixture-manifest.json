@@ -1,0 +1,35 @@
+{
+  "aods_fixture_manifest_v": 1,
+  "convention": "aods-fixture-golden-v1",
+  "scope": "Example fixture manifest for the source-first compiled-pilot example.",
+  "update_policy": {
+    "review_gate": "manual-diff",
+    "commands": [
+      "npm run compile:pilot",
+      "npm run validate:compiled-pilot"
+    ],
+    "notes": "Golden exports are regenerated from authoring.json and reviewed by diff before commit."
+  },
+  "fixtures": [
+    {
+      "id": "positive-compiled-pilot-source",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "compiled-pilot-corpus",
+          "kind": "compiled-corpus",
+          "path": "../../compiled-pilot",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    }
+  ]
+}

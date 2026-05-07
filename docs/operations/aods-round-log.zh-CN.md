@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-13
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-13 |
+| 开始时间 | 2026-05-07 16:00 Asia/Shanghai |
+| 结束时间 | 2026-05-07 16:06 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-033 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-13
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `spec/validation-rules.json`、`manifest.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、完整 conformance runner、自动 golden update、cross-repo fetch、全量 fixture 迁移、任意 evidence command 自动执行 |
+| 外部依赖 | 无公开写操作；本轮只使用本地验证 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-13
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-033 | 未开始 | 已完成 | 定义 fixture and golden export conventions 最小模型：fixture manifest v1、positive/negative 命名、golden export 更新流程、compiled-pilot source positive fixture example、focused regression、operations docs | `spec/validation-rules.json`、`manifest.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` |
+
+## 验证记录：R-2026-05-07-13
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-033 | Previous-round quality review | `git status --short --branch`、`git log --oneline -5`、`npm run validate:all` | 通过 | U-032 提交后工作区仅 untracked `MEMORY.md`；repo validation 仍通过后继续推进 |
+| U-033 | RED fixture convention regression | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 失败后修复 | 新增 compiled-pilot source fixture manifest test 先失败：缺少 `examples/compiled-pilot-source/fixtures/fixture-manifest.json` |
+| U-033 | Focused fixture convention regression | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 1 test passing；覆盖 convention id、positive fixture、expected rules、golden export 和相对路径存在 |
+| U-033 | Spec/example JSON parse | `node -e ... JSON.parse(...)` | 通过 | manifest、validation rules、fixture manifest 语法有效 |
+| U-033 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-033 | Benchmark test gate | `npm run benchmark:test` | 通过 | 47 tests passing；benchmark generated result 噪音已恢复 |
+| U-033 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-13
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-07-13
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-033 |
+| 完成任务 | 1 | fixture and golden export conventions 最小切片完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 1 | 下一轮首选 U-034 capability negotiation re-triage |
+
 ## 回合摘要：R-2026-05-07-12
 
 | 项 | 内容 |
