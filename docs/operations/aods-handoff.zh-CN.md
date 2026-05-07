@@ -130,10 +130,11 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | documentation / authoring quality 扩散风险 | authoring quality backlog 容易扩成未裁剪的全量 authoring framework、文档门户重写或 retrieval runtime | U-047 已完成 triage；后续按 U-048 最小边界推进 |
 | sync quality metrics 扩散风险 | paired-surface quality metrics 容易扩成新 diff engine、LLM semantic judge、dashboard 或自动修复器 | U-048 已只定义 quality dimensions、drift classes 和 report vocabulary |
 | authoring examples 扩散风险 | agent-primary density examples 容易扩成 style linter、全量写作框架或文档门户重写 | U-049 已只补最小 good/bad examples 和 authoring guidance，不改变 AOP 核心语义 |
-| surface-family example pack 扩散风险 | canonical example packs 容易扩成全量示例库、fixture rewrite 或覆盖所有 surface families | U-050 应先做 triage，选择一个最小 example pack，不一次性新增全量示例 |
+| surface-family example pack 扩散风险 | canonical example packs 容易扩成全量示例库、fixture rewrite 或覆盖所有 surface families | U-050 已完成 triage；U-051 只做 read-model + implementation-linkage 首包 |
+| read-model example pack 扩散风险 | 首包容易扩成 command/event/adapter 示例、evidence command execution 或全量 domain model | U-051 应只改 source-first compiled-pilot example、fixture manifest、compiled output 和 focused regression |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-050 | Canonical surface-family example pack triage | 对 read model、command、event、adapter、implementation-linkage 等 common surface family examples 做分批规划，选择一个最小 example pack；不一次性新增全量示例库 |
+| 1 | U-051 | 落地 read-model + implementation-linkage canonical example pack 最小切片 | 在 `examples/compiled-pilot-source/` 中加入 read-model + implementation-linkage 首包，覆盖 stable read-model contract、freshness/watermark、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不覆盖 command/event/adapter，不执行 evidence command |

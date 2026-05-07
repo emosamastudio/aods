@@ -10,29 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S10 surface-family example pack triage |
-| 当前回合 | R-2026-05-07-29 |
+| 当前阶段 | S10 read-model example pack |
+| 当前回合 | R-2026-05-07-30 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 54 |
+| 已完成任务数量 | 55 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-29 |
-| 开始时间 | 2026-05-07 20:25 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-30 |
+| 开始时间 | 2026-05-07 20:38 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-049 |
-| 本轮范围 | agent-primary density examples and authoring guidance：为 canonical terms、explicit constraints、uncertainty markers、good/bad examples 补充最小教学表面；同步 manifest 和 operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、AOP 核心语义改写、schema 改动、validator/runtime style linter、文档门户重写 |
-| 验证计划 | focused AOP regression；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
+| 选中任务 | U-050 |
+| 本轮范围 | canonical surface-family example pack triage：对 read model、command、event、adapter、implementation-linkage 等 common surface family examples 做分批规划，选择一个最小 example pack；更新 operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、一次性全量示例库、fixture rewrite、公开文档门户重写 |
+| 验证计划 | `git diff --check`；`npm run validate:all` 复核语义面未漂移 |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-050 | S10 | Canonical surface-family example pack triage | P2 | 未开始 | 对 read model、command、event、adapter、implementation-linkage 等 common surface family examples 做分批规划，选择一个最小 example pack；不一次性新增全量示例库 | U-049 | 对应 `#56`；下一轮首选 |
+| U-051 | S10 | 落地 read-model + implementation-linkage canonical example pack 最小切片 | P2 | 未开始 | 在 `examples/compiled-pilot-source/` 中加入 read-model + implementation-linkage 首包，覆盖 stable read-model contract、freshness/watermark、implementation evidence、acceptance criteria、fixture manifest 和 compiled output；不覆盖 command/event/adapter，不执行 evidence command | U-050 | 对应 `#56` 首包；下一轮首选 |
 
 ## 已完成任务
 
@@ -92,6 +92,7 @@
 | 52 | U-047 | S10 | 复盘 documentation / authoring quality backlog 并选择下一最小切片 | P1 | 2026-05-07 | `docs/operations/aods-v0.11-backlog.zh-CN.md`、operations README、docs README、task ledger、handoff、round log | `gh issue view 54-58 --json ...`、`git diff --check`、`npm run validate:all` | 已确认 `#55` 是下一轮首选；`#54` 多数由 `spec-aop` 覆盖，`#56` 后续拆 example pack，`#57/#58` 需要独立 schema/provenance 设计 |
 | 53 | U-048 | S10 | 定义 human-surface synchronization quality metrics 最小边界 | P2 | 2026-05-07 | `spec/surface-governance.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/surface-governance.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/surface-governance.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | paired human/agent surfaces 现在有 exact invariant coverage、semantic coverage、omitted constraints、stale examples、authority mismatch、sync freshness、quality report 最小 vocabulary；不实现新 diff engine、LLM semantic judge、dashboard 或自动修复器 |
 | 54 | U-049 | S10 | 补齐 agent-primary density examples and authoring guidance 最小切片 | P2 | 2026-05-07 | `spec/aop-writing-spec.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/aop-writing.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | AOP 现在有 canonical terms、explicit constraints、uncertainty markers、labeled examples 的最小 authoring guidance 和 good/bad examples；不实现 style linter、不重写文档门户 |
+| 55 | U-050 | S10 | Canonical surface-family example pack triage | P2 | 2026-05-07 | `docs/operations/aods-surface-family-example-plan.zh-CN.md`、operations README、docs README、task ledger、handoff、round log、v0.11 backlog | `gh issue view 56 --json ...`、`git diff --check`、`npm run validate:all` | 已把 `#56` 裁剪为 read-model + implementation-linkage、command/receipt、event/correction、adapter/capability、artifact/export/policy-gate 五批；下一轮首选 U-051 |
 
 ## 失败或阻塞任务
 
