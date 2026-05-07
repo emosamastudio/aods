@@ -26,6 +26,7 @@
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |
 | `docs/operations/aods-v0.10-backlog.zh-CN.md` | v0.10 risk/exposure/audit hardening 候选路线和 U-041 triage 记录。 |
+| `docs/operations/aods-v0.11-backlog.zh-CN.md` | v0.11 documentation / authoring quality 候选路线和 U-047 triage 记录。 |
 
 ## 当前维护边界
 

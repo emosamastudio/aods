@@ -214,4 +214,4 @@ v0.10 不应从完整 state-machine schema、runtime observability、外部 cita
 
 ## 下一轮建议
 
-下一轮按任务台账首选 **U-047 documentation / authoring quality backlog triage**。如果开始执行，必须先复审 U-046 质量；只有 observability metadata 的 spec、manifest、focused regression、operations docs 和验证都合格，才进入 `#54-#58` 的文档 / 作者质量路线复盘。
+U-047 已执行，documentation / authoring quality backlog 已移交到 `docs/operations/aods-v0.11-backlog.zh-CN.md`。后续不再从 v0.10 backlog 直接选择任务；按任务台账和 v0.11 backlog 进入 U-048。

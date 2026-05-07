@@ -10,29 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S9 validation/routing observability boundary |
-| 当前回合 | R-2026-05-07-26 |
+| 当前阶段 | S10 paired-surface sync quality boundary |
+| 当前回合 | R-2026-05-07-27 |
 | 未完成任务数量 | 1 |
-| 已完成任务数量 | 51 |
+| 已完成任务数量 | 52 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-26 |
-| 开始时间 | 2026-05-07 19:46 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-27 |
+| 开始时间 | 2026-05-07 20:03 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-046 |
-| 本轮范围 | observability metadata for validation and routing decisions 最小边界：rule id、severity、source location、dependency path、routing reason、selected/skipped modules、suggested next action；spec docs、focused regression、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、CLI output subsystem rewrite、dashboard、trace store、graph database、route ranking rewrite、telemetry storage |
-| 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
+| 选中任务 | U-047 |
+| 本轮范围 | documentation / authoring quality backlog triage：只读审查 `#54-#58`，对照现有 AOP、paired-surface、glossary、provenance 和 examples，选择下一最小切片；更新 operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、schema 改动、validator/runtime 改动、示例库批量新增、文档门户重写 |
+| 验证计划 | `git diff --check`；必要时 `npm run validate:all` 复核语义面未漂移 |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-047 | S10 | 复盘 documentation / authoring quality backlog 并选择下一最小切片 | P1 | 未开始 | 重新审查 `#54-#58` 与当前 README/docs/authoring/retrieval quality，区分 docs-only、spec-boundary、validator/runtime 候选；更新 backlog、task ledger、handoff、round log；不直接执行未裁剪语义改动 | U-046 | 下一轮首选；用于收束 v0.10 后续作者体验路线 |
+| U-048 | S10 | 定义 human-surface synchronization quality metrics 最小边界 | P2 | 未开始 | paired human/agent surfaces 的 exact invariant coverage、semantic coverage、omitted constraints、stale examples、authority mismatch、sync freshness、quality report 最小 vocabulary 进入 `spec/surface-governance.json`；不实现新 diff engine、LLM semantic judge、dashboard 或自动修复器 | U-047 | 对应 `#55`；下一轮首选 |
 
 ## 已完成任务
 
@@ -89,6 +89,7 @@
 | 49 | U-044 | S9 | 定义 audit-log requirements for commands and adapters 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | commands/adapters 现在有 actor、source、target、command reference、idempotency key、policy decision、receipt reference、timestamp、correlation identifier 的最小 audit metadata；不实现 audit log store、workflow engine、SIEM integration 或 observability backend |
 | 50 | U-045 | S9 | 定义 lifecycle state-machine profile for operational objects 最小边界 | P1 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | long-running operational objects 现在有 lifecycle state/display status、initial/terminal states、transition、guard、timeout/expiration、retry、cancellation、cleanup、event/receipt link 的最小 state-machine profile；不实现 workflow engine、scheduler、retry runtime 或 cleanup executor |
 | 51 | U-046 | S9 | 定义 observability metadata for validation and routing decisions 最小边界 | P3 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.10-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | validation/routing decisions 现在有 rule id、severity、source location、dependency path、routing reason、selected/skipped modules、suggested next action 的最小 observability vocabulary；不重写 CLI output subsystem、dashboard、trace store 或 graph database |
+| 52 | U-047 | S10 | 复盘 documentation / authoring quality backlog 并选择下一最小切片 | P1 | 2026-05-07 | `docs/operations/aods-v0.11-backlog.zh-CN.md`、operations README、docs README、task ledger、handoff、round log | `gh issue view 54-58 --json ...`、`git diff --check`、`npm run validate:all` | 已确认 `#55` 是下一轮首选；`#54` 多数由 `spec-aop` 覆盖，`#56` 后续拆 example pack，`#57/#58` 需要独立 schema/provenance 设计 |
 
 ## 失败或阻塞任务
 
@@ -145,3 +146,4 @@
 | 2026-05-07 | 100% | 100% | 99% | `U-044` 完成 | audit-log requirements boundary 已落地；AODS 现在能为 commands/adapters 表达 action trace 的 actor、source、target、command、idempotency、policy、receipt、timestamp 和 correlation metadata，audit store 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-045` 完成 | lifecycle state-machine profile 已落地；AODS 现在能为 long-running operational objects 表达 lifecycle state、display status、terminal behavior、transition guard、timeout、retry、cancel、cleanup 和 event/receipt linkage，workflow runtime 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 99% | `U-046` 完成 | validation/routing observability metadata 已落地；AODS 现在能为 validate/route 决策表达 rule、severity、source、dependency、selection、skip 和 next-action explanation vocabulary，CLI 输出重写和 observability runtime 继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 99% | `U-047` 完成 | documentation / authoring quality backlog triage 已完成；下一路线收敛为 paired-surface sync quality metrics，避免直接扩散到全量示例库、glossary schema v2 或 external citation registry。 |

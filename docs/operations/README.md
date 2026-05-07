@@ -16,6 +16,7 @@
 | `aods-v0.8-backlog.zh-CN.md` | v0.7 release 后的 v0.8 backlog triage、open issue 排序和下一 drift 切片 | 高 |
 | `aods-v0.9-backlog.zh-CN.md` | v0.8 backlog 清空后的 write/event/governance 候选路线 | 高 |
 | `aods-v0.10-backlog.zh-CN.md` | v0.9 backlog 清空后的 risk/exposure/audit hardening 候选路线 | 高 |
+| `aods-v0.11-backlog.zh-CN.md` | v0.10 队列收束后的 documentation / authoring quality 候选路线 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -36,9 +37,10 @@
 11. 读 `aods-v0.8-backlog.zh-CN.md`
 12. 读 `aods-v0.9-backlog.zh-CN.md`
 13. 读 `aods-v0.10-backlog.zh-CN.md`
-14. 读 `aods-v0.7-rc-gate.zh-CN.md`
-15. 读 `aods-handoff.zh-CN.md`
-16. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+14. 读 `aods-v0.11-backlog.zh-CN.md`
+15. 读 `aods-v0.7-rc-gate.zh-CN.md`
+16. 读 `aods-handoff.zh-CN.md`
+17. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
