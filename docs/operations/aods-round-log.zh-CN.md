@@ -2,6 +2,63 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-07
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-07 |
+| 开始时间 | 2026-05-07 13:20 Asia/Shanghai |
+| 结束时间 | 2026-05-07 13:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-027 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-07
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `schema/`、`lib/compile.mjs`、`lib/corpus-helpers.mjs`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`benchmarks/aods-eval-lab/generated/aods-corpus/schema/`、compiled-pilot source/output、`docs/operations/` |
+| 禁止触碰 | GitHub 公开写操作、release 发布、npm registry publish、Polaris sibling repo、任意 evidence command 自动执行 |
+| 外部依赖 | 无 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-07-07
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-027 | 未开始 | 已完成 | 落地 implementation evidence 最小切片：module schema detail evidence、manifest evidence_summary、compiler summary、validator mirror/reality locator checks、compiled-pilot current+planned evidence、focused regressions | `schema/module.schema.json`、`schema/manifest.schema.json`、`lib/compile.mjs`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、compiled-pilot source/output、benchmark generated corpus schema、`benchmarks/aods-eval-lab/test/scaffold.test.mjs` |
+
+## 验证记录：R-2026-05-07-07
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-027 | Release baseline quality review | `npm run validate:all`、`gh release view v0.7.0`、open issue count | 通过 | v0.7 release 存在；open issues 24；baseline validation clean |
+| U-027 | Focused implementation evidence regressions | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 17 tests passing；覆盖 source-first summary、missing evidence、missing evidence locator |
+| U-027 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-027 | Benchmark test gate | `npm run benchmark:test` | 通过 | 40 tests passing |
+| U-027 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-07
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-07-07
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-027 |
+| 完成任务 | 1 | implementation evidence 最小切片完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 0 | 当前台账无未完成任务 |
+
 ## 回合摘要：R-2026-05-07-06
 
 | 项 | 内容 |
