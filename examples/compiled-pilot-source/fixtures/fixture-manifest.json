@@ -110,6 +110,26 @@
           "review_gate": "manual-diff"
         }
       ]
+    },
+    {
+      "id": "positive-artifact-export-policy-gate-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "artifact-export-policy-gate-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-artifact-export-policy.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 # AODS Surface-family Example Pack Plan
 
-状态：U-054 adapter + capability/exposure 包已落地
+状态：U-055 artifact/export/policy-gate 包已落地
 日期：2026-05-07
 适用范围：GitHub `#56` common AODS surface family examples
 
@@ -8,9 +8,9 @@
 
 `#56` 不应一次性变成全量示例库。当前最高价值、最低风险路线是先做 example pack triage，再选择一个 schema/runtime 已稳定的最小示例包。
 
-已落地前四包为 **U-051 read-model + implementation-linkage canonical example pack**、**U-052 command + receipt canonical example pack**、**U-053 event + correction/supersession canonical example pack** 和 **U-054 adapter + capability/exposure canonical example pack**。原因：read-model freshness、implementation evidence、acceptance criteria、fixture/golden convention、command/receipt/audit/risk 边界、event correction/supersession guidance、adapter capability/exposure guidance 已经落地，能够用现有 validator 和 compiled-pilot source-first 结构验证；artifact/export/policy-gate 仍需最后分批处理。
+已落地五包为 **U-051 read-model + implementation-linkage canonical example pack**、**U-052 command + receipt canonical example pack**、**U-053 event + correction/supersession canonical example pack**、**U-054 adapter + capability/exposure canonical example pack** 和 **U-055 artifact/export/policy-gate canonical example pack**。原因：read-model freshness、implementation evidence、acceptance criteria、fixture/golden convention、command/receipt/audit/risk 边界、event correction/supersession guidance、adapter capability/exposure guidance、artifact export policy gate 都已经能用现有 validator 和 compiled-pilot source-first 结构验证。
 
-下一轮首选 **U-055 artifact/export/policy-gate canonical example pack**。它展示 artifact type、golden export、policy gate、validation notes 和 implementation acceptance linkage；仍不实现 conformance runner、自动 golden update 或全量 fixture 迁移。
+下一轮首选 **U-056 surface-family example pack 收束质量复盘与下一阶段 backlog triage**。它检查 `#56` 分批路线是否仍有 resource example 残留、GitHub issue 是否需要同步、以及 `#57/#58` 是否进入下一阶段；仍不直接实现 schema/provenance 变更。
 
 ## 输入信号
 
@@ -30,7 +30,7 @@
 | 2 | command + receipt | 展示 write-capable surface 的 command、receipt、audit metadata 和 risk taxonomy | 已完成 U-052：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不实现 command executor、不建 event bus |
 | 3 | event + correction/supersession | 展示 append-only event、correction_of、supersedes、projection guidance | 已完成 U-053：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不实现 event store、不做 replay/migration |
 | 4 | adapter + capability/exposure | 展示 provider capability、consumer requirement、local/remote exposure、audit notes | 已完成 U-054：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 negotiation handshake、不做 auth runtime |
-| 5 | artifact/export/policy-gate | 展示 artifact type、golden export、policy gate 与 validation notes | 下一轮首选：minimal authoring example + compile/validate regression | 不做 conformance runner、不迁移全部 examples |
+| 5 | artifact/export/policy-gate | 展示 artifact type、golden export、policy gate 与 validation notes | 已完成 U-055：source-first example、compiled output、fixture manifest、focused regression、`validate:all` | 不做 conformance runner、不迁移全部 examples |
 
 ## 已执行：U-051 最小包
 
@@ -163,6 +163,34 @@
 ### 非目标
 
 不实现 conformance runner，不做自动 golden update，不迁移全部 examples，不重写 fixture convention。
+
+### 验收结果
+
+1. `examples/compiled-pilot-source/authoring.json` 已新增 `shift-ops-artifact-export-policy`。
+2. `examples/compiled-pilot/modules/shift-ops-artifact-export-policy.json` 已由 `npm run compile:pilot` 生成。
+3. 模块包含 artifact export surface、golden export review、policy gate / validation notes、implementation evidence、acceptance criteria。
+4. `examples/compiled-pilot-source/fixtures/fixture-manifest.json` 已新增 `positive-artifact-export-policy-gate-pack`。
+5. `benchmarks/aods-eval-lab/test/example-packs.test.mjs` 已扩展覆盖 artifact/export source、compiled module、manifest summary 和 fixture metadata。
+6. 本轮未新增 schema，未改 validator/runtime，未实现 conformance runner、自动 golden update 或全量 fixture 迁移。
+
+## U-056 候选任务
+
+### 目标
+
+复盘 U-051 到 U-055 五个 example pack 的收束质量，确认 `#56` 是否仍有 resource example 残留，并制定下一阶段 backlog triage。
+
+### 验收边界
+
+| 文件 | 变更 |
+|---|---|
+| `docs/operations/aods-surface-family-example-plan.zh-CN.md` | 标记五包收束结果、残留问题和下一阶段建议 |
+| `docs/operations/aods-v0.11-backlog.zh-CN.md` | 标记 `#56` example pack 队列状态，并选择 `#57/#58` 或残留 resource 作为下一阶段候选 |
+| `docs/operations/aods-task-ledger.zh-CN.md` | 写入下一阶段任务，不直接执行 schema/provenance 变更 |
+| `docs/operations/aods-round-log.zh-CN.md` | 记录复核和 triage 证据 |
+
+### 非目标
+
+不关闭或评论 GitHub issue，不实现 schema/provenance 变更，不新增 example pack，不重写文档门户。
 
 ## Deferred
 

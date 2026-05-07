@@ -34,6 +34,13 @@ const ADAPTER_MODULE_PATH = path.join(
   "modules",
   "shift-ops-adapter-capability.json"
 );
+const ARTIFACT_EXPORT_MODULE_PATH = path.join(
+  REPO_ROOT,
+  "examples",
+  "compiled-pilot",
+  "modules",
+  "shift-ops-artifact-export-policy.json"
+);
 const COMPILED_MANIFEST_PATH = path.join(REPO_ROOT, "examples", "compiled-pilot", "manifest.json");
 const FIXTURE_MANIFEST_PATH = path.join(
   REPO_ROOT,
@@ -201,4 +208,45 @@ test("compiled pilot includes adapter capability exposure example pack", () => {
   assert.equal(fixture.kind, "positive");
   assert.equal(fixture.input.path, "../authoring.json");
   assert.ok(fixture.golden_exports.some((entry) => entry.id === "adapter-capability-exposure-module"));
+});
+
+test("compiled pilot includes artifact export policy gate example pack", () => {
+  const source = JSON.parse(fs.readFileSync(SOURCE_PATH, "utf8"));
+  const module = source.modules.find((entry) => entry.id === "shift-ops-artifact-export-policy");
+  assert.ok(module);
+  assert.ok(module.tags.includes("artifact"));
+  assert.ok(module.tags.includes("export"));
+  assert.ok(module.tags.includes("policy-gate"));
+  assert.equal(module.meta.implementation.repo_id, "shift-ops-control-plane");
+  assert.deepEqual(module.meta.implementation.evidence.map((entry) => entry.id), [
+    "artifact-export-schema-test",
+    "artifact-policy-gate-fixture"
+  ]);
+  assert.deepEqual(module.meta.implementation.acceptance_criteria.map((entry) => entry.id), [
+    "artifact-export-contract",
+    "artifact-policy-gate-contract"
+  ]);
+  assert.ok(module.sections.some((entry) => entry.sid === "artifact-export-surface"));
+  assert.ok(module.sections.some((entry) => entry.sid === "artifact-golden-export"));
+  assert.ok(module.sections.some((entry) => entry.sid === "artifact-policy-gate"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "export-artifact-type-table"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "golden-export-review-table"));
+  assert.ok(module.artifacts.some((entry) => entry.artifact_id === "policy-gate-validation-table"));
+
+  const compiled = JSON.parse(fs.readFileSync(ARTIFACT_EXPORT_MODULE_PATH, "utf8"));
+  assert.equal(compiled.meta.implementation.evidence.length, 2);
+  assert.equal(compiled.meta.implementation.acceptance_criteria.length, 2);
+
+  const manifest = JSON.parse(fs.readFileSync(COMPILED_MANIFEST_PATH, "utf8"));
+  const manifestModule = manifest.modules.find((entry) => entry.id === "shift-ops-artifact-export-policy");
+  assert.ok(manifestModule);
+  assert.equal(manifestModule.implementation.evidence_summary.total, 2);
+  assert.equal(manifestModule.implementation.acceptance_summary.total, 2);
+
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const fixture = fixtureManifest.fixtures.find((entry) => entry.id === "positive-artifact-export-policy-gate-pack");
+  assert.ok(fixture);
+  assert.equal(fixture.kind, "positive");
+  assert.equal(fixture.input.path, "../authoring.json");
+  assert.ok(fixture.golden_exports.some((entry) => entry.id === "artifact-export-policy-gate-module"));
 });

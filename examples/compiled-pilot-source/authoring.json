@@ -24,6 +24,7 @@
           "shift-ops-change-command",
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
+          "shift-ops-artifact-export-policy",
           "shift-ops-governance"
         ]
       },
@@ -47,6 +48,7 @@
           "shift-ops-change-command",
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
+          "shift-ops-artifact-export-policy",
           "shift-ops-governance"
         ]
       }
@@ -89,7 +91,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, the adapter module for capability exposure, and the surface inventory when current corpus surfaces must be checked.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, the adapter module for capability exposure, the artifact export module for policy-gated golden exports, and the surface inventory when current corpus surfaces must be checked.",
       "tags": [
         "root",
         "routing",
@@ -131,14 +133,15 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Route artifact export and policy-gate questions to shift-ops-artifact-export-policy:artifact-export-surface. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
             "shift-ops-capsule:system-capsule",
             "shift-ops-governance:implementation-governance",
             "shift-ops-change-command:change-command",
             "shift-ops-change-event-log:change-event-correction-supersession",
-            "shift-ops-adapter-capability:adapter-provider-capability"
+            "shift-ops-adapter-capability:adapter-provider-capability",
+            "shift-ops-artifact-export-policy:artifact-export-surface"
           ],
           "artifact_refs": [
             "route-table",
@@ -188,6 +191,10 @@
               [
                 "adapter capability and exposure",
                 "shift-ops-adapter-capability:adapter-provider-capability"
+              ],
+              [
+                "artifact export and policy gate",
+                "shift-ops-artifact-export-policy:artifact-export-surface"
               ],
               [
                 "incident response",
@@ -242,7 +249,7 @@
       "layer": "capsule",
       "priority": "critical",
       "scope": "Summary routing for shift operations detail modules.",
-      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, adapter, governance, or runbook detail.",
+      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, adapter, artifact export, governance, or runbook detail.",
       "tags": [
         "capsule",
         "routing",
@@ -263,6 +270,7 @@
             "shift-ops-change-command:change-command",
             "shift-ops-change-event-log:change-event-correction-supersession",
             "shift-ops-adapter-capability:adapter-provider-capability",
+            "shift-ops-artifact-export-policy:artifact-export-surface",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -281,6 +289,7 @@
             "command module",
             "event module",
             "adapter module",
+            "artifact export module",
             "governance module",
             "runbook module"
           ],
@@ -293,7 +302,7 @@
       "capsule": {
         "read_when": [
           "Need summary routing after cold start",
-          "Need policy, readiness, command, event, adapter, governance, or incident detail"
+          "Need policy, readiness, command, event, adapter, artifact export, governance, or incident detail"
         ],
         "core_question": "Which detail module should answer the current shift operations question?",
         "routes_to": [
@@ -302,6 +311,7 @@
           "shift-ops-change-command",
           "shift-ops-change-event-log",
           "shift-ops-adapter-capability",
+          "shift-ops-artifact-export-policy",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -314,7 +324,7 @@
         {
           "sid": "system-capsule",
           "topic": "capsule summary and next routes",
-          "content": "Routes: policy, readiness, command, event, adapter, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content": "Routes: policy, readiness, command, event, adapter, artifact export, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
           "content_type": "rules",
           "refs": [
             "shift-ops-policy:approval-policy",
@@ -322,6 +332,7 @@
             "shift-ops-change-command:change-command",
             "shift-ops-change-event-log:change-event-correction-supersession",
             "shift-ops-adapter-capability:adapter-provider-capability",
+            "shift-ops-artifact-export-policy:artifact-export-surface",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -1573,6 +1584,299 @@
       ]
     },
     {
+      "id": "shift-ops-artifact-export-policy",
+      "category": "reference",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical artifact/export/policy-gate example for generated outputs without implementing a conformance runner.",
+      "context": "Artifact/export/policy-gate example pack for generated artifact surfaces. Use when authors need artifact type selection, golden export review, policy gate notes, validation notes, implementation evidence, and acceptance criteria without automatic golden update or fixture migration semantics.",
+      "tags": [
+        "artifact",
+        "export",
+        "policy-gate",
+        "golden",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "pre-commit"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "artifact-export-contract-v1",
+            "policy-gate-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "artifact-export-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "artifact-export-validator"
+          ],
+          "resources": [
+            "authoring source",
+            "compiled module export",
+            "fixture manifest"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "artifact-export-status",
+            "policy-gate-status"
+          ],
+          "checkpoints": [
+            "artifact-type-declared",
+            "golden-export-reviewed",
+            "policy-gate-recorded"
+          ],
+          "outputs": [
+            "compiled artifact export",
+            "policy-gate review note"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/export/src/artifact-export.ts",
+            "services/export/tests/artifact-export.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-332"
+          ],
+          "authority_surface": "shift-ops-artifact-export-policy:artifact-export-surface",
+          "evidence": [
+            {
+              "id": "artifact-export-schema-test",
+              "kind": "test",
+              "locator": "services/export/tests/artifact-export.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-export-surface"
+            },
+            {
+              "id": "artifact-policy-gate-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/export/policy-gate.json",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-policy-gate"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "artifact-export-contract",
+              "surface_ref": "shift-ops-artifact-export-policy:artifact-export-surface",
+              "requirement": "Artifact export declares artifact_id, artifact_type, source_ref, export_path, schema_version, update_command, review_gate, and consumer_guidance.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "artifact-export-schema-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-export-surface"
+            },
+            {
+              "id": "artifact-policy-gate-contract",
+              "surface_ref": "shift-ops-artifact-export-policy:artifact-policy-gate",
+              "requirement": "Policy gate declares required command, expected status, validation rule, manual diff review, reviewer role, and blocked auto-update posture.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "artifact-policy-gate-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-policy-gate"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "artifact-export-surface",
+          "topic": "artifact export surface",
+          "content": "Artifact export surface names artifact_id, artifact_type, source_ref, export_path, schema_version, update_command, review_gate, and consumer_guidance. Export is a declared generated output, not proof that a conformance runner exists.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "export-artifact-type-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "artifact-golden-export",
+          "topic": "golden export review posture",
+          "content": "Golden export review records golden_export_id, export_kind, path, update_command, review_gate, schema_version, and diff_owner. Golden export changes require manual diff review before commit; this example does not perform automatic golden updates.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-artifact-export-policy:artifact-export-surface"
+          ],
+          "artifact_refs": [
+            "golden-export-review-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "artifact-policy-gate",
+          "topic": "artifact policy gate and validation notes",
+          "content": "Policy gate records required_command, expected_status, validation_rule, review_gate, reviewer_role, blocked_auto_update, and failure_action. Validation notes are evidence anchors for export posture only; they do not migrate all fixtures or create a runner.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "policy-gate-validation-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "export-artifact-type-table",
+          "type": "mapping-table",
+          "usage": "Canonical fields for generated artifact exports.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "artifact_id",
+                "stable identity of the exported artifact",
+                "yes"
+              ],
+              [
+                "artifact_type",
+                "AODS artifact type such as mapping-table or json-schema",
+                "yes"
+              ],
+              [
+                "source_ref",
+                "authoring section or artifact that owns the export",
+                "yes"
+              ],
+              [
+                "export_path",
+                "repo-relative generated output path",
+                "yes"
+              ],
+              [
+                "consumer_guidance",
+                "how agents may consume the generated output",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "golden-export-review-table",
+          "type": "mapping-table",
+          "usage": "Golden export review metadata for source-first examples.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "golden_export_id",
+                "stable identifier in fixture manifest",
+                "yes"
+              ],
+              [
+                "update_command",
+                "command that regenerates the golden export",
+                "yes"
+              ],
+              [
+                "review_gate",
+                "manual-diff or stricter human review gate",
+                "yes"
+              ],
+              [
+                "schema_version",
+                "AODS schema version expected by the export",
+                "yes"
+              ],
+              [
+                "diff_owner",
+                "role accountable for reviewing generated changes",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "policy-gate-validation-table",
+          "type": "mapping-table",
+          "usage": "Policy gate and validation notes for generated artifact exports.",
+          "content": {
+            "key_columns": [
+              "gate"
+            ],
+            "columns": [
+              "gate",
+              "requirement",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "compile-gate",
+                "run declared compile command before reviewing generated output",
+                "does not create a conformance runner"
+              ],
+              [
+                "strict-validate-gate",
+                "strict validation must pass before generated export can be consumed",
+                "does not waive schema errors"
+              ],
+              [
+                "manual-diff-gate",
+                "review generated diff before commit",
+                "does not auto-accept golden changes"
+              ],
+              [
+                "fixture-scope-gate",
+                "fixture manifest names exact positive pack and golden export",
+                "does not migrate all fixtures"
+              ],
+              [
+                "failure-action",
+                "block commit or downgrade export posture until fixed",
+                "does not execute remediation automatically"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "shift-ops-runbook",
       "category": "workflow",
       "layer": "detail",
@@ -2105,16 +2409,16 @@
       "pair_id": "pair-shift-ops-readme",
       "scope": "system",
       "agent_primary": "shift-ops-capsule",
-        "agent_supporting": [
-          "shift-ops-root",
-          "shift-ops-policy",
-          "shift-ops-readiness-read-model",
-          "shift-ops-change-command",
-          "shift-ops-change-event-log",
-          "shift-ops-adapter-capability",
-          "shift-ops-governance",
-          "shift-ops-runbook"
-        ],
+      "agent_supporting": [
+        "shift-ops-root",
+        "shift-ops-policy",
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-change-event-log",
+        "shift-ops-adapter-capability",
+        "shift-ops-governance",
+        "shift-ops-runbook"
+      ],
       "human_primary": "README.md",
       "human_generation": {
         "mode": "deterministic",
