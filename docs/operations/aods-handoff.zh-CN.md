@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；下一轮首选 U-040 deprecation and migration format boundary；`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub Release `v0.7.0` 已创建，版本面已切到 `0.7.0`。U-027 implementation evidence 最小切片已通过 PR `#62` merge 到 `main`；U-028 已完成 v0.8 backlog triage；U-029 implementation acceptance criteria 已落地；U-030 drift remediation workflow 最小模型已落地；U-031 decision provenance boundary 已落地；U-032 read-model freshness / watermark profile 已落地；U-033 fixture and golden export conventions 已落地；U-034 capability negotiation re-triage 已落地；U-035 command / receipt / event triad boundary 已落地；U-036 event correction / supersession boundary 已落地；U-037 partial implementation / known-gap metadata boundary 已落地；U-038 ownership and authority hierarchy boundary 已落地；U-039 dependency ordering between surfaces boundary 已落地；U-040 deprecation and migration format boundary 已落地；当前 v0.9 队列已清空，下一轮先重新 triage open issue backlog / owner roadmap；`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -83,12 +83,13 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | U-037 | 定义 partial implementation / known-gap metadata 最小边界 | partial implementation / known gap 的 missing_capabilities、blocking_status、owner、expected_remediation、consumer guidance 已进入 spec-level boundary；roadmap system、automatic waiver、release override 继续 deferred |
 | U-038 | 定义 ownership and authority hierarchy 最小边界 | overlapping stable surfaces 的 canonical_authority、derived_surface、alias_surface、conflict_policy、migration_guidance 已进入 spec-level boundary；automatic conflict resolver、ownership inference、cross-corpus authority runtime 继续 deferred |
 | U-039 | 定义 dependency ordering between surfaces 最小边界 | stable surfaces 的 requires、blocks、derives_from、emits、consumes、optional_dependency 已进入 spec-level boundary；package manager、runtime scheduler、cross-repo dependency executor 继续 deferred |
+| U-040 | 定义 deprecation and migration format 最小边界 | deprecated / removed stable surfaces 的 deprecation metadata、replacement links、migration guidance、affected versions、removal version、validation behavior 已进入 spec-level boundary；automatic migration tool、consumer rewrite、runtime compatibility shim 继续 deferred |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-040 | 定义 deprecation and migration format 最小边界 | 下一轮首选；对应 `#52`；不实现 automatic migration tool |
+| 1 | 无 | 当前 v0.9 队列已清空 | 下一轮先重新 triage open issue backlog / owner roadmap；不要直接把 `#60` 路线图 issue 当作实现切片 |
 
 ## 失败和风险
 
@@ -111,9 +112,10 @@ AODS 是独立权威规范路线。v0.7 已发布：PR `#61` 已 merge，GitHub 
 | known-gap 扩散风险 | partial / known-gap metadata 容易扩成全量 roadmap system、automatic waiver、release override 或 validator bypass | U-037 只落 spec-level consumption posture vocabulary；豁免、发布覆盖和 roadmap runtime 必须另立任务 |
 | authority hierarchy 扩散风险 | ownership / authority hierarchy 容易扩成 automatic conflict resolver、ownership inference、cross-corpus authority runtime 或 automatic migration tool | U-038 只落 spec-level overlap vocabulary；冲突解析、跨 corpus runtime 和迁移工具必须另立任务 |
 | dependency ordering 扩散风险 | dependency ordering 容易扩成 package manager、runtime scheduler、cross-repo dependency executor 或 automatic topological build runner | U-039 只落 spec-level dependency vocabulary；执行调度和跨仓库依赖执行必须另立任务 |
+| deprecation / migration 扩散风险 | deprecation and migration 容易扩成 automatic migration tool、consumer rewrite、runtime compatibility shim、stored data transform 或 backward compatibility guarantee | U-040 只落 spec-level migration vocabulary；自动迁移、兼容 shim 和存量数据转换必须另立任务 |
 
 ## 下一轮建议
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-040 | 定义 deprecation and migration format 最小边界 | deprecation fields、replacement links、migration guidance、affected versions、removal version、validation behavior 最小语义进入 spec；不实现 automatic migration tool |
+| 1 | 待 triage | 重新审查 open issue backlog / owner roadmap | 选择一个独立、低风险、可验证的最小规范切片；不要直接把 `#60` 路线图 issue 当作实现任务 |

@@ -8,7 +8,7 @@
 
 v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 oracle 开始。当前最高价值路线是继续收束 write-capable 和 event-facing stable surfaces 的最小审计语义，让 AODS 在进入更深的 runtime / conformance 前先能表达“写入请求、尝试记录、状态后果之间如何追踪”。
 
-已执行的最小切片包括 **U-035 command / receipt / event triad boundary**、**U-036 event correction / supersession boundary**、**U-037 partial implementation / known-gap metadata boundary**、**U-038 ownership and authority hierarchy boundary** 和 **U-039 dependency ordering between surfaces boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。U-037 覆盖 GitHub issue `#47` 的最低可验证边界，只做 partial / known-gap metadata vocabulary，不实现全量 roadmap system、自动豁免或 release override。U-038 覆盖 GitHub issue `#50` 的最低可验证边界，只做 ownership / authority hierarchy vocabulary，不实现自动冲突解析器、ownership inference 或 cross-corpus authority runtime。U-039 覆盖 GitHub issue `#51` 的最低可验证边界，只做 dependency ordering vocabulary，不实现 package manager、runtime scheduler 或 cross-repo dependency executor。
+已执行的最小切片包括 **U-035 command / receipt / event triad boundary**、**U-036 event correction / supersession boundary**、**U-037 partial implementation / known-gap metadata boundary**、**U-038 ownership and authority hierarchy boundary**、**U-039 dependency ordering between surfaces boundary** 和 **U-040 deprecation and migration format boundary**。U-035 覆盖 GitHub issue `#33` 的最低可验证边界，只做 spec / metadata vocabulary，不新增 command executor、event bus runtime、correction semantics 或 exactly-once delivery guarantee。U-036 覆盖 GitHub issue `#39` 的最低可验证边界，只做 correction / supersession / retraction / projection guidance vocabulary，不实现 event store、automatic replay 或历史数据迁移。U-037 覆盖 GitHub issue `#47` 的最低可验证边界，只做 partial / known-gap metadata vocabulary，不实现全量 roadmap system、自动豁免或 release override。U-038 覆盖 GitHub issue `#50` 的最低可验证边界，只做 ownership / authority hierarchy vocabulary，不实现自动冲突解析器、ownership inference 或 cross-corpus authority runtime。U-039 覆盖 GitHub issue `#51` 的最低可验证边界，只做 dependency ordering vocabulary，不实现 package manager、runtime scheduler 或 cross-repo dependency executor。U-040 覆盖 GitHub issue `#52` 的最低可验证边界，只做 deprecation / replacement / migration / affected-version / removal / validation behavior vocabulary，不实现 automatic migration tool、consumer rewrite 或 runtime compatibility shim。
 
 ## 输入信号
 
@@ -145,6 +145,29 @@ v0.9 不应从 runtime handshake、跨 repo fetch、完整事件总线或行为 
 3. focused regression 覆盖 dependency section、field table 和 non-goals。
 4. 本轮不新增 schema，不改 validator runtime，不实现 package manager、runtime scheduler、cross-repo dependency executor 或 automatic topological build runner。
 
+## 已执行切片：U-040
+
+### 目标
+
+定义 deprecated / removed stable surfaces 的 deprecation and migration format 最小边界，让 surface 生命周期收缩时可以稳定表达“为什么废弃、替代在哪里、消费者怎么迁移、哪些版本受影响、什么时候移除、validator 如何处理”。
+
+### 最小模型
+
+| 项 | 含义 | 非目标 |
+|---|---|---|
+| deprecation_metadata | deprecated_surface、deprecated_at、deprecation_reason、lifecycle_state、owner、consumer_action | 不自动判断废弃原因 |
+| replacement_link | replacement_ref、replacement_surface、replacement_kind、authority posture 或 no-replacement reason | 不做 runtime redirect |
+| migration_guidance | field_mapping、command_mapping、event_mapping、export_mapping、compatibility_notes、manual_review_required | 不实现 automatic migration tool |
+| affected_versions | affected_versions、first_deprecated_version、removal_version、compatibility_window、removal_posture | 不保证 backward compatibility |
+| removal_validation | before-removal warning / block posture、after-removal removed-surface consumption gate | 不改写 consumer 或存量数据 |
+
+### 验收结果
+
+1. `spec/stable-surface-contracts.json` 定义 deprecation and migration format section 和 mapping artifacts。
+2. `manifest.json` scope 与 runtime summary 已同步 deprecation / migration posture。
+3. focused regression 覆盖 deprecation section、field table 和 non-goals。
+4. 本轮不新增 schema，不改 validator runtime，不实现 automatic migration tool、consumer rewrite、runtime compatibility shim、stored data transform 或 backward compatibility guarantee。
+
 ## 下一轮建议
 
-下一轮若继续当前路线，首选 **U-040 deprecation and migration format boundary**，覆盖 issue `#52`。它应只定义 deprecation fields、replacement links、migration guidance、affected versions、removal version 和 validation behavior，不应实现 automatic migration tool。
+当前 v0.9 排序中的 6 个最小切片均已执行。下一轮不直接把 GitHub `#60` 路线图 issue 当作实现切片；应先重新 triage open issue backlog / owner roadmap，再选择最高价值、最低风险的下一段规范硬化工作。

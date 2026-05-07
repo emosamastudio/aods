@@ -186,3 +186,34 @@ test("stable contracts define dependency ordering between surfaces", () => {
   assert.ok(nonGoalRows.includes("runtime_scheduler"));
   assert.ok(nonGoalRows.includes("cross_repo_dependency_executor"));
 });
+
+test("stable contracts define deprecation and migration format for surfaces", () => {
+  const module = JSON.parse(fs.readFileSync(STABLE_CONTRACTS_PATH, "utf8"));
+
+  const section = module.sections.find((entry) => entry.sid === "deprecation-migration-format");
+  assert.ok(section);
+  assert.match(section.content, /deprecation/);
+  assert.match(section.content, /replacement/);
+  assert.match(section.content, /migration guidance/);
+  assert.match(section.content, /affected_versions/);
+  assert.match(section.content, /removal_version/);
+  assert.match(section.content, /validation behavior/);
+
+  const fields = module.artifacts.find((entry) => entry.artifact_id === "deprecation-migration-field-table");
+  assert.ok(fields);
+  const fieldRows = fields.content.rows.map((row) => row[0]);
+  assert.deepEqual(fieldRows, [
+    "deprecation_metadata",
+    "replacement_link",
+    "migration_guidance",
+    "affected_versions",
+    "removal_validation"
+  ]);
+
+  const nonGoals = module.artifacts.find((entry) => entry.artifact_id === "deprecation-migration-non-goals");
+  assert.ok(nonGoals);
+  const nonGoalRows = nonGoals.content.rows.map((row) => row[0]);
+  assert.ok(nonGoalRows.includes("automatic_migration_tool"));
+  assert.ok(nonGoalRows.includes("consumer_rewrite"));
+  assert.ok(nonGoalRows.includes("runtime_compatibility_shim"));
+});

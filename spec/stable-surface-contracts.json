@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 14,
-  "context": "Defines minimal stable-surface contracts for redaction, profiles, read-model freshness, command/event audit linkage, event correction, known gaps, authority hierarchy, dependency ordering, topology linkage, evidence and acceptance, decision provenance, schema compatibility, adapter capability, and capability matching.",
+  "v": 15,
+  "context": "Defines minimal stable-surface contracts for redaction, profiles, freshness, command/event audit, correction, known gaps, authority hierarchy, dependency ordering, deprecation and migration, topology, evidence, provenance, schema compatibility, adapter capability, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -11,7 +11,8 @@
     "Append-only event surfaces need correction semantics before consumers treat event history as stable truth",
     "Partial implementation gaps need explicit owner, blocking posture, remediation, and consumer guidance before being treated as non-blocking",
     "Overlapping stable surfaces need declared canonical, derived, alias, conflict, and migration posture before consumers merge claims",
-    "Stable surfaces that depend on other surfaces need explicit hard, optional, blocking, derivation, emission, and consumption ordering before validation or routing treats them as independently consumable"
+    "Stable surfaces that depend on other surfaces need explicit hard, optional, blocking, derivation, emission, and consumption ordering before validation or routing treats them as independently consumable",
+    "Deprecated or removed stable surfaces need replacement, migration, affected version, removal, and validation behavior before consumers can safely move"
   ],
   "sections": [
     {
@@ -130,6 +131,24 @@
       "criticality": "should"
     },
     {
+      "sid": "deprecation-migration-format",
+      "topic": "deprecation and migration format for stable surfaces",
+      "content": "deprecation marks a stable surface as still readable but no longer preferred. A deprecated surface must identify deprecated_surface, deprecated_at, deprecation_reason, lifecycle_state, owner, and consumer_action before agents treat it as stable enough to consume. replacement means a resolvable replacement_ref or replacement_surface with replacement_kind and authority posture; no-replacement is allowed only with an explicit reason and consumer guidance. migration guidance means the concrete consumer action needed to move from the deprecated surface to the replacement, including field_mapping, command_mapping, event_mapping, export_mapping, compatibility_notes, and manual_review_required when migration cannot be mechanical. affected_versions names affected_versions, first_deprecated_version, removal_version, compatibility_window, and removal_posture so consumers can tell which corpus, module, command, event, field, or export versions are impacted. validation behavior describes before-removal and after-removal gates: before removal, validators may warn, require replacement links, or require review; after removal, stable consumers should fail on unresolved uses unless an explicit compatibility window or known-gap posture still applies. This boundary does not create an automatic_migration_tool, rewrite consumers, provide a runtime_compatibility_shim, transform stored data, or guarantee backward compatibility. It only gives deprecated, replaced, and removed surfaces a stable metadata shape.",
+      "content_type": "rules",
+      "refs": [
+        "schema-versioning-compatibility",
+        "ownership-authority-hierarchy",
+        "surface-dependency-ordering",
+        "partial-known-gap-metadata",
+        "spec-authority-governance:surface-lifecycle-exposure"
+      ],
+      "artifact_refs": [
+        "deprecation-migration-field-table",
+        "deprecation-migration-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
       "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, and U-029 landed implementation acceptance criteria.",
@@ -205,7 +224,7 @@
     {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
@@ -215,6 +234,7 @@
         "partial-known-gap-metadata",
         "ownership-authority-hierarchy",
         "surface-dependency-ordering",
+        "deprecation-migration-format",
         "topology-pilot-design",
         "decision-provenance-boundary",
         "schema-versioning-compatibility",
@@ -787,6 +807,91 @@
       }
     },
     {
+      "artifact_id": "deprecation-migration-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for deprecation and migration metadata on stable surfaces.",
+      "content": {
+        "key_columns": [
+          "field_family"
+        ],
+        "columns": [
+          "field_family",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "deprecation_metadata",
+            "deprecated_surface, deprecated_at, deprecation_reason, lifecycle_state, owner, consumer_action",
+            "marks a stable surface as readable but no longer preferred",
+            "automatic lifecycle promotion"
+          ],
+          [
+            "replacement_link",
+            "replacement_ref, replacement_surface, replacement_kind, replacement_authority, no_replacement_reason",
+            "points consumers to the authority that replaces the deprecated surface",
+            "automatic resolver or redirect runtime"
+          ],
+          [
+            "migration_guidance",
+            "migration_steps, field_mapping, command_mapping, event_mapping, export_mapping, compatibility_notes, manual_review_required",
+            "describes how consumers move from old surface to replacement",
+            "automatic migration tool"
+          ],
+          [
+            "affected_versions",
+            "affected_versions, first_deprecated_version, removal_version, compatibility_window, removal_posture",
+            "tells consumers which versions remain readable and when removal becomes terminal",
+            "multi-version negotiation runtime"
+          ],
+          [
+            "removal_validation",
+            "validation_behavior, before_removal_gate, after_removal_gate, known_gap_ref, exception_posture",
+            "states when validators warn, require review, or fail unresolved use",
+            "consumer rewrite or runtime compatibility shim"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "deprecation-migration-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for deprecation and migration metadata.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "automatic_migration_tool",
+            "metadata describes migration guidance but does not transform files, commands, events, exports, or stored data",
+            "future migration task"
+          ],
+          [
+            "consumer_rewrite",
+            "rewriting downstream agents, adapters, or generated surfaces requires consumer-specific execution semantics",
+            "future consumer tooling task"
+          ],
+          [
+            "runtime_compatibility_shim",
+            "runtime compatibility layers require execution, transport, and version negotiation beyond static metadata",
+            "future runtime task"
+          ],
+          [
+            "backward_compatibility_guarantee",
+            "compatibility depends on declared policy and human review rather than this metadata alone",
+            "future release governance task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -1148,6 +1253,13 @@
             "source": "validation"
           },
           {
+            "id": "deprecation-migration-boundary",
+            "condition": "stable surface is deprecated or removed without replacement_ref or no_replacement_reason, migration_guidance, affected_versions, removal_version, and validation_behavior",
+            "action": "future L3 warning: deprecated or removed stable surfaces should expose migration and validation behavior before consumers move",
+            "priority": 43,
+            "source": "validation"
+          },
+          {
             "id": "implementation-metadata-mirror",
             "condition": "manifest.modules[].implementation exists XOR module.meta.implementation exists",
             "action": "L2 error: implementation linkage summary must be mirrored",
@@ -1291,6 +1403,11 @@
       "v": 14,
       "delta": "Added dependency ordering boundaries for stable surfaces that require, block, derive from, emit, consume, or optionally depend on other surfaces.",
       "breaking": false
+    },
+    {
+      "v": 15,
+      "delta": "Added deprecation and migration metadata boundaries for deprecated, replaced, and removed stable surfaces.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -1314,7 +1431,8 @@
         "issue-40",
         "issue-47",
         "issue-50",
-        "issue-51"
+        "issue-51",
+        "issue-52"
       ],
       "confidence": "high",
       "review_chain": [
@@ -1343,7 +1461,8 @@
         "adapter-capability-posture",
         "known-gap-posture",
         "authority-hierarchy-posture",
-        "dependency-ordering-posture"
+        "dependency-ordering-posture",
+        "deprecation-migration-posture"
       ]
     },
     "redaction": {
@@ -1370,6 +1489,7 @@
           "partial implementation and known gaps",
           "ownership and authority hierarchy",
           "dependency ordering",
+          "deprecation and migration",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -1377,9 +1497,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v14",
+          "snapshot_id": "spec-stable-surface-contracts-v15",
           "exported_at": "2026-05-07T15:00:00+08:00",
-          "source_watermark": "module.v=14",
+          "source_watermark": "module.v=15",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

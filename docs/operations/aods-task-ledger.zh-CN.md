@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S8 dependency ordering boundary |
-| 当前回合 | R-2026-05-07-19 |
-| 未完成任务数量 | 1 |
-| 已完成任务数量 | 44 |
+| 当前阶段 | S8 deprecation migration boundary |
+| 当前回合 | R-2026-05-07-20 |
+| 未完成任务数量 | 0 |
+| 已完成任务数量 | 45 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-19 |
-| 开始时间 | 2026-05-07 17:23 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-20 |
+| 开始时间 | 2026-05-07 17:54 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-039 |
-| 本轮范围 | dependency ordering between surfaces 最小边界：requires、blocks、derives_from、emits、consumes、optional dependency、hard/optional/advisory/unknown dependency strength；spec docs、focused regression、operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、package manager、runtime scheduler、cross-repo dependency executor、automatic topological build runner |
+| 选中任务 | U-040 |
+| 本轮范围 | deprecation and migration format 最小边界：deprecation metadata、replacement links、migration guidance、affected versions、removal version、validation behavior；spec docs、focused regression、operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、automatic migration tool、consumer rewrite、runtime compatibility shim、stored data transform、backward compatibility guarantee |
 | 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,7 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-040 | S8 | 定义 deprecation and migration format 最小边界 | P2 | 未开始 | deprecation fields、replacement links、migration guidance、affected versions、removal version、validation behavior 最小语义进入 spec；不做自动迁移工具 | U-038、U-039 | 对应 `#52`；下一轮首选 |
+| 无 | - | 当前 v0.9 队列已清空，下一轮先重新 triage open issue backlog / owner roadmap | - | - | 不直接把 roadmap issue 当作实现切片 | - | `#60` 仍是路线图入口 |
 
 ## 已完成任务
 
@@ -82,6 +82,7 @@
 | 42 | U-037 | S8 | 定义 partial implementation / known-gap metadata 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 partial implementation / known gap 的 missing_capabilities、blocking_status、owner、expected_remediation、consumer guidance 最小边界；不实现 roadmap system、automatic waiver 或 release override |
 | 43 | U-038 | S8 | 定义 ownership and authority hierarchy 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | overlapping stable surfaces 现在有 canonical_authority、derived_surface、alias_surface、conflict_policy、migration_guidance 最小边界；不实现 automatic conflict resolver 或 cross-corpus authority runtime |
 | 44 | U-039 | S8 | 定义 dependency ordering between surfaces 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 requires、blocks、derives_from、emits、consumes、optional_dependency 的最小 ordering vocabulary；不实现 package manager、runtime scheduler 或 cross-repo dependency executor |
+| 45 | U-040 | S8 | 定义 deprecation and migration format 最小边界 | P2 | 2026-05-07 | `spec/stable-surface-contracts.json`、`manifest.json`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`docs/operations/aods-v0.9-backlog.zh-CN.md`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | stable surfaces 现在有 deprecation metadata、replacement links、migration guidance、affected versions、removal version 和 validation behavior 最小边界；不实现 automatic migration tool、consumer rewrite 或 runtime compatibility shim |
 
 ## 失败或阻塞任务
 
@@ -131,3 +132,4 @@
 | 2026-05-07 | 100% | 100% | 93% | `U-037` 完成 | partial implementation / known-gap metadata boundary 已落地；AODS 现在能为稳定消费表达缺失能力、阻塞姿态、owner、补救动作和消费者指引，自动豁免与 roadmap runtime 继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 94% | `U-038` 完成 | ownership and authority hierarchy boundary 已落地；AODS 现在能为 overlapping stable surfaces 表达 canonical、derived、alias、conflict 和 migration posture，自动冲突解析继续 deferred。 |
 | 2026-05-07 | 100% | 100% | 95% | `U-039` 完成 | dependency ordering boundary 已落地；AODS 现在能为 stable surfaces 表达 requires、blocks、derives_from、emits、consumes 和 optional dependency ordering，runtime scheduler 继续 deferred。 |
+| 2026-05-07 | 100% | 100% | 96% | `U-040` 完成 | deprecation and migration format boundary 已落地；AODS 现在能为 deprecated / removed stable surfaces 表达替代链接、迁移指引、受影响版本、移除版本和验证行为，自动迁移工具继续 deferred。 |
