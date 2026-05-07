@@ -10,21 +10,21 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-07 |
-| 当前阶段 | S6 drift remediation workflow / contract drift |
-| 当前回合 | R-2026-05-07-10 |
-| 未完成任务数量 | 4 |
-| 已完成任务数量 | 35 |
+| 当前阶段 | S6 decision provenance boundary / contract drift |
+| 当前回合 | R-2026-05-07-11 |
+| 未完成任务数量 | 3 |
+| 已完成任务数量 | 36 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-07-10 |
-| 开始时间 | 2026-05-07 14:23 Asia/Shanghai |
+| 回合 ID | R-2026-05-07-11 |
+| 开始时间 | 2026-05-07 14:39 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-030 |
-| 本轮范围 | drift remediation workflow 最小切片：validator finding remediation guidance / text output hint / validation authority spec / operations docs |
-| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、完整审批系统、任意 evidence command 自动执行、跨仓库执行器 |
+| 选中任务 | U-031 |
+| 本轮范围 | decision provenance boundary 最小切片：artifact decision_provenance schema / declared-field validation guidance / stable agent-consumable evidence gate / spec docs / operations docs |
+| 排除范围 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、完整 provenance 框架、cross-corpus resolver、evidence warehouse、任意 evidence command 自动执行 |
 | 验证计划 | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` |
 | 新任务处理规则 | 本轮发现的新任务只写入台账，不执行。 |
 
@@ -32,7 +32,6 @@
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-031 | S6 | 定义 decision provenance boundary 最小模型 | P1 | 未开始 | 明确 agent-consumable decision、source evidence、derived summary、stale/unresolved evidence 对消费的影响；至少有 spec + validation guidance | U-029 | 对应 `#38/#60` |
 | U-032 | S6 | 定义 read-model freshness / watermark profile 最小切片 | P1 | 未开始 | read-model contract profile 能表达 snapshot_id / exported_at / source watermark / partial stale semantics；validator 对 stable read-model 缺 freshness 发出 gate | U-029、U-031 | 对应 `#35/#60` |
 | U-033 | S6 | 定义 fixture and golden export conventions | P2 | 未开始 | docs/spec 明确 fixture 目录、golden export 命名、positive/negative fixture、更新流程；examples 覆盖至少一个 conventional fixture | U-029 | 对应 `#48/#60` |
 | U-034 | S7 | 重新裁剪 capability negotiation 最小模型 | P2 | 未开始 | 在 acceptance criteria / adapter-facing profile 稳定后，重新判断 provider capability、consumer requirement、compatibility matching 的最小实现边界 | U-029、U-030 | 对应 `#41/#60`；当前不做 handshake |
@@ -76,6 +75,7 @@
 | 33 | U-028 | S6 | 完成 v0.8 backlog triage 并选择下一段 contract drift 切片 | P0 | 2026-05-07 | `docs/operations/aods-v0.8-backlog.zh-CN.md`、operations README、task ledger、round log、handoff | `gh issue list --state open --limit 50 --json ...`、`gh issue view 60/41/43/49/35/38/48 --json ...`、`git diff --check`、`npm run validate:all` | 下一轮首选 U-029：implementation acceptance criteria；`MEMORY.md` 继续不进仓库 |
 | 34 | U-029 | S6 | 落地 implementation acceptance criteria 最小模型 | P0 | 2026-05-07 | `schema/module.schema.json`、`schema/manifest.schema.json`、`lib/compile.mjs`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、compiled-pilot source/output、benchmark generated corpus schema、focused regressions | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | module meta 已可声明 `acceptance_criteria[]`；manifest 只镜像 `acceptance_summary`；current implementation 必须有 criteria；不执行任意 evidence command |
 | 35 | U-030 | S6 | 定义 drift remediation workflow 最小模型 | P1 | 2026-05-07 | `lib/validate.mjs`、`spec/validation-rules.json`、`spec/authority-governance.json`、focused remediation regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | validator JSON / text output 现能为 implementation drift findings 给出 standardized remediation action/gate/guidance；不引入完整审批系统 |
+| 36 | U-031 | S6 | 定义 decision provenance boundary 最小模型 | P1 | 2026-05-07 | `schema/module.schema.json`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、benchmark generated corpus schema、focused decision provenance regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` | artifact 可声明 `decision_provenance`；validator 检查 source/evidence/summary refs，并阻止 stale/unresolved/withheld evidence 被标成 stable agent-consumable |
 
 ## 失败或阻塞任务
 
@@ -116,3 +116,4 @@
 | 2026-05-07 | 100% | 95% | 78% | `U-028` 完成 | v0.8 backlog 已重新排队；下一主线确定为 implementation acceptance criteria，把 contract requirement 映射到 evidence / validator / fixture / manual review。 |
 | 2026-05-07 | 100% | 96% | 80% | `U-029` 完成 | implementation acceptance criteria 已落地；AODS 现在能把 current implementation linkage 绑定到 contract requirement、evidence refs、validator/fixture/manual review posture 和 manifest summary。 |
 | 2026-05-07 | 100% | 97% | 82% | `U-030` 完成 | drift remediation workflow 最小模型已落地；AODS 现在能把 implementation evidence / acceptance criteria drift findings 指向标准 remediation action 与 gate posture。 |
+| 2026-05-07 | 100% | 98% | 84% | `U-031` 完成 | decision provenance boundary 已落地；AODS 现在能让 agent-consumable decisions 声明 source/evidence/summary 边界，并阻断 stale/unresolved evidence 的 stable consumption。 |

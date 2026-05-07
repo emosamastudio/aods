@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-07-11
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-07-11 |
+| 开始时间 | 2026-05-07 14:39 Asia/Shanghai |
+| 结束时间 | 2026-05-07 14:55 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 默认 10 |
+| 本轮选中任务 | U-031 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-07-11
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `schema/module.schema.json`、benchmark generated corpus schema、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/` |
+| 禁止触碰 | GitHub issue 关闭或评论、release 发布、Polaris sibling repo、完整 provenance 框架、cross-corpus resolver、evidence warehouse、任意 evidence command 自动执行 |
+| 外部依赖 | 无公开写操作；本轮只使用本地验证 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result 噪音恢复到 HEAD |
+
+## 任务执行记录：R-2026-05-07-11
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-031 | 未开始 | 已完成 | 定义 decision provenance boundary 最小模型：artifact `decision_provenance` schema、source/evidence/summary ref validation、stable agent-consumable evidence posture gate、spec docs、operations docs | `schema/module.schema.json`、`benchmarks/aods-eval-lab/generated/aods-corpus/schema/module.schema.json`、`lib/validate.mjs`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、focused regression |
+
+## 验证记录：R-2026-05-07-11
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-031 | Previous-round quality review | `git status --short --branch`、`npm run validate:all` | 通过 | U-030 提交后工作区仅 untracked `MEMORY.md`；repo validation 仍通过 |
+| U-031 | RED decision provenance regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 失败后修复 | 新增 stable agent-consumable unresolved evidence test 先失败：缺少 `decision-provenance-*` validator rules |
+| U-031 | Focused decision provenance regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 22 tests passing；覆盖 missing evidence ref 与 unresolved evidence 的 stable consumption 阻断 |
+| U-031 | Spec/schema JSON parse | `node -e ... JSON.parse(...)` | 通过 | schema、benchmark generated schema、stable-surface contracts、validation rules 语法有效 |
+| U-031 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-031 | Benchmark test gate | `npm run benchmark:test` | 通过 | 45 tests passing；benchmark generated result 噪音已恢复 |
+| U-031 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-07-11
+
+本节只记录发现；新增任务必须同步写入任务台账，且不得在当前回合执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-07-11
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-031 |
+| 完成任务 | 1 | decision provenance boundary 最小切片完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 3 | 下一轮首选 U-032 read-model freshness / watermark profile |
+
 ## 回合摘要：R-2026-05-07-10
 
 | 项 | 内容 |

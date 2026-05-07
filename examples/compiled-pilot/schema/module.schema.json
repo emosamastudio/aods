@@ -144,6 +144,10 @@
           "type": "string",
           "maxLength": 300,
           "description": "When/how agent should use this artifact."
+        },
+        "decision_provenance": {
+          "$ref": "#/definitions/decision_provenance_meta",
+          "description": "Optional provenance boundary for agent-consumable decision artifacts. It identifies source anchors, evidence posture, and the consumption gate for derived or evidence-backed decisions."
         }
       },
       "allOf": [
@@ -1349,6 +1353,74 @@
             "type": "string"
           },
           "description": "Ordered review, approval, or handoff anchors that strengthen provenance."
+        }
+      }
+    },
+    "decision_consumer_surface": {
+      "type": "string",
+      "enum": ["agent-consumable", "human-review", "internal"]
+    },
+    "decision_basis": {
+      "type": "string",
+      "enum": ["source-evidence", "derived-summary", "mixed"]
+    },
+    "decision_evidence_status": {
+      "type": "string",
+      "enum": ["current", "stale", "unresolved", "withheld"]
+    },
+    "decision_consumption_gate": {
+      "type": "string",
+      "enum": ["stable", "review-required", "blocked", "experimental"]
+    },
+    "decision_provenance_meta": {
+      "type": "object",
+      "required": ["consumer_surface", "basis", "source_refs", "evidence_status", "consumption_gate"],
+      "additionalProperties": false,
+      "properties": {
+        "consumer_surface": {
+          "$ref": "#/definitions/decision_consumer_surface",
+          "description": "agent-consumable decisions can be used by agents without re-reading the full evidence only when the gate permits it."
+        },
+        "basis": {
+          "$ref": "#/definitions/decision_basis",
+          "description": "source-evidence points directly at evidence or authority. derived-summary is synthesized and must preserve the source boundary. mixed combines both."
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Section or artifact refs that authorize the decision."
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Section or artifact refs that provide proof anchors for the decision."
+        },
+        "summary_ref": {
+          "type": "string",
+          "description": "Section or artifact ref for the derived summary when basis is derived-summary or mixed."
+        },
+        "evidence_status": {
+          "$ref": "#/definitions/decision_evidence_status",
+          "description": "Currentness posture of the cited evidence boundary."
+        },
+        "consumption_gate": {
+          "$ref": "#/definitions/decision_consumption_gate",
+          "description": "Whether the decision is stable-consumable, needs review, blocked, or experimental."
+        },
+        "review_chain": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Review anchors that justify consuming a derived decision."
         }
       }
     },

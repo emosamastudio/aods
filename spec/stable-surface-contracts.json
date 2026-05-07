@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 6,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, root and module implementation topology, implementation evidence, implementation acceptance criteria, schema version compatibility, and adapter-facing capability minimums.",
+  "v": 7,
+  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, root and module implementation topology, implementation evidence, implementation acceptance criteria, decision provenance, schema version compatibility, and adapter-facing capability minimums.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
@@ -80,14 +80,30 @@
       "criticality": "must"
     },
     {
+      "sid": "decision-provenance-boundary",
+      "topic": "agent consumable decision provenance boundary",
+      "content": "Agent-consumable decisions are stable only when their source boundary is explicit. A decision artifact may declare decision_provenance to identify whether the decision is consumed by agents, held for human review, or internal. The basis states whether the decision comes directly from source evidence, from a derived summary, or from a mixed boundary. source_refs must point at sections or artifacts that authorize the decision. evidence_refs may point at proof anchors. summary_ref is required when the decision is derived from a summary or mixed with a summary because agents must know where synthesis happened. evidence_status is current, stale, unresolved, or withheld. consumption_gate is stable, review-required, blocked, or experimental. An agent-consumable decision cannot be stable when evidence is stale, unresolved, or withheld. Stale evidence means reviewers must refresh or downgrade before stable consumption. Unresolved evidence means agents must not treat the decision as authoritative. Withheld evidence means a stable consumer needs another allowed authority or an explicit review gate. This boundary does not create a full provenance framework, evidence warehouse, or cross-corpus resolver. It only prevents derived decision summaries from becoming stable agent instructions without source and evidence posture.",
+      "content_type": "rules",
+      "refs": [
+        "contract-completeness-profiles",
+        "topology-pilot-design"
+      ],
+      "artifact_refs": [
+        "decision-provenance-field-table",
+        "stable-contract-validation-rules"
+      ],
+      "criticality": "must"
+    },
+    {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, root topology semantics, compatibility language, and a trimmed adapter capability floor. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, or implementation fingerprinting. It also does not make every future profile stable. write-model, event, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, and whether an adapter capability claim is adequately evidenced. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, root topology semantics, compatibility language, decision provenance boundaries, and a trimmed adapter capability floor. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, or implementation fingerprinting. It also does not make every future profile stable. write-model, event, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a decision summary is faithful to evidence, and whether an adapter capability claim is adequately evidenced. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
         "contract-completeness-profiles",
         "topology-pilot-design",
+        "decision-provenance-boundary",
         "schema-versioning-compatibility",
         "adapter-capability-minimum"
       ],
@@ -213,6 +229,63 @@
             "validate --reality topology summary",
             "linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, unchecked_reason",
             "landed in U-010; evidence counters landed in U-027"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "decision-provenance-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for artifact-level decision provenance boundaries.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "required",
+          "meaning"
+        ],
+        "rows": [
+          [
+            "consumer_surface",
+            "yes",
+            "agent-consumable, human-review, or internal decision surface"
+          ],
+          [
+            "basis",
+            "yes",
+            "source-evidence, derived-summary, or mixed decision basis"
+          ],
+          [
+            "source_refs",
+            "yes",
+            "sections or artifacts that authorize the decision"
+          ],
+          [
+            "evidence_refs",
+            "no",
+            "sections or artifacts that prove or audit the decision"
+          ],
+          [
+            "summary_ref",
+            "required for derived-summary or mixed",
+            "section or artifact that owns the derived summary"
+          ],
+          [
+            "evidence_status",
+            "yes",
+            "current, stale, unresolved, or withheld evidence posture"
+          ],
+          [
+            "consumption_gate",
+            "yes",
+            "stable, review-required, blocked, or experimental consumption rule"
+          ],
+          [
+            "review_chain",
+            "no",
+            "review anchors that justify consuming a derived decision"
           ]
         ]
       }
@@ -387,6 +460,41 @@
             "action": "L2 error: path-like implementation evidence locators must exist",
             "priority": 80,
             "source": "validation"
+          },
+          {
+            "id": "decision-provenance-source-ref",
+            "condition": "artifact.decision_provenance exists AND any source_refs target is unresolved",
+            "action": "L2 error: decision provenance source refs must resolve to sections or artifacts",
+            "priority": 90,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-evidence-ref",
+            "condition": "artifact.decision_provenance exists AND any evidence_refs target is unresolved",
+            "action": "L2 error: decision provenance evidence refs must resolve to sections or artifacts",
+            "priority": 91,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-summary-ref",
+            "condition": "artifact.decision_provenance.summary_ref exists AND summary_ref target is unresolved",
+            "action": "L2 error: decision provenance summary_ref must resolve to a section or artifact",
+            "priority": 92,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-derived-summary",
+            "condition": "artifact.decision_provenance.basis is derived-summary or mixed AND summary_ref is missing",
+            "action": "L2 error: derived decision provenance must identify the summary owner",
+            "priority": 93,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-stable-evidence",
+            "condition": "artifact.decision_provenance.consumer_surface == agent-consumable AND consumption_gate == stable AND evidence_status IN stale, unresolved, withheld",
+            "action": "L2 error: stable agent-consumable decisions require current evidence posture",
+            "priority": 94,
+            "source": "validation"
           }
         ]
       }
@@ -421,6 +529,11 @@
     {
       "v": 6,
       "delta": "Added implementation acceptance criteria as contract-to-evidence linkage with manifest acceptance summaries.",
+      "breaking": false
+    },
+    {
+      "v": 7,
+      "delta": "Added artifact-level decision provenance boundaries for agent-consumable decisions and derived summaries.",
       "breaking": false
     }
   ],

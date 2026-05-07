@@ -731,6 +731,80 @@ test("validator JSON includes remediation guidance for implementation drift find
   assert.match(textValidate.stdout, /remediation=add-acceptance-criteria\/drift-blocking/);
 });
 
+test("decision provenance blocks stable consumption when evidence is unresolved", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-decision-provenance-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+  const detailPath = path.join(compiledRoot, detailRef.path);
+  const detail = JSON.parse(fs.readFileSync(detailPath, "utf8"));
+  detail.artifacts = [
+    ...(detail.artifacts ?? []),
+    {
+      artifact_id: "approval-routing",
+      type: "decision-tree",
+      usage: "Selects the approval path for agent-visible changes.",
+      decision_provenance: {
+        consumer_surface: "agent-consumable",
+        basis: "source-evidence",
+        source_refs: [
+          `${detail.module_id}:${detail.sections[0].sid}`
+        ],
+        evidence_refs: [
+          "missing-review-evidence"
+        ],
+        evidence_status: "unresolved",
+        consumption_gate: "stable"
+      },
+      content: {
+        root: "route",
+        nodes: [
+          {
+            id: "route",
+            type: "condition",
+            eval: "change.kind",
+            branches: [
+              {
+                value: "policy",
+                next: "require-review"
+              }
+            ],
+            default: "allow"
+          },
+          {
+            id: "require-review",
+            type: "action",
+            action: "require maintainer review"
+          },
+          {
+            id: "allow",
+            type: "action",
+            action: "allow local iteration"
+          }
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(detailPath, `${JSON.stringify(detail, null, 2)}\n`);
+
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(validate.status, 0);
+  const report = JSON.parse(validate.stdout);
+  assert.ok(report.levels.L2.errors.some((entry) => entry.rule === "decision-provenance-evidence-ref"));
+  assert.ok(report.levels.L2.errors.some((entry) => entry.rule === "decision-provenance-stable-evidence"));
+});
+
 test("reality validation rejects missing path-like implementation evidence locators", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-reality-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
