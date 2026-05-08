@@ -31,6 +31,8 @@
 | `aods-route-json-explanation.zh-CN.md` | U-079 route JSON explanation 的 `source/reason/dependency` 最小字段契约 | 高 |
 | `aods-fixture-smoke-runner.zh-CN.md` | U-080 fixture / golden export smoke runner 的 CLI 与 JSON report 契约 | 高 |
 | `aods-source-first-adoption-guide.zh-CN.md` | U-081 source-first example packs 公开采用路径 | 高 |
+| `aods-external-citation-hygiene-report.zh-CN.md` | U-082 external citation stale/current/assumption posture 的 validation report 摘要 | 高 |
+| `aods-changelog-delta-ergonomics-review.zh-CN.md` | U-083 changelog.delta 300 字符限制是否阻塞 release workflow 的复审 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -66,9 +68,11 @@
 26. 读 `aods-route-json-explanation.zh-CN.md`
 27. 读 `aods-fixture-smoke-runner.zh-CN.md`
 28. 读 `aods-source-first-adoption-guide.zh-CN.md`
-29. 读 `aods-v0.7-rc-gate.zh-CN.md`
-30. 读 `aods-handoff.zh-CN.md`
-31. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+29. 读 `aods-external-citation-hygiene-report.zh-CN.md`
+30. 读 `aods-changelog-delta-ergonomics-review.zh-CN.md`
+31. 读 `aods-v0.7-rc-gate.zh-CN.md`
+32. 读 `aods-handoff.zh-CN.md`
+33. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -113,3 +117,4 @@
 2. `validate:all` 是语义改动后的 repo-level gate；如果变更 benchmark 生成逻辑，还需要补对应 benchmark 命令。
 3. `release:self-check` 是发布前总门禁；AODS 的正式版本发布统一走 GitHub Releases，npm registry publish 不再是 release 完成条件。
 4. `npm run fixture:smoke` 是 fixture / golden export manifest 的最小冒烟门禁；它只检查声明结构和路径，不执行 golden update command。
+5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。

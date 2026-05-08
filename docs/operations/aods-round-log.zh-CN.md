@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-18
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-18 |
+| 开始时间 | 2026-05-08 17:00 Asia/Shanghai |
+| 结束时间 | 2026-05-08 17:22 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | external citation hygiene report + changelog.delta ergonomics review；不做 crawler、URL checker、fact checker、claim detector、changelog schema 改动或 runtime |
+| 本轮选中任务 | U-082、U-083 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-18
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`docs/operations/`、`docs/README.md` |
+| 禁止触碰 | citation crawler、URL checker、fact checker、claim detector、LLM faithfulness judge、changelog schema 改动、release 发布、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub issue `#13` 只读复核；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 已还原 |
+
+## 任务执行记录：R-2026-05-08-18
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-082 | 未开始 | 已完成 | 先复审 U-081；按 RED/GREEN 增加 external citation report regression；`validate` / `validate --json` 输出 declared citation posture counters；同步 validation spec 和 operations docs | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`docs/operations/aods-external-citation-hygiene-report.zh-CN.md` |
+| 2 | U-083 | 未开始 | 已完成 | 只读复核 GitHub `#13` 与当前 changelog schema / release workflow；确认有效但非当前 release blocker；写 public response plan，不改 schema | `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md`、operations docs |
+
+## 验证记录：R-2026-05-08-18
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-082/U-083 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`npm run validate:all`、`git diff --check` | 通过 | U-081 commit `56ed6f4` 已在 origin；example-pack docs regression 9/9；repo validation 通过；仅 `MEMORY.md` 未跟踪 |
+| U-082 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 按预期失败 | 新 test 首次失败于 validate JSON 缺少 `external_citations` report |
+| U-082 | GREEN focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 31/31 pass；覆盖 current/stale authoritative、unsupported assumption、stable decision refs 和 text report |
+| U-082 | Example report smoke | `node ./bin/aods.mjs validate ./examples/compiled-pilot --json` | 通过 | compiled-pilot 输出 `external_citations.total=2`、`current_authoritative=1`、`unsupported_assumptions=1` |
+| U-083 | GitHub issue read-only review | `gh issue view 13 --json number,title,state,url,body,comments,labels,createdAt,updatedAt` | 通过 | `#13` 仍 open，标签为 `enhancement` / `priority/p3` / `area/schema`，最近公开更新时间为 2026-05-02 |
+| U-083 | Changelog schema check | `jq '.definitions.changelog_entry.properties.delta.maxLength' schema/module.schema.json` | 通过 | 当前仍为 300；本轮不改 schema 上限 |
+| U-082/U-083 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过；text report 包含 citation summary |
+| U-082/U-083 | Benchmark test gate | `npm run benchmark:test` | 通过 | 80/80 pass；测试生成的 benchmark result churn 已还原 |
+| U-082/U-083 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-18
+
+本轮没有新增任务 ID。U-084 仍按既有 v0.12 backlog 排序。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-082/U-083 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-18
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 2 | U-082、U-083 |
+| 完成任务 | 2 | citation hygiene report 与 changelog delta ergonomics review 完成 |
+| 失败任务 | 0 | RED 失败是预期 regression，已 GREEN |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 1 | 下一轮首选 U-084 |
+
 ## 回合摘要：R-2026-05-08-17
 
 | 项 | 内容 |

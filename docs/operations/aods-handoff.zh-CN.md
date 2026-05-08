@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-081 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner 和 source-first adoption guide。draft PR `#63` 已打开，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言。下一轮首选 U-082 external citation stale/current hygiene report。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-083 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report 和 changelog delta ergonomics review。draft PR `#63` 已打开，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 保持 P3 open。下一轮首选 U-084 runtime-boundary research spike。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -39,9 +39,11 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | 24 | `docs/operations/aods-route-json-explanation.zh-CN.md` | 读取 U-079 route JSON explanation 结果 |
 | 25 | `docs/operations/aods-fixture-smoke-runner.zh-CN.md` | 读取 U-080 fixture smoke runner 结果 |
 | 26 | `docs/operations/aods-source-first-adoption-guide.zh-CN.md` | 读取 U-081 source-first adoption guide 结果 |
-| 27 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 28 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 29 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 27 | `docs/operations/aods-external-citation-hygiene-report.zh-CN.md` | 读取 U-082 citation hygiene report 结果 |
+| 28 | `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md` | 读取 U-083 changelog delta ergonomics review 结果 |
+| 29 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 30 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 31 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -140,14 +142,14 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-079 | Validate / route JSON explanation minimal enrichment | `route --json` 已输出 `explanation.source`、`explanation.reason`、`explanation.dependency`；不改变文本输出、route ranking、query scoring 或 validation JSON |
 | U-080 | Fixture / golden export smoke runner | `aods fixture smoke` 已读取 fixture manifest 并验证 expected_status / expected_rules 与 input/golden path；不执行 update command、不做完整 conformance runner、不自动更新 golden exports |
 | U-081 | Source-first adoption guide for example packs | `examples/compiled-pilot-source/README.md` 现在串起先改源文件、compile、validate、route、fixture smoke 和全仓校验；公开 README 已指向该入口；不新增 example pack、不改 benchmark sync 区块 |
+| U-082 | External citation stale/current hygiene report | `validate` / `validate --json` 已输出 declared citation posture counters；focused regression 覆盖；不抓取 URL、不做 fact checker |
+| U-083 | Changelog delta ergonomics review | GitHub `#13` 已复审为有效但不阻塞当前 release workflow；已写 public response plan；不改 changelog schema |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-082 | External citation stale/current hygiene report | citation hygiene；不做 crawler/fact checker |
-| 2 | U-083 | Changelog delta ergonomics review | P3；仅在 release workflow 证明确有阻塞时升级 |
-| 3 | U-084 | Runtime-boundary research spike | P3；只研究边界，不实现 runtime |
+| 1 | U-084 | Runtime-boundary research spike | P3；只研究边界，不实现 runtime |
 
 ## 失败和风险
 
@@ -189,7 +191,8 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | post-example-pack triage 扩散风险 | `#56` 收束复盘容易直接跳入 glossary schema v2、external citation registry 或 resource runtime | U-056 应只做质量复盘和下一阶段排序，不实现 schema/provenance/runtime 变更 |
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
 | glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-064 已只落 schema、deterministic gates 和 source-first example pack；后续不要把 example 解读为 resolver/runtime 或全文扫描 |
-| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 到 U-067 已裁剪并落地 schema、deterministic gates 和 canonical example pack；后续不要把 example 解读为 crawler、claim detector、remote fetch 或 resolver |
+| external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 到 U-067 已裁剪并落地 schema、deterministic gates 和 canonical example pack；U-082 只补 declared posture report；后续不要把 example 或 report 解读为 crawler、claim detector、remote fetch 或 resolver |
+| changelog ergonomics 过早实现风险 | `#13` 是真实体验问题，但不阻塞当前 release workflow | U-083 已写 public response plan；后续除非 release workflow 被实际阻塞，否则不应在 hardening 分支顺手改 schema 上限 |
 | public sync 过早关闭风险 | 已覆盖 issue 数量较多，直接关闭会早于 PR review / merge | U-075 只通过 PR `#63` close-on-merge 关联；`#41/#59/#60/#13` 保持 open |
 | route discoverability 残留风险 | `aods route --help` 曾返回 unknown arg | U-076 已修复；后续如扩 CLI discoverability，仍不得改变 route ranking |
 | fixture smoke 扩散风险 | fixture manifest smoke runner 容易被误读成完整 conformance runner 或 golden updater | U-080 只检查 manifest outcome 字段和声明路径；不得执行 update command、remote fetch 或自动接受 golden diff |
@@ -201,6 +204,4 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-082 | External citation stale/current hygiene report | citation stale/current posture；不做 crawler/fact checker |
-| 2 | U-083 | Changelog delta ergonomics review | 低优先级 ergonomics review |
-| 3 | U-084 | Runtime-boundary research spike | 只研究边界，不实现 runtime |
+| 1 | U-084 | Runtime-boundary research spike | 只研究边界，不实现 runtime |

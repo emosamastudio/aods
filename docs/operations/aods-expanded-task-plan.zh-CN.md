@@ -45,8 +45,8 @@
 | U-079 | S12 | CLI observability | P2 | 已完成 | Validate / route JSON explanation minimal enrichment | `route --json` 已输出 `explanation.source/reason/dependency`；focused regression 覆盖 |
 | U-080 | S12 | fixture tooling | P2 | 已完成 | Fixture / golden export smoke runner | `aods fixture smoke` 可读取 example fixture manifest 并验证 expected_status / expected_rules 与 input/golden path；不执行 update command |
 | U-081 | S12 | public docs / adoption | P2 | 已完成 | Source-first adoption guide for example packs | README / docs 指向从 authoring source 到 compile / validate / route / fixture smoke 的最小 adoption path；不重复 benchmark sync 区块 |
-| U-082 | S12 | citation hygiene | P2 | 下一批首选 | External citation stale/current hygiene report | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example |
-| U-083 | S12 | ergonomics | P3 | 低优先级 | Changelog delta ergonomics review | 重新评估 `#13` 是否仍真实阻塞 release workflow；若不阻塞，只写 public response plan |
+| U-082 | S12 | citation hygiene | P2 | 已完成 | External citation stale/current hygiene report | `validate` / `validate --json` 已输出 declared citation posture counters；不做 crawler、URL checker、fact checker |
+| U-083 | S12 | ergonomics | P3 | 已完成 | Changelog delta ergonomics review | 已复审 `#13`：有效但不阻塞当前 release workflow；本轮只写 public response plan，不改 schema |
 | U-084 | S12 | research / boundary | P3 | 低优先级 | Runtime-boundary research spike | 梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件；不实现 runtime |
 
 ## 下一批推荐
@@ -68,7 +68,8 @@
 | Batch K | U-079 | 已完成；承接 `#59` observability residual，做最小 machine-readable explanation enrichment，不重写 CLI output subsystem | RED/GREEN focused regression、stable-contracts regression、route JSON/text smoke、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch L | U-080 | 已完成；承接 `#48` fixture/golden residual，做最小 smoke runner，不进入完整 conformance runner | RED/GREEN fixture regression、fixture JSON/text smoke、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch M | U-081 | 已完成；把 source-first authoring、compile、validate、route、fixture smoke 串成公开 adoption path | RED/GREEN example-pack docs regression、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
-| Batch N | U-082 | 下一批首选；让 external citation 的 stale/current/assumption posture 更容易审查，不做 crawler 或 fact checker | focused regression 或 docs gate、`npm run validate:all`、`git diff --check` |
+| Batch N | U-082 + U-083 | 已完成；citation posture 进入 validate report，同时复审 changelog.delta 300 字符限制是否阻塞 release workflow | RED/GREEN scaffold regression、compiled-pilot citation report smoke、GitHub issue `#13` read-only review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
+| Batch O | U-084 | 下一批首选；只做 runtime 边界和进入条件研究，不实现 runtime | docs gate、`npm run validate:all`、`git diff --check` |
 
 ## 当前非目标
 

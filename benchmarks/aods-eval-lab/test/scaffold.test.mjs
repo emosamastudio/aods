@@ -405,6 +405,16 @@ test("authoring source compiles external citation registry and local refs", () =
         review_status: "current"
       },
       {
+        citation_id: "previous-api-doc-release-window",
+        source_type: "api-doc",
+        locator: "https://example.test/docs/release-window-v0",
+        version_or_date: "2025-12-01",
+        authority_relation: "external-authority",
+        claim_posture: "quoted-source",
+        uncertainty: "medium",
+        review_status: "stale"
+      },
+      {
         citation_id: "operator-assumption",
         source_type: "assumption",
         authority_relation: "unsupported-assumption",
@@ -466,6 +476,33 @@ test("authoring source compiles external citation registry and local refs", () =
   assert.deepEqual(decisionArtifact.decision_provenance.citation_refs, [
     "api-doc-release-window"
   ]);
+
+  const report = JSON.parse(runCli(["validate", compiledRoot, "--json"]));
+  assert.deepEqual(report.external_citations, {
+    total: 3,
+    modules_with_citations: 1,
+    authoritative: 2,
+    current_authoritative: 1,
+    stale_authoritative: 1,
+    unresolved_authoritative: 0,
+    withheld_authoritative: 0,
+    assumptions: 1,
+    unsupported_assumptions: 1,
+    current: 1,
+    stale: 1,
+    unresolved: 1,
+    withheld: 0,
+    cited_refs: 3,
+    stable_decision_refs: 1,
+    stable_decision_current_authoritative_refs: 1,
+    stable_decision_noncurrent_authoritative_refs: 0
+  });
+
+  const textReport = runCli(["validate", compiledRoot]);
+  assert.match(textReport, /citations total=3/);
+  assert.match(textReport, /current_authoritative=1/);
+  assert.match(textReport, /stale_authoritative=1/);
+  assert.match(textReport, /unsupported_assumptions=1/);
 });
 
 test("external citation validation rejects missing and unsafe authoritative refs", () => {

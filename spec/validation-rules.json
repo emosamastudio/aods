@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 29,
+  "v": 30,
   "context": "Defines AODS validation governance: schema/reference checks, surface and stable contracts, fixture/golden smoke reports, glossary/citation gates, topology, implementation evidence and acceptance, provenance, remediation, severity, reality, and AOP discipline.",
   "assumptions": [
     "Validator has access to all files in corpus",
@@ -105,7 +105,7 @@
     {
       "sid": "validation-output",
       "topic": "validation report format",
-      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, current_evidence:int, planned_evidence:int, stale_evidence:int, blocked_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_repos?:[{repo_id:str, locator:str, reason:str}], unchecked_reason?:str}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. unchecked_repos is emitted only when linked implementation repositories cannot be resolved from --repo-root; unchecked_reason is a human-readable aggregation of the same repo id, reason, and locator facts. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error and warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket.",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, current_evidence:int, planned_evidence:int, stale_evidence:int, blocked_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_repos?:[{repo_id:str, locator:str, reason:str}], unchecked_reason?:str}, external_citations?:{total:int, modules_with_citations:int, authoritative:int, current_authoritative:int, stale_authoritative:int, unresolved_authoritative:int, withheld_authoritative:int, assumptions:int, unsupported_assumptions:int, current:int, stale:int, unresolved:int, withheld:int, cited_refs:int, stable_decision_refs:int, stable_decision_current_authoritative_refs:int, stable_decision_noncurrent_authoritative_refs:int}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. unchecked_repos is emitted only when linked implementation repositories cannot be resolved from --repo-root; unchecked_reason is a human-readable aggregation of the same repo id, reason, and locator facts. external_citations is emitted when declared citations or citation refs exist; it counts declared review_status and posture only, without fetching locators or checking factual truth. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error and warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket.",
       "content_type": "prose",
       "refs": [],
       "artifact_refs": [
@@ -1041,6 +1041,62 @@
               }
             }
           },
+          "external_citations": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "modules_with_citations": {
+                "type": "integer"
+              },
+              "authoritative": {
+                "type": "integer"
+              },
+              "current_authoritative": {
+                "type": "integer"
+              },
+              "stale_authoritative": {
+                "type": "integer"
+              },
+              "unresolved_authoritative": {
+                "type": "integer"
+              },
+              "withheld_authoritative": {
+                "type": "integer"
+              },
+              "assumptions": {
+                "type": "integer"
+              },
+              "unsupported_assumptions": {
+                "type": "integer"
+              },
+              "current": {
+                "type": "integer"
+              },
+              "stale": {
+                "type": "integer"
+              },
+              "unresolved": {
+                "type": "integer"
+              },
+              "withheld": {
+                "type": "integer"
+              },
+              "cited_refs": {
+                "type": "integer"
+              },
+              "stable_decision_refs": {
+                "type": "integer"
+              },
+              "stable_decision_current_authoritative_refs": {
+                "type": "integer"
+              },
+              "stable_decision_noncurrent_authoritative_refs": {
+                "type": "integer"
+              }
+            }
+          },
           "levels": {
             "type": "object",
             "properties": {
@@ -1299,6 +1355,11 @@
     {
       "v": 29,
       "delta": "Added fixture smoke command guidance and JSON report contract for checking fixture manifest outcome fields and declared input/golden paths.",
+      "breaking": false
+    },
+    {
+      "v": 30,
+      "delta": "Added external citation hygiene report counters for declared authoritative, stale, current, assumption, unsupported-assumption, and stable-decision citation posture.",
       "breaking": false
     }
   ],

@@ -41,6 +41,8 @@
 | `docs/operations/aods-route-json-explanation.zh-CN.md` | U-079 route JSON explanation 的 `source/reason/dependency` 最小字段契约。 |
 | `docs/operations/aods-fixture-smoke-runner.zh-CN.md` | U-080 fixture / golden export smoke runner 的 CLI 与 JSON report 契约。 |
 | `docs/operations/aods-source-first-adoption-guide.zh-CN.md` | U-081 source-first example packs 公开采用路径。 |
+| `docs/operations/aods-external-citation-hygiene-report.zh-CN.md` | U-082 external citation stale/current/assumption posture 的 validation report 摘要。 |
+| `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md` | U-083 changelog.delta 300 字符限制是否阻塞 release workflow 的复审。 |
 
 ## 当前维护边界
 
