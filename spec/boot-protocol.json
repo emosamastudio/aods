@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-boot-protocol",
-  "v": 7,
-  "context": "Defines zero-knowledge bootstrap protocol. AODS v3 adds layer-aware progressive disclosure: root first, capsule next, detail on demand, evidence only on explicit review or debugging paths. Large corpora may also expose boot_by_touch for file-scoped authoring routes, manifest runtime-contract summaries for risk-aware loading, task-stage-aware query routing, and lexical query routing for grep-compatible discovery.",
+  "v": 8,
+  "context": "Defines zero-knowledge bootstrap protocol. AODS v3 adds layer-aware progressive disclosure: root first, capsule next, detail on demand, evidence only on explicit review or debugging paths. Large corpora may also expose boot_by_touch for file-scoped authoring routes, manifest runtime-contract summaries for risk-aware loading, task-stage-aware query routing, lexical query routing for grep-compatible discovery, and minimal JSON route explanations.",
   "assumptions": [
     "Agent has filesystem access to corpus root directory",
     "Agent can parse JSON",
@@ -79,14 +79,15 @@
     {
       "sid": "task-stage-routing",
       "topic": "task stage aware query routing",
-      "content": "route CLI may accept --stage orientation|plan|action|verification|evidence. If stage is absent, query routing may infer it from lexical cues. Stage refines ranking inside the current layer model instead of replacing layers: orientation prefers root|capsule, plan prefers architecture|policy detail, action prefers workflow|policy detail, verification prefers review or sensor-capable modules, evidence prefers evidence-layer or audit-heavy references. Use stage when the task goal is clearer than the exact file target.",
+      "content": "route CLI may accept --stage orientation|plan|action|verification|evidence. If stage is absent, query routing may infer it from lexical cues. Stage refines ranking inside the current layer model instead of replacing layers: orientation prefers root|capsule, plan prefers architecture|policy detail, action prefers workflow|policy detail, verification prefers review or sensor-capable modules, evidence prefers evidence-layer or audit-heavy references. Use stage when the task goal is clearer than the exact file target. route --json exposes explanation.source, explanation.reason, and explanation.dependency so agents can inspect why the working set was selected without parsing text output.",
       "content_type": "logic",
       "refs": [
         "on-demand-loading",
         "touch-routing"
       ],
       "artifact_refs": [
-        "task-stage-table"
+        "task-stage-table",
+        "route-json-explanation-table"
       ],
       "criticality": "should"
     },
@@ -446,6 +447,42 @@
           ]
         ]
       }
+    },
+    {
+      "artifact_id": "route-json-explanation-table",
+      "type": "mapping-table",
+      "usage": "Minimum route JSON explanation envelope.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "minimum_fields",
+          "stable_use",
+          "non_goal"
+        ],
+        "rows": [
+          [
+            "explanation.source",
+            "kind, role, touch, query, stage, stage_source, intent",
+            "captures the route input and route strategy that produced the working set",
+            "telemetry store"
+          ],
+          [
+            "explanation.reason",
+            "strategy, fallback, selected_module_ids, matched_touch_routes, matched_query_module_ids, touched_module, touched_surface_pair, text",
+            "lets agents consume selected modules and match source without scraping prose",
+            "route ranking rewrite"
+          ],
+          [
+            "explanation.dependency",
+            "source, mode, selected_module_ids, dependency_ids, selected_dependency_ids, unselected_dependency_ids, edges",
+            "shows declared module dependency edges that affected or contextualize the selected working set",
+            "graph database or scheduler"
+          ]
+        ]
+      }
     }
   ],
   "changelog": [
@@ -476,6 +513,16 @@
     {
       "v": 6,
       "delta": "Added task-stage-aware query routing so stage intent can refine module ranking beyond layer-only disclosure.",
+      "breaking": false
+    },
+    {
+      "v": 7,
+      "delta": "Added route subcommand discoverability expectations for CLI help without changing route ranking.",
+      "breaking": false
+    },
+    {
+      "v": 8,
+      "delta": "Added minimal route JSON explanation envelope for source, reason, and dependency metadata.",
       "breaking": false
     }
   ],

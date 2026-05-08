@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-078 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene 和 capability compatibility metadata deterministic gates。draft PR `#63` 已打开，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言。下一轮首选 U-079 validate / route JSON explanation minimal enrichment。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-079 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates 和 route JSON explanation minimal enrichment。draft PR `#63` 已打开，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言。下一轮首选 U-080 fixture / golden export smoke runner。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -36,9 +36,10 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | 21 | `docs/operations/aods-v0.11-release-readiness.zh-CN.md` | 读取 U-074 release readiness gate 和 release notes skeleton |
 | 22 | `docs/operations/aods-implementation-evidence-hygiene.zh-CN.md` | 读取 U-077 evidence stale/current hygiene 结果 |
 | 23 | `docs/operations/aods-capability-compatibility-gates.zh-CN.md` | 读取 U-078 capability compatibility deterministic gates 结果 |
-| 24 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 25 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 26 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 24 | `docs/operations/aods-route-json-explanation.zh-CN.md` | 读取 U-079 route JSON explanation 结果 |
+| 25 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 26 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 27 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -134,17 +135,17 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-075 | GitHub issue / PR / release public sync execution | 远端分支 `codex/aods-v0.8-backlog` 与 draft PR `#63` 已创建；`#33/#35/#37/#38/#39/#43-#52/#54-#58` 设置 close-on-merge；`#41/#59/#60` 已留言保留；未发布 release、未 bump version |
 | U-077 | Implementation evidence stale/current hygiene | `validate --reality` topology summary 已输出 current/planned/stale/blocked evidence counters；stale evidence 与 missing-current-evidence warning 均有 remediation；不执行 evidence command |
 | U-078 | Capability compatibility metadata deterministic gates | capability compatibility mapping-table 可表达 compatible / incompatible rows；validator 会检查 capability id、contract profile、schema version policy、exposure class 与 expected_result 是否一致；不做 handshake/discovery/auth/fallback ranking |
+| U-079 | Validate / route JSON explanation minimal enrichment | `route --json` 已输出 `explanation.source`、`explanation.reason`、`explanation.dependency`；不改变文本输出、route ranking、query scoring 或 validation JSON |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-079 | Validate / route JSON explanation minimal enrichment | `#59` residual；不重写 CLI output subsystem |
-| 2 | U-080 | Fixture / golden export smoke runner | `#48` residual；不做完整 conformance runner |
-| 3 | U-081 | Source-first adoption guide for example packs | public adoption docs；不改 benchmark sync 区块 |
-| 4 | U-082 | External citation stale/current hygiene report | citation hygiene；不做 crawler/fact checker |
-| 5 | U-083 | Changelog delta ergonomics review | P3；仅在 release workflow 证明确有阻塞时升级 |
-| 6 | U-084 | Runtime-boundary research spike | P3；只研究边界，不实现 runtime |
+| 1 | U-080 | Fixture / golden export smoke runner | `#48` residual；不做完整 conformance runner |
+| 2 | U-081 | Source-first adoption guide for example packs | public adoption docs；不改 benchmark sync 区块 |
+| 3 | U-082 | External citation stale/current hygiene report | citation hygiene；不做 crawler/fact checker |
+| 4 | U-083 | Changelog delta ergonomics review | P3；仅在 release workflow 证明确有阻塞时升级 |
+| 5 | U-084 | Runtime-boundary research spike | P3；只研究边界，不实现 runtime |
 
 ## 失败和风险
 
@@ -196,6 +197,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-079 | Validate / route JSON explanation minimal enrichment | 增加 machine-readable reason/source/dependency；不重写 CLI output subsystem |
-| 2 | U-080 | Fixture / golden export smoke runner | 最小 smoke command 读取 fixture manifest；不做完整 conformance runner |
-| 3 | U-081 | Source-first adoption guide for example packs | public adoption path；不改 benchmark sync 区块 |
+| 1 | U-080 | Fixture / golden export smoke runner | 最小 smoke command 读取 fixture manifest；不做完整 conformance runner |
+| 2 | U-081 | Source-first adoption guide for example packs | public adoption path；不改 benchmark sync 区块 |
+| 3 | U-082 | External citation stale/current hygiene report | citation stale/current posture；不做 crawler/fact checker |

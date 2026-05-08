@@ -11,28 +11,27 @@
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
 | 当前阶段 | S12 capability / observability hardening |
-| 当前回合 | R-2026-05-08-14 |
-| 未完成任务数量 | 6 |
-| 已完成任务数量 | 83 |
+| 当前回合 | R-2026-05-08-15 |
+| 未完成任务数量 | 5 |
+| 已完成任务数量 | 84 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-14 |
-| 开始时间 | 2026-05-08 12:42 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-15 |
+| 开始时间 | 2026-05-08 15:05 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-078 |
-| 本轮范围 | 上轮 U-077 复审、capability compatibility metadata deterministic gates、canonical matrix example、validation/stable-contract spec 同步、operations docs 同步 |
-| 排除范围 | negotiation handshake、runtime discovery、auth exchange、provider selection、fallback ranking、dynamic probing、remote execution、PR merge、release、version bump、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；RED/GREEN focused scaffold regression；stable-contracts focused regression；`npm run validate:all`；`git diff --check`；staged set 排除 `MEMORY.md` |
-| 新任务处理规则 | 本轮不新增实现任务；U-078 完成后下一轮优先 U-079，其次 U-080。 |
+| 选中任务 | U-079 |
+| 本轮范围 | 上轮 U-078 复审、route JSON explanation 最小增强、boot/stable-contract spec 同步、operations docs 同步 |
+| 排除范围 | CLI output subsystem rewrite、route ranking、query scoring、touch route 语义、validation JSON 重写、dashboard、trace store、graph database、runtime scheduler、PR merge、release、version bump、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；RED/GREEN focused scaffold regression；stable-contracts focused regression；route JSON/text smoke；`npm run validate:all`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 新任务处理规则 | 本轮不新增实现任务；U-079 完成后下一轮优先 U-080，其次 U-081。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-079 | S12 | Validate / route JSON explanation minimal enrichment | P2 | 未开始 | 至少一个 route 或 validation output 增加 machine-readable reason/source/dependency 字段；focused regression 覆盖；不重写 CLI output subsystem | U-075 | `#59` residual |
 | U-080 | S12 | Fixture / golden export smoke runner | P2 | 未开始 | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构；不做完整 conformance runner 或自动 golden update | U-075 | `#48` residual |
 | U-081 | S12 | Source-first adoption guide for example packs | P2 | 未开始 | README / docs 指向从 authoring source 到 compile / validate / route 的最小 adoption path；不重复 benchmark sync 区块；不夸大 coverage | U-075 | public adoption docs |
 | U-082 | S12 | External citation stale/current hygiene report | P2 | 未开始 | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example；focused regression 或 docs gate 覆盖；不做 crawler/URL checker/fact checker | U-075 | `#58` residual |
@@ -126,6 +125,7 @@
 | 81 | U-075 | S11 | GitHub issue / PR / release public sync execution | P1 | 2026-05-08 | 远端分支 `codex/aods-v0.8-backlog`、draft PR `#63`、PR body auto-close 关联、`#41/#59/#60` 留言、operations docs | `git push -u origin codex/aods-v0.8-backlog`、`gh pr create/edit`、`gh issue comment 41/59/60`、`npm run validate:all`、`git diff --check` | PR `#63` 合并时关闭 `#33/#35/#37/#38/#39/#43-#52/#54-#58`；`#41/#59/#60/#13` 保持 open；未发布 release、未 bump version，`MEMORY.md` 未进仓库 |
 | 82 | U-077 | S12 | Implementation evidence stale/current hygiene | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`spec/stable-surface-contracts.json`、`docs/operations/aods-implementation-evidence-hygiene.zh-CN.md`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` 按预期失败；GREEN focused scaffold regression；`npm run validate:all`；`git diff --check` | `validate --reality` topology summary 现在输出 current/planned/stale/blocked evidence counters；stale evidence 和 current implementation missing current evidence 均有 deterministic warning/remediation；不执行 evidence command |
 | 83 | U-078 | S12 | Capability compatibility metadata deterministic gates | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot/modules/shift-ops-adapter-capability.json`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、operations docs | RED focused scaffold regression 按预期暴露 mislabeled compatibility 未被阻断；GREEN focused scaffold + stable-contracts；`npm run validate:all`；`git diff --check` | capability compatibility mapping-table 现在可表达 compatible / incompatible rows；validator 会检查 capability id、contract profile、schema version policy、exposure class 与 expected_result 是否一致；不做 handshake/discovery/auth/fallback ranking |
+| 84 | U-079 | S12 | Validate / route JSON explanation minimal enrichment | P2 | 2026-05-08 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`spec/boot-protocol.json`、`spec/stable-surface-contracts.json`、`docs/operations/aods-route-json-explanation.zh-CN.md`、operations docs | RED focused scaffold regression 按预期失败于 `route.explanation` 缺失；GREEN scaffold 31/31；stable-contracts 12/12；route JSON/text smoke；`npm run validate:all`；`npm run benchmark:test` 77/77；`git diff --check` | `aods route --json` 现在输出 `explanation.source`、`explanation.reason`、`explanation.dependency`；不改变文本输出、route ranking、query scoring 或 validation JSON |
 
 ## 失败或阻塞任务
 
@@ -203,3 +203,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-075` 完成 | Batch H 已完成：远端分支和 draft PR `#63` 已创建，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 已留言保留；未发布 release，下一步进入 U-077 implementation evidence stale/current hygiene。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-077` 完成 | Batch I 已完成：implementation evidence stale/current posture 进入 deterministic reality summary 和 warning/remediation；下一步优先 U-078 capability compatibility metadata gates，其次 U-079 JSON explanation enrichment。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-078` 完成 | Batch J 已完成：capability compatibility metadata matrix 进入 deterministic validator gate；下一步优先 U-079 validate / route JSON explanation enrichment，其次 U-080 fixture smoke runner。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-079` 完成 | Batch K 已完成：route JSON 现在有 source/reason/dependency 机器可读解释字段；下一步优先 U-080 fixture / golden export smoke runner，其次 U-081 source-first adoption guide。 |

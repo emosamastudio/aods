@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 21,
+  "v": 22,
   "context": "Defines stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, observability, topology, provenance, schema compatibility, adapters, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
@@ -234,7 +234,7 @@
     {
       "sid": "validation-routing-observability-metadata",
       "topic": "observability metadata for validation and routing decisions",
-      "content": "Validation and routing decisions need observability metadata before agents treat pass, fail, selected, skipped, or fallback outcomes as explainable. Validation observability must identify rule id, severity, source location, dependency path when relevant, and suggested next action. rule id names the stable validation rule or future validation boundary that produced the decision. severity names the gate level or diagnostic posture so consumers can tell whether the result blocks, warns, advises, or only informs. source location names the file, json pointer, section ref, artifact ref, or line and column when available. dependency path names the dependency chain, ref path, blocking edge, missing target, or route dependency that caused the decision. Routing observability must identify routing reason, selected modules, skipped modules, fallback posture, dependency path when relevant, and suggested next action. routing reason explains why a route selected, loaded, skipped, degraded, or fell back for a module or surface. selected modules name the modules included in the working set and the selection reason. skipped modules name modules excluded from the working set with skip reason and consumer guidance. suggested next action names the smallest remediation, review, command, or authoring action available without executing it. This boundary defines machine-readable explanation vocabulary only. It does not rewrite the CLI output subsystem, build a dashboard, create a trace store, create a graph database, change route ranking, implement telemetry storage, or make every diagnostic complete.",
+      "content": "Validation and routing decisions need observability metadata before agents treat pass, fail, selected, skipped, or fallback outcomes as explainable. Validation observability must identify rule id, severity, source location, dependency path when relevant, and suggested next action. rule id names the stable validation rule or future validation boundary that produced the decision. severity names the gate level or diagnostic posture so consumers can tell whether the result blocks, warns, advises, or only informs. source location names the file, json pointer, section ref, artifact ref, or line and column when available. dependency path names the dependency chain, ref path, blocking edge, missing target, or route dependency that caused the decision. Routing observability must identify routing reason, selected modules, skipped modules, fallback posture, dependency path when relevant, and suggested next action. routing reason explains why a route selected, loaded, skipped, degraded, or fell back for a module or surface. selected modules name the modules included in the working set and the selection reason. skipped modules name modules excluded from the working set with skip reason and consumer guidance. route JSON explanation names the selected route source, structured reason, and declared dependency edges in explanation.source, explanation.reason, and explanation.dependency. suggested next action names the smallest remediation, review, command, or authoring action available without executing it. This boundary defines machine-readable explanation vocabulary and permits minimal route JSON explanation fields. It does not rewrite the CLI output subsystem, build a dashboard, create a trace store, create a graph database, change route ranking, implement telemetry storage, or make every diagnostic complete.",
       "content_type": "rules",
       "refs": [
         "spec-validation:severity-gating-policy",
@@ -1489,6 +1489,12 @@
             "route ranking rewrite"
           ],
           [
+            "route_json_explanation",
+            "explanation.source.kind|role|touch|query|stage|stage_source|intent; explanation.reason.strategy|selected_module_ids|matched_query_module_ids|matched_touch_routes; explanation.dependency.source|mode|dependency_ids|edges",
+            "gives route JSON consumers structured source, reason, and dependency fields without parsing prose",
+            "full CLI output subsystem rewrite"
+          ],
+          [
             "selected_module",
             "module_id, selection_reason, dependency_reason, working_set_role",
             "explains why a module entered the active working set",
@@ -1525,7 +1531,7 @@
         "rows": [
           [
             "cli_output_rewrite",
-            "observability fields define explanation vocabulary but do not change text or JSON output formats",
+            "route JSON may expose an additive explanation envelope, but text output, ranking, validation JSON shape, and full output subsystem rewrite stay out of scope",
             "future CLI output task"
           ],
           [
@@ -2235,6 +2241,11 @@
       "v": 21,
       "delta": "Added deterministic capability compatibility matrix fields and mismatch validation boundary for provider and consumer metadata.",
       "breaking": false
+    },
+    {
+      "v": 22,
+      "delta": "Added minimal route JSON explanation fields for source, reason, and dependency observability without changing route ranking or text output.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -2333,6 +2344,7 @@
           "command and adapter audit log",
           "lifecycle state machine",
           "validation and routing observability",
+          "route JSON explanation",
           "implementation topology",
           "decision provenance",
           "schema versioning",
@@ -2341,9 +2353,9 @@
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v21",
-          "exported_at": "2026-05-08T12:58:00+08:00",
-          "source_watermark": "module.v=21",
+          "snapshot_id": "spec-stable-surface-contracts-v22",
+          "exported_at": "2026-05-08T15:20:00+08:00",
+          "source_watermark": "module.v=22",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

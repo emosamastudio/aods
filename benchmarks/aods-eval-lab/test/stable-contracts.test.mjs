@@ -427,6 +427,7 @@ test("stable contracts define observability metadata for validation and routing 
     "source_location",
     "dependency_path",
     "routing_reason",
+    "route_json_explanation",
     "selected_module",
     "skipped_module",
     "suggested_next_action"

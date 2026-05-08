@@ -64,6 +64,37 @@ test("CLI help and compile errors expose allowed enum values", () => {
   assert.match(result.stderr, /"architecture"/);
 });
 
+test("route JSON includes machine-readable explanation metadata", () => {
+  const query = "boot_by_touch route discoverability warnings";
+  const output = runCli(["route", ".", "--query", query, "--stage", "plan", "--intent", "read", "--json"]);
+  const route = JSON.parse(output);
+
+  assert.equal(route.strategy, "query-route");
+  assert.equal(route.explanation.source.kind, "query-route");
+  assert.equal(route.explanation.source.query, query);
+  assert.equal(route.explanation.source.stage, "plan");
+  assert.equal(route.explanation.source.stage_source, "explicit");
+  assert.equal(route.explanation.source.intent, "read");
+  assert.equal(route.explanation.reason.strategy, "query-route");
+  assert.deepEqual(
+    route.explanation.reason.selected_module_ids,
+    route.recommended_modules.map((module) => module.id)
+  );
+  assert.deepEqual(
+    route.explanation.reason.matched_query_module_ids,
+    route.matched_query_modules.map((module) => module.id)
+  );
+  assert.equal(route.explanation.dependency.source, "manifest.modules[].deps");
+  assert.ok(Array.isArray(route.explanation.dependency.edges));
+  assert.ok(
+    route.explanation.dependency.edges.some(
+      (edge) =>
+        edge.module_id === "spec-stable-surface-contracts" &&
+        edge.dependency_id === "spec-authority-governance"
+    )
+  );
+});
+
 test("compile --strict turns warning-only output into a failing gate", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-compile-strict-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);

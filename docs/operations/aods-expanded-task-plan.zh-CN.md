@@ -42,8 +42,8 @@
 | U-076 | S11 | route DX | P2 | 已完成 | 增加 route 子命令 help / discoverability smoke test | `node ./bin/aods.mjs route --help` 输出 route 用法、stage、intent；focused CLI regression 覆盖；不改变 route ranking |
 | U-077 | S12 | validation hardening | P1 | 已完成 | Implementation evidence stale/current hygiene | `validate --reality` 输出 evidence status counters；stale / missing-current evidence warning 有 remediation；focused regression + `validate:all` 通过 |
 | U-078 | S12 | validator / capability | P1 | 已完成 | Capability compatibility metadata deterministic gates | capability compatibility mapping-table 可表达 compatible / incompatible rows；validator 检查 capability id、profile、schema version policy、exposure class 与 expected_result 是否一致 |
-| U-079 | S12 | CLI observability | P2 | 下一批首选 | Validate / route JSON explanation minimal enrichment | 至少一个 route 或 validation output 增加 machine-readable reason/source/dependency 字段；focused regression 覆盖 |
-| U-080 | S12 | fixture tooling | P2 | 候选 | Fixture / golden export smoke runner | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构 |
+| U-079 | S12 | CLI observability | P2 | 已完成 | Validate / route JSON explanation minimal enrichment | `route --json` 已输出 `explanation.source/reason/dependency`；focused regression 覆盖 |
+| U-080 | S12 | fixture tooling | P2 | 下一批首选 | Fixture / golden export smoke runner | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构 |
 | U-081 | S12 | public docs / adoption | P2 | 候选 | Source-first adoption guide for example packs | README / docs 指向从 authoring source 到 compile / validate / route 的最小 adoption path；不重复 benchmark sync 区块 |
 | U-082 | S12 | citation hygiene | P2 | 候选 | External citation stale/current hygiene report | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example |
 | U-083 | S12 | ergonomics | P3 | 低优先级 | Changelog delta ergonomics review | 重新评估 `#13` 是否仍真实阻塞 release workflow；若不阻塞，只写 public response plan |
@@ -65,7 +65,8 @@
 | Batch H | U-075 | 已完成；U-074 通过后单独执行，用 U-072 public navigation 与 U-073 issue mapping 完成 public sync | PR `#63`、issue close-on-merge 关联、`#41/#59/#60` 留言、operations docs、`npm run validate:all`、`git diff --check` |
 | Batch I | U-077 | 已完成；public sync 后的首个 v0.12 drift hardening，承接 U-071 locator diagnostics | RED/GREEN focused regression、`npm run validate:all`、`git diff --check` |
 | Batch J | U-078 | 已完成；承接 `#41` metadata-only capability residual，先做 deterministic gates，不进入 handshake runtime | RED/GREEN focused regression、stable-contracts regression、`npm run validate:all`、`git diff --check` |
-| Batch K | U-079 | 下一批首选；承接 `#59` observability residual，做最小 machine-readable explanation enrichment，不重写 CLI output subsystem | RED/GREEN focused regression、`npm run validate:all`、`git diff --check` |
+| Batch K | U-079 | 已完成；承接 `#59` observability residual，做最小 machine-readable explanation enrichment，不重写 CLI output subsystem | RED/GREEN focused regression、stable-contracts regression、route JSON/text smoke、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
+| Batch L | U-080 | 下一批首选；承接 `#48` fixture/golden residual，做最小 smoke runner，不进入完整 conformance runner | RED/GREEN focused regression、`npm run validate:all`、`git diff --check` |
 
 ## 当前非目标
 

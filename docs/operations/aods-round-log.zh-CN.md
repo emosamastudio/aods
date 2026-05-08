@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-15
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-15 |
+| 开始时间 | 2026-05-08 15:05 Asia/Shanghai |
+| 结束时间 | 2026-05-08 15:28 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | route JSON explanation minimal enrichment；不重写 CLI output subsystem、不改 route ranking/query scoring |
+| 本轮选中任务 | U-079 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-15
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/`、`spec/boot-protocol.json`、`spec/stable-surface-contracts.json`、`docs/operations/`、`docs/README.md` |
+| 禁止触碰 | CLI output subsystem rewrite、route ranking、query scoring、touch route 语义、validation JSON 重写、dashboard、trace store、graph database、runtime scheduler、PR merge、release 发布、version bump、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR `#63` 只读复核；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；本轮只提交 U-079 代码/测试/spec/docs |
+
+## 任务执行记录：R-2026-05-08-15
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-079 | 未开始 | 已完成 | 先复审 U-078；按 TDD 增加 failing regression；为 `route --json` 增加顶层 `explanation.source/reason/dependency`；同步 boot protocol、stable contract observability field table 和 operations docs | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`spec/boot-protocol.json`、`spec/stable-surface-contracts.json`、`docs/operations/aods-route-json-explanation.zh-CN.md` |
+
+## 验证记录：R-2026-05-08-15
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-079 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`gh pr view 63`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`npm run validate:all`、`git diff --check` | 通过 | U-078 commit `37a3678` 已在 origin 和 PR `#63`；PR 仍 open draft；scaffold 30/30、stable-contracts 12/12、repo validation 和 diff whitespace 均通过；仅 `MEMORY.md` 未跟踪 |
+| U-079 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "route JSON includes"` | 按预期失败 | 新 test 首次失败于 `route.explanation` 缺失，确认 JSON explanation gap |
+| U-079 | GREEN focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "route JSON includes"` | 通过 | scaffold 31/31 pass；新增 route JSON explanation regression 转绿 |
+| U-079 | Stable-contract focused regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | 12/12 pass；observability field table 包含 `route_json_explanation` |
+| U-079 | Route JSON smoke | `node ./bin/aods.mjs route . --query "boot_by_touch route discoverability warnings" --stage plan --intent read --json` | 通过 | 输出 `explanation.source/reason/dependency`，并保留原 matched query modules |
+| U-079 | Route text smoke | `node ./bin/aods.mjs route . --query "boot_by_touch route discoverability warnings" --stage plan --intent read` | 通过 | 文本输出仍是原 route 摘要，不新增 explanation 噪声 |
+| U-079 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-079 | Benchmark test gate | `npm run benchmark:test` | 通过 | 77/77 pass；测试产生的 generated benchmark result churn 已还原，不纳入本轮 diff |
+| U-079 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-15
+
+本轮没有新增任务 ID。U-080 / U-081 / U-082 仍按既有 v0.12 backlog 排序。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-079 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-15
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-079 |
+| 完成任务 | 1 | route JSON explanation minimal enrichment 完成 |
+| 失败任务 | 0 | RED 失败是 TDD 预期，已 GREEN |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 5 | 下一轮首选 U-080 |
+
 ## 回合摘要：R-2026-05-08-14
 
 | 项 | 内容 |

@@ -38,6 +38,7 @@
 | `docs/operations/aods-v0.11-release-readiness.zh-CN.md` | U-074 release readiness gate、package dry-run、release notes skeleton 和发布前剩余风险。 |
 | `docs/operations/aods-implementation-evidence-hygiene.zh-CN.md` | U-077 implementation evidence stale/current posture 的 deterministic summary 与 warning hygiene。 |
 | `docs/operations/aods-capability-compatibility-gates.zh-CN.md` | U-078 capability compatibility metadata deterministic gates 与 canonical matrix case。 |
+| `docs/operations/aods-route-json-explanation.zh-CN.md` | U-079 route JSON explanation 的 `source/reason/dependency` 最小字段契约。 |
 
 ## 当前维护边界
 
