@@ -40,6 +40,7 @@
 | `docs/operations/aods-capability-compatibility-gates.zh-CN.md` | U-078 capability compatibility metadata deterministic gates 与 canonical matrix case。 |
 | `docs/operations/aods-route-json-explanation.zh-CN.md` | U-079 route JSON explanation 的 `source/reason/dependency` 最小字段契约。 |
 | `docs/operations/aods-fixture-smoke-runner.zh-CN.md` | U-080 fixture / golden export smoke runner 的 CLI 与 JSON report 契约。 |
+| `docs/operations/aods-source-first-adoption-guide.zh-CN.md` | U-081 source-first example packs 公开采用路径。 |
 
 ## 当前维护边界
 
@@ -52,6 +53,7 @@
 | 示例面 | 入口 | 说明 |
 |---|---|---|
 | Source-first pilot | `examples/compiled-pilot-source/authoring.json` | 当前示例的源权威；语义改动必须先改这里再编译。 |
+| Source-first adoption guide | `examples/compiled-pilot-source/README.md` | 从源文件到生成、校验、路由、fixture smoke 的最小操作路径。 |
 | Compiled pilot | `examples/compiled-pilot/` | 编译后的 agent / human 双 surface 示例输出。 |
 | Surface-family packs | `examples/compiled-pilot/modules/shift-ops-*.json` | read-model、command、event、adapter、artifact/export、resource 六类 canonical packs。 |
 | Glossary registry | `examples/compiled-pilot/indexes/runtime.json` | canonical term、alias、deprecated term、owner 和 linked surfaces 示例。 |

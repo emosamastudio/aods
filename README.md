@@ -78,6 +78,7 @@ This repository contains all three layers in one place:
 
 The quickest way to inspect current AODS authoring patterns is the source-first pilot:
 
+- adoption guide: [`examples/compiled-pilot-source/README.md`](./examples/compiled-pilot-source/README.md)
 - source authority: [`examples/compiled-pilot-source/authoring.json`](./examples/compiled-pilot-source/authoring.json)
 - compiled output: [`examples/compiled-pilot/`](./examples/compiled-pilot/)
 - generated human overview: [`examples/compiled-pilot/README.md`](./examples/compiled-pilot/README.md)

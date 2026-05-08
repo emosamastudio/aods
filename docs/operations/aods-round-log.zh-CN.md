@@ -2,6 +2,64 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-17
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-17 |
+| 开始时间 | 2026-05-08 16:32 Asia/Shanghai |
+| 结束时间 | 2026-05-08 16:56 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | source-first example packs adoption guide；不新增 example pack、不改 benchmark sync 区块、不夸大 runtime coverage |
+| 本轮选中任务 | U-081 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-17
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `examples/compiled-pilot-source/README.md`、README、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`docs/operations/`、`docs/README.md` |
+| 禁止触碰 | 新 example pack、compiled-pilot semantic output、benchmark sync 区块、runtime/executor/crawler/fact checker、release 发布、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR `#63` 只读复核；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；如 benchmark 产生 generated result churn，必须还原 |
+
+## 任务执行记录：R-2026-05-08-17
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-081 | 未开始 | 已完成 | 先复审 U-080；按 regression 增加 adoption path docs gate；补 `examples/compiled-pilot-source/README.md` 最小采用路径；公开 README 指向该入口；同步 operations docs | `examples/compiled-pilot-source/README.md`、`README.md`、`README.zh-CN.md`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`docs/operations/aods-source-first-adoption-guide.zh-CN.md` |
+
+## 验证记录：R-2026-05-08-17
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-081 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`npm run fixture:smoke`、`npm run validate:all`、`gh pr view 63`、`git diff --check` | 通过 | U-080 commit `621cfe3` 已在 origin 和 PR `#63`；PR 仍 open draft；fixture smoke 与 repo validation 均通过；仅 `MEMORY.md` 未跟踪 |
+| U-081 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 按预期失败 | 新 test 首次失败于 source README 缺少 `## Adoption path` |
+| U-081 | GREEN focused regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 9/9 pass；覆盖 adoption guide 命令、非目标声明和 root README 链接 |
+| U-081 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-081 | Benchmark test gate | `npm run benchmark:test` | 通过 | 80/80 pass；测试生成的 benchmark result churn 已还原 |
+| U-081 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-17
+
+本轮没有新增任务 ID。U-082 / U-083 / U-084 仍按既有 v0.12 backlog 排序。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-081 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-17
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-081 |
+| 完成任务 | 1 | source-first adoption guide 完成 |
+| 失败任务 | 0 | RED 失败是预期 docs regression，已 GREEN |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 3 | 下一轮首选 U-082 |
+
 ## 回合摘要：R-2026-05-08-16
 
 | 项 | 内容 |

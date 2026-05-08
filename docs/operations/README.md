@@ -30,6 +30,7 @@
 | `aods-capability-compatibility-gates.zh-CN.md` | U-078 capability compatibility metadata deterministic gates 与 canonical matrix case | 高 |
 | `aods-route-json-explanation.zh-CN.md` | U-079 route JSON explanation 的 `source/reason/dependency` 最小字段契约 | 高 |
 | `aods-fixture-smoke-runner.zh-CN.md` | U-080 fixture / golden export smoke runner 的 CLI 与 JSON report 契约 | 高 |
+| `aods-source-first-adoption-guide.zh-CN.md` | U-081 source-first example packs 公开采用路径 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -64,9 +65,10 @@
 25. 读 `aods-capability-compatibility-gates.zh-CN.md`
 26. 读 `aods-route-json-explanation.zh-CN.md`
 27. 读 `aods-fixture-smoke-runner.zh-CN.md`
-28. 读 `aods-v0.7-rc-gate.zh-CN.md`
-29. 读 `aods-handoff.zh-CN.md`
-30. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+28. 读 `aods-source-first-adoption-guide.zh-CN.md`
+29. 读 `aods-v0.7-rc-gate.zh-CN.md`
+30. 读 `aods-handoff.zh-CN.md`
+31. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -94,6 +96,7 @@
 
 | 示例 | 当前入口 | 用途 |
 |---|---|---|
+| Source-first adoption guide | `examples/compiled-pilot-source/README.md` | 从源文件到生成、校验、路由、fixture smoke 的最小操作路径。 |
 | Source-first authoring | `examples/compiled-pilot-source/authoring.json` | 修改 canonical example 语义时的源权威。 |
 | Read-model / implementation linkage | `examples/compiled-pilot/modules/shift-ops-readiness-read-model.json` | 展示 freshness、watermark、implementation evidence、acceptance criteria。 |
 | Command / receipt | `examples/compiled-pilot/modules/shift-ops-change-command.json` | 展示 write-capable command、receipt、audit/risk posture。 |

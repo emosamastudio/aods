@@ -78,6 +78,7 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 
 最快了解当前 AODS 编写模式的入口，是这个 source-first pilot：
 
+- 采用说明：[`examples/compiled-pilot-source/README.md`](./examples/compiled-pilot-source/README.md)
 - 源权威：[`examples/compiled-pilot-source/authoring.json`](./examples/compiled-pilot-source/authoring.json)
 - 编译产物：[`examples/compiled-pilot/`](./examples/compiled-pilot/)
 - 生成的人类概览：[`examples/compiled-pilot/README.md`](./examples/compiled-pilot/README.md)

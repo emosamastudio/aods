@@ -6,6 +6,9 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/helpers.mjs";
 
 const SOURCE_PATH = path.join(REPO_ROOT, "examples", "compiled-pilot-source", "authoring.json");
+const SOURCE_README_PATH = path.join(REPO_ROOT, "examples", "compiled-pilot-source", "README.md");
+const ROOT_README_PATH = path.join(REPO_ROOT, "README.md");
+const ROOT_README_ZH_PATH = path.join(REPO_ROOT, "README.zh-CN.md");
 const COMPILED_MODULE_PATH = path.join(
   REPO_ROOT,
   "examples",
@@ -395,4 +398,22 @@ test("compiled pilot includes external citation provenance example pack", () => 
   assert.equal(fixture.kind, "positive");
   assert.equal(fixture.input.path, "../authoring.json");
   assert.ok(fixture.golden_exports.some((entry) => entry.id === "external-citation-provenance-module"));
+});
+
+test("source-first pilot documents the minimal adoption path for example packs", () => {
+  const sourceReadme = fs.readFileSync(SOURCE_README_PATH, "utf8");
+  assert.match(sourceReadme, /## Adoption path/);
+  assert.match(sourceReadme, /authoring\.json/);
+  assert.match(sourceReadme, /npm run compile:pilot/);
+  assert.match(sourceReadme, /npm run validate:compiled-pilot/);
+  assert.match(sourceReadme, /npm run fixture:smoke/);
+  assert.match(sourceReadme, /node \.\/bin\/aods\.mjs route \.\/examples\/compiled-pilot --query/);
+  assert.match(sourceReadme, /Do not hand-edit `examples\/compiled-pilot\/`/);
+  assert.match(sourceReadme, /not a command executor, event store, adapter runtime, resource scheduler, crawler, or fact checker/);
+
+  const rootReadme = fs.readFileSync(ROOT_README_PATH, "utf8");
+  assert.match(rootReadme, /examples\/compiled-pilot-source\/README\.md/);
+
+  const rootReadmeZh = fs.readFileSync(ROOT_README_ZH_PATH, "utf8");
+  assert.match(rootReadmeZh, /examples\/compiled-pilot-source\/README\.md/);
 });
