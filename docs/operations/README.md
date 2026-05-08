@@ -25,6 +25,7 @@
 | `aods-next-code-drift-slice.zh-CN.md` | 下一段代码漂移最小切片选择，确认 U-071 implementation reality locator hardening | 高 |
 | `aods-route-discoverability-review.zh-CN.md` | `#9/#10/#17` 与 route / boot_by_touch discoverability 残留复盘，新增 U-076 建议 | 高 |
 | `aods-v0.12-backlog.zh-CN.md` | v0.12+ backlog triage：public sync 后的代码漂移、runtime 边界、observability 和 adoption docs 下一批任务 | 高 |
+| `aods-v0.11-release-readiness.zh-CN.md` | U-074 release readiness gate、package dry-run、release notes skeleton 和发布前剩余风险 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -54,9 +55,10 @@
 20. 读 `aods-next-code-drift-slice.zh-CN.md`
 21. 读 `aods-route-discoverability-review.zh-CN.md`
 22. 读 `aods-v0.12-backlog.zh-CN.md`
-23. 读 `aods-v0.7-rc-gate.zh-CN.md`
-24. 读 `aods-handoff.zh-CN.md`
-25. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+23. 读 `aods-v0.11-release-readiness.zh-CN.md`
+24. 读 `aods-v0.7-rc-gate.zh-CN.md`
+25. 读 `aods-handoff.zh-CN.md`
+26. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 

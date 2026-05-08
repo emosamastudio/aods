@@ -32,6 +32,7 @@
     "spec/",
     "skills/",
     "examples/compiled-pilot-source/",
+    "examples/compiled-pilot/",
     "manifest.json",
     "README.md",
     "README.zh-CN.md",

@@ -35,6 +35,7 @@
 | `docs/operations/aods-next-code-drift-slice.zh-CN.md` | 下一段代码漂移最小切片选择，确认 U-071 implementation reality locator hardening。 |
 | `docs/operations/aods-route-discoverability-review.zh-CN.md` | `#9/#10/#17` 与 route / boot_by_touch discoverability 残留复盘，新增 U-076 建议。 |
 | `docs/operations/aods-v0.12-backlog.zh-CN.md` | v0.12+ backlog triage：把仍 open / deferred 的 governance、drift、runtime 和 public sync 项重新排序。 |
+| `docs/operations/aods-v0.11-release-readiness.zh-CN.md` | U-074 release readiness gate、package dry-run、release notes skeleton 和发布前剩余风险。 |
 
 ## 当前维护边界
 

@@ -37,7 +37,7 @@
 | U-071 | S11 | validation hardening | P1 | 已完成 | 强化 implementation reality locator drift 检查 | `validate --reality --json` 已输出 structured `topology.unchecked_repos[]` 与 actionable `unchecked_reason`；focused regression + `validate:all` |
 | U-072 | S11 | docs / examples | P2 | 已完成 | 更新 public docs navigation for completed example packs | README/operations 已指向 source-first pilot、六类 example pack、glossary registry、external citation / provenance 示例；benchmark sync 区块未手改 |
 | U-073 | S11 | backlog triage | P2 | 已完成 | 制定 v0.12 backlog triage | 已将 `#33/#35/#37/#38/#39/#43-#52/#59/#60` 重新分类到 public sync、covered local、deferred runtime 与 v0.12+ 新任务池；未实现新能力 |
-| U-074 | S11 | release gate | P1 | 单独执行 | 执行 v0.11 累积变更 release readiness gate | `release:self-check`、必要 focused tests、diff hygiene、release notes skeleton；不发布 release |
+| U-074 | S11 | release gate | P1 | 已完成 | 执行 v0.11 累积变更 release readiness gate | `release:self-check`、package dry-run、diff hygiene、release notes skeleton 已通过；不发布 release |
 | U-075 | S11 | public sync | P1 | 需 owner 授权，单独执行 | GitHub issue / PR / release public sync execution | 仅在 owner 明确批准后评论/关闭 issue、创建 PR 或 release；同步前确认 staged set 不含 `MEMORY.md` |
 | U-076 | S11 | route DX | P2 | 已完成 | 增加 route 子命令 help / discoverability smoke test | `node ./bin/aods.mjs route --help` 输出 route 用法、stage、intent；focused CLI regression 覆盖；不改变 route ranking |
 | U-077 | S12 | validation hardening | P1 | U-075 后首选 | Implementation evidence stale/current hygiene | stale/current evidence 有 deterministic summary 或 finding；focused regression 覆盖 stale evidence posture；`validate:all` 通过 |
@@ -61,8 +61,8 @@
 | Batch D | U-068 + U-069 + U-070 | 已完成；GitHub public sync、next drift slice、route discoverability residual 均已复盘 | `gh issue list/view`、`rg`、route smoke、`git diff --check`、`npm run validate:all` |
 | Batch E | U-071 + U-076 | 已完成；回到代码漂移主线强化 implementation reality locator diagnostics，并补齐 route CLI 自发现小修 | RED/GREEN scaffold regression、`node ./bin/aods.mjs route --help`、`npm run validate:all`、`git diff --check` |
 | Batch F | U-072 + U-073 | 已完成；两个 docs/planning 任务低冲突，已先补 public docs navigation，再整理 v0.12 backlog，给 release gate 和 public sync 降低风险 | docs diff review、GitHub issue 只读审查、`npm run validate:all`、`git diff --check` |
-| Batch G | U-074 | 下一批首选；release readiness gate 是 public sync、PR/release 对外动作和 v0.12 新实现前的最低风险前置项 | `npm run release:self-check`、必要 focused tests、`git diff --check`、release notes skeleton |
-| Batch H | U-075 | U-074 通过后单独执行；用 U-072 public navigation 与 U-073 issue mapping 统一 public sync | GitHub issue/PR/release 执行前确认 staged set 不含 `MEMORY.md`；公开动作完成后更新 operations docs |
+| Batch G | U-074 | 已完成；release readiness gate 是 public sync、PR/release 对外动作和 v0.12 新实现前的最低风险前置项 | `npm run release:self-check`、`npm pack --dry-run --json`、`git diff --check`、release notes skeleton |
+| Batch H | U-075 | 下一批首选；U-074 通过后单独执行，用 U-072 public navigation 与 U-073 issue mapping 统一 public sync | GitHub issue/PR/release 执行前确认 staged set 不含 `MEMORY.md`；公开动作完成后更新 operations docs |
 | Batch I | U-077 | public sync 后的首个 v0.12 drift hardening；承接 U-071 locator diagnostics | RED/GREEN focused regression、`npm run validate:all`、`git diff --check` |
 
 ## 当前非目标

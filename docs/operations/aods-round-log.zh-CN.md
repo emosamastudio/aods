@@ -2,6 +2,64 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-11
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-11 |
+| 开始时间 | 2026-05-08 11:40 Asia/Shanghai |
+| 结束时间 | 2026-05-08 12:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | release readiness gate；不执行 GitHub public sync、不发布 release、不 bump version |
+| 本轮选中任务 | U-074 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-11
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `package.json`、benchmark generated results/reports、`docs/operations/`、`docs/README.md` |
+| 禁止触碰 | GitHub issue comment/close/label、PR、release 发布、version bump、runtime/schema 新能力、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | 无公开写操作；本轮仅本地 release gate 和 package dry-run |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage |
+
+## 任务执行记录：R-2026-05-08-11
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-074 | 未开始 | 已完成 | 执行 release readiness gate；发现 README example map 对 dry-run tarball 的 compiled-pilot 链接风险后先返工，把 `examples/compiled-pilot/` 加入 `package.json.files`；复跑完整 gate；新增 release readiness 文档和 release notes skeleton | `package.json`、`docs/operations/aods-v0.11-release-readiness.zh-CN.md`、benchmark generated results/reports、operations docs |
+
+## 验证记录：R-2026-05-08-11
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-074 | Previous-round quality review | `git show HEAD`、path smoke、`npm run validate:all`、`git diff --check` | 通过后发现 package-surface 风险 | U-072/U-073 提交范围正确，导航目标存在，`MEMORY.md` 未跟踪；release dry-run 暴露 compiled-pilot 未打包 |
+| U-074 | Package surface rework | `package.json.files` 增加 `examples/compiled-pilot/` | 通过 | 返工后 dry-run tarball 包含 compiled-pilot README 和 modules |
+| U-074 | Release self-check | `npm run release:self-check` | 通过 | root / seven-plane / compiled-pilot validation、benchmark all、package dry-run 全部通过 |
+| U-074 | Benchmark tests | `npm run benchmark:test` via release self-check | 通过 | 74/74 pass |
+| U-074 | Package content smoke | `npm pack --dry-run --json` | 通过 | `aods-0.7.0.tgz`；50 files；199.5 kB；unpacked 1.0 MB；compiled-pilot output included |
+| U-074 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-11
+
+本轮没有新增任务 ID。version bump / release branch / tag 选择归入 U-075 执行前检查，不另立任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-074 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-11
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-074 |
+| 完成任务 | 1 | release readiness gate 完成 |
+| 失败任务 | 0 | 初次 gate 暴露 package-surface 风险，已返工并复跑通过 |
+| 阻塞任务 | 0 | 不发布 release；U-075 前需确认 version bump / release target |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 9 | 下一轮首选 U-075 |
+
 ## 回合摘要：R-2026-05-08-10
 
 | 项 | 内容 |

@@ -6,7 +6,7 @@
 
 ## 结论
 
-`#54-#58` 的本地覆盖已经明显领先于 GitHub issue 状态。U-072 已把 public docs navigation 指向已完成的 example packs、glossary registry 和 external citation 用法；下一步应先执行 U-074 release readiness gate，再在 U-075 中统一评论或关闭相关 issue。
+`#54-#58` 的本地覆盖已经明显领先于 GitHub issue 状态。U-072 已把 public docs navigation 指向已完成的 example packs、glossary registry 和 external citation 用法；U-074 release readiness gate 已通过。下一步应在 U-075 中统一评论或关闭相关 issue。
 
 `#60` 是 umbrella roadmap，继续保持 open。`#41` 的完整 capability negotiation handshake 仍 deferred，继续保持 open。
 
@@ -33,8 +33,8 @@
 
 ## 下一步
 
-1. 执行 U-074 release readiness gate，确认当前 v0.11 累积变更可对外说明。
-2. 执行 U-075 public sync execution；评论/关闭 issue 前再次确认 staged set 不含 `MEMORY.md`。
+1. 执行 U-075 public sync execution；评论/关闭 issue 前再次确认 staged set 不含 `MEMORY.md`。
+2. 若 U-075 包含 release，先确认目标 version bump、release branch 和 tag；当前 package 仍为 `0.7.0`。
 3. 对 `#41/#60` 保持 open，只同步当前 metadata-only / roadmap 进度，不把 deferred runtime 说成已完成。
 
 ## 非目标
