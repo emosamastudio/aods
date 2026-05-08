@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { runCompileCommand } from "../lib/compile.mjs";
+import { runFixtureCommand } from "../lib/fixture-smoke.mjs";
 import { runHookCommand } from "../lib/hook.mjs";
 import { runRouteCommand } from "../lib/route.mjs";
 import { runScaffoldCommand } from "../lib/scaffold.mjs";
@@ -16,6 +17,7 @@ Usage:
   aods hook pre-commit [root] [--staged] [--repo-root <path>] [--file <path>]... [--json]
   aods upgrade [root] [--json] [--dry-run] [--no-bump]
   aods compile <source-file> <target-dir> [--json] [--strict] [--force]
+  aods fixture smoke <fixture-manifest> [--json]
   aods scaffold corpus <target-dir> --sys <system-id> [--purpose <text>] [--force]
   aods scaffold authoring <target-dir> --sys <system-id> [--purpose <text>] [--force]
   aods scaffold module <corpus-root> <module-id> [--path <relative-path>] [--category <category>] [--layer <layer>] [--pattern <pattern>] [--scope <text>] [--priority <priority>] [--tag <tag>]... [--dep <module-id>]... [--route <target>]... [--boot] [--force]
@@ -29,6 +31,7 @@ Commands:
   hook       Run hookable enforcement helpers such as pre-commit validation.
   upgrade    Sync schemas and refresh manifest metadata for an existing corpus.
   compile    Compile concise authoring JSON into an AODS corpus and optionally fail on warnings.
+  fixture   Check fixture manifest contracts and declared input/golden paths.
   scaffold   Generate new corpus, authoring source, compiled-corpus modules, or safe authoring-source mutations.
 
 Flags:
@@ -90,6 +93,12 @@ async function main(argv) {
 
     if (command === "compile") {
       const exitCode = await runCompileCommand(args);
+      process.exitCode = exitCode;
+      return;
+    }
+
+    if (command === "fixture") {
+      const exitCode = await runFixtureCommand(args);
       process.exitCode = exitCode;
       return;
     }

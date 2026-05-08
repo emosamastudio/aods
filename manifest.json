@@ -262,7 +262,7 @@
     {
       "id": "spec-validation",
       "path": "spec/validation-rules.json",
-      "scope": "Corpus validation: structural checks, referential integrity, glossary/citation registry gates, implementation linkage and topology reality summaries, fixture/golden conventions, severity/gating policy, surface governance, stable-contract integrity, and AOP compliance.",
+      "scope": "Corpus validation: structural checks, referential integrity, glossary/citation registry gates, implementation linkage and topology reality summaries, fixture/golden conventions and smoke reports, severity/gating policy, surface governance, stable-contract integrity, and AOP compliance.",
       "category": "policy",
       "layer": "detail",
       "deps": [
@@ -276,7 +276,7 @@
         "quality",
         "integrity"
       ],
-      "tokens_approx": 9651,
+      "tokens_approx": 9850,
       "priority": "standard",
       "control": {
         "role": "sensor",
@@ -292,10 +292,12 @@
       },
       "runtime_contract": {
         "side_effects": [
-          "validation-report"
+          "validation-report",
+          "fixture-smoke-report"
         ],
         "outputs": [
-          "validation-report"
+          "validation-report",
+          "fixture-smoke-report"
         ]
       }
     }

@@ -51,6 +51,7 @@
     "validate:compiled-pilot": "npm run compile:pilot && node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality",
     "validate:all": "npm run validate:strict && npm run validate:pilot && npm run validate:compiled-pilot",
     "route": "node ./bin/aods.mjs route .",
+    "fixture:smoke": "node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json",
     "hook:pre-commit": "node ./bin/aods.mjs hook pre-commit . --staged",
     "help": "node ./bin/aods.mjs --help",
     "upgrade": "node ./bin/aods.mjs upgrade .",

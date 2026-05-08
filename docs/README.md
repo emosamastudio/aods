@@ -39,6 +39,7 @@
 | `docs/operations/aods-implementation-evidence-hygiene.zh-CN.md` | U-077 implementation evidence stale/current posture 的 deterministic summary 与 warning hygiene。 |
 | `docs/operations/aods-capability-compatibility-gates.zh-CN.md` | U-078 capability compatibility metadata deterministic gates 与 canonical matrix case。 |
 | `docs/operations/aods-route-json-explanation.zh-CN.md` | U-079 route JSON explanation 的 `source/reason/dependency` 最小字段契约。 |
+| `docs/operations/aods-fixture-smoke-runner.zh-CN.md` | U-080 fixture / golden export smoke runner 的 CLI 与 JSON report 契约。 |
 
 ## 当前维护边界
 
@@ -55,3 +56,4 @@
 | Surface-family packs | `examples/compiled-pilot/modules/shift-ops-*.json` | read-model、command、event、adapter、artifact/export、resource 六类 canonical packs。 |
 | Glossary registry | `examples/compiled-pilot/indexes/runtime.json` | canonical term、alias、deprecated term、owner 和 linked surfaces 示例。 |
 | External citation | `examples/compiled-pilot/modules/shift-ops-governance.json` | external citation registry、citation refs、decision provenance 与 unsupported assumption 示例。 |
+| Fixture smoke | `examples/compiled-pilot-source/fixtures/fixture-manifest.json` | 可用 `npm run fixture:smoke` 冒烟检查 expected outcome 与 input / golden path。 |

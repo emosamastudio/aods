@@ -29,6 +29,7 @@
 | `aods-implementation-evidence-hygiene.zh-CN.md` | U-077 implementation evidence stale/current posture 的 deterministic summary 与 warning hygiene | 高 |
 | `aods-capability-compatibility-gates.zh-CN.md` | U-078 capability compatibility metadata deterministic gates 与 canonical matrix case | 高 |
 | `aods-route-json-explanation.zh-CN.md` | U-079 route JSON explanation 的 `source/reason/dependency` 最小字段契约 | 高 |
+| `aods-fixture-smoke-runner.zh-CN.md` | U-080 fixture / golden export smoke runner 的 CLI 与 JSON report 契约 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -62,9 +63,10 @@
 24. 读 `aods-implementation-evidence-hygiene.zh-CN.md`
 25. 读 `aods-capability-compatibility-gates.zh-CN.md`
 26. 读 `aods-route-json-explanation.zh-CN.md`
-27. 读 `aods-v0.7-rc-gate.zh-CN.md`
-28. 读 `aods-handoff.zh-CN.md`
-29. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+27. 读 `aods-fixture-smoke-runner.zh-CN.md`
+28. 读 `aods-v0.7-rc-gate.zh-CN.md`
+29. 读 `aods-handoff.zh-CN.md`
+30. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -107,3 +109,4 @@
 1. 公开 README 的 benchmark sync 区块来自 `benchmarks/aods-eval-lab/src/summary.mjs`。
 2. `validate:all` 是语义改动后的 repo-level gate；如果变更 benchmark 生成逻辑，还需要补对应 benchmark 命令。
 3. `release:self-check` 是发布前总门禁；AODS 的正式版本发布统一走 GitHub Releases，npm registry publish 不再是 release 完成条件。
+4. `npm run fixture:smoke` 是 fixture / golden export manifest 的最小冒烟门禁；它只检查声明结构和路径，不执行 golden update command。

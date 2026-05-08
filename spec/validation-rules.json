@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 28,
-  "context": "Defines validation rules for AODS corpus integrity, including schema, references, surface governance, stable-surface contracts, read-model freshness and watermarks, fixture and golden export conventions, glossary and external citation registry gates, capability compatibility gates, root and module topology metadata, implementation evidence, implementation acceptance criteria, decision provenance, remediation guidance, severity/gating policy, reality checks, and AOP discipline.",
+  "v": 29,
+  "context": "Defines AODS validation governance: schema/reference checks, surface and stable contracts, fixture/golden smoke reports, glossary/citation gates, topology, implementation evidence and acceptance, provenance, remediation, severity, reality, and AOP discipline.",
   "assumptions": [
     "Validator has access to all files in corpus",
     "JSON Schema draft-07 validation is available"
@@ -78,7 +78,7 @@
     {
       "sid": "fixture-golden-conventions",
       "topic": "fixture and golden export conventions",
-      "content": "Fixture and golden export conventions give drift and conformance work stable example names without turning benchmarks into mandatory conformance. Repository-level fixtures SHOULD live under fixtures/positive/<capability>/<case>/ for expected-pass cases and fixtures/negative/<rule>/<case>/ for expected-fail cases. Example-local fixture manifests MAY live next to an authoring example when the example is the authority surface. Golden exports SHOULD live under golden/exports/<target>/<case>/ or point at a generated example output when the export already exists. A fixture manifest uses aods_fixture_manifest_v=1 and convention=aods-fixture-golden-v1. Each fixture declares id, kind positive|negative, input.kind, input.path, expected_status pass|fail|warn, expected_rules, and optional golden_exports. Positive fixtures should use expected_status=pass and expected_rules=[]. Negative fixtures should name at least one expected validator rule. Each golden export declares id, kind, path, schema_version, update_command, and review_gate. Golden exports are outputs, not semantic authority; updates require rerunning the declared command, reviewing the diff, and running the smallest validation gate before repo-level validation. This convention does not require a full fixture runner, cross-repo fetch, or automatic golden update.",
+      "content": "Fixture and golden export conventions give drift and conformance work stable example names without turning benchmarks into mandatory conformance. Repository-level fixtures SHOULD live under fixtures/positive/<capability>/<case>/ for expected-pass cases and fixtures/negative/<rule>/<case>/ for expected-fail cases. Example-local fixture manifests MAY live next to an authoring example when the example is the authority surface. Golden exports SHOULD live under golden/exports/<target>/<case>/ or point at a generated example output when the export already exists. A fixture manifest uses aods_fixture_manifest_v=1 and convention=aods-fixture-golden-v1. Each fixture declares id, kind positive|negative, input.kind, input.path, expected_status pass|fail|warn, expected_rules, and optional golden_exports. Positive fixtures should use expected_status=pass and expected_rules=[]. Negative fixtures should name at least one expected validator rule. Each golden export declares id, kind, path, schema_version, update_command, and review_gate. Golden exports are outputs, not semantic authority; updates require rerunning the declared command, reviewing the diff, and running the smallest validation gate before repo-level validation. The fixture smoke command checks manifest version, convention, expected outcome fields, and declared input/golden paths without executing update commands. This convention does not require a full conformance runner, cross-repo fetch, or automatic golden update.",
       "content_type": "rules",
       "refs": [
         "stable-contract-metadata",
@@ -86,7 +86,8 @@
       ],
       "artifact_refs": [
         "fixture-golden-field-table",
-        "fixture-golden-update-flow"
+        "fixture-golden-update-flow",
+        "fixture-smoke-report-schema"
       ],
       "criticality": "should"
     },
@@ -251,6 +252,53 @@
             "next": "accepted"
           }
         ]
+      }
+    },
+    {
+      "artifact_id": "fixture-smoke-report-schema",
+      "type": "json-schema",
+      "usage": "Machine-readable report emitted by aods fixture smoke --json.",
+      "content": {
+        "type": "object",
+        "required": [
+          "action",
+          "status",
+          "accepted",
+          "manifest",
+          "summary",
+          "issues"
+        ],
+        "properties": {
+          "action": {
+            "const": "fixture smoke"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail"
+            ]
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "manifest": {
+            "type": "object",
+            "required": [
+              "path"
+            ]
+          },
+          "summary": {
+            "type": "object",
+            "required": [
+              "fixtures",
+              "expected_status",
+              "golden_exports"
+            ]
+          },
+          "issues": {
+            "type": "array"
+          }
+        }
       }
     },
     {
@@ -1247,6 +1295,11 @@
       "v": 28,
       "delta": "Added deterministic validation guidance and remediation actions for capability compatibility matrix columns, result vocabulary, and provider-consumer mismatch detection.",
       "breaking": false
+    },
+    {
+      "v": 29,
+      "delta": "Added fixture smoke command guidance and JSON report contract for checking fixture manifest outcome fields and declared input/golden paths.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -1283,7 +1336,8 @@
         "paired human surfaces"
       ],
       "side_effects": [
-        "validation-report"
+        "validation-report",
+        "fixture-smoke-report"
       ],
       "telemetry": [
         "validation-errors",
@@ -1296,7 +1350,8 @@
         "l4-complete"
       ],
       "outputs": [
-        "validation-report"
+        "validation-report",
+        "fixture-smoke-report"
       ]
     }
   }

@@ -24,7 +24,7 @@ In this README, **human-oriented docs** means files mainly written for people to
 **AODS is**:
 
 - a documentation standard for agent-first project knowledge
-- a CLI for compile / validate / route / scaffold workflows
+- a CLI for compile / validate / route / fixture / scaffold workflows
 - a governance layer for routing, authority, anti-drift, and task-time context control
 - a benchmarked reference implementation with published evidence
 
@@ -71,7 +71,7 @@ This repository contains all three layers in one place:
 | Layer | What it contains |
 | --- | --- |
 | **Standard** | `manifest.json`, `schema/`, and `spec/` define the normative AODS contract |
-| **Reference implementation** | `bin/` and `lib/` implement validate, route, compile, scaffold, upgrade, and hook behavior |
+| **Reference implementation** | `bin/` and `lib/` implement validate, route, compile, fixture, scaffold, upgrade, and hook behavior |
 | **Benchmark** | `benchmarks/aods-eval-lab/` measures whether the implementation actually earns its claims |
 
 ## Example map
@@ -401,6 +401,7 @@ npm run validate:all
 npm run route -- --touch spec/validation-rules.json --role doc-author
 npm run route -- --query "paired docs drift rules" --role doc-author --intent read
 npm run compile:pilot
+npm run fixture:smoke
 npm run benchmark:runtime-capture   # optional supplemental sample
 npm run benchmark:evaluate
 npm run benchmark:compare
@@ -420,6 +421,15 @@ npm run validate:pilot
 npm run validate:compiled-pilot
 npm run validate:all
 ```
+
+### Smoke fixture manifests
+
+```bash
+npm run fixture:smoke
+node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json
+```
+
+The smoke command checks fixture manifest outcome fields and declared input/golden paths. It does not execute golden update commands or act as a full conformance runner.
 
 Direct CLI usage:
 

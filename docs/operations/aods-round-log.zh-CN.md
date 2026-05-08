@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-16
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-16 |
+| 开始时间 | 2026-05-08 16:00 Asia/Shanghai |
+| 结束时间 | 2026-05-08 16:24 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | fixture / golden export smoke runner；不做完整 conformance runner、不执行 update command、不自动更新 golden output |
+| 本轮选中任务 | U-080 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-16
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `bin/aods.mjs`、`lib/`、`package.json`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`spec/validation-rules.json`、`manifest.json`、README、`docs/operations/`、`docs/README.md` |
+| 禁止触碰 | 完整 conformance runner、自动 golden update、update command execution、cross-repo fetch/clone、LLM judge、行为 oracle、release 发布、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR `#63` 只读复核；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 还原，不纳入本轮 diff |
+
+## 任务执行记录：R-2026-05-08-16
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-080 | 未开始 | 已完成 | 先复审 U-079；按 TDD 增加 failing fixture smoke regression；新增 `aods fixture smoke` CLI、`npm run fixture:smoke`、JSON/text report；同步 validation spec、README 和 operations docs | `bin/aods.mjs`、`lib/fixture-smoke.mjs`、`package.json`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`spec/validation-rules.json`、`manifest.json`、`docs/operations/aods-fixture-smoke-runner.zh-CN.md` |
+
+## 验证记录：R-2026-05-08-16
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-080 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`gh pr view 63`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "route JSON includes"`、`node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | U-079 commit `d8a0fbc` 已在 origin 和 PR `#63`；PR 仍 open draft；route JSON explanation 与 stable-contract regressions 通过；仅 `MEMORY.md` 未跟踪 |
+| U-080 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 按预期失败 | 新 test 首次失败于 `Unknown command: fixture`，确认 CLI 缺口 |
+| U-080 | GREEN focused regression | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 3/3 pass；覆盖 positive JSON report 与 invalid expected outcome failure report |
+| U-080 | Fixture JSON smoke | `node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json` | 通过 | 输出 pass report；fixtures=9，golden_exports=9 |
+| U-080 | Fixture text smoke | `npm run fixture:smoke` | 通过 | 文本输出 `PASS fixture smoke`；fixtures=9，golden_exports=9 |
+| U-080 | Spec JSON parse | `node -e "JSON.parse(...)"` | 通过 | `spec/validation-rules.json` 与 `manifest.json` 语法有效 |
+| U-080 | Repo validation gate | `npm run validate:all` | 先失败后通过 | 首次失败为 context 超长、artifact type 不在 schema 枚举、runtime_contract mirror 未同步；返工后 root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-080 | Benchmark test gate | `npm run benchmark:test` | 通过 | 79/79 pass；测试生成的 benchmark result churn 已还原 |
+| U-080 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-16
+
+本轮没有新增任务 ID。U-081 / U-082 / U-083 仍按既有 v0.12 backlog 排序。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-080 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-16
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-080 |
+| 完成任务 | 1 | fixture / golden export smoke runner 完成 |
+| 失败任务 | 0 | RED 失败是 TDD 预期；validation 首次失败已返工并复验通过 |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 4 | 下一轮首选 U-081 |
+
 ## 回合摘要：R-2026-05-08-15
 
 | 项 | 内容 |

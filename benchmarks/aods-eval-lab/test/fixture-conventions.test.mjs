@@ -1,10 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 import { REPO_ROOT } from "../src/helpers.mjs";
 
+const CLI_PATH = path.join(REPO_ROOT, "bin", "aods.mjs");
 const FIXTURE_MANIFEST_PATH = path.join(
   REPO_ROOT,
   "examples",
@@ -35,4 +38,55 @@ test("compiled-pilot source declares a conventional fixture and golden export", 
   assert.equal(goldenExport.kind, "compiled-corpus");
   assert.equal(goldenExport.update_command, "npm run compile:pilot");
   assert.ok(fs.existsSync(path.resolve(manifestDir, goldenExport.path)));
+});
+
+test("fixture smoke command reports declared fixture and golden export coverage as JSON", () => {
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "fixture", "smoke", FIXTURE_MANIFEST_PATH, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(result.stdout);
+
+  assert.equal(report.action, "fixture smoke");
+  assert.equal(report.status, "pass");
+  assert.equal(report.accepted, true);
+  assert.equal(report.manifest.path, FIXTURE_MANIFEST_PATH);
+  assert.equal(report.summary.fixtures, fixtureManifest.fixtures.length);
+  assert.equal(report.summary.expected_status.pass, fixtureManifest.fixtures.length);
+  assert.ok(report.summary.golden_exports > 0);
+  assert.deepEqual(report.issues, []);
+});
+
+test("fixture smoke command rejects invalid expected outcome contracts", (t) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-fixture-smoke-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+  const tempManifestPath = path.join(tempDir, "fixture-manifest.json");
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  fixtureManifest.fixtures = [
+    {
+      ...fixtureManifest.fixtures[0],
+      expected_status: "maybe",
+      expected_rules: "validation-rule-id"
+    }
+  ];
+  fs.writeFileSync(tempManifestPath, JSON.stringify(fixtureManifest, null, 2));
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "fixture", "smoke", tempManifestPath, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.notEqual(result.status, 0);
+  const report = JSON.parse(result.stdout);
+
+  assert.equal(report.action, "fixture smoke");
+  assert.equal(report.status, "fail");
+  assert.equal(report.accepted, false);
+  assert.ok(report.issues.some((issue) => issue.rule === "fixture-expected-status"));
+  assert.ok(report.issues.some((issue) => issue.rule === "fixture-expected-rules"));
 });

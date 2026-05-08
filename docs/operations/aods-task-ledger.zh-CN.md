@@ -11,28 +11,27 @@
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
 | 当前阶段 | S12 capability / observability hardening |
-| 当前回合 | R-2026-05-08-15 |
-| 未完成任务数量 | 5 |
-| 已完成任务数量 | 84 |
+| 当前回合 | R-2026-05-08-16 |
+| 未完成任务数量 | 4 |
+| 已完成任务数量 | 85 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-15 |
-| 开始时间 | 2026-05-08 15:05 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-16 |
+| 开始时间 | 2026-05-08 16:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-079 |
-| 本轮范围 | 上轮 U-078 复审、route JSON explanation 最小增强、boot/stable-contract spec 同步、operations docs 同步 |
-| 排除范围 | CLI output subsystem rewrite、route ranking、query scoring、touch route 语义、validation JSON 重写、dashboard、trace store、graph database、runtime scheduler、PR merge、release、version bump、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；RED/GREEN focused scaffold regression；stable-contracts focused regression；route JSON/text smoke；`npm run validate:all`；`git diff --check`；staged set 排除 `MEMORY.md` |
-| 新任务处理规则 | 本轮不新增实现任务；U-079 完成后下一轮优先 U-080，其次 U-081。 |
+| 选中任务 | U-080 |
+| 本轮范围 | 上轮 U-079 复审、fixture / golden export smoke runner、fixture convention regression、validation spec 同步、operations docs 同步 |
+| 排除范围 | 完整 conformance runner、自动 golden update、update command execution、cross-repo fetch/clone、LLM judge、行为 oracle、release、version bump、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；RED/GREEN fixture convention regression；fixture smoke JSON/text smoke；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 新任务处理规则 | 本轮不新增实现任务；U-080 完成后下一轮优先 U-081，其次 U-082。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-080 | S12 | Fixture / golden export smoke runner | P2 | 未开始 | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构；不做完整 conformance runner 或自动 golden update | U-075 | `#48` residual |
 | U-081 | S12 | Source-first adoption guide for example packs | P2 | 未开始 | README / docs 指向从 authoring source 到 compile / validate / route 的最小 adoption path；不重复 benchmark sync 区块；不夸大 coverage | U-075 | public adoption docs |
 | U-082 | S12 | External citation stale/current hygiene report | P2 | 未开始 | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example；focused regression 或 docs gate 覆盖；不做 crawler/URL checker/fact checker | U-075 | `#58` residual |
 | U-083 | S12 | Changelog delta ergonomics review | P3 | 未开始 | 重新评估 `#13` 是否仍真实阻塞 release workflow；若不阻塞，只写 public response plan | U-075 | 低优先级 ergonomics |
@@ -126,6 +125,7 @@
 | 82 | U-077 | S12 | Implementation evidence stale/current hygiene | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`spec/stable-surface-contracts.json`、`docs/operations/aods-implementation-evidence-hygiene.zh-CN.md`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` 按预期失败；GREEN focused scaffold regression；`npm run validate:all`；`git diff --check` | `validate --reality` topology summary 现在输出 current/planned/stale/blocked evidence counters；stale evidence 和 current implementation missing current evidence 均有 deterministic warning/remediation；不执行 evidence command |
 | 83 | U-078 | S12 | Capability compatibility metadata deterministic gates | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot/modules/shift-ops-adapter-capability.json`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、operations docs | RED focused scaffold regression 按预期暴露 mislabeled compatibility 未被阻断；GREEN focused scaffold + stable-contracts；`npm run validate:all`；`git diff --check` | capability compatibility mapping-table 现在可表达 compatible / incompatible rows；validator 会检查 capability id、contract profile、schema version policy、exposure class 与 expected_result 是否一致；不做 handshake/discovery/auth/fallback ranking |
 | 84 | U-079 | S12 | Validate / route JSON explanation minimal enrichment | P2 | 2026-05-08 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`spec/boot-protocol.json`、`spec/stable-surface-contracts.json`、`docs/operations/aods-route-json-explanation.zh-CN.md`、operations docs | RED focused scaffold regression 按预期失败于 `route.explanation` 缺失；GREEN scaffold 31/31；stable-contracts 12/12；route JSON/text smoke；`npm run validate:all`；`npm run benchmark:test` 77/77；`git diff --check` | `aods route --json` 现在输出 `explanation.source`、`explanation.reason`、`explanation.dependency`；不改变文本输出、route ranking、query scoring 或 validation JSON |
+| 85 | U-080 | S12 | Fixture / golden export smoke runner | P2 | 2026-05-08 | `bin/aods.mjs`、`lib/fixture-smoke.mjs`、`package.json`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`spec/validation-rules.json`、`manifest.json`、`docs/operations/aods-fixture-smoke-runner.zh-CN.md`、operations docs | RED fixture convention regression 按预期失败于 `Unknown command: fixture`；GREEN fixture-conventions 3/3；fixture smoke JSON/text smoke；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | `aods fixture smoke` 现在读取 fixture manifest、验证 expected_status / expected_rules 和 input/golden path；不执行 update command、不做完整 conformance runner、不自动更新 golden exports |
 
 ## 失败或阻塞任务
 
@@ -204,3 +204,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-077` 完成 | Batch I 已完成：implementation evidence stale/current posture 进入 deterministic reality summary 和 warning/remediation；下一步优先 U-078 capability compatibility metadata gates，其次 U-079 JSON explanation enrichment。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-078` 完成 | Batch J 已完成：capability compatibility metadata matrix 进入 deterministic validator gate；下一步优先 U-079 validate / route JSON explanation enrichment，其次 U-080 fixture smoke runner。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-079` 完成 | Batch K 已完成：route JSON 现在有 source/reason/dependency 机器可读解释字段；下一步优先 U-080 fixture / golden export smoke runner，其次 U-081 source-first adoption guide。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-080` 完成 | Batch L 已完成：fixture manifest 现在可用 `aods fixture smoke` / `npm run fixture:smoke` 做 expected outcome 与 input/golden path 冒烟；下一步优先 U-081 source-first adoption guide，其次 U-082 citation hygiene。 |
