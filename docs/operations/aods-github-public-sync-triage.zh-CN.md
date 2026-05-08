@@ -1,26 +1,27 @@
 # AODS GitHub Public Sync Triage
 
-状态：U-068 已完成
+状态：U-068 / U-075 已完成
 日期：2026-05-08
-范围：只读复盘 GitHub issue 本地覆盖与公开状态差异；不执行公开写操作
+范围：复盘 GitHub issue 本地覆盖与公开状态差异，并记录 U-075 public sync 执行结果
 
 ## 结论
 
-`#54-#58` 的本地覆盖已经明显领先于 GitHub issue 状态。U-072 已把 public docs navigation 指向已完成的 example packs、glossary registry 和 external citation 用法；U-074 release readiness gate 已通过。下一步应在 U-075 中统一评论或关闭相关 issue。
+`#54-#58` 的本地覆盖已经明显领先于 GitHub issue 状态。U-072 已把 public docs navigation 指向已完成的 example packs、glossary registry 和 external citation 用法；U-074 release readiness gate 已通过。U-075 已创建 draft PR `#63`，并把已覆盖 issue 设置为 PR 合并时自动关闭。
 
-`#60` 是 umbrella roadmap，继续保持 open。`#41` 的完整 capability negotiation handshake 仍 deferred，继续保持 open。
+`#60` 是 umbrella roadmap，继续保持 open。`#41` 的完整 capability negotiation handshake 仍 deferred，继续保持 open。`#59` 的 CLI JSON explanation enrichment 仍是 U-079 residual，也继续保持 open。
 
-## 只读审查快照
+## 公开同步快照
 
 | Issue | GitHub 状态 | 本地覆盖 | 缺口 | 建议公开动作 |
 |---|---|---|---|---|
-| `#54` documentation density rules | OPEN | `spec-aop` 既有规则、U-049 good/bad examples、authoring guidance 和 U-072 public navigation | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；可建议关闭 |
-| `#55` human-surface sync quality metrics | OPEN | U-048 已定义 exact invariant、semantic coverage、omitted constraint、stale example、authority mismatch、sync report vocabulary | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；可建议关闭 |
-| `#56` canonical examples | OPEN | U-051 到 U-055 加 U-058 已覆盖 read-model、command、event、adapter、artifact/export/policy-gate、resource 六包，U-072 已集中导航 | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；建议关闭 |
-| `#57` glossary registry | OPEN | U-060、U-062、U-063、U-064 已覆盖 boundary、schema/compile、validator、canonical example pack，U-072 已给公开入口 | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；建议关闭 |
-| `#58` external citation metadata | OPEN | U-061、U-065、U-066、U-067 已覆盖 boundary、schema/compile、validator、canonical example pack，U-072 已给公开入口 | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；建议关闭 |
-| `#60` specification governance roadmap | OPEN | v0.7 到 v0.11 多数 foundation、mechanics、quality tasks 已本地推进 | roadmap 仍是 umbrella；后续 drift/release/public sync 还在进行 | 保持 open；release/readiness 后再追加进度评论 |
-| `#41` capability negotiation | OPEN | U-034 已完成 metadata-only matching boundary；U-054 有 adapter example pack | full negotiation handshake、provider discovery、auth/fallback runtime 仍 deferred | 保持 open；不要关闭为已完成 |
+| `#54` documentation density rules | OPEN，PR `#63` 合并时关闭 | `spec-aop` 既有规则、U-049 good/bad examples、authoring guidance 和 U-072 public navigation | 等待 PR review / merge | 已通过 PR `#63` 设置 close-on-merge |
+| `#55` human-surface sync quality metrics | OPEN，PR `#63` 合并时关闭 | U-048 已定义 exact invariant、semantic coverage、omitted constraint、stale example、authority mismatch、sync report vocabulary | 等待 PR review / merge | 已通过 PR `#63` 设置 close-on-merge |
+| `#56` canonical examples | OPEN，PR `#63` 合并时关闭 | U-051 到 U-055 加 U-058 已覆盖 read-model、command、event、adapter、artifact/export/policy-gate、resource 六包，U-072 已集中导航 | 等待 PR review / merge | 已通过 PR `#63` 设置 close-on-merge |
+| `#57` glossary registry | OPEN，PR `#63` 合并时关闭 | U-060、U-062、U-063、U-064 已覆盖 boundary、schema/compile、validator、canonical example pack，U-072 已给公开入口 | 等待 PR review / merge | 已通过 PR `#63` 设置 close-on-merge |
+| `#58` external citation metadata | OPEN，PR `#63` 合并时关闭 | U-061、U-065、U-066、U-067 已覆盖 boundary、schema/compile、validator、canonical example pack，U-072 已给公开入口 | 等待 PR review / merge；U-082 可继续做 stale/current hygiene | 已通过 PR `#63` 设置 close-on-merge |
+| `#60` specification governance roadmap | OPEN，已留言 | v0.7 到 v0.11 多数 foundation、mechanics、quality tasks 已本地推进 | roadmap 仍是 umbrella；后续 drift/release/public sync 还在进行 | 保持 open；已在 `#60` 留言 |
+| `#41` capability negotiation | OPEN，已留言 | U-034 已完成 metadata-only matching boundary；U-054 有 adapter example pack | full negotiation handshake、provider discovery、auth/fallback runtime 仍 deferred | 保持 open；已在 `#41` 留言 |
+| `#59` validation/routing observability | OPEN，已留言 | U-046 已完成 spec vocabulary；U-076 已补 route help | CLI JSON explanation enrichment 仍是 U-079 residual | 保持 open；已在 `#59` 留言 |
 
 ## 审批矩阵
 
@@ -31,14 +32,16 @@
 | issue label update | 是 | 会改变 backlog 管理语义 |
 | PR / release sync | 是 | 需要确认 branch、release note 和是否包含 `MEMORY.md` 排除检查 |
 
+U-075 已由 owner 授权执行；后续 release、PR merge、直接关闭 issue 或 label 变更仍按本矩阵单独确认。
+
 ## 下一步
 
-1. 执行 U-075 public sync execution；评论/关闭 issue 前再次确认 staged set 不含 `MEMORY.md`。
-2. 若 U-075 包含 release，先确认目标 version bump、release branch 和 tag；当前 package 仍为 `0.7.0`。
-3. 对 `#41/#60` 保持 open，只同步当前 metadata-only / roadmap 进度，不把 deferred runtime 说成已完成。
+1. PR `#63` 保持 draft review surface；如后续准备合并，先确认 final validation 和是否需要 ready-for-review。
+2. 若后续包含 release，先确认目标 version bump、release branch 和 tag；当前 package 仍为 `0.7.0`。
+3. 对 `#41/#59/#60/#13` 保持 open，不把 deferred runtime 或低优先级 ergonomics 说成已完成。
 
 ## 非目标
 
-1. 本轮不评论、不关闭、不改 label。
-2. 本轮不创建 PR、不发布 release。
-3. 本轮不把 `#41` 的 deferred handshake 混同于 U-034/U-054 的 metadata-only coverage。
+1. 不发布 release、不创建 tag、不 bump version。
+2. 不直接关闭 issue；已覆盖 issue 只通过 PR `#63` close-on-merge 关联。
+3. 不把 `#41` 的 deferred handshake、`#59` 的 CLI JSON enrichment 或 `#60` 的 umbrella roadmap 混同为已完成。

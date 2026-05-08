@@ -38,14 +38,14 @@
 | U-072 | S11 | docs / examples | P2 | 已完成 | 更新 public docs navigation for completed example packs | README/operations 已指向 source-first pilot、六类 example pack、glossary registry、external citation / provenance 示例；benchmark sync 区块未手改 |
 | U-073 | S11 | backlog triage | P2 | 已完成 | 制定 v0.12 backlog triage | 已将 `#33/#35/#37/#38/#39/#43-#52/#59/#60` 重新分类到 public sync、covered local、deferred runtime 与 v0.12+ 新任务池；未实现新能力 |
 | U-074 | S11 | release gate | P1 | 已完成 | 执行 v0.11 累积变更 release readiness gate | `release:self-check`、package dry-run、diff hygiene、release notes skeleton 已通过；不发布 release |
-| U-075 | S11 | public sync | P1 | 需 owner 授权，单独执行 | GitHub issue / PR / release public sync execution | 仅在 owner 明确批准后评论/关闭 issue、创建 PR 或 release；同步前确认 staged set 不含 `MEMORY.md` |
+| U-075 | S11 | public sync | P1 | 已完成 | GitHub issue / PR / release public sync execution | PR `#63` 已创建为 draft；已覆盖 issue 设置为 close-on-merge；`#41/#59/#60` 已留言保留；未发布 release |
 | U-076 | S11 | route DX | P2 | 已完成 | 增加 route 子命令 help / discoverability smoke test | `node ./bin/aods.mjs route --help` 输出 route 用法、stage、intent；focused CLI regression 覆盖；不改变 route ranking |
-| U-077 | S12 | validation hardening | P1 | U-075 后首选 | Implementation evidence stale/current hygiene | stale/current evidence 有 deterministic summary 或 finding；focused regression 覆盖 stale evidence posture；`validate:all` 通过 |
-| U-078 | S12 | validator / capability | P1 | U-075 后候选 | Capability compatibility metadata deterministic gates | provider capability、consumer requirement、profile/version/exposure 的最小不兼容 case 可被 validator 或 focused regression 表达 |
-| U-079 | S12 | CLI observability | P2 | U-075 后候选 | Validate / route JSON explanation minimal enrichment | 至少一个 route 或 validation output 增加 machine-readable reason/source/dependency 字段；focused regression 覆盖 |
-| U-080 | S12 | fixture tooling | P2 | U-075 后候选 | Fixture / golden export smoke runner | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构 |
-| U-081 | S12 | public docs / adoption | P2 | U-075 后候选 | Source-first adoption guide for example packs | README / docs 指向从 authoring source 到 compile / validate / route 的最小 adoption path；不重复 benchmark sync 区块 |
-| U-082 | S12 | citation hygiene | P2 | U-075 后候选 | External citation stale/current hygiene report | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example |
+| U-077 | S12 | validation hardening | P1 | 下一批首选 | Implementation evidence stale/current hygiene | stale/current evidence 有 deterministic summary 或 finding；focused regression 覆盖 stale evidence posture；`validate:all` 通过 |
+| U-078 | S12 | validator / capability | P1 | 候选 | Capability compatibility metadata deterministic gates | provider capability、consumer requirement、profile/version/exposure 的最小不兼容 case 可被 validator 或 focused regression 表达 |
+| U-079 | S12 | CLI observability | P2 | 候选 | Validate / route JSON explanation minimal enrichment | 至少一个 route 或 validation output 增加 machine-readable reason/source/dependency 字段；focused regression 覆盖 |
+| U-080 | S12 | fixture tooling | P2 | 候选 | Fixture / golden export smoke runner | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构 |
+| U-081 | S12 | public docs / adoption | P2 | 候选 | Source-first adoption guide for example packs | README / docs 指向从 authoring source 到 compile / validate / route 的最小 adoption path；不重复 benchmark sync 区块 |
+| U-082 | S12 | citation hygiene | P2 | 候选 | External citation stale/current hygiene report | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example |
 | U-083 | S12 | ergonomics | P3 | 低优先级 | Changelog delta ergonomics review | 重新评估 `#13` 是否仍真实阻塞 release workflow；若不阻塞，只写 public response plan |
 | U-084 | S12 | research / boundary | P3 | 低优先级 | Runtime-boundary research spike | 梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件；不实现 runtime |
 
@@ -62,8 +62,8 @@
 | Batch E | U-071 + U-076 | 已完成；回到代码漂移主线强化 implementation reality locator diagnostics，并补齐 route CLI 自发现小修 | RED/GREEN scaffold regression、`node ./bin/aods.mjs route --help`、`npm run validate:all`、`git diff --check` |
 | Batch F | U-072 + U-073 | 已完成；两个 docs/planning 任务低冲突，已先补 public docs navigation，再整理 v0.12 backlog，给 release gate 和 public sync 降低风险 | docs diff review、GitHub issue 只读审查、`npm run validate:all`、`git diff --check` |
 | Batch G | U-074 | 已完成；release readiness gate 是 public sync、PR/release 对外动作和 v0.12 新实现前的最低风险前置项 | `npm run release:self-check`、`npm pack --dry-run --json`、`git diff --check`、release notes skeleton |
-| Batch H | U-075 | 下一批首选；U-074 通过后单独执行，用 U-072 public navigation 与 U-073 issue mapping 统一 public sync | GitHub issue/PR/release 执行前确认 staged set 不含 `MEMORY.md`；公开动作完成后更新 operations docs |
-| Batch I | U-077 | public sync 后的首个 v0.12 drift hardening；承接 U-071 locator diagnostics | RED/GREEN focused regression、`npm run validate:all`、`git diff --check` |
+| Batch H | U-075 | 已完成；U-074 通过后单独执行，用 U-072 public navigation 与 U-073 issue mapping 完成 public sync | PR `#63`、issue close-on-merge 关联、`#41/#59/#60` 留言、operations docs、`npm run validate:all`、`git diff --check` |
+| Batch I | U-077 | 下一批首选；public sync 后的首个 v0.12 drift hardening，承接 U-071 locator diagnostics | RED/GREEN focused regression、`npm run validate:all`、`git diff --check` |
 
 ## 当前非目标
 

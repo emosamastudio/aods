@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-074 加 U-076 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage 和 release readiness gate。下一轮首选 U-075 GitHub public sync。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-076 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate 和 GitHub public sync。draft PR `#63` 已打开，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言。下一轮首选 U-077 implementation evidence stale/current hygiene。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -42,7 +42,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 项 | 状态 | 说明 |
 |---|---|---|
-| 分支 | `codex/aods-v0.8-backlog` | 从 `main` 创建，用于 v0.8 backlog triage |
+| 分支 | `codex/aods-v0.8-backlog` | 已推送到远端；draft PR `#63` 指向 `main` |
 | 最新提交 | 以 `git log -1 --oneline` 为准 | 本分支基线 `35c26f0`；PR `#62` squash merge 为 `831e10b` |
 | 剩余 dirty | 提交后预期仅 untracked `MEMORY.md` | `MEMORY.md` 为本地记忆文件，不进仓库；提交前只 stage 本轮代码/文档 |
 
@@ -129,20 +129,20 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-072 | 更新 public docs navigation for completed example packs | README / docs 已集中指向 source-first pilot、六类 surface-family pack、glossary registry 和 external citation / provenance 示例；benchmark sync 区块未手改 |
 | U-073 | 制定 v0.12 backlog triage | `aods-v0.12-backlog.zh-CN.md` 已把 open/deferred issues 重新分类到 public sync、covered local、deferred runtime 和 v0.12+ 新任务池；新增 U-077 到 U-084 |
 | U-074 | 执行 v0.11 累积变更 release readiness gate | `release:self-check` 通过；benchmark tests 74/74；dry-run package 50 files / 199.5 kB；`examples/compiled-pilot/` 已进入 package files；本轮未发布 release、未 bump version |
+| U-075 | GitHub issue / PR / release public sync execution | 远端分支 `codex/aods-v0.8-backlog` 与 draft PR `#63` 已创建；`#33/#35/#37/#38/#39/#43-#52/#54-#58` 设置 close-on-merge；`#41/#59/#60` 已留言保留；未发布 release、未 bump version |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-075 | GitHub issue / PR / release public sync execution | owner 已授权 GitHub 权限；执行前仍需用 release gate、target version 和 staged set 检查约束公开动作 |
-| 2 | U-077 | Implementation evidence stale/current hygiene | v0.12 首选 drift hardening；U-075 后执行 |
-| 3 | U-078 | Capability compatibility metadata deterministic gates | `#41` residual；full handshake 继续 deferred |
-| 4 | U-079 | Validate / route JSON explanation minimal enrichment | `#59` residual；不重写 CLI output subsystem |
-| 5 | U-080 | Fixture / golden export smoke runner | `#48` residual；不做完整 conformance runner |
-| 6 | U-081 | Source-first adoption guide for example packs | public adoption docs；不改 benchmark sync 区块 |
-| 7 | U-082 | External citation stale/current hygiene report | citation hygiene；不做 crawler/fact checker |
-| 8 | U-083 | Changelog delta ergonomics review | P3；仅在 release workflow 证明确有阻塞时升级 |
-| 9 | U-084 | Runtime-boundary research spike | P3；只研究边界，不实现 runtime |
+| 1 | U-077 | Implementation evidence stale/current hygiene | v0.12 首选 drift hardening；不执行 evidence command |
+| 2 | U-078 | Capability compatibility metadata deterministic gates | `#41` residual；full handshake 继续 deferred |
+| 3 | U-079 | Validate / route JSON explanation minimal enrichment | `#59` residual；不重写 CLI output subsystem |
+| 4 | U-080 | Fixture / golden export smoke runner | `#48` residual；不做完整 conformance runner |
+| 5 | U-081 | Source-first adoption guide for example packs | public adoption docs；不改 benchmark sync 区块 |
+| 6 | U-082 | External citation stale/current hygiene report | citation hygiene；不做 crawler/fact checker |
+| 7 | U-083 | Changelog delta ergonomics review | P3；仅在 release workflow 证明确有阻塞时升级 |
+| 8 | U-084 | Runtime-boundary research spike | P3；只研究边界，不实现 runtime |
 
 ## 失败和风险
 
@@ -152,8 +152,8 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | ref 语义误读风险 | `U-013` 当前只定义 canonical ref / resolution posture 的 spec boundary | 后续如继续做 ref 能力，必须显式区分 identifier / resolution status 与实际 fetch/runtime dereference，不要假设现状已支持自动跨 corpus 解析 |
 | dirty worktree 混轮风险 | 当前工作树仅剩本地 untracked `MEMORY.md` | 后续 public push / PR 前确认 staged set / working tree 不包含 `MEMORY.md` |
 | release 渠道混淆风险 | 正式版本发布已定为 GitHub Releases-only | 后续若出现 npm publish 相关建议或脚本扩张，不应把 registry 发布重新当成完成条件，除非 owner 明确改策略 |
-| release version surface 风险 | U-074 dry-run package 仍为 `0.7.0`，但本地包含 v0.7 后累积变更 | U-075 若创建新 release，必须先确认 version bump、release branch 和 tag；不能复用 `v0.7.0` |
-| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | PR `#62` 已 merge；本轮未评论或关闭 issue、未发布 release |
+| release version surface 风险 | U-074/U-075 后 package dry-run 仍为 `0.7.0`，但本地包含 v0.7 后累积变更 | 后续若创建新 release，必须先确认 version bump、release branch 和 tag；不能复用 `v0.7.0` |
+| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | PR `#63` 已创建为 draft；已覆盖 issue 只设置 close-on-merge；`#41/#59/#60` 已留言但保持 open；未发布 release |
 | 代码漂移范围扩散风险 | drift 问题容易扩大成未裁剪的全量静态/语义分析器 | 下一步只从 topology、implementation linkage、implementation evidence 和 contract drift 最小闭环推进 |
 | acceptance criteria 过度设计风险 | criteria 容易扩成通用测试编排或 arbitrary command executor | U-029 必须限制为 contract-to-evidence linkage；validator 默认不执行任意 command |
 | remediation workflow 过度设计风险 | remediation 容易扩成审批系统或自动修复器 | U-030 只落 validator guidance 和 spec action vocabulary；后续审批/waiver 机制必须另立任务 |
@@ -185,7 +185,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
 | glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-064 已只落 schema、deterministic gates 和 source-first example pack；后续不要把 example 解读为 resolver/runtime 或全文扫描 |
 | external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 到 U-067 已裁剪并落地 schema、deterministic gates 和 canonical example pack；后续不要把 example 解读为 crawler、claim detector、remote fetch 或 resolver |
-| public sync 过早关闭风险 | `#54-#58` 本地覆盖已完成不少；U-072 已补 public docs navigation | 先做 U-074 release readiness gate，再执行 U-075 评论/关闭 |
+| public sync 过早关闭风险 | 已覆盖 issue 数量较多，直接关闭会早于 PR review / merge | U-075 只通过 PR `#63` close-on-merge 关联；`#41/#59/#60/#13` 保持 open |
 | route discoverability 残留风险 | `aods route --help` 曾返回 unknown arg | U-076 已修复；后续如扩 CLI discoverability，仍不得改变 route ranking |
 | hosted repeatability 外部捕获风险 | benchmark summary 测试依赖 optional hosted repeatability 数据，本轮 hosted 捕获运行 11 分钟无输出后终止 | 本轮以 focused regression、`validate:all` 和 diff hygiene 为通过 gate；后续若要恢复 full `benchmark:test` gate，需要可用 hosted relay / Keychain / 网络环境或先裁剪 benchmark 入口问题 |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
@@ -194,6 +194,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-075 | GitHub public sync execution | 评论/关闭 issue、必要时创建 PR 或 release；执行前确认 staged set 不含 `MEMORY.md`，若 release 则先确认 version bump |
-| 2 | U-077 | Implementation evidence stale/current hygiene | public sync 后进入 v0.12 drift hardening；不执行 evidence command |
-| 3 | U-078 | Capability compatibility metadata deterministic gates | metadata-only gates；不做 negotiation runtime |
+| 1 | U-077 | Implementation evidence stale/current hygiene | stale/current evidence 有 deterministic summary 或 finding；focused regression 覆盖；不执行 evidence command |
+| 2 | U-078 | Capability compatibility metadata deterministic gates | metadata-only gates；不做 negotiation runtime |
+| 3 | U-079 | Validate / route JSON explanation minimal enrichment | 增加 machine-readable reason/source/dependency；不重写 CLI output subsystem |

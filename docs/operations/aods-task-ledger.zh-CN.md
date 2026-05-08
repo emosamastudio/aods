@@ -10,29 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S11 release readiness |
-| 当前回合 | R-2026-05-08-11 |
-| 未完成任务数量 | 9 |
-| 已完成任务数量 | 80 |
+| 当前阶段 | S12 drift hardening |
+| 当前回合 | R-2026-05-08-12 |
+| 未完成任务数量 | 8 |
+| 已完成任务数量 | 81 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-11 |
-| 开始时间 | 2026-05-08 11:40 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-12 |
+| 开始时间 | 2026-05-08 12:06 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-074 |
-| 本轮范围 | release readiness gate、package dry-run surface review、release notes skeleton、operations docs 同步 |
-| 排除范围 | GitHub issue comment/close/label、PR、release 发布、version bump、runtime/schema 新能力、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:self-check`；`npm pack --dry-run --json`；`git diff --check` |
-| 新任务处理规则 | 本轮不新增实现任务；release gate 暴露的问题先返工并复跑 gate。 |
+| 选中任务 | U-075 |
+| 本轮范围 | 上轮 release readiness 复审、远端分支推送、GitHub draft PR、issue auto-close 关联、residual issue 留言、operations docs 同步 |
+| 排除范围 | release 发布、version bump、tag、PR merge、直接推 main、关闭 `#41/#59/#60/#13`、runtime/schema 新能力、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；GitHub PR / issue state 检查；`npm run validate:all`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 新任务处理规则 | 本轮不新增实现任务；public sync 后只把 U-075 入账，后续进入 U-077。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-075 | S11 | GitHub issue / PR / release public sync execution | P1 | 未开始 | 仅在 owner 明确批准后评论/关闭 issue、创建 PR 或 release；同步前确认 staged set 不含 `MEMORY.md` | U-074 | 需 owner 授权，单独执行 |
 | U-077 | S12 | Implementation evidence stale/current hygiene | P1 | 未开始 | stale/current evidence 有 deterministic summary 或 finding；focused regression 覆盖 stale evidence posture；`validate:all` 通过；不执行 evidence command | U-075 | v0.12 首选 drift hardening |
 | U-078 | S12 | Capability compatibility metadata deterministic gates | P1 | 未开始 | provider capability、consumer requirement、profile/version/exposure 的最小不兼容 case 可被 validator 或 focused regression 表达；不做 handshake/discovery/auth/fallback ranking | U-075 | `#41` residual，full handshake 仍 deferred |
 | U-079 | S12 | Validate / route JSON explanation minimal enrichment | P2 | 未开始 | 至少一个 route 或 validation output 增加 machine-readable reason/source/dependency 字段；focused regression 覆盖；不重写 CLI output subsystem | U-075 | `#59` residual |
@@ -126,6 +125,7 @@
 | 78 | U-072 | S11 | 更新 public docs navigation for completed example packs | P2 | 2026-05-08 | `README.md`、`README.zh-CN.md`、`docs/README.md`、`docs/operations/README.md`、operations docs | `npm run validate:all`、`git diff --check` | 公开 README 和维护入口已集中指向 source-first pilot、六类 surface-family pack、glossary registry 和 external citation / provenance 示例；未手改 benchmark sync 区块 |
 | 79 | U-073 | S11 | 制定 v0.12 backlog triage | P2 | 2026-05-08 | `docs/operations/aods-v0.12-backlog.zh-CN.md`、task ledger、round log、handoff、operations docs | `gh issue list/api` 只读审查、`npm run validate:all`、`git diff --check` | `#33/#35/#37/#38/#39/#43-#52/#59/#60` 已重新分类为 public sync、covered local、deferred runtime 与 v0.12+ 新任务池；新增 U-077 到 U-084，未实现新能力 |
 | 80 | U-074 | S11 | 执行 v0.11 累积变更 release readiness gate | P1 | 2026-05-08 | `docs/operations/aods-v0.11-release-readiness.zh-CN.md`、`package.json`、benchmark generated results/reports、operations docs | `npm run release:self-check`、`npm pack --dry-run --json`、`git diff --check` | release gate 通过；返工补 `examples/compiled-pilot/` package inclusion；dry-run `aods-0.7.0.tgz` 50 files / 199.5 kB；不发布 release、不 bump version |
+| 81 | U-075 | S11 | GitHub issue / PR / release public sync execution | P1 | 2026-05-08 | 远端分支 `codex/aods-v0.8-backlog`、draft PR `#63`、PR body auto-close 关联、`#41/#59/#60` 留言、operations docs | `git push -u origin codex/aods-v0.8-backlog`、`gh pr create/edit`、`gh issue comment 41/59/60`、`npm run validate:all`、`git diff --check` | PR `#63` 合并时关闭 `#33/#35/#37/#38/#39/#43-#52/#54-#58`；`#41/#59/#60/#13` 保持 open；未发布 release、未 bump version，`MEMORY.md` 未进仓库 |
 
 ## 失败或阻塞任务
 
@@ -200,3 +200,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-071`、`U-076` 完成 | Batch E 已完成：implementation reality locator 现在给出 structured unchecked repo diagnostics；route 子命令帮助已补齐 smoke regression。下一步优先 U-072 public docs navigation 与 U-073 v0.12 backlog triage。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-072`、`U-073` 完成 | Batch F 已完成：公开 README/docs 已补 example navigation，v0.12+ backlog 已重新排序；下一步优先 U-074 release readiness gate，再进入 U-075 public sync。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-074` 完成 | Batch G 已完成：release readiness gate 通过，package dry-run 已包含 compiled-pilot 输出；下一步进入 U-075 GitHub public sync。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-075` 完成 | Batch H 已完成：远端分支和 draft PR `#63` 已创建，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 已留言保留；未发布 release，下一步进入 U-077 implementation evidence stale/current hygiene。 |

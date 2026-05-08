@@ -2,6 +2,64 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-12
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-12 |
+| 开始时间 | 2026-05-08 12:06 Asia/Shanghai |
+| 结束时间 | 2026-05-08 12:13 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | GitHub public sync；不发布 release、不 bump version、不 merge PR、不直接推 main |
+| 本轮选中任务 | U-075 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-12
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | GitHub branch / draft PR / issue comments、`docs/operations/` |
+| 禁止触碰 | release 发布、version bump、tag、PR merge、直接推 main、关闭 `#41/#59/#60/#13`、runtime/schema 新能力、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub Git / API；普通 Git 写入遇到网络阻塞后按 `AGENTS.md` 启用 `proxy_on` |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；本轮只提交 operations 文档回写 |
+
+## 任务执行记录：R-2026-05-08-12
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-075 | 未开始 | 已完成 | 复审 U-074 release readiness gate；推送 `codex/aods-v0.8-backlog`；创建 draft PR `#63`；在 PR body 设置合并时自动关闭已覆盖 issue；给 `#41/#59/#60` 留言说明 residual scope；未发布 release、未 bump version | PR `#63`、issue comments `#41/#59/#60`、operations docs |
+
+## 验证记录：R-2026-05-08-12
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-075 | Previous-round quality review | `git show HEAD`、`npm pack --dry-run --json`、`npm run validate:all`、`git diff --check` | 通过 | U-074 package dry-run 包含 compiled-pilot，repo validation 通过，`MEMORY.md` 仍未跟踪 |
+| U-075 | Remote branch push | `git push -u origin codex/aods-v0.8-backlog` | 通过 | support-resource token 不能完成 Git 写入；改用本机 keyring 认证并启用 `proxy_on` 后推送成功 |
+| U-075 | PR sync | `gh pr create --draft`、`gh pr edit` | 通过 | PR `#63` 已创建；`#33/#35/#37/#38/#39/#43-#52/#54-#58` 在 PR 合并时自动关闭 |
+| U-075 | Residual issue sync | `gh issue comment 41/59/60` | 通过 | `#41` full handshake、`#59` JSON explanation enrichment、`#60` roadmap umbrella 均保持 open |
+| U-075 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-075 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-12
+
+本轮没有新增任务 ID。support-resource token 不能完成 Git push 是操作经验，不改项目 backlog；后续外部 Git 写入优先使用 keyring 认证并按需启用 `proxy_on`。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-075 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-12
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-075 |
+| 完成任务 | 1 | GitHub public sync 完成到 draft PR / issue linkage 层 |
+| 失败任务 | 0 | Git 写入首次路径失败，已切换认证和代理路径恢复 |
+| 阻塞任务 | 0 | 不发布 release；PR `#63` 仍为 draft，合并/ready 需要后续确认 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 8 | 下一轮首选 U-077 |
+
 ## 回合摘要：R-2026-05-08-11
 
 | 项 | 内容 |
