@@ -10,29 +10,35 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S12 capability / observability hardening |
-| 当前回合 | R-2026-05-08-18 |
-| 未完成任务数量 | 1 |
-| 已完成任务数量 | 88 |
+| 当前阶段 | S13 runtime boundary / release closeout planning |
+| 当前回合 | R-2026-05-08-19 |
+| 未完成任务数量 | 7 |
+| 已完成任务数量 | 89 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-18 |
-| 开始时间 | 2026-05-08 17:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-19 |
+| 开始时间 | 2026-05-08 17:51 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-082、U-083 |
-| 本轮范围 | 上轮 U-081 复审、external citation hygiene report、changelog.delta ergonomics review、operations docs 同步 |
-| 排除范围 | citation crawler、URL checker、fact checker、claim detector、LLM faithfulness judge、changelog schema 改动、release、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；RED/GREEN scaffold regression；compiled-pilot citation report smoke；GitHub issue `#13` read-only review；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
-| 新任务处理规则 | 本轮不新增实现任务；U-082/U-083 完成后下一轮优先 U-084。 |
+| 选中任务 | U-084 |
+| 本轮范围 | 上轮 U-082/U-083 复审、runtime-boundary research spike、后续 S13 任务池规划、operations docs 同步 |
+| 排除范围 | workflow engine、event store runtime、runtime policy engine、remote API gateway、automatic migration tool、schema/validator/code 改动、release、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；runtime boundary route/read evidence；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 新任务处理规则 | U-084 完成后新增 U-085 到 U-091；下一轮优先 U-085，PR final readiness / merge / release 仍需 owner 明确指令。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-084 | S12 | Runtime-boundary research spike | P3 | 未开始 | 梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件；不实现 runtime | U-075 | 延后研究 |
+| U-085 | S13 | Runtime readiness gate matrix | P2 | 未开始 | 将 workflow runtime、event store、policy engine、remote gateway、migration tool 映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime | U-084 | 下一轮首选 |
+| U-086 | S13 | Workflow runtime entry contract triage | P2 | 未开始 | 明确 lifecycle / command / audit / dependency 前置条件和 workflow non-goals；不实现 workflow engine | U-085 | boundary triage |
+| U-087 | S13 | Event store and replay contract triage | P2 | 未开始 | 明确 event identity、ordering、retention、replay、correction projection 前置条件；不实现 event store | U-085 | boundary triage |
+| U-088 | S13 | Policy engine and approval runtime triage | P2 | 未开始 | 明确 risk label 到 policy decision input/output、audit receipt 和 approval boundary；不实现 permission broker 或 approval workflow | U-085 | boundary triage |
+| U-089 | S13 | Remote gateway / adapter runtime triage | P2 | 未开始 | 明确 exposure upgrade、auth、transport、audit、compatibility 前置条件；不实现 remote gateway | U-085 | boundary triage |
+| U-090 | S13 | Migration tool entry contract triage | P3 | 未开始 | 明确 source/target authority、dry-run、rollback、mapping、destructive-change approval 边界；不实现 migration executor | U-085 | boundary triage |
+| U-091 | S13 | PR final readiness / public sync closeout | P1 | 未开始 | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确；未获 owner 明确指令前不 merge、不 release | U-084 | release/public sync closeout |
 
 ## 已完成任务
 
@@ -126,6 +132,7 @@
 | 86 | U-081 | S12 | Source-first adoption guide for example packs | P2 | 2026-05-08 | `examples/compiled-pilot-source/README.md`、`README.md`、`README.zh-CN.md`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、`docs/operations/aods-source-first-adoption-guide.zh-CN.md`、operations docs | RED example-pack docs regression 按预期失败于缺少 adoption path；GREEN example-packs 9/9；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | source-first example packs 现在有从 source authority 到 compile / validate / route / fixture smoke 的最小采用路径；不新增 example pack、不改 benchmark sync 区块、不夸大 runtime coverage |
 | 87 | U-082 | S12 | External citation stale/current hygiene report | P2 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`docs/operations/aods-external-citation-hygiene-report.zh-CN.md`、operations docs | RED scaffold regression 按预期失败于缺少 `external_citations` report；GREEN scaffold 31/31；compiled-pilot citation report smoke；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | `validate` / `validate --json` 现在输出 declared citation posture counters；不抓取 URL、不做 URL checker/fact checker/claim detector |
 | 88 | U-083 | S12 | Changelog delta ergonomics review | P3 | 2026-05-08 | `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md`、operations docs、GitHub issue `#13` read-only review | `gh issue view 13 --json ...`；`jq '.definitions.changelog_entry' schema/module.schema.json`；`npm run validate:all`；`git diff --check` | `#13` 仍是有效 ergonomics 问题，但当前不阻塞 release workflow；本轮只写 public response plan，不改 changelog schema |
+| 89 | U-084 | S12 | Runtime-boundary research spike | P3 | 2026-05-08 | `docs/operations/aods-runtime-boundary-research.zh-CN.md`、operations docs、S13 task pool | `node ./bin/aods.mjs route . --query "workflow runtime event store policy engine remote gateway migration tool boundary" --stage plan --intent read --json`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的当前 metadata-only 边界、非目标和进入条件；新增 U-085 到 U-091，不实现 runtime |
 
 ## 失败或阻塞任务
 
@@ -207,3 +214,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-080` 完成 | Batch L 已完成：fixture manifest 现在可用 `aods fixture smoke` / `npm run fixture:smoke` 做 expected outcome 与 input/golden path 冒烟；下一步优先 U-081 source-first adoption guide，其次 U-082 citation hygiene。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-081` 完成 | Batch M 已完成：source-first example packs 现在有公开采用路径，说明先改源文件、再生成、再校验、再路由和冒烟检查；下一步优先 U-082 citation hygiene。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-082`、`U-083` 完成 | Batch N 已完成：external citation posture 现在进入 validate report；`#13` changelog.delta 限制已复审为有效但非当前 release blocker。下一步优先 U-084 runtime-boundary research spike。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-084` 完成 | Batch O 已完成：五类未来 runtime 候选已拆清 metadata-only 边界、进入条件和非目标；新增 S13 任务 U-085 到 U-091，下一步优先 U-085 readiness gate matrix。 |

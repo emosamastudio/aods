@@ -2,7 +2,7 @@
 
 状态：当前执行计划
 日期：2026-05-08
-适用范围：U-058 resource surface example pack 之后的 v0.11+ 迭代
+适用范围：U-058 resource surface example pack 之后的 v0.11+ / S13 迭代
 
 ## 目标
 
@@ -47,7 +47,14 @@
 | U-081 | S12 | public docs / adoption | P2 | 已完成 | Source-first adoption guide for example packs | README / docs 指向从 authoring source 到 compile / validate / route / fixture smoke 的最小 adoption path；不重复 benchmark sync 区块 |
 | U-082 | S12 | citation hygiene | P2 | 已完成 | External citation stale/current hygiene report | `validate` / `validate --json` 已输出 declared citation posture counters；不做 crawler、URL checker、fact checker |
 | U-083 | S12 | ergonomics | P3 | 已完成 | Changelog delta ergonomics review | 已复审 `#13`：有效但不阻塞当前 release workflow；本轮只写 public response plan，不改 schema |
-| U-084 | S12 | research / boundary | P3 | 低优先级 | Runtime-boundary research spike | 梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件；不实现 runtime |
+| U-084 | S12 | research / boundary | P3 | 已完成 | Runtime-boundary research spike | 已梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的 metadata-only 边界、进入条件和非目标；不实现 runtime |
+| U-085 | S13 | docs / boundary | P2 | 下一批首选 | Runtime readiness gate matrix | 将五类 runtime 候选映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime |
+| U-086 | S13 | boundary triage | P2 | U-085 后 | Workflow runtime entry contract triage | 明确 lifecycle / command / audit / dependency 前置条件和 workflow non-goals；不实现 workflow engine |
+| U-087 | S13 | boundary triage | P2 | U-085 后 | Event store and replay contract triage | 明确 event identity、ordering、retention、replay、correction projection 前置条件；不实现 event store |
+| U-088 | S13 | boundary triage | P2 | U-085 后 | Policy engine and approval runtime triage | 明确 risk label 到 policy decision input/output、audit receipt 和 approval boundary；不实现 permission broker 或 approval workflow |
+| U-089 | S13 | boundary triage | P2 | U-085 后 | Remote gateway / adapter runtime triage | 明确 exposure upgrade、auth、transport、audit、compatibility 前置条件；不实现 remote gateway |
+| U-090 | S13 | boundary triage | P3 | U-085 后 | Migration tool entry contract triage | 明确 source/target authority、dry-run、rollback、mapping、destructive-change approval 边界；不实现 migration executor |
+| U-091 | S13 | release / public sync | P1 | 单独执行 | PR final readiness / public sync closeout | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确；未获 owner 明确指令前不 merge、不 release |
 
 ## 下一批推荐
 
@@ -69,7 +76,12 @@
 | Batch L | U-080 | 已完成；承接 `#48` fixture/golden residual，做最小 smoke runner，不进入完整 conformance runner | RED/GREEN fixture regression、fixture JSON/text smoke、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch M | U-081 | 已完成；把 source-first authoring、compile、validate、route、fixture smoke 串成公开 adoption path | RED/GREEN example-pack docs regression、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch N | U-082 + U-083 | 已完成；citation posture 进入 validate report，同时复审 changelog.delta 300 字符限制是否阻塞 release workflow | RED/GREEN scaffold regression、compiled-pilot citation report smoke、GitHub issue `#13` read-only review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
-| Batch O | U-084 | 下一批首选；只做 runtime 边界和进入条件研究，不实现 runtime | docs gate、`npm run validate:all`、`git diff --check` |
+| Batch O | U-084 | 已完成；只做 runtime 边界和进入条件研究，不实现 runtime | route/read evidence、docs gate、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
+| Batch P | U-085 | 下一批首选；先把五类 runtime 候选统一成 readiness gate matrix，降低后续 triage 分歧 | docs gate、`npm run validate:all`、`git diff --check` |
+| Batch Q | U-086 + U-087 | U-085 通过后可批量做 workflow / event 两个低冲突 boundary triage；仍不实现 runtime | docs gate、`npm run validate:all`、`git diff --check` |
+| Batch R | U-088 + U-089 | U-085 通过后可批量做 policy / remote 两个 runtime candidate boundary triage；仍不实现 runtime | docs gate、`npm run validate:all`、`git diff --check` |
+| Batch S | U-090 | migration tool entry contract 单独收束，避免和真实迁移执行混淆 | docs gate、`npm run validate:all`、`git diff --check` |
+| Batch T | U-091 | PR / release closeout 属公开动作和版本面，必须单独执行，并在 ready / merge / release 前取得 owner 明确指令 | final validation、PR / issue state review、staged set 排除 `MEMORY.md` |
 
 ## 当前非目标
 
@@ -78,3 +90,4 @@
 3. 不把代码漂移路线扩成全量静态分析平台。
 4. 不把本地覆盖判断自动同步为 GitHub issue 关闭或公开 release。
 5. 不触碰 Polaris sibling repo；AODS 继续作为独立权威规范路线迭代。
+6. 不把 U-084 的 runtime boundary research 解读成 workflow engine、event store、policy engine、remote gateway 或 migration tool 已经可以实现。

@@ -2,6 +2,70 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-19
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-19 |
+| 开始时间 | 2026-05-08 17:51 Asia/Shanghai |
+| 结束时间 | 2026-05-08 17:59 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | runtime-boundary research spike；只做边界、进入条件和后续任务规划，不实现 runtime |
+| 本轮选中任务 | U-084 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-19
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/aods-runtime-boundary-research.zh-CN.md`、`docs/operations/README.md`、`docs/README.md`、task ledger、expanded task plan、v0.12 backlog、handoff、round log |
+| 禁止触碰 | workflow engine、event store runtime、runtime policy engine、remote API gateway、automatic migration tool、schema/validator/code 改动、release 发布、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR `#63` 只读状态延续；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；`benchmark:test` 生成结果 churn 已还原 |
+
+## 任务执行记录：R-2026-05-08-19
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-084 | 未开始 | 已完成 | 先复审 U-082/U-083；用 route/read evidence 定位 stable-surface runtime non-goals；梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的当前边界、非目标和进入条件；新增 S13 任务池 U-085 到 U-091 | `docs/operations/aods-runtime-boundary-research.zh-CN.md`、task ledger、expanded task plan、v0.12 backlog、handoff、operations README、docs README |
+
+## 验证记录：R-2026-05-08-19
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-084 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check`、`gh pr view 63 --json ...` | 通过 | U-082/U-083 commit `abf4038` 已在 origin；scaffold 31/31；repo validation 通过；PR `#63` 为 open draft；仅 `MEMORY.md` 未跟踪 |
+| U-084 | Runtime boundary route evidence | `node ./bin/aods.mjs route . --query "workflow runtime event store policy engine remote gateway migration tool boundary" --stage plan --intent read --json` | 通过 | route 推荐 `spec-stable-surface-contracts`，并列出 `spec-authority-governance` / `spec-surface-governance` 依赖 |
+| U-084 | Source review | `rg -n "workflow engine|event store|policy engine|remote API gateway|automatic migration tool|runtime" spec/stable-surface-contracts.json spec/authority-governance.json docs/operations` | 通过 | stable-surface contract 明确 deferred runtime non-goals；authority governance 明确 refs 不是 runtime fetch instructions |
+| U-084 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过；compiled-pilot citation summary 仍输出 |
+| U-084 | Benchmark test gate | `npm run benchmark:test` | 通过 | 80/80 pass；测试生成的 benchmark result churn 已还原 |
+| U-084 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-19
+
+U-084 将 runtime 研究拆成 S13 后续任务池。任务已直接进入 `aods-task-ledger.zh-CN.md` 未完成任务表，不留在暂存区。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-084 | U-085 | Runtime readiness gate matrix | P2 | 五类 runtime 候选映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime | 下一轮首选 |
+| U-084 | U-086 | Workflow runtime entry contract triage | P2 | lifecycle / command / audit / dependency 前置条件和 workflow non-goals 明确；不实现 workflow engine | U-085 后 |
+| U-084 | U-087 | Event store and replay contract triage | P2 | event identity、ordering、retention、replay、correction projection 前置条件明确；不实现 event store | U-085 后 |
+| U-084 | U-088 | Policy engine and approval runtime triage | P2 | risk label 到 policy decision input/output、audit receipt 和 approval boundary 明确；不实现 approval workflow | U-085 后 |
+| U-084 | U-089 | Remote gateway / adapter runtime triage | P2 | exposure upgrade、auth、transport、audit、compatibility 前置条件明确；不实现 remote gateway | U-085 后 |
+| U-084 | U-090 | Migration tool entry contract triage | P3 | source/target authority、dry-run、rollback、mapping、destructive-change approval 边界明确；不实现 migration executor | U-085 后 |
+| U-084 | U-091 | PR final readiness / public sync closeout | P1 | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确 | 单独执行；需 owner 明确指令 |
+
+## 回合结束摘要：R-2026-05-08-19
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-084 |
+| 完成任务 | 1 | runtime-boundary research spike 已完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 7 | U-085 到 U-091 |
+| 剩余未完成任务 | 7 | 下一轮首选 U-085 |
+
 ## 回合摘要：R-2026-05-08-18
 
 | 项 | 内容 |
