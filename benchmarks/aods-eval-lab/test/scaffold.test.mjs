@@ -645,7 +645,10 @@ test("authoring source compiles implementation linkage and reports topology-awar
     evidence_total: 2,
     modules_with_evidence: 1,
     modules_without_evidence: 0,
+    current_evidence: 1,
+    planned_evidence: 1,
     stale_evidence: 0,
+    blocked_evidence: 0,
     checked_evidence_locators: 0,
     missing_evidence_locators: 0,
     unchecked_repos: [
@@ -1161,6 +1164,92 @@ test("reality validation rejects missing path-like implementation evidence locat
   assert.notEqual(realityValidate.status, 0);
   assert.match(realityValidate.stdout, /implementation-evidence-locator-exists/);
   assert.match(realityValidate.stdout, /missing_evidence_locators=1/);
+});
+
+test("reality validation summarizes stale and current implementation evidence posture", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-posture-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "stale-change-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "stale",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        },
+        {
+          id: "planned-change-ci",
+          kind: "ci-check",
+          locator: "demo-api-change-handler",
+          status: "planned",
+          freshness_policy: "on-schema-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "stale-change-test"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const realityValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--reality", "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(realityValidate.status, 0);
+  const report = JSON.parse(realityValidate.stdout);
+
+  assert.equal(report.topology.evidence_total, 2);
+  assert.equal(report.topology.current_evidence, 0);
+  assert.equal(report.topology.planned_evidence, 1);
+  assert.equal(report.topology.stale_evidence, 1);
+  assert.equal(report.topology.blocked_evidence, 0);
+  assert.ok(report.levels.L3.warnings.some((entry) => entry.rule === "implementation-evidence-stale" && entry.remediation?.action === "refresh-evidence"));
+  assert.ok(report.levels.L3.warnings.some((entry) => entry.rule === "implementation-current-evidence-missing" && entry.remediation?.action === "refresh-current-evidence"));
 });
 
 test("reality validation reports actionable unchecked implementation repo locators", () => {

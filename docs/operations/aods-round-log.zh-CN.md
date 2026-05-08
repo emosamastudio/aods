@@ -2,6 +2,63 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-13
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-13 |
+| 开始时间 | 2026-05-08 12:20 Asia/Shanghai |
+| 结束时间 | 2026-05-08 12:28 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | implementation evidence stale/current hygiene；不执行 evidence command、不做 remote clone/fetch、不 merge PR |
+| 本轮选中任务 | U-077 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-13
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`spec/stable-surface-contracts.json`、`docs/operations/` |
+| 禁止触碰 | evidence command execution、CI dispatch、remote clone/fetch、fingerprint drift gate、LLM judge、PR merge、release 发布、version bump、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR `#63` 只读复核；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；本轮只提交 U-077 代码/测试/spec/docs |
+
+## 任务执行记录：R-2026-05-08-13
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-077 | 未开始 | 已完成 | 先复审 U-075；按 TDD 增加 failing regression；扩展 `validate --reality` topology evidence status counters；补 stale/current evidence warning 与 remediation；同步 validation/stable-contract spec 和 operations docs | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`spec/stable-surface-contracts.json`、`docs/operations/aods-implementation-evidence-hygiene.zh-CN.md` |
+
+## 验证记录：R-2026-05-08-13
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-077 | Previous-round quality review | `git status -sb`、`gh pr view 63`、`npm run validate:all`、`git diff --check` | 通过 | PR `#63` 仍为 draft/open；branch 同步；工作区仅 `MEMORY.md` 未跟踪；repo validation 通过 |
+| U-077 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 按预期失败 | 新 test 首次失败于 `current_evidence` 未定义，确认覆盖缺口 |
+| U-077 | GREEN focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 29/29 pass |
+| U-077 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-077 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-13
+
+本轮没有新增任务 ID。U-078 / U-079 / U-080 仍按既有 v0.12 backlog 排序。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-077 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-13
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-077 |
+| 完成任务 | 1 | implementation evidence stale/current hygiene 完成 |
+| 失败任务 | 0 | RED 失败是 TDD 预期，已 GREEN |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 7 | 下一轮首选 U-078 |
+
 ## 回合摘要：R-2026-05-08-12
 
 | 项 | 内容 |
