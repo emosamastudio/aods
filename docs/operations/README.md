@@ -27,6 +27,7 @@
 | `aods-v0.12-backlog.zh-CN.md` | v0.12+ backlog triage：public sync 后的代码漂移、runtime 边界、observability 和 adoption docs 下一批任务 | 高 |
 | `aods-v0.11-release-readiness.zh-CN.md` | U-074 release readiness gate、package dry-run、release notes skeleton 和发布前剩余风险 | 高 |
 | `aods-implementation-evidence-hygiene.zh-CN.md` | U-077 implementation evidence stale/current posture 的 deterministic summary 与 warning hygiene | 高 |
+| `aods-capability-compatibility-gates.zh-CN.md` | U-078 capability compatibility metadata deterministic gates 与 canonical matrix case | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -58,9 +59,10 @@
 22. 读 `aods-v0.12-backlog.zh-CN.md`
 23. 读 `aods-v0.11-release-readiness.zh-CN.md`
 24. 读 `aods-implementation-evidence-hygiene.zh-CN.md`
-25. 读 `aods-v0.7-rc-gate.zh-CN.md`
-26. 读 `aods-handoff.zh-CN.md`
-27. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+25. 读 `aods-capability-compatibility-gates.zh-CN.md`
+26. 读 `aods-v0.7-rc-gate.zh-CN.md`
+27. 读 `aods-handoff.zh-CN.md`
+28. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 

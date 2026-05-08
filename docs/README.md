@@ -36,6 +36,8 @@
 | `docs/operations/aods-route-discoverability-review.zh-CN.md` | `#9/#10/#17` 与 route / boot_by_touch discoverability 残留复盘，新增 U-076 建议。 |
 | `docs/operations/aods-v0.12-backlog.zh-CN.md` | v0.12+ backlog triage：把仍 open / deferred 的 governance、drift、runtime 和 public sync 项重新排序。 |
 | `docs/operations/aods-v0.11-release-readiness.zh-CN.md` | U-074 release readiness gate、package dry-run、release notes skeleton 和发布前剩余风险。 |
+| `docs/operations/aods-implementation-evidence-hygiene.zh-CN.md` | U-077 implementation evidence stale/current posture 的 deterministic summary 与 warning hygiene。 |
+| `docs/operations/aods-capability-compatibility-gates.zh-CN.md` | U-078 capability compatibility metadata deterministic gates 与 canonical matrix case。 |
 
 ## 当前维护边界
 

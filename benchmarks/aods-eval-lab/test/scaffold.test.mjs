@@ -1252,6 +1252,99 @@ test("reality validation summarizes stale and current implementation evidence po
   assert.ok(report.levels.L3.warnings.some((entry) => entry.rule === "implementation-current-evidence-missing" && entry.remediation?.action === "refresh-current-evidence"));
 });
 
+test("capability compatibility matrix rejects mislabeled profile version and exposure matches", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-capability-compatibility-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.sections[0].artifact_refs = [
+    ...(detailModule.sections[0].artifact_refs ?? []),
+    "capability-compatibility-matrix"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "capability-compatibility-matrix",
+      type: "mapping-table",
+      usage: "Metadata-only capability compatibility cases for provider and consumer claims.",
+      content: {
+        key_columns: [
+          "case_id"
+        ],
+        columns: [
+          "case_id",
+          "provider_capability_id",
+          "required_capability_id",
+          "provider_contract_profile",
+          "accepted_contract_profile",
+          "provider_schema_version_policy",
+          "required_schema_version_policy",
+          "provider_exposure_class",
+          "required_exposure_class",
+          "expected_result"
+        ],
+        rows: [
+          [
+            "readiness-compatible",
+            "readiness.query",
+            "readiness.query",
+            "read-model",
+            "read-model",
+            "versioned",
+            "versioned",
+            "adapter-facing",
+            "adapter-facing",
+            "compatible"
+          ],
+          [
+            "profile-version-exposure-incompatible",
+            "change.submit",
+            "change.submit",
+            "command",
+            "read-model",
+            "strict",
+            "versioned",
+            "local-only",
+            "adapter-facing",
+            "incompatible"
+          ]
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const cleanValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(cleanValidate.status, 0);
+
+  const compiledModulePath = path.join(compiledRoot, "modules", `${detailModule.id}.json`);
+  const compiledModule = JSON.parse(fs.readFileSync(compiledModulePath, "utf8"));
+  const matrix = compiledModule.artifacts.find((entry) => entry.artifact_id === "capability-compatibility-matrix");
+  const expectedResultIndex = matrix.content.columns.indexOf("expected_result");
+  matrix.content.rows[1][expectedResultIndex] = "compatible";
+  fs.writeFileSync(compiledModulePath, `${JSON.stringify(compiledModule, null, 2)}\n`);
+
+  const invalidValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidValidate.status, 0);
+  const invalidReport = JSON.parse(invalidValidate.stdout);
+  assert.ok(invalidReport.levels.L2.errors.some((entry) =>
+    entry.rule === "capability-compatibility-mismatch" &&
+    entry.message.includes("contract_profile") &&
+    entry.message.includes("schema_version_policy") &&
+    entry.message.includes("exposure_class")
+  ));
+});
+
 test("reality validation reports actionable unchecked implementation repo locators", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-locator-reality-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);

@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 20,
+  "v": 21,
   "context": "Defines stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, observability, topology, provenance, schema compatibility, adapters, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
@@ -17,7 +17,8 @@
     "Local-only and remote-capable surfaces need exposure constraints before local exports are reused as adapter or API contracts",
     "Commands and adapters need audit-log requirements before consumers rely on action traces, receipts, policy decisions, or failure reconstruction",
     "Long-running operational objects need explicit lifecycle state-machine profiles before implementations compare status, retries, cancellation, timeout, cleanup, or terminal behavior",
-    "Validation and routing decisions need observable rule, location, dependency, route, skip, and next-action metadata before agents can debug why a surface loaded, failed, or was skipped"
+    "Validation and routing decisions need observable rule, location, dependency, route, skip, and next-action metadata before agents can debug why a surface loaded, failed, or was skipped",
+    "Capability compatibility matrices need deterministic metadata comparison before adapter-facing capability claims can be reviewed as compatible"
   ],
   "sections": [
     {
@@ -294,7 +295,7 @@
     {
       "sid": "capability-negotiation-retriage",
       "topic": "capability negotiation minimum boundary",
-      "content": "Capability negotiation remains a deferred runtime protocol. The v0.8 re-triage defines only metadata boundaries so adapter-facing claims can be compared without creating a handshake. provider capability means a provider declares capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. consumer requirement means a consumer declares required capability_id, accepted contract_profile, required schema_version_policy, transport_scope needs, freshness requirement, redaction floor, and blocking posture. compatibility matching means deterministic metadata comparison of provider capability to consumer requirement; it can say compatible, incompatible, partial, or unknown. evidence link means provider and consumer claims can point at implementation evidence, acceptance criteria, fixture manifests, or authority sections. This re-triage does not introduce negotiation sessions, runtime discovery, auth exchange, provider selection, fallback ranking, dynamic probing, remote execution, or transport retries. If a future task needs those behaviors, it must start from these metadata fields and add a separate protocol surface instead of overloading adapter-facing prose.",
+      "content": "Capability negotiation remains a deferred runtime protocol. The v0.8 re-triage defines only metadata boundaries so adapter-facing claims can be compared without creating a handshake. provider capability means a provider declares capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. consumer requirement means a consumer declares required capability_id, accepted contract_profile, required schema_version_policy, transport_scope needs, freshness requirement, redaction floor, and blocking posture. compatibility matching means deterministic metadata comparison of provider capability to consumer requirement; it can say compatible, incompatible, partial, or unknown. A capability compatibility matrix can declare provider_capability_id, required_capability_id, provider_contract_profile, accepted_contract_profile, provider_schema_version_policy, required_schema_version_policy, provider_exposure_class, required_exposure_class, and expected_result. Validators compare compatible and incompatible rows deterministically across capability id, profile, schema version policy, and exposure class without executing provider behavior. evidence link means provider and consumer claims can point at implementation evidence, acceptance criteria, fixture manifests, or authority sections. This re-triage does not introduce negotiation sessions, runtime discovery, auth exchange, provider selection, fallback ranking, dynamic probing, remote execution, or transport retries. If a future task needs those behaviors, it must start from these metadata fields and add a separate protocol surface instead of overloading adapter-facing prose.",
       "content_type": "rules",
       "refs": [
         "adapter-capability-minimum",
@@ -303,6 +304,7 @@
       ],
       "artifact_refs": [
         "capability-negotiation-boundary-table",
+        "capability-matrix-field-guide",
         "capability-negotiation-non-goals"
       ],
       "criticality": "must"
@@ -1795,6 +1797,73 @@
       }
     },
     {
+      "artifact_id": "capability-matrix-field-guide",
+      "type": "mapping-table",
+      "usage": "Validator-checked columns for metadata-only capability compatibility cases.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "meaning",
+          "validator_use"
+        ],
+        "rows": [
+          [
+            "case_id",
+            "stable identity for one compatibility case",
+            "diagnostic label"
+          ],
+          [
+            "provider_capability_id",
+            "capability_id declared by the provider",
+            "must equal required_capability_id for compatible result"
+          ],
+          [
+            "required_capability_id",
+            "capability_id required by the consumer",
+            "must equal provider_capability_id for compatible result"
+          ],
+          [
+            "provider_contract_profile",
+            "contract_profile declared by the provider",
+            "must be accepted by accepted_contract_profile for compatible result"
+          ],
+          [
+            "accepted_contract_profile",
+            "contract profiles accepted by the consumer",
+            "pipe, comma, or semicolon separated allowed values"
+          ],
+          [
+            "provider_schema_version_policy",
+            "schema_version_policy declared by the provider",
+            "must be accepted by required_schema_version_policy for compatible result"
+          ],
+          [
+            "required_schema_version_policy",
+            "schema version policies accepted by the consumer",
+            "pipe, comma, or semicolon separated allowed values"
+          ],
+          [
+            "provider_exposure_class",
+            "exposure class declared by the provider",
+            "must be accepted by required_exposure_class for compatible result"
+          ],
+          [
+            "required_exposure_class",
+            "exposure classes accepted by the consumer",
+            "pipe, comma, or semicolon separated allowed values"
+          ],
+          [
+            "expected_result",
+            "compatible, incompatible, partial, or unknown",
+            "compatible and incompatible rows are checked deterministically"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "capability-negotiation-non-goals",
       "type": "mapping-table",
       "usage": "Explicit deferred surfaces for capability negotiation.",
@@ -1950,6 +2019,27 @@
             "condition": "validation or routing decision lacks rule id, severity, source location, dependency path, routing reason, selected module, skipped module, or suggested next action metadata",
             "action": "future L3 warning: validation and routing decisions should expose machine-readable observability metadata before agents rely on explanation or debug output",
             "priority": 48,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-mismatch",
+            "condition": "capability compatibility mapping-table declares expected_result compatible or incompatible but provider_capability_id, contract_profile, schema_version_policy, or exposure_class metadata resolves the opposite result",
+            "action": "L2 error: capability compatibility matrix result must match provider and consumer metadata",
+            "priority": 49,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-table-columns",
+            "condition": "capability compatibility mapping-table is missing provider_capability_id, required_capability_id, profile, schema version policy, exposure class, or expected_result columns",
+            "action": "L2 error: capability compatibility matrix must expose all deterministic comparison columns",
+            "priority": 49,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-result",
+            "condition": "capability compatibility mapping-table expected_result is not compatible, incompatible, partial, or unknown",
+            "action": "L2 error: capability compatibility matrix expected_result must use the allowed result vocabulary",
+            "priority": 49,
             "source": "validation"
           },
           {
@@ -2140,6 +2230,11 @@
       "v": 20,
       "delta": "Added validation and routing observability metadata boundaries for rule, severity, source, dependency, route selection, skip, and next-action explanation.",
       "breaking": false
+    },
+    {
+      "v": 21,
+      "delta": "Added deterministic capability compatibility matrix fields and mismatch validation boundary for provider and consumer metadata.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -2204,7 +2299,8 @@
         "local-remote-exposure-posture",
         "command-adapter-audit-posture",
         "lifecycle-state-machine-posture",
-        "validation-routing-observability-posture"
+        "validation-routing-observability-posture",
+        "capability-compatibility-posture"
       ]
     },
     "redaction": {
@@ -2240,13 +2336,14 @@
           "implementation topology",
           "decision provenance",
           "schema versioning",
-          "adapter capability"
+          "adapter capability",
+          "capability compatibility"
         ],
         "identity": "section sid and artifact_id",
         "freshness": {
-          "snapshot_id": "spec-stable-surface-contracts-v20",
-          "exported_at": "2026-05-07T19:46:23+08:00",
-          "source_watermark": "module.v=20",
+          "snapshot_id": "spec-stable-surface-contracts-v21",
+          "exported_at": "2026-05-08T12:58:00+08:00",
+          "source_watermark": "module.v=21",
           "staleness": "current"
         },
         "absence_semantics": "Missing sections mean the profile is not defined in this module.",

@@ -129,6 +129,7 @@ Adapter-facing exposure requires exposure_class, auth_boundary, redaction_floor,
 Artifacts:
 - `adapter-capability-table` (mapping-table): Canonical provider capability fields for adapter-facing surfaces.
 - `adapter-consumer-requirement-table` (mapping-table): Canonical consumer requirement fields for metadata-only capability comparison.
+- `adapter-capability-compatibility-matrix` (mapping-table): Metadata-only capability compatibility cases for provider and consumer claims.
 - `adapter-exposure-audit-table` (mapping-table): Exposure and audit posture for adapter-facing capability claims.
 
 ### shift-ops-resource-surface

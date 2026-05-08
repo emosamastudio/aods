@@ -1468,7 +1468,8 @@
             "shift-ops-adapter-capability:adapter-provider-capability"
           ],
           "artifact_refs": [
-            "adapter-consumer-requirement-table"
+            "adapter-consumer-requirement-table",
+            "adapter-capability-compatibility-matrix"
           ],
           "criticality": "must"
         },
@@ -1567,6 +1568,54 @@
                 "blocking_posture",
                 "strict|warning|manual-review|none",
                 "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "adapter-capability-compatibility-matrix",
+          "type": "mapping-table",
+          "usage": "Metadata-only capability compatibility cases for provider and consumer claims.",
+          "content": {
+            "key_columns": [
+              "case_id"
+            ],
+            "columns": [
+              "case_id",
+              "provider_capability_id",
+              "required_capability_id",
+              "provider_contract_profile",
+              "accepted_contract_profile",
+              "provider_schema_version_policy",
+              "required_schema_version_policy",
+              "provider_exposure_class",
+              "required_exposure_class",
+              "expected_result"
+            ],
+            "rows": [
+              [
+                "readiness-compatible",
+                "readiness.query",
+                "readiness.query",
+                "read-model",
+                "read-model",
+                "versioned",
+                "versioned",
+                "adapter-facing",
+                "adapter-facing",
+                "compatible"
+              ],
+              [
+                "profile-version-exposure-incompatible",
+                "change.submit",
+                "change.submit",
+                "command",
+                "read-model",
+                "strict",
+                "versioned",
+                "local-only",
+                "adapter-facing",
+                "incompatible"
               ]
             ]
           }

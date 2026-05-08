@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-14
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-14 |
+| 开始时间 | 2026-05-08 12:42 Asia/Shanghai |
+| 结束时间 | 2026-05-08 12:57 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | capability compatibility metadata deterministic gates；不做 negotiation handshake、runtime discovery、auth exchange、fallback ranking 或 dynamic probing |
+| 本轮选中任务 | U-078 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-14
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/`、`examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot/`、`manifest.json`、`spec/`、`docs/operations/` |
+| 禁止触碰 | handshake runtime、runtime discovery、auth exchange、provider selection、fallback ranking、dynamic probing、remote execution、release 发布、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR `#63` 只读复核；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；本轮只提交 U-078 代码/测试/spec/example/docs |
+
+## 任务执行记录：R-2026-05-08-14
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-078 | 未开始 | 已完成 | 先复审 U-077；按 TDD 增加 failing regression；为 capability compatibility mapping-table 增加 deterministic metadata comparison；补 canonical compiled-pilot matrix；同步 validation/stable-contract spec 和 operations docs | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`benchmarks/aods-eval-lab/test/stable-contracts.test.mjs`、`examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot/modules/shift-ops-adapter-capability.json`、`spec/stable-surface-contracts.json`、`spec/validation-rules.json`、`docs/operations/aods-capability-compatibility-gates.zh-CN.md` |
+
+## 验证记录：R-2026-05-08-14
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-078 | Previous-round quality review | `git status -sb`、`gh pr view 63`、`node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | 通过 | U-077 focused test 29/29；repo validation 通过；PR `#63` 仍为 draft/open；仅 `MEMORY.md` 未跟踪 |
+| U-078 | RED regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "capability compatibility matrix"` | 按预期失败 | 新 test 首次失败于 mislabeled compatibility validate status 仍为 0，确认 validator 缺口 |
+| U-078 | GREEN focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 30/30 pass |
+| U-078 | Stable-contract focused regression | `node --test ./benchmarks/aods-eval-lab/test/stable-contracts.test.mjs` | 通过 | 12/12 pass |
+| U-078 | Strict self validation | `node ./bin/aods.mjs validate . --strict` | 通过 | 返工修复 field-guide 误触发与 manifest runtime_contract mirror 后通过 |
+| U-078 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-078 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-14
+
+本轮没有新增任务 ID。U-079 / U-080 / U-081 仍按既有 v0.12 backlog 排序。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-078 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-08-14
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-078 |
+| 完成任务 | 1 | capability compatibility metadata deterministic gates 完成 |
+| 失败任务 | 0 | RED 失败是 TDD 预期，已 GREEN |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 6 | 下一轮首选 U-079 |
+
 ## 回合摘要：R-2026-05-08-13
 
 | 项 | 内容 |

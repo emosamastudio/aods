@@ -15,6 +15,7 @@ test("stable contracts define capability negotiation as metadata-only re-triage"
   assert.match(section.content, /provider capability/);
   assert.match(section.content, /consumer requirement/);
   assert.match(section.content, /compatibility matching/);
+  assert.match(section.content, /capability compatibility matrix/);
   assert.match(section.content, /does not introduce negotiation sessions/);
 
   const boundary = module.artifacts.find((entry) => entry.artifact_id === "capability-negotiation-boundary-table");
@@ -33,6 +34,22 @@ test("stable contracts define capability negotiation as metadata-only re-triage"
   assert.ok(nonGoalRows.includes("runtime_discovery"));
   assert.ok(nonGoalRows.includes("auth_exchange"));
   assert.ok(nonGoalRows.includes("dynamic_probe"));
+
+  const matrixFields = module.artifacts.find((entry) => entry.artifact_id === "capability-matrix-field-guide");
+  assert.ok(matrixFields);
+  const matrixRows = matrixFields.content.rows.map((row) => row[0]);
+  assert.deepEqual(matrixRows, [
+    "case_id",
+    "provider_capability_id",
+    "required_capability_id",
+    "provider_contract_profile",
+    "accepted_contract_profile",
+    "provider_schema_version_policy",
+    "required_schema_version_policy",
+    "provider_exposure_class",
+    "required_exposure_class",
+    "expected_result"
+  ]);
 });
 
 test("stable contracts define command receipt event triads for write-capable surfaces", () => {

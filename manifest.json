@@ -244,7 +244,8 @@
           "local-remote-exposure-posture",
           "command-adapter-audit-posture",
           "lifecycle-state-machine-posture",
-          "validation-routing-observability-posture"
+          "validation-routing-observability-posture",
+          "capability-compatibility-posture"
         ]
       },
       "redaction": {
