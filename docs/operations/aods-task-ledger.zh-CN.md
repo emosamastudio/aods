@@ -10,35 +10,103 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S13 runtime boundary / release closeout planning |
-| 当前回合 | R-2026-05-08-19 |
-| 未完成任务数量 | 7 |
-| 已完成任务数量 | 89 |
+| 当前阶段 | S20 comprehensive backlog / 10-task batch execution |
+| 当前回合 | R-2026-05-08-20 |
+| 未完成任务数量 | 75 |
+| 已完成任务数量 | 90 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-19 |
-| 开始时间 | 2026-05-08 17:51 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-20 |
+| 开始时间 | 2026-05-08 18:51 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-084 |
-| 本轮范围 | 上轮 U-082/U-083 复审、runtime-boundary research spike、后续 S13 任务池规划、operations docs 同步 |
-| 排除范围 | workflow engine、event store runtime、runtime policy engine、remote API gateway、automatic migration tool、schema/validator/code 改动、release、version bump、PR merge、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；runtime boundary route/read evidence；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
-| 新任务处理规则 | U-084 完成后新增 U-085 到 U-091；下一轮优先 U-085，PR final readiness / merge / release 仍需 owner 明确指令。 |
+| 选中任务 | U-092 |
+| 本轮范围 | 上轮 U-084 复审、综合任务清单扩展、每轮 10 任务执行规则、operations docs 同步 |
+| 排除范围 | schema/validator/code 改动、runtime 实现、release、version bump、PR merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；GitHub open issue snapshot；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-085 | S13 | Runtime readiness gate matrix | P2 | 未开始 | 将 workflow runtime、event store、policy engine、remote gateway、migration tool 映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime | U-084 | 下一轮首选 |
-| U-086 | S13 | Workflow runtime entry contract triage | P2 | 未开始 | 明确 lifecycle / command / audit / dependency 前置条件和 workflow non-goals；不实现 workflow engine | U-085 | boundary triage |
-| U-087 | S13 | Event store and replay contract triage | P2 | 未开始 | 明确 event identity、ordering、retention、replay、correction projection 前置条件；不实现 event store | U-085 | boundary triage |
-| U-088 | S13 | Policy engine and approval runtime triage | P2 | 未开始 | 明确 risk label 到 policy decision input/output、audit receipt 和 approval boundary；不实现 permission broker 或 approval workflow | U-085 | boundary triage |
-| U-089 | S13 | Remote gateway / adapter runtime triage | P2 | 未开始 | 明确 exposure upgrade、auth、transport、audit、compatibility 前置条件；不实现 remote gateway | U-085 | boundary triage |
-| U-090 | S13 | Migration tool entry contract triage | P3 | 未开始 | 明确 source/target authority、dry-run、rollback、mapping、destructive-change approval 边界；不实现 migration executor | U-085 | boundary triage |
-| U-091 | S13 | PR final readiness / public sync closeout | P1 | 未开始 | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确；未获 owner 明确指令前不 merge、不 release | U-084 | release/public sync closeout |
+| U-085 | S13 | Runtime readiness gate matrix | P2 | 未开始 | 将 workflow runtime、event store、policy engine、remote gateway、migration tool 映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime | U-084 | 下一轮 10 任务第 1 个 |
+| U-086 | S13 | Workflow runtime entry contract triage | P2 | 未开始 | 明确 lifecycle / command / audit / dependency 前置条件和 workflow non-goals；不实现 workflow engine | U-085 | 下一轮 10 任务第 2 个 |
+| U-087 | S13 | Event store and replay contract triage | P2 | 未开始 | 明确 event identity、ordering、retention、replay、correction projection 前置条件；不实现 event store | U-085 | 下一轮 10 任务第 3 个 |
+| U-088 | S13 | Policy engine and approval runtime triage | P2 | 未开始 | 明确 risk label 到 policy decision input/output、audit receipt 和 approval boundary；不实现 permission broker 或 approval workflow | U-085 | 下一轮 10 任务第 4 个 |
+| U-089 | S13 | Remote gateway / adapter runtime triage | P2 | 未开始 | 明确 exposure upgrade、auth、transport、audit、compatibility 前置条件；不实现 remote gateway | U-085 | 下一轮 10 任务第 5 个 |
+| U-090 | S13 | Migration tool entry contract triage | P3 | 未开始 | 明确 source/target authority、dry-run、rollback、mapping、destructive-change approval 边界；不实现 migration executor | U-085 | 下一轮 10 任务第 6 个 |
+| U-091 | S13 | PR final readiness / public sync closeout | P1 | 未开始 | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确；未获当前回合明确授权前不 merge、不 release | U-084 | 下一轮 10 任务第 7 个 |
+| U-093 | S14 | PR review response matrix | P1 | 未开始 | PR `#63` 的 review、commit、covered issue、deferred issue 状态形成矩阵；不改代码、不关闭 issue | U-091 | 下一轮 10 任务第 8 个 |
+| U-094 | S14 | Version bump and changelog route triage | P1 | 未开始 | 明确下一 release 是否需要 version bump、tag、changelog entry、README version surface；不直接 bump、不发布 | U-091 | 下一轮 10 任务第 9 个 |
+| U-095 | S14 | Release notes completeness pass | P1 | 未开始 | release note skeleton 覆盖 major changes、non-goals、known deferred runtime、validation evidence；不发布 release | U-091 | 下一轮 10 任务第 10 个 |
+| U-096 | S14 | Package artifact inventory guard update | P2 | 未开始 | `npm pack --dry-run --json` 文件清单与 expected package surface 有审查记录 | U-094 | packaging |
+| U-097 | S14 | Install smoke from packed tarball | P2 | 未开始 | 本地 tarball install / CLI smoke 路线和结果入账；不发布 npm | U-096 | packaging smoke |
+| U-098 | S14 | Public issue close-on-merge audit | P2 | 未开始 | PR body 中 close-on-merge issue 与本地覆盖矩阵一致；不提前关闭 issue | U-091 | public sync |
+| U-099 | S14 | Post-merge public state reconciliation plan | P2 | 未开始 | PR merge 后 issue、release、docs、branch cleanup 顺序明确；不实际 merge | U-098 | public sync |
+| U-100 | S14 | v0.12 release candidate gate | P1 | 未开始 | release:self-check、pack dry-run、validate、benchmark gate 与 blockers 形成 pass/fail decision；不发布 release | U-094 | release gate |
+| U-101 | S14 | Release execution playbook dry run | P1 | 未开始 | owner 授权前的 release steps、rollback、tag/version conflict checks 可审查；不创建 release | U-100 | release dry-run |
+| U-102 | S14 | Post-release retrospective and next milestone triage | P2 | 未开始 | release 后复盘模板、next milestone 候选和 public roadmap sync 入口明确；不替代实际 release | U-101 | retrospective |
+| U-103 | S15 | Implementation evidence locator matrix v2 | P1 | 未开始 | repo locator、path locator、unchecked reason、evidence locator 的状态矩阵明确；不 remote clone | U-077 | drift / evidence |
+| U-104 | S15 | Acceptance criteria coverage report | P1 | 未开始 | criteria 与 evidence refs、fixtures、validator rules、manual review posture 的覆盖摘要明确；不执行 arbitrary command | U-103 | drift / evidence |
+| U-105 | S15 | Contract requirement to evidence trace report | P1 | 未开始 | stable contract requirement 到 implementation evidence 的 traceability 输出边界明确；不做 semantic oracle | U-104 | drift / evidence |
+| U-106 | S15 | Stale evidence refresh workflow boundary | P2 | 未开始 | stale evidence 的 owner、refresh trigger、validation gate、manual review path 明确；不自动刷新外部证据 | U-105 | drift workflow |
+| U-107 | S15 | Missing reality locator remediation plan | P2 | 未开始 | unresolved / unchecked implementation repo locator 的最小修复路线明确；不 fetch sibling repo | U-103 | drift remediation |
+| U-108 | S15 | Implementation repo locator normalization | P2 | 未开始 | locator path / url / descriptive-only 的规范化和错误提示边界明确；不改变 root topology semantics | U-107 | topology |
+| U-109 | S15 | Current vs planned implementation summary guard | P2 | 未开始 | current/planned/stale/blocked implementation posture 的 report guard 明确；不强制所有 planned 变 current | U-104 | report |
+| U-110 | S15 | Evidence command non-execution invariant test | P2 | 未开始 | validate / reality / fixture smoke 不执行 evidence command 的 invariant 有测试或文档 gate；不引入 executor | U-103 | safety invariant |
+| U-111 | S15 | Implementation drift dashboard boundary triage | P3 | 未开始 | 若未来做 dashboard，需要哪些静态输入和非目标先入账；不建 dashboard | U-105 | observability |
+| U-112 | S15 | Code ownership mapping boundary triage | P3 | 未开始 | ownership mapping 的 authority、path、review owner、fallback 边界明确；不自动推断 owner | U-103 | governance |
+| U-113 | S16 | Fixture manifest coverage matrix | P1 | 未开始 | 每类 canonical example 的 positive / negative / golden coverage 状态明确；不补全部 fixture | U-080 | fixtures |
+| U-114 | S16 | Negative fixture expansion plan | P2 | 未开始 | 下一批 high-value negative fixtures、expected rules 和文件范围明确；不一次性扩全量 | U-113 | fixtures |
+| U-115 | S16 | Golden export drift report | P2 | 未开始 | golden export drift 的检测、人工接受、拒绝和更新边界明确；不自动接受 golden diff | U-113 | golden export |
+| U-116 | S16 | Fixture smoke output contract snapshot | P2 | 未开始 | fixture smoke JSON/text 输出字段稳定性有 snapshot 或 docs gate；不扩成 conformance runner | U-080 | fixture tooling |
+| U-117 | S16 | Example pack gap audit after PR review | P2 | 未开始 | PR review 后 canonical example 残缺、重复和过度承诺形成矩阵；不新增示例包 | U-113 | examples |
+| U-118 | S16 | Source-first compile determinism report | P2 | 未开始 | source-first compile 输出稳定性、timestamp pinning、generated output churn 策略明确；不改 authoring semantics | U-081 | compile determinism |
+| U-119 | S16 | Compiled pilot schema mirror audit | P2 | 未开始 | compiled-pilot schema 与 root schema 的同步策略和风险点明确；不手改 generated schema | U-118 | schema mirror |
+| U-120 | S16 | Seven-plane pilot freshness review | P3 | 未开始 | seven-plane pilot 是否仍覆盖核心 semantics 的审查结论明确；不重写 pilot | U-119 | example maintenance |
+| U-121 | S16 | Open-source scenario pack health review | P3 | 未开始 | seeded open-source routing scenarios 的覆盖、稳定性和维护成本明确；不新增外部依赖 | U-079 | benchmark |
+| U-122 | S16 | Benchmark generated artifact hygiene policy | P2 | 未开始 | benchmark:test 生成结果 churn 的还原、接受和入账规则明确；不默认提交 churn | U-121 | benchmark hygiene |
+| U-123 | S17 | CLI help coverage for all subcommands | P2 | 未开始 | compile / validate / route / fixture 等 help coverage 矩阵明确；不重写 CLI parser | U-076 | CLI DX |
+| U-124 | S17 | Validate JSON report schema documentation | P2 | 未开始 | validate JSON top-level fields、report summaries、reality/citation outputs 有文档契约 | U-082 | validation docs |
+| U-125 | S17 | Validate text/JSON parity audit | P2 | 未开始 | text 和 JSON 输出的信息差、必要保留差异和 future fixes 明确；不大改输出 | U-124 | validation parity |
+| U-126 | S17 | Route explanation dependency graph review | P2 | 未开始 | route explanation 的 source/reason/dependency 字段覆盖和不足明确；不改 ranking | U-079 | route observability |
+| U-127 | S17 | Remediation guidance coverage matrix | P2 | 未开始 | validator rules 中 remediation guidance 覆盖率和缺口明确；不自动修复 | U-030 | remediation |
+| U-128 | S17 | Validation severity gate consistency review | P2 | 未开始 | L1-L4 severity/gate 与 strict 行为一致性审查完成；不改 severity policy unless separately scoped | U-011 | validation policy |
+| U-129 | S17 | Compact vs verbose validation output triage | P3 | 未开始 | 是否需要 compact/verbose 模式的需求、风险和最小实现路线明确；不实现新模式 | U-125 | CLI output |
+| U-130 | S17 | Route query corpus coverage audit | P2 | 未开始 | common query terms 到 authority module 的覆盖、miss 和 stale route 风险明确；不改 scoring | U-126 | routing quality |
+| U-131 | S17 | Route touch-route stale path audit | P2 | 未开始 | touch routes 中 stale path、unregistered path、unexpected fallback 的审查完成；不重排 authority | U-130 | routing hygiene |
+| U-132 | S17 | Error message actionable wording pass | P3 | 未开始 | 高噪声错误信息的可操作性问题列表和优先级明确；不一次性改全部错误 | U-127 | DX wording |
+| U-133 | S18 | Authoring source lint boundary triage | P2 | 未开始 | source-first authoring lint 的可验证字段、非目标和候选 tests 明确；不实现 style linter | U-081 | authoring |
+| U-134 | S18 | Changelog delta ergonomics fix plan | P2 | 未开始 | `#13` 的真实 pain、schema options、migration risk 和 test plan 明确；不直接改 schema | U-083 | ergonomics |
+| U-135 | S18 | Changelog delta schema/test implementation | P2 | 未开始 | 若 U-134 通过，最小 schema/test 改动落地并验证；不扩成 changelog framework | U-134 | schema / validator |
+| U-136 | S18 | Glossary registry alias lifecycle triage | P3 | 未开始 | alias/deprecated term lifecycle、replacement、scope collision 后续边界明确；不做 resolver runtime | U-064 | glossary |
+| U-137 | S18 | Glossary canonical-term documentation pass | P3 | 未开始 | glossary v2 authoring / consumption guidance 补齐且不夸大 runtime；不全文扫描 | U-136 | glossary docs |
+| U-138 | S18 | External citation review workflow triage | P2 | 未开始 | citation review_status、claim_posture、authority_relation 的 review workflow 明确；不做 crawler | U-082 | citation |
+| U-139 | S18 | External citation freshness policy docs | P2 | 未开始 | authoritative citation freshness、stale、withheld、unresolved 的维护指引明确；不抓取 URL | U-138 | citation docs |
+| U-140 | S18 | Documentation density quality pass | P3 | 未开始 | agent-primary docs 的 dense / actionable / non-marketing 问题清单明确；不重写文档门户 | U-049 | docs quality |
+| U-141 | S18 | Paired surface sync example report | P3 | 未开始 | paired human/agent sync quality report 的示例输出和使用边界明确；不建 semantic judge | U-048 | paired surfaces |
+| U-142 | S18 | Docs navigation dead-link local checker triage | P3 | 未开始 | 本地 docs 链接检查的范围、误报和最小命令路线明确；不抓取外网 | U-140 | docs tooling |
+| U-143 | S19 | Sensitive example redaction fixture review | P2 | 未开始 | examples 中 sensitive placeholder / redaction posture 的 fixture 风险审查完成；不做 secret scanner service | U-005 | redaction |
+| U-144 | S19 | Credential placeholder policy docs | P2 | 未开始 | credentials、handles、debug-only payload 在 examples/docs 中的写法规则明确；不接入 secret manager | U-143 | security docs |
+| U-145 | S19 | Remote exposure upgrade checklist | P2 | 未开始 | local-only 到 remote-read / remote-write / adapter-facing 的 upgrade checklist 明确；不实现 gateway | U-089 | exposure |
+| U-146 | S19 | Risk taxonomy coverage report | P2 | 未开始 | read/write/credential/filesystem/network/cost/production mutation risk 的覆盖摘要明确；不做 runtime policy | U-088 | risk report |
+| U-147 | S19 | Audit metadata completeness report | P2 | 未开始 | commands/adapters 的 actor/source/target/receipt/correlation coverage 明确；不建 audit store | U-044 | audit report |
+| U-148 | S19 | Policy decision receipt boundary refinement | P3 | 未开始 | policy decision 与 receipt/audit anchor 的字段边界和缺口明确；不实现 permission broker | U-147 | policy boundary |
+| U-149 | S19 | Approval label semantics review | P3 | 未开始 | human_approval / review / escalation labels 的语义一致性审查完成；不建 approval workflow | U-148 | approval boundary |
+| U-150 | S19 | Local-only export safety review | P3 | 未开始 | local-only / local-export surfaces 的公开误用风险和 guard 明确；不实现 sandbox | U-145 | local export safety |
+| U-151 | S20 | Workflow runtime minimal PoC decision gate | P3 | 未开始 | workflow runtime 是否值得 PoC 的 prerequisites、success metric、abort criteria 明确；不实现 PoC | U-086 | runtime decision |
+| U-152 | S20 | Event store minimal PoC decision gate | P3 | 未开始 | event store / replay PoC 的 prerequisites、data model、risk、abort criteria 明确；不实现 PoC | U-087 | runtime decision |
+| U-153 | S20 | Policy engine minimal PoC decision gate | P3 | 未开始 | policy engine PoC 的 input/output、identity model、audit boundary 明确；不实现 PoC | U-088 | runtime decision |
+| U-154 | S20 | Remote gateway minimal PoC decision gate | P3 | 未开始 | remote gateway PoC 的 auth、transport、rate/cost、failure semantics 明确；不实现 PoC | U-089 | runtime decision |
+| U-155 | S20 | Migration tool minimal PoC decision gate | P3 | 未开始 | migration tool PoC 的 dry-run、rollback、destructive approval、fixtures 明确；不实现 PoC | U-090 | runtime decision |
+| U-156 | S20 | Conformance runner implementation plan | P3 | 未开始 | 从 fixture smoke 走向 conformance runner 的 staged implementation plan 明确；不实现 runner | U-116 | conformance decision |
+| U-157 | S20 | Adapter negotiation protocol plan | P3 | 未开始 | full negotiation handshake 的 metadata prerequisites、protocol sketch 和 non-goals 明确；不实现 negotiation | U-078 | adapter protocol |
+| U-158 | S20 | Cross-corpus authority resolver research | P3 | 未开始 | cross-corpus resolver 的 trust model、fetch policy、cache and failure posture 明确；不实现 resolver | U-038 | authority runtime |
+| U-159 | S20 | Dependency scheduler research | P3 | 未开始 | dependency ordering 是否进入 runtime scheduler 的 gate、risks、alternatives 明确；不实现 scheduler | U-087 | scheduler research |
+| U-160 | S20 | Telemetry / observability store research | P3 | 未开始 | dashboard/trace store/telemetry storage 的 need、inputs、privacy risk 明确；不建 store | U-046 | observability research |
 
 ## 已完成任务
 
@@ -133,6 +201,7 @@
 | 87 | U-082 | S12 | External citation stale/current hygiene report | P2 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`docs/operations/aods-external-citation-hygiene-report.zh-CN.md`、operations docs | RED scaffold regression 按预期失败于缺少 `external_citations` report；GREEN scaffold 31/31；compiled-pilot citation report smoke；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | `validate` / `validate --json` 现在输出 declared citation posture counters；不抓取 URL、不做 URL checker/fact checker/claim detector |
 | 88 | U-083 | S12 | Changelog delta ergonomics review | P3 | 2026-05-08 | `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md`、operations docs、GitHub issue `#13` read-only review | `gh issue view 13 --json ...`；`jq '.definitions.changelog_entry' schema/module.schema.json`；`npm run validate:all`；`git diff --check` | `#13` 仍是有效 ergonomics 问题，但当前不阻塞 release workflow；本轮只写 public response plan，不改 changelog schema |
 | 89 | U-084 | S12 | Runtime-boundary research spike | P3 | 2026-05-08 | `docs/operations/aods-runtime-boundary-research.zh-CN.md`、operations docs、S13 task pool | `node ./bin/aods.mjs route . --query "workflow runtime event store policy engine remote gateway migration tool boundary" --stage plan --intent read --json`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的当前 metadata-only 边界、非目标和进入条件；新增 U-085 到 U-091，不实现 runtime |
+| 90 | U-092 | S20 | Comprehensive task backlog and 10-task execution rule | P0 | 2026-05-08 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md`、task ledger、expanded task plan、handoff、round log、docs navigation | `gh issue list --state open --limit 100 --json ...`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已将长期任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选 |
 
 ## 失败或阻塞任务
 
@@ -215,3 +284,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-081` 完成 | Batch M 已完成：source-first example packs 现在有公开采用路径，说明先改源文件、再生成、再校验、再路由和冒烟检查；下一步优先 U-082 citation hygiene。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-082`、`U-083` 完成 | Batch N 已完成：external citation posture 现在进入 validate report；`#13` changelog.delta 限制已复审为有效但非当前 release blocker。下一步优先 U-084 runtime-boundary research spike。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-084` 完成 | Batch O 已完成：五类未来 runtime 候选已拆清 metadata-only 边界、进入条件和非目标；新增 S13 任务 U-085 到 U-091，下一步优先 U-085 readiness gate matrix。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-092` 完成 | 综合任务池已扩展到 U-160；执行规则改为每轮复审通过后选择 10 个未完成任务，少于 10 个时全选。下一轮应选择 U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095。 |

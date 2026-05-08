@@ -6,7 +6,7 @@
 
 ## 目标
 
-在不破坏“每轮先审查上一轮质量”的前提下，把后续工作从单任务线性推进扩展为可批量执行的任务池。批量执行只适用于依赖清晰、文件冲突低、验证路径明确的任务；schema、validator、compile、release 或公开 GitHub 写操作仍必须单独裁剪并保留明确 gate。
+在不破坏“每轮先审查上一轮质量”的前提下，把后续工作从单任务线性推进扩展为可批量执行的任务池。U-092 后，默认执行批次固定为 10 个未完成任务；如果未完成任务少于 10 个，则选择全部。综合任务池详见 `aods-comprehensive-task-plan.zh-CN.md`。
 
 ## 批量执行规则
 
@@ -14,10 +14,10 @@
 |---|---|
 | 质量门禁优先 | 每轮开始必须先复核上一轮成果；发现问题时只做返工和再审查，不推进新任务 |
 | 批量准入 | 同轮任务必须共享同一目标阶段、互不覆盖关键语义边界、验证命令可以覆盖合并 diff |
-| 默认批量规模 | docs-only triage 可一次 2-4 个任务；schema / validator / compile 任务默认一次 1-2 个；release / public GitHub 写操作默认单独执行 |
+| 默认批量规模 | 每轮质量复审通过后选择 10 个未完成任务；若未完成任务少于 10 个则全部选择 |
 | 任务入账 | 所有候选任务先进入 `aods-task-ledger.zh-CN.md`，再进入当前回合锁定记录 |
 | 非目标保护 | 批量执行不得把 boundary triage 和 runtime/schema 实现混在一起，除非台账中已明确依赖和验收标准 |
-| 外部写操作 | issue comment、issue close、PR、release 均需 owner 明确授权，不能因本地计划完成而自动执行 |
+| 外部写操作 | issue comment、issue close、PR、release、merge、破坏性迁移均需当前回合明确授权；可先完成 readiness / dry-run / decision record |
 
 ## 当前任务池
 
@@ -55,6 +55,7 @@
 | U-089 | S13 | boundary triage | P2 | U-085 后 | Remote gateway / adapter runtime triage | 明确 exposure upgrade、auth、transport、audit、compatibility 前置条件；不实现 remote gateway |
 | U-090 | S13 | boundary triage | P3 | U-085 后 | Migration tool entry contract triage | 明确 source/target authority、dry-run、rollback、mapping、destructive-change approval 边界；不实现 migration executor |
 | U-091 | S13 | release / public sync | P1 | 单独执行 | PR final readiness / public sync closeout | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确；未获 owner 明确指令前不 merge、不 release |
+| U-092 | S20 | planning | P0 | 已完成 | Comprehensive task backlog and 10-task execution rule | 综合任务池扩展到 U-160；后续每轮复审通过后按顺序选 10 个任务 |
 
 ## 下一批推荐
 
@@ -77,11 +78,14 @@
 | Batch M | U-081 | 已完成；把 source-first authoring、compile、validate、route、fixture smoke 串成公开 adoption path | RED/GREEN example-pack docs regression、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch N | U-082 + U-083 | 已完成；citation posture 进入 validate report，同时复审 changelog.delta 300 字符限制是否阻塞 release workflow | RED/GREEN scaffold regression、compiled-pilot citation report smoke、GitHub issue `#13` read-only review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch O | U-084 | 已完成；只做 runtime 边界和进入条件研究，不实现 runtime | route/read evidence、docs gate、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
-| Batch P | U-085 | 下一批首选；先把五类 runtime 候选统一成 readiness gate matrix，降低后续 triage 分歧 | docs gate、`npm run validate:all`、`git diff --check` |
-| Batch Q | U-086 + U-087 | U-085 通过后可批量做 workflow / event 两个低冲突 boundary triage；仍不实现 runtime | docs gate、`npm run validate:all`、`git diff --check` |
-| Batch R | U-088 + U-089 | U-085 通过后可批量做 policy / remote 两个 runtime candidate boundary triage；仍不实现 runtime | docs gate、`npm run validate:all`、`git diff --check` |
-| Batch S | U-090 | migration tool entry contract 单独收束，避免和真实迁移执行混淆 | docs gate、`npm run validate:all`、`git diff --check` |
-| Batch T | U-091 | PR / release closeout 属公开动作和版本面，必须单独执行，并在 ready / merge / release 前取得 owner 明确指令 | final validation、PR / issue state review、staged set 排除 `MEMORY.md` |
+| Batch P | U-085 + U-086 + U-087 + U-088 + U-089 + U-090 + U-091 + U-093 + U-094 + U-095 | 下一轮固定 10 任务；先收束五类 runtime readiness / entry contract，再做 PR / release readiness 的前置检查 | docs gate、GitHub state review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
+| Batch Q | U-096 到 U-105 | release/package/drift 前十项；按综合任务池顺序推进 | package dry-run、docs gate、`npm run validate:all`、`git diff --check` |
+| Batch R | U-106 到 U-115 | drift workflow 与 fixture coverage 前十项 | docs gate、fixture/benchmark relevant tests as scoped |
+| Batch S | U-116 到 U-125 | fixture output、examples、benchmark hygiene、CLI / validation docs | focused CLI / fixture tests as scoped |
+| Batch T | U-126 到 U-135 | route/validation DX、authoring、changelog ergonomics | focused tests as scoped |
+| Batch U | U-136 到 U-145 | glossary/citation/docs/risk/exposure | docs gate or stable-contracts tests as scoped |
+| Batch V | U-146 到 U-155 | risk/audit plus far runtime decision gates | docs gate; no runtime PoC |
+| Batch W | U-156 到 U-160 | conformance / adapter / resolver / scheduler / observability research | docs gate; no implementation unless separately authorized |
 
 ## 当前非目标
 
@@ -91,3 +95,4 @@
 4. 不把本地覆盖判断自动同步为 GitHub issue 关闭或公开 release。
 5. 不触碰 Polaris sibling repo；AODS 继续作为独立权威规范路线迭代。
 6. 不把 U-084 的 runtime boundary research 解读成 workflow engine、event store、policy engine、remote gateway 或 migration tool 已经可以实现。
+7. 不用“每轮 10 任务”绕过质量审查；如果上一轮不合格，本轮只返工。

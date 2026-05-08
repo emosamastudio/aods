@@ -44,6 +44,7 @@
 | `docs/operations/aods-external-citation-hygiene-report.zh-CN.md` | U-082 external citation stale/current/assumption posture 的 validation report 摘要。 |
 | `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md` | U-083 changelog.delta 300 字符限制是否阻塞 release workflow 的复审。 |
 | `docs/operations/aods-runtime-boundary-research.zh-CN.md` | U-084 runtime-boundary research spike，梳理五类未来 runtime 的边界和进入条件。 |
+| `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界
 

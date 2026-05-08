@@ -34,6 +34,7 @@
 | `aods-external-citation-hygiene-report.zh-CN.md` | U-082 external citation stale/current/assumption posture 的 validation report 摘要 | 高 |
 | `aods-changelog-delta-ergonomics-review.zh-CN.md` | U-083 changelog.delta 300 字符限制是否阻塞 release workflow 的复审 | 高 |
 | `aods-runtime-boundary-research.zh-CN.md` | U-084 runtime-boundary research spike，梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件 | 高 |
+| `aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池、长期任务分段和每轮 10 任务执行规则 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -72,9 +73,10 @@
 29. 读 `aods-external-citation-hygiene-report.zh-CN.md`
 30. 读 `aods-changelog-delta-ergonomics-review.zh-CN.md`
 31. 读 `aods-runtime-boundary-research.zh-CN.md`
-32. 读 `aods-v0.7-rc-gate.zh-CN.md`
-33. 读 `aods-handoff.zh-CN.md`
-34. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+32. 读 `aods-comprehensive-task-plan.zh-CN.md`
+33. 读 `aods-v0.7-rc-gate.zh-CN.md`
+34. 读 `aods-handoff.zh-CN.md`
+35. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -121,3 +123,4 @@
 4. `npm run fixture:smoke` 是 fixture / golden export manifest 的最小冒烟门禁；它只检查声明结构和路径，不执行 golden update command。
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
+7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。

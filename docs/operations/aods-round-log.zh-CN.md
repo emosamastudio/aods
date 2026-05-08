@@ -2,6 +2,70 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-20
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-20 |
+| 开始时间 | 2026-05-08 18:51 Asia/Shanghai |
+| 结束时间 | 2026-05-08 19:10 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 综合任务清单扩展和每轮 10 任务执行规则；不实现新 schema、validator、CLI、runtime 或 release action |
+| 本轮选中任务 | U-092 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-20
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md`、task ledger、expanded task plan、v0.12 backlog、handoff、round log、operations README、docs README |
+| 禁止触碰 | schema/validator/code 改动、runtime 实现、release 发布、version bump、PR merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub issue list / PR state 只读审查；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；如 benchmark 产生 generated result churn，必须还原 |
+
+## 任务执行记录：R-2026-05-08-20
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-092 | 新增 | 已完成 | 先复审 U-084；读取 GitHub open issue snapshot 和当前任务池；新增综合任务计划；把任务池扩展到 U-160；将后续执行规则改为每轮复审通过后选 10 个未完成任务，少于 10 个时全选；同步 operations docs | `docs/operations/aods-comprehensive-task-plan.zh-CN.md`、task ledger、expanded task plan、v0.12 backlog、handoff、round log、docs navigation |
+
+## 验证记录：R-2026-05-08-20
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-092 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`gh pr view 63 --json ...`、`rg` docs consistency、`npm run validate:all`、`git diff --check` | 通过 | U-084 commit `db52d3a` 已在 origin；PR `#63` 仍为 open draft；仅 `MEMORY.md` 未跟踪 |
+| U-092 | GitHub open issue snapshot | `gh issue list --state open --limit 100 --json number,title,labels,updatedAt,url` | 通过 | open issue 输入已用于 release/public sync、docs、runtime、drift、DX 后续任务规划 |
+| U-092 | Task count consistency | `awk` 统计未完成 / 已完成任务表 | 通过 | 未完成任务 75；已完成任务 90；与 ledger 元信息一致 |
+| U-092 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-092 | Benchmark test gate | `npm run benchmark:test` | 通过 | 80/80 pass；如产生 benchmark result churn 已还原 |
+| U-092 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-20
+
+U-092 将长期任务池扩展到 U-160。新增任务已直接进入 `aods-task-ledger.zh-CN.md` 未完成任务表，并在 `aods-comprehensive-task-plan.zh-CN.md` 分段说明。
+
+| 来源任务 | 新任务 ID | 阶段 | 任务范围 | 插入位置 |
+|---|---|---|---|---|
+| U-092 | U-093 - U-102 | S14 | release / public synchronization | U-091 后 |
+| U-092 | U-103 - U-112 | S15 | implementation drift / evidence hardening | S14 后 |
+| U-092 | U-113 - U-122 | S16 | fixtures / conformance / examples | S15 后 |
+| U-092 | U-123 - U-132 | S17 | validation / routing / CLI DX | S16 后 |
+| U-092 | U-133 - U-142 | S18 | authoring / docs / glossary / citation | S17 后 |
+| U-092 | U-143 - U-150 | S19 | risk / security / exposure / audit | S18 后 |
+| U-092 | U-151 - U-160 | S20 | far runtime PoC decision gates | S19 后 |
+
+## 回合结束摘要：R-2026-05-08-20
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-092 |
+| 完成任务 | 1 | comprehensive backlog and 10-task execution rule 已完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 本轮只做规划和只读 GitHub 审查 |
+| 新增任务 | 68 | U-093 到 U-160 |
+| 剩余未完成任务 | 75 | 下一轮固定选择 U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 |
+
 ## 回合摘要：R-2026-05-08-19
 
 | 项 | 内容 |
