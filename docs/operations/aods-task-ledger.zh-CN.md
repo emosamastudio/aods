@@ -10,32 +10,38 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-08 |
-| 当前阶段 | S11 public sync / drift / route triage |
-| 当前回合 | R-2026-05-08-09 |
-| 未完成任务数量 | 4 |
-| 已完成任务数量 | 77 |
+| 当前阶段 | S11 public docs / v0.12 triage |
+| 当前回合 | R-2026-05-08-10 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 79 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-09 |
-| 开始时间 | 2026-05-08 02:24 Asia/Shanghai |
+| 回合 ID | R-2026-05-08-10 |
+| 开始时间 | 2026-05-08 09:10 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-071、U-076 |
-| 本轮范围 | implementation reality locator diagnostics hardening、route subcommand help / discoverability smoke test、operations docs 同步 |
-| 排除范围 | remote clone/fetch、全量代码扫描器、LLM judge、evidence command executor、route ranking 改动、GitHub 公开写操作、release 发布、Polaris sibling repo、public README benchmark sync 区块、`MEMORY.md` |
-| 验证计划 | RED/GREEN focused scaffold regression；`node ./bin/aods.mjs route --help`；`npm run validate:all`；`git diff --check` |
-| 新任务处理规则 | 本轮不新增任务；新发现问题只入暂存区或下一轮候选，不抢占 U-071/U-076 范围。 |
+| 选中任务 | U-072、U-073 |
+| 本轮范围 | public README / docs example navigation、v0.12 backlog triage、operations docs 同步 |
+| 排除范围 | schema/runtime/validator semantic change、benchmark sync 区块手改、GitHub issue comment/close/label、release 发布、full runtime handshake、crawler/fact checker、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | docs diff review；`npm run validate:all`；`git diff --check` |
+| 新任务处理规则 | U-073 可把已裁剪、未实现的新候选纳入 v0.12+ 任务池；本轮不执行新实现项。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-072 | S11 | 更新 public docs navigation for completed example packs | P2 | 未开始 | README / operations docs 指向六类 example pack 现状；benchmark sync 区块只从 generator 改；不夸大 coverage；`git diff --check` 和必要 validate 通过 | U-068 | docs 候选 |
-| U-073 | S11 | 制定 v0.12 backlog triage | P2 | 未开始 | 将 `#33/#35/#37/#38/#39/#43-#52/#59/#60` 中未覆盖项重新排序到 v0.12+，输出下一批任务；不实现新能力 | U-069 | docs 候选 |
 | U-074 | S11 | 执行 v0.11 累积变更 release readiness gate | P1 | 未开始 | `release:self-check`、必要 focused tests、diff hygiene、release notes skeleton 通过；不发布 release | U-073 | 单独执行 |
 | U-075 | S11 | GitHub issue / PR / release public sync execution | P1 | 未开始 | 仅在 owner 明确批准后评论/关闭 issue、创建 PR 或 release；同步前确认 staged set 不含 `MEMORY.md` | U-074 | 需 owner 授权，单独执行 |
+| U-077 | S12 | Implementation evidence stale/current hygiene | P1 | 未开始 | stale/current evidence 有 deterministic summary 或 finding；focused regression 覆盖 stale evidence posture；`validate:all` 通过；不执行 evidence command | U-075 | v0.12 首选 drift hardening |
+| U-078 | S12 | Capability compatibility metadata deterministic gates | P1 | 未开始 | provider capability、consumer requirement、profile/version/exposure 的最小不兼容 case 可被 validator 或 focused regression 表达；不做 handshake/discovery/auth/fallback ranking | U-075 | `#41` residual，full handshake 仍 deferred |
+| U-079 | S12 | Validate / route JSON explanation minimal enrichment | P2 | 未开始 | 至少一个 route 或 validation output 增加 machine-readable reason/source/dependency 字段；focused regression 覆盖；不重写 CLI output subsystem | U-075 | `#59` residual |
+| U-080 | S12 | Fixture / golden export smoke runner | P2 | 未开始 | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构；不做完整 conformance runner 或自动 golden update | U-075 | `#48` residual |
+| U-081 | S12 | Source-first adoption guide for example packs | P2 | 未开始 | README / docs 指向从 authoring source 到 compile / validate / route 的最小 adoption path；不重复 benchmark sync 区块；不夸大 coverage | U-075 | public adoption docs |
+| U-082 | S12 | External citation stale/current hygiene report | P2 | 未开始 | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example；focused regression 或 docs gate 覆盖；不做 crawler/URL checker/fact checker | U-075 | `#58` residual |
+| U-083 | S12 | Changelog delta ergonomics review | P3 | 未开始 | 重新评估 `#13` 是否仍真实阻塞 release workflow；若不阻塞，只写 public response plan | U-075 | 低优先级 ergonomics |
+| U-084 | S12 | Runtime-boundary research spike | P3 | 未开始 | 梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件；不实现 runtime | U-075 | 延后研究 |
 
 ## 已完成任务
 
@@ -113,11 +119,13 @@
 | 70 | U-065 | S10 | 落地 external citation metadata 最小 schema 与 compile mirror | P1 | 2026-05-08 | `schema/module.schema.json`、`examples/compiled-pilot/schema/module.schema.json`、`benchmarks/aods-eval-lab/generated/aods-corpus/schema/module.schema.json`、`spec/validation-rules.json`、source-first focused regression、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check` | module sections、artifacts、decision_provenance 现在支持 `citation_refs[]`，`module.meta.external_citations[]` 支持 source_type、locator、version_or_date、authority_relation、claim_posture、uncertainty、review_status；不实现 crawler、remote fetch 或事实核验 |
 | 71 | U-066 | S10 | 落地 external citation validator gates | P1 | 2026-05-08 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、operations docs | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`npm run validate:all`、`git diff --check`；`npm run benchmark:test` 因 hosted repeatability 外部捕获不可复现而未作为本轮通过 gate | validator 已检查 citation id uniqueness、citation_refs resolution、authoritative locator/version completeness、assumption posture、stable agent-consumable current authoritative citation；不做 unsupported factual claim detector 或 LLM faithfulness judge |
 | 72 | U-067 | S10 | 增加 external citation / provenance canonical example pack | P2 | 2026-05-08 | `examples/compiled-pilot-source/authoring.json`、`examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot/modules/shift-ops-governance.json`、`examples/compiled-pilot/manifest.json`、`examples/compiled-pilot/README.md`、`benchmarks/aods-eval-lab/test/example-packs.test.mjs`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` 按预期失败；`npm run compile:pilot`；`node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs`；`npm run validate:all`；`git diff --check` | compiled-pilot governance module 现在展示 current external authority、unsupported assumption、section/artifact/provenance citation refs 和 fixture golden export；不实现 crawler、remote fetch、fact checker、claim detector 或 resolver |
-| 73 | U-068 | S11 | 复盘 GitHub issue 本地覆盖与公开状态差异 | P2 | 2026-05-08 | `docs/operations/aods-github-public-sync-triage.zh-CN.md`、operations docs | `gh issue view 54/55/56/57/58/60/41 --json ...`、`npm run validate:all`、`git diff --check` | `#54-#58` 本地覆盖已领先公开状态；建议先 U-072 public docs navigation，再由 owner 批准后评论/关闭；`#60/#41` 保持 open |
+| 73 | U-068 | S11 | 复盘 GitHub issue 本地覆盖与公开状态差异 | P2 | 2026-05-08 | `docs/operations/aods-github-public-sync-triage.zh-CN.md`、operations docs | `gh issue view 54/55/56/57/58/60/41 --json ...`、`npm run validate:all`、`git diff --check` | `#54-#58` 本地覆盖已领先公开状态；U-072 已补 public docs navigation；后续由 U-075 执行 public sync；`#60/#41` 保持 open |
 | 74 | U-069 | S11 | 选择下一段代码漂移最小切片 | P1 | 2026-05-08 | `docs/operations/aods-next-code-drift-slice.zh-CN.md`、operations docs | `node ./bin/aods.mjs route . --query "implementation evidence acceptance freshness citation drift" --stage plan --intent read --json`、`npm run validate:all`、`git diff --check` | 下一段选择 U-071 implementation reality locator drift hardening；不做全量扫描器、LLM judge、remote clone 或 evidence command executor |
 | 75 | U-070 | S11 | 复盘 boot-by-touch / route discoverability 残留 | P2 | 2026-05-08 | `docs/operations/aods-route-discoverability-review.zh-CN.md`、operations docs | `gh issue view 9/10/17 --json ...`、`node ./bin/aods.mjs route . --touch lib/route.mjs --intent write --json`、`node ./bin/aods.mjs validate . --strict --json`、`npm run validate:all`、`git diff --check` | `#9/#10/#17` 保持 closed；本地 strict warnings=0；新增 U-076 作为 route subcommand help 残留，不在本轮实现 |
 | 76 | U-071 | S11 | 强化 implementation reality locator drift 检查 | P1 | 2026-05-08 | `lib/validate.mjs`、`spec/validation-rules.json`、`spec/stable-surface-contracts.json`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` 按预期暴露缺少 `unchecked_repos`；GREEN focused scaffold regression；`npm run validate:all`；`git diff --check` | `validate --reality --json` 现在输出 structured `topology.unchecked_repos[]`，并把 `unchecked_reason` 改为 repo id + 原因 + locator；不做 remote clone/fetch、全量扫描器、LLM judge 或 evidence command executor |
 | 77 | U-076 | S11 | 增加 route 子命令 help / discoverability smoke test | P2 | 2026-05-08 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、operations docs | RED `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` 按预期暴露 `Unknown route arg: --help`；GREEN focused scaffold regression；`node ./bin/aods.mjs route --help`；`npm run validate:all`；`git diff --check` | `aods route --help` 现在输出 route 用法、stage 和 intent 枚举；未改变 route ranking 或 query/touch 选择语义 |
+| 78 | U-072 | S11 | 更新 public docs navigation for completed example packs | P2 | 2026-05-08 | `README.md`、`README.zh-CN.md`、`docs/README.md`、`docs/operations/README.md`、operations docs | `npm run validate:all`、`git diff --check` | 公开 README 和维护入口已集中指向 source-first pilot、六类 surface-family pack、glossary registry 和 external citation / provenance 示例；未手改 benchmark sync 区块 |
+| 79 | U-073 | S11 | 制定 v0.12 backlog triage | P2 | 2026-05-08 | `docs/operations/aods-v0.12-backlog.zh-CN.md`、task ledger、round log、handoff、operations docs | `gh issue list/api` 只读审查、`npm run validate:all`、`git diff --check` | `#33/#35/#37/#38/#39/#43-#52/#59/#60` 已重新分类为 public sync、covered local、deferred runtime 与 v0.12+ 新任务池；新增 U-077 到 U-084，未实现新能力 |
 
 ## 失败或阻塞任务
 
@@ -190,3 +198,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-067` 完成 | external citation canonical example pack 已落地；compiled-pilot governance module 现在展示 current external authority、unsupported assumption、internal decision provenance citation refs 和 fixture regression，下一步优先 Batch D：U-068/U-069/U-070。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-068`、`U-069`、`U-070` 完成 | Batch D 已完成：GitHub issue 本地/公开状态矩阵、下一段代码漂移最小切片和 route discoverability 残留均已复盘；下一步优先 U-071 implementation reality locator drift hardening，也可先做 U-076 route help 小修。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-071`、`U-076` 完成 | Batch E 已完成：implementation reality locator 现在给出 structured unchecked repo diagnostics；route 子命令帮助已补齐 smoke regression。下一步优先 U-072 public docs navigation 与 U-073 v0.12 backlog triage。 |
+| 2026-05-08 | 100% | 100% | 99% | `U-072`、`U-073` 完成 | Batch F 已完成：公开 README/docs 已补 example navigation，v0.12+ backlog 已重新排序；下一步优先 U-074 release readiness gate，再进入 U-075 public sync。 |

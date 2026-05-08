@@ -74,6 +74,35 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 | **Reference implementation** | `bin/` 和 `lib/` 实现 validate、route、compile、scaffold、upgrade、hook |
 | **Benchmark** | `benchmarks/aods-eval-lab/` 用来衡量实现是否真的兑现了这些主张 |
 
+## 示例地图
+
+最快了解当前 AODS 编写模式的入口，是这个 source-first pilot：
+
+- 源权威：[`examples/compiled-pilot-source/authoring.json`](./examples/compiled-pilot-source/authoring.json)
+- 编译产物：[`examples/compiled-pilot/`](./examples/compiled-pilot/)
+- 生成的人类概览：[`examples/compiled-pilot/README.md`](./examples/compiled-pilot/README.md)
+- 示例 fixture manifest：[`examples/compiled-pilot-source/fixtures/fixture-manifest.json`](./examples/compiled-pilot-source/fixtures/fixture-manifest.json)
+
+当前 pilot 里已经有这些 canonical packs：
+
+| Pack | 入口 | 展示内容 |
+| --- | --- | --- |
+| Read-model + implementation linkage | [`shift-ops-readiness-read-model`](./examples/compiled-pilot/modules/shift-ops-readiness-read-model.json) | freshness、watermark、implementation evidence、acceptance criteria |
+| Command + receipt | [`shift-ops-change-command`](./examples/compiled-pilot/modules/shift-ops-change-command.json) | write-capable command metadata、receipt shape、audit/risk posture |
+| Event + correction/supersession | [`shift-ops-change-event-log`](./examples/compiled-pilot/modules/shift-ops-change-event-log.json) | append-only event shape、correction links、projection guidance |
+| Adapter + capability/exposure | [`shift-ops-adapter-capability`](./examples/compiled-pilot/modules/shift-ops-adapter-capability.json) | metadata-only capability claims、consumer requirements、exposure、audit notes |
+| Artifact/export/policy gate | [`shift-ops-artifact-export-policy`](./examples/compiled-pilot/modules/shift-ops-artifact-export-policy.json) | generated artifact export、golden export review、validation policy gates |
+| Resource surface | [`shift-ops-resource-surface`](./examples/compiled-pilot/modules/shift-ops-resource-surface.json) | resource identity、scope、risk、exposure、cleanup posture、evidence linkage |
+
+两个辅助示例也适合看新版 authoring pattern：
+
+| Pattern | 入口 | 展示内容 |
+| --- | --- | --- |
+| Glossary registry | [`indexes/runtime.json`](./examples/compiled-pilot/indexes/runtime.json) | canonical term records、aliases、deprecated terms、owner、linked surfaces |
+| External citation / provenance | [`shift-ops-governance`](./examples/compiled-pilot/modules/shift-ops-governance.json) | external citation registry、local citation refs、unsupported assumptions、decision provenance refs |
+
+这些示例是 reference patterns，不表示 AODS 已经实现 command executor、event store、adapter negotiation runtime、resource scheduler、crawler 或 fact checker。
+
 ## 安装
 
 ### 在另一个项目里使用 AODS

@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-08-10
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-08-10 |
+| 开始时间 | 2026-05-08 09:10 Asia/Shanghai |
+| 结束时间 | 2026-05-08 09:24 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | public docs navigation + v0.12 backlog triage；不执行 GitHub public sync、不改 schema/runtime/validator |
+| 本轮选中任务 | U-072、U-073 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-08-10
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `README.md`、`README.zh-CN.md`、`docs/README.md`、`docs/operations/` |
+| 禁止触碰 | schema/runtime/validator semantic change、benchmark sync 区块手改、GitHub issue comment/close/label、PR、release、full runtime handshake、crawler/fact checker、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub issue / repo 只读 API；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；提交前确认 staged set 排除 `MEMORY.md` |
+
+## 任务执行记录：R-2026-05-08-10
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-072 | 未开始 | 已完成 | 在公开 README / 中文 README 增加 Example map；在 docs / operations 入口增加当前公开示例导航；指向 source-first pilot、六类 surface-family pack、glossary registry、external citation / provenance 示例 | `README.md`、`README.zh-CN.md`、`docs/README.md`、`docs/operations/README.md` |
+| 2 | U-073 | 未开始 | 已完成 | 新增 v0.12 backlog triage，按 GitHub open issue、本地覆盖、deferred runtime 和后续 drift hardening 重新排序；新增 U-077 到 U-084 任务池 | `docs/operations/aods-v0.12-backlog.zh-CN.md`、task ledger、expanded task plan、handoff、public sync triage |
+
+## 验证记录：R-2026-05-08-10
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-072/U-073 | Previous-round quality review | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`node ./bin/aods.mjs route --help`、`node ./bin/aods.mjs validate . --strict --json`、`npm run validate:all`、`git diff --check` | 通过 | U-071/U-076 focused regression 28/28；repo validation 和 diff whitespace 均通过；未发现返工项 |
+| U-072 | Public docs navigation review | 人工 diff review + path existence smoke | 通过 | README 新增内容在 benchmark sync 区块外；引用的 compiled-pilot module / index / fixture 路径存在 |
+| U-073 | GitHub issue read-only review | `gh repo view`、`gh pr list`、`gh issue list`、`gh api --method GET repos/emosamastudio/aods/issues ...` | 通过 | GitHub API 可读；远端 `main` 为 `35c26f0`；open PR 为 0；相关 open issues 已用于 v0.12 triage |
+| U-072/U-073 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot compile + strict reality 全部通过 |
+| U-072/U-073 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-08-10
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-073 | U-077 | Implementation evidence stale/current hygiene | P1 | stale/current evidence 有 deterministic summary 或 finding；focused regression 覆盖 stale evidence posture；`validate:all` 通过 | U-075 后首选 |
+| U-073 | U-078 | Capability compatibility metadata deterministic gates | P1 | provider capability、consumer requirement、profile/version/exposure 的最小不兼容 case 可被 validator 或 focused regression 表达 | U-075 后候选 |
+| U-073 | U-079 | Validate / route JSON explanation minimal enrichment | P2 | 至少一个 route 或 validation output 增加 machine-readable reason/source/dependency 字段；focused regression 覆盖 | U-075 后候选 |
+| U-073 | U-080 | Fixture / golden export smoke runner | P2 | example fixture manifest 至少可被一个 smoke command 读取并验证 expected_status / expected_rules 结构 | U-075 后候选 |
+| U-073 | U-081 | Source-first adoption guide for example packs | P2 | README / docs 指向从 authoring source 到 compile / validate / route 的最小 adoption path；不重复 benchmark sync 区块 | U-075 后候选 |
+| U-073 | U-082 | External citation stale/current hygiene report | P2 | declared authoritative citation 的 stale / assumption / unsupported posture 有更清晰 report 或 example | U-075 后候选 |
+| U-073 | U-083 | Changelog delta ergonomics review | P3 | 重新评估 `#13` 是否仍真实阻塞 release workflow；若不阻塞，只写 public response plan | 低优先级 |
+| U-073 | U-084 | Runtime-boundary research spike | P3 | 梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件；不实现 runtime | 低优先级 |
+
+## 回合结束摘要：R-2026-05-08-10
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 2 | U-072、U-073 |
+| 完成任务 | 2 | public docs navigation、v0.12 backlog triage 完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | direct `git fetch` credential path 不稳定，但 GitHub API 只读审查可用；不阻塞本轮 docs/planning |
+| 新增任务 | 8 | U-077 到 U-084 |
+| 剩余未完成任务 | 10 | 下一轮首选 U-074；U-075 在 U-074 通过后单独执行 |
+
 ## 回合摘要：R-2026-05-08-09
 
 | 项 | 内容 |

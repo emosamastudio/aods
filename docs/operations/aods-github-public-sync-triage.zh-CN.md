@@ -6,7 +6,7 @@
 
 ## 结论
 
-`#54-#58` 的本地覆盖已经明显领先于 GitHub issue 状态，但公开同步不应直接自动关闭。当前更稳妥的路线是先执行 U-072，把 public docs navigation 指向已完成的 example packs、glossary registry 和 external citation 用法；然后在 owner 批准后统一评论或关闭相关 issue。
+`#54-#58` 的本地覆盖已经明显领先于 GitHub issue 状态。U-072 已把 public docs navigation 指向已完成的 example packs、glossary registry 和 external citation 用法；下一步应先执行 U-074 release readiness gate，再在 U-075 中统一评论或关闭相关 issue。
 
 `#60` 是 umbrella roadmap，继续保持 open。`#41` 的完整 capability negotiation handshake 仍 deferred，继续保持 open。
 
@@ -14,11 +14,11 @@
 
 | Issue | GitHub 状态 | 本地覆盖 | 缺口 | 建议公开动作 |
 |---|---|---|---|---|
-| `#54` documentation density rules | OPEN | `spec-aop` 既有规则、U-049 good/bad examples 和 authoring guidance | public docs navigation 还没有把 examples 明确串起来 | owner 批准后评论本地覆盖；是否关闭等 U-072 后决定 |
-| `#55` human-surface sync quality metrics | OPEN | U-048 已定义 exact invariant、semantic coverage、omitted constraint、stale example、authority mismatch、sync report vocabulary | public-facing examples 仍弱 | owner 批准后评论；可在 U-072 后关闭 |
-| `#56` canonical examples | OPEN | U-051 到 U-055 加 U-058 已覆盖 read-model、command、event、adapter、artifact/export/policy-gate、resource 六包 | README/authoring guidance 尚未集中导航六包 | owner 批准后评论；U-072 后建议关闭 |
-| `#57` glossary registry | OPEN | U-060、U-062、U-063、U-064 已覆盖 boundary、schema/compile、validator、canonical example pack | public docs 未集中说明 v1/v2 glossary 用法 | owner 批准后评论；U-072 后建议关闭 |
-| `#58` external citation metadata | OPEN | U-061、U-065、U-066、U-067 已覆盖 boundary、schema/compile、validator、canonical example pack | public docs 未集中说明 citation 何时 required | owner 批准后评论；U-072 后建议关闭 |
+| `#54` documentation density rules | OPEN | `spec-aop` 既有规则、U-049 good/bad examples、authoring guidance 和 U-072 public navigation | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；可建议关闭 |
+| `#55` human-surface sync quality metrics | OPEN | U-048 已定义 exact invariant、semantic coverage、omitted constraint、stale example、authority mismatch、sync report vocabulary | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；可建议关闭 |
+| `#56` canonical examples | OPEN | U-051 到 U-055 加 U-058 已覆盖 read-model、command、event、adapter、artifact/export/policy-gate、resource 六包，U-072 已集中导航 | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；建议关闭 |
+| `#57` glossary registry | OPEN | U-060、U-062、U-063、U-064 已覆盖 boundary、schema/compile、validator、canonical example pack，U-072 已给公开入口 | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；建议关闭 |
+| `#58` external citation metadata | OPEN | U-061、U-065、U-066、U-067 已覆盖 boundary、schema/compile、validator、canonical example pack，U-072 已给公开入口 | public issue 尚未同步本地覆盖 | U-074 后 owner 批准评论；建议关闭 |
 | `#60` specification governance roadmap | OPEN | v0.7 到 v0.11 多数 foundation、mechanics、quality tasks 已本地推进 | roadmap 仍是 umbrella；后续 drift/release/public sync 还在进行 | 保持 open；release/readiness 后再追加进度评论 |
 | `#41` capability negotiation | OPEN | U-034 已完成 metadata-only matching boundary；U-054 有 adapter example pack | full negotiation handshake、provider discovery、auth/fallback runtime 仍 deferred | 保持 open；不要关闭为已完成 |
 
@@ -33,9 +33,9 @@
 
 ## 下一步
 
-1. 先执行 U-072，补 public docs navigation，避免 issue 评论只指向 operations 内部文档。
-2. 再执行 U-074 release readiness gate，确认当前 v0.11 累积变更可对外说明。
-3. 最后执行 U-075 public sync execution；评论/关闭 issue 前再次确认 staged set 不含 `MEMORY.md`。
+1. 执行 U-074 release readiness gate，确认当前 v0.11 累积变更可对外说明。
+2. 执行 U-075 public sync execution；评论/关闭 issue 前再次确认 staged set 不含 `MEMORY.md`。
+3. 对 `#41/#60` 保持 open，只同步当前 metadata-only / roadmap 进度，不把 deferred runtime 说成已完成。
 
 ## 非目标
 

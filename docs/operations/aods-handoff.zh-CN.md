@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068/U-069/U-070 完成 Batch D triage 后，U-071/U-076 已完成 Batch E：implementation reality locator diagnostics 现在输出 structured unchecked repo 信息，`aods route --help` 也已补齐子命令帮助。下一轮首选 U-072 public docs navigation + U-073 v0.12 backlog triage。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-073 加 U-076 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation 和 v0.12+ backlog triage。下一轮首选 U-074 release readiness gate；通过后再执行 U-075 GitHub public sync。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -32,9 +32,10 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | 17 | `docs/operations/aods-github-public-sync-triage.zh-CN.md` | 读取本地覆盖与 GitHub 公开状态差异 |
 | 18 | `docs/operations/aods-next-code-drift-slice.zh-CN.md` | 读取下一段代码漂移最小切片 |
 | 19 | `docs/operations/aods-route-discoverability-review.zh-CN.md` | 读取 route / boot_by_touch 残留复盘 |
-| 20 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 21 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 22 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 20 | `docs/operations/aods-v0.12-backlog.zh-CN.md` | 读取 v0.12+ public sync 后任务池和后续 drift route |
+| 21 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 22 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 23 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -119,20 +120,28 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-065 | 落地 external citation metadata 最小 schema 与 compile mirror | module-level `external_citations[]` 与 section/artifact/decision_provenance `citation_refs[]` 已进入 module schema；source-first positive regression 覆盖 compile mirror；不实现 crawler 或 remote fetch |
 | U-066 | 落地 external citation validator gates | validator 已检查 citation id uniqueness、citation ref resolution、authoritative locator/version completeness、assumption posture、stable current authoritative citation；不做 fact checker 或 LLM faithfulness judge |
 | U-067 | 增加 external citation / provenance canonical example pack | compiled-pilot governance module 已展示 current external authority、unsupported assumption、section/artifact/decision_provenance citation refs、fixture manifest 和 focused regression；不实现 crawler、remote fetch、fact checker、claim detector 或 resolver |
-| U-068 | 复盘 GitHub issue 本地覆盖与公开状态差异 | `#54-#58` 本地覆盖已领先公开状态；建议先 U-072 public docs navigation，再 owner 批准后 public sync；`#60/#41` 保持 open |
+| U-068 | 复盘 GitHub issue 本地覆盖与公开状态差异 | `#54-#58` 本地覆盖已领先公开状态；U-072 已补 public docs navigation；后续由 U-075 执行 public sync；`#60/#41` 保持 open |
 | U-069 | 选择下一段代码漂移最小切片 | 下一段选择 U-071 implementation reality locator drift hardening；不做全量扫描器、LLM judge、remote clone 或 evidence command executor |
 | U-070 | 复盘 boot-by-touch / route discoverability 残留 | `#9/#10/#17` 保持 closed；本地 strict warnings=0；新增 U-076 route subcommand help / smoke test 残留任务 |
 | U-071 | 强化 implementation reality locator drift 检查 | `validate --reality --json` 现在输出 `topology.unchecked_repos[]`，`unchecked_reason` 包含 repo id、原因和 locator；validation/stable contract spec 已同步输出契约；不做 remote clone/fetch、全量扫描器、LLM judge 或 evidence command executor |
 | U-076 | 增加 route 子命令 help / discoverability smoke test | `aods route --help` 现在输出 route 用法、stage 和 intent 枚举；focused CLI regression 覆盖；不改变 route ranking |
+| U-072 | 更新 public docs navigation for completed example packs | README / docs 已集中指向 source-first pilot、六类 surface-family pack、glossary registry 和 external citation / provenance 示例；benchmark sync 区块未手改 |
+| U-073 | 制定 v0.12 backlog triage | `aods-v0.12-backlog.zh-CN.md` 已把 open/deferred issues 重新分类到 public sync、covered local、deferred runtime 和 v0.12+ 新任务池；新增 U-077 到 U-084 |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-072 | 更新 public docs navigation for completed example packs | U-068 后续；为 `#54-#58` public sync 提供公开入口 |
-| 2 | U-073 | 制定 v0.12 backlog triage | U-069/U-071 后续；整理 deferred mechanics 与下一段 drift/docs/release 路线 |
-| 3 | U-074 | 执行 v0.11 累积变更 release readiness gate | 单独执行，不发布 release |
-| 4 | U-075 | GitHub issue / PR / release public sync execution | 需 owner 明确授权 |
+| 1 | U-074 | 执行 v0.11 累积变更 release readiness gate | 单独执行，不发布 release |
+| 2 | U-075 | GitHub issue / PR / release public sync execution | owner 已授权 GitHub 权限；执行前仍需用 release gate 和 staged set 检查约束公开动作 |
+| 3 | U-077 | Implementation evidence stale/current hygiene | v0.12 首选 drift hardening；U-075 后执行 |
+| 4 | U-078 | Capability compatibility metadata deterministic gates | `#41` residual；full handshake 继续 deferred |
+| 5 | U-079 | Validate / route JSON explanation minimal enrichment | `#59` residual；不重写 CLI output subsystem |
+| 6 | U-080 | Fixture / golden export smoke runner | `#48` residual；不做完整 conformance runner |
+| 7 | U-081 | Source-first adoption guide for example packs | public adoption docs；不改 benchmark sync 区块 |
+| 8 | U-082 | External citation stale/current hygiene report | citation hygiene；不做 crawler/fact checker |
+| 9 | U-083 | Changelog delta ergonomics review | P3；仅在 release workflow 证明确有阻塞时升级 |
+| 10 | U-084 | Runtime-boundary research spike | P3；只研究边界，不实现 runtime |
 
 ## 失败和风险
 
@@ -174,7 +183,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
 | glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-064 已只落 schema、deterministic gates 和 source-first example pack；后续不要把 example 解读为 resolver/runtime 或全文扫描 |
 | external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 到 U-067 已裁剪并落地 schema、deterministic gates 和 canonical example pack；后续不要把 example 解读为 crawler、claim detector、remote fetch 或 resolver |
-| public sync 过早关闭风险 | `#54-#58` 本地覆盖已完成不少，但 public docs navigation 仍需补强 | 先做 U-072，再由 owner 批准 U-075 评论/关闭 |
+| public sync 过早关闭风险 | `#54-#58` 本地覆盖已完成不少；U-072 已补 public docs navigation | 先做 U-074 release readiness gate，再执行 U-075 评论/关闭 |
 | route discoverability 残留风险 | `aods route --help` 曾返回 unknown arg | U-076 已修复；后续如扩 CLI discoverability，仍不得改变 route ranking |
 | hosted repeatability 外部捕获风险 | benchmark summary 测试依赖 optional hosted repeatability 数据，本轮 hosted 捕获运行 11 分钟无输出后终止 | 本轮以 focused regression、`validate:all` 和 diff hygiene 为通过 gate；后续若要恢复 full `benchmark:test` gate，需要可用 hosted relay / Keychain / 网络环境或先裁剪 benchmark 入口问题 |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
@@ -183,6 +192,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-072 | Public docs navigation for completed example packs | README / operations docs 指向已完成 examples、glossary、citation packs；不夸大 coverage |
-| 2 | U-073 | v0.12 backlog triage | 重新整理 deferred mechanics、behavioral drift、citation hygiene、runtime candidates；不实现新能力 |
-| 3 | U-074 | v0.11 release readiness gate | release self-check、focused tests、diff hygiene、release notes skeleton；不发布 release |
+| 1 | U-074 | v0.11 release readiness gate | release self-check、focused tests、diff hygiene、release notes skeleton；不发布 release |
+| 2 | U-075 | GitHub public sync execution | U-074 通过后评论/关闭 issue、必要时创建 PR 或 release；执行前确认 staged set 不含 `MEMORY.md` |
+| 3 | U-077 | Implementation evidence stale/current hygiene | public sync 后进入 v0.12 drift hardening；不执行 evidence command |

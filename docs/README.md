@@ -34,9 +34,20 @@
 | `docs/operations/aods-github-public-sync-triage.zh-CN.md` | `#54-#58`、`#60/#41` 的本地覆盖与公开状态差异、owner 审批矩阵。 |
 | `docs/operations/aods-next-code-drift-slice.zh-CN.md` | 下一段代码漂移最小切片选择，确认 U-071 implementation reality locator hardening。 |
 | `docs/operations/aods-route-discoverability-review.zh-CN.md` | `#9/#10/#17` 与 route / boot_by_touch discoverability 残留复盘，新增 U-076 建议。 |
+| `docs/operations/aods-v0.12-backlog.zh-CN.md` | v0.12+ backlog triage：把仍 open / deferred 的 governance、drift、runtime 和 public sync 项重新排序。 |
 
 ## 当前维护边界
 
 1. 公开 README、schema、spec、lib、benchmarks、examples 都仍属于项目维护范围。
 2. benchmark sync 区块、generated benchmark 输出和 source generator 之间必须保持一致，不可只改生成结果。
 3. 如果修改的是 AODS 语义面，优先遵循 AODS 自己的 compiled-corpus-first 权威结构，而不是把 README 当成第一权威。
+
+## 当前公开示例入口
+
+| 示例面 | 入口 | 说明 |
+|---|---|---|
+| Source-first pilot | `examples/compiled-pilot-source/authoring.json` | 当前示例的源权威；语义改动必须先改这里再编译。 |
+| Compiled pilot | `examples/compiled-pilot/` | 编译后的 agent / human 双 surface 示例输出。 |
+| Surface-family packs | `examples/compiled-pilot/modules/shift-ops-*.json` | read-model、command、event、adapter、artifact/export、resource 六类 canonical packs。 |
+| Glossary registry | `examples/compiled-pilot/indexes/runtime.json` | canonical term、alias、deprecated term、owner 和 linked surfaces 示例。 |
+| External citation | `examples/compiled-pilot/modules/shift-ops-governance.json` | external citation registry、citation refs、decision provenance 与 unsupported assumption 示例。 |

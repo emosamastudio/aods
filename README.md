@@ -74,6 +74,35 @@ This repository contains all three layers in one place:
 | **Reference implementation** | `bin/` and `lib/` implement validate, route, compile, scaffold, upgrade, and hook behavior |
 | **Benchmark** | `benchmarks/aods-eval-lab/` measures whether the implementation actually earns its claims |
 
+## Example map
+
+The quickest way to inspect current AODS authoring patterns is the source-first pilot:
+
+- source authority: [`examples/compiled-pilot-source/authoring.json`](./examples/compiled-pilot-source/authoring.json)
+- compiled output: [`examples/compiled-pilot/`](./examples/compiled-pilot/)
+- generated human overview: [`examples/compiled-pilot/README.md`](./examples/compiled-pilot/README.md)
+- example fixture manifest: [`examples/compiled-pilot-source/fixtures/fixture-manifest.json`](./examples/compiled-pilot-source/fixtures/fixture-manifest.json)
+
+Current canonical packs in that pilot:
+
+| Pack | Start here | What it demonstrates |
+| --- | --- | --- |
+| Read-model + implementation linkage | [`shift-ops-readiness-read-model`](./examples/compiled-pilot/modules/shift-ops-readiness-read-model.json) | freshness, watermark, implementation evidence, and acceptance criteria |
+| Command + receipt | [`shift-ops-change-command`](./examples/compiled-pilot/modules/shift-ops-change-command.json) | write-capable command metadata, receipt shape, audit/risk posture |
+| Event + correction/supersession | [`shift-ops-change-event-log`](./examples/compiled-pilot/modules/shift-ops-change-event-log.json) | append-only event shape, correction links, projection guidance |
+| Adapter + capability/exposure | [`shift-ops-adapter-capability`](./examples/compiled-pilot/modules/shift-ops-adapter-capability.json) | metadata-only capability claims, consumer requirements, exposure and audit notes |
+| Artifact/export/policy gate | [`shift-ops-artifact-export-policy`](./examples/compiled-pilot/modules/shift-ops-artifact-export-policy.json) | generated artifact export, golden export review, validation policy gates |
+| Resource surface | [`shift-ops-resource-surface`](./examples/compiled-pilot/modules/shift-ops-resource-surface.json) | declared resource identity, scope, risk, exposure, cleanup posture, evidence linkage |
+
+Two supporting examples are also useful when adopting newer authoring patterns:
+
+| Pattern | Start here | What it demonstrates |
+| --- | --- | --- |
+| Glossary registry | [`indexes/runtime.json`](./examples/compiled-pilot/indexes/runtime.json) | canonical term records, aliases, deprecated terms, owner, and linked surfaces |
+| External citation / provenance | [`shift-ops-governance`](./examples/compiled-pilot/modules/shift-ops-governance.json) | external citation registry, local citation refs, unsupported assumptions, and decision provenance refs |
+
+These examples are reference patterns, not a claim that AODS now implements a command executor, event store, adapter negotiation runtime, resource scheduler, crawler, or fact checker.
+
 ## Install
 
 ### Use AODS in another project

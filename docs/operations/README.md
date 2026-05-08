@@ -24,6 +24,7 @@
 | `aods-github-public-sync-triage.zh-CN.md` | `#54-#58`、`#60/#41` 的本地覆盖与公开状态差异、owner 审批矩阵 | 高 |
 | `aods-next-code-drift-slice.zh-CN.md` | 下一段代码漂移最小切片选择，确认 U-071 implementation reality locator hardening | 高 |
 | `aods-route-discoverability-review.zh-CN.md` | `#9/#10/#17` 与 route / boot_by_touch discoverability 残留复盘，新增 U-076 建议 | 高 |
+| `aods-v0.12-backlog.zh-CN.md` | v0.12+ backlog triage：public sync 后的代码漂移、runtime 边界、observability 和 adoption docs 下一批任务 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -52,9 +53,10 @@
 19. 读 `aods-github-public-sync-triage.zh-CN.md`
 20. 读 `aods-next-code-drift-slice.zh-CN.md`
 21. 读 `aods-route-discoverability-review.zh-CN.md`
-22. 读 `aods-v0.7-rc-gate.zh-CN.md`
-23. 读 `aods-handoff.zh-CN.md`
-24. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+22. 读 `aods-v0.12-backlog.zh-CN.md`
+23. 读 `aods-v0.7-rc-gate.zh-CN.md`
+24. 读 `aods-handoff.zh-CN.md`
+25. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -77,6 +79,20 @@
   - `examples/compiled-pilot-source/`
   - `examples/compiled-pilot/`
   - `examples/seven-plane-pilot/`
+
+## 当前公开示例导航
+
+| 示例 | 当前入口 | 用途 |
+|---|---|---|
+| Source-first authoring | `examples/compiled-pilot-source/authoring.json` | 修改 canonical example 语义时的源权威。 |
+| Read-model / implementation linkage | `examples/compiled-pilot/modules/shift-ops-readiness-read-model.json` | 展示 freshness、watermark、implementation evidence、acceptance criteria。 |
+| Command / receipt | `examples/compiled-pilot/modules/shift-ops-change-command.json` | 展示 write-capable command、receipt、audit/risk posture。 |
+| Event / correction | `examples/compiled-pilot/modules/shift-ops-change-event-log.json` | 展示 append-only event、correction、supersession、projection guidance。 |
+| Adapter / capability | `examples/compiled-pilot/modules/shift-ops-adapter-capability.json` | 展示 metadata-only capability、consumer requirement、exposure、audit。 |
+| Artifact export / policy gate | `examples/compiled-pilot/modules/shift-ops-artifact-export-policy.json` | 展示 generated export、golden review、policy gate。 |
+| Resource surface | `examples/compiled-pilot/modules/shift-ops-resource-surface.json` | 展示 resource identity、scope、risk、exposure、cleanup、evidence linkage。 |
+| Glossary registry | `examples/compiled-pilot/indexes/runtime.json` | 展示 canonical term v2 record、alias、deprecated term、linked surfaces。 |
+| External citation / provenance | `examples/compiled-pilot/modules/shift-ops-governance.json` | 展示 external citation registry、citation refs、unsupported assumptions。 |
 
 ## AODS-specific maintenance notes
 
