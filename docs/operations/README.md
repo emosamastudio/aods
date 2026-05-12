@@ -130,6 +130,7 @@
 | `aods-post-conformance-task-discovery.zh-CN.md` | U-231 到 U-240 post-conformance task discovery、公开状态只读刷新、conformance schema / non-execution hardening 和后续 U-241 到 U-270 任务池 | 高 |
 | `aods-post-conformance-release-hardening.zh-CN.md` | U-241 到 U-250 post-conformance release hardening，记录 release self-check、packed conformance smoke、PR body refresh、release notes / version plan 和 conformance fail/warn/text regressions | 高 |
 | `aods-package-terminology-drift-hardening.zh-CN.md` | U-251 到 U-260 package / terminology drift hardening，记录 packed conformance smoke follow-up、CI triage、post-merge reconciliation、owner go/no-go refresh、external conformance example 和 lifecycle alias terminology drift 边界 | 高 |
+| `aods-conformance-release-readiness-closeout.zh-CN.md` | U-261 到 U-270 conformance expansion / release execution readiness closeout，记录 no-fetch / adapter conformance design、observability no-go、package/generated guard audits、skill publish plan、release dry-run，以及 post-merge/post-release 阻塞项 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -262,9 +263,10 @@
 123. 读 `aods-post-conformance-task-discovery.zh-CN.md`
 124. 读 `aods-post-conformance-release-hardening.zh-CN.md`
 125. 读 `aods-package-terminology-drift-hardening.zh-CN.md`
-126. 读 `aods-v0.7-rc-gate.zh-CN.md`
-127. 读 `aods-handoff.zh-CN.md`
-128. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+126. 读 `aods-conformance-release-readiness-closeout.zh-CN.md`
+127. 读 `aods-v0.7-rc-gate.zh-CN.md`
+128. 读 `aods-handoff.zh-CN.md`
+129. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -312,4 +314,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-260 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery / final readiness packet / post-conformance release hardening / terminology drift boundary；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-266、U-268 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery / final readiness packet / post-conformance release hardening / terminology drift boundary / release dry-run refresh；U-267/U-269/U-270 因 PR 未 merge、v0.8 未 release/closeout 阻塞；当前仍不实现 runtime、不发布 release、不 bump version。

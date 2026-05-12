@@ -2,6 +2,70 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-07
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-07 |
+| 开始时间 | 2026-05-13 04:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 04:35 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-251 到 U-260 复审；no-fetch conformance case design；adapter capability conformance expansion；observability store no-go refresh；package surface allowlist boundary；generated clean false-positive audit；`aods-use` skill release plan；post-merge / post-release / next milestone readiness 判断；v0.8 release execution dry-run refresh；不 merge、不 tag、不创建 GitHub Release、不发布 npm、不改 package version、不启用 CI、不 remote fetch、不实现 adapter handshake、不建 telemetry store |
+| 本轮选中任务 | U-261、U-262、U-263、U-264、U-265、U-266、U-267、U-268、U-269、U-270 |
+| 本轮状态 | 部分完成；3 项等待 PR merge / v0.8 release / closeout |
+
+## 上轮质量复审：R-2026-05-13-07
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `292dfa0` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 通过，含 docs link、secret scan、package surface、generated clean、skill regression、`validate:all` |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、202 changed files、0 reviews、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-261 到 U-270 |
+
+## 任务执行记录：R-2026-05-13-07
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-261 | 未开始 | 已完成 | 设计 cross-corpus no-fetch conformance case 与 runner 边界 | `aods-conformance-release-readiness-closeout.zh-CN.md` |
+| 2 | U-262 | 未开始 | 已完成 | 设计 adapter capability metadata conformance case expansion | `aods-conformance-release-readiness-closeout.zh-CN.md` |
+| 3 | U-263 | 未开始 | 已完成 | 二次确认 observability report store no-go | `aods-conformance-release-readiness-closeout.zh-CN.md` |
+| 4 | U-264 | 未开始 | 已完成 | 明确 package surface allowlist auto-update boundary | `npm run package:check-surface -- --json` |
+| 5 | U-265 | 未开始 | 已完成 | 审查 generated clean guard 误报 / 漏报边界 | `npm run generated:check-clean -- --json` |
+| 6 | U-266 | 未开始 | 已完成 | 制定 `aods-use` skill release / install sync plan | packaged skill review |
+| 7 | U-267 | 未开始 | 阻塞 | 检查 post-merge issue close verification 前置条件 | PR `#63` state `OPEN`、`mergedAt=null` |
+| 8 | U-268 | 未开始 | 已完成 | 刷新 v0.8 release execution dry-run / rollback plan | GitHub release/tag snapshot、package version review |
+| 9 | U-269 | 未开始 | 阻塞 | 检查 post-release retrospective 前置条件 | latest release 仍为 `v0.7.0` |
+| 10 | U-270 | 未开始 | 阻塞 | 检查 next milestone after closeout 前置条件 | v0.8 尚未 closeout |
+
+## 验证记录：R-2026-05-13-07
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致 |
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮复审通过 |
+| PR state review | `gh pr view 63 --json ...` | 通过 | PR open、ready、merge clean、20 close refs |
+| Conformance report | `node ./bin/aods.mjs conformance run ... --json` | 通过 | suite pass、4 cases、2 expected failures |
+| Package surface guard | `npm run package:check-surface -- --json` | 通过 | entry_count=61、missing=0、unexpected=0 |
+| Generated clean guard | `npm run generated:check-clean -- --json` | 通过 | dirty_entries=0 |
+| Release/tag snapshot | `gh release list --limit 10`、`git tag --sort=-version:refname` | 通过 | latest release/tag remain `v0.7.0` |
+
+## 新发现任务：R-2026-05-13-07
+
+本轮没有新增任务 ID；U-267、U-269、U-270 保持未完成阻塞。
+
+## 回合结束摘要：R-2026-05-13-07
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-261 到 U-270 |
+| 完成任务 | 7 | U-261 到 U-266、U-268 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 3 | U-267、U-269、U-270 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 3 | 等待 PR merge / v0.8 release / closeout |
+
 ## 回合摘要：R-2026-05-13-06
 
 | 项 | 内容 |

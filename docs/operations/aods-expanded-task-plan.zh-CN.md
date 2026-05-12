@@ -234,7 +234,7 @@
 | Batch AE | U-231 到 U-240 | 已完成；post-conformance task discovery / hardening | task discovery、public state refresh、schema/non-execution hardening、route sanity |
 | Batch AF | U-241 到 U-250 | 已完成；post-conformance release closeout hardening | release gate、packed install、PR/release notes refresh、version/README plan、conformance hardening |
 | Batch AG | U-251 到 U-260 | 已完成；package / terminology drift hardening | package install follow-up、CI triage、post-merge plan、owner packet、terminology drift boundary |
-| Batch AH | U-261 到 U-270 | 下一轮默认；conformance expansion / release execution readiness | no-fetch / adapter conformance expansion、observability no-go refresh、package/generated guard audits、skill publish plan、post-merge/release readiness |
+| Batch AH | U-261 到 U-266、U-268 已完成；U-267/U-269/U-270 阻塞 | conformance expansion / release execution readiness | no-fetch / adapter conformance expansion、observability no-go refresh、package/generated guard audits、skill publish plan、release dry-run completed；post-merge/release/closeout tasks wait for external state |
 
 ## 当前非目标
 

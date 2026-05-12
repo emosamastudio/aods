@@ -11,37 +11,30 @@
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-13 |
 | 当前阶段 | S31 conformance expansion / release execution readiness |
-| 当前回合 | R-2026-05-13-06 |
-| 未完成任务数量 | 10 |
-| 已完成任务数量 | 265 |
+| 当前回合 | R-2026-05-13-07 |
+| 未完成任务数量 | 3 |
+| 已完成任务数量 | 272 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-06 |
-| 开始时间 | 2026-05-13 03:15 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-07 |
+| 开始时间 | 2026-05-13 04:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-251、U-252、U-253、U-254、U-255、U-256、U-257、U-258、U-259、U-260 |
-| 本轮范围 | 上轮 U-241 到 U-250 复审；packed install conformance smoke follow-up；CI triage；post-merge issue reconciliation plan；owner go/no-go refresh；external conformance examples；lifecycle alias terminology drift boundary、fixture plan、glossary enforcement boundary、negative fixture design、docs term drift audit |
-| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、actual package version bump、CI workflow enablement、external fetch、arbitrary command executor、semantic judge、全文自然语言扫描、dashboard / telemetry store、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`; packed install conformance smoke；route terminology query；docs term drift read-only audit；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-261、U-262、U-263、U-264、U-265、U-266、U-267、U-268、U-269、U-270 |
+| 本轮范围 | 上轮 U-251 到 U-260 复审；no-fetch conformance case design；adapter capability conformance expansion；observability store no-go refresh；package surface allowlist boundary；generated clean false-positive audit；`aods-use` skill release plan；post-merge / post-release / next milestone readiness 判断；v0.8 release execution dry-run refresh |
+| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、actual package version bump、CI workflow enablement、external fetch、arbitrary command executor、adapter handshake、telemetry store、自动 package diff 接受、自动恢复用户改动、skill 发布、runtime 启动、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`; conformance run JSON；package surface JSON；generated clean JSON；GitHub PR / issue / release read-only snapshot；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-261 | S31 | Cross-corpus no-fetch conformance case design | P3 | 未开始 | no-fetch conformance case 设计与 runner 边界明确 | U-229 | 不 remote fetch |
-| U-262 | S31 | Adapter capability conformance case expansion | P3 | 未开始 | adapter capability metadata conformance case 候选明确 | U-228 | 不实现 handshake |
-| U-263 | S31 | Observability report store no-go second refresh | P3 | 未开始 | conformance hardening 后 telemetry/store no-go 再确认 | U-230 | 不建 store |
-| U-264 | S31 | Package surface guard auto-update boundary | P3 | 未开始 | package allowlist 更新边界 / 误差处理明确 | U-215 | 不自动接受 package diff |
-| U-265 | S31 | Generated clean false-positive audit | P3 | 未开始 | generated clean guard 的误报/漏报边界审查完成 | U-216 | 不自动恢复用户改动 |
-| U-266 | S31 | aods-use skill release publish plan | P3 | 未开始 | packaged skill 后续发布 / 安装同步路线明确 | U-219 | 不发布 skill |
-| U-267 | S31 | Post-merge issue close verification execution | P1 | 未开始 | PR merge 后公开 issue close 状态核对执行 | U-253 | 需要 merge 后执行 |
-| U-268 | S31 | v0.8 release execution dry-run refresh | P1 | 未开始 | tag / release / rollback dry-run 更新 | U-254 | 不创建 tag/release |
-| U-269 | S31 | Post-release retrospective update | P2 | 未开始 | release 后复盘模板更新到 conformance-era 状态 | U-268 | release 后执行 |
-| U-270 | S31 | Next milestone planning after v0.8 closeout | P2 | 未开始 | v0.8 closeout 后下一阶段候选任务池明确 | U-269 | 不启动 runtime |
+| U-267 | S31 | Post-merge issue close verification execution | P1 | 阻塞 | PR merge 后公开 issue close 状态核对执行 | U-253 | PR `#63` 当前仍 OPEN，merge 后执行 |
+| U-269 | S31 | Post-release retrospective update | P2 | 阻塞 | release 后复盘模板更新到 conformance-era 状态 | U-268 | v0.8 release 后执行 |
+| U-270 | S31 | Next milestone planning after v0.8 closeout | P2 | 阻塞 | v0.8 closeout 后下一阶段候选任务池明确 | U-269 | v0.8 closeout 后执行；不启动 runtime |
 
 ## 已完成任务
 
@@ -312,10 +305,21 @@
 | 263 | U-258 | S30 | Glossary term use enforcement boundary | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | glossary boundary review | glossary can gate structured term refs, aliases, replacements and linked surfaces; no auto rewrite |
 | 264 | U-259 | S30 | Stable contract terminology mismatch negative fixture | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | negative fixture design review | stable lifecycle term mismatch negative fixture designed; implementation deferred until structured term refs exist |
 | 265 | U-260 | S30 | Documentation term drift audit | P3 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | `rg` / route / glossary read-only audit | no structured start/begin lifecycle conflict found; high-risk prose audit completed |
+| 266 | U-261 | S31 | Cross-corpus no-fetch conformance case design | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | conformance runner/schema review | no-fetch conformance case design and runner boundary documented；不 remote fetch |
+| 267 | U-262 | S31 | Adapter capability conformance case expansion | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | adapter metadata boundary review | adapter capability conformance case candidates documented；不实现 handshake |
+| 268 | U-263 | S31 | Observability report store no-go second refresh | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | report output review | validate / route / fixture / conformance remain stdout-only；不建 store |
+| 269 | U-264 | S31 | Package surface guard auto-update boundary | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | `npm run package:check-surface -- --json` | allowlist update boundary documented；missing=0 unexpected=0 |
+| 270 | U-265 | S31 | Generated clean false-positive audit | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | `npm run generated:check-clean -- --json` | false-positive / leak boundaries documented；dirty_entries=0 |
+| 271 | U-266 | S31 | aods-use skill release publish plan | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md`、packaged skill files | skill package review | skill release/install sync route documented；不发布 skill |
+| 272 | U-268 | S31 | v0.8 release execution dry-run refresh | P1 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | GitHub release/tag snapshot、package version review | v0.8 tag/release/rollback dry-run refreshed；不创建 tag/release |
 
 ## 失败或阻塞任务
 
-当前无失败或阻塞任务。
+| 任务 ID | 状态 | 阻塞原因 | 下一步 |
+|---|---|---|---|
+| U-267 | 阻塞 | PR `#63` 当前仍 `OPEN`，`mergedAt=null`，无法执行 post-merge issue close verification | PR merge 后执行 close/deferred issue reconciliation |
+| U-269 | 阻塞 | v0.8 release 尚未发生，latest release 仍为 `v0.7.0` | v0.8 GitHub Release 创建后更新 retrospective |
+| U-270 | 阻塞 | v0.8 尚未 closeout，不能基于未发生的 release 规划 final closeout | U-269 完成后制定 next milestone |
 
 ## 负责人判断 / issue 分类
 
