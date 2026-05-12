@@ -4,6 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import Ajv2020 from "ajv/dist/2020.js";
 
 import { REPO_ROOT } from "../src/helpers.mjs";
 
@@ -130,6 +131,54 @@ test("conformance runner consumes declared fixture and validate cases without ar
   assert.equal(report.summary.expected_failures, 2);
   assert.deepEqual(report.issues, []);
   assert.ok(report.cases.some((testCase) => testCase.id === "compiled-pilot-strict-reality"));
+});
+
+test("conformance manifest and report match their checked-in schemas", () => {
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
+  const manifestSchema = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "schema", "conformance-manifest.schema.json"), "utf8"));
+  const reportSchema = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "schema", "conformance-report.schema.json"), "utf8"));
+  const conformanceManifest = JSON.parse(fs.readFileSync(CONFORMANCE_MANIFEST_PATH, "utf8"));
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", CONFORMANCE_MANIFEST_PATH, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(result.stdout);
+
+  assert.equal(ajv.validate(manifestSchema, conformanceManifest), true, JSON.stringify(ajv.errors, null, 2));
+  assert.equal(ajv.validate(reportSchema, report), true, JSON.stringify(ajv.errors, null, 2));
+});
+
+test("conformance runner rejects arbitrary command-shaped manifest properties", (t) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-conformance-non-execution-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const markerPath = path.join(tempDir, "command-executed");
+  const conformanceManifest = JSON.parse(fs.readFileSync(CONFORMANCE_MANIFEST_PATH, "utf8"));
+  conformanceManifest.cases = [
+    {
+      ...conformanceManifest.cases[0],
+      command: `node -e "require('fs').writeFileSync(${JSON.stringify(markerPath)}, 'executed')"`
+    }
+  ];
+  const tempManifestPath = path.join(tempDir, "conformance-manifest.json");
+  fs.writeFileSync(tempManifestPath, `${JSON.stringify(conformanceManifest, null, 2)}\n`);
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", tempManifestPath, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.notEqual(result.status, 0);
+  assert.equal(fs.existsSync(markerPath), false);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.action, "conformance run");
+  assert.equal(report.status, "fail");
+  assert.equal(report.accepted, false);
+  assert.ok(report.issues.some((issue) => issue.rule === "conformance-manifest-property"));
 });
 
 test("negative fixture contract inputs fail with expected smoke rules", () => {

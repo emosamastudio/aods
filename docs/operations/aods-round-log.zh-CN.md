@@ -2,6 +2,74 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-04
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-04 |
+| 开始时间 | 2026-05-13 01:45 Asia/Shanghai |
+| 结束时间 | 2026-05-13 02:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-221 到 U-230 复审；post-conformance task discovery；public state readonly refresh；conformance schema / non-execution hardening；route terminology sanity；coverage snapshot；release hygiene rerun；handoff navigation sync；不 merge、不 release、不 bump version、不创建 tag、不发布 npm、不新增 CI、不抓外网、不执行 arbitrary commands |
+| 本轮选中任务 | U-231、U-232、U-233、U-234、U-235、U-236、U-237、U-238、U-239、U-240 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-04
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `e145b35` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 通过，含 docs link、secret scan、package surface、generated clean、skill regression、`validate:all` |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、199 changed files、0 reviews、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-231 到 U-240 |
+
+## 任务执行记录：R-2026-05-13-04
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-231 | 未开始 | 已完成 | 任务池清空后重新发现 U-241 到 U-270，并锁定本轮前 10 项 | `aods-post-conformance-task-discovery.zh-CN.md`、task ledger |
+| 2 | U-232 | 未开始 | 已完成 | 只读刷新 open issue 覆盖姿态 | `gh issue list --state open --limit 100` |
+| 3 | U-233 | 未开始 | 已完成 | 只读刷新 PR `#63` 状态 | `gh pr view 63 --json ...` |
+| 4 | U-234 | 未开始 | 已完成 | 增加 conformance manifest/report schema validation regression | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` |
+| 5 | U-235 | 未开始 | 已完成 | runner 拒绝 schema-disallowed unknown properties | `lib/conformance.mjs`、focused fixture regression |
+| 6 | U-236 | 未开始 | 已完成 | 增加 command-shaped manifest property non-execution regression | temp marker non-execution test |
+| 7 | U-237 | 未开始 | 已完成 | 路由查询 drift/lifecycle/start/begin 术语 sanity | route JSON sample |
+| 8 | U-238 | 未开始 | 已完成 | 刷新 fixture / conformance coverage snapshot | fixture smoke JSON、conformance JSON |
+| 9 | U-239 | 未开始 | 已完成 | conformance hardening 后重跑 release hygiene | `npm run release:hygiene` |
+| 10 | U-240 | 未开始 | 已完成 | 同步 handoff、navigation、progress、round log | docs navigation / handoff updates |
+
+## 验证记录：R-2026-05-13-04
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致 |
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮和本轮最终均通过 |
+| PR state review | `gh pr view 63 --json ...` | 通过 | ready、merge clean、20 close refs |
+| Open issue snapshot | `gh issue list --state open --limit 100 --json ...` | 通过 | 24 open issues；20 close-on-merge / 4 deferred |
+| Conformance focused regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 10/10 pass |
+| Conformance suite | `npm run conformance:compiled-pilot -- --json` | 通过 | 4 cases、2 expected failures |
+| Route terminology sanity | `node ./bin/aods.mjs route . --query "code drift lifecycle start begin task" --json` | 通过 | 返回 boot / surface governance / stable contract authority |
+
+## 新发现任务：R-2026-05-13-04
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-231 | U-241 到 U-250 | post-conformance release closeout hardening | P1/P3 | release gate、packed install、PR/release notes refresh、version/README plan、conformance fail/warn/text hardening | 下一轮默认 |
+| U-231 | U-251 到 U-260 | package / terminology drift hardening | P1/P3 | package install conformance smoke、CI triage、terminology drift boundary / fixture plan | U-241 到 U-250 后 |
+| U-231 | U-261 到 U-270 | conformance expansion / release execution readiness | P1/P3 | no-fetch / adapter conformance expansion、generated/package guard audits、post-merge/release readiness | U-251 到 U-260 后 |
+
+## 回合结束摘要：R-2026-05-13-04
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-231 到 U-240 |
+| 完成任务 | 10 | U-231 到 U-240 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | merge / release / issue close 仍需明确授权，但不阻塞本轮 |
+| 新增任务 | 30 | U-241 到 U-270 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-241 到 U-250 |
+
 ## 回合摘要：R-2026-05-13-03
 
 | 项 | 内容 |

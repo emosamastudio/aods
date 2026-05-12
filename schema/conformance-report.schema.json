@@ -9,6 +9,7 @@
     "status",
     "accepted",
     "suite_id",
+    "manifest",
     "summary",
     "cases",
     "issues"
