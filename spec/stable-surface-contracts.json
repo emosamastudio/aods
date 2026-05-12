@@ -1,12 +1,24 @@
 {
   "aods_v": 3,
   "module_id": "spec-stable-surface-contracts",
-  "v": 5,
-  "context": "Defines minimal stable-surface contracts for redaction, contract completeness profiles, root and module implementation topology, implementation evidence, schema version compatibility, and adapter-facing capability minimums.",
+  "v": 22,
+  "context": "Defines stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, observability, topology, provenance, schema compatibility, adapters, and capability matching.",
   "assumptions": [
     "Stable and adapter-facing surfaces need explicit consumption contracts before external reliance",
     "Root topology should become schema-backed before module linkage and runtime reality checks",
-    "Adapter capability posture should be explicit before remote integrations are described as stable"
+    "Adapter capability posture should be explicit before remote integrations are described as stable",
+    "Write-capable surfaces need audit linkage before command semantics are exposed as stable",
+    "Append-only event surfaces need correction semantics before consumers treat event history as stable truth",
+    "Partial implementation gaps need explicit owner, blocking posture, remediation, and consumer guidance before being treated as non-blocking",
+    "Overlapping stable surfaces need declared canonical, derived, alias, conflict, and migration posture before consumers merge claims",
+    "Stable surfaces that depend on other surfaces need explicit hard, optional, blocking, derivation, emission, and consumption ordering before validation or routing treats them as independently consumable",
+    "Deprecated or removed stable surfaces need replacement, migration, affected version, removal, and validation behavior before consumers can safely move",
+    "Agent-consumable surfaces need canonical risk categories before routing, adapter, command, or release policy treats risk labels as comparable",
+    "Local-only and remote-capable surfaces need exposure constraints before local exports are reused as adapter or API contracts",
+    "Commands and adapters need audit-log requirements before consumers rely on action traces, receipts, policy decisions, or failure reconstruction",
+    "Long-running operational objects need explicit lifecycle state-machine profiles before implementations compare status, retries, cancellation, timeout, cleanup, or terminal behavior",
+    "Validation and routing decisions need observable rule, location, dependency, route, skip, and next-action metadata before agents can debug why a surface loaded, failed, or was skipped",
+    "Capability compatibility matrices need deterministic metadata comparison before adapter-facing capability claims can be reviewed as compatible"
   ],
   "sections": [
     {
@@ -26,21 +38,222 @@
     {
       "sid": "contract-completeness-profiles",
       "topic": "minimal contract completeness profiles",
-      "content": "A contract completeness profile declares the minimum information required before a surface can be consumed as stable. v0.7 defines only three profiles. read-model covers read-only data surfaces such as generated indexes, schema views, summaries, or inventory outputs. It must identify the data source, field set, freshness posture, identity or key semantics, and failure or absence semantics. command covers action surfaces such as CLI commands, hooks, workflows, or agent-triggered operations. It must identify input shape, side effects, preconditions, authorization or actor boundary, idempotency posture, observable outputs, and failure semantics. implementation-linkage covers the design-to-reality bridge used by the topology pilot. It must identify implementation repository, path or path pattern, implementation status, optional PR or issue references, and the authority surface that owns the claim. Profiles do not define every possible field in the ecosystem. They define the lowest safe floor for stable consumption, so a consumer can tell whether it is reading data, invoking action, or following a design-to-implementation link. A stable surface without a profile remains under-specified even when prose is clear. The validator boundary for this round is mirror and presence based: when a module or manifest declares contract metadata, both sides must agree on the profile, and spec validation defines which fields are required for future profile-specific enforcement.",
+      "content": "A contract completeness profile declares the minimum information required before a surface can be consumed as stable. v0.7 defines only three profiles. read-model covers read-only data surfaces such as generated indexes, schema views, summaries, or inventory outputs. It must identify the data source, field set, freshness posture, identity or key semantics, and failure or absence semantics. Stable read-model contracts must declare read_model.freshness with snapshot_id, exported_at, source_watermark, and staleness so consumers can tell which source snapshot they are reading. staleness may be current, stale, partial, or unknown. partial snapshots must explain partial_semantics or partial_reason before stable consumption. command covers action surfaces such as CLI commands, hooks, workflows, or agent-triggered operations. It must identify input shape, side effects, preconditions, authorization or actor boundary, idempotency posture, observable outputs, and failure semantics. Stable write-capable command surfaces should also link command, receipt, and event or projection semantics before external consumers rely on writes. implementation-linkage covers the design-to-reality bridge used by the topology pilot. It must identify implementation repository, path or path pattern, implementation status, optional PR or issue references, and the authority surface that owns the claim. Profiles do not define every possible field in the ecosystem. They define the lowest safe floor for stable consumption, so a consumer can tell whether it is reading data, invoking action, or following a design-to-implementation link. A stable surface without a profile remains under-specified even when prose is clear. The validator boundary for this round is deterministic and metadata based: read-model profile must declare freshness and watermark metadata; manifest/module contract summaries still mirror the profile only.",
       "content_type": "rules",
       "refs": [
         "spec-authority-governance:stable-surface-authority"
       ],
       "artifact_refs": [
         "contract-profile-field-table",
+        "read-model-freshness-field-table",
+        "command-receipt-event-field-table",
         "stable-contract-validation-rules"
       ],
       "criticality": "must"
     },
     {
+      "sid": "command-receipt-event-triad",
+      "topic": "write-capable command audit triad",
+      "content": "A write-capable stable surface should describe its command, receipt, and event or projection linkage before agents or adapters depend on it. command means the requested write intent: actor boundary, source, target, payload schema, schema version, preconditions, idempotency key, side effects, and authorization posture. receipt means the durable attempt record: receipt_id, command_ref, status, accepted_at or rejected_at, rejection_category, observable_outputs, and audit_anchor. event or projection means the observable state consequence: event_ref or projection_ref, emitted_at or materialized_at, schema version, ordering key, replay posture, and consumer guidance. triad linkage means the command points to the receipt, the receipt points back to the command and forward to any event or projection, and the event or projection can be traced to the receipt for audit and replay. Missing pieces may be declared as not-applicable only with an authority reason and consumer guidance. This boundary does not execute commands, require an event bus runtime, define correction or supersession semantics, create a general workflow engine, or guarantee exactly-once delivery. It only prevents stable write-capable surfaces from relying on prose-only auditability.",
+      "content_type": "rules",
+      "refs": [
+        "contract-completeness-profiles",
+        "decision-provenance-boundary",
+        "schema-versioning-compatibility"
+      ],
+      "artifact_refs": [
+        "command-receipt-event-field-table",
+        "command-receipt-event-non-goals",
+        "event-correction-field-table"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "event-correction-supersession",
+      "topic": "append-only event correction boundary",
+      "content": "An append-only event surface must not silently rewrite historical truth. Stable event consumers need explicit correction and supersession semantics before event history, timelines, or projections are treated as authoritative. correction_event means a new event that names correction_of, correction_actor, correction_source, correction_reason, corrected_fields, and replacement event posture without mutating the original event. supersession_link means an event may declare supersedes, superseded_by, replacement_event, and effective_at so consumers can identify which record currently carries the preferred truth. retraction means a correction class that states retraction_reason, retracted_event, replacement_event when one exists, and whether consumers should hide, mark, or preserve the original event. projection guidance means the authority surface tells readers how corrected events should appear in read models, timelines, exports, and audit views; it distinguishes historical, advisory, blocking, and replacement posture. This boundary does not allow history rewrite, implement an event store runtime, run automatic replay, migrate historical data, or decide domain truth by itself. Human review still owns whether the correction reason is adequate and whether a projection can safely consume the corrected event.",
+      "content_type": "rules",
+      "refs": [
+        "command-receipt-event-triad",
+        "schema-versioning-compatibility",
+        "decision-provenance-boundary"
+      ],
+      "artifact_refs": [
+        "event-correction-field-table",
+        "event-correction-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "partial-known-gap-metadata",
+      "topic": "partial implementation and known-gap boundary",
+      "content": "A partial implementation or known gap marker records an intentional gap without treating natural-language notes as enough for stable consumption. partial implementation means a surface declares that some contract fields, lifecycle states, validation checks, fixtures, evidence anchors, or runtime behaviors are not complete. known gap means a named omission with gap_id, surface_ref, missing_capabilities, blocking_status, owner, expected_remediation, target_posture, evidence_refs, and consumer guidance. missing_capabilities names the absent capability, field, fixture, evidence, lifecycle transition, validator gate, implementation path, or runtime behavior. blocking_status may be non-blocking, warning, strict-blocking, release-blocking, drift-blocking, security-blocking, or unknown. owner identifies the accountable project role or surface owner, not a vague team note. expected_remediation describes the smallest next action and review gate needed to remove or downgrade the gap. consumer guidance tells agents whether to use the surface, downgrade, require human review, or avoid stable consumption. This boundary does not create a roadmap system, automatic waiver, release override, backlog tracker, or validator bypass.",
+      "content_type": "rules",
+      "refs": [
+        "contract-completeness-profiles",
+        "topology-pilot-design",
+        "schema-versioning-compatibility",
+        "spec-validation:severity-gating-policy"
+      ],
+      "artifact_refs": [
+        "partial-known-gap-field-table",
+        "partial-known-gap-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "ownership-authority-hierarchy",
+      "topic": "overlapping surface ownership and authority hierarchy",
+      "content": "Overlapping surfaces are stable only when authority hierarchy is explicit. overlapping surfaces means two or more modules, sections, artifacts, human surfaces, generated indexes, commands, events, or views describe the same object, lifecycle state, command, event, decision, or exported claim. canonical authority means the single surface whose claim wins for a named overlap_scope. derived surface means a surface generated from, summarized from, projected from, or constrained by the canonical authority; it must name source_authority, derivation_rule, freshness_posture, and divergence_policy before stable consumption. alias means another stable identifier, route, or surface name that intentionally points at the same authority; aliases must name alias_of, allowed_use, and deprecation posture when the alias is temporary. conflict policy means the declared response when surfaces disagree: canonical-wins, derived-refresh-required, human-review-required, block-consumption, or deprecated-alias. migration guidance means the replacement, compatibility window, consumer action, and removal posture for aliases, deprecated derived surfaces, or authority moves. This boundary does not create an automatic conflict resolver, infer ownership from paths or names, fetch external corpora, run cross_corpus authority runtime, or choose domain truth. It only makes overlap consumable without asking agents to guess which surface owns the claim.",
+      "content_type": "rules",
+      "refs": [
+        "spec-authority-governance:stable-surface-authority",
+        "spec-authority-governance:cross-surface-ref-boundary",
+        "schema-versioning-compatibility",
+        "partial-known-gap-metadata"
+      ],
+      "artifact_refs": [
+        "ownership-authority-field-table",
+        "ownership-authority-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "surface-dependency-ordering",
+      "topic": "dependency ordering between stable surfaces",
+      "content": "dependency ordering declares how stable surfaces depend on one another before validation, routing, release review, or agent consumption treats them as independently usable. requires means a hard dependency: the source surface cannot be consumed as stable unless the target surface exists and has an acceptable lifecycle and contract posture. blocks means a surface prevents another surface from promotion, release, routing, or stable consumption until a named condition is resolved. derives_from means a generated, summarized, projected, indexed, or exported surface is derived from a source authority and must declare derivation_rule, freshness posture, and consumer guidance. emits means a command, workflow, adapter, event source, or runtime contract produces a receipt, event, projection, export, or generated surface. consumes means a command, adapter, validator, route, export, or generated artifact reads another surface as input. optional dependency means a dependency may improve fidelity, routing, evidence, or diagnostics but must name fallback behavior and degraded posture when absent. dependency_strength is hard, optional, advisory, or unknown; hard dependencies block stable consumption when missing or unstable, optional dependencies require fallback guidance, advisory dependencies provide context only, and unknown dependencies require human review before stable consumption. This boundary does not create a package manager, runtime scheduler, cross_repo dependency executor, automatic topological build runner, or remote fetch mechanism. It only gives consumers a deterministic vocabulary for dependency order and degraded use.",
+      "content_type": "rules",
+      "refs": [
+        "ownership-authority-hierarchy",
+        "contract-completeness-profiles",
+        "command-receipt-event-triad",
+        "schema-versioning-compatibility",
+        "spec-boot-protocol:task-stage-routing"
+      ],
+      "artifact_refs": [
+        "surface-dependency-field-table",
+        "surface-dependency-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
+      "sid": "deprecation-migration-format",
+      "topic": "deprecation and migration format for stable surfaces",
+      "content": "deprecation marks a stable surface as still readable but no longer preferred. A deprecated surface must identify deprecated_surface, deprecated_at, deprecation_reason, lifecycle_state, owner, and consumer_action before agents treat it as stable enough to consume. replacement means a resolvable replacement_ref or replacement_surface with replacement_kind and authority posture; no-replacement is allowed only with an explicit reason and consumer guidance. migration guidance means the concrete consumer action needed to move from the deprecated surface to the replacement, including field_mapping, command_mapping, event_mapping, export_mapping, compatibility_notes, and manual_review_required when migration cannot be mechanical. affected_versions names affected_versions, first_deprecated_version, removal_version, compatibility_window, and removal_posture so consumers can tell which corpus, module, command, event, field, or export versions are impacted. validation behavior describes before-removal and after-removal gates: before removal, validators may warn, require replacement links, or require review; after removal, stable consumers should fail on unresolved uses unless an explicit compatibility window or known-gap posture still applies. This boundary does not create an automatic_migration_tool, rewrite consumers, provide a runtime_compatibility_shim, transform stored data, or guarantee backward compatibility. It only gives deprecated, replaced, and removed surfaces a stable metadata shape.",
+      "content_type": "rules",
+      "refs": [
+        "schema-versioning-compatibility",
+        "ownership-authority-hierarchy",
+        "surface-dependency-ordering",
+        "partial-known-gap-metadata",
+        "spec-authority-governance:surface-lifecycle-exposure"
+      ],
+      "artifact_refs": [
+        "deprecation-migration-field-table",
+        "deprecation-migration-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "standard-risk-taxonomy",
+      "topic": "standard risk taxonomy for agent-consumable surfaces",
+      "content": "canonical risk categories let agent-consumable surfaces use comparable risk labels before routing, adapter, command, resource, or release policy treats a surface as safe. read risk describes what can be exposed when a surface is read, including sensitive payload, stale data, local-only information, or authority confusion. write risk describes state change caused by commands, adapters, resources, generated outputs, releases, or production mutation. credential risk marks token, secret, credential, handle-only, and debug-only exposure. filesystem risk marks local path, repo path, generated output, and stored artifact read or write access. network risk marks remote read, remote write, external fetch, public endpoint exposure, and egress. external-send risk marks email, issue, pull request, release, public post, or other external message surfaces. cost risk marks paid API, compute, storage, quota, and rate-limit consumption. production-mutation risk marks production data, config, deploy, release, and irreversible operational changes. human approval states when a risk label needs review, approval, strict gate, release gate, or security gate. capability negotiation may compare provider capability risk labels with consumer risk floors, but this metadata does not create runtime_policy_engine behavior. This boundary does not create a permission_broker, dynamic_risk_scanner, approval_workflow, sandbox, secret manager, network broker, or cost accounting runtime.",
+      "content_type": "rules",
+      "refs": [
+        "redaction-policy-model",
+        "contract-completeness-profiles",
+        "command-receipt-event-triad",
+        "adapter-capability-minimum",
+        "capability-negotiation-retriage",
+        "spec-validation:severity-gating-policy"
+      ],
+      "artifact_refs": [
+        "standard-risk-taxonomy-field-table",
+        "standard-risk-taxonomy-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "local-remote-exposure-constraints",
+      "topic": "local-only versus remote-capable surface constraints",
+      "content": "local-only, local-export, remote-read, remote-write, and adapter-facing are exposure classes for stable surfaces, not transport implementations. local-only means a surface may expose local paths, debug details, handles, environment assumptions, repo-only evidence, or other local diagnostic material for local agents only; it must declare consumer_scope, allowed_locations, risk_floor, redaction posture, freshness posture when data is read, compatibility posture when consumers cache it, and the reason it is not remote-safe. local-export means a file or artifact is generated locally and may be shared only across its declared export boundary; it must declare export_format, artifact scope, redaction, freshness, compatibility, and consumer guidance so a generated file is not mistaken for an API contract. remote-read means an external consumer may read the surface through a remote, API, hosted, or adapter boundary; it adds auth boundary, redaction floor, freshness requirement, compatibility policy, rate/cost/network risk labels, and audit anchor expectations before stable consumption. remote-write means a remote consumer may mutate state through a command, adapter, resource, or workflow; it adds command, receipt, event or projection linkage, idempotency posture, policy decision, human approval when risk requires it, rollback posture, and production-mutation risk before the write is treated as stable. adapter-facing means a surface is stable for adapters only when adapter capability minimum, standard risk taxonomy labels, redaction, auth, freshness, compatibility, and evidence anchors are declared. upgrade gates are required before any local-only or local-export surface is promoted to remote-read, remote-write, or adapter-facing use: the replacement authority or exposure review must declare exposure_class, upgrade_gate, risk labels, redaction, auth, freshness, compatibility, audit anchor, and consumer guidance. Future validation may warn when a local-only surface is referenced by remote consumers without an explicit upgrade gate. This boundary does not create a remote_api_gateway, auth_runtime, network_broker, automatic_exposure_upgrader, sandbox, remote transport runtime, or policy enforcement runtime; human review still owns whether an exposure upgrade is safe.",
+      "content_type": "rules",
+      "refs": [
+        "standard-risk-taxonomy",
+        "redaction-policy-model",
+        "adapter-capability-minimum",
+        "capability-negotiation-retriage",
+        "command-receipt-event-triad",
+        "schema-versioning-compatibility",
+        "spec-authority-governance:surface-lifecycle-exposure"
+      ],
+      "artifact_refs": [
+        "local-remote-exposure-field-table",
+        "local-remote-exposure-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "command-adapter-audit-log-requirements",
+      "topic": "audit-log requirements for commands and adapters",
+      "content": "audit-log requirements define the minimum metadata needed before commands or adapters can claim an auditable action trace. An auditable command or adapter surface must identify actor, source, target, command, idempotency key, policy decision, receipt reference, timestamp, and correlation identifiers. actor names the human, agent, service, adapter principal, or delegated role that requested the action. source names the stable surface, command profile, adapter capability, route, workflow entrypoint, or external-send surface that initiated the request. target names the object, resource, environment, repo path, endpoint, account, or production boundary affected by the action. command identifies command_ref, payload schema or schema version, side effect class, retry posture, and whether the action is read, write, remote-read, remote-write, or adapter-facing. idempotency key links retries and duplicate attempts so consumers can distinguish repeated requests from independent writes. policy decision records allow, deny, review-required, blocked, or not-applicable with decision source and risk labels. receipt reference links the audit record to command receipts and receipts/events by receipt_ref, event_or_projection_ref, status, failure category, and observable outputs. timestamp records requested_at plus accepted_at, rejected_at, completed_at, or emitted_at when those events exist. correlation identifiers include correlation_id, trace_id, run_id, task_id, or parent_command_ref so cross-surface traces remain joinable. Validation can warn when auditable command, remote-write, or adapter-facing surfaces lack this audit metadata. This boundary does not create an audit_log_store, workflow_engine, SIEM integration, observability_backend, policy engine, identity provider, or event bus runtime.",
+      "content_type": "rules",
+      "refs": [
+        "command-receipt-event-triad",
+        "local-remote-exposure-constraints",
+        "standard-risk-taxonomy",
+        "adapter-capability-minimum",
+        "decision-provenance-boundary",
+        "schema-versioning-compatibility"
+      ],
+      "artifact_refs": [
+        "command-adapter-audit-field-table",
+        "command-adapter-audit-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "lifecycle-state-machine-profile",
+      "topic": "lifecycle state-machine profile for operational objects",
+      "content": "A lifecycle state-machine profile defines the minimum stable contract for long-running operational objects. operational objects are jobs, runs, sessions, exports, imports, deployments, migrations, tasks, workflows, or adapter operations whose state changes over time. lifecycle state is the authoritative machine state used for validation, routing, automation, and recovery; display status is a human-facing label and must not replace lifecycle state. initial states identify where an object may start after creation, import, resume, or restoration. terminal states identify states such as succeeded, failed, canceled, expired, superseded, or abandoned after which normal transitions stop unless an explicit correction or replacement event exists. transitions declare from_state, to_state, trigger, actor boundary, authority surface, and state transition authority. guards declare preconditions, policy gates, risk gates, approval gates, freshness checks, dependency checks, and known-gap handling before a transition is stable. timeout and expiration describe timeout_at, expires_at, staleness, timeout_action, expiration_action, and consumer guidance. retry policy describes retryable states, retry limits, backoff posture, idempotency requirements, and retry terminal behavior. cancellation semantics describe who can cancel, when cancellation is allowed, cancellation side effects, receipt linkage, and resulting terminal state. cleanup semantics describe cleanup trigger, resource scope, retained evidence, irreversible deletion posture, and consumer guidance. State changes must link to events or receipts through receipt_ref, event_or_projection_ref, audit anchor, or correction/supersession link when applicable. Future validation can warn when long-running operational objects lack lifecycle state-machine profile metadata. This boundary does not create a workflow_engine, scheduler, retry_runtime, cleanup_executor, object factory, state persistence runtime, or operational dashboard.",
+      "content_type": "rules",
+      "refs": [
+        "command-receipt-event-triad",
+        "event-correction-supersession",
+        "command-adapter-audit-log-requirements",
+        "surface-dependency-ordering",
+        "standard-risk-taxonomy",
+        "schema-versioning-compatibility"
+      ],
+      "artifact_refs": [
+        "lifecycle-state-machine-field-table",
+        "lifecycle-state-machine-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "validation-routing-observability-metadata",
+      "topic": "observability metadata for validation and routing decisions",
+      "content": "Validation and routing decisions need observability metadata before agents treat pass, fail, selected, skipped, or fallback outcomes as explainable. Validation observability must identify rule id, severity, source location, dependency path when relevant, and suggested next action. rule id names the stable validation rule or future validation boundary that produced the decision. severity names the gate level or diagnostic posture so consumers can tell whether the result blocks, warns, advises, or only informs. source location names the file, json pointer, section ref, artifact ref, or line and column when available. dependency path names the dependency chain, ref path, blocking edge, missing target, or route dependency that caused the decision. Routing observability must identify routing reason, selected modules, skipped modules, fallback posture, dependency path when relevant, and suggested next action. routing reason explains why a route selected, loaded, skipped, degraded, or fell back for a module or surface. selected modules name the modules included in the working set and the selection reason. skipped modules name modules excluded from the working set with skip reason and consumer guidance. route JSON explanation names the selected route source, structured reason, and declared dependency edges in explanation.source, explanation.reason, and explanation.dependency. suggested next action names the smallest remediation, review, command, or authoring action available without executing it. This boundary defines machine-readable explanation vocabulary and permits minimal route JSON explanation fields. It does not rewrite the CLI output subsystem, build a dashboard, create a trace store, create a graph database, change route ranking, implement telemetry storage, or make every diagnostic complete.",
+      "content_type": "rules",
+      "refs": [
+        "spec-validation:severity-gating-policy",
+        "surface-dependency-ordering",
+        "partial-known-gap-metadata",
+        "command-adapter-audit-log-requirements",
+        "lifecycle-state-machine-profile",
+        "spec-boot-protocol:task-stage-routing"
+      ],
+      "artifact_refs": [
+        "validation-routing-observability-field-table",
+        "validation-routing-observability-non-goals"
+      ],
+      "criticality": "should"
+    },
+    {
       "sid": "topology-pilot-design",
       "topic": "project topology and implementation alignment pilot",
-      "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, and evidence anchors. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. The manifest carries evidence_summary only, with counts for total, current, planned, stale, and blocked. Current implementation linkage must declare at least one evidence anchor so current status is reviewable. Evidence locators are declarative; validators may check repo-relative locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, and U-027 landed declarative implementation evidence.",
+      "content": "The project_topology pilot exists to break design-only green loops. AODS validation can be fully green while a separate implementation repository is absent, stalled, or invisible. The pilot turns that external reality into a first-class root surface before it becomes a runtime gate. Root topology now lives at manifest.project_topology. It declares the design repository posture plus implementation_repos[]. Each repo entry carries id, locator, role, branch, status, and optional notes. design_repo uses the same minimum shape so the corpus can declare where authority lives before checking downstream implementation paths. Status is a claim about implementation reality, not proof by itself. Allowed status values for the pilot are not-started, planned, in-progress, partial, current, blocked, deprecated, and removed. Module implementation linkage now lives at module.meta.implementation and mirrors through manifest.modules[].implementation. It points from a module to repo_id, paths, status, optional pr_refs, authority_surface, evidence anchors, and acceptance criteria. pr_refs are trace anchors and do not replace path linkage. Paths are relative to the linked implementation repository. Evidence anchors live only in module.meta.implementation.evidence[]. Acceptance criteria live only in module.meta.implementation.acceptance_criteria[] and link contract requirements to evidence refs, validator rules, fixtures, or manual review posture. The manifest carries evidence_summary and acceptance_summary only. evidence_summary counts total, current, planned, stale, and blocked evidence. acceptance_summary counts total, satisfied, planned, partial, waived, blocked, and manual_review criteria. Current implementation linkage must declare at least one evidence anchor and one acceptance criterion so current status is reviewable and tied to a requirement. A current implementation with evidence but no current evidence anchor produces a deterministic warning, and stale evidence anchors produce deterministic warnings with refresh guidance. Evidence locators and criteria are declarative; validators may check repo-relative evidence locator existence under validate --reality when the linked repository root is resolvable, but validators do not execute evidence commands. validate --reality now emits a topology summary with linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, current_evidence, planned_evidence, stale_evidence, blocked_evidence, checked_evidence_locators, missing_evidence_locators, structured unchecked_repos, and explicit unchecked_reason when repo locators cannot yet be resolved from the selected repo root. Non-goals remain cross-repo CI dispatch, automatic code ownership detection, fingerprint drift gates, arbitrary command execution, and closing issue 28 as duplicate. The staged path now reads: U-007 defined pilot semantics, U-008 landed root schema plus examples, U-009 landed module linkage schema and mirror rules, U-010 landed topology-aware reality summaries with explicit partial-check reporting, U-027 landed declarative implementation evidence, U-029 landed implementation acceptance criteria, U-071 landed actionable unchecked repo locator diagnostics, and U-077 landed stale/current evidence hygiene.",
       "content_type": "rules",
       "refs": [
         "contract-completeness-profiles"
@@ -80,16 +293,61 @@
       "criticality": "must"
     },
     {
+      "sid": "capability-negotiation-retriage",
+      "topic": "capability negotiation minimum boundary",
+      "content": "Capability negotiation remains a deferred runtime protocol. The v0.8 re-triage defines only metadata boundaries so adapter-facing claims can be compared without creating a handshake. provider capability means a provider declares capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. consumer requirement means a consumer declares required capability_id, accepted contract_profile, required schema_version_policy, transport_scope needs, freshness requirement, redaction floor, and blocking posture. compatibility matching means deterministic metadata comparison of provider capability to consumer requirement; it can say compatible, incompatible, partial, or unknown. A capability compatibility matrix can declare provider_capability_id, required_capability_id, provider_contract_profile, accepted_contract_profile, provider_schema_version_policy, required_schema_version_policy, provider_exposure_class, required_exposure_class, and expected_result. Validators compare compatible and incompatible rows deterministically across capability id, profile, schema version policy, and exposure class without executing provider behavior. evidence link means provider and consumer claims can point at implementation evidence, acceptance criteria, fixture manifests, or authority sections. This re-triage does not introduce negotiation sessions, runtime discovery, auth exchange, provider selection, fallback ranking, dynamic probing, remote execution, or transport retries. If a future task needs those behaviors, it must start from these metadata fields and add a separate protocol surface instead of overloading adapter-facing prose.",
+      "content_type": "rules",
+      "refs": [
+        "adapter-capability-minimum",
+        "topology-pilot-design",
+        "schema-versioning-compatibility"
+      ],
+      "artifact_refs": [
+        "capability-negotiation-boundary-table",
+        "capability-matrix-field-guide",
+        "capability-negotiation-non-goals"
+      ],
+      "criticality": "must"
+    },
+    {
+      "sid": "decision-provenance-boundary",
+      "topic": "agent consumable decision provenance boundary",
+      "content": "Agent-consumable decisions are stable only when their source boundary is explicit. A decision artifact may declare decision_provenance to identify whether the decision is consumed by agents, held for human review, or internal. The basis states whether the decision comes directly from source evidence, from a derived summary, or from a mixed boundary. source_refs must point at sections or artifacts that authorize the decision. evidence_refs may point at proof anchors. summary_ref is required when the decision is derived from a summary or mixed with a summary because agents must know where synthesis happened. evidence_status is current, stale, unresolved, or withheld. consumption_gate is stable, review-required, blocked, or experimental. An agent-consumable decision cannot be stable when evidence is stale, unresolved, or withheld. Stale evidence means reviewers must refresh or downgrade before stable consumption. Unresolved evidence means agents must not treat the decision as authoritative. Withheld evidence means a stable consumer needs another allowed authority or an explicit review gate. This boundary does not create a full provenance framework, evidence warehouse, or cross-corpus resolver. It only prevents derived decision summaries from becoming stable agent instructions without source and evidence posture.",
+      "content_type": "rules",
+      "refs": [
+        "contract-completeness-profiles",
+        "topology-pilot-design"
+      ],
+      "artifact_refs": [
+        "decision-provenance-field-table",
+        "stable-contract-validation-rules"
+      ],
+      "criticality": "must"
+    },
+    {
       "sid": "stable-contract-scope-boundary",
       "topic": "round scope and deferred work",
-      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, root topology semantics, compatibility language, and a trimmed adapter capability floor. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, or implementation fingerprinting. It also does not make every future profile stable. write-model, event, resource ownership, export, generated artifact, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, and whether an adapter capability claim is adequately evidenced. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
+      "content": "The stable-surface contract layer is deliberately small. It adds explicit metadata, profile names, read-model freshness and watermark metadata, command receipt event audit linkage, event correction and supersession vocabulary, partial implementation and known gap vocabulary, ownership and authority hierarchy vocabulary, dependency ordering vocabulary, deprecation and migration vocabulary, standard risk taxonomy vocabulary, local/remote exposure vocabulary, command/adapter audit-log requirements vocabulary, lifecycle state-machine vocabulary, validation/routing observability vocabulary, root topology semantics, compatibility language, decision provenance boundaries, a trimmed adapter capability floor, and metadata-only capability matching boundaries. It does not add automatic sensitive-data detection, redaction transforms, role-based access control, migration code generation, semantic schema diffing, multi-version negotiation, cross-repo fetch, evidence warehouse behavior, implementation fingerprinting, command execution, event bus runtime, event store replay, historical data migration, roadmap system behavior, automatic waiver, release override, automatic conflict resolver, ownership inference, cross-corpus authority runtime, package manager behavior, runtime scheduler, cross-repo dependency executor, automatic migration tool, consumer rewrite, runtime compatibility shim, runtime policy engine, permission broker, dynamic risk scanner, approval workflow, remote API gateway, auth runtime, network broker, automatic exposure upgrader, audit log store, workflow engine, scheduler, retry runtime, cleanup executor, CLI output subsystem rewrite, dashboard, trace store, graph database, SIEM integration, observability backend, runtime provider discovery, auth exchange, fallback ranking, or dynamic capability probing. It also does not make every future profile stable. full write-model runtime, resource ownership, export runtime, generated artifact runtime, remote transport runtime, audit storage runtime, state persistence runtime, telemetry storage, route ranking rewrite, and full adapter negotiation profiles remain deferred. The model favors deterministic sensors before broad inference. Required metadata can be checked by schema and validator. Human review still owns the meaning of a redaction policy, the sufficiency of a contract profile, whether a topology status is honest, whether a read-model source watermark is semantically sufficient, whether command receipt event linkage is operationally sufficient, whether an event correction reason is adequate, whether a known gap can be consumed without blocking, whether overlapping surface conflict policy is adequate, whether dependency ordering is sufficient for stable use, whether migration guidance is safe, whether a risk label is adequate, whether a local-only or local-export surface is safe to upgrade for remote-read, remote-write, or adapter-facing exposure, whether command or adapter audit metadata is sufficient to reconstruct action traces, whether a lifecycle state-machine profile is sufficient for long-running operational objects, whether validation or routing observability metadata is sufficient to explain a pass, fail, selection, skip, or fallback outcome, whether a decision summary is faithful to evidence, whether an adapter capability claim is adequately evidenced, and whether a partial capability match is acceptable. This boundary protects AODS from expanding into a general application governance framework before it has closed the trust gaps that block v0.7.",
       "content_type": "rules",
       "refs": [
         "redaction-policy-model",
         "contract-completeness-profiles",
+        "command-receipt-event-triad",
+        "event-correction-supersession",
+        "partial-known-gap-metadata",
+        "ownership-authority-hierarchy",
+        "surface-dependency-ordering",
+        "deprecation-migration-format",
+        "standard-risk-taxonomy",
+        "local-remote-exposure-constraints",
+        "command-adapter-audit-log-requirements",
+        "lifecycle-state-machine-profile",
+        "validation-routing-observability-metadata",
         "topology-pilot-design",
+        "decision-provenance-boundary",
         "schema-versioning-compatibility",
-        "adapter-capability-minimum"
+        "adapter-capability-minimum",
+        "capability-negotiation-retriage"
       ],
       "artifact_refs": [],
       "criticality": "must"
@@ -171,6 +429,1135 @@
       }
     },
     {
+      "artifact_id": "read-model-freshness-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum freshness and watermark fields for stable read-model contracts.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "required",
+          "meaning"
+        ],
+        "rows": [
+          [
+            "read_model.source",
+            "recommended",
+            "authority or data source behind the read model"
+          ],
+          [
+            "read_model.fields",
+            "recommended",
+            "stable fields exposed by the read model"
+          ],
+          [
+            "read_model.identity",
+            "recommended",
+            "key or identity semantics for records or generated entries"
+          ],
+          [
+            "read_model.freshness.snapshot_id",
+            "yes",
+            "stable identifier for the exported snapshot"
+          ],
+          [
+            "read_model.freshness.exported_at",
+            "yes",
+            "timestamp or deterministic build time for the snapshot"
+          ],
+          [
+            "read_model.freshness.source_watermark",
+            "yes",
+            "source-side watermark, commit, offset, data version, or equivalent freshness anchor"
+          ],
+          [
+            "read_model.freshness.staleness",
+            "yes",
+            "current, stale, partial, or unknown currentness posture"
+          ],
+          [
+            "read_model.partial_semantics",
+            "required when partial",
+            "how consumers should interpret partial or lagging snapshots"
+          ],
+          [
+            "read_model.absence_semantics",
+            "recommended",
+            "meaning of missing, empty, or withheld data"
+          ],
+          [
+            "read_model.failure_semantics",
+            "recommended",
+            "how generation or read failures are represented"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "command-receipt-event-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for write-capable command receipt event triads.",
+      "content": {
+        "key_columns": [
+          "surface"
+        ],
+        "columns": [
+          "surface",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "command",
+            "command_id, actor_boundary, source, target, payload_schema, schema_version, preconditions, idempotency_key, side_effects, authorization",
+            "declared write intent",
+            "command execution"
+          ],
+          [
+            "receipt",
+            "receipt_id, command_ref, status, accepted_at or rejected_at, rejection_category, observable_outputs, audit_anchor",
+            "durable attempt record",
+            "receipt store implementation"
+          ],
+          [
+            "event_or_projection",
+            "event_ref or projection_ref, receipt_ref, emitted_at or materialized_at, schema_version, ordering_key, replay_posture, consumer_guidance",
+            "observable state consequence",
+            "event bus or projection runtime"
+          ],
+          [
+            "triad_linkage",
+            "command_ref, receipt_ref, event_ref or projection_ref, not_applicable_reason, authority_surface",
+            "audit and replay traceability",
+            "exactly-once delivery guarantee"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "command-receipt-event-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for write-capable command receipt event triads.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "command_executor",
+            "executing writes requires runtime authorization, side-effect isolation, and rollback semantics beyond static contract metadata",
+            "future write-runtime task"
+          ],
+          [
+            "event_bus_runtime",
+            "durable delivery and projection materialization require infrastructure-specific semantics",
+            "future event/runtime task"
+          ],
+          [
+            "correction_semantics",
+            "correction, retraction, and supersession policy belongs to append-only event semantics",
+            "future issue-39 task"
+          ],
+          [
+            "exactly_once_delivery",
+            "delivery guarantees depend on runtime transport, storage, and idempotency implementation",
+            "future conformance or runtime task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "event-correction-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for append-only event correction and supersession boundaries.",
+      "content": {
+        "key_columns": [
+          "surface"
+        ],
+        "columns": [
+          "surface",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "correction_event",
+            "event_id, correction_of, correction_actor, correction_source, correction_reason, corrected_fields, replacement_event",
+            "new event records the correction without mutating original history",
+            "history rewrite"
+          ],
+          [
+            "supersession_link",
+            "supersedes, superseded_by, replacement_event, effective_at, supersession_reason",
+            "current preferred truth is traceable from prior event to replacement",
+            "automatic conflict resolution"
+          ],
+          [
+            "retraction",
+            "retracted_event, retraction_reason, replacement_event, consumer_visibility, audit_anchor",
+            "invalid or withdrawn event remains auditable",
+            "data deletion or erasure workflow"
+          ],
+          [
+            "projection_guidance",
+            "projection_posture, display_rule, audit_rule, read_model_rule, export_rule",
+            "consumers know whether to show historical, advisory, blocking, or replacement posture",
+            "automatic replay or read-model migration"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "event-correction-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for event correction and supersession semantics.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "history_rewrite",
+            "append-only semantics require preserving original events and adding correction records",
+            "not allowed for append-only stable event surfaces"
+          ],
+          [
+            "event_store_runtime",
+            "storage, ordering, retention, and delivery behavior depends on implementation infrastructure",
+            "future event runtime task"
+          ],
+          [
+            "automatic_replay",
+            "rebuilding read models requires runtime execution and migration policy beyond static metadata",
+            "future conformance or migration task"
+          ],
+          [
+            "domain_truth_decision",
+            "whether a correction reason is sufficient remains owned by domain authority and human review",
+            "future governance review task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "partial-known-gap-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for partial implementation and known-gap metadata.",
+      "content": {
+        "key_columns": [
+          "field_family"
+        ],
+        "columns": [
+          "field_family",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "gap_identity",
+            "gap_id, surface_ref, gap_kind, declared_at, authority_surface",
+            "names the gap and the surface that owns the declaration",
+            "roadmap item identity service"
+          ],
+          [
+            "missing_capability",
+            "missing_capabilities[], affected_contract_fields, affected_lifecycle_states, evidence_refs",
+            "states what stable consumers cannot rely on yet",
+            "automatic capability discovery"
+          ],
+          [
+            "blocking_posture",
+            "blocking_status, severity_floor, target_posture, release_gate",
+            "tells agents whether to continue, warn, block, or require review",
+            "automatic waiver or release override"
+          ],
+          [
+            "remediation_plan",
+            "owner, expected_remediation, review_gate, due_posture",
+            "records the accountable owner and smallest remediation action",
+            "full project roadmap system"
+          ],
+          [
+            "consumer_guidance",
+            "consumer_guidance, allowed_use, downgrade_path, human_review_required",
+            "tells consumers how to use or avoid the partial surface",
+            "runtime fallback execution"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "partial-known-gap-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for partial implementation and known-gap metadata.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "roadmap_system",
+            "gap metadata records consumption posture but does not replace the project task ledger",
+            "future planning or project-management task"
+          ],
+          [
+            "automatic_waiver",
+            "known gaps must not silently bypass validation, release, or review gates",
+            "future governance approval task"
+          ],
+          [
+            "release_override",
+            "release eligibility remains a separate gate that may consume gap metadata but is not decided by it",
+            "future release governance task"
+          ],
+          [
+            "validator_bypass",
+            "declaring a gap explains partial posture but does not suppress deterministic validation failures",
+            "not allowed for stable validation"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "ownership-authority-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for overlapping surface ownership and authority hierarchy.",
+      "content": {
+        "key_columns": [
+          "field_family"
+        ],
+        "columns": [
+          "field_family",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "canonical_authority",
+            "overlap_scope, canonical_surface, authority_owner, authority_reason, conflict_policy",
+            "identifies the single winning authority for a named overlap",
+            "domain truth decision"
+          ],
+          [
+            "derived_surface",
+            "derived_surface, source_authority, derivation_rule, freshness_posture, divergence_policy",
+            "keeps summaries, projections, indexes, and generated surfaces tied to their source",
+            "automatic regeneration"
+          ],
+          [
+            "alias_surface",
+            "alias_surface, alias_of, allowed_use, deprecation_posture, replacement_ref",
+            "lets old names or routes point at the same authority without creating competing truth",
+            "automatic redirect runtime"
+          ],
+          [
+            "conflict_policy",
+            "conflict_policy, detection_surface, consumer_action, review_gate",
+            "tells consumers how to behave when overlapping claims disagree",
+            "automatic conflict resolver"
+          ],
+          [
+            "migration_guidance",
+            "replacement_ref, compatibility_window, consumer_action, removal_posture",
+            "supports authority moves, aliases, and deprecated derived surfaces",
+            "automatic migration tool"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "ownership-authority-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for overlapping surface ownership and authority hierarchy.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "automatic_conflict_resolver",
+            "choosing truth across competing claims needs domain authority and review beyond static metadata",
+            "future governance or conformance task"
+          ],
+          [
+            "cross_corpus_authority_runtime",
+            "fetching, ranking, and merging authority across corpora requires a separate resolver and trust model",
+            "future cross-corpus runtime task"
+          ],
+          [
+            "ownership_inference",
+            "file paths, names, or git ownership are evidence hints, not declared authority",
+            "future implementation analysis task"
+          ],
+          [
+            "automatic_migration_tool",
+            "rewriting consumers or moving data requires runtime-specific migration machinery",
+            "future migration task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-dependency-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for dependency ordering between stable surfaces.",
+      "content": {
+        "key_columns": [
+          "relationship"
+        ],
+        "columns": [
+          "relationship",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "requires",
+            "source_surface, target_surface, dependency_strength, required_posture, missing_behavior",
+            "hard dependency that blocks stable use when missing or unstable",
+            "package manager resolution"
+          ],
+          [
+            "blocks",
+            "blocking_surface, blocked_surface, block_reason, release_gate, remediation_ref",
+            "declares what prevents promotion, routing, release, or stable consumption",
+            "automatic approval workflow"
+          ],
+          [
+            "derives_from",
+            "derived_surface, source_surface, derivation_rule, freshness_posture, divergence_policy",
+            "ties generated, projected, summarized, indexed, or exported surfaces to their source",
+            "automatic build runner"
+          ],
+          [
+            "emits",
+            "emitter_surface, emitted_surface, emission_kind, ordering_key, audit_anchor",
+            "links commands, workflows, adapters, or event sources to receipts, events, projections, exports, or generated surfaces",
+            "event bus runtime"
+          ],
+          [
+            "consumes",
+            "consumer_surface, input_surface, consumption_mode, freshness_requirement, absence_behavior",
+            "states what a command, adapter, validator, route, export, or generated artifact reads as input",
+            "runtime data fetch"
+          ],
+          [
+            "optional_dependency",
+            "source_surface, target_surface, dependency_strength, fallback_behavior, degraded_posture",
+            "documents non-blocking dependencies and degraded behavior when absent",
+            "automatic fallback execution"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "surface-dependency-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for dependency ordering between stable surfaces.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "package_manager",
+            "dependency metadata describes stable consumption order but does not install, resolve, or version packages",
+            "future packaging or distribution task"
+          ],
+          [
+            "runtime_scheduler",
+            "execution order, retries, timeouts, and concurrency require runtime-specific semantics",
+            "future runtime orchestration task"
+          ],
+          [
+            "cross_repo_dependency_executor",
+            "running dependency checks across repositories requires repo resolution, trust, and command execution policy",
+            "future implementation runtime task"
+          ],
+          [
+            "automatic_topological_build_runner",
+            "building or regenerating derived surfaces is an execution workflow, not a static dependency declaration",
+            "future conformance or build task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "deprecation-migration-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for deprecation and migration metadata on stable surfaces.",
+      "content": {
+        "key_columns": [
+          "field_family"
+        ],
+        "columns": [
+          "field_family",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "deprecation_metadata",
+            "deprecated_surface, deprecated_at, deprecation_reason, lifecycle_state, owner, consumer_action",
+            "marks a stable surface as readable but no longer preferred",
+            "automatic lifecycle promotion"
+          ],
+          [
+            "replacement_link",
+            "replacement_ref, replacement_surface, replacement_kind, replacement_authority, no_replacement_reason",
+            "points consumers to the authority that replaces the deprecated surface",
+            "automatic resolver or redirect runtime"
+          ],
+          [
+            "migration_guidance",
+            "migration_steps, field_mapping, command_mapping, event_mapping, export_mapping, compatibility_notes, manual_review_required",
+            "describes how consumers move from old surface to replacement",
+            "automatic migration tool"
+          ],
+          [
+            "affected_versions",
+            "affected_versions, first_deprecated_version, removal_version, compatibility_window, removal_posture",
+            "tells consumers which versions remain readable and when removal becomes terminal",
+            "multi-version negotiation runtime"
+          ],
+          [
+            "removal_validation",
+            "validation_behavior, before_removal_gate, after_removal_gate, known_gap_ref, exception_posture",
+            "states when validators warn, require review, or fail unresolved use",
+            "consumer rewrite or runtime compatibility shim"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "deprecation-migration-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for deprecation and migration metadata.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "automatic_migration_tool",
+            "metadata describes migration guidance but does not transform files, commands, events, exports, or stored data",
+            "future migration task"
+          ],
+          [
+            "consumer_rewrite",
+            "rewriting downstream agents, adapters, or generated surfaces requires consumer-specific execution semantics",
+            "future consumer tooling task"
+          ],
+          [
+            "runtime_compatibility_shim",
+            "runtime compatibility layers require execution, transport, and version negotiation beyond static metadata",
+            "future runtime task"
+          ],
+          [
+            "backward_compatibility_guarantee",
+            "compatibility depends on declared policy and human review rather than this metadata alone",
+            "future release governance task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "standard-risk-taxonomy-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum risk categories for agent-consumable surfaces.",
+      "content": {
+        "key_columns": [
+          "risk_family"
+        ],
+        "columns": [
+          "risk_family",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "read_risk",
+            "risk_level, sensitive_payload, staleness, local_only_data, authority_confusion, consumer_floor",
+            "states what may be exposed when a surface is read",
+            "automatic sensitive-data scanner"
+          ],
+          [
+            "write_risk",
+            "risk_level, mutation_scope, side_effects, idempotency_posture, rollback_posture, gate",
+            "states what can change when a command, adapter, or resource is invoked",
+            "runtime policy engine"
+          ],
+          [
+            "credential_risk",
+            "credential_kind, exposure_posture, handle_only, redaction_posture, rotation_or_revocation_guidance",
+            "marks token, secret, credential, and handle-only exposure posture",
+            "secret manager"
+          ],
+          [
+            "filesystem_risk",
+            "path_scope, access_mode, generated_output, persistent_artifact, destructive_posture",
+            "marks local path, repo path, generated output, and stored artifact risk",
+            "sandbox or filesystem broker"
+          ],
+          [
+            "network_risk",
+            "endpoint_scope, direction, public_exposure, egress_posture, remote_write",
+            "marks remote read, remote write, external fetch, public endpoint, and egress risk",
+            "network broker"
+          ],
+          [
+            "external_send_risk",
+            "channel, audience, public_visibility, irreversible_posture, approval_gate",
+            "marks external messages such as email, issue, pull request, release, or public post",
+            "external action executor"
+          ],
+          [
+            "cost_risk",
+            "cost_unit, quota_scope, rate_limit, budget_posture, approval_gate",
+            "marks paid API, compute, storage, quota, and rate-limit consumption",
+            "cost accounting runtime"
+          ],
+          [
+            "production_mutation_risk",
+            "environment, mutation_kind, blast_radius, rollback_posture, release_gate",
+            "marks production data, config, deploy, release, and irreversible operational changes",
+            "deploy controller"
+          ],
+          [
+            "human_approval",
+            "approval_required, approval_reason, gate_level, approver_role, exception_posture",
+            "states when a risk label requires review, approval, strict gate, release gate, or security gate",
+            "approval workflow"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "standard-risk-taxonomy-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for standard risk taxonomy metadata.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "runtime_policy_engine",
+            "risk labels describe posture but do not grant or deny runtime execution",
+            "future policy runtime task"
+          ],
+          [
+            "permission_broker",
+            "permission checks need runtime identity, scope, and trust semantics beyond static metadata",
+            "future permission task"
+          ],
+          [
+            "dynamic_risk_scanner",
+            "detecting risk from code or payloads requires scanning and inference outside this vocabulary",
+            "future analysis task"
+          ],
+          [
+            "approval_workflow",
+            "human approval routing requires workflow state, receipts, and authority assignment",
+            "future governance workflow task"
+          ],
+          [
+            "cost_accounting_runtime",
+            "cost measurement requires provider-specific metering and quota state",
+            "future runtime observability task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "local-remote-exposure-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum exposure classes and upgrade gates for local-only and remote-capable stable surfaces.",
+      "content": {
+        "key_columns": [
+          "exposure_class"
+        ],
+        "columns": [
+          "exposure_class",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "local_only",
+            "consumer_scope, allowed_locations, risk_floor, redaction_posture, freshness_posture, compatibility_posture, non_remote_reason",
+            "local agent, repo, diagnostic, debug, or evidence-only consumption",
+            "sandbox or local policy runtime"
+          ],
+          [
+            "local_export",
+            "export_format, artifact_scope, export_boundary, redaction_posture, freshness_posture, compatibility_posture, consumer_guidance",
+            "generated file or artifact shared only within a declared export boundary",
+            "export runtime or distribution service"
+          ],
+          [
+            "remote_read",
+            "exposure_class, auth_boundary, redaction_floor, freshness_requirement, compatibility_policy, risk_labels, audit_anchor",
+            "remote, API, hosted, or adapter consumer may read the surface",
+            "remote API gateway"
+          ],
+          [
+            "remote_write",
+            "command_ref, receipt_ref, event_or_projection_ref, idempotency_posture, policy_decision, approval_gate, rollback_posture, production_mutation_risk",
+            "remote consumer may mutate state through a command, adapter, resource, or workflow",
+            "command executor or auth runtime"
+          ],
+          [
+            "adapter_facing",
+            "adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, redaction, auth, freshness, compatibility, risk_labels, evidence_anchor",
+            "adapter capability claim may be consumed as stable",
+            "negotiation session or dynamic provider discovery"
+          ],
+          [
+            "upgrade_gate",
+            "source_surface, target_exposure_class, replacement_authority_or_review, risk_labels, redaction, auth, freshness, compatibility, audit_anchor, consumer_guidance",
+            "promotion from local-only or local-export to remote-read, remote-write, or adapter-facing use",
+            "automatic exposure upgrader"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "local-remote-exposure-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred runtime surfaces for local-only versus remote-capable exposure constraints.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "remote_api_gateway",
+            "exposure metadata describes whether a surface may be read remotely but does not host an API boundary",
+            "future transport task"
+          ],
+          [
+            "auth_runtime",
+            "auth fields describe boundary expectations but do not evaluate identity or permissions",
+            "future identity/runtime task"
+          ],
+          [
+            "network_broker",
+            "network risk labels describe remote exposure and egress posture but do not broker traffic",
+            "future network runtime task"
+          ],
+          [
+            "automatic_exposure_upgrader",
+            "local-only to remote-capable promotion requires declared authority or review, not automatic inference",
+            "future governance workflow task"
+          ],
+          [
+            "remote_transport_runtime",
+            "transport execution needs protocol, retry, identity, and operational behavior beyond static metadata",
+            "future adapter/runtime task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "command-adapter-audit-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum audit metadata for auditable command and adapter-facing surfaces.",
+      "content": {
+        "key_columns": [
+          "audit_field"
+        ],
+        "columns": [
+          "audit_field",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "audit_actor",
+            "actor_id or actor_role, actor_kind, delegated_by when applicable",
+            "identifies who or what requested the action",
+            "identity provider"
+          ],
+          [
+            "audit_source",
+            "source_surface, command_profile, adapter_id, capability_id, route_or_workflow_ref",
+            "identifies the surface that initiated the action",
+            "workflow engine"
+          ],
+          [
+            "audit_target",
+            "target_ref, target_kind, environment, resource_scope, production_boundary",
+            "identifies what object, resource, environment, or endpoint was affected",
+            "target inventory runtime"
+          ],
+          [
+            "command_reference",
+            "command_ref, payload_schema, schema_version, side_effect_class, retry_posture",
+            "links audit metadata to the requested command or adapter action",
+            "command executor"
+          ],
+          [
+            "idempotency_key",
+            "idempotency_key, duplicate_policy, retry_group, replay_posture",
+            "distinguishes retries from independent writes",
+            "exactly-once runtime"
+          ],
+          [
+            "policy_decision",
+            "decision, decision_source, risk_labels, approval_gate, denial_or_review_reason",
+            "records whether the action was allowed, denied, blocked, or review-required",
+            "policy engine"
+          ],
+          [
+            "receipt_reference",
+            "receipt_ref, event_or_projection_ref, status, failure_category, observable_outputs",
+            "links audit records to receipts/events and observable consequences",
+            "audit log store or event bus runtime"
+          ],
+          [
+            "timestamp",
+            "requested_at, accepted_at, rejected_at, completed_at, emitted_at",
+            "orders action attempts and outcomes across command and adapter traces",
+            "observability backend"
+          ],
+          [
+            "correlation_identifier",
+            "correlation_id, trace_id, run_id, task_id, parent_command_ref",
+            "joins related command, adapter, receipt, event, and failure records",
+            "distributed tracing runtime"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "command-adapter-audit-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred runtime surfaces for command and adapter audit-log requirements.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "audit_log_store",
+            "metadata requirements describe trace shape but do not persist audit records",
+            "future storage/runtime task"
+          ],
+          [
+            "workflow_engine",
+            "source and correlation fields identify workflow context but do not execute or schedule workflows",
+            "future workflow runtime task"
+          ],
+          [
+            "siem_integration",
+            "security analytics integration needs vendor-specific transport, identity, and retention behavior",
+            "future observability/security task"
+          ],
+          [
+            "observability_backend",
+            "timestamps and correlation identifiers make traces joinable but do not provide telemetry storage or querying",
+            "future observability runtime task"
+          ],
+          [
+            "policy_engine",
+            "policy decision fields record posture but do not evaluate policy",
+            "future governance runtime task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "lifecycle-state-machine-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum lifecycle state-machine profile fields for long-running operational objects.",
+      "content": {
+        "key_columns": [
+          "lifecycle_field"
+        ],
+        "columns": [
+          "lifecycle_field",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "state_identity",
+            "state_id, state_kind, lifecycle_state, display_status, owner_surface",
+            "distinguishes authoritative lifecycle state from human-facing status",
+            "UI status framework"
+          ],
+          [
+            "initial_state",
+            "state_id, creation_trigger, resume_trigger, import_trigger, allowed_entry_conditions",
+            "defines where an operational object may start",
+            "object factory"
+          ],
+          [
+            "terminal_state",
+            "state_id, terminal_kind, finality, replacement_or_correction_allowed, consumer_guidance",
+            "defines when normal state transitions stop",
+            "workflow engine"
+          ],
+          [
+            "transition",
+            "from_state, to_state, trigger, actor_boundary, authority_surface, event_or_receipt_ref",
+            "defines allowed state movement and trace linkage",
+            "transition executor"
+          ],
+          [
+            "guard",
+            "precondition, policy_gate, risk_gate, approval_gate, freshness_check, dependency_check",
+            "defines conditions that must hold before transition",
+            "policy engine"
+          ],
+          [
+            "timeout_expiration",
+            "timeout_at, expires_at, staleness, timeout_action, expiration_action, consumer_guidance",
+            "defines time-based lifecycle behavior",
+            "scheduler"
+          ],
+          [
+            "retry_policy",
+            "retryable_states, retry_limit, backoff_posture, idempotency_requirement, retry_terminal_behavior",
+            "defines how failed or pending attempts may repeat",
+            "retry runtime"
+          ],
+          [
+            "cancellation_semantics",
+            "cancel_actor, allowed_states, cancel_side_effects, receipt_ref, resulting_terminal_state",
+            "defines who can cancel and what state results",
+            "workflow engine"
+          ],
+          [
+            "cleanup_semantics",
+            "cleanup_trigger, resource_scope, retained_evidence, deletion_posture, consumer_guidance",
+            "defines resource cleanup and retained audit posture",
+            "cleanup executor"
+          ],
+          [
+            "event_receipt_link",
+            "receipt_ref, event_or_projection_ref, audit_anchor, correction_or_supersession_ref",
+            "links state changes to events or receipts",
+            "event bus runtime"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "lifecycle-state-machine-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred runtime surfaces for lifecycle state-machine profiles.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "workflow_engine",
+            "profile metadata defines allowed states and transitions but does not execute workflows",
+            "future workflow runtime task"
+          ],
+          [
+            "scheduler",
+            "timeout and expiration fields describe timing posture but do not run timers",
+            "future runtime scheduling task"
+          ],
+          [
+            "retry_runtime",
+            "retry policy metadata describes repeat behavior but does not perform retries",
+            "future command/runtime task"
+          ],
+          [
+            "cleanup_executor",
+            "cleanup semantics describe resource posture but do not delete or mutate resources",
+            "future resource runtime task"
+          ],
+          [
+            "state_persistence_runtime",
+            "state identity describes durable shape but does not provide storage or locking",
+            "future persistence task"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "validation-routing-observability-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum observability metadata fields for validation and routing decisions.",
+      "content": {
+        "key_columns": [
+          "observability_field"
+        ],
+        "columns": [
+          "observability_field",
+          "minimum_fields",
+          "stable_use",
+          "deferred_runtime"
+        ],
+        "rows": [
+          [
+            "rule_identity",
+            "rule_id, rule_family, source_rule, decision_kind",
+            "identifies which validation or routing rule produced the decision",
+            "validator engine rewrite"
+          ],
+          [
+            "severity",
+            "severity_level, gate_posture, blocking_status, diagnostic_scope",
+            "tells consumers whether the decision blocks, warns, advises, or informs",
+            "policy engine"
+          ],
+          [
+            "source_location",
+            "file, json_pointer, section_ref, artifact_ref, line, column",
+            "anchors diagnostics to the smallest available source location",
+            "source map runtime"
+          ],
+          [
+            "dependency_path",
+            "dependency_chain, ref_path, blocking_edge, missing_target, route_dependency",
+            "explains dependency-driven failures, skips, and degraded routes",
+            "graph database"
+          ],
+          [
+            "routing_reason",
+            "route_id, selected_reason, fallback_posture, query_stage, touch_match",
+            "explains why a route selected, skipped, degraded, or fell back",
+            "route ranking rewrite"
+          ],
+          [
+            "route_json_explanation",
+            "explanation.source.kind|role|touch|query|stage|stage_source|intent; explanation.reason.strategy|selected_module_ids|matched_query_module_ids|matched_touch_routes; explanation.dependency.source|mode|dependency_ids|edges",
+            "gives route JSON consumers structured source, reason, and dependency fields without parsing prose",
+            "full CLI output subsystem rewrite"
+          ],
+          [
+            "selected_module",
+            "module_id, selection_reason, dependency_reason, working_set_role",
+            "explains why a module entered the active working set",
+            "UI report builder"
+          ],
+          [
+            "skipped_module",
+            "module_id, skip_reason, dependency_reason, consumer_guidance",
+            "explains why a module was omitted from the active working set",
+            "dashboard"
+          ],
+          [
+            "suggested_next_action",
+            "action_kind, remediation_hint, review_gate, command_hint, owner_surface",
+            "points agents or maintainers to the smallest next remediation or review step",
+            "automatic fixer"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "validation-routing-observability-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred runtime surfaces for validation and routing observability.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "cli_output_rewrite",
+            "route JSON may expose an additive explanation envelope, but text output, ranking, validation JSON shape, and full output subsystem rewrite stay out of scope",
+            "future CLI output task"
+          ],
+          [
+            "dashboard",
+            "selected and skipped module metadata can feed reports but does not build a visual UI",
+            "future human report task"
+          ],
+          [
+            "trace_store",
+            "correlation and dependency metadata may be recorded by future tools but this module does not store traces",
+            "future observability runtime task"
+          ],
+          [
+            "graph_database",
+            "dependency paths explain current decisions but do not persist or query a dependency graph",
+            "future graph/runtime task"
+          ],
+          [
+            "route_ranking_rewrite",
+            "routing reason explains current selection posture but does not change ranking behavior",
+            "future routing task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "topology-pilot-field-table",
       "type": "mapping-table",
       "usage": "Field map for the implementation topology pilot.",
@@ -196,8 +1583,8 @@
           ],
           [
             "module.meta.implementation",
-            "repo_id, paths, status, pr_refs, authority_surface, evidence[]",
-            "landed in U-009; evidence landed in U-027"
+            "repo_id, paths, status, pr_refs, authority_surface, evidence[], acceptance_criteria[]",
+            "landed in U-009; evidence landed in U-027; acceptance criteria landed in U-029"
           ],
           [
             "manifest.modules[].implementation.evidence_summary",
@@ -205,9 +1592,71 @@
             "landed in U-027"
           ],
           [
+            "manifest.modules[].implementation.acceptance_summary",
+            "total, satisfied, planned, partial, waived, blocked, manual_review",
+            "landed in U-029"
+          ],
+          [
             "validate --reality topology summary",
-            "linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, checked_evidence_locators, missing_evidence_locators, unchecked_reason",
-            "landed in U-010; evidence counters landed in U-027"
+            "linked_modules, unlinked_modules, checked_paths, missing_paths, evidence_total, current_evidence, planned_evidence, stale_evidence, blocked_evidence, checked_evidence_locators, missing_evidence_locators, unchecked_repos, unchecked_reason",
+            "landed in U-010; evidence counters landed in U-027; structured unchecked repo diagnostics landed in U-071; stale/current evidence status counters landed in U-077"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "decision-provenance-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for artifact-level decision provenance boundaries.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "required",
+          "meaning"
+        ],
+        "rows": [
+          [
+            "consumer_surface",
+            "yes",
+            "agent-consumable, human-review, or internal decision surface"
+          ],
+          [
+            "basis",
+            "yes",
+            "source-evidence, derived-summary, or mixed decision basis"
+          ],
+          [
+            "source_refs",
+            "yes",
+            "sections or artifacts that authorize the decision"
+          ],
+          [
+            "evidence_refs",
+            "no",
+            "sections or artifacts that prove or audit the decision"
+          ],
+          [
+            "summary_ref",
+            "required for derived-summary or mixed",
+            "section or artifact that owns the derived summary"
+          ],
+          [
+            "evidence_status",
+            "yes",
+            "current, stale, unresolved, or withheld evidence posture"
+          ],
+          [
+            "consumption_gate",
+            "yes",
+            "stable, review-required, blocked, or experimental consumption rule"
+          ],
+          [
+            "review_chain",
+            "no",
+            "review anchors that justify consuming a derived decision"
           ]
         ]
       }
@@ -312,6 +1761,152 @@
       }
     },
     {
+      "artifact_id": "capability-negotiation-boundary-table",
+      "type": "mapping-table",
+      "usage": "Metadata-only boundary for capability negotiation re-triage.",
+      "content": {
+        "key_columns": [
+          "surface"
+        ],
+        "columns": [
+          "surface",
+          "minimum_fields",
+          "allowed_result",
+          "non_goal"
+        ],
+        "rows": [
+          [
+            "provider_capability",
+            "capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, evidence_anchor",
+            "declared capability claim",
+            "runtime discovery"
+          ],
+          [
+            "consumer_requirement",
+            "capability_id, accepted_contract_profile, required_schema_version_policy, transport_scope, freshness_requirement, redaction_floor, blocking",
+            "declared consumer need",
+            "automatic binding"
+          ],
+          [
+            "compatibility_matching",
+            "capability_id match, compatible profile, compatible schema policy, compatible transport, freshness meets requirement, redaction meets floor",
+            "compatible, incompatible, partial, or unknown",
+            "negotiation session"
+          ],
+          [
+            "evidence_link",
+            "authority_ref, implementation_evidence_ref, acceptance_criteria_ref, fixture_ref",
+            "reviewable proof anchor",
+            "command execution"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "capability-matrix-field-guide",
+      "type": "mapping-table",
+      "usage": "Validator-checked columns for metadata-only capability compatibility cases.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "meaning",
+          "validator_use"
+        ],
+        "rows": [
+          [
+            "case_id",
+            "stable identity for one compatibility case",
+            "diagnostic label"
+          ],
+          [
+            "provider_capability_id",
+            "capability_id declared by the provider",
+            "must equal required_capability_id for compatible result"
+          ],
+          [
+            "required_capability_id",
+            "capability_id required by the consumer",
+            "must equal provider_capability_id for compatible result"
+          ],
+          [
+            "provider_contract_profile",
+            "contract_profile declared by the provider",
+            "must be accepted by accepted_contract_profile for compatible result"
+          ],
+          [
+            "accepted_contract_profile",
+            "contract profiles accepted by the consumer",
+            "pipe, comma, or semicolon separated allowed values"
+          ],
+          [
+            "provider_schema_version_policy",
+            "schema_version_policy declared by the provider",
+            "must be accepted by required_schema_version_policy for compatible result"
+          ],
+          [
+            "required_schema_version_policy",
+            "schema version policies accepted by the consumer",
+            "pipe, comma, or semicolon separated allowed values"
+          ],
+          [
+            "provider_exposure_class",
+            "exposure class declared by the provider",
+            "must be accepted by required_exposure_class for compatible result"
+          ],
+          [
+            "required_exposure_class",
+            "exposure classes accepted by the consumer",
+            "pipe, comma, or semicolon separated allowed values"
+          ],
+          [
+            "expected_result",
+            "compatible, incompatible, partial, or unknown",
+            "compatible and incompatible rows are checked deterministically"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "capability-negotiation-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit deferred surfaces for capability negotiation.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "reason",
+          "future_owner"
+        ],
+        "rows": [
+          [
+            "runtime_discovery",
+            "requires a protocol surface and trust boundary beyond static metadata",
+            "future adapter runtime task"
+          ],
+          [
+            "auth_exchange",
+            "requires credential, scope, and transport security semantics",
+            "future security and adapter protocol task"
+          ],
+          [
+            "dynamic_probe",
+            "requires executing provider behavior and defining retry or timeout posture",
+            "future conformance or runtime task"
+          ],
+          [
+            "provider_selection",
+            "requires ranking, fallback, and conflict policy across multiple providers",
+            "future negotiation policy task"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "stable-contract-validation-rules",
       "type": "rule-set",
       "usage": "Deterministic validation posture for stable-surface contract metadata.",
@@ -342,10 +1937,115 @@
             "source": "validation"
           },
           {
+            "id": "read-model-freshness-required",
+            "condition": "module.meta.contract.profile == read-model AND missing module.meta.contract.read_model.freshness",
+            "action": "L2 error: stable read-model contracts must declare freshness and watermark metadata",
+            "priority": 35,
+            "source": "validation"
+          },
+          {
+            "id": "command-triad-boundary",
+            "condition": "stable write-capable command surface claims auditability but lacks command, receipt, event_or_projection, or explicit not-applicable linkage",
+            "action": "future L3 warning: write-capable command surfaces should expose triad linkage before stable consumption",
+            "priority": 37,
+            "source": "validation"
+          },
+          {
+            "id": "event-correction-boundary",
+            "condition": "stable append-only event surface claims auditability but lacks correction, supersession, retraction, or projection guidance semantics",
+            "action": "future L3 warning: append-only event surfaces should expose correction and supersession posture before stable consumption",
+            "priority": 38,
+            "source": "validation"
+          },
+          {
+            "id": "partial-known-gap-boundary",
+            "condition": "stable surface declares partial implementation or known gap but lacks missing_capabilities, blocking_status, owner, expected_remediation, or consumer guidance",
+            "action": "future L3 warning: partial or known-gap surfaces should expose enough metadata for consumers to decide use, downgrade, review, or block",
+            "priority": 39,
+            "source": "validation"
+          },
+          {
             "id": "schema-versioning-metadata-mirror",
             "condition": "manifest.modules[].schema_versioning exists XOR module.meta.schema_versioning exists",
             "action": "L2 error: schema versioning summary must be mirrored",
             "priority": 40,
+            "source": "validation"
+          },
+          {
+            "id": "ownership-authority-boundary",
+            "condition": "stable overlapping surfaces declare competing authority without canonical_authority, derived_surface, alias_surface, conflict_policy, or migration_guidance posture",
+            "action": "future L3 warning: overlapping stable surfaces should expose authority hierarchy before consumers merge claims",
+            "priority": 41,
+            "source": "validation"
+          },
+          {
+            "id": "surface-dependency-ordering-boundary",
+            "condition": "stable surface declares dependency on another surface without relationship type, dependency_strength, target_surface, missing_behavior, or fallback/degraded posture for optional dependencies",
+            "action": "future L3 warning: stable surface dependencies should expose ordering and degraded-use posture before routing or stable consumption",
+            "priority": 42,
+            "source": "validation"
+          },
+          {
+            "id": "deprecation-migration-boundary",
+            "condition": "stable surface is deprecated or removed without replacement_ref or no_replacement_reason, migration_guidance, affected_versions, removal_version, and validation_behavior",
+            "action": "future L3 warning: deprecated or removed stable surfaces should expose migration and validation behavior before consumers move",
+            "priority": 43,
+            "source": "validation"
+          },
+          {
+            "id": "standard-risk-taxonomy-boundary",
+            "condition": "agent-consumable read, write, adapter, or resource surface lacks declared risk family, risk level, risk source, consumer floor, or human approval posture",
+            "action": "future L3 warning: agent-consumable surfaces should expose standard risk labels before routing, adapter, or release policy compares them",
+            "priority": 44,
+            "source": "validation"
+          },
+          {
+            "id": "local-remote-exposure-boundary",
+            "condition": "local-only or local-export surface is referenced by remote-read, remote-write, or adapter-facing consumer without exposure_class, upgrade_gate, redaction, auth, freshness, compatibility, and risk posture",
+            "action": "future L3 warning: local-only surfaces should not be reused by remote consumers without explicit exposure upgrade gates",
+            "priority": 45,
+            "source": "validation"
+          },
+          {
+            "id": "command-adapter-audit-boundary",
+            "condition": "auditable command, remote-write, or adapter-facing surface lacks actor, source, target, command_ref, idempotency_key, policy_decision, receipt_ref, timestamp, or correlation identifiers",
+            "action": "future L3 warning: commands and adapters should expose audit metadata before consumers rely on action reconstruction",
+            "priority": 46,
+            "source": "validation"
+          },
+          {
+            "id": "lifecycle-state-machine-boundary",
+            "condition": "long-running operational object lacks lifecycle state, display status distinction, initial state, terminal states, transitions, guards, timeout/expiration, retry, cancellation, cleanup, or event/receipt links",
+            "action": "future L3 warning: long-running operational objects should expose lifecycle state-machine profile metadata before consumers rely on state transitions",
+            "priority": 47,
+            "source": "validation"
+          },
+          {
+            "id": "validation-routing-observability-boundary",
+            "condition": "validation or routing decision lacks rule id, severity, source location, dependency path, routing reason, selected module, skipped module, or suggested next action metadata",
+            "action": "future L3 warning: validation and routing decisions should expose machine-readable observability metadata before agents rely on explanation or debug output",
+            "priority": 48,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-mismatch",
+            "condition": "capability compatibility mapping-table declares expected_result compatible or incompatible but provider_capability_id, contract_profile, schema_version_policy, or exposure_class metadata resolves the opposite result",
+            "action": "L2 error: capability compatibility matrix result must match provider and consumer metadata",
+            "priority": 49,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-table-columns",
+            "condition": "capability compatibility mapping-table is missing provider_capability_id, required_capability_id, profile, schema version policy, exposure class, or expected_result columns",
+            "action": "L2 error: capability compatibility matrix must expose all deterministic comparison columns",
+            "priority": 49,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-result",
+            "condition": "capability compatibility mapping-table expected_result is not compatible, incompatible, partial, or unknown",
+            "action": "L2 error: capability compatibility matrix expected_result must use the allowed result vocabulary",
+            "priority": 49,
             "source": "validation"
           },
           {
@@ -382,6 +2082,55 @@
             "action": "L2 error: path-like implementation evidence locators must exist",
             "priority": 80,
             "source": "validation"
+          },
+          {
+            "id": "implementation-current-evidence-missing",
+            "condition": "module.meta.implementation.status == current AND module.meta.implementation.evidence[] has entries AND count(status == current) == 0",
+            "action": "L3 warning: current implementation linkage should have at least one current evidence anchor",
+            "priority": 82,
+            "source": "validation"
+          },
+          {
+            "id": "implementation-evidence-stale",
+            "condition": "module.meta.implementation.evidence[].status == stale",
+            "action": "L3 warning: stale implementation evidence should be refreshed or the implementation posture downgraded",
+            "priority": 84,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-source-ref",
+            "condition": "artifact.decision_provenance exists AND any source_refs target is unresolved",
+            "action": "L2 error: decision provenance source refs must resolve to sections or artifacts",
+            "priority": 90,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-evidence-ref",
+            "condition": "artifact.decision_provenance exists AND any evidence_refs target is unresolved",
+            "action": "L2 error: decision provenance evidence refs must resolve to sections or artifacts",
+            "priority": 91,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-summary-ref",
+            "condition": "artifact.decision_provenance.summary_ref exists AND summary_ref target is unresolved",
+            "action": "L2 error: decision provenance summary_ref must resolve to a section or artifact",
+            "priority": 92,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-derived-summary",
+            "condition": "artifact.decision_provenance.basis is derived-summary or mixed AND summary_ref is missing",
+            "action": "L2 error: derived decision provenance must identify the summary owner",
+            "priority": 93,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-stable-evidence",
+            "condition": "artifact.decision_provenance.consumer_surface == agent-consumable AND consumption_gate == stable AND evidence_status IN stale, unresolved, withheld",
+            "action": "L2 error: stable agent-consumable decisions require current evidence posture",
+            "priority": 94,
+            "source": "validation"
           }
         ]
       }
@@ -412,6 +2161,91 @@
       "v": 5,
       "delta": "Added declarative implementation evidence anchors, manifest evidence summaries, and reality locator checks for path-like evidence.",
       "breaking": false
+    },
+    {
+      "v": 6,
+      "delta": "Added implementation acceptance criteria as contract-to-evidence linkage with manifest acceptance summaries.",
+      "breaking": false
+    },
+    {
+      "v": 7,
+      "delta": "Added artifact-level decision provenance boundaries for agent-consumable decisions and derived summaries.",
+      "breaking": false
+    },
+    {
+      "v": 8,
+      "delta": "Added read-model freshness and watermark metadata requirements for stable read-model contracts.",
+      "breaking": false
+    },
+    {
+      "v": 9,
+      "delta": "Re-triaged capability negotiation into metadata-only provider, consumer, compatibility matching, and evidence-link boundaries.",
+      "breaking": false
+    },
+    {
+      "v": 10,
+      "delta": "Added write-capable command receipt event triad boundaries for command audit linkage.",
+      "breaking": false
+    },
+    {
+      "v": 11,
+      "delta": "Added append-only event correction and supersession boundaries for stable event surfaces.",
+      "breaking": false
+    },
+    {
+      "v": 12,
+      "delta": "Added partial implementation and known-gap metadata boundaries for stable consumption posture.",
+      "breaking": false
+    },
+    {
+      "v": 13,
+      "delta": "Added ownership and authority hierarchy boundaries for overlapping stable surfaces.",
+      "breaking": false
+    },
+    {
+      "v": 14,
+      "delta": "Added dependency ordering boundaries for stable surfaces that require, block, derive from, emit, consume, or optionally depend on other surfaces.",
+      "breaking": false
+    },
+    {
+      "v": 15,
+      "delta": "Added deprecation and migration metadata boundaries for deprecated, replaced, and removed stable surfaces.",
+      "breaking": false
+    },
+    {
+      "v": 16,
+      "delta": "Added standard risk taxonomy boundaries for agent-consumable read, write, adapter, and resource surfaces.",
+      "breaking": false
+    },
+    {
+      "v": 17,
+      "delta": "Added local-only versus remote-capable exposure constraints for local exports, remote reads, remote writes, and adapter-facing surfaces.",
+      "breaking": false
+    },
+    {
+      "v": 18,
+      "delta": "Added audit-log requirements for command and adapter action traces, including actor, source, target, idempotency, policy, receipt, timestamp, and correlation metadata.",
+      "breaking": false
+    },
+    {
+      "v": 19,
+      "delta": "Added lifecycle state-machine profile boundaries for long-running operational objects.",
+      "breaking": false
+    },
+    {
+      "v": 20,
+      "delta": "Added validation and routing observability metadata boundaries for rule, severity, source, dependency, route selection, skip, and next-action explanation.",
+      "breaking": false
+    },
+    {
+      "v": 21,
+      "delta": "Added deterministic capability compatibility matrix fields and mismatch validation boundary for provider and consumer metadata.",
+      "breaking": false
+    },
+    {
+      "v": 22,
+      "delta": "Added minimal route JSON explanation fields for source, reason, and dependency observability without changing route ranking or text output.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -432,7 +2266,16 @@
         "issue-31",
         "issue-30",
         "issue-28",
-        "issue-40"
+        "issue-40",
+        "issue-47",
+        "issue-50",
+        "issue-51",
+        "issue-52",
+        "issue-44",
+        "issue-46",
+        "issue-45",
+        "issue-37",
+        "issue-59"
       ],
       "confidence": "high",
       "review_chain": [
@@ -458,7 +2301,17 @@
         "contract-posture",
         "redaction-posture",
         "topology-pilot-boundary",
-        "adapter-capability-posture"
+        "adapter-capability-posture",
+        "known-gap-posture",
+        "authority-hierarchy-posture",
+        "dependency-ordering-posture",
+        "deprecation-migration-posture",
+        "risk-taxonomy-posture",
+        "local-remote-exposure-posture",
+        "command-adapter-audit-posture",
+        "lifecycle-state-machine-posture",
+        "validation-routing-observability-posture",
+        "capability-compatibility-posture"
       ]
     },
     "redaction": {
@@ -474,7 +2327,41 @@
         "freshness",
         "absence_semantics",
         "failure_semantics"
-      ]
+      ],
+      "read_model": {
+        "source": "AODS stable-surface contract module",
+        "fields": [
+          "redaction posture",
+          "contract profile",
+          "command receipt event triad",
+          "event correction and supersession",
+          "partial implementation and known gaps",
+          "ownership and authority hierarchy",
+          "dependency ordering",
+          "deprecation and migration",
+          "risk taxonomy",
+          "local and remote exposure",
+          "command and adapter audit log",
+          "lifecycle state machine",
+          "validation and routing observability",
+          "route JSON explanation",
+          "implementation topology",
+          "decision provenance",
+          "schema versioning",
+          "adapter capability",
+          "capability compatibility"
+        ],
+        "identity": "section sid and artifact_id",
+        "freshness": {
+          "snapshot_id": "spec-stable-surface-contracts-v22",
+          "exported_at": "2026-05-08T15:20:00+08:00",
+          "source_watermark": "module.v=22",
+          "staleness": "current"
+        },
+        "absence_semantics": "Missing sections mean the profile is not defined in this module.",
+        "failure_semantics": "Validation fails when required profile metadata is absent.",
+        "partial_semantics": "Partial snapshots must not be consumed as stable contract authority."
+      }
     },
     "schema_versioning": {
       "breaking_policy": "versioned",

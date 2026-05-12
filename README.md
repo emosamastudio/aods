@@ -24,7 +24,7 @@ In this README, **human-oriented docs** means files mainly written for people to
 **AODS is**:
 
 - a documentation standard for agent-first project knowledge
-- a CLI for compile / validate / route / scaffold workflows
+- a CLI for compile / validate / route / fixture / scaffold workflows
 - a governance layer for routing, authority, anti-drift, and task-time context control
 - a benchmarked reference implementation with published evidence
 
@@ -71,8 +71,38 @@ This repository contains all three layers in one place:
 | Layer | What it contains |
 | --- | --- |
 | **Standard** | `manifest.json`, `schema/`, and `spec/` define the normative AODS contract |
-| **Reference implementation** | `bin/` and `lib/` implement validate, route, compile, scaffold, upgrade, and hook behavior |
+| **Reference implementation** | `bin/` and `lib/` implement validate, route, compile, fixture, scaffold, upgrade, and hook behavior |
 | **Benchmark** | `benchmarks/aods-eval-lab/` measures whether the implementation actually earns its claims |
+
+## Example map
+
+The quickest way to inspect current AODS authoring patterns is the source-first pilot:
+
+- adoption guide: [`examples/compiled-pilot-source/README.md`](./examples/compiled-pilot-source/README.md)
+- source authority: [`examples/compiled-pilot-source/authoring.json`](./examples/compiled-pilot-source/authoring.json)
+- compiled output: [`examples/compiled-pilot/`](./examples/compiled-pilot/)
+- generated human overview: [`examples/compiled-pilot/README.md`](./examples/compiled-pilot/README.md)
+- example fixture manifest: [`examples/compiled-pilot-source/fixtures/fixture-manifest.json`](./examples/compiled-pilot-source/fixtures/fixture-manifest.json)
+
+Current canonical packs in that pilot:
+
+| Pack | Start here | What it demonstrates |
+| --- | --- | --- |
+| Read-model + implementation linkage | [`shift-ops-readiness-read-model`](./examples/compiled-pilot/modules/shift-ops-readiness-read-model.json) | freshness, watermark, implementation evidence, and acceptance criteria |
+| Command + receipt | [`shift-ops-change-command`](./examples/compiled-pilot/modules/shift-ops-change-command.json) | write-capable command metadata, receipt shape, audit/risk posture |
+| Event + correction/supersession | [`shift-ops-change-event-log`](./examples/compiled-pilot/modules/shift-ops-change-event-log.json) | append-only event shape, correction links, projection guidance |
+| Adapter + capability/exposure | [`shift-ops-adapter-capability`](./examples/compiled-pilot/modules/shift-ops-adapter-capability.json) | metadata-only capability claims, consumer requirements, exposure and audit notes |
+| Artifact/export/policy gate | [`shift-ops-artifact-export-policy`](./examples/compiled-pilot/modules/shift-ops-artifact-export-policy.json) | generated artifact export, golden export review, validation policy gates |
+| Resource surface | [`shift-ops-resource-surface`](./examples/compiled-pilot/modules/shift-ops-resource-surface.json) | declared resource identity, scope, risk, exposure, cleanup posture, evidence linkage |
+
+Two supporting examples are also useful when adopting newer authoring patterns:
+
+| Pattern | Start here | What it demonstrates |
+| --- | --- | --- |
+| Glossary registry | [`indexes/runtime.json`](./examples/compiled-pilot/indexes/runtime.json) | canonical term records, aliases, deprecated terms, owner, and linked surfaces |
+| External citation / provenance | [`shift-ops-governance`](./examples/compiled-pilot/modules/shift-ops-governance.json) | external citation registry, local citation refs, unsupported assumptions, and decision provenance refs |
+
+These examples are reference patterns, not a claim that AODS now implements a command executor, event store, adapter negotiation runtime, resource scheduler, crawler, or fact checker.
 
 ## Install
 
@@ -372,6 +402,7 @@ npm run validate:all
 npm run route -- --touch spec/validation-rules.json --role doc-author
 npm run route -- --query "paired docs drift rules" --role doc-author --intent read
 npm run compile:pilot
+npm run fixture:smoke
 npm run benchmark:runtime-capture   # optional supplemental sample
 npm run benchmark:evaluate
 npm run benchmark:compare
@@ -391,6 +422,15 @@ npm run validate:pilot
 npm run validate:compiled-pilot
 npm run validate:all
 ```
+
+### Smoke fixture manifests
+
+```bash
+npm run fixture:smoke
+node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json
+```
+
+The smoke command checks fixture manifest outcome fields and declared input/golden paths. The source-first pilot also declares a first slice of negative fixture manifests for missing golden paths and invalid expected-rule contracts. Smoke still does not execute golden update commands or act as a full conformance runner.
 
 Direct CLI usage:
 

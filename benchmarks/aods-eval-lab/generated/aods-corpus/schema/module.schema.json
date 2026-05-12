@@ -89,6 +89,10 @@
           "items": { "type": "string" },
           "description": "Artifact IDs in this module referenced by this section."
         },
+        "citation_refs": {
+          "$ref": "#/definitions/external_citation_refs",
+          "description": "External citation IDs declared in module.meta.external_citations that support this section."
+        },
         "criticality": {
           "type": "string",
           "enum": ["must", "should", "may"],
@@ -144,6 +148,14 @@
           "type": "string",
           "maxLength": 300,
           "description": "When/how agent should use this artifact."
+        },
+        "decision_provenance": {
+          "$ref": "#/definitions/decision_provenance_meta",
+          "description": "Optional provenance boundary for agent-consumable decision artifacts. It identifies source anchors, evidence posture, and the consumption gate for derived or evidence-backed decisions."
+        },
+        "citation_refs": {
+          "$ref": "#/definitions/external_citation_refs",
+          "description": "External citation IDs declared in module.meta.external_citations that support this artifact."
         }
       },
       "allOf": [
@@ -1271,7 +1283,7 @@
       "properties": {
         "v": { "type": "integer" },
         "ts": { "type": "string", "format": "date-time" },
-        "delta": { "type": "string", "maxLength": 300 },
+        "delta": { "type": "string", "maxLength": 500 },
         "breaking": { "type": "boolean", "default": false }
       }
     },
@@ -1349,6 +1361,144 @@
             "type": "string"
           },
           "description": "Ordered review, approval, or handoff anchors that strengthen provenance."
+        }
+      }
+    },
+    "decision_consumer_surface": {
+      "type": "string",
+      "enum": ["agent-consumable", "human-review", "internal"]
+    },
+    "decision_basis": {
+      "type": "string",
+      "enum": ["source-evidence", "derived-summary", "mixed"]
+    },
+    "decision_evidence_status": {
+      "type": "string",
+      "enum": ["current", "stale", "unresolved", "withheld"]
+    },
+    "decision_consumption_gate": {
+      "type": "string",
+      "enum": ["stable", "review-required", "blocked", "experimental"]
+    },
+    "external_citation_source_type": {
+      "type": "string",
+      "enum": ["standard", "api-doc", "paper", "legal-policy", "web-page", "repository", "human-note", "assumption"]
+    },
+    "external_citation_authority_relation": {
+      "type": "string",
+      "enum": ["external-authority", "supporting-evidence", "background-context", "inferred-guidance", "unsupported-assumption"]
+    },
+    "external_citation_claim_posture": {
+      "type": "string",
+      "enum": ["authoritative-claim", "quoted-source", "paraphrase", "derived-guidance", "assumption"]
+    },
+    "external_citation_review_status": {
+      "type": "string",
+      "enum": ["current", "stale", "unresolved", "withheld"]
+    },
+    "external_citation_uncertainty": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high"]
+    },
+    "external_citation_ref": {
+      "type": "object",
+      "required": ["citation_id", "source_type", "authority_relation", "claim_posture", "review_status"],
+      "additionalProperties": false,
+      "properties": {
+        "citation_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,96}$",
+          "description": "Module-local external citation identifier used by citation_refs."
+        },
+        "source_type": {
+          "$ref": "#/definitions/external_citation_source_type"
+        },
+        "locator": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Source locator such as URL, repository path, paper DOI, standard section, or withheld locator label."
+        },
+        "version_or_date": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Publication date, retrieval date, commit, version, standard edition, or policy effective date."
+        },
+        "authority_relation": {
+          "$ref": "#/definitions/external_citation_authority_relation"
+        },
+        "claim_posture": {
+          "$ref": "#/definitions/external_citation_claim_posture"
+        },
+        "uncertainty": {
+          "$ref": "#/definitions/external_citation_uncertainty",
+          "default": "none"
+        },
+        "review_status": {
+          "$ref": "#/definitions/external_citation_review_status"
+        }
+      }
+    },
+    "external_citation_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]{1,96}$"
+      }
+    },
+    "decision_provenance_meta": {
+      "type": "object",
+      "required": ["consumer_surface", "basis", "source_refs", "evidence_status", "consumption_gate"],
+      "additionalProperties": false,
+      "properties": {
+        "consumer_surface": {
+          "$ref": "#/definitions/decision_consumer_surface",
+          "description": "agent-consumable decisions can be used by agents without re-reading the full evidence only when the gate permits it."
+        },
+        "basis": {
+          "$ref": "#/definitions/decision_basis",
+          "description": "source-evidence points directly at evidence or authority. derived-summary is synthesized and must preserve the source boundary. mixed combines both."
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Section or artifact refs that authorize the decision."
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Section or artifact refs that provide proof anchors for the decision."
+        },
+        "summary_ref": {
+          "type": "string",
+          "description": "Section or artifact ref for the derived summary when basis is derived-summary or mixed."
+        },
+        "evidence_status": {
+          "$ref": "#/definitions/decision_evidence_status",
+          "description": "Currentness posture of the cited evidence boundary."
+        },
+        "consumption_gate": {
+          "$ref": "#/definitions/decision_consumption_gate",
+          "description": "Whether the decision is stable-consumable, needs review, blocked, or experimental."
+        },
+        "review_chain": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Review anchors that justify consuming a derived decision."
+        },
+        "citation_refs": {
+          "$ref": "#/definitions/external_citation_refs",
+          "description": "External citation IDs that support this provenance boundary without replacing source_refs or evidence_refs."
         }
       }
     },
@@ -1455,6 +1605,79 @@
             "type": "string"
           },
           "description": "Profile-required fields that this module or surface promises to carry."
+        },
+        "read_model": {
+          "$ref": "#/definitions/read_model_contract",
+          "description": "Read-model freshness and watermark profile for stable read-only surfaces."
+        }
+      }
+    },
+    "read_model_staleness": {
+      "type": "string",
+      "enum": ["current", "stale", "partial", "unknown"]
+    },
+    "read_model_freshness": {
+      "type": "object",
+      "required": ["snapshot_id", "exported_at", "source_watermark", "staleness"],
+      "additionalProperties": false,
+      "properties": {
+        "snapshot_id": {
+          "type": "string",
+          "description": "Stable identifier for the exported read-model snapshot."
+        },
+        "exported_at": {
+          "type": "string",
+          "description": "ISO-like export timestamp or deterministic build timestamp for the snapshot."
+        },
+        "source_watermark": {
+          "type": "string",
+          "description": "Source-side watermark, commit, event offset, data version, or equivalent freshness anchor."
+        },
+        "staleness": {
+          "$ref": "#/definitions/read_model_staleness",
+          "description": "Currentness posture of the snapshot relative to its source."
+        },
+        "partial_reason": {
+          "type": "string",
+          "description": "Required by convention when staleness=partial to explain the missing or lagging source segment."
+        }
+      }
+    },
+    "read_model_contract": {
+      "type": "object",
+      "required": ["freshness"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Authority or data source behind the read model."
+        },
+        "fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Stable fields exposed by the read model."
+        },
+        "identity": {
+          "type": "string",
+          "description": "Key or identity semantics for rows, records, or generated entries."
+        },
+        "freshness": {
+          "$ref": "#/definitions/read_model_freshness"
+        },
+        "absence_semantics": {
+          "type": "string",
+          "description": "Meaning of missing, empty, or withheld data."
+        },
+        "failure_semantics": {
+          "type": "string",
+          "description": "How generation or read failures are represented."
+        },
+        "partial_semantics": {
+          "type": "string",
+          "description": "How consumers should interpret partial or lagging snapshots."
         }
       }
     },
@@ -1514,6 +1737,71 @@
         }
       }
     },
+    "implementation_acceptance_status": {
+      "type": "string",
+      "enum": ["planned", "satisfied", "partial", "waived", "blocked"],
+      "description": "Review posture for a declared implementation acceptance criterion."
+    },
+    "implementation_acceptance_check_type": {
+      "type": "string",
+      "enum": ["evidence-ref", "validator-rule", "fixture", "manual-review"],
+      "description": "How this acceptance criterion is expected to be verified."
+    },
+    "implementation_acceptance_blocking": {
+      "type": "string",
+      "enum": ["none", "strict", "release", "drift"],
+      "description": "Gate posture if this criterion is not satisfied."
+    },
+    "implementation_acceptance_criterion_ref": {
+      "type": "object",
+      "required": ["id", "surface_ref", "requirement", "check_type", "blocking", "status", "authority_surface"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]{1,64}$",
+          "description": "Stable criterion identifier within module.meta.implementation.acceptance_criteria[]."
+        },
+        "surface_ref": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Module section or artifact ref whose contract requirement this criterion verifies."
+        },
+        "requirement": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Short human-readable requirement that links contract intent to implementation evidence."
+        },
+        "check_type": {
+          "$ref": "#/definitions/implementation_acceptance_check_type"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]{1,64}$"
+          },
+          "description": "IDs from module.meta.implementation.evidence[] that support this criterion."
+        },
+        "validator_rule": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Optional validator rule name that verifies this criterion."
+        },
+        "blocking": {
+          "$ref": "#/definitions/implementation_acceptance_blocking"
+        },
+        "status": {
+          "$ref": "#/definitions/implementation_acceptance_status"
+        },
+        "authority_surface": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Section or artifact ref that owns this acceptance criterion."
+        }
+      }
+    },
     "implementation_meta": {
       "type": "object",
       "required": ["repo_id", "paths", "status", "authority_surface"],
@@ -1558,6 +1846,14 @@
             "$ref": "#/definitions/implementation_evidence_ref"
           },
           "description": "Evidence anchors that make current or planned implementation linkage reviewable without executing external commands."
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/implementation_acceptance_criterion_ref"
+          },
+          "description": "Contract-to-evidence criteria that state why an implementation linkage is acceptable."
         }
       }
     },
@@ -1611,6 +1907,13 @@
         },
         "schema_versioning": {
           "$ref": "#/definitions/schema_versioning_meta"
+        },
+        "external_citations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/external_citation_ref"
+          },
+          "description": "Module-local registry of external sources. Internal AODS refs remain authoritative; these records preserve external evidence posture."
         },
         "capsule": {
           "type": "object",

@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-aop",
-  "v": 2,
-  "context": "Defines Agent-Optimized Prose (AOP) writing rules. All content fields in AODS modules, including capsule summaries and governance sections, must follow these rules.",
+  "v": 3,
+  "context": "Defines Agent-Optimized Prose (AOP) writing rules. All content fields in AODS modules, including capsule summaries and governance sections, must follow these rules. Includes minimal agent-primary density guidance examples for authoring.",
   "assumptions": [
     "Reader is an LLM agent, not a human",
     "Every token costs context window budget",
@@ -64,9 +64,112 @@
       "content_type": "rules",
       "refs": [],
       "criticality": "must"
+    },
+    {
+      "sid": "agent-primary-density-examples",
+      "topic": "agent-primary density examples and authoring guidance",
+      "content": "Authoring guidance for agent-primary surfaces: canonical terms stay stable, explicit constraints replace vague prose, uncertainty markers label unknowns, and good/bad examples show rewrite direction. Guidance does not introduce style linter, does not rewrite documentation portal, and does not weaken core-rules.",
+      "content_type": "rules",
+      "refs": [
+        "core-rules",
+        "naming-conventions",
+        "numeric-constraints",
+        "error-uncertainty",
+        "anti-patterns"
+      ],
+      "artifact_refs": [
+        "aop-authoring-guidance-table",
+        "aop-good-bad-example-table"
+      ],
+      "criticality": "should"
     }
   ],
-  "artifacts": [],
+  "artifacts": [
+    {
+      "artifact_id": "aop-authoring-guidance-table",
+      "type": "mapping-table",
+      "usage": "Minimal authoring guidance for agent-primary density patterns.",
+      "content": {
+        "key_columns": [
+          "pattern"
+        ],
+        "columns": [
+          "pattern",
+          "write",
+          "avoid",
+          "reason"
+        ],
+        "rows": [
+          [
+            "canonical_terms",
+            "Use one canonical term for one concept across modules.",
+            "Synonyms for variety, ambiguous abbreviations, or local aliases without registry.",
+            "Agent routing and drift checks depend on repeated stable terms."
+          ],
+          [
+            "explicit_constraints",
+            "State exact must/should, bounds, units, defaults, gates, and failure actions.",
+            "Several, many, normal, usually, acceptable, or implied limits.",
+            "Agents need executable constraint surfaces, not prose inference."
+          ],
+          [
+            "uncertainty_markers",
+            "Use UNCERTAIN:, TODO:, or UNDEFINED: with reason and next evidence.",
+            "might, could, seems, likely, probably, or silent gaps.",
+            "Unknowns stay visible and reviewable."
+          ],
+          [
+            "labeled_examples",
+            "Label examples as IN -> OUT, GOOD, BAD, or Edge.",
+            "Unlabeled examples or examples detached from rule refs.",
+            "Examples must teach transform direction without becoming authority."
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "aop-good-bad-example-table",
+      "type": "mapping-table",
+      "usage": "Small good/bad example set for AOP authoring reviews.",
+      "content": {
+        "key_columns": [
+          "pattern"
+        ],
+        "columns": [
+          "pattern",
+          "bad",
+          "good",
+          "linked_rule"
+        ],
+        "rows": [
+          [
+            "canonical_terms",
+            "Use job, task, and work item interchangeably.",
+            "Use work-item everywhere; aliases only in glossary or migration note.",
+            "naming-conventions"
+          ],
+          [
+            "explicit_constraints",
+            "Retry several times before failing.",
+            "retry=3; interval=5s; on_error=escalate.",
+            "numeric-constraints"
+          ],
+          [
+            "uncertainty_markers",
+            "This probably works for remote repos.",
+            "UNCERTAIN: remote repo support unverified; evidence_ref required before stable exposure.",
+            "error-uncertainty"
+          ],
+          [
+            "labeled_examples",
+            "{status:'done'}",
+            "EXAMPLE: IN status=running -> OUT status=done.",
+            "structure-patterns"
+          ]
+        ]
+      }
+    }
+  ],
   "changelog": [
     {
       "v": 1,
@@ -75,6 +178,11 @@
     {
       "v": 2,
       "delta": "Rebased onto AODS v3 schema; clarified applicability to capsule and governance modules.",
+      "breaking": false
+    },
+    {
+      "v": 3,
+      "delta": "Added minimal agent-primary density examples and authoring guidance for canonical terms, explicit constraints, uncertainty markers, and labeled examples.",
       "breaking": false
     }
   ],

@@ -1,0 +1,57 @@
+{
+  "aods_conformance_manifest_v": 0,
+  "suite_id": "compiled-pilot-fixture-conformance",
+  "description": "Read-only conformance suite for the source-first compiled-pilot fixture pack.",
+  "cases": [
+    {
+      "id": "fixture-manifest-smoke",
+      "kind": "fixture-smoke",
+      "target": {
+        "path": "fixture-manifest.json"
+      },
+      "expected": {
+        "status": "pass",
+        "rules": []
+      }
+    },
+    {
+      "id": "negative-fixture-invalid-kind",
+      "kind": "fixture-smoke",
+      "target": {
+        "path": "negative/fixture-contract/invalid-kind.json"
+      },
+      "expected": {
+        "status": "fail",
+        "rules": [
+          "fixture-kind"
+        ]
+      }
+    },
+    {
+      "id": "negative-fixture-missing-input-path",
+      "kind": "fixture-smoke",
+      "target": {
+        "path": "negative/fixture-contract/missing-input-path.json"
+      },
+      "expected": {
+        "status": "fail",
+        "rules": [
+          "fixture-input-path"
+        ]
+      }
+    },
+    {
+      "id": "compiled-pilot-strict-reality",
+      "kind": "validate",
+      "target": {
+        "path": "../../compiled-pilot",
+        "strict": true,
+        "reality": true
+      },
+      "expected": {
+        "status": "pass",
+        "rules": []
+      }
+    }
+  ]
+}

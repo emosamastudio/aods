@@ -1,0 +1,255 @@
+{
+  "aods_fixture_manifest_v": 1,
+  "convention": "aods-fixture-golden-v1",
+  "scope": "Example fixture manifest for the source-first compiled-pilot example.",
+  "update_policy": {
+    "review_gate": "manual-diff",
+    "commands": [
+      "npm run compile:pilot",
+      "npm run validate:compiled-pilot"
+    ],
+    "notes": "Golden exports are regenerated from authoring.json and reviewed by diff before commit."
+  },
+  "fixtures": [
+    {
+      "id": "positive-compiled-pilot-source",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "compiled-pilot-corpus",
+          "kind": "compiled-corpus",
+          "path": "../../compiled-pilot",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-read-model-implementation-linkage-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "read-model-implementation-linkage-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-readiness-read-model.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-command-receipt-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "command-receipt-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-change-command.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-event-correction-supersession-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "event-correction-supersession-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-change-event-log.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-adapter-capability-exposure-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "adapter-capability-exposure-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-adapter-capability.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-artifact-export-policy-gate-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "artifact-export-policy-gate-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-artifact-export-policy.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-resource-surface-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "resource-surface-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-resource-surface.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-glossary-registry-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "glossary-registry-companion",
+          "kind": "compiled-manifest-companion",
+          "path": "../../compiled-pilot/indexes/runtime.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "positive-external-citation-provenance-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "external-citation-provenance-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-governance.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
+      "id": "negative-fixture-missing-golden-path",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/missing-golden-path.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-golden-path"
+      ]
+    },
+    {
+      "id": "negative-fixture-positive-with-expected-rules",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/positive-with-expected-rules.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-positive-rules"
+      ]
+    },
+    {
+      "id": "negative-fixture-negative-without-expected-rules",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/negative-without-expected-rules.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-negative-rules"
+      ]
+    },
+    {
+      "id": "negative-fixture-invalid-kind",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/invalid-kind.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-kind"
+      ]
+    },
+    {
+      "id": "negative-fixture-missing-input-path",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/missing-input-path.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-input-path"
+      ]
+    }
+  ]
+}

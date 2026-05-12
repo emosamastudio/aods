@@ -23,6 +23,60 @@ test("CLI help and compile errors expose allowed enum values", () => {
   assert.match(help, /module category: architecture \| protocol \| schema \| workflow \| policy \| config \| reference \| artifact \| capsule/);
   assert.match(help, /module scaffold pattern: implementation-governance/);
 
+  const routeHelp = runCli(["route", "--help"]);
+  assert.match(routeHelp, /aods route \[root\] \[--role <role-id>\]/);
+  assert.match(routeHelp, /--stage <stage>/);
+  assert.match(routeHelp, /route stage: any \| orientation \| plan \| action \| verification \| evidence/);
+  assert.match(routeHelp, /route intent: any \| read \| write \| validate \| sync/);
+
+  const invalidRouteStage = spawnSync("node", [
+    CLI_PATH,
+    "route",
+    ".",
+    "--stage",
+    "begin",
+    "--intent",
+    "read"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidRouteStage.status, 0);
+  assert.match(invalidRouteStage.stderr, /Invalid route stage/);
+  assert.match(invalidRouteStage.stderr, /"verification"/);
+
+  const invalidRouteIntent = spawnSync("node", [
+    CLI_PATH,
+    "route",
+    ".",
+    "--stage",
+    "plan",
+    "--intent",
+    "inspect"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidRouteIntent.status, 0);
+  assert.match(invalidRouteIntent.stderr, /Invalid route intent/);
+  assert.match(invalidRouteIntent.stderr, /"validate"/);
+
+  const subcommandHelp = new Map([
+    ["validate", [/AODS validate/, /--repo-root <path>/]],
+    ["hook", [/AODS hook/, /pre-commit/]],
+    ["upgrade", [/AODS upgrade/, /--dry-run/]],
+    ["compile", [/AODS compile/, /<source-file>/]],
+    ["conformance", [/AODS conformance/, /conformance run/]],
+    ["fixture", [/AODS fixture/, /fixture smoke/]],
+    ["scaffold", [/AODS scaffold/, /authoring-pair/]]
+  ]);
+  for (const [command, patterns] of subcommandHelp) {
+    const output = runCli([command, "--help"]);
+    for (const pattern of patterns) {
+      assert.match(output, pattern);
+    }
+  }
+
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-discoverability-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
 
@@ -57,6 +111,123 @@ test("CLI help and compile errors expose allowed enum values", () => {
   assert.match(result.stderr, /Received: "plan"/);
   assert.match(result.stderr, /Allowed values:/);
   assert.match(result.stderr, /"architecture"/);
+});
+
+test("validate JSON reports dependency target and cycle diagnostics", () => {
+  const missingDepDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-missing-dep-"));
+  runCli(["scaffold", "corpus", missingDepDir, "--sys", "missing-dep-demo", "--force"]);
+  runCli([
+    "scaffold",
+    "module",
+    missingDepDir,
+    "dependent-module",
+    "--category",
+    "reference",
+    "--layer",
+    "detail",
+    "--dep",
+    "missing-target"
+  ]);
+
+  const missingDepValidate = spawnSync("node", [CLI_PATH, "validate", missingDepDir, "--strict", "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(missingDepValidate.status, 0);
+  const missingDepReport = JSON.parse(missingDepValidate.stdout);
+  const missingDepIssue = missingDepReport.levels.L2.errors.find((issue) => issue.rule === "module-dependency");
+  assert.equal(missingDepIssue.dependency_id, "missing-target");
+  assert.ok(Array.isArray(missingDepIssue.available_module_ids_sample));
+
+  const cycleDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-cycle-"));
+  runCli(["scaffold", "corpus", cycleDir, "--sys", "cycle-demo", "--force"]);
+  runCli(["scaffold", "module", cycleDir, "cycle-a", "--category", "reference", "--layer", "detail", "--dep", "cycle-b"]);
+  runCli(["scaffold", "module", cycleDir, "cycle-b", "--category", "reference", "--layer", "detail", "--dep", "cycle-a"]);
+
+  const cycleValidate = spawnSync("node", [CLI_PATH, "validate", cycleDir, "--strict", "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(cycleValidate.status, 0);
+  const cycleReport = JSON.parse(cycleValidate.stdout);
+  const cycleIssue = cycleReport.levels.L2.errors.find((issue) => issue.rule === "dependency-cycle");
+  assert.ok(cycleIssue.cycle_path.includes("cycle-a"));
+  assert.ok(cycleIssue.cycle_path.includes("cycle-b"));
+  assert.ok(cycleIssue.cycle_length >= 2);
+});
+
+test("route JSON includes machine-readable explanation metadata", () => {
+  const query = "boot_by_touch route discoverability warnings";
+  const output = runCli(["route", ".", "--query", query, "--stage", "plan", "--intent", "read", "--json"]);
+  const route = JSON.parse(output);
+
+  assert.equal(route.strategy, "query-route");
+  assert.equal(route.explanation.source.kind, "query-route");
+  assert.equal(route.explanation.source.query, query);
+  assert.equal(route.explanation.source.stage, "plan");
+  assert.equal(route.explanation.source.stage_source, "explicit");
+  assert.equal(route.explanation.source.intent, "read");
+  assert.equal(route.explanation.reason.strategy, "query-route");
+  assert.deepEqual(
+    route.explanation.reason.selected_module_ids,
+    route.recommended_modules.map((module) => module.id)
+  );
+  assert.deepEqual(
+    route.explanation.reason.matched_query_module_ids,
+    route.matched_query_modules.map((module) => module.id)
+  );
+  assert.equal(route.explanation.dependency.source, "manifest.modules[].deps");
+  assert.ok(Array.isArray(route.explanation.dependency.edges));
+  assert.equal(route.explanation.dependency.edge_count, route.explanation.dependency.edges.length);
+  assert.equal(
+    route.explanation.dependency.selected_edge_count + route.explanation.dependency.unselected_edge_count + route.explanation.dependency.missing_edge_count,
+    route.explanation.dependency.edge_count
+  );
+  assert.deepEqual(route.explanation.dependency.missing_dependency_ids, []);
+  assert.ok(
+    route.explanation.dependency.edges.some(
+      (edge) =>
+        edge.module_id === "spec-stable-surface-contracts" &&
+        edge.dependency_id === "spec-authority-governance" &&
+        edge.dependency_exists === true &&
+        edge.dependency_status === "selected"
+    )
+  );
+  assert.ok(route.explanation.dependency.coverage.unselected >= 1);
+  assert.ok(
+    route.explanation.dependency.edges.some(
+      (edge) =>
+        edge.dependency_status === "unselected" &&
+        edge.dependency_selected === false &&
+        edge.dependency_exists === true
+    )
+  );
+});
+
+test("route dependency query exposes dependency diagnostics", () => {
+  const query = "surface dependency ordering optional dependency scheduler";
+  const output = runCli(["route", ".", "--query", query, "--stage", "plan", "--intent", "read", "--json"]);
+  const route = JSON.parse(output);
+
+  assert.equal(route.strategy, "query-route");
+  assert.deepEqual(
+    route.recommended_modules.map((module) => module.id),
+    ["spec-stable-surface-contracts"]
+  );
+  assert.equal(route.explanation.dependency.edge_count, 2);
+  assert.equal(route.explanation.dependency.selected_edge_count, 0);
+  assert.equal(route.explanation.dependency.unselected_edge_count, 2);
+  assert.equal(route.explanation.dependency.missing_edge_count, 0);
+  assert.deepEqual(route.explanation.dependency.missing_dependency_ids, []);
+  assert.deepEqual(route.explanation.dependency.coverage, {
+    selected: 0,
+    unselected: 2,
+    missing: 0
+  });
+  assert.deepEqual(
+    route.explanation.dependency.edges.map((edge) => edge.dependency_status),
+    ["unselected", "unselected"]
+  );
 });
 
 test("compile --strict turns warning-only output into a failing gate", () => {
@@ -180,6 +351,70 @@ test("compile --strict turns warning-only output into a failing gate", () => {
   assert.ok(strictJson.validation.warnings > 0);
 });
 
+test("changelog delta uses a soft warning before the hard schema limit", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-changelog-delta-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.modules[0].changelog = [
+    {
+      v: 2,
+      delta: "x".repeat(350)
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const warningRoot = path.join(tempDir, "compiled-warning");
+  const warningCompile = spawnSync("node", [CLI_PATH, "compile", sourcePath, warningRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(warningCompile.status, 0);
+  assert.match(warningCompile.stdout, /WARN compile corpus/);
+  assert.match(warningCompile.stdout, /changelog-delta-soft-limit/);
+
+  const compiledModule = JSON.parse(fs.readFileSync(path.join(warningRoot, "modules", "demo-system-root.json"), "utf8"));
+  assert.equal(compiledModule.changelog[0].delta.length, 350);
+
+  const warningValidate = spawnSync("node", [CLI_PATH, "validate", warningRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(warningValidate.status, 0);
+  const warningReport = JSON.parse(warningValidate.stdout);
+  const warning = warningReport.levels.L3.warnings.find((issue) => issue.rule === "changelog-delta-soft-limit");
+  assert.ok(warning);
+  assert.equal(warning.remediation.action, "tighten-changelog-delta");
+
+  const strictRoot = path.join(tempDir, "compiled-strict");
+  const strictCompile = spawnSync("node", [
+    CLI_PATH,
+    "compile",
+    sourcePath,
+    strictRoot,
+    "--force",
+    "--strict"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(strictCompile.status, 0);
+  assert.match(strictCompile.stdout, /strict gate blocked by warnings/);
+  assert.match(strictCompile.stdout, /target not updated because strict gate failed/);
+  assert.equal(fs.existsSync(path.join(strictRoot, "manifest.json")), false);
+
+  source.modules[0].changelog[0].delta = "x".repeat(501);
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+  const hardCompile = spawnSync("node", [CLI_PATH, "compile", sourcePath, path.join(tempDir, "compiled-hard"), "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(hardCompile.status, 0);
+  assert.match(hardCompile.stderr, /must NOT have more than 500 characters/);
+  assert.match(hardCompile.stderr, /Received length: 501/);
+});
+
 test("authoring source can pin compiled manifest timestamps", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-timestamps-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
@@ -245,6 +480,314 @@ test("authoring source can compile root project topology", () => {
   assert.deepEqual(manifest.project_topology, source.corpus.project_topology);
 });
 
+test("authoring source compiles glossary registry v2 records", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-glossary-registry-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  source.corpus.glossary = {
+    system: "Demo system shorthand definition",
+    "release-window": {
+      definition: "Approved deployment window for production changes.",
+      aliases: [
+        "release slot",
+        "deployment window"
+      ],
+      deprecated_terms: [
+        {
+          term: "ship window",
+          replacement: "release-window",
+          reason: "Use one canonical term for release coordination.",
+          status: "deprecated"
+        }
+      ],
+      scope: "system",
+      owner: detailModule.id,
+      linked_surfaces: [
+        `${detailModule.id}:${detailModule.sections[0].sid}`
+      ],
+      status: "current"
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const companion = JSON.parse(fs.readFileSync(path.join(compiledRoot, manifest.companion_index), "utf8"));
+
+  assert.deepEqual(companion.glossary, source.corpus.glossary);
+});
+
+test("glossary registry validation rejects ambiguous aliases and unresolved refs during compile", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-glossary-registry-invalid-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  source.corpus.glossary = {
+    "release-window": {
+      definition: "Approved deployment window for production changes.",
+      aliases: [
+        "window"
+      ],
+      deprecated_terms: [
+        {
+          term: "ship window",
+          replacement: "missing-term",
+          reason: "Replacement must resolve to a current term.",
+          status: "deprecated"
+        }
+      ],
+      linked_surfaces: [
+        `${detailModule.id}:missing-section`
+      ],
+      status: "current"
+    },
+    "maintenance-window": {
+      definition: "Operational maintenance interval.",
+      aliases: [
+        "window"
+      ],
+      status: "current"
+    },
+    "ops-window": {
+      definition: "Module-scoped operational interval.",
+      deprecated_terms: [
+        {
+          term: "module-only",
+          replacement: "release-window",
+          reason: "Replacement must resolve inside the same scope.",
+          status: "deprecated"
+        }
+      ],
+      scope: "module:ops",
+      status: "current"
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, compiledRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /glossary-alias-unique/);
+  assert.match(compile.stdout, /glossary-deprecated-replacement-ref/);
+  assert.match(compile.stdout, /module-only -> release-window/);
+  assert.match(compile.stdout, /glossary-linked-surface-ref/);
+});
+
+test("authoring source compiles external citation registry and local refs", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-external-citation-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    external_citations: [
+      {
+        citation_id: "api-doc-release-window",
+        source_type: "api-doc",
+        locator: "https://example.test/docs/release-window",
+        version_or_date: "2026-05-08",
+        authority_relation: "external-authority",
+        claim_posture: "authoritative-claim",
+        uncertainty: "low",
+        review_status: "current"
+      },
+      {
+        citation_id: "previous-api-doc-release-window",
+        source_type: "api-doc",
+        locator: "https://example.test/docs/release-window-v0",
+        version_or_date: "2025-12-01",
+        authority_relation: "external-authority",
+        claim_posture: "quoted-source",
+        uncertainty: "medium",
+        review_status: "stale"
+      },
+      {
+        citation_id: "operator-assumption",
+        source_type: "assumption",
+        authority_relation: "unsupported-assumption",
+        claim_posture: "assumption",
+        uncertainty: "high",
+        review_status: "unresolved"
+      }
+    ]
+  };
+  detailModule.sections[0].citation_refs = [
+    "api-doc-release-window"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "citation-backed-decision",
+      type: "decision-tree",
+      usage: "Demonstrates external citation refs on a stable decision artifact.",
+      citation_refs: [
+        "api-doc-release-window"
+      ],
+      decision_provenance: {
+        consumer_surface: "agent-consumable",
+        basis: "source-evidence",
+        source_refs: [
+          `${detailModule.id}:${detailModule.sections[0].sid}`
+        ],
+        evidence_status: "current",
+        consumption_gate: "stable",
+        citation_refs: [
+          "api-doc-release-window"
+        ]
+      },
+      content: {
+        root: "route",
+        nodes: [
+          {
+            id: "route",
+            type: "action",
+            action: "use current external citation only after local authority review"
+          }
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+  const compiled = JSON.parse(fs.readFileSync(path.join(compiledRoot, detailRef.path), "utf8"));
+  assert.deepEqual(compiled.meta.external_citations, detailModule.meta.external_citations);
+  assert.deepEqual(compiled.sections[0].citation_refs, [
+    "api-doc-release-window"
+  ]);
+  const decisionArtifact = compiled.artifacts.find((artifact) => artifact.artifact_id === "citation-backed-decision");
+  assert.deepEqual(decisionArtifact.decision_provenance.citation_refs, [
+    "api-doc-release-window"
+  ]);
+
+  const report = JSON.parse(runCli(["validate", compiledRoot, "--json"]));
+  assert.deepEqual(report.external_citations, {
+    total: 3,
+    modules_with_citations: 1,
+    authoritative: 2,
+    current_authoritative: 1,
+    stale_authoritative: 1,
+    unresolved_authoritative: 0,
+    withheld_authoritative: 0,
+    assumptions: 1,
+    unsupported_assumptions: 1,
+    current: 1,
+    stale: 1,
+    unresolved: 1,
+    withheld: 0,
+    cited_refs: 3,
+    stable_decision_refs: 1,
+    stable_decision_current_authoritative_refs: 1,
+    stable_decision_noncurrent_authoritative_refs: 0
+  });
+
+  const textReport = runCli(["validate", compiledRoot]);
+  assert.match(textReport, /citations total=3/);
+  assert.match(textReport, /current_authoritative=1/);
+  assert.match(textReport, /stale_authoritative=1/);
+  assert.match(textReport, /unsupported_assumptions=1/);
+});
+
+test("external citation validation rejects missing and unsafe authoritative refs", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-external-citation-invalid-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    external_citations: [
+      {
+        citation_id: "stale-authority",
+        source_type: "api-doc",
+        authority_relation: "external-authority",
+        claim_posture: "authoritative-claim",
+        review_status: "stale"
+      },
+      {
+        citation_id: "stale-authority",
+        source_type: "api-doc",
+        locator: "https://example.test/duplicate",
+        version_or_date: "2026-05-08",
+        authority_relation: "supporting-evidence",
+        claim_posture: "paraphrase",
+        review_status: "current"
+      },
+      {
+        citation_id: "assumption-as-authority",
+        source_type: "assumption",
+        authority_relation: "external-authority",
+        claim_posture: "authoritative-claim",
+        review_status: "current"
+      }
+    ]
+  };
+  detailModule.sections[0].citation_refs = [
+    "missing-citation"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "unsafe-cited-decision",
+      type: "decision-tree",
+      usage: "Negative citation validation fixture.",
+      decision_provenance: {
+        consumer_surface: "agent-consumable",
+        basis: "source-evidence",
+        source_refs: [
+          `${detailModule.id}:${detailModule.sections[0].sid}`
+        ],
+        evidence_status: "current",
+        consumption_gate: "stable",
+        citation_refs: [
+          "stale-authority"
+        ]
+      },
+      content: {
+        root: "route",
+        nodes: [
+          {
+            id: "route",
+            type: "action",
+            action: "invalid stable citation posture"
+          }
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, compiledRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /external-citation-id-unique/);
+  assert.match(compile.stdout, /external-citation-ref/);
+  assert.match(compile.stdout, /external-citation-authoritative-completeness/);
+  assert.match(compile.stdout, /external-citation-assumption-posture/);
+  assert.match(compile.stdout, /external-citation-stable-current/);
+});
+
 test("authoring source compiles implementation linkage and reports topology-aware reality summary", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-authoring-implementation-linkage-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
@@ -302,6 +845,20 @@ test("authoring source compiles implementation linkage and reports topology-awar
           freshness_policy: "on-schema-change",
           authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
         }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "change-handler-test"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
       ]
     }
   };
@@ -329,6 +886,15 @@ test("authoring source compiles implementation linkage and reports topology-awar
       planned: 1,
       stale: 0,
       blocked: 0
+    },
+    acceptance_summary: {
+      total: 1,
+      satisfied: 1,
+      planned: 0,
+      partial: 0,
+      waived: 0,
+      blocked: 0,
+      manual_review: 0
     }
   });
 
@@ -346,10 +912,20 @@ test("authoring source compiles implementation linkage and reports topology-awar
     evidence_total: 2,
     modules_with_evidence: 1,
     modules_without_evidence: 0,
+    current_evidence: 1,
+    planned_evidence: 1,
     stale_evidence: 0,
+    blocked_evidence: 0,
     checked_evidence_locators: 0,
     missing_evidence_locators: 0,
-    unchecked_reason: "some topology repo locators are descriptive only or cannot be resolved from --repo-root"
+    unchecked_repos: [
+      {
+        repo_id: "demo-api",
+        locator: "external/demo-api",
+        reason: "locator path does not exist under --repo-root"
+      }
+    ],
+    unchecked_reason: "demo-api locator path does not exist under --repo-root: external/demo-api"
   });
   assert.equal(realityReport.levels.L3.warnings.some((issue) => issue.rule === "topology-reality-unchecked"), false);
 
@@ -418,6 +994,370 @@ test("current implementation linkage requires declared evidence", () => {
   assert.match(compile.stdout, /implementation-evidence-required/);
 });
 
+test("current implementation linkage requires acceptance criteria", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-criteria-required-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "change-handler-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "current",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, path.join(tempDir, "compiled"), "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /implementation-acceptance-criteria-required/);
+});
+
+test("implementation acceptance criteria must resolve evidence refs and unique ids", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-criteria-refs-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "change-handler-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "current",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "missing-evidence"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        },
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Duplicate criterion ids must be rejected before stable consumption.",
+          check_type: "manual-review",
+          blocking: "none",
+          status: "planned",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, path.join(tempDir, "compiled"), "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /implementation-acceptance-criteria-id-unique/);
+  assert.match(compile.stdout, /implementation-acceptance-criteria-evidence-ref/);
+});
+
+test("manual implementation acceptance criteria stay visible as warnings", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-criteria-manual-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "change-handler-review",
+          kind: "manual-review",
+          locator: "review/change-handler",
+          status: "current",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-manual-review",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Reviewer confirms the declared contract still maps to implementation behavior.",
+          check_type: "manual-review",
+          blocking: "none",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(validate.status, 0);
+  assert.match(validate.stdout, /implementation-acceptance-criteria-manual-review/);
+});
+
+test("validator JSON includes remediation guidance for implementation drift findings", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-remediation-guidance-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "change-handler-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "current",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "change-handler-test"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+  const detailPath = path.join(compiledRoot, detailRef.path);
+  const detail = JSON.parse(fs.readFileSync(detailPath, "utf8"));
+  delete detail.meta.implementation.acceptance_criteria;
+  fs.writeFileSync(detailPath, `${JSON.stringify(detail, null, 2)}\n`);
+
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(validate.status, 0);
+  const report = JSON.parse(validate.stdout);
+  const issue = report.levels.L2.errors.find((entry) => entry.rule === "implementation-acceptance-criteria-required");
+  assert.ok(issue);
+  assert.deepEqual(issue.remediation, {
+    action: "add-acceptance-criteria",
+    gate: "drift-blocking",
+    guidance: "Declare module.meta.implementation.acceptance_criteria[] that links the current implementation contract to evidence, validator rules, fixtures, or manual review."
+  });
+
+  const textValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(textValidate.status, 0);
+  assert.match(textValidate.stdout, /remediation=add-acceptance-criteria\/drift-blocking/);
+});
+
+test("decision provenance blocks stable consumption when evidence is unresolved", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-decision-provenance-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  const detailRef = manifest.modules.find((entry) => entry.id === detailModule.id);
+  const detailPath = path.join(compiledRoot, detailRef.path);
+  const detail = JSON.parse(fs.readFileSync(detailPath, "utf8"));
+  detail.artifacts = [
+    ...(detail.artifacts ?? []),
+    {
+      artifact_id: "approval-routing",
+      type: "decision-tree",
+      usage: "Selects the approval path for agent-visible changes.",
+      decision_provenance: {
+        consumer_surface: "agent-consumable",
+        basis: "source-evidence",
+        source_refs: [
+          `${detail.module_id}:${detail.sections[0].sid}`
+        ],
+        evidence_refs: [
+          "missing-review-evidence"
+        ],
+        evidence_status: "unresolved",
+        consumption_gate: "stable"
+      },
+      content: {
+        root: "route",
+        nodes: [
+          {
+            id: "route",
+            type: "condition",
+            eval: "change.kind",
+            branches: [
+              {
+                value: "policy",
+                next: "require-review"
+              }
+            ],
+            default: "allow"
+          },
+          {
+            id: "require-review",
+            type: "action",
+            action: "require maintainer review"
+          },
+          {
+            id: "allow",
+            type: "action",
+            action: "allow local iteration"
+          }
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(detailPath, `${JSON.stringify(detail, null, 2)}\n`);
+
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(validate.status, 0);
+  const report = JSON.parse(validate.stdout);
+  assert.ok(report.levels.L2.errors.some((entry) => entry.rule === "decision-provenance-evidence-ref"));
+  assert.ok(report.levels.L2.errors.some((entry) => entry.rule === "decision-provenance-stable-evidence"));
+});
+
 test("reality validation rejects missing path-like implementation evidence locators", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-reality-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
@@ -463,6 +1403,20 @@ test("reality validation rejects missing path-like implementation evidence locat
           freshness_policy: "on-contract-change",
           authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
         }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "missing-change-test"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
       ]
     }
   };
@@ -477,6 +1431,290 @@ test("reality validation rejects missing path-like implementation evidence locat
   assert.notEqual(realityValidate.status, 0);
   assert.match(realityValidate.stdout, /implementation-evidence-locator-exists/);
   assert.match(realityValidate.stdout, /missing_evidence_locators=1/);
+});
+
+test("reality validation summarizes stale and current implementation evidence posture", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-posture-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "stale-change-test",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "stale",
+          freshness_policy: "on-contract-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        },
+        {
+          id: "planned-change-ci",
+          kind: "ci-check",
+          locator: "demo-api-change-handler",
+          status: "planned",
+          freshness_policy: "on-schema-change",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "stale-change-test"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const realityValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--reality", "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(realityValidate.status, 0);
+  const report = JSON.parse(realityValidate.stdout);
+
+  assert.equal(report.topology.evidence_total, 2);
+  assert.equal(report.topology.current_evidence, 0);
+  assert.equal(report.topology.planned_evidence, 1);
+  assert.equal(report.topology.stale_evidence, 1);
+  assert.equal(report.topology.blocked_evidence, 0);
+  assert.ok(report.levels.L3.warnings.some((entry) => entry.rule === "implementation-evidence-stale" && entry.remediation?.action === "refresh-evidence"));
+  assert.ok(report.levels.L3.warnings.some((entry) => entry.rule === "implementation-current-evidence-missing" && entry.remediation?.action === "refresh-current-evidence"));
+});
+
+test("capability compatibility matrix rejects mislabeled profile version and exposure matches", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-capability-compatibility-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.sections[0].artifact_refs = [
+    ...(detailModule.sections[0].artifact_refs ?? []),
+    "capability-compatibility-matrix"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "capability-compatibility-matrix",
+      type: "mapping-table",
+      usage: "Metadata-only capability compatibility cases for provider and consumer claims.",
+      content: {
+        key_columns: [
+          "case_id"
+        ],
+        columns: [
+          "case_id",
+          "provider_capability_id",
+          "required_capability_id",
+          "provider_contract_profile",
+          "accepted_contract_profile",
+          "provider_schema_version_policy",
+          "required_schema_version_policy",
+          "provider_exposure_class",
+          "required_exposure_class",
+          "expected_result"
+        ],
+        rows: [
+          [
+            "readiness-compatible",
+            "readiness.query",
+            "readiness.query",
+            "read-model",
+            "read-model",
+            "versioned",
+            "versioned",
+            "adapter-facing",
+            "adapter-facing",
+            "compatible"
+          ],
+          [
+            "profile-version-exposure-incompatible",
+            "change.submit",
+            "change.submit",
+            "command",
+            "read-model",
+            "strict",
+            "versioned",
+            "local-only",
+            "adapter-facing",
+            "incompatible"
+          ]
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const cleanValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(cleanValidate.status, 0);
+
+  const compiledModulePath = path.join(compiledRoot, "modules", `${detailModule.id}.json`);
+  const compiledModule = JSON.parse(fs.readFileSync(compiledModulePath, "utf8"));
+  const matrix = compiledModule.artifacts.find((entry) => entry.artifact_id === "capability-compatibility-matrix");
+  const expectedResultIndex = matrix.content.columns.indexOf("expected_result");
+  matrix.content.rows[1][expectedResultIndex] = "compatible";
+  fs.writeFileSync(compiledModulePath, `${JSON.stringify(compiledModule, null, 2)}\n`);
+
+  const invalidValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidValidate.status, 0);
+  const invalidReport = JSON.parse(invalidValidate.stdout);
+  assert.ok(invalidReport.levels.L2.errors.some((entry) =>
+    entry.rule === "capability-compatibility-mismatch" &&
+    entry.message.includes("contract_profile") &&
+    entry.message.includes("schema_version_policy") &&
+    entry.message.includes("exposure_class")
+  ));
+});
+
+test("reality validation reports actionable unchecked implementation repo locators", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-locator-reality-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  runCli([
+    "scaffold",
+    "authoring-module",
+    sourcePath,
+    "remote-detail",
+    "--category",
+    "policy",
+    "--layer",
+    "detail",
+    "--scope",
+    "Remote implementation authority"
+  ]);
+
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "missing-api",
+        locator: "external/missing-api",
+        role: "service",
+        status: "current"
+      },
+      {
+        id: "remote-api",
+        locator: "https://github.com/example/remote-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+
+  const linkedModules = [
+    { module: source.modules.find((entry) => entry.layer === "detail" && entry.id !== "remote-detail"), repoId: "missing-api" },
+    { module: source.modules.find((entry) => entry.id === "remote-detail"), repoId: "remote-api" }
+  ];
+  for (const { module, repoId } of linkedModules) {
+    module.meta = {
+      ...(module.meta ?? {}),
+      implementation: {
+        repo_id: repoId,
+        paths: [
+          "src/handler.js"
+        ],
+        status: "current",
+        authority_surface: `${module.id}:${module.sections[0].sid}`,
+        evidence: [
+          {
+            id: `${repoId}-manual-review`,
+            kind: "manual-review",
+            locator: "review-record",
+            status: "current",
+            authority_surface: `${module.id}:${module.sections[0].sid}`
+          }
+        ],
+        acceptance_criteria: [
+          {
+            id: `${repoId}-criterion`,
+            surface_ref: `${module.id}:${module.sections[0].sid}`,
+            requirement: "Manual review confirms implementation locator status before stable consumption.",
+            check_type: "manual-review",
+            blocking: "strict",
+            status: "satisfied",
+            authority_surface: `${module.id}:${module.sections[0].sid}`
+          }
+        ]
+      }
+    };
+  }
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const realityValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--reality", "--repo-root", tempDir, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(realityValidate.status, 0);
+  const report = JSON.parse(realityValidate.stdout);
+  assert.deepEqual(report.topology.unchecked_repos, [
+    {
+      repo_id: "missing-api",
+      locator: "external/missing-api",
+      reason: "locator path does not exist under --repo-root"
+    },
+    {
+      repo_id: "remote-api",
+      locator: "https://github.com/example/remote-api",
+      reason: "remote locator cannot be resolved from --repo-root"
+    }
+  ]);
+  assert.match(report.topology.unchecked_reason, /missing-api locator path does not exist under --repo-root: external\/missing-api/);
+  assert.match(report.topology.unchecked_reason, /remote-api remote locator cannot be resolved from --repo-root: https:\/\/github.com\/example\/remote-api/);
 });
 
 test("authoring source compiles stable contract metadata summaries", () => {
@@ -502,7 +1740,23 @@ test("authoring source compiles stable contract metadata summaries", () => {
         "source",
         "fields",
         "freshness"
-      ]
+      ],
+      read_model: {
+        source: "demo-system",
+        fields: [
+          "id",
+          "status"
+        ],
+        identity: "id",
+        freshness: {
+          snapshot_id: "demo-snapshot-1",
+          exported_at: "2026-05-07T00:00:00Z",
+          source_watermark: "demo-watermark-1",
+          staleness: "current"
+        },
+        absence_semantics: "Missing records are absent from the source snapshot.",
+        failure_semantics: "Validation fails if the snapshot cannot be exported."
+      }
     },
     schema_versioning: {
       breaking_policy: "versioned",
@@ -528,6 +1782,38 @@ test("authoring source compiles stable contract metadata summaries", () => {
     breaking_policy: "versioned"
   });
   runCli(["validate", compiledRoot, "--strict"]);
+});
+
+test("stable read-model contracts require freshness and watermark metadata", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-read-model-freshness-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    contract: {
+      profile: "read-model"
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  const compile = spawnSync("node", [CLI_PATH, "compile", sourcePath, compiledRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(compile.status, 0);
+  assert.match(compile.stdout, /read-model-freshness-required/);
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+
+  assert.notEqual(validate.status, 0);
+  const report = JSON.parse(validate.stdout);
+  assert.ok(report.levels.L2.errors.some((entry) => entry.rule === "read-model-freshness-required"));
 });
 
 test("project topology rejects duplicate implementation repo ids", () => {

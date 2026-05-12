@@ -9,7 +9,28 @@
     "purpose": "Compiled-authoring pilot for a shift operations corpus with paired README governance, routed agent modules, and implementation-governance detail.",
     "glossary": {
       "system": "Shift operations documentation corpus",
-      "release-window": "Approved deployment window for production changes",
+      "release-window": {
+        "definition": "Approved deployment window for production changes.",
+        "aliases": [
+          "release slot",
+          "deployment window"
+        ],
+        "deprecated_terms": [
+          {
+            "term": "ship window",
+            "replacement": "release-window",
+            "reason": "Use release-window as the canonical term for production change timing.",
+            "status": "deprecated"
+          }
+        ],
+        "scope": "system",
+        "owner": "shift-ops-policy",
+        "linked_surfaces": [
+          "shift-ops-policy:approval-policy",
+          "shift-ops-readiness-read-model:release-readiness-read-model"
+        ],
+        "status": "current"
+      },
       "sev1": "Highest-severity operational incident"
     },
     "roles": [
@@ -20,6 +41,12 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
+          "shift-ops-artifact-export-policy",
+          "shift-ops-resource-surface",
           "shift-ops-governance"
         ]
       },
@@ -39,6 +66,12 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
+          "shift-ops-artifact-export-policy",
+          "shift-ops-resource-surface",
           "shift-ops-governance"
         ]
       }
@@ -81,7 +114,7 @@
       "layer": "root",
       "priority": "critical",
       "scope": "Root routing for the shift operations pilot. Use at cold start before loading capsule or detail authority.",
-      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, and the surface inventory when current corpus surfaces must be checked.",
+      "context": "Root routing for shift-ops-pilot. Open the capsule for summary routing, the README for the human overview, the governance module for delivery-readiness detail, the command module for change-command receipts, the event module for correction semantics, the adapter module for capability exposure, the artifact export module for policy-gated golden exports, the resource module for declared resource scope, and the surface inventory when current corpus surfaces must be checked.",
       "tags": [
         "root",
         "routing",
@@ -123,11 +156,16 @@
         {
           "sid": "system-root",
           "topic": "root routing overview",
-          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
+          "content": "Use shift-ops-capsule:system-capsule for summary routing. Open README.md when a human-facing overview is needed. Route delivery-readiness and final gate questions to shift-ops-governance:implementation-governance. Route change command and receipt questions to shift-ops-change-command:change-command. Route event correction questions to shift-ops-change-event-log:change-event-correction-supersession. Route adapter capability questions to shift-ops-adapter-capability:adapter-provider-capability. Route artifact export and policy-gate questions to shift-ops-artifact-export-policy:artifact-export-surface. Route resource scope, risk, exposure, and cleanup posture questions to shift-ops-resource-surface:resource-identity-scope. Use surface-inventory only when validating current corpus surfaces. Keep this root module short and route-oriented.",
           "content_type": "rules",
           "refs": [
             "shift-ops-capsule:system-capsule",
-            "shift-ops-governance:implementation-governance"
+            "shift-ops-governance:implementation-governance",
+            "shift-ops-change-command:change-command",
+            "shift-ops-change-event-log:change-event-correction-supersession",
+            "shift-ops-adapter-capability:adapter-provider-capability",
+            "shift-ops-artifact-export-policy:artifact-export-surface",
+            "shift-ops-resource-surface:resource-identity-scope"
           ],
           "artifact_refs": [
             "route-table",
@@ -161,6 +199,30 @@
               [
                 "delivery readiness and implementation gates",
                 "shift-ops-governance:implementation-governance"
+              ],
+              [
+                "release readiness read model",
+                "shift-ops-readiness-read-model:release-readiness-read-model"
+              ],
+              [
+                "change command and receipt",
+                "shift-ops-change-command:change-command"
+              ],
+              [
+                "change event correction and supersession",
+                "shift-ops-change-event-log:change-event-correction-supersession"
+              ],
+              [
+                "adapter capability and exposure",
+                "shift-ops-adapter-capability:adapter-provider-capability"
+              ],
+              [
+                "artifact export and policy gate",
+                "shift-ops-artifact-export-policy:artifact-export-surface"
+              ],
+              [
+                "resource surface scope",
+                "shift-ops-resource-surface:resource-identity-scope"
               ],
               [
                 "incident response",
@@ -214,8 +276,8 @@
       "category": "capsule",
       "layer": "capsule",
       "priority": "critical",
-      "scope": "Summary routing for shift operations. Use after root load to decide whether policy, governance, or runbook detail should open next.",
-      "context": "Capsule for shift-ops-pilot. Route toward approval policy, delivery governance, or incident response authority depending on the active task.",
+      "scope": "Summary routing for shift operations detail modules.",
+      "context": "Capsule for shift-ops-pilot. Route to policy, readiness, command, event, adapter, artifact export, resource, governance, or runbook detail.",
       "tags": [
         "capsule",
         "routing",
@@ -233,6 +295,11 @@
           "memory_role": "working",
           "sources": [
             "shift-ops-policy:approval-policy",
+            "shift-ops-change-command:change-command",
+            "shift-ops-change-event-log:change-event-correction-supersession",
+            "shift-ops-adapter-capability:adapter-provider-capability",
+            "shift-ops-artifact-export-policy:artifact-export-surface",
+            "shift-ops-resource-surface:resource-identity-scope",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -247,6 +314,12 @@
           ],
           "resources": [
             "policy module",
+            "readiness read model",
+            "command module",
+            "event module",
+            "adapter module",
+            "artifact export module",
+            "resource module",
             "governance module",
             "runbook module"
           ],
@@ -259,11 +332,17 @@
       "capsule": {
         "read_when": [
           "Need summary routing after cold start",
-          "Need to choose between change policy, delivery governance, and incident response detail"
+          "Need policy, readiness, command, event, adapter, artifact export, governance, or incident detail"
         ],
         "core_question": "Which detail module should answer the current shift operations question?",
         "routes_to": [
           "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
+          "shift-ops-artifact-export-policy",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -276,10 +355,16 @@
         {
           "sid": "system-capsule",
           "topic": "capsule summary and next routes",
-          "content": "Approval: shift-ops-policy:approval-policy. Delivery readiness: shift-ops-governance:implementation-governance. sev1: shift-ops-runbook:incident-response. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
+          "content": "Routes: policy, readiness, command, event, adapter, artifact export, resource, governance, runbook. Production database schema changes require two approvers. sev1 pages primary and secondary on-call within five minutes.",
           "content_type": "rules",
           "refs": [
             "shift-ops-policy:approval-policy",
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command",
+            "shift-ops-change-event-log:change-event-correction-supersession",
+            "shift-ops-adapter-capability:adapter-provider-capability",
+            "shift-ops-artifact-export-policy:artifact-export-surface",
+            "shift-ops-resource-surface:resource-identity-scope",
             "shift-ops-governance:implementation-governance",
             "shift-ops-runbook:incident-response"
           ],
@@ -366,6 +451,32 @@
               "freshness_policy": "on-schema-change",
               "authority_surface": "shift-ops-policy:approval-policy"
             }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "approval-policy-contract",
+              "surface_ref": "shift-ops-policy:approval-policy",
+              "requirement": "Approval policy implementation enforces database approver, release-window, and rollback-owner requirements.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "approval-policy-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-policy:approval-policy"
+            },
+            {
+              "id": "approval-release-window-review",
+              "surface_ref": "shift-ops-policy:approval-policy",
+              "requirement": "Release-window CI check is planned and must become current before release readiness relies on it.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "approval-release-window-check"
+              ],
+              "blocking": "none",
+              "status": "planned",
+              "authority_surface": "shift-ops-policy:approval-policy"
+            }
           ]
         }
       },
@@ -411,6 +522,1733 @@
                 "priority": 80,
                 "source": "approval-policy"
               }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-readiness-read-model",
+      "category": "reference",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical read-model example for release readiness status, freshness, watermark, implementation evidence, and acceptance criteria.",
+      "context": "Read-model + implementation-linkage example pack for release readiness status. Use when authors need a stable read-model contract with evidence-backed implementation linkage.",
+      "tags": [
+        "read-model",
+        "implementation",
+        "example",
+        "release-readiness"
+      ],
+      "deps": [
+        "shift-ops-policy",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "contract": {
+          "profile": "read-model",
+          "required_fields": [
+            "release_id",
+            "status",
+            "blocking_gate",
+            "freshness"
+          ],
+          "read_model": {
+            "source": "shift-ops-control-plane",
+            "fields": [
+              "release_id",
+              "status",
+              "blocking_gate",
+              "last_approval_at"
+            ],
+            "identity": "release_id",
+            "freshness": {
+              "snapshot_id": "release-readiness-snapshot",
+              "exported_at": "2026-05-07T00:00:00Z",
+              "source_watermark": "release-readiness-v1",
+              "staleness": "current"
+            },
+            "absence_semantics": "Missing release_id means the release has no current readiness record.",
+            "failure_semantics": "Consumers must treat missing snapshot watermark as stale and require manual review."
+          }
+        },
+        "control": {
+          "role": "sensor",
+          "method": "computational",
+          "timing": [
+            "ci",
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "release-readiness-export-v1",
+            "implementation-linkage-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "release-manager-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "readiness-exporter"
+          ],
+          "resources": [
+            "release-readiness snapshot",
+            "approval record"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "readiness-snapshot-watermark"
+          ],
+          "checkpoints": [
+            "snapshot-exported",
+            "watermark-recorded"
+          ],
+          "outputs": [
+            "release-readiness-record"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/readiness/src/export.ts",
+            "services/readiness/tests/export.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-211"
+          ],
+          "authority_surface": "shift-ops-readiness-read-model:release-readiness-read-model",
+          "evidence": [
+            {
+              "id": "readiness-export-test",
+              "kind": "test",
+              "locator": "services/readiness/tests/export.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-readiness-read-model:release-readiness-read-model"
+            },
+            {
+              "id": "readiness-watermark-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/readiness/current-watermark.json",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-readiness-read-model:release-readiness-read-model"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "readiness-read-model-contract",
+              "surface_ref": "shift-ops-readiness-read-model:release-readiness-read-model",
+              "requirement": "Readiness export exposes release identity, status, blocking gate, approval time, and current freshness watermark.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "readiness-export-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-readiness-read-model:release-readiness-read-model"
+            },
+            {
+              "id": "readiness-watermark-contract",
+              "surface_ref": "shift-ops-readiness-read-model:release-readiness-read-model",
+              "requirement": "Readiness snapshot fixture carries the release-readiness-v1 watermark used by consumers.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "readiness-watermark-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-readiness-read-model:release-readiness-read-model"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "release-readiness-read-model",
+          "topic": "release readiness read model",
+          "content": "Read model exposes release readiness status for release-manager decisions. Record identity=release_id, status, blocking_gate, last_approval_at, snapshot_id, exported_at, source_watermark, and staleness. Missing release_id means no current readiness record. Missing watermark means stale and requires manual review.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-policy:approval-policy",
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "readiness-field-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "readiness-field-table",
+          "type": "mapping-table",
+          "usage": "Canonical field guide for the release readiness read-model example pack.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "release_id",
+                "stable release identifier",
+                "yes"
+              ],
+              [
+                "status",
+                "ready|blocked|in-review",
+                "yes"
+              ],
+              [
+                "blocking_gate",
+                "gate preventing delivery-ready state",
+                "yes"
+              ],
+              [
+                "last_approval_at",
+                "latest approval timestamp or null",
+                "no"
+              ],
+              [
+                "source_watermark",
+                "freshness anchor for the exported snapshot",
+                "yes"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-change-command",
+      "category": "workflow",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical command + receipt example for operational change requests without implementing a command executor.",
+      "context": "Command + receipt example pack for write-capable stable surfaces. Use when authors need command shape, receipt output, audit metadata, risk posture, implementation evidence, and acceptance criteria without event-bus or executor semantics.",
+      "tags": [
+        "command",
+        "receipt",
+        "audit",
+        "risk",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-policy",
+        "shift-ops-readiness-read-model",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "contract": {
+          "profile": "command",
+          "required_fields": [
+            "command_id",
+            "change_id",
+            "requested_by",
+            "mode",
+            "idempotency_key",
+            "receipt"
+          ]
+        },
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "change-command-contract-v1",
+            "command-receipt-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "release-manager-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "command-validator"
+          ],
+          "resources": [
+            "change command request",
+            "approval record",
+            "release readiness record"
+          ],
+          "side_effects": [
+            "change-command-receipt"
+          ],
+          "telemetry": [
+            "command-contract-status",
+            "receipt-correlation-id"
+          ],
+          "checkpoints": [
+            "command-shape-validated",
+            "approval-precondition-checked",
+            "receipt-emitted"
+          ],
+          "outputs": [
+            "change-command-receipt"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/change-command/src/handler.ts",
+            "services/change-command/tests/receipt.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-244"
+          ],
+          "authority_surface": "shift-ops-change-command:change-command",
+          "evidence": [
+            {
+              "id": "change-command-contract-test",
+              "kind": "test",
+              "locator": "services/change-command/tests/receipt.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-change-command:change-command"
+            },
+            {
+              "id": "change-command-receipt-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/change-command/receipt-approved.json",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-change-command:change-command-receipt"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "change-command-contract",
+              "surface_ref": "shift-ops-change-command:change-command",
+              "requirement": "Change command includes command_id, change_id, requested_by, mode, idempotency_key, and enforces approval and readiness preconditions before emitting a receipt.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-command-contract-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-command:change-command"
+            },
+            {
+              "id": "change-receipt-contract",
+              "surface_ref": "shift-ops-change-command:change-command-receipt",
+              "requirement": "Change receipt returns receipt_id, status, policy_decision, audit_ref, correlation_id, and does not claim command execution in this example pack.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-command-receipt-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-command:change-command-receipt"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "change-command",
+          "topic": "change command contract",
+          "content": "Change command envelope requires command_id, change_id, requested_by, mode, idempotency_key, target_release_id, requested_at, and policy_context. Validator checks approval policy and release readiness preconditions before a receipt is emitted. This example does not execute the operational change.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-policy:approval-policy",
+            "shift-ops-readiness-read-model:release-readiness-read-model"
+          ],
+          "artifact_refs": [
+            "change-command-field-table",
+            "change-command-audit-risk-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "change-command-receipt",
+          "topic": "change command receipt",
+          "content": "Receipt output records receipt_id, command_id, change_id, status, policy_decision, audit_ref, correlation_id, emitted_at, and reason. Status values are accepted, rejected, or needs-review. Receipt confirms validation outcome only; it is not proof that the command executed.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "change-command-receipt-table",
+            "change-command-audit-risk-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "change-command-field-table",
+          "type": "mapping-table",
+          "usage": "Canonical field guide for the change command envelope.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "command_id",
+                "stable command identifier",
+                "yes"
+              ],
+              [
+                "change_id",
+                "operational change request identifier",
+                "yes"
+              ],
+              [
+                "requested_by",
+                "actor requesting the change",
+                "yes"
+              ],
+              [
+                "mode",
+                "standard|emergency",
+                "yes"
+              ],
+              [
+                "idempotency_key",
+                "dedupe key for repeated submissions",
+                "yes"
+              ],
+              [
+                "target_release_id",
+                "release readiness record to check",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-command-receipt-table",
+          "type": "mapping-table",
+          "usage": "Canonical field guide for the change command receipt.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "receipt_id",
+                "stable receipt identifier",
+                "yes"
+              ],
+              [
+                "status",
+                "accepted|rejected|needs-review",
+                "yes"
+              ],
+              [
+                "policy_decision",
+                "approval and readiness decision summary",
+                "yes"
+              ],
+              [
+                "audit_ref",
+                "audit-log reference for the validation outcome",
+                "yes"
+              ],
+              [
+                "correlation_id",
+                "trace identifier linking command and receipt",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-command-audit-risk-table",
+          "type": "mapping-table",
+          "usage": "Audit and risk posture for write-capable command surfaces.",
+          "content": {
+            "key_columns": [
+              "audit_field"
+            ],
+            "columns": [
+              "audit_field",
+              "risk_posture",
+              "requirement"
+            ],
+            "rows": [
+              [
+                "actor",
+                "write-capable",
+                "requested_by is recorded before validation"
+              ],
+              [
+                "source",
+                "remote-capable",
+                "source client or automation is recorded"
+              ],
+              [
+                "target",
+                "production-mutation",
+                "change_id and target_release_id are recorded"
+              ],
+              [
+                "idempotency_key",
+                "duplicate-submit",
+                "same key returns the existing receipt"
+              ],
+              [
+                "policy_decision",
+                "human-approval",
+                "approval and readiness checks are summarized"
+              ],
+              [
+                "correlation_id",
+                "audit-trace",
+                "command, receipt, and policy decision share a trace identifier"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-change-event-log",
+      "category": "reference",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical event + correction/supersession example for operational change history without implementing an event store.",
+      "context": "Event + correction/supersession example pack for append-only stable surfaces. Use when authors need event shape, correction_of, supersedes, retraction posture, projection guidance, implementation evidence, and acceptance criteria without replay or event-bus semantics.",
+      "tags": [
+        "event",
+        "correction",
+        "supersession",
+        "projection",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-change-command",
+        "shift-ops-readiness-read-model",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "sensor",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "change-event-contract-v1",
+            "event-correction-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "release-manager-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "event-schema-validator"
+          ],
+          "resources": [
+            "change command receipt",
+            "change event record",
+            "release readiness record"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "event-schema-status",
+            "correction-link-status"
+          ],
+          "checkpoints": [
+            "event-shape-validated",
+            "correction-link-validated",
+            "projection-guidance-recorded"
+          ],
+          "outputs": [
+            "change-event-record",
+            "change-event-correction-record"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/change-events/src/schema.ts",
+            "services/change-events/tests/correction.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-257"
+          ],
+          "authority_surface": "shift-ops-change-event-log:change-event",
+          "evidence": [
+            {
+              "id": "change-event-append-test",
+              "kind": "test",
+              "locator": "services/change-events/tests/correction.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-change-event-log:change-event"
+            },
+            {
+              "id": "change-event-correction-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/change-events/correction-supersession.json",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-change-event-log:change-event-correction-supersession"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "change-event-append-contract",
+              "surface_ref": "shift-ops-change-event-log:change-event",
+              "requirement": "Change event record is append-only and includes event_id, event_type, receipt_ref, emitted_at, schema_version, ordering_key, and payload_hash.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-event-append-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-event-log:change-event"
+            },
+            {
+              "id": "change-event-correction-contract",
+              "surface_ref": "shift-ops-change-event-log:change-event-correction-supersession",
+              "requirement": "Correction record names correction_of, correction_actor, correction_reason, corrected_fields, supersedes, replacement_event, effective_at, and projection guidance without rewriting original events.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "change-event-correction-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-change-event-log:change-event-correction-supersession"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "change-event",
+          "topic": "append-only change event",
+          "content": "Change event record is append-only. Required fields are event_id, event_type, receipt_ref, emitted_at, schema_version, ordering_key, payload_hash, and actor_ref. The original event is preserved even when later records correct, supersede, or retract its meaning.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-change-command:change-command-receipt"
+          ],
+          "artifact_refs": [
+            "change-event-field-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "change-event-correction-supersession",
+          "topic": "event correction and supersession",
+          "content": "Correction event names correction_of, correction_actor, correction_source, correction_reason, corrected_fields, supersedes, superseded_by, replacement_event, effective_at, and retraction_reason when applicable. Correction does not mutate the original event. Supersession links identify which event currently carries preferred truth.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-change-event-log:change-event"
+          ],
+          "artifact_refs": [
+            "change-event-correction-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "change-event-projection-guidance",
+          "topic": "projection guidance for corrected events",
+          "content": "Projection guidance states whether read models, timelines, exports, and audit views should preserve, mark, hide, or replace corrected records. Guidance values are historical, advisory, blocking, or replacement. Consumers must not infer domain truth from correction metadata alone.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "change-event-projection-guidance-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "change-event-field-table",
+          "type": "mapping-table",
+          "usage": "Canonical field guide for append-only change events.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "event_id",
+                "stable event identifier",
+                "yes"
+              ],
+              [
+                "event_type",
+                "change.accepted|change.rejected|change.corrected|change.retracted",
+                "yes"
+              ],
+              [
+                "receipt_ref",
+                "receipt that caused or explains the event",
+                "yes"
+              ],
+              [
+                "ordering_key",
+                "key used for deterministic consumer ordering",
+                "yes"
+              ],
+              [
+                "payload_hash",
+                "hash of event payload for audit comparison",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-event-correction-table",
+          "type": "mapping-table",
+          "usage": "Correction and supersession fields for append-only event surfaces.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required_when"
+            ],
+            "rows": [
+              [
+                "correction_of",
+                "event_id being corrected",
+                "event_type == change.corrected"
+              ],
+              [
+                "corrected_fields",
+                "fields whose meaning is replaced or clarified",
+                "event_type == change.corrected"
+              ],
+              [
+                "supersedes",
+                "previous event replaced by this event",
+                "supersession exists"
+              ],
+              [
+                "replacement_event",
+                "event that should carry preferred truth",
+                "supersession or retraction exists"
+              ],
+              [
+                "retraction_reason",
+                "reason original event should be hidden, marked, or preserved",
+                "event_type == change.retracted"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-event-projection-guidance-table",
+          "type": "mapping-table",
+          "usage": "Consumer guidance for corrected event projection.",
+          "content": {
+            "key_columns": [
+              "projection_posture"
+            ],
+            "columns": [
+              "projection_posture",
+              "consumer_behavior",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "historical",
+                "preserve original and show correction link",
+                "does not choose current truth"
+              ],
+              [
+                "advisory",
+                "show corrected field warning to consumers",
+                "does not block export"
+              ],
+              [
+                "blocking",
+                "require manual review before consumer use",
+                "does not run automatic replay"
+              ],
+              [
+                "replacement",
+                "prefer replacement_event while retaining original event",
+                "does not rewrite history"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-adapter-capability",
+      "category": "protocol",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical adapter + capability/exposure example for shift operations integration surfaces without implementing negotiation runtime.",
+      "context": "Adapter + capability/exposure example pack for adapter-facing stable surfaces. Use when authors need provider capability, consumer requirement, exposure posture, audit notes, implementation evidence, and acceptance criteria without handshake, auth runtime, dynamic probing, or remote gateway semantics.",
+      "tags": [
+        "adapter",
+        "capability",
+        "exposure",
+        "audit",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "runtime"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "adapter-capability-contract-v1",
+            "capability-exposure-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "platform-adapter-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "adapter-capability-validator"
+          ],
+          "resources": [
+            "release readiness record",
+            "change command receipt",
+            "adapter capability claim"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "adapter-capability-status",
+            "exposure-class-status"
+          ],
+          "checkpoints": [
+            "provider-capability-declared",
+            "consumer-requirement-compared",
+            "exposure-audit-recorded"
+          ],
+          "outputs": [
+            "adapter-capability-claim",
+            "adapter-exposure-review"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-worker",
+          "paths": [
+            "workers/adapters/src/capabilities.ts",
+            "workers/adapters/tests/capabilities.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-331"
+          ],
+          "authority_surface": "shift-ops-adapter-capability:adapter-provider-capability",
+          "evidence": [
+            {
+              "id": "adapter-capability-contract-test",
+              "kind": "test",
+              "locator": "workers/adapters/tests/capabilities.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-adapter-capability:adapter-provider-capability"
+            },
+            {
+              "id": "adapter-exposure-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/adapters/capability-exposure.json",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-adapter-capability:adapter-exposure-audit"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "adapter-provider-capability-contract",
+              "surface_ref": "shift-ops-adapter-capability:adapter-provider-capability",
+              "requirement": "Provider capability declares adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "adapter-capability-contract-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-adapter-capability:adapter-provider-capability"
+            },
+            {
+              "id": "adapter-consumer-requirement-contract",
+              "surface_ref": "shift-ops-adapter-capability:adapter-consumer-requirement",
+              "requirement": "Consumer requirement declares required capability_id, accepted contract profile, required schema policy, transport need, freshness requirement, redaction floor, exposure class, and blocking posture.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "adapter-exposure-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-adapter-capability:adapter-consumer-requirement"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "adapter-provider-capability",
+          "topic": "adapter provider capability claim",
+          "content": "Provider capability claim names adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. Capability claim is metadata only and does not create runtime discovery, auth exchange, fallback ranking, or dynamic probing.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "adapter-capability-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "adapter-consumer-requirement",
+          "topic": "adapter consumer requirement",
+          "content": "Consumer requirement names required capability_id, accepted contract_profile, required_schema_version_policy, transport_scope need, freshness requirement, redaction floor, exposure class, and blocking posture. Compatibility result may be compatible, incompatible, partial, or unknown; it does not select providers or execute adapters.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-adapter-capability:adapter-provider-capability"
+          ],
+          "artifact_refs": [
+            "adapter-consumer-requirement-table",
+            "adapter-capability-compatibility-matrix"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "adapter-exposure-audit",
+          "topic": "adapter exposure and audit posture",
+          "content": "Adapter-facing exposure requires exposure_class, auth_boundary, redaction_floor, freshness_requirement, compatibility_policy, risk_labels, audit_anchor, and consumer_guidance. Audit notes record actor, source, target, adapter_id, capability_id, policy_decision, timestamp, and correlation_id. This example does not host a remote gateway.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "adapter-exposure-audit-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "adapter-capability-table",
+          "type": "mapping-table",
+          "usage": "Canonical provider capability fields for adapter-facing surfaces.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "adapter_id",
+                "stable adapter identity",
+                "yes"
+              ],
+              [
+                "capability_id",
+                "named capability such as readiness.query or change.submit",
+                "yes"
+              ],
+              [
+                "contract_profile",
+                "read-model|command|later explicit capability profile",
+                "yes"
+              ],
+              [
+                "transport_scope",
+                "local-only|hosted|hybrid",
+                "yes"
+              ],
+              [
+                "evidence_anchor",
+                "authority or evidence ref supporting the claim",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "adapter-consumer-requirement-table",
+          "type": "mapping-table",
+          "usage": "Canonical consumer requirement fields for metadata-only capability comparison.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "required_capability_id",
+                "capability the consumer needs",
+                "yes"
+              ],
+              [
+                "accepted_contract_profile",
+                "contract profile the consumer can process",
+                "yes"
+              ],
+              [
+                "freshness_requirement",
+                "freshness floor for consumed data",
+                "yes"
+              ],
+              [
+                "redaction_floor",
+                "minimum redaction posture",
+                "yes"
+              ],
+              [
+                "blocking_posture",
+                "strict|warning|manual-review|none",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "adapter-capability-compatibility-matrix",
+          "type": "mapping-table",
+          "usage": "Metadata-only capability compatibility cases for provider and consumer claims.",
+          "content": {
+            "key_columns": [
+              "case_id"
+            ],
+            "columns": [
+              "case_id",
+              "provider_capability_id",
+              "required_capability_id",
+              "provider_contract_profile",
+              "accepted_contract_profile",
+              "provider_schema_version_policy",
+              "required_schema_version_policy",
+              "provider_exposure_class",
+              "required_exposure_class",
+              "expected_result"
+            ],
+            "rows": [
+              [
+                "readiness-compatible",
+                "readiness.query",
+                "readiness.query",
+                "read-model",
+                "read-model",
+                "versioned",
+                "versioned",
+                "adapter-facing",
+                "adapter-facing",
+                "compatible"
+              ],
+              [
+                "profile-version-exposure-incompatible",
+                "change.submit",
+                "change.submit",
+                "command",
+                "read-model",
+                "strict",
+                "versioned",
+                "local-only",
+                "adapter-facing",
+                "incompatible"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "adapter-exposure-audit-table",
+          "type": "mapping-table",
+          "usage": "Exposure and audit posture for adapter-facing capability claims.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "requirement",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "exposure_class",
+                "adapter-facing with declared local/remote boundary",
+                "does not host remote gateway"
+              ],
+              [
+                "auth_boundary",
+                "names auth posture expected by consumers",
+                "does not implement auth runtime"
+              ],
+              [
+                "risk_labels",
+                "network, credential, cost, and production-mutation risk labels",
+                "does not enforce policy"
+              ],
+              [
+                "audit_anchor",
+                "evidence or authority surface supporting the action trace",
+                "does not create audit store"
+              ],
+              [
+                "correlation_id",
+                "trace identifier for adapter-facing action records",
+                "does not perform dynamic probing"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-artifact-export-policy",
+      "category": "reference",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical artifact/export/policy-gate example for generated outputs without implementing a conformance runner.",
+      "context": "Artifact/export/policy-gate example pack for generated artifact surfaces. Use when authors need artifact type selection, golden export review, policy gate notes, validation notes, implementation evidence, and acceptance criteria without automatic golden update or fixture migration semantics.",
+      "tags": [
+        "artifact",
+        "export",
+        "policy-gate",
+        "golden",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "pre-commit"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "artifact-export-contract-v1",
+            "policy-gate-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "artifact-export-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "artifact-export-validator"
+          ],
+          "resources": [
+            "authoring source",
+            "compiled module export",
+            "fixture manifest"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "artifact-export-status",
+            "policy-gate-status"
+          ],
+          "checkpoints": [
+            "artifact-type-declared",
+            "golden-export-reviewed",
+            "policy-gate-recorded"
+          ],
+          "outputs": [
+            "compiled artifact export",
+            "policy-gate review note"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/export/src/artifact-export.ts",
+            "services/export/tests/artifact-export.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-332"
+          ],
+          "authority_surface": "shift-ops-artifact-export-policy:artifact-export-surface",
+          "evidence": [
+            {
+              "id": "artifact-export-schema-test",
+              "kind": "test",
+              "locator": "services/export/tests/artifact-export.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-schema-change",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-export-surface"
+            },
+            {
+              "id": "artifact-policy-gate-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/export/policy-gate.json",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-policy-gate"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "artifact-export-contract",
+              "surface_ref": "shift-ops-artifact-export-policy:artifact-export-surface",
+              "requirement": "Artifact export declares artifact_id, artifact_type, source_ref, export_path, schema_version, update_command, review_gate, and consumer_guidance.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "artifact-export-schema-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-export-surface"
+            },
+            {
+              "id": "artifact-policy-gate-contract",
+              "surface_ref": "shift-ops-artifact-export-policy:artifact-policy-gate",
+              "requirement": "Policy gate declares required command, expected status, validation rule, manual diff review, reviewer role, and blocked auto-update posture.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "artifact-policy-gate-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-artifact-export-policy:artifact-policy-gate"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "artifact-export-surface",
+          "topic": "artifact export surface",
+          "content": "Artifact export surface names artifact_id, artifact_type, source_ref, export_path, schema_version, update_command, review_gate, and consumer_guidance. Export is a declared generated output, not proof that a conformance runner exists.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "export-artifact-type-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "artifact-golden-export",
+          "topic": "golden export review posture",
+          "content": "Golden export review records golden_export_id, export_kind, path, update_command, review_gate, schema_version, and diff_owner. Golden export changes require manual diff review before commit; this example does not perform automatic golden updates.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-artifact-export-policy:artifact-export-surface"
+          ],
+          "artifact_refs": [
+            "golden-export-review-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "artifact-policy-gate",
+          "topic": "artifact policy gate and validation notes",
+          "content": "Policy gate records required_command, expected_status, validation_rule, review_gate, reviewer_role, blocked_auto_update, and failure_action. Validation notes are evidence anchors for export posture only; they do not migrate all fixtures or create a runner.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "policy-gate-validation-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "export-artifact-type-table",
+          "type": "mapping-table",
+          "usage": "Canonical fields for generated artifact exports.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "artifact_id",
+                "stable identity of the exported artifact",
+                "yes"
+              ],
+              [
+                "artifact_type",
+                "AODS artifact type such as mapping-table or json-schema",
+                "yes"
+              ],
+              [
+                "source_ref",
+                "authoring section or artifact that owns the export",
+                "yes"
+              ],
+              [
+                "export_path",
+                "repo-relative generated output path",
+                "yes"
+              ],
+              [
+                "consumer_guidance",
+                "how agents may consume the generated output",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "golden-export-review-table",
+          "type": "mapping-table",
+          "usage": "Golden export review metadata for source-first examples.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "golden_export_id",
+                "stable identifier in fixture manifest",
+                "yes"
+              ],
+              [
+                "update_command",
+                "command that regenerates the golden export",
+                "yes"
+              ],
+              [
+                "review_gate",
+                "manual-diff or stricter human review gate",
+                "yes"
+              ],
+              [
+                "schema_version",
+                "AODS schema version expected by the export",
+                "yes"
+              ],
+              [
+                "diff_owner",
+                "role accountable for reviewing generated changes",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "policy-gate-validation-table",
+          "type": "mapping-table",
+          "usage": "Policy gate and validation notes for generated artifact exports.",
+          "content": {
+            "key_columns": [
+              "gate"
+            ],
+            "columns": [
+              "gate",
+              "requirement",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "compile-gate",
+                "run declared compile command before reviewing generated output",
+                "does not create a conformance runner"
+              ],
+              [
+                "strict-validate-gate",
+                "strict validation must pass before generated export can be consumed",
+                "does not waive schema errors"
+              ],
+              [
+                "manual-diff-gate",
+                "review generated diff before commit",
+                "does not auto-accept golden changes"
+              ],
+              [
+                "fixture-scope-gate",
+                "fixture manifest names exact positive pack and golden export",
+                "does not migrate all fixtures"
+              ],
+              [
+                "failure-action",
+                "block commit or downgrade export posture until fixed",
+                "does not execute remediation automatically"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shift-ops-resource-surface",
+      "category": "reference",
+      "layer": "detail",
+      "priority": "standard",
+      "scope": "Canonical resource surface example for declared resource identity, scope, risk, exposure, lifecycle cleanup, evidence, and acceptance criteria without implementing a resource runtime.",
+      "context": "Resource surface example pack for declared resources. Use when authors need resource identity, scope, owner, read/write risk, exposure class, lifecycle cleanup posture, implementation evidence, and acceptance criteria without scheduler, cleanup executor, permission broker, or resource runtime semantics.",
+      "tags": [
+        "resource",
+        "surface",
+        "exposure",
+        "cleanup",
+        "example"
+      ],
+      "deps": [
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-governance"
+      ],
+      "meta": {
+        "control": {
+          "role": "guide",
+          "method": "computational",
+          "timing": [
+            "pre-commit"
+          ]
+        },
+        "provenance": {
+          "memory_role": "authority",
+          "sources": [
+            "resource-surface-contract-v1",
+            "resource-example-pack"
+          ],
+          "confidence": "high",
+          "review_chain": [
+            "resource-surface-review",
+            "validate:compiled-pilot"
+          ]
+        },
+        "runtime_contract": {
+          "tools": [
+            "resource-surface-validator"
+          ],
+          "resources": [
+            "release readiness snapshot store",
+            "change receipt ledger"
+          ],
+          "side_effects": [
+            "none"
+          ],
+          "telemetry": [
+            "resource-scope-status",
+            "resource-cleanup-status"
+          ],
+          "checkpoints": [
+            "resource-identity-declared",
+            "risk-exposure-recorded",
+            "cleanup-posture-linked"
+          ],
+          "outputs": [
+            "resource surface record",
+            "cleanup evidence note"
+          ]
+        },
+        "implementation": {
+          "repo_id": "shift-ops-control-plane",
+          "paths": [
+            "services/resources/src/resource-surface.ts",
+            "services/resources/tests/resource-surface.spec.ts"
+          ],
+          "status": "current",
+          "pr_refs": [
+            "PR-333"
+          ],
+          "authority_surface": "shift-ops-resource-surface:resource-identity-scope",
+          "evidence": [
+            {
+              "id": "resource-scope-contract-test",
+              "kind": "test",
+              "locator": "services/resources/tests/resource-surface.spec.ts",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-resource-surface:resource-identity-scope"
+            },
+            {
+              "id": "resource-cleanup-fixture",
+              "kind": "fixture",
+              "locator": "fixtures/resources/cleanup-posture.json",
+              "status": "current",
+              "freshness_policy": "on-contract-change",
+              "authority_surface": "shift-ops-resource-surface:resource-cleanup-evidence"
+            }
+          ],
+          "acceptance_criteria": [
+            {
+              "id": "resource-scope-contract",
+              "surface_ref": "shift-ops-resource-surface:resource-identity-scope",
+              "requirement": "Resource surface declares resource_id, resource_kind, resource_scope, owner, authority_surface, and consumer_guidance.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "resource-scope-contract-test"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-resource-surface:resource-identity-scope"
+            },
+            {
+              "id": "resource-cleanup-contract",
+              "surface_ref": "shift-ops-resource-surface:resource-cleanup-evidence",
+              "requirement": "Resource cleanup posture declares cleanup_posture, evidence_anchor, lifecycle signal, and non-goal boundary without executor semantics.",
+              "check_type": "evidence-ref",
+              "evidence_refs": [
+                "resource-cleanup-fixture"
+              ],
+              "blocking": "strict",
+              "status": "satisfied",
+              "authority_surface": "shift-ops-resource-surface:resource-cleanup-evidence"
+            }
+          ]
+        }
+      },
+      "sections": [
+        {
+          "sid": "resource-identity-scope",
+          "topic": "resource identity and scope",
+          "content": "Resource surface declares resource_id, resource_kind, resource_scope, owner, authority_surface, and consumer_guidance. Resource scope is a declared contract surface; it does not create a resource runtime or permission broker.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-readiness-read-model:release-readiness-read-model",
+            "shift-ops-change-command:change-command"
+          ],
+          "artifact_refs": [
+            "resource-scope-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "resource-risk-exposure",
+          "topic": "resource risk and exposure posture",
+          "content": "Resource risk posture declares read_risk, write_risk, exposure_class, credential_boundary, and approval_boundary. Risk labels guide consumers; they do not enforce runtime policy or perform dynamic scanning.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-adapter-capability:adapter-exposure-audit"
+          ],
+          "artifact_refs": [
+            "resource-risk-exposure-table"
+          ],
+          "criticality": "must"
+        },
+        {
+          "sid": "resource-cleanup-evidence",
+          "topic": "resource cleanup and evidence linkage",
+          "content": "Resource cleanup posture declares cleanup_posture, lifecycle_signal, evidence_anchor, acceptance_criterion, and non_goal. Cleanup evidence is reviewable metadata only; this example does not schedule cleanup or execute remediation.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "resource-cleanup-evidence-table"
+          ],
+          "criticality": "must"
+        }
+      ],
+      "artifacts": [
+        {
+          "artifact_id": "resource-scope-table",
+          "type": "mapping-table",
+          "usage": "Canonical fields for declared resource surface identity and scope.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "required"
+            ],
+            "rows": [
+              [
+                "resource_id",
+                "stable identity of the declared resource surface",
+                "yes"
+              ],
+              [
+                "resource_kind",
+                "resource family such as store, ledger, queue, file, or endpoint",
+                "yes"
+              ],
+              [
+                "resource_scope",
+                "bounded read or write surface covered by this contract",
+                "yes"
+              ],
+              [
+                "owner",
+                "role accountable for resource posture",
+                "yes"
+              ],
+              [
+                "authority_surface",
+                "section or artifact that owns the resource declaration",
+                "yes"
+              ],
+              [
+                "consumer_guidance",
+                "how agents may consume or avoid the resource",
+                "yes"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "resource-risk-exposure-table",
+          "type": "mapping-table",
+          "usage": "Risk and exposure posture fields for declared resources.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "read_risk",
+                "risk class for observing resource contents or state",
+                "does not scan data"
+              ],
+              [
+                "write_risk",
+                "risk class for mutating resource contents or state",
+                "does not authorize writes"
+              ],
+              [
+                "exposure_class",
+                "local-only, local-export, remote-read, remote-write, or adapter-facing posture",
+                "does not create network gateway"
+              ],
+              [
+                "credential_boundary",
+                "credential family or secret boundary needed by consumers",
+                "does not store credentials"
+              ],
+              [
+                "approval_boundary",
+                "human or policy gate expected before risky use",
+                "does not implement approval workflow"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "resource-cleanup-evidence-table",
+          "type": "mapping-table",
+          "usage": "Cleanup posture and evidence anchors for declared resource surfaces.",
+          "content": {
+            "key_columns": [
+              "field"
+            ],
+            "columns": [
+              "field",
+              "meaning",
+              "non_goal"
+            ],
+            "rows": [
+              [
+                "cleanup_posture",
+                "none, manual, scheduled, lifecycle-bound, or external-owner declaration",
+                "does not execute cleanup"
+              ],
+              [
+                "lifecycle_signal",
+                "state or event that makes cleanup relevant",
+                "does not create scheduler"
+              ],
+              [
+                "evidence_anchor",
+                "test, fixture, file contract, or manual review proving declared posture",
+                "does not execute evidence command"
+              ],
+              [
+                "acceptance_criterion",
+                "contract-to-evidence criterion that makes the declaration consumable",
+                "does not waive strict validation"
+              ],
+              [
+                "failure_action",
+                "block, downgrade, or manual review when evidence is stale",
+                "does not remediate automatically"
+              ]
             ]
           }
         }
@@ -566,19 +2404,25 @@
         {
           "sid": "review-routing-policy",
           "topic": "scripted expert human review split",
-          "content": "Scripted checks cover deterministic release-window and evidence-completeness rules. Expert review covers database schema, control-flow, or rollback-risk changes. Human review covers emergency fixes, launch-window exceptions, or other irreversible customer-visible changes. Route to the strictest required lane when multiple routes apply.",
+          "content": "Scripted checks cover deterministic release-window and evidence-completeness rules. Expert review covers database schema, control-flow, or rollback-risk changes. Human review covers emergency fixes, launch-window exceptions, or other irreversible customer-visible changes. Route to the strictest required lane when multiple routes apply. Release-window routing cites a current external calendar API authority.",
           "content_type": "rules",
           "artifact_refs": [
             "review-routing",
             "system-gates"
+          ],
+          "citation_refs": [
+            "release-calendar-api-doc"
           ],
           "criticality": "must"
         },
         {
           "sid": "implementation-notes",
           "topic": "pattern customization checklist",
-          "content": "Keep this module aligned with shift-ops-policy approval rules and shift-ops-runbook incident constraints. Split it only if routine change governance and emergency-change governance diverge in owner, cadence, or retained evidence.",
+          "content": "Keep this module aligned with shift-ops-policy approval rules and shift-ops-runbook incident constraints. Split it only if routine change governance and emergency-change governance diverge in owner, cadence, or retained evidence. Treat launch-window exception frequency as an unresolved assumption until supported by local evidence.",
           "content_type": "rules",
+          "citation_refs": [
+            "launch-window-exception-assumption"
+          ],
           "criticality": "should"
         }
       ],
@@ -714,6 +2558,21 @@
           "artifact_id": "review-routing",
           "type": "decision-tree",
           "usage": "Route changes into scripted, expert, or human review lanes before execution.",
+          "decision_provenance": {
+            "consumer_surface": "agent-consumable",
+            "basis": "source-evidence",
+            "source_refs": [
+              "shift-ops-governance:review-routing-policy"
+            ],
+            "evidence_refs": [
+              "shift-ops-governance:system-gates"
+            ],
+            "evidence_status": "current",
+            "consumption_gate": "stable",
+            "citation_refs": [
+              "release-calendar-api-doc"
+            ]
+          },
           "content": {
             "root": "review-scope",
             "nodes": [
@@ -808,7 +2667,27 @@
             "gate-record",
             "release-decision"
           ]
-        }
+        },
+        "external_citations": [
+          {
+            "citation_id": "release-calendar-api-doc",
+            "source_type": "api-doc",
+            "locator": "https://example.test/shift-ops/release-calendar",
+            "version_or_date": "2026-05-08",
+            "authority_relation": "external-authority",
+            "claim_posture": "authoritative-claim",
+            "uncertainty": "low",
+            "review_status": "current"
+          },
+          {
+            "citation_id": "launch-window-exception-assumption",
+            "source_type": "assumption",
+            "authority_relation": "unsupported-assumption",
+            "claim_posture": "assumption",
+            "uncertainty": "high",
+            "review_status": "unresolved"
+          }
+        ]
       },
       "priority": "standard",
       "tags": [
@@ -816,7 +2695,9 @@
         "governance",
         "acceptance",
         "review",
-        "operations"
+        "operations",
+        "external-citation",
+        "provenance"
       ]
     }
   ],
@@ -829,6 +2710,11 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -841,6 +2727,11 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -856,6 +2747,71 @@
           "shift-ops-governance"
         ],
         "reason": "Policy edits require routing, approval authority, and delivery-governance checks."
+      },
+      {
+        "match": "modules/shift-ops-readiness-read-model.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-governance"
+        ],
+        "reason": "Read-model edits require policy authority, freshness posture, and implementation-linkage evidence."
+      },
+      {
+        "match": "modules/shift-ops-change-command.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-policy",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-governance"
+        ],
+        "reason": "Command edits require policy authority, readiness preconditions, receipt posture, and implementation-linkage evidence."
+      },
+      {
+        "match": "modules/shift-ops-change-event-log.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-governance"
+        ],
+        "reason": "Event edits require command receipt linkage, correction and supersession posture, projection guidance, and implementation-linkage evidence."
+      },
+      {
+        "match": "modules/shift-ops-adapter-capability.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-adapter-capability",
+          "shift-ops-governance"
+        ],
+        "reason": "Adapter edits require provider capability, consumer requirement, exposure posture, audit notes, and implementation-linkage evidence."
+      },
+      {
+        "match": "modules/shift-ops-resource-surface.json",
+        "intent": "write",
+        "load": [
+          "shift-ops-root",
+          "shift-ops-capsule",
+          "shift-ops-readiness-read-model",
+          "shift-ops-change-command",
+          "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
+          "shift-ops-governance"
+        ],
+        "reason": "Resource edits require routing, resource scope, risk/exposure posture, cleanup evidence, and implementation-linkage evidence."
       },
       {
         "match": "modules/shift-ops-runbook.json",
@@ -875,6 +2831,10 @@
           "shift-ops-root",
           "shift-ops-capsule",
           "shift-ops-policy",
+          "shift-ops-change-command",
+          "shift-ops-change-event-log",
+          "shift-ops-adapter-capability",
+          "shift-ops-resource-surface",
           "shift-ops-governance",
           "shift-ops-runbook"
         ],
@@ -887,12 +2847,17 @@
       "pair_id": "pair-shift-ops-readme",
       "scope": "system",
       "agent_primary": "shift-ops-capsule",
-        "agent_supporting": [
-          "shift-ops-root",
-          "shift-ops-policy",
-          "shift-ops-governance",
-          "shift-ops-runbook"
-        ],
+      "agent_supporting": [
+        "shift-ops-root",
+        "shift-ops-policy",
+        "shift-ops-readiness-read-model",
+        "shift-ops-change-command",
+        "shift-ops-change-event-log",
+        "shift-ops-adapter-capability",
+        "shift-ops-resource-surface",
+        "shift-ops-governance",
+        "shift-ops-runbook"
+      ],
       "human_primary": "README.md",
       "human_generation": {
         "mode": "deterministic",

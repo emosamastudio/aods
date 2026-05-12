@@ -1,12 +1,13 @@
 {
   "aods_v": 3,
   "module_id": "spec-surface-governance",
-  "v": 11,
-  "context": "Capsule for dual-surface pairing, authority resolution, stable-surface governance, capsule routing, sync discipline, control taxonomy, provenance summaries, claim-diff posture, and deterministic human-surface generation. Routes detailed stable-surface authority, lifecycle, and stable contract rules to detail governance modules. bidirectional sync remains experimental until merge protocol exists.",
+  "v": 12,
+  "context": "Capsule for dual-surface pairing, authority resolution, stable-surface governance, capsule routing, sync discipline, sync quality metrics, control taxonomy, provenance summaries, claim-diff posture, and deterministic human-surface generation. Routes detailed stable-surface authority, lifecycle, and stable contract rules to detail governance modules. bidirectional sync remains experimental until merge protocol exists.",
   "assumptions": [
     "Corpus may include human-facing surfaces outside JSON module registry",
     "manifest.surface_pairs is global pairing registry",
-    "module.layer drives progressive disclosure and authority posture"
+    "module.layer drives progressive disclosure and authority posture",
+    "Paired human and agent surfaces need sync quality metrics before reports are comparable"
   ],
   "sections": [
     {
@@ -42,6 +43,22 @@
         "pair-sync-flow"
       ],
       "criticality": "must"
+    },
+    {
+      "sid": "paired-surface-sync-quality-metrics",
+      "topic": "paired surface synchronization quality metrics",
+      "content": "sync quality metrics are report vocabulary for paired human and agent surfaces. exact invariant coverage checks shared_invariants presence and does not prove semantic coverage. semantic coverage tracks preserved constraints, preconditions, state changes, risk labels, and failure semantics. omitted constraints, stale examples, authority mismatch, and sync freshness name review findings. quality report summarizes those findings without a new diff engine, LLM semantic judge, dashboard, or automatic fixer.",
+      "content_type": "rules",
+      "refs": [
+        "pairing-contract",
+        "authority-resolution",
+        "provenance-contract"
+      ],
+      "artifact_refs": [
+        "paired-surface-sync-quality-field-table",
+        "paired-surface-sync-quality-non-goals"
+      ],
+      "criticality": "should"
     },
     {
       "sid": "capsule-contract",
@@ -325,6 +342,98 @@
       }
     },
     {
+      "artifact_id": "paired-surface-sync-quality-field-table",
+      "type": "mapping-table",
+      "usage": "Stable report vocabulary for evaluating paired human and agent surface synchronization quality.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "meaning",
+          "source",
+          "boundary"
+        ],
+        "rows": [
+          [
+            "exact_invariant_coverage",
+            "shared_invariants present in both agent_primary and human_primary",
+            "surface_pairs + paired surfaces",
+            "exact coverage only"
+          ],
+          [
+            "semantic_coverage",
+            "human surface preserves agent-primary constraints and semantics",
+            "agent-primary sections/artifacts",
+            "no model-mediated score"
+          ],
+          [
+            "omitted_constraint",
+            "agent-primary must/should constraint is absent from human surface",
+            "agent-primary rules",
+            "review finding only"
+          ],
+          [
+            "stale_example",
+            "human example references obsolete schema, command, state, output, or lifecycle",
+            "examples + agent source",
+            "freshness signal only"
+          ],
+          [
+            "authority_mismatch",
+            "paired surfaces disagree on authority, lifecycle, sync_source, or exception posture",
+            "surface_pairs + authority rules",
+            "manual review signal"
+          ],
+          [
+            "sync_freshness",
+            "last checked agent source, version, and evidence anchor",
+            "module metadata + review record",
+            "not monitoring"
+          ],
+          [
+            "quality_report",
+            "stable envelope for findings and reviewer status",
+            "sync check or release notes",
+            "not a dashboard"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "paired-surface-sync-quality-non-goals",
+      "type": "mapping-table",
+      "usage": "Explicit exclusions for paired-surface synchronization quality metrics.",
+      "content": {
+        "key_columns": [
+          "non_goal"
+        ],
+        "columns": [
+          "non_goal",
+          "why_excluded"
+        ],
+        "rows": [
+          [
+            "new_diff_engine",
+            "Vocabulary only; later validators can adopt it."
+          ],
+          [
+            "llm_semantic_judge",
+            "No required model-mediated score or blocker."
+          ],
+          [
+            "dashboard",
+            "No UI or analytics surface."
+          ],
+          [
+            "automatic_fixer",
+            "Findings require review before edits."
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "capsule-contract-table",
       "type": "mapping-table",
       "usage": "Required meta.capsule fields for category=capsule modules.",
@@ -489,6 +598,11 @@
       "v": 11,
       "delta": "Routed capsule readers toward stable-surface contract details for redaction and completeness posture.",
       "breaking": false
+    },
+    {
+      "v": 12,
+      "delta": "Added paired human and agent surface synchronization quality metrics and report vocabulary.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -506,7 +620,8 @@
       "memory_role": "authority",
       "sources": [
         "aods-v3-surface-governance-design",
-        "openai-harness-guides-vs-sensors"
+        "openai-harness-guides-vs-sensors",
+        "issue-55"
       ],
       "confidence": "high",
       "review_chain": [
@@ -529,14 +644,16 @@
       ],
       "telemetry": [
         "pairing-conflict",
-        "authority-resolution"
+        "authority-resolution",
+        "sync-quality-finding"
       ],
       "checkpoints": [
         "agent-primary-selected",
         "pair-sync-evaluated"
       ],
       "outputs": [
-        "pairing-state"
+        "pairing-state",
+        "sync-quality-posture"
       ]
     },
     "capsule": {
@@ -560,6 +677,7 @@
         "manifest.surface_pairs is global pairing registry",
         "stable surfaces require explicit AODS authority",
         "stable surfaces need explicit contract and redaction posture before broad consumption",
+        "paired human and agent surfaces use sync quality report vocabulary before future automation",
         "bidirectional sync is experimental until merge protocol exists"
       ]
     }

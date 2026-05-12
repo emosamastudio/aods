@@ -4,7 +4,7 @@
 
 - Recommendation: **Current benchmark result supports publishing the next version**
 - Assessed version: **0.7.0**
-- Executive summary generated at: **2026-05-07T04:48:01.430Z**
+- Executive summary generated at: **2026-05-08T03:59:38.412Z**
 
 ## Decision card
 

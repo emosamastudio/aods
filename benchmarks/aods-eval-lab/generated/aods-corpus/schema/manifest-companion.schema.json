@@ -16,11 +16,7 @@
       "const": "manifest-companion"
     },
     "glossary": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string",
-        "maxLength": 200
-      }
+      "$ref": "aods://schema/manifest/v3#/definitions/glossary_map"
     },
     "roles": {
       "type": "array",

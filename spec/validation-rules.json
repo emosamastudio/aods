@@ -1,8 +1,8 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 20,
-  "context": "Defines validation rules for AODS corpus integrity, including schema, references, surface governance, stable-surface contracts, root and module topology metadata, implementation evidence, severity/gating policy, reality checks, and AOP discipline.",
+  "v": 31,
+  "context": "Defines AODS validation governance: schema/reference checks, surface and stable contracts, fixture/golden smoke reports, glossary/citation gates, topology, implementation evidence and acceptance, provenance, remediation, severity, reality, and AOP discipline.",
   "assumptions": [
     "Validator has access to all files in corpus",
     "JSON Schema draft-07 validation is available"
@@ -11,7 +11,7 @@
     {
       "sid": "structural",
       "topic": "structural validation rules",
-      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. Module schema permits section-first, artifact-first, or mixed modules, but every module must declare at least one section or artifact. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained. human_generation, when declared, stays within the allowed opt-in contract: mode=deterministic, profile=overview|checklist, title optional. manifest-companion roles are runtime role profiles: id required; scope may be omitted; required_modules may be omitted when boot_by_role already carries runtime bindings. project_topology, when declared, validates root design_repo plus implementation_repos[] structure. module.meta.implementation and manifest.modules[].implementation, when declared, validate repo_id + paths + status + authority_surface shape. module.meta.implementation.evidence[], when declared, validates id + kind + locator + status + authority_surface shape. manifest.modules[].implementation.evidence_summary, when declared, validates total + current + planned + stale + blocked counters. control metadata, provenance summaries, runtime-contract summaries, redaction summaries, contract profile summaries, implementation linkage summaries, and schema-versioning summaries, when declared, validate on both manifest.modules[] and module.meta. surface-inventory entries keep relative paths and typed current|reserved|future states.",
+      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. Module schema permits section-first, artifact-first, or mixed modules, but every module must declare at least one section or artifact. Artifact decision_provenance, when declared, validates consumer_surface + basis + source_refs + evidence_status + consumption_gate shape. Section, artifact, and decision_provenance citation_refs validate as module-local external citation ids. module.meta.external_citations[], when declared, validates citation_id, source_type, locator, version_or_date, authority_relation, claim_posture, uncertainty, and review_status shape. Read-model contract metadata, when declared, validates read_model.freshness snapshot_id + exported_at + source_watermark + staleness shape. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained. human_generation, when declared, stays within the allowed opt-in contract: mode=deterministic, profile=overview|checklist, title optional. manifest-companion roles are runtime role profiles: id required; scope may be omitted; required_modules may be omitted when boot_by_role already carries runtime bindings. Root and companion glossary maps permit v1 string shorthand and v2 canonical term records with definition, aliases, deprecated_terms, scope, owner, linked_surfaces, and status. project_topology, when declared, validates root design_repo plus implementation_repos[] structure. module changelog delta accepts up to 500 characters, with the validator warning above 300 characters. module.meta.implementation and manifest.modules[].implementation, when declared, validate repo_id + paths + status + authority_surface shape. module.meta.implementation.evidence[], when declared, validates id + kind + locator + status + authority_surface shape. module.meta.implementation.acceptance_criteria[], when declared, validates id + surface_ref + requirement + check_type + blocking + status + authority_surface shape. manifest.modules[].implementation.evidence_summary, when declared, validates total + current + planned + stale + blocked counters. manifest.modules[].implementation.acceptance_summary, when declared, validates total + satisfied + planned + partial + waived + blocked + manual_review counters. control metadata, provenance summaries, runtime-contract summaries, redaction summaries, contract profile summaries, implementation linkage summaries, and schema-versioning summaries, when declared, validate on both manifest.modules[] and module.meta. surface-inventory entries keep relative paths and typed current|reserved|future states.",
       "content_type": "rules",
       "refs": [
         "referential",
@@ -26,7 +26,7 @@
     {
       "sid": "referential",
       "topic": "referential integrity rules",
-      "content": "L2 MUST: deps[] resolve to manifest.modules[].id. section.refs[] resolve. section.artifact_refs[] resolve. role.required_modules[] resolve when declared. meta.capsule.routes_to resolve. boot_by_touch.load_modules[] resolve. surface_pairs.agent_primary and agent_supporting resolve. human_primary and human_supporting paths exist inside corpus root. Generated human_primary must re-render exactly from the declared deterministic generation contract. Paired human and agent surfaces must not disagree on conservatively extractable high-signal claims such as from-to deltas, must-include lists, timed actions, and execution preconditions. Claim-diff extraction reads agent_primary context, sections, and structured artifact semantics, and it compares full claim sets rather than treating one overlapping value as agreement. If a surface_pair declares exact boot_by_touch routes for both human_primary and agent_primary on the same intent, the human route must include the pair's semantic modules and must stay inside the paired agent route. Artifact-internal references also resolve: process-flow next targets, subprocess_ref, payload_schema, decision-tree node targets, topology endpoints, group node IDs, and mapping-table row width against declared columns. Cross-surface refs stay deterministic in v0.7: unresolved refs are blocking integrity failures, validators do not auto-fetch external corpora to guess targets, and stable authority must name the accountable ref owner instead of leaving target discovery implicit. module.meta.implementation.repo_id must resolve to manifest.project_topology.implementation_repos[].id when implementation linkage is declared. Current implementation linkage must declare at least one implementation evidence anchor, and evidence ids must be unique within the module. surface-inventory declarations keep relative paths even without reality mode. Under validate --reality, current entries resolve from the selected base: base=corpus -> corpus root; base=repo -> --repo-root when supplied, else corpus root. Reality mode rejects duplicate current declarations and distinguishes missing current paths from reserved or future declarations. When topology-aware implementation linkage is present, validate --reality also counts linked paths, missing paths, implementation evidence totals, stale evidence, checked evidence locators, missing evidence locators, and explicitly reports unchecked topology state when external repo roots cannot yet be resolved. Path-like implementation evidence locators are checked only when the linked repo root is resolvable; validators do not execute evidence commands. Circular module deps forbidden; circular section refs allowed with warning.",
+      "content": "L2 MUST: deps[] resolve to manifest.modules[].id. section.refs[] resolve. section.artifact_refs[] resolve. section.citation_refs[], artifact.citation_refs[], and decision_provenance.citation_refs[] resolve to module.meta.external_citations[].citation_id. role.required_modules[] resolve when declared. meta.capsule.routes_to resolve. boot_by_touch.load_modules[] resolve. surface_pairs.agent_primary and agent_supporting resolve. human_primary and human_supporting paths exist inside corpus root. Generated human_primary must re-render exactly from the declared deterministic generation contract. Paired human and agent surfaces must not disagree on conservatively extractable high-signal claims such as from-to deltas, must-include lists, timed actions, and execution preconditions. Claim-diff extraction reads agent_primary context, sections, and structured artifact semantics, and it compares full claim sets rather than treating one overlapping value as agreement. If a surface_pair declares exact boot_by_touch routes for both human_primary and agent_primary on the same intent, the human route must include the pair's semantic modules and must stay inside the paired agent route. Artifact-internal references also resolve: process-flow next targets, subprocess_ref, payload_schema, decision-tree node targets, decision_provenance source_refs, decision_provenance evidence_refs, decision_provenance summary_ref, topology endpoints, group node IDs, and mapping-table row width against declared columns. Capability compatibility mapping-tables with provider_capability_id, required_capability_id, provider_contract_profile, accepted_contract_profile, provider_schema_version_policy, required_schema_version_policy, provider_exposure_class, required_exposure_class, and expected_result are checked deterministically for compatible and incompatible rows. Cross-surface refs stay deterministic in v0.7: unresolved refs are blocking integrity failures, validators do not auto-fetch external corpora to guess targets, and stable authority must name the accountable ref owner instead of leaving target discovery implicit. Agent-consumable decisions with stable consumption_gate must have current evidence_status; stale, unresolved, or withheld evidence blocks stable decision consumption. External citation ids must be unique within a module. External authority or authoritative-claim citations must declare locator and version_or_date. Assumptions and unsupported assumptions cannot be classified as external authority or authoritative claims. Stable agent-consumable decisions cannot rely on stale, unresolved, or withheld authoritative external citations. Derived-summary or mixed decisions must declare summary_ref. Glossary v2 records must keep term_id equal to their map key when term_id is declared, aliases must be unique within a normalized scope among current terms, deprecated replacements must resolve to a current term id or alias in the same scope, and linked_surfaces must resolve to a module, section, or artifact ref. module.meta.implementation.repo_id must resolve to manifest.project_topology.implementation_repos[].id when implementation linkage is declared. Current implementation linkage must declare at least one implementation evidence anchor and at least one implementation acceptance criterion. Evidence ids and acceptance criterion ids must be unique within the module. evidence-ref criteria must resolve to declared implementation evidence ids. Blocking criteria with blocked, partial, or waived status are failures. surface-inventory declarations keep relative paths even without reality mode. Under validate --reality, current entries resolve from the selected base: base=corpus -> corpus root; base=repo -> --repo-root when supplied, else corpus root. Reality mode rejects duplicate current declarations and distinguishes missing current paths from reserved or future declarations. When topology-aware implementation linkage is present, validate --reality also counts linked paths, missing paths, implementation evidence totals, stale evidence, checked evidence locators, missing evidence locators, and explicitly reports unchecked topology state when external repo roots cannot yet be resolved. Path-like implementation evidence locators are checked only when the linked repo root is resolvable; validators do not execute evidence commands. Circular module deps forbidden; circular section refs allowed with warning.",
       "content_type": "rules",
       "refs": [
         "structural"
@@ -39,7 +39,7 @@
     {
       "sid": "surface-governance",
       "topic": "surface pair layer and capsule checks",
-      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists, and the reference hook requires manual review when bidirectional pairs change. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Large corpora with empty boot_by_touch warn because missing file-scoped routes hide authoring cost and force broader loading. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set, unless the changed human file is a valid deterministic regeneration; hook also rejects agent-only edits when sync_source=human-primary. manifest-only metadata edits do not satisfy semantic sync. shared_invariants, when declared on a surface_pair, must remain present in both agent_primary and human_primary texts after deterministic normalization of case, whitespace, and terminal punctuation; broader semantic drift remains the responsibility of claim-diff checks. Claim-diff checks stay conservative and only fire when validator can deterministically align both sides. If control metadata is declared, manifest.modules[].control and module.meta.control should match exactly, and sensor-only modules should not live in root or capsule layers. If provenance metadata is declared, manifest.modules[].provenance and module.meta.provenance should agree on memory_role + confidence. If runtime contracts are declared, manifest.modules[].runtime_contract and module.meta.runtime_contract should agree on side_effects + outputs, and side effects beyond none should expose telemetry, checkpoints, or outputs. If implementation linkage is declared, manifest.modules[].implementation and module.meta.implementation should agree on repo_id + paths + status + authority_surface + evidence_summary. Stale implementation evidence should warn so review debt is visible without blocking non-strict exploration. Topology-aware reality output should always report explicit unchecked_reason when linked external repositories remain unresolved from the selected repo root, and should warn only when project_topology is declared but no modules currently expose implementation linkage. Stable implementation-visible surfaces should have AODS authority before external, adapter-facing, exported, or agent-consumable use. Stable consumers should not depend on internal, experimental, local-only, or removed surfaces unless the dependency is explicitly experimental. surface-inventory reality checks are opt-in through validate --reality so existing corpora do not silently change behavior. base=repo only needs --repo-root when repo-scoped paths must resolve outside the corpus root. Module-like JSON files discovered under declared module directories should be registered in manifest.modules[]; otherwise validator warns that they are disk-only and unloaded. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
+      "content": "L3 SHOULD: every human-facing primary surface has paired agent_primary when corpus declares surface_pairs. boot_sequence starts with layer=root modules; capsule modules may follow root modules; detail and evidence should not lead boot. category=capsule <-> layer=capsule. category=capsule -> meta.capsule.{read_when, core_question, routes_to} present. sync_source=bidirectional warns until merge protocol exists, and the reference hook requires manual review when bidirectional pairs change. boot_by_touch should stay specific enough to narrow authoring loads instead of recreating full boot_by_role lists. Large corpora with empty boot_by_touch warn because missing file-scoped routes hide authoring cost and force broader loading. Hook layer rejects paired human-surface edits when sync_source=agent-primary and no paired agent module changed in the same change set, unless the changed human file is a valid deterministic regeneration; hook also rejects agent-only edits when sync_source=human-primary. manifest-only metadata edits do not satisfy semantic sync. shared_invariants, when declared on a surface_pair, must remain present in both agent_primary and human_primary texts after deterministic normalization of case, whitespace, and terminal punctuation; broader semantic drift remains the responsibility of claim-diff checks. Claim-diff checks stay conservative and only fire when validator can deterministically align both sides. If control metadata is declared, manifest.modules[].control and module.meta.control should match exactly, and sensor-only modules should not live in root or capsule layers. If provenance metadata is declared, manifest.modules[].provenance and module.meta.provenance should agree on memory_role + confidence. If runtime contracts are declared, manifest.modules[].runtime_contract and module.meta.runtime_contract should agree on side_effects + outputs, and side effects beyond none should expose telemetry, checkpoints, or outputs. If implementation linkage is declared, manifest.modules[].implementation and module.meta.implementation should agree on repo_id + paths + status + authority_surface + evidence_summary + acceptance_summary. Stale implementation evidence and manual-review acceptance criteria should warn so review debt is visible without blocking non-strict exploration. Topology-aware reality output should always report explicit unchecked_reason when linked external repositories remain unresolved from the selected repo root, and should warn only when project_topology is declared but no modules currently expose implementation linkage. Stable implementation-visible surfaces should have AODS authority before external, adapter-facing, exported, or agent-consumable use. Stable consumers should not depend on internal, experimental, local-only, or removed surfaces unless the dependency is explicitly experimental. surface-inventory reality checks are opt-in through validate --reality so existing corpora do not silently change behavior. base=repo only needs --repo-root when repo-scoped paths must resolve outside the corpus root. Module-like JSON files discovered under declared module directories should be registered in manifest.modules[]; otherwise validator warns that they are disk-only and unloaded. tokens_approx populated for all modules. Stable or frozen modules contain no TODO: or UNDEFINED: markers.",
       "content_type": "rules",
       "refs": [],
       "artifact_refs": [
@@ -64,7 +64,7 @@
     {
       "sid": "stable-contract-metadata",
       "topic": "redaction contract and schema-versioning metadata checks",
-      "content": "L2 MUST: if manifest.modules[].redaction or module.meta.redaction is declared, both sides stay present and has_sensitive_payloads + redaction_posture match. L2 MUST: if module.meta.redaction.has_sensitive_payloads == true, then sensitive_classes and exposure_policy must be present. L2 MUST: if manifest.modules[].contract or module.meta.contract is declared, both sides stay present and profile matches. L2 MUST: if manifest.modules[].implementation or module.meta.implementation is declared, both sides stay present and repo_id + paths + status + authority_surface + evidence_summary match. L2 MUST: implementation linkage requires manifest.project_topology.implementation_repos[] and the declared repo_id must resolve there. L2 MUST: current implementation linkage requires at least one evidence anchor, duplicate evidence ids are rejected, and path-like evidence locators must exist when validate --reality can resolve the linked repository root. L2 MUST: if manifest.modules[].schema_versioning or module.meta.schema_versioning is declared, both sides stay present and breaking_policy matches. These checks keep stable-surface contract posture visible at bootstrap instead of hiding it in deeper prose only.",
+      "content": "L2 MUST: if manifest.modules[].redaction or module.meta.redaction is declared, both sides stay present and has_sensitive_payloads + redaction_posture match. L2 MUST: if module.meta.redaction.has_sensitive_payloads == true, then sensitive_classes and exposure_policy must be present. L2 MUST: if manifest.modules[].contract or module.meta.contract is declared, both sides stay present and profile matches. L2 MUST: if module.meta.contract.profile == read-model, then module.meta.contract.read_model.freshness must declare snapshot_id, exported_at, source_watermark, and staleness before stable consumption. L2 MUST: capability compatibility mapping-table rows that declare expected_result compatible or incompatible must match deterministic provider/consumer metadata comparison across capability_id, contract_profile, schema_version_policy, and exposure_class. L2 MUST: if artifact.decision_provenance is declared, source_refs, evidence_refs, and summary_ref must resolve to sections or artifacts; citation_refs must resolve to module external citations; derived-summary or mixed decisions must name summary_ref; stable agent-consumable decisions require current evidence_status and current authoritative external citations. L2 MUST: if manifest.modules[].implementation or module.meta.implementation is declared, both sides stay present and repo_id + paths + status + authority_surface + evidence_summary + acceptance_summary match. L2 MUST: implementation linkage requires manifest.project_topology.implementation_repos[] and the declared repo_id must resolve there. L2 MUST: current implementation linkage requires at least one evidence anchor and one acceptance criterion, duplicate evidence ids and duplicate criterion ids are rejected, evidence-ref criteria must resolve declared evidence ids, blocking unsatisfied criteria fail, and path-like evidence locators must exist when validate --reality can resolve the linked repository root. L3 SHOULD: manual-review criteria warn because they are reviewable but not automatically proven. L2 MUST: if manifest.modules[].schema_versioning or module.meta.schema_versioning is declared, both sides stay present and breaking_policy matches. These checks keep stable-surface contract posture visible at bootstrap instead of hiding it in deeper prose only.",
       "content_type": "rules",
       "refs": [
         "surface-governance",
@@ -74,6 +74,22 @@
         "surface-governance-rules"
       ],
       "criticality": "must"
+    },
+    {
+      "sid": "fixture-golden-conventions",
+      "topic": "fixture and golden export conventions",
+      "content": "Fixture and golden export conventions give drift and conformance work stable example names without turning benchmarks into mandatory conformance. Repository-level fixtures SHOULD live under fixtures/positive/<capability>/<case>/ for expected-pass cases and fixtures/negative/<rule>/<case>/ for expected-fail cases. Example-local fixture manifests MAY live next to an authoring example when the example is the authority surface. Golden exports SHOULD live under golden/exports/<target>/<case>/ or point at a generated example output when the export already exists. A fixture manifest uses aods_fixture_manifest_v=1 and convention=aods-fixture-golden-v1. Each fixture declares id, kind positive|negative, input.kind, input.path, expected_status pass|fail|warn, expected_rules, and optional golden_exports. Positive fixtures should use expected_status=pass and expected_rules=[]. Negative fixtures should name at least one expected validator rule. Each golden export declares id, kind, path, schema_version, update_command, and review_gate. Golden exports are outputs, not semantic authority; updates require rerunning the declared command, reviewing the diff, and running the smallest validation gate before repo-level validation. The fixture smoke command checks manifest version, convention, expected outcome fields, and declared input/golden paths without executing update commands. This convention does not require a full conformance runner, cross-repo fetch, or automatic golden update.",
+      "content_type": "rules",
+      "refs": [
+        "stable-contract-metadata",
+        "severity-gating-policy"
+      ],
+      "artifact_refs": [
+        "fixture-golden-field-table",
+        "fixture-golden-update-flow",
+        "fixture-smoke-report-schema"
+      ],
+      "criticality": "should"
     },
     {
       "sid": "aop-compliance",
@@ -89,19 +105,20 @@
     {
       "sid": "validation-output",
       "topic": "validation report format",
-      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, stale_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_reason?:str}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str}. severity_class is optional because the current runtime still emits error/warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy.",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, current_evidence:int, planned_evidence:int, stale_evidence:int, blocked_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_repos?:[{repo_id:str, locator:str, reason:str}], unchecked_reason?:str}, external_citations?:{total:int, modules_with_citations:int, authoritative:int, current_authoritative:int, stale_authoritative:int, unresolved_authoritative:int, withheld_authoritative:int, assumptions:int, unsupported_assumptions:int, current:int, stale:int, unresolved:int, withheld:int, cited_refs:int, stable_decision_refs:int, stable_decision_current_authoritative_refs:int, stable_decision_noncurrent_authoritative_refs:int}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. unchecked_repos is emitted only when linked implementation repositories cannot be resolved from --repo-root; unchecked_reason is a human-readable aggregation of the same repo id, reason, and locator facts. external_citations is emitted when declared citations or citation refs exist; it counts declared review_status and posture only, without fetching locators or checking factual truth. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error and warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket. changelog-delta-soft-limit is a warning-class finding; normal validate accepts it, while strict compile and strict validate reject it.",
       "content_type": "prose",
       "refs": [],
       "artifact_refs": [
         "validation-report-schema",
-        "validation-level-matrix"
+        "validation-level-matrix",
+        "validation-remediation-actions"
       ],
       "criticality": "should"
     },
     {
       "sid": "severity-gating-policy",
       "topic": "validation severity and gate policy",
-      "content": "v0.7 defines six governance severity classes: info, warning, strict-error, drift-blocking, security-blocking, and release-blocking. The current validator runtime still emits error and warning buckets, so these classes are a policy layer above the existing machine output rather than a full runtime rewrite. info is advisory only and does not block validate, strict, reality, or release. warning is advisory in normal validate output but fails strict compile or strict validate because strict mode already treats warnings as gate blockers. strict-error is the default failing class and must block compile, validate, strict, and any reality run that hits the finding. drift-blocking is a strict-error subclass for authority, pairing, invariant, or topology-drift findings; when present it must block strict, reality, and release. security-blocking is a strict-error subclass for redaction, sensitive leakage, auth, or trust-boundary violations; it must block validate, strict, reality, and release. release-blocking is the publication-facing class for version, adapter, packaging, or compatibility posture findings that may be tolerated during local iteration but must fail any release or export gate. This keeps the current validator honest while giving future refs, adapter contracts, and release sensors one shared gate vocabulary.",
+      "content": "v0.7 defines six governance severity classes: info, warning, strict-error, drift-blocking, security-blocking, and release-blocking. The current validator runtime still emits error and warning buckets, so these classes are a policy layer above the existing machine output rather than a full runtime rewrite. info is advisory only and does not block validate, strict, reality, or release. warning is advisory in normal validate output but fails strict compile or strict validate because strict mode already treats warnings as gate blockers; changelog deltas above the preferred 300-character guidance limit use this warning path until the 500-character schema limit is exceeded. strict-error is the default failing class and must block compile, validate, strict, and any reality run that hits the finding. drift-blocking is a strict-error subclass for authority, pairing, invariant, topology, implementation evidence, or implementation acceptance drift findings; when present it must block strict, reality, and release. security-blocking is a strict-error subclass for redaction, sensitive leakage, auth, or trust-boundary violations; it must block validate, strict, reality, and release. release-blocking is the publication-facing class for version, adapter, packaging, or compatibility posture findings that may be tolerated during local iteration but must fail any release or export gate. Remediation gate labels identify the intended response path for a finding; they do not soften or bypass the runtime bucket. This keeps the current validator honest while giving future refs, adapter contracts, and release sensors one shared gate vocabulary.",
       "content_type": "rules",
       "refs": [
         "validation-output",
@@ -110,12 +127,180 @@
       ],
       "artifact_refs": [
         "validation-severity-taxonomy",
-        "validation-gate-matrix"
+        "validation-gate-matrix",
+        "validation-remediation-actions"
       ],
       "criticality": "must"
     }
   ],
   "artifacts": [
+    {
+      "artifact_id": "fixture-golden-field-table",
+      "type": "mapping-table",
+      "usage": "Minimum fields for conventional fixture manifests and golden export references.",
+      "content": {
+        "key_columns": [
+          "field"
+        ],
+        "columns": [
+          "field",
+          "required",
+          "meaning"
+        ],
+        "rows": [
+          [
+            "aods_fixture_manifest_v",
+            "yes",
+            "fixture manifest schema version; current value is 1"
+          ],
+          [
+            "convention",
+            "yes",
+            "convention identifier; current value is aods-fixture-golden-v1"
+          ],
+          [
+            "update_policy.review_gate",
+            "yes",
+            "human or automated gate required before accepting regenerated golden output"
+          ],
+          [
+            "fixtures[].id",
+            "yes",
+            "stable fixture identifier"
+          ],
+          [
+            "fixtures[].kind",
+            "yes",
+            "positive or negative fixture class"
+          ],
+          [
+            "fixtures[].input.kind",
+            "yes",
+            "input authority type such as authoring-source, compiled-corpus, module, or repo-surface"
+          ],
+          [
+            "fixtures[].input.path",
+            "yes",
+            "relative path to the fixture input from the fixture manifest"
+          ],
+          [
+            "fixtures[].expected_status",
+            "yes",
+            "pass, fail, or warn expectation"
+          ],
+          [
+            "fixtures[].expected_rules",
+            "yes",
+            "expected validator rule ids; empty for positive pass fixtures"
+          ],
+          [
+            "fixtures[].golden_exports[].path",
+            "recommended",
+            "relative path to a generated output snapshot"
+          ],
+          [
+            "fixtures[].golden_exports[].update_command",
+            "recommended",
+            "command that regenerates the golden export"
+          ]
+        ]
+      }
+    },
+    {
+      "artifact_id": "fixture-golden-update-flow",
+      "type": "process-flow",
+      "usage": "Minimal update workflow for golden exports.",
+      "content": {
+        "entry": "change-authority",
+        "actors": [
+          "agent",
+          "maintainer"
+        ],
+        "terminals": [
+          "accepted"
+        ],
+        "steps": [
+          {
+            "id": "change-authority",
+            "type": "action",
+            "actor": "agent",
+            "action": "change the authoring source or semantic authority first",
+            "next": "regenerate-golden"
+          },
+          {
+            "id": "regenerate-golden",
+            "type": "action",
+            "actor": "agent",
+            "action": "run the fixture's declared update_command",
+            "next": "review-diff"
+          },
+          {
+            "id": "review-diff",
+            "type": "decision",
+            "actor": "maintainer",
+            "action": "golden diff matches intended semantic change?",
+            "next": {
+              "yes": "validate-fixture",
+              "no": "change-authority"
+            }
+          },
+          {
+            "id": "validate-fixture",
+            "type": "action",
+            "actor": "agent",
+            "action": "run the smallest declared validation gate, then repo-level validation when semantic surfaces changed",
+            "next": "accepted"
+          }
+        ]
+      }
+    },
+    {
+      "artifact_id": "fixture-smoke-report-schema",
+      "type": "json-schema",
+      "usage": "Machine-readable report emitted by aods fixture smoke --json.",
+      "content": {
+        "type": "object",
+        "required": [
+          "action",
+          "status",
+          "accepted",
+          "manifest",
+          "summary",
+          "issues"
+        ],
+        "properties": {
+          "action": {
+            "const": "fixture smoke"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail"
+            ]
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "manifest": {
+            "type": "object",
+            "required": [
+              "path"
+            ]
+          },
+          "summary": {
+            "type": "object",
+            "required": [
+              "fixtures",
+              "expected_status",
+              "golden_exports"
+            ]
+          },
+          "issues": {
+            "type": "array"
+          }
+        }
+      }
+    },
     {
       "artifact_id": "validation-level-matrix",
       "type": "mapping-table",
@@ -141,13 +326,13 @@
             "L2",
             "reference integrity",
             "error",
-            "broken refs; broken routes_to; missing human path; generated human surface drift; paired claim conflict; control metadata mismatch; provenance summary mismatch; runtime contract mismatch; redaction/contract/implementation/schema-versioning mirror mismatch; invalid implementation repo refs; missing implementation evidence; missing evidence locators; invisible side effects; sensor declared in root/capsule; invalid process-flow targets; invalid topology endpoints; mapping-table row mismatch; missing or placeholder-only current surfaces in reality mode"
+            "broken refs; broken routes_to; missing human path; generated human surface drift; paired claim conflict; control metadata mismatch; provenance summary mismatch; runtime contract mismatch; redaction/contract/implementation/schema-versioning mirror mismatch; missing read-model freshness; invalid or unsafe external citation refs; invalid implementation repo refs; missing implementation evidence; missing acceptance criteria; missing evidence locators; invalid acceptance evidence refs; invisible side effects; sensor declared in root/capsule; invalid process-flow targets; invalid topology endpoints; mapping-table row mismatch; missing or placeholder-only current surfaces in reality mode"
           ],
           [
             "L3",
             "coverage and governance discipline",
             "warning",
-            "capsule missing meta.capsule; boot order starts with detail; missing tokens_approx; unregistered module-like JSON on disk; topology declared without any implementation-linked modules"
+            "capsule missing meta.capsule; boot order starts with detail; missing tokens_approx; unregistered module-like JSON on disk; topology declared without any implementation-linked modules; changelog delta above preferred 300-character guidance"
           ],
           [
             "L4",
@@ -274,6 +459,156 @@
       }
     },
     {
+      "artifact_id": "validation-remediation-actions",
+      "type": "mapping-table",
+      "usage": "Standard next-action guidance for validation findings that expose implementation or contract drift.",
+      "content": {
+        "key_columns": [
+          "action"
+        ],
+        "columns": [
+          "action",
+          "gate",
+          "applies_to",
+          "meaning"
+        ],
+        "rows": [
+          [
+            "add-authority",
+            "drift-blocking",
+            "stable surface consumed without AODS authority",
+            "declare the authority entry, owner, lifecycle, contract profile, and redaction posture before stable consumption"
+          ],
+          [
+            "mark-internal-or-experimental",
+            "warning",
+            "implementation-visible surface not ready for stable consumption",
+            "downgrade exposure until authority and contract completeness are available"
+          ],
+          [
+            "remove-or-migrate-consumption",
+            "drift-blocking",
+            "stable consumer depends on non-authorized or removed surface",
+            "remove the dependency or migrate it to an authorized replacement"
+          ],
+          [
+            "add-evidence",
+            "drift-blocking",
+            "current implementation linkage lacks evidence anchors",
+            "declare module.meta.implementation.evidence[] with reviewable proof anchors"
+          ],
+          [
+            "fix-evidence-id",
+            "drift-blocking",
+            "implementation evidence ids are duplicated within a module",
+            "rename or merge duplicate evidence ids so each proof anchor has one stable identity"
+          ],
+          [
+            "fix-evidence-locator",
+            "drift-blocking",
+            "path-like evidence locator is missing under validate --reality",
+            "restore the evidence path or update the locator before treating implementation status as current"
+          ],
+          [
+            "add-acceptance-criteria",
+            "drift-blocking",
+            "current implementation linkage lacks contract acceptance criteria",
+            "declare module.meta.implementation.acceptance_criteria[] linking contract requirements to evidence, validator rules, fixtures, or manual review"
+          ],
+          [
+            "fix-acceptance-criteria-id",
+            "drift-blocking",
+            "implementation acceptance criteria ids are duplicated within a module",
+            "rename or merge duplicate criteria ids so each contract requirement has one stable identity"
+          ],
+          [
+            "add-evidence-ref",
+            "drift-blocking",
+            "evidence-ref acceptance criterion has no evidence_refs entries",
+            "add at least one evidence_refs entry so the requirement is tied to proof"
+          ],
+          [
+            "resolve-evidence-ref",
+            "drift-blocking",
+            "acceptance criterion references unknown evidence",
+            "point evidence_refs at declared evidence ids or add the missing evidence anchor"
+          ],
+          [
+            "satisfy-or-waive-criterion",
+            "drift-blocking",
+            "blocking acceptance criterion is blocked, partial, or waived",
+            "make the criterion satisfied or record an explicit waiver/remediation before stable consumption"
+          ],
+          [
+            "automate-or-review",
+            "warning",
+            "acceptance criterion relies on manual review",
+            "prefer automated evidence where possible and keep the manual review anchor current when automation is not available"
+          ],
+          [
+            "resolve-decision-source-ref",
+            "drift-blocking",
+            "decision provenance references an unknown source",
+            "point source_refs at declared sections or artifacts that authorize the decision"
+          ],
+          [
+            "resolve-decision-evidence-ref",
+            "drift-blocking",
+            "decision provenance references an unknown evidence anchor",
+            "point evidence_refs at declared sections or artifacts that provide proof anchors"
+          ],
+          [
+            "resolve-decision-summary-ref",
+            "drift-blocking",
+            "decision provenance references an unknown derived summary",
+            "point summary_ref at the section or artifact that owns the derived summary"
+          ],
+          [
+            "add-derived-summary-ref",
+            "drift-blocking",
+            "derived-summary or mixed decision provenance lacks summary_ref",
+            "declare summary_ref so agents can locate the synthesis boundary"
+          ],
+          [
+            "refresh-or-block-decision",
+            "drift-blocking",
+            "stable agent-consumable decision has stale, unresolved, or withheld evidence",
+            "refresh the evidence or change consumption_gate to review-required, blocked, or experimental"
+          ],
+          [
+            "add-read-model-freshness",
+            "drift-blocking",
+            "stable read-model contract lacks snapshot freshness and source watermark metadata",
+            "declare module.meta.contract.read_model.freshness with snapshot_id, exported_at, source_watermark, and staleness before stable consumption"
+          ],
+          [
+            "align-capability-compatibility",
+            "drift-blocking",
+            "capability compatibility expected_result disagrees with provider and consumer metadata",
+            "align expected_result with provider_capability_id, contract_profile, schema_version_policy, and exposure_class comparison or correct the mismatched metadata"
+          ],
+          [
+            "add-capability-compatibility-columns",
+            "drift-blocking",
+            "capability compatibility matrix lacks required comparison columns",
+            "declare provider and consumer capability id, contract profile, schema version policy, exposure class, and expected_result columns"
+          ],
+          [
+            "fix-capability-compatibility-result",
+            "drift-blocking",
+            "capability compatibility expected_result uses an unsupported value",
+            "set expected_result to compatible, incompatible, partial, or unknown"
+          ],
+          [
+            "tighten-changelog-delta",
+            "warning",
+            "changelog delta is above the preferred 300-character guidance limit",
+            "keep the delta concise, split unrelated changes, or accept the warning until the 500-character schema limit is reached"
+          ]
+        ]
+      }
+    },
+    {
       "artifact_id": "surface-governance-rules",
       "type": "rule-set",
       "usage": "Surface-pair, layer, and capsule validation rules.",
@@ -395,31 +730,129 @@
             "source": "validation"
           },
           {
+            "id": "read-model-freshness-required",
+            "condition": "module.contract.profile == read-model AND missing module.contract.read_model.freshness",
+            "action": "L2 error: stable read-model contracts must declare freshness and watermark metadata",
+            "priority": 56,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-mismatch",
+            "condition": "capability compatibility mapping-table expected_result IN [compatible, incompatible] AND deterministic provider/consumer metadata comparison resolves the opposite result",
+            "action": "L2 error: capability compatibility matrix result must match provider and consumer metadata",
+            "priority": 56,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-table-columns",
+            "condition": "capability compatibility mapping-table lacks required provider/consumer comparison columns",
+            "action": "L2 error: capability compatibility matrix must expose all deterministic comparison columns",
+            "priority": 56,
+            "source": "validation"
+          },
+          {
+            "id": "capability-compatibility-result",
+            "condition": "capability compatibility mapping-table expected_result not in [compatible, incompatible, partial, unknown]",
+            "action": "L2 error: capability compatibility matrix expected_result must use the allowed result vocabulary",
+            "priority": 56,
+            "source": "validation"
+          },
+          {
             "id": "schema-versioning-metadata-mirror",
             "condition": "module.schema_versioning.declared == true AND mirror_match(module.schema_versioning.summary, manifest.modules[].schema_versioning) == false",
             "action": "L2 error: manifest.modules[].schema_versioning must match module.meta.schema_versioning summary fields",
-            "priority": 56,
+            "priority": 57,
             "source": "validation"
           },
           {
             "id": "implementation-metadata-mirror",
             "condition": "module.implementation.declared == true AND mirror_match(module.implementation.summary, manifest.modules[].implementation) == false",
             "action": "L2 error: manifest.modules[].implementation must match module.meta.implementation summary fields",
-            "priority": 57,
+            "priority": 58,
             "source": "validation"
           },
           {
             "id": "implementation-repo-id-unique",
             "condition": "duplicate ids exist in manifest.project_topology.implementation_repos[]",
             "action": "L2 error: project_topology.implementation_repos[] ids must be unique",
-            "priority": 58,
+            "priority": 59,
             "source": "validation"
           },
           {
             "id": "implementation-repo-ref",
             "condition": "module.implementation.declared == true AND resolve(module.implementation.repo_id, manifest.project_topology.implementation_repos) == false",
             "action": "L2 error: module.meta.implementation.repo_id must resolve to manifest.project_topology.implementation_repos[]",
-            "priority": 59,
+            "priority": 60,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-source-ref",
+            "condition": "artifact.decision_provenance exists AND any source_refs target is unresolved",
+            "action": "L2 error: decision provenance source refs must resolve to sections or artifacts",
+            "priority": 61,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-evidence-ref",
+            "condition": "artifact.decision_provenance exists AND any evidence_refs target is unresolved",
+            "action": "L2 error: decision provenance evidence refs must resolve to sections or artifacts",
+            "priority": 62,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-summary-ref",
+            "condition": "artifact.decision_provenance.summary_ref exists AND summary_ref target is unresolved",
+            "action": "L2 error: decision provenance summary_ref must resolve to a section or artifact",
+            "priority": 63,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-derived-summary",
+            "condition": "artifact.decision_provenance.basis is derived-summary or mixed AND summary_ref is missing",
+            "action": "L2 error: derived decision provenance must identify the summary owner",
+            "priority": 64,
+            "source": "validation"
+          },
+          {
+            "id": "decision-provenance-stable-evidence",
+            "condition": "artifact.decision_provenance.consumer_surface == agent-consumable AND consumption_gate == stable AND evidence_status IN stale, unresolved, withheld",
+            "action": "L2 error: stable agent-consumable decisions require current evidence posture",
+            "priority": 65,
+            "source": "validation"
+          },
+          {
+            "id": "external-citation-id-unique",
+            "condition": "duplicate citation_id values exist in module.meta.external_citations[]",
+            "action": "L2 error: module external citation ids must be unique",
+            "priority": 66,
+            "source": "validation"
+          },
+          {
+            "id": "external-citation-ref",
+            "condition": "section.citation_refs[], artifact.citation_refs[], or decision_provenance.citation_refs[] contains an unresolved citation id",
+            "action": "L2 error: citation refs must resolve to module.meta.external_citations[].citation_id",
+            "priority": 67,
+            "source": "validation"
+          },
+          {
+            "id": "external-citation-authoritative-completeness",
+            "condition": "citation.authority_relation == external-authority OR citation.claim_posture == authoritative-claim AND locator or version_or_date is missing",
+            "action": "L2 error: authoritative external citations must declare locator and version_or_date",
+            "priority": 68,
+            "source": "validation"
+          },
+          {
+            "id": "external-citation-assumption-posture",
+            "condition": "citation source/posture is assumption or unsupported-assumption AND citation is also external-authority or authoritative-claim",
+            "action": "L2 error: assumptions cannot be represented as authoritative external citations",
+            "priority": 69,
+            "source": "validation"
+          },
+          {
+            "id": "external-citation-stable-current",
+            "condition": "stable agent-consumable decision cites an authoritative external citation whose review_status is stale, unresolved, or withheld",
+            "action": "L2 error: stable agent-consumable decisions require current authoritative external citations",
+            "priority": 70,
             "source": "validation"
           },
           {
@@ -505,6 +938,13 @@
             "action": "L3 warning: bidirectional sync remains experimental until merge protocol exists",
             "priority": 70,
             "source": "validation"
+          },
+          {
+            "id": "changelog-delta-soft-limit",
+            "condition": "module.changelog[].delta length > 300 AND length <= 500",
+            "action": "L3 warning: changelog delta should stay within the preferred 300-character guidance limit",
+            "priority": 72,
+            "source": "validation"
           }
         ]
       }
@@ -560,8 +1000,113 @@
               "missing_paths": {
                 "type": "integer"
               },
+              "evidence_total": {
+                "type": "integer"
+              },
+              "modules_with_evidence": {
+                "type": "integer"
+              },
+              "modules_without_evidence": {
+                "type": "integer"
+              },
+              "current_evidence": {
+                "type": "integer"
+              },
+              "planned_evidence": {
+                "type": "integer"
+              },
+              "stale_evidence": {
+                "type": "integer"
+              },
+              "blocked_evidence": {
+                "type": "integer"
+              },
+              "checked_evidence_locators": {
+                "type": "integer"
+              },
+              "missing_evidence_locators": {
+                "type": "integer"
+              },
+              "unchecked_repos": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "repo_id",
+                    "locator",
+                    "reason"
+                  ],
+                  "properties": {
+                    "repo_id": {
+                      "type": "string"
+                    },
+                    "locator": {
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
               "unchecked_reason": {
                 "type": "string"
+              }
+            }
+          },
+          "external_citations": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "modules_with_citations": {
+                "type": "integer"
+              },
+              "authoritative": {
+                "type": "integer"
+              },
+              "current_authoritative": {
+                "type": "integer"
+              },
+              "stale_authoritative": {
+                "type": "integer"
+              },
+              "unresolved_authoritative": {
+                "type": "integer"
+              },
+              "withheld_authoritative": {
+                "type": "integer"
+              },
+              "assumptions": {
+                "type": "integer"
+              },
+              "unsupported_assumptions": {
+                "type": "integer"
+              },
+              "current": {
+                "type": "integer"
+              },
+              "stale": {
+                "type": "integer"
+              },
+              "unresolved": {
+                "type": "integer"
+              },
+              "withheld": {
+                "type": "integer"
+              },
+              "cited_refs": {
+                "type": "integer"
+              },
+              "stable_decision_refs": {
+                "type": "integer"
+              },
+              "stable_decision_current_authoritative_refs": {
+                "type": "integer"
+              },
+              "stable_decision_noncurrent_authoritative_refs": {
+                "type": "integer"
               }
             }
           },
@@ -664,6 +1209,25 @@
               },
               "message": {
                 "type": "string"
+              },
+              "remediation": {
+                "type": "object",
+                "required": [
+                  "action",
+                  "gate",
+                  "guidance"
+                ],
+                "properties": {
+                  "action": {
+                    "type": "string"
+                  },
+                  "gate": {
+                    "type": "string"
+                  },
+                  "guidance": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -760,6 +1324,61 @@
       "v": 20,
       "delta": "Added implementation evidence validation, manifest evidence summary matching, and reality checks for path-like evidence locators.",
       "breaking": false
+    },
+    {
+      "v": 21,
+      "delta": "Added implementation acceptance criteria validation and manifest acceptance summary matching.",
+      "breaking": false
+    },
+    {
+      "v": 22,
+      "delta": "Added optional validation issue remediation guidance for implementation and contract drift findings.",
+      "breaking": false
+    },
+    {
+      "v": 23,
+      "delta": "Added validation guidance for artifact-level decision provenance refs and stable agent-consumable decision evidence posture.",
+      "breaking": false
+    },
+    {
+      "v": 24,
+      "delta": "Added validation guidance and remediation action for stable read-model freshness and watermark metadata.",
+      "breaking": false
+    },
+    {
+      "v": 25,
+      "delta": "Added fixture and golden export conventions for positive and negative examples, golden update review, and example-local fixture manifests.",
+      "breaking": false
+    },
+    {
+      "v": 26,
+      "delta": "Added glossary registry v2 schema and deterministic validation guidance for canonical term records, alias uniqueness, deprecated replacements, and linked surface refs.",
+      "breaking": false
+    },
+    {
+      "v": 27,
+      "delta": "Added module external citation registry schema and deterministic validation guidance for citation id uniqueness, local citation refs, authoritative completeness, assumption posture, and stable decision currentness.",
+      "breaking": false
+    },
+    {
+      "v": 28,
+      "delta": "Added deterministic validation guidance and remediation actions for capability compatibility matrix columns, result vocabulary, and provider-consumer mismatch detection.",
+      "breaking": false
+    },
+    {
+      "v": 29,
+      "delta": "Added fixture smoke command guidance and JSON report contract for checking fixture manifest outcome fields and declared input/golden paths.",
+      "breaking": false
+    },
+    {
+      "v": 30,
+      "delta": "Added external citation hygiene report counters for declared authoritative, stale, current, assumption, unsupported-assumption, and stable-decision citation posture.",
+      "breaking": false
+    },
+    {
+      "v": 31,
+      "delta": "Raised changelog delta hard limit to 500 characters and added a warning-class remediation path above the preferred 300-character guidance limit.",
+      "breaking": false
     }
   ],
   "meta": {
@@ -796,7 +1415,8 @@
         "paired human surfaces"
       ],
       "side_effects": [
-        "validation-report"
+        "validation-report",
+        "fixture-smoke-report"
       ],
       "telemetry": [
         "validation-errors",
@@ -809,7 +1429,8 @@
         "l4-complete"
       ],
       "outputs": [
-        "validation-report"
+        "validation-report",
+        "fixture-smoke-report"
       ]
     }
   }

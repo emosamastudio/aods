@@ -1,0 +1,19 @@
+{
+  "aods_fixture_manifest_v": 1,
+  "convention": "aods-fixture-golden-v1",
+  "update_policy": {
+    "review_gate": "manual-diff"
+  },
+  "fixtures": [
+    {
+      "id": "invalid-kind",
+      "kind": "mixed",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "input.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": []
+    }
+  ]
+}

@@ -60,7 +60,7 @@
     {
       "id": "spec-aop",
       "path": "spec/aop-writing-spec.json",
-      "scope": "AOP writing rules: token-efficient prose, structure patterns, naming, anti-patterns.",
+      "scope": "AOP writing rules: token-efficient prose, structure patterns, naming, anti-patterns, density examples, and authoring guidance.",
       "category": "policy",
       "layer": "detail",
       "deps": [],
@@ -69,7 +69,7 @@
         "style",
         "authoring"
       ],
-      "tokens_approx": 1090,
+      "tokens_approx": 1970,
       "priority": "critical"
     },
     {
@@ -121,7 +121,7 @@
     {
       "id": "spec-surface-governance",
       "path": "spec/surface-governance.json",
-      "scope": "Dual-surface pairing, authority resolution, capsule routing, provenance summaries, and sync discipline for corpora that mix agent and human surfaces.",
+      "scope": "Dual-surface pairing, authority resolution, capsule routing, provenance summaries, sync quality metrics, and sync discipline for mixed agent/human surfaces.",
       "category": "capsule",
       "layer": "capsule",
       "deps": [
@@ -134,7 +134,7 @@
         "authority",
         "routing"
       ],
-      "tokens_approx": 4595,
+      "tokens_approx": 5190,
       "priority": "critical",
       "control": {
         "role": "guide",
@@ -153,7 +153,8 @@
           "surface-sync-decision"
         ],
         "outputs": [
-          "pairing-state"
+          "pairing-state",
+          "sync-quality-posture"
         ]
       }
     },
@@ -199,7 +200,7 @@
     {
       "id": "spec-stable-surface-contracts",
       "path": "spec/stable-surface-contracts.json",
-      "scope": "Minimal stable-surface contracts for redaction, contract completeness profiles, root and module topology linkage, schema version compatibility, and adapter capability minimums.",
+      "scope": "Stable-surface contracts for redaction, profiles, freshness, command/event/audit logs, correction, gaps, authority, dependencies, migration, risk, exposure, lifecycle, observability, topology, provenance, schema compatibility, adapters, and capability matching.",
       "category": "policy",
       "layer": "detail",
       "deps": [
@@ -234,7 +235,17 @@
           "contract-posture",
           "redaction-posture",
           "topology-pilot-boundary",
-          "adapter-capability-posture"
+          "adapter-capability-posture",
+          "known-gap-posture",
+          "authority-hierarchy-posture",
+          "dependency-ordering-posture",
+          "deprecation-migration-posture",
+          "risk-taxonomy-posture",
+          "local-remote-exposure-posture",
+          "command-adapter-audit-posture",
+          "lifecycle-state-machine-posture",
+          "validation-routing-observability-posture",
+          "capability-compatibility-posture"
         ]
       },
       "redaction": {
@@ -251,7 +262,7 @@
     {
       "id": "spec-validation",
       "path": "spec/validation-rules.json",
-      "scope": "Corpus validation: structural checks, referential integrity, implementation linkage + topology reality summaries, severity/gating policy, surface-governance coverage, provenance/runtime-contract enforcement, stable-contract integrity, and AOP compliance.",
+      "scope": "Corpus validation: structural checks, referential integrity, glossary/citation registry gates, implementation linkage and topology reality summaries, fixture/golden conventions and smoke reports, severity/gating policy, surface governance, stable-contract integrity, and AOP compliance.",
       "category": "policy",
       "layer": "detail",
       "deps": [
@@ -265,7 +276,7 @@
         "quality",
         "integrity"
       ],
-      "tokens_approx": 9651,
+      "tokens_approx": 9850,
       "priority": "standard",
       "control": {
         "role": "sensor",
@@ -281,10 +292,12 @@
       },
       "runtime_contract": {
         "side_effects": [
-          "validation-report"
+          "validation-report",
+          "fixture-smoke-report"
         ],
         "outputs": [
-          "validation-report"
+          "validation-report",
+          "fixture-smoke-report"
         ]
       }
     }

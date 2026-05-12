@@ -51,11 +51,7 @@
       "description": "Optional path to a second-hop manifest companion. Use to externalize glossary, roles, touch routes, and paired-surface maps so manifest.json stays small at bootstrap."
     },
     "glossary": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string",
-        "maxLength": 200
-      },
+      "$ref": "#/definitions/glossary_map",
       "description": "System-wide term definitions. Keys are canonical term IDs used across all modules."
     },
     "roles": {
@@ -111,6 +107,112 @@
       "type": "string",
       "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+",
       "description": "Corpus-contained relative path only. Absolute paths and parent traversal forbidden."
+    },
+    "glossary_map": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "string",
+            "maxLength": 200,
+            "description": "v1 shorthand definition for a current canonical term."
+          },
+          {
+            "$ref": "#/definitions/glossary_term"
+          }
+        ]
+      }
+    },
+    "glossary_term": {
+      "type": "object",
+      "required": [
+        "definition"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "term_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]{1,63}$",
+          "description": "Optional copy of the glossary key. When present, it must match the key."
+        },
+        "definition": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "deprecated_terms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/deprecated_glossary_term"
+          }
+        },
+        "scope": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "owner": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "linked_surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "current",
+            "deprecated",
+            "reserved"
+          ]
+        }
+      }
+    },
+    "deprecated_glossary_term": {
+      "type": "object",
+      "required": [
+        "term",
+        "replacement",
+        "reason",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "term": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "replacement": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "deprecated",
+            "removed"
+          ]
+        }
+      }
     },
     "role_def": {
       "type": "object",
@@ -377,6 +479,10 @@
         "evidence_summary": {
           "$ref": "#/definitions/implementation_evidence_summary_ref",
           "description": "Lightweight manifest summary of module.meta.implementation.evidence[] by status."
+        },
+        "acceptance_summary": {
+          "$ref": "#/definitions/implementation_acceptance_summary_ref",
+          "description": "Lightweight manifest summary of module.meta.implementation.acceptance_criteria[] by status and manual-review posture."
         }
       }
     },
@@ -408,6 +514,49 @@
           "minimum": 0
         },
         "blocked": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "implementation_acceptance_summary_ref": {
+      "type": "object",
+      "required": [
+        "total",
+        "satisfied",
+        "planned",
+        "partial",
+        "waived",
+        "blocked",
+        "manual_review"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "satisfied": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "planned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partial": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "waived": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "manual_review": {
           "type": "integer",
           "minimum": 0
         }
