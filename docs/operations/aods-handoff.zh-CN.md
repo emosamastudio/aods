@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-105 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage 和 contract-to-evidence trace。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 保持 P3 open。下一轮应选择 U-106、U-107、U-108、U-109、U-110、U-111、U-112、U-113、U-114、U-115。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-115 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage、contract-to-evidence trace、stale evidence refresh workflow、locator remediation、non-execution invariant、fixture coverage matrix 和 golden export drift report。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 保持 P3 open。下一轮应选择 U-116、U-117、U-118、U-119、U-120、U-121、U-122、U-123、U-124、U-125。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -63,9 +63,19 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | 48 | `docs/operations/aods-implementation-evidence-locator-matrix-v2.zh-CN.md` | 读取 U-103 evidence locator matrix v2 |
 | 49 | `docs/operations/aods-acceptance-criteria-coverage-report.zh-CN.md` | 读取 U-104 acceptance criteria coverage |
 | 50 | `docs/operations/aods-contract-requirement-evidence-trace-report.zh-CN.md` | 读取 U-105 contract-to-evidence trace |
-| 51 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 52 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 53 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 51 | `docs/operations/aods-stale-evidence-refresh-workflow.zh-CN.md` | 读取 U-106 stale evidence refresh workflow |
+| 52 | `docs/operations/aods-missing-reality-locator-remediation.zh-CN.md` | 读取 U-107 missing reality locator remediation plan |
+| 53 | `docs/operations/aods-implementation-repo-locator-normalization.zh-CN.md` | 读取 U-108 repo locator normalization |
+| 54 | `docs/operations/aods-current-planned-implementation-summary-guard.zh-CN.md` | 读取 U-109 current/planned summary guard |
+| 55 | `docs/operations/aods-evidence-command-non-execution-invariant.zh-CN.md` | 读取 U-110 non-execution invariant |
+| 56 | `docs/operations/aods-implementation-drift-dashboard-boundary.zh-CN.md` | 读取 U-111 dashboard boundary |
+| 57 | `docs/operations/aods-code-ownership-mapping-boundary.zh-CN.md` | 读取 U-112 ownership mapping boundary |
+| 58 | `docs/operations/aods-fixture-manifest-coverage-matrix.zh-CN.md` | 读取 U-113 fixture coverage matrix |
+| 59 | `docs/operations/aods-negative-fixture-expansion-plan.zh-CN.md` | 读取 U-114 negative fixture expansion plan |
+| 60 | `docs/operations/aods-golden-export-drift-report.zh-CN.md` | 读取 U-115 golden export drift report |
+| 61 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 62 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 63 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -188,22 +198,32 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-103 | Implementation evidence locator matrix v2 | 8 linked modules、14 evidence、13 current、1 planned、0 stale/blocked/missing locators；example repos remain unchecked |
 | U-104 | Acceptance criteria coverage report | 14 criteria total；13 satisfied、1 planned、0 waived/blocked/manual_review；all check_type `evidence-ref`；不执行 arbitrary command |
 | U-105 | Contract requirement to evidence trace report | requirement -> criteria -> evidence -> locator 静态追踪边界已定义；不做 semantic oracle，不 remote clone |
+| U-106 | Stale evidence refresh workflow boundary | stale evidence owner、refresh trigger、validation gate 和 manual review path 已定义；不自动刷新外部证据 |
+| U-107 | Missing reality locator remediation plan | unchecked implementation repo locator 的最小修复路线已明确；不 fetch sibling repo |
+| U-108 | Implementation repo locator normalization | path / URL / descriptive-only locator 的解释边界已明确；不改变 root topology semantics |
+| U-109 | Current vs planned implementation summary guard | current/planned/stale/blocked report guard 已定义；planned evidence 保持可见 |
+| U-110 | Evidence command non-execution invariant test | fixture smoke non-execution regression 已落；validate/reality/fixture smoke 不执行 command 的 invariant 已入账 |
+| U-111 | Implementation drift dashboard boundary triage | 未来 dashboard 静态输入、候选面板和非目标已明确；不建 dashboard |
+| U-112 | Code ownership mapping boundary triage | ownership authority、path、review owner、fallback 边界已明确；不自动推断 owner |
+| U-113 | Fixture manifest coverage matrix | 9 positive、0 negative、9 golden coverage 已入账；不补全部 fixture |
+| U-114 | Negative fixture expansion plan | 下一批 high-value negative fixtures、expected rules 和文件范围已排序；不一次性扩全量 |
+| U-115 | Golden export drift report | golden export drift 检测、人工接受、拒绝和更新边界已定义；不自动接受 golden diff |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-106 | Stale evidence refresh workflow boundary | 下一轮 10 任务第 1 个 |
-| 2 | U-107 | Missing reality locator remediation plan | 下一轮 10 任务第 2 个 |
-| 3 | U-108 | Implementation repo locator normalization | 下一轮 10 任务第 3 个 |
-| 4 | U-109 | Current vs planned implementation summary guard | 下一轮 10 任务第 4 个 |
-| 5 | U-110 | Evidence command non-execution invariant test | 下一轮 10 任务第 5 个 |
-| 6 | U-111 | Implementation drift dashboard boundary triage | 下一轮 10 任务第 6 个 |
-| 7 | U-112 | Code ownership mapping boundary triage | 下一轮 10 任务第 7 个 |
-| 8 | U-113 | Fixture manifest coverage matrix | 下一轮 10 任务第 8 个 |
-| 9 | U-114 | Negative fixture expansion plan | 下一轮 10 任务第 9 个 |
-| 10 | U-115 | Golden export drift report | 下一轮 10 任务第 10 个 |
-| 11 | U-116 - U-160 | 综合任务池剩余任务 | 详见 `aods-comprehensive-task-plan.zh-CN.md` 和任务台账 |
+| 1 | U-116 | Fixture smoke output contract snapshot | 下一轮 10 任务第 1 个 |
+| 2 | U-117 | Example pack gap audit after PR review | 下一轮 10 任务第 2 个 |
+| 3 | U-118 | Source-first compile determinism report | 下一轮 10 任务第 3 个 |
+| 4 | U-119 | Compiled pilot schema mirror audit | 下一轮 10 任务第 4 个 |
+| 5 | U-120 | Seven-plane pilot freshness review | 下一轮 10 任务第 5 个 |
+| 6 | U-121 | Open-source scenario pack health review | 下一轮 10 任务第 6 个 |
+| 7 | U-122 | Benchmark generated artifact hygiene policy | 下一轮 10 任务第 7 个 |
+| 8 | U-123 | CLI help coverage for all subcommands | 下一轮 10 任务第 8 个 |
+| 9 | U-124 | Validate JSON report schema documentation | 下一轮 10 任务第 9 个 |
+| 10 | U-125 | Validate text/JSON parity audit | 下一轮 10 任务第 10 个 |
+| 11 | U-126 - U-160 | 综合任务池剩余任务 | 详见 `aods-comprehensive-task-plan.zh-CN.md` 和任务台账 |
 
 ## 失败和风险
 
@@ -251,6 +271,8 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | PR closeout 混入实现风险 | PR `#63` final readiness / merge / release 会改变公开状态，容易和 package/release/drift 工作混在一轮 | U-091/U-093/U-094/U-095 和 U-098/U-099 已入账；未获 owner 明确指令前不 ready、不 merge、不 release、不 bump version |
 | package release 误判风险 | package inventory、install smoke 和 release self-check 都通过，但 version 仍是 `0.7.0` 且 PR 仍是 draft | U-096/U-097/U-100/U-101 已明确 technical gate pass 不等于 public release authorization |
 | evidence trace 过度承诺风险 | criteria/evidence trace 能证明 metadata 链接，不证明外部实现语义正确 | U-103/U-104/U-105 已明确 unchecked repo、planned criterion 和 non-semantic-oracle 边界 |
+| skill 发布面漂移风险 | 随包 skill 曾把 `boot_by_touch` 写成错误字段名 | 本轮已修复 skill text / metadata，并用 focused test 阻断错误写法回归 |
+| evidence command 执行风险 | fixture / golden update command 容易被误读为 smoke 时会执行 | U-110 已补 non-execution regression；fixture smoke 仍只检查声明和路径 |
 | 10-task 批量执行扩散风险 | 每轮固定选择 10 个任务，容易把低风险 docs、public sync、schema、runtime decision 混成一个不可验证的大改动 | U-092 规定仍必须先过上一轮质量门禁；需要公开 merge/release/破坏性副作用的任务只做 readiness / dry-run / decision record |
 | public sync 过早关闭风险 | 已覆盖 issue 数量较多，直接关闭会早于 PR review / merge | U-075 只通过 PR `#63` close-on-merge 关联；`#41/#59/#60/#13` 保持 open |
 | route discoverability 残留风险 | `aods route --help` 曾返回 unknown arg | U-076 已修复；后续如扩 CLI discoverability，仍不得改变 route ranking |
@@ -263,6 +285,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-106 - U-115 | 下一轮固定 10 任务 | 先做上一轮质量复审；通过后执行 drift workflow 与 fixture coverage 前十项 |
-| 2 | U-116 - U-125 | 再下一轮固定 10 任务 | fixture output、examples、benchmark hygiene、CLI / validation docs |
-| 3 | U-126 - U-160 | 后续任务池 | 每轮继续按顺序取 10 个，少于 10 个时全选 |
+| 1 | U-116 - U-125 | 下一轮固定 10 任务 | 先做上一轮质量复审；通过后执行 fixture output、examples、benchmark hygiene、CLI / validation docs |
+| 2 | U-126 - U-135 | 再下一轮固定 10 任务 | route/validation DX、authoring、changelog ergonomics |
+| 3 | U-136 - U-160 | 后续任务池 | 每轮继续按顺序取 10 个，少于 10 个时全选 |

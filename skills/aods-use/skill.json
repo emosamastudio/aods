@@ -17,7 +17,7 @@
   "positive_triggers": [
     "Work in an AODS-enabled repository",
     "Edit authoring.json or manifest.json",
-    "Update surface_pairs, shared_invariants, or boot.by_touch",
+    "Update surface_pairs, shared_invariants, or boot_by_touch",
     "Use aods compile, aods validate, aods route, or scaffold helpers"
   ],
   "negative_triggers": [

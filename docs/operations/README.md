@@ -55,6 +55,16 @@
 | `aods-implementation-evidence-locator-matrix-v2.zh-CN.md` | U-103 implementation evidence locator matrix v2，记录 repo/path/evidence locator 和 unchecked posture | 高 |
 | `aods-acceptance-criteria-coverage-report.zh-CN.md` | U-104 acceptance criteria coverage report，汇总 criteria、evidence refs、fixture 和 validator posture | 高 |
 | `aods-contract-requirement-evidence-trace-report.zh-CN.md` | U-105 contract requirement to evidence trace report，定义 requirement 到 evidence 的静态追踪边界 | 高 |
+| `aods-stale-evidence-refresh-workflow.zh-CN.md` | U-106 stale evidence refresh workflow boundary，定义 owner、trigger、validation gate 和人工复审路径 | 高 |
+| `aods-missing-reality-locator-remediation.zh-CN.md` | U-107 missing reality locator remediation plan，定义 unchecked implementation repo locator 的最小修复路线 | 高 |
+| `aods-implementation-repo-locator-normalization.zh-CN.md` | U-108 implementation repo locator normalization，定义 path / URL / descriptive locator 的解释边界 | 高 |
+| `aods-current-planned-implementation-summary-guard.zh-CN.md` | U-109 current vs planned implementation summary guard，明确 current/planned/stale/blocked report posture | 高 |
+| `aods-evidence-command-non-execution-invariant.zh-CN.md` | U-110 evidence command non-execution invariant，记录 validate/reality/fixture smoke 不执行命令的测试与边界 | 高 |
+| `aods-implementation-drift-dashboard-boundary.zh-CN.md` | U-111 implementation drift dashboard boundary triage，定义未来 dashboard 的静态输入和非目标 | 高 |
+| `aods-code-ownership-mapping-boundary.zh-CN.md` | U-112 code ownership mapping boundary triage，定义 owner authority、path、review owner 和 fallback 边界 | 高 |
+| `aods-fixture-manifest-coverage-matrix.zh-CN.md` | U-113 fixture manifest coverage matrix，汇总 positive / negative / golden coverage | 高 |
+| `aods-negative-fixture-expansion-plan.zh-CN.md` | U-114 negative fixture expansion plan，排序下一批 high-value negative fixtures | 高 |
+| `aods-golden-export-drift-report.zh-CN.md` | U-115 golden export drift report，定义 golden diff 检测、人工接受和拒绝边界 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -114,9 +124,19 @@
 50. 读 `aods-implementation-evidence-locator-matrix-v2.zh-CN.md`
 51. 读 `aods-acceptance-criteria-coverage-report.zh-CN.md`
 52. 读 `aods-contract-requirement-evidence-trace-report.zh-CN.md`
-53. 读 `aods-v0.7-rc-gate.zh-CN.md`
-54. 读 `aods-handoff.zh-CN.md`
-55. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+53. 读 `aods-stale-evidence-refresh-workflow.zh-CN.md`
+54. 读 `aods-missing-reality-locator-remediation.zh-CN.md`
+55. 读 `aods-implementation-repo-locator-normalization.zh-CN.md`
+56. 读 `aods-current-planned-implementation-summary-guard.zh-CN.md`
+57. 读 `aods-evidence-command-non-execution-invariant.zh-CN.md`
+58. 读 `aods-implementation-drift-dashboard-boundary.zh-CN.md`
+59. 读 `aods-code-ownership-mapping-boundary.zh-CN.md`
+60. 读 `aods-fixture-manifest-coverage-matrix.zh-CN.md`
+61. 读 `aods-negative-fixture-expansion-plan.zh-CN.md`
+62. 读 `aods-golden-export-drift-report.zh-CN.md`
+63. 读 `aods-v0.7-rc-gate.zh-CN.md`
+64. 读 `aods-handoff.zh-CN.md`
+65. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -164,4 +184,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-105 已完成 readiness / triage / release closeout / package smoke / evidence trace docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-115 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

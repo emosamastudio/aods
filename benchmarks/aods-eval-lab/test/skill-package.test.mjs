@@ -27,8 +27,12 @@ test("aods-use skill stays release-aligned and keeps a narrow trigger contract",
   assert.match(skillText, /Expected first action:/);
   assert.match(skillText, /Negative trigger:/);
   assert.match(skillText, /Observed result after edit:/);
+  assert.match(skillText, /boot_by_touch/);
+  assert.doesNotMatch(skillText, /boot\.by_touch/);
 
   assert.ok(skillMeta.positive_triggers.some((item) => item.includes("surface_pairs")));
+  assert.ok(skillMeta.positive_triggers.some((item) => item.includes("boot_by_touch")));
+  assert.ok(skillMeta.positive_triggers.every((item) => !item.includes("boot.by_touch")));
   assert.ok(skillMeta.negative_triggers.some((item) => item.includes("generic README")));
 });
 

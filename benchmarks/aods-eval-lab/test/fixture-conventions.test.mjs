@@ -90,3 +90,62 @@ test("fixture smoke command rejects invalid expected outcome contracts", (t) => 
   assert.ok(report.issues.some((issue) => issue.rule === "fixture-expected-status"));
   assert.ok(report.issues.some((issue) => issue.rule === "fixture-expected-rules"));
 });
+
+test("fixture smoke command never executes declared update commands", (t) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-fixture-non-execution-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const inputPath = path.join(tempDir, "authoring.json");
+  const goldenPath = path.join(tempDir, "compiled.json");
+  const markerPath = path.join(tempDir, "command-executed");
+  fs.writeFileSync(inputPath, "{}\n");
+  fs.writeFileSync(goldenPath, "{}\n");
+
+  const fixtureManifest = {
+    aods_fixture_manifest_v: 1,
+    convention: "aods-fixture-golden-v1",
+    update_policy: {
+      review_gate: "manual-diff",
+      commands: [
+        `node -e "require('fs').writeFileSync(${JSON.stringify(markerPath)}, 'executed')"`
+      ]
+    },
+    fixtures: [
+      {
+        id: "positive-non-execution-boundary",
+        kind: "positive",
+        input: {
+          kind: "authoring-source",
+          path: "authoring.json"
+        },
+        expected_status: "pass",
+        expected_rules: [],
+        golden_exports: [
+          {
+            id: "compiled",
+            kind: "compiled-corpus",
+            path: "compiled.json",
+            schema_version: "aods_v3",
+            update_command: `node -e "require('fs').writeFileSync(${JSON.stringify(markerPath)}, 'executed')"`,
+            review_gate: "manual-diff"
+          }
+        ]
+      }
+    ]
+  };
+  const tempManifestPath = path.join(tempDir, "fixture-manifest.json");
+  fs.writeFileSync(tempManifestPath, `${JSON.stringify(fixtureManifest, null, 2)}\n`);
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "fixture", "smoke", tempManifestPath, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(fs.existsSync(markerPath), false);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.summary.fixtures, 1);
+  assert.equal(report.summary.golden_exports, 1);
+  assert.deepEqual(report.issues, []);
+});

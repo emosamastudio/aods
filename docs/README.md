@@ -64,6 +64,16 @@
 | `docs/operations/aods-implementation-evidence-locator-matrix-v2.zh-CN.md` | U-103 implementation evidence locator matrix v2，记录 repo locator、path locator、unchecked reason 和 evidence locator posture。 |
 | `docs/operations/aods-acceptance-criteria-coverage-report.zh-CN.md` | U-104 acceptance criteria coverage report，汇总 criteria、evidence refs、fixture 和 validator posture。 |
 | `docs/operations/aods-contract-requirement-evidence-trace-report.zh-CN.md` | U-105 contract requirement to evidence trace report，定义 requirement -> criteria -> evidence -> locator 的静态追踪边界。 |
+| `docs/operations/aods-stale-evidence-refresh-workflow.zh-CN.md` | U-106 stale evidence refresh workflow boundary，定义 owner、trigger、validation gate 和 manual review path。 |
+| `docs/operations/aods-missing-reality-locator-remediation.zh-CN.md` | U-107 missing reality locator remediation plan，定义 unchecked implementation repo locator 的最小修复路线。 |
+| `docs/operations/aods-implementation-repo-locator-normalization.zh-CN.md` | U-108 implementation repo locator normalization，定义 path / URL / descriptive locator 的解释边界。 |
+| `docs/operations/aods-current-planned-implementation-summary-guard.zh-CN.md` | U-109 current vs planned implementation summary guard，明确 current/planned/stale/blocked report posture。 |
+| `docs/operations/aods-evidence-command-non-execution-invariant.zh-CN.md` | U-110 evidence command non-execution invariant，记录 validate/reality/fixture smoke 不执行命令的测试与边界。 |
+| `docs/operations/aods-implementation-drift-dashboard-boundary.zh-CN.md` | U-111 implementation drift dashboard boundary triage，定义未来 dashboard 的静态输入和非目标。 |
+| `docs/operations/aods-code-ownership-mapping-boundary.zh-CN.md` | U-112 code ownership mapping boundary triage，定义 owner authority、path、review owner 和 fallback 边界。 |
+| `docs/operations/aods-fixture-manifest-coverage-matrix.zh-CN.md` | U-113 fixture manifest coverage matrix，汇总 positive / negative / golden coverage。 |
+| `docs/operations/aods-negative-fixture-expansion-plan.zh-CN.md` | U-114 negative fixture expansion plan，排序下一批 high-value negative fixtures。 |
+| `docs/operations/aods-golden-export-drift-report.zh-CN.md` | U-115 golden export drift report，定义 golden diff 检测、人工接受和拒绝边界。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

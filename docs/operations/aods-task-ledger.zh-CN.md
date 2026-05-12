@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S15 implementation drift / evidence trace after release dry run |
-| 当前回合 | R-2026-05-12-02 |
-| 未完成任务数量 | 55 |
-| 已完成任务数量 | 110 |
+| 当前阶段 | S16 implementation drift / fixture coverage hardening |
+| 当前回合 | R-2026-05-12-03 |
+| 未完成任务数量 | 45 |
+| 已完成任务数量 | 120 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-02 |
-| 开始时间 | 2026-05-12 14:33 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-03 |
+| 开始时间 | 2026-05-12 15:05 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-096、U-097、U-098、U-099、U-100、U-101、U-102、U-103、U-104、U-105 |
-| 本轮范围 | 上轮 U-085 到 U-095 复审、package inventory、packed install smoke、close-on-merge audit、post-merge reconciliation plan、release candidate gate、release playbook dry run、post-release retrospective template、implementation evidence locator matrix、acceptance criteria coverage、contract requirement to evidence trace |
-| 排除范围 | schema/validator/code 改动、runtime 实现、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；package dry-run；packed install smoke；release:self-check；GitHub PR / issue / release state review；evidence / acceptance trace queries；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-106、U-107、U-108、U-109、U-110、U-111、U-112、U-113、U-114、U-115 |
+| 本轮范围 | 上轮 U-096 到 U-105 复审；aods-use skill 字段名返工；stale evidence refresh workflow、missing locator remediation、repo locator normalization、current/planned summary guard、evidence command non-execution invariant、drift dashboard boundary、code ownership boundary、fixture coverage matrix、negative fixture expansion plan、golden export drift report |
+| 排除范围 | runtime 实现、dashboard 实现、conformance runner、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；skill package focused test；fixture conventions focused test；compiled-pilot reality query；fixture smoke query；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-106 | S15 | Stale evidence refresh workflow boundary | P2 | 未开始 | stale evidence 的 owner、refresh trigger、validation gate、manual review path 明确；不自动刷新外部证据 | U-105 | drift workflow |
-| U-107 | S15 | Missing reality locator remediation plan | P2 | 未开始 | unresolved / unchecked implementation repo locator 的最小修复路线明确；不 fetch sibling repo | U-103 | drift remediation |
-| U-108 | S15 | Implementation repo locator normalization | P2 | 未开始 | locator path / url / descriptive-only 的规范化和错误提示边界明确；不改变 root topology semantics | U-107 | topology |
-| U-109 | S15 | Current vs planned implementation summary guard | P2 | 未开始 | current/planned/stale/blocked implementation posture 的 report guard 明确；不强制所有 planned 变 current | U-104 | report |
-| U-110 | S15 | Evidence command non-execution invariant test | P2 | 未开始 | validate / reality / fixture smoke 不执行 evidence command 的 invariant 有测试或文档 gate；不引入 executor | U-103 | safety invariant |
-| U-111 | S15 | Implementation drift dashboard boundary triage | P3 | 未开始 | 若未来做 dashboard，需要哪些静态输入和非目标先入账；不建 dashboard | U-105 | observability |
-| U-112 | S15 | Code ownership mapping boundary triage | P3 | 未开始 | ownership mapping 的 authority、path、review owner、fallback 边界明确；不自动推断 owner | U-103 | governance |
-| U-113 | S16 | Fixture manifest coverage matrix | P1 | 未开始 | 每类 canonical example 的 positive / negative / golden coverage 状态明确；不补全部 fixture | U-080 | fixtures |
-| U-114 | S16 | Negative fixture expansion plan | P2 | 未开始 | 下一批 high-value negative fixtures、expected rules 和文件范围明确；不一次性扩全量 | U-113 | fixtures |
-| U-115 | S16 | Golden export drift report | P2 | 未开始 | golden export drift 的检测、人工接受、拒绝和更新边界明确；不自动接受 golden diff | U-113 | golden export |
 | U-116 | S16 | Fixture smoke output contract snapshot | P2 | 未开始 | fixture smoke JSON/text 输出字段稳定性有 snapshot 或 docs gate；不扩成 conformance runner | U-080 | fixture tooling |
 | U-117 | S16 | Example pack gap audit after PR review | P2 | 未开始 | PR review 后 canonical example 残缺、重复和过度承诺形成矩阵；不新增示例包 | U-113 | examples |
 | U-118 | S16 | Source-first compile determinism report | P2 | 未开始 | source-first compile 输出稳定性、timestamp pinning、generated output churn 策略明确；不改 authoring semantics | U-081 | compile determinism |
@@ -202,6 +192,16 @@
 | 108 | U-103 | S15 | Implementation evidence locator matrix v2 | P1 | 2026-05-12 | `docs/operations/aods-implementation-evidence-locator-matrix-v2.zh-CN.md`、compiled-pilot reality summary | `node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality --json`；`jq` topology/evidence queries | 8 linked modules、14 evidence、13 current、1 planned、0 stale/blocked/missing locators；example repos remain unchecked |
 | 109 | U-104 | S15 | Acceptance criteria coverage report | P1 | 2026-05-12 | `docs/operations/aods-acceptance-criteria-coverage-report.zh-CN.md`、criteria/evidence query | `jq` acceptance_criteria extraction from compiled-pilot modules；validator reality summary | 14 criteria total；13 satisfied、1 planned、0 waived/blocked/manual_review；all check_type `evidence-ref`；不执行 arbitrary command |
 | 110 | U-105 | S15 | Contract requirement to evidence trace report | P1 | 2026-05-12 | `docs/operations/aods-contract-requirement-evidence-trace-report.zh-CN.md` | `jq` criteria/evidence trace queries；`validate --reality --json` | requirement -> criteria -> evidence -> locator 静态追踪边界已定义；不做 semantic oracle，不 remote clone |
+| 111 | U-106 | S15 | Stale evidence refresh workflow boundary | P2 | 2026-05-12 | `docs/operations/aods-stale-evidence-refresh-workflow.zh-CN.md` | `node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality --json`；`node ./bin/aods.mjs validate . --strict` | stale evidence owner、refresh trigger、validation gate 和 manual review path 已定义；当前示例 0 stale / 1 planned，不自动刷新外部证据 |
+| 112 | U-107 | S15 | Missing reality locator remediation plan | P2 | 2026-05-12 | `docs/operations/aods-missing-reality-locator-remediation.zh-CN.md` | compiled-pilot reality topology summary | unchecked implementation repo locator 的修复顺序已定义；当前示例 repo locator 仍保持 unchecked，不 fetch sibling repo |
+| 113 | U-108 | S15 | Implementation repo locator normalization | P2 | 2026-05-12 | `docs/operations/aods-implementation-repo-locator-normalization.zh-CN.md` | validation rule/code review；reality topology summary | path / URL / descriptive-only locator 解释边界已定义；不改变 root topology semantics |
+| 114 | U-109 | S15 | Current vs planned implementation summary guard | P2 | 2026-05-12 | `docs/operations/aods-current-planned-implementation-summary-guard.zh-CN.md` | compiled-pilot implementation summary query | current/planned/stale/blocked guard 已定义；planned evidence 保持可见，不强制提升 current |
+| 115 | U-110 | S15 | Evidence command non-execution invariant test | P2 | 2026-05-12 | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`docs/operations/aods-evidence-command-non-execution-invariant.zh-CN.md` | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | fixture smoke non-execution regression 已落；validate/reality/fixture smoke 不执行 command 的 invariant 已入账；不引入 executor |
+| 116 | U-111 | S15 | Implementation drift dashboard boundary triage | P3 | 2026-05-12 | `docs/operations/aods-implementation-drift-dashboard-boundary.zh-CN.md` | topology / fixture summary queries | 未来 dashboard 的静态输入、候选面板和非目标已定义；不建 dashboard |
+| 117 | U-112 | S15 | Code ownership mapping boundary triage | P3 | 2026-05-12 | `docs/operations/aods-code-ownership-mapping-boundary.zh-CN.md` | implementation authority / evidence review | ownership mapping authority、path、review owner、fallback 边界已定义；不自动推断 owner |
+| 118 | U-113 | S16 | Fixture manifest coverage matrix | P1 | 2026-05-12 | `docs/operations/aods-fixture-manifest-coverage-matrix.zh-CN.md` | `node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json` | 当前 9 positive、0 negative、9 golden coverage 已入账；不补全部 fixture |
+| 119 | U-114 | S16 | Negative fixture expansion plan | P2 | 2026-05-12 | `docs/operations/aods-negative-fixture-expansion-plan.zh-CN.md` | fixture manifest coverage query | 下一批 high-value negative fixtures 和 expected rules 已排序；不一次性扩全量 |
+| 120 | U-115 | S16 | Golden export drift report | P2 | 2026-05-12 | `docs/operations/aods-golden-export-drift-report.zh-CN.md` | fixture smoke query；compile / validate command review | golden export drift 检测、人工接受、拒绝和更新边界已定义；不自动接受 golden diff |
 
 ## 失败或阻塞任务
 
@@ -287,3 +287,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-092` 完成 | 综合任务池已扩展到 U-160；执行规则改为每轮复审通过后选择 10 个未完成任务，少于 10 个时全选。下一轮应选择 U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-085` 到 `U-095` 完成 | 本轮 10 任务已完成：runtime readiness gate、五类 runtime entry contract triage、PR final readiness、PR response matrix、version/changelog route 和 release notes completeness 已入账；不实现 runtime、不 merge、不发布、不 bump version。下一轮应选择 U-096 到 U-105。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-096` 到 `U-105` 完成 | 本轮 10 任务已完成：package inventory、packed install smoke、close-on-merge audit、post-merge reconciliation、release candidate gate、release playbook dry run、post-release retrospective template、implementation evidence locator matrix、acceptance coverage、requirement-to-evidence trace 已入账；不 merge、不发布、不 bump version。下一轮应选择 U-106 到 U-115。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-106` 到 `U-115` 完成 | 本轮先返工修复 `aods-use` skill 字段名漂移并补测试，然后完成 stale evidence refresh、locator remediation、summary guard、non-execution invariant、dashboard/ownership boundary、fixture coverage、negative fixture plan 和 golden drift report；不建 runtime/dashboard/runner、不 merge、不发布、不 bump version。下一轮应选择 U-116 到 U-125。 |

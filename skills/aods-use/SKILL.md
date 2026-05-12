@@ -1,6 +1,6 @@
 ---
 name: aods-use
-description: Use when working in an AODS-enabled repo or with AODS files and commands such as authoring.json, manifest.json, surface_pairs, boot.by_touch, or aods compile/validate/route.
+description: Use when working in an AODS-enabled repo or with AODS files and commands such as authoring.json, manifest.json, surface_pairs, boot_by_touch, or aods compile/validate/route.
 ---
 
 # AODS Use
@@ -18,7 +18,7 @@ Use this skill as an operations adapter, not as a second copy of the AODS spec.
 
 - working inside an AODS-enabled repository
 - editing `authoring.json`, `manifest.json`, `modules/*.json`, or `indexes/runtime.json`
-- changing `surface_pairs`, `shared_invariants`, or `boot.by_touch`
+- changing `surface_pairs`, `shared_invariants`, or `boot_by_touch`
 - deciding whether to use `aods compile`, `aods validate`, `aods route`, or authoring scaffold helpers
 
 ## Do not use when

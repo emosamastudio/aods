@@ -69,6 +69,16 @@
 | U-103 | S15 | drift / evidence | P1 | 已完成 | Implementation evidence locator matrix v2 | repo locator、path locator、unchecked reason、evidence locator 的状态矩阵已明确；不 remote clone |
 | U-104 | S15 | drift / evidence | P1 | 已完成 | Acceptance criteria coverage report | criteria 与 evidence refs、fixtures、validator rules、manual review posture 的覆盖摘要已明确；不执行 arbitrary command |
 | U-105 | S15 | drift / evidence | P1 | 已完成 | Contract requirement to evidence trace report | stable contract requirement 到 implementation evidence 的 traceability 输出边界已明确；不做 semantic oracle |
+| U-106 | S15 | drift workflow | P2 | 已完成 | Stale evidence refresh workflow boundary | stale evidence owner、refresh trigger、validation gate、manual review path 已明确；不自动刷新外部证据 |
+| U-107 | S15 | drift remediation | P2 | 已完成 | Missing reality locator remediation plan | unchecked implementation repo locator 的最小修复路线已明确；不 fetch sibling repo |
+| U-108 | S15 | topology | P2 | 已完成 | Implementation repo locator normalization | path / URL / descriptive-only locator 的解释边界已明确；不改变 root topology semantics |
+| U-109 | S15 | report | P2 | 已完成 | Current vs planned implementation summary guard | current/planned/stale/blocked implementation posture 的 report guard 已明确；不强制 planned 变 current |
+| U-110 | S15 | safety invariant | P2 | 已完成 | Evidence command non-execution invariant test | fixture smoke 不执行 update command 的 regression 已落；validate/reality/fixture smoke non-execution invariant 已入账 |
+| U-111 | S15 | observability | P3 | 已完成 | Implementation drift dashboard boundary triage | 未来 dashboard 静态输入、候选面板和非目标已明确；不建 dashboard |
+| U-112 | S15 | governance | P3 | 已完成 | Code ownership mapping boundary triage | ownership authority、path、review owner、fallback 边界已明确；不自动推断 owner |
+| U-113 | S16 | fixtures | P1 | 已完成 | Fixture manifest coverage matrix | 9 positive、0 negative、9 golden coverage 已入账；不补全部 fixture |
+| U-114 | S16 | fixtures | P2 | 已完成 | Negative fixture expansion plan | 下一批 high-value negative fixtures、expected rules 和文件范围已排序；不一次性扩全量 |
+| U-115 | S16 | golden export | P2 | 已完成 | Golden export drift report | golden export drift 检测、人工接受、拒绝和更新边界已明确；不自动接受 golden diff |
 
 ## 下一批推荐
 
@@ -93,8 +103,8 @@
 | Batch O | U-084 | 已完成；只做 runtime 边界和进入条件研究，不实现 runtime | route/read evidence、docs gate、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch P | U-085 + U-086 + U-087 + U-088 + U-089 + U-090 + U-091 + U-093 + U-094 + U-095 | 已完成；五类 runtime readiness / entry contract 已收束，PR / release readiness 前置检查已完成 | docs gate、GitHub state review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch Q | U-096 到 U-105 | 已完成；release/package/drift 前十项已收束为 package smoke、public sync dry-run 和 evidence trace docs | package dry-run、packed install smoke、release:self-check、docs gate、`npm run validate:all`、`git diff --check` |
-| Batch R | U-106 到 U-115 | 下一轮固定 10 任务；drift workflow 与 fixture coverage 前十项 | docs gate、fixture/benchmark relevant tests as scoped |
-| Batch S | U-116 到 U-125 | fixture output、examples、benchmark hygiene、CLI / validation docs | focused CLI / fixture tests as scoped |
+| Batch R | U-106 到 U-115 | 已完成；drift workflow 与 fixture coverage 前十项已收束，并修复 skill 字段名漂移 | skill package focused test、fixture non-execution regression、docs gate、`validate:all` |
+| Batch S | U-116 到 U-125 | 下一轮固定 10 任务；fixture output、examples、benchmark hygiene、CLI / validation docs | focused CLI / fixture tests as scoped |
 | Batch T | U-126 到 U-135 | route/validation DX、authoring、changelog ergonomics | focused tests as scoped |
 | Batch U | U-136 到 U-145 | glossary/citation/docs/risk/exposure | docs gate or stable-contracts tests as scoped |
 | Batch V | U-146 到 U-155 | risk/audit plus far runtime decision gates | docs gate; no runtime PoC |

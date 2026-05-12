@@ -2,6 +2,83 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-03
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-03 |
+| 开始时间 | 2026-05-12 15:05 Asia/Shanghai |
+| 结束时间 | 2026-05-12 15:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮质量复审；aods-use skill 字段名返工；stale evidence refresh、missing locator remediation、repo locator normalization、current/planned summary guard、non-execution invariant、dashboard/ownership boundary、fixture coverage、negative fixture plan、golden drift report；不实现 runtime、dashboard、runner；不 merge、不 release、不 bump version |
+| 本轮选中任务 | U-106、U-107、U-108、U-109、U-110、U-111、U-112、U-113、U-114、U-115 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-03
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `skills/aods-use/*`、`benchmarks/aods-eval-lab/test/skill-package.test.mjs`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、U-106 到 U-115 operations docs、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、round log、docs navigation |
+| 禁止触碰 | runtime 实现、dashboard 实现、conformance runner、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR / issue / release 只读状态；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 必须还原 |
+
+## 上轮质量复审：R-2026-05-12-03
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `e70bd8c` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | U-096 到 U-105 的 validate / benchmark / package / install smoke 记录完整 |
+| 质量缺口 | 发现并返工 | 随包 `aods-use` skill 把 `boot_by_touch` 写成 `boot.by_touch`；已修正文档和 metadata，并补 focused regression |
+
+## 任务执行记录：R-2026-05-12-03
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-106 | 未开始 | 已完成 | 定义 stale evidence 的 owner、refresh trigger、validation gate 和 manual review path | `docs/operations/aods-stale-evidence-refresh-workflow.zh-CN.md` |
+| 2 | U-107 | 未开始 | 已完成 | 定义 unchecked implementation repo locator 的最小修复顺序 | `docs/operations/aods-missing-reality-locator-remediation.zh-CN.md` |
+| 3 | U-108 | 未开始 | 已完成 | 定义 path / URL / descriptive-only repo locator 的解释和错误边界 | `docs/operations/aods-implementation-repo-locator-normalization.zh-CN.md` |
+| 4 | U-109 | 未开始 | 已完成 | 定义 current / planned / stale / blocked implementation summary guard | `docs/operations/aods-current-planned-implementation-summary-guard.zh-CN.md` |
+| 5 | U-110 | 未开始 | 已完成 | 增加 fixture smoke non-execution regression，并记录 validate/reality/fixture smoke 不执行命令的 invariant | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`、`docs/operations/aods-evidence-command-non-execution-invariant.zh-CN.md` |
+| 6 | U-111 | 未开始 | 已完成 | 定义未来 implementation drift dashboard 的静态输入、候选面板和非目标 | `docs/operations/aods-implementation-drift-dashboard-boundary.zh-CN.md` |
+| 7 | U-112 | 未开始 | 已完成 | 定义 code ownership mapping 的 authority、path、review owner 和 fallback 边界 | `docs/operations/aods-code-ownership-mapping-boundary.zh-CN.md` |
+| 8 | U-113 | 未开始 | 已完成 | 汇总 fixture manifest positive / negative / golden coverage matrix | `docs/operations/aods-fixture-manifest-coverage-matrix.zh-CN.md` |
+| 9 | U-114 | 未开始 | 已完成 | 排序下一批 high-value negative fixtures、expected rules 和文件范围 | `docs/operations/aods-negative-fixture-expansion-plan.zh-CN.md` |
+| 10 | U-115 | 未开始 | 已完成 | 定义 golden export drift 检测、人工接受、拒绝和更新边界 | `docs/operations/aods-golden-export-drift-report.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-03
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality fix | skill package focused test | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | 通过 | 2/2 pass；`boot_by_touch` 存在，`boot.by_touch` 被 regression 阻断 |
+| U-110 | fixture non-execution regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 4/4 pass；声明的 update command 未执行 |
+| U-106 - U-109 | compiled-pilot reality query | `node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality --json` | 通过 | 14 evidence；13 current；1 planned；0 stale/blocked；example repos unchecked 可见 |
+| U-113 - U-115 | fixture smoke query | `node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json` | 通过 | 9 positive；0 negative；9 golden；issues=0 |
+| U-106 - U-115 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-106 - U-115 | Benchmark test gate | `npm run benchmark:test` | 通过 | 81/81 pass；benchmark generated result churn 已还原 |
+| U-106 - U-115 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-03
+
+本轮没有新增任务 ID。U-116 到 U-125 仍按 U-092 综合任务池顺序作为下一轮固定 10 任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-106 - U-115 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-03
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-106、U-107、U-108、U-109、U-110、U-111、U-112、U-113、U-114、U-115 |
+| 完成任务 | 10 | drift workflow、locator remediation、non-execution invariant、fixture coverage 和 golden drift docs 已完成 |
+| 返工项 | 1 | `aods-use` skill 字段名漂移已修复并补测试 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 45 | 下一轮固定选择 U-116 到 U-125 |
+
 ## 回合摘要：R-2026-05-12-02
 
 | 项 | 内容 |
