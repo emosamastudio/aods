@@ -104,6 +104,16 @@
 | `docs/operations/aods-sensitive-example-redaction-fixture-review.zh-CN.md` | U-143 sensitive example redaction fixture review，审查 examples 中敏感占位和 redaction fixture 风险。 |
 | `docs/operations/aods-credential-placeholder-policy-docs.zh-CN.md` | U-144 credential placeholder policy docs，定义 credentials、handles、debug-only payload 的示例写法规则。 |
 | `docs/operations/aods-remote-exposure-upgrade-checklist.zh-CN.md` | U-145 remote exposure upgrade checklist，定义 local-only/local-export 升级到 remote/adapter-facing 的审查清单。 |
+| `docs/operations/aods-risk-taxonomy-coverage-report.zh-CN.md` | U-146 risk taxonomy coverage report，汇总 9 类风险族的 spec / example 覆盖和 runtime 非目标。 |
+| `docs/operations/aods-audit-metadata-completeness-report.zh-CN.md` | U-147 audit metadata completeness report，汇总 commands / adapters 的 actor、source、target、receipt、correlation 覆盖。 |
+| `docs/operations/aods-policy-decision-receipt-boundary-refinement.zh-CN.md` | U-148 policy decision receipt boundary refinement，拆清 policy decision、receipt 和 audit anchor 责任。 |
+| `docs/operations/aods-approval-label-semantics-review.zh-CN.md` | U-149 approval label semantics review，统一 human approval、review、escalation 和 receipt labels 的语义边界。 |
+| `docs/operations/aods-local-only-export-safety-review.zh-CN.md` | U-150 local-only export safety review，审查 local-only / local-export 公开误用风险和升级 guard。 |
+| `docs/operations/aods-workflow-runtime-minimal-poc-decision-gate.zh-CN.md` | U-151 workflow runtime minimal PoC decision gate，定义 workflow PoC 进入条件、成功指标和 abort criteria。 |
+| `docs/operations/aods-event-store-minimal-poc-decision-gate.zh-CN.md` | U-152 event store minimal PoC decision gate，定义 event store / replay PoC 的数据模型候选和阻断条件。 |
+| `docs/operations/aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | U-153 policy engine minimal PoC decision gate，定义 policy decision input/output、identity 和 audit boundary。 |
+| `docs/operations/aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | U-154 remote gateway minimal PoC decision gate，定义 auth、transport、rate/cost、failure semantics 进入条件。 |
+| `docs/operations/aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | U-155 migration tool minimal PoC decision gate，定义 dry-run、rollback、destructive approval 和 fixtures 进入条件。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

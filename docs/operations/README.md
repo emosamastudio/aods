@@ -95,6 +95,16 @@
 | `aods-sensitive-example-redaction-fixture-review.zh-CN.md` | U-143 sensitive example redaction fixture review，审查 examples 中敏感占位和 redaction fixture 风险 | 高 |
 | `aods-credential-placeholder-policy-docs.zh-CN.md` | U-144 credential placeholder policy docs，定义 credentials、handles、debug-only payload 的示例写法规则 | 高 |
 | `aods-remote-exposure-upgrade-checklist.zh-CN.md` | U-145 remote exposure upgrade checklist，定义 local-only/local-export 升级到 remote/adapter-facing 的审查清单 | 高 |
+| `aods-risk-taxonomy-coverage-report.zh-CN.md` | U-146 risk taxonomy coverage report，汇总 read/write/credential/filesystem/network/external-send/cost/production/human approval 风险覆盖 | 高 |
+| `aods-audit-metadata-completeness-report.zh-CN.md` | U-147 audit metadata completeness report，汇总 commands / adapters 的 actor、source、target、receipt、correlation 覆盖 | 高 |
+| `aods-policy-decision-receipt-boundary-refinement.zh-CN.md` | U-148 policy decision receipt boundary refinement，拆清 policy decision、receipt 和 audit anchor 字段边界 | 高 |
+| `aods-approval-label-semantics-review.zh-CN.md` | U-149 approval label semantics review，统一 human_approval、review、escalation 和 receipt status 的语义边界 | 高 |
+| `aods-local-only-export-safety-review.zh-CN.md` | U-150 local-only export safety review，审查 local-only / local-export 的公开误用风险和 guard | 高 |
+| `aods-workflow-runtime-minimal-poc-decision-gate.zh-CN.md` | U-151 workflow runtime minimal PoC decision gate，定义 workflow PoC prerequisites、success metrics 和 abort criteria | 高 |
+| `aods-event-store-minimal-poc-decision-gate.zh-CN.md` | U-152 event store minimal PoC decision gate，定义 event store / replay PoC 的 data model、risk 和 abort criteria | 高 |
+| `aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | U-153 policy engine minimal PoC decision gate，定义 policy engine PoC 的 input/output、identity model 和 audit boundary | 高 |
+| `aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | U-154 remote gateway minimal PoC decision gate，定义 auth、transport、rate/cost 和 failure semantics gate | 高 |
+| `aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | U-155 migration tool minimal PoC decision gate，定义 migration dry-run、rollback、destructive approval 和 fixtures gate | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -194,9 +204,19 @@
 90. 读 `aods-sensitive-example-redaction-fixture-review.zh-CN.md`
 91. 读 `aods-credential-placeholder-policy-docs.zh-CN.md`
 92. 读 `aods-remote-exposure-upgrade-checklist.zh-CN.md`
-93. 读 `aods-v0.7-rc-gate.zh-CN.md`
-94. 读 `aods-handoff.zh-CN.md`
-95. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+93. 读 `aods-risk-taxonomy-coverage-report.zh-CN.md`
+94. 读 `aods-audit-metadata-completeness-report.zh-CN.md`
+95. 读 `aods-policy-decision-receipt-boundary-refinement.zh-CN.md`
+96. 读 `aods-approval-label-semantics-review.zh-CN.md`
+97. 读 `aods-local-only-export-safety-review.zh-CN.md`
+98. 读 `aods-workflow-runtime-minimal-poc-decision-gate.zh-CN.md`
+99. 读 `aods-event-store-minimal-poc-decision-gate.zh-CN.md`
+100. 读 `aods-policy-engine-minimal-poc-decision-gate.zh-CN.md`
+101. 读 `aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md`
+102. 读 `aods-migration-tool-minimal-poc-decision-gate.zh-CN.md`
+103. 读 `aods-v0.7-rc-gate.zh-CN.md`
+104. 读 `aods-handoff.zh-CN.md`
+105. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -244,4 +264,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-145 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-155 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

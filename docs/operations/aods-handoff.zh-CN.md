@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-125 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage、contract-to-evidence trace、stale evidence refresh workflow、locator remediation、non-execution invariant、fixture coverage matrix、golden export drift report、fixture output、examples、benchmark hygiene、CLI / validation docs。U-126 到 U-135 已完成 route explanation dependency review、remediation coverage、severity gate consistency、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta schema/test implementation；changelog delta 现在是 300 soft warning + 500 hard fail。U-136 到 U-145 已完成 glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface sync report、docs local link checker、sensitive/redaction fixture review、credential placeholder policy 和 remote exposure upgrade checklist。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 的本地最小修复已完成但公开同步仍需授权。下一轮应选择 U-146、U-147、U-148、U-149、U-150、U-151、U-152、U-153、U-154、U-155。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-125 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage、contract-to-evidence trace、stale evidence refresh workflow、locator remediation、non-execution invariant、fixture coverage matrix、golden export drift report、fixture output、examples、benchmark hygiene、CLI / validation docs。U-126 到 U-135 已完成 route explanation dependency review、remediation coverage、severity gate consistency、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta schema/test implementation；changelog delta 现在是 300 soft warning + 500 hard fail。U-136 到 U-145 已完成 glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface sync report、docs local link checker、sensitive/redaction fixture review、credential placeholder policy 和 remote exposure upgrade checklist。U-146 到 U-155 已完成 risk taxonomy coverage、audit metadata completeness、policy decision / receipt / audit anchor boundary、approval label semantics、local-only export safety 和五类 runtime PoC decision gates。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 的本地最小修复已完成但公开同步仍需授权。下一轮未完成任务不足 10 个，应选择 U-156、U-157、U-158、U-159、U-160。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -103,9 +103,19 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | 88 | `docs/operations/aods-sensitive-example-redaction-fixture-review.zh-CN.md` | 读取 U-143 sensitive/redaction fixture review |
 | 89 | `docs/operations/aods-credential-placeholder-policy-docs.zh-CN.md` | 读取 U-144 credential placeholder policy |
 | 90 | `docs/operations/aods-remote-exposure-upgrade-checklist.zh-CN.md` | 读取 U-145 remote exposure upgrade checklist |
-| 91 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 92 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 93 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 91 | `docs/operations/aods-risk-taxonomy-coverage-report.zh-CN.md` | 读取 U-146 risk taxonomy coverage report |
+| 92 | `docs/operations/aods-audit-metadata-completeness-report.zh-CN.md` | 读取 U-147 audit metadata completeness report |
+| 93 | `docs/operations/aods-policy-decision-receipt-boundary-refinement.zh-CN.md` | 读取 U-148 policy decision / receipt / audit boundary |
+| 94 | `docs/operations/aods-approval-label-semantics-review.zh-CN.md` | 读取 U-149 approval label semantics review |
+| 95 | `docs/operations/aods-local-only-export-safety-review.zh-CN.md` | 读取 U-150 local-only export safety review |
+| 96 | `docs/operations/aods-workflow-runtime-minimal-poc-decision-gate.zh-CN.md` | 读取 U-151 workflow runtime PoC decision gate |
+| 97 | `docs/operations/aods-event-store-minimal-poc-decision-gate.zh-CN.md` | 读取 U-152 event store PoC decision gate |
+| 98 | `docs/operations/aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | 读取 U-153 policy engine PoC decision gate |
+| 99 | `docs/operations/aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | 读取 U-154 remote gateway PoC decision gate |
+| 100 | `docs/operations/aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | 读取 U-155 migration tool PoC decision gate |
+| 101 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 102 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 103 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -268,22 +278,26 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-143 | Sensitive example redaction fixture review | examples 敏感占位与 redaction fixture 风险已审查；0 高置信 secret-like hits；不做 secret scanner service |
 | U-144 | Credential placeholder policy docs | credentials、handles、debug-only payload 示例写法规则已明确；不接入 secret manager |
 | U-145 | Remote exposure upgrade checklist | local-only/local-export 到 remote-read/remote-write/adapter-facing 的升级审查清单已明确；不实现 gateway |
+| U-146 | Risk taxonomy coverage report | 9 类风险族覆盖摘要已明确；filesystem / external-send / cost 保持后续示例候选；不做 runtime policy |
+| U-147 | Audit metadata completeness report | commands/adapters 的 actor/source/target/receipt/correlation coverage 已明确；不建 audit store |
+| U-148 | Policy decision receipt boundary refinement | policy decision、receipt、audit anchor 字段边界已拆清；不实现 permission broker |
+| U-149 | Approval label semantics review | human_approval、review_required、escalate、blocked、needs-review 语义已统一；不建 approval workflow |
+| U-150 | Local-only export safety review | local-only / local-export 公开误用风险和 guard 已明确；不实现 sandbox |
+| U-151 | Workflow runtime minimal PoC decision gate | workflow runtime PoC prerequisites、success metrics、abort criteria 已明确；不实现 PoC |
+| U-152 | Event store minimal PoC decision gate | event store / replay PoC data model、risk、abort criteria 已明确；不实现 PoC |
+| U-153 | Policy engine minimal PoC decision gate | policy engine PoC input/output、identity model、audit boundary 已明确；不实现 PoC |
+| U-154 | Remote gateway minimal PoC decision gate | remote gateway PoC auth、transport、rate/cost、failure semantics 已明确；不实现 PoC |
+| U-155 | Migration tool minimal PoC decision gate | migration tool PoC dry-run、rollback、destructive approval、fixtures 已明确；不实现 PoC |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-146 | Risk taxonomy coverage report | 下一轮 10 任务第 1 个 |
-| 2 | U-147 | Audit metadata completeness report | 下一轮 10 任务第 2 个 |
-| 3 | U-148 | Policy decision receipt boundary refinement | 下一轮 10 任务第 3 个 |
-| 4 | U-149 | Approval label semantics review | 下一轮 10 任务第 4 个 |
-| 5 | U-150 | Local-only export safety review | 下一轮 10 任务第 5 个 |
-| 6 | U-151 | Workflow runtime minimal PoC decision gate | 下一轮 10 任务第 6 个 |
-| 7 | U-152 | Event store minimal PoC decision gate | 下一轮 10 任务第 7 个 |
-| 8 | U-153 | Policy engine minimal PoC decision gate | 下一轮 10 任务第 8 个 |
-| 9 | U-154 | Remote gateway minimal PoC decision gate | 下一轮 10 任务第 9 个 |
-| 10 | U-155 | Migration tool minimal PoC decision gate | 下一轮 10 任务第 10 个 |
-| 11 | U-156 - U-160 | 综合任务池剩余任务 | 详见 `aods-comprehensive-task-plan.zh-CN.md` 和任务台账 |
+| 1 | U-156 | Conformance runner implementation plan | 下一轮剩余 5 任务第 1 个；不实现 runner |
+| 2 | U-157 | Adapter negotiation protocol plan | 下一轮剩余 5 任务第 2 个；不实现 negotiation |
+| 3 | U-158 | Cross-corpus authority resolver research | 下一轮剩余 5 任务第 3 个；不实现 resolver |
+| 4 | U-159 | Dependency scheduler research | 下一轮剩余 5 任务第 4 个；不实现 scheduler |
+| 5 | U-160 | Telemetry / observability store research | 下一轮剩余 5 任务第 5 个；不建 store |
 
 ## 失败和风险
 
@@ -327,7 +341,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-064 已只落 schema、deterministic gates 和 source-first example pack；后续不要把 example 解读为 resolver/runtime 或全文扫描 |
 | external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 到 U-067 已裁剪并落地 schema、deterministic gates 和 canonical example pack；U-082 只补 declared posture report；后续不要把 example 或 report 解读为 crawler、claim detector、remote fetch 或 resolver |
 | changelog ergonomics 公开同步风险 | `#13` 的本地最小修复已落地，但公开 issue 仍需要按授权同步 | 后续如处理公开状态，只能评论说明 300 soft warning + 500 hard fail 已在本分支实现，不提前关闭 issue |
-| runtime 过早实现风险 | workflow runtime、event store、policy engine、remote gateway、migration tool 都是合理方向，但当前仍只允许 metadata-only 边界和 PoC decision gate | U-085 到 U-090 已完成 readiness / entry triage；下一步若继续 runtime，只能进入 U-151 到 U-155 decision gate，不能直接实现 runtime |
+| runtime 过早实现风险 | workflow runtime、event store、policy engine、remote gateway、migration tool 都是合理方向，但当前仍只允许 metadata-only 边界和 PoC decision gate | U-085 到 U-090 已完成 readiness / entry triage；U-151 到 U-155 已完成 no-go decision gates，不能直接实现 runtime |
 | PR closeout 混入实现风险 | PR `#63` final readiness / merge / release 会改变公开状态，容易和 package/release/drift 工作混在一轮 | U-091/U-093/U-094/U-095 和 U-098/U-099 已入账；未获 owner 明确指令前不 ready、不 merge、不 release、不 bump version |
 | package release 误判风险 | package inventory、install smoke 和 release self-check 都通过，但 version 仍是 `0.7.0` 且 PR 仍是 draft | U-096/U-097/U-100/U-101 已明确 technical gate pass 不等于 public release authorization |
 | evidence trace 过度承诺风险 | criteria/evidence trace 能证明 metadata 链接，不证明外部实现语义正确 | U-103/U-104/U-105 已明确 unchecked repo、planned criterion 和 non-semantic-oracle 边界 |
@@ -345,6 +359,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-146 - U-155 | 下一轮固定 10 任务 | risk/audit plus far runtime decision gates |
-| 2 | U-156 - U-160 | 再下一轮剩余 5 任务 | conformance / adapter / resolver / scheduler / observability research |
-| 3 | U-156 - U-160 | 后续任务池 | 每轮继续按顺序取 10 个，少于 10 个时全选 |
+| 1 | U-156 - U-160 | 下一轮剩余 5 任务 | conformance / adapter / resolver / scheduler / observability research |
+| 2 | PR `#63` closeout | 后续公开状态处理 | ready / merge / release 仍需当前回合明确授权 |
+| 3 | U-156 后续扩展 | 后续任务池补充 | 若新增任务，先入 `aods-task-ledger.zh-CN.md`，再进入当前回合 |

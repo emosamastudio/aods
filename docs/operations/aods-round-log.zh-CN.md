@@ -2,6 +2,84 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-07
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-07 |
+| 开始时间 | 2026-05-12 17:36 Asia/Shanghai |
+| 结束时间 | 2026-05-12 18:06 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-136 到 U-145 复审；risk taxonomy coverage、audit metadata completeness、policy decision receipt boundary、approval label semantics、local-only export safety、workflow/event/policy/remote/migration minimal PoC decision gates；不实现 runtime、workflow engine、event store、policy engine、remote gateway、migration executor；不 merge、不 release、不 bump version |
+| 本轮选中任务 | U-146、U-147、U-148、U-149、U-150、U-151、U-152、U-153、U-154、U-155 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-07
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | U-146 到 U-155 operations docs、docs navigation、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、`MEMORY.md` local-only |
+| 禁止触碰 | runtime 实现、workflow engine、event store、policy engine、remote gateway、migration executor、dashboard、conformance runner、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | 无外部写操作；GitHub 不读写 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 已还原 |
+
+## 上轮质量复审：R-2026-05-12-07
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `329e8af` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | 上轮 `validate:all`、`benchmark:test`、diff hygiene 和 push 记录完整 |
+| AODS route | 通过 | 本轮 query 命中 `spec-stable-surface-contracts`，覆盖 risk、audit、policy、receipt、approval、local-only、runtime gate 等关键词 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-146 到 U-155 |
+
+## 任务执行记录：R-2026-05-12-07
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-146 | 未开始 | 已完成 | 汇总 9 类 risk taxonomy 的 spec / example 覆盖和缺口 | `docs/operations/aods-risk-taxonomy-coverage-report.zh-CN.md` |
+| 2 | U-147 | 未开始 | 已完成 | 汇总 command / adapter audit metadata 完整性 | `docs/operations/aods-audit-metadata-completeness-report.zh-CN.md` |
+| 3 | U-148 | 未开始 | 已完成 | 拆清 policy decision、receipt、audit anchor 字段边界 | `docs/operations/aods-policy-decision-receipt-boundary-refinement.zh-CN.md` |
+| 4 | U-149 | 未开始 | 已完成 | 统一 approval / review / escalation / receipt label 语义 | `docs/operations/aods-approval-label-semantics-review.zh-CN.md` |
+| 5 | U-150 | 未开始 | 已完成 | 审查 local-only / local-export 公开误用风险和 guard | `docs/operations/aods-local-only-export-safety-review.zh-CN.md` |
+| 6 | U-151 | 未开始 | 已完成 | 定义 workflow runtime minimal PoC prerequisites、success metrics、abort criteria | `docs/operations/aods-workflow-runtime-minimal-poc-decision-gate.zh-CN.md` |
+| 7 | U-152 | 未开始 | 已完成 | 定义 event store / replay minimal PoC data model、risk、abort criteria | `docs/operations/aods-event-store-minimal-poc-decision-gate.zh-CN.md` |
+| 8 | U-153 | 未开始 | 已完成 | 定义 policy engine minimal PoC input/output、identity model、audit boundary | `docs/operations/aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` |
+| 9 | U-154 | 未开始 | 已完成 | 定义 remote gateway minimal PoC auth、transport、rate/cost、failure semantics gate | `docs/operations/aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` |
+| 10 | U-155 | 未开始 | 已完成 | 定义 migration tool minimal PoC dry-run、rollback、destructive approval、fixtures gate | `docs/operations/aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-07
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog`、`npm run validate:all` | 通过 | 上轮成果可接续；仅 `MEMORY.md` 未跟踪 |
+| U-146 - U-155 | Route query evidence | `node ./bin/aods.mjs route . --query ... --stage plan --intent read --json` | 通过 | query-route 命中 stable contracts；覆盖 risk / audit / policy / runtime gate |
+| U-146 - U-150 | Stable contract evidence | stable-contracts field table review；compiled-pilot command / adapter / resource examples review | 通过 | risk taxonomy、audit metadata、policy decision、approval labels、local/remote exposure 证据已入账 |
+| U-151 - U-155 | Runtime decision gates | U-086 到 U-090 triage docs + runtime readiness gate matrix review | 通过 | 五类 runtime 候选均保持 no-go for implementation，只记录 PoC decision gates |
+| U-146 - U-155 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-146 - U-155 | Benchmark test gate | `npm run benchmark:test` | 通过 | 82/82 pass；generated results churn 已还原 |
+| U-146 - U-155 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-07
+
+本轮没有新增任务 ID。U-156 到 U-160 仍按 U-092 综合任务池顺序作为下一轮剩余 5 任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-146 - U-155 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-07
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-146、U-147、U-148、U-149、U-150、U-151、U-152、U-153、U-154、U-155 |
+| 完成任务 | 10 | risk / audit / policy / approval / local export / runtime PoC decision gate docs 已完成 |
+| 返工项 | 0 | 上轮成果审查通过，本轮没有返工 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 5 | 下一轮选择 U-156 到 U-160 |
+
 ## 回合摘要：R-2026-05-12-06
 
 | 项 | 内容 |

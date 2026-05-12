@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S19 risk / security / exposure docs |
-| 当前回合 | R-2026-05-12-06 |
-| 未完成任务数量 | 15 |
-| 已完成任务数量 | 150 |
+| 当前阶段 | S20 far runtime PoC decision gates |
+| 当前回合 | R-2026-05-12-07 |
+| 未完成任务数量 | 5 |
+| 已完成任务数量 | 160 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-06 |
-| 开始时间 | 2026-05-12 17:06 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-07 |
+| 开始时间 | 2026-05-12 17:36 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-136、U-137、U-138、U-139、U-140、U-141、U-142、U-143、U-144、U-145 |
-| 本轮范围 | 上轮 U-126 到 U-135 复审；glossary alias lifecycle、glossary canonical-term docs、external citation review workflow、citation freshness policy、documentation density、paired surface sync report、docs local link checker、sensitive/redaction fixture review、credential placeholder policy、remote exposure upgrade checklist |
-| 排除范围 | runtime 实现、dashboard 实现、conformance runner、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；route query evidence；compiled-pilot strict reality summary；local docs link checker；secret-like placeholder scan；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
+| 选中任务 | U-146、U-147、U-148、U-149、U-150、U-151、U-152、U-153、U-154、U-155 |
+| 本轮范围 | 上轮 U-136 到 U-145 复审；risk taxonomy coverage、audit metadata completeness、policy decision receipt boundary、approval label semantics、local-only export safety、workflow/event/policy/remote/migration minimal PoC decision gates |
+| 排除范围 | runtime 实现、dashboard 实现、conformance runner、workflow engine、event store、policy engine、remote gateway、migration executor、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；route query evidence；compiled-pilot strict reality summary；stable-contracts evidence review；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-146 | S19 | Risk taxonomy coverage report | P2 | 未开始 | read/write/credential/filesystem/network/cost/production mutation risk 的覆盖摘要明确；不做 runtime policy | U-088 | risk report |
-| U-147 | S19 | Audit metadata completeness report | P2 | 未开始 | commands/adapters 的 actor/source/target/receipt/correlation coverage 明确；不建 audit store | U-044 | audit report |
-| U-148 | S19 | Policy decision receipt boundary refinement | P3 | 未开始 | policy decision 与 receipt/audit anchor 的字段边界和缺口明确；不实现 permission broker | U-147 | policy boundary |
-| U-149 | S19 | Approval label semantics review | P3 | 未开始 | human_approval / review / escalation labels 的语义一致性审查完成；不建 approval workflow | U-148 | approval boundary |
-| U-150 | S19 | Local-only export safety review | P3 | 未开始 | local-only / local-export surfaces 的公开误用风险和 guard 明确；不实现 sandbox | U-145 | local export safety |
-| U-151 | S20 | Workflow runtime minimal PoC decision gate | P3 | 未开始 | workflow runtime 是否值得 PoC 的 prerequisites、success metric、abort criteria 明确；不实现 PoC | U-086 | runtime decision |
-| U-152 | S20 | Event store minimal PoC decision gate | P3 | 未开始 | event store / replay PoC 的 prerequisites、data model、risk、abort criteria 明确；不实现 PoC | U-087 | runtime decision |
-| U-153 | S20 | Policy engine minimal PoC decision gate | P3 | 未开始 | policy engine PoC 的 input/output、identity model、audit boundary 明确；不实现 PoC | U-088 | runtime decision |
-| U-154 | S20 | Remote gateway minimal PoC decision gate | P3 | 未开始 | remote gateway PoC 的 auth、transport、rate/cost、failure semantics 明确；不实现 PoC | U-089 | runtime decision |
-| U-155 | S20 | Migration tool minimal PoC decision gate | P3 | 未开始 | migration tool PoC 的 dry-run、rollback、destructive approval、fixtures 明确；不实现 PoC | U-090 | runtime decision |
 | U-156 | S20 | Conformance runner implementation plan | P3 | 未开始 | 从 fixture smoke 走向 conformance runner 的 staged implementation plan 明确；不实现 runner | U-116 | conformance decision |
 | U-157 | S20 | Adapter negotiation protocol plan | P3 | 未开始 | full negotiation handshake 的 metadata prerequisites、protocol sketch 和 non-goals 明确；不实现 negotiation | U-078 | adapter protocol |
 | U-158 | S20 | Cross-corpus authority resolver research | P3 | 未开始 | cross-corpus resolver 的 trust model、fetch policy、cache and failure posture 明确；不实现 resolver | U-038 | authority runtime |
@@ -202,6 +192,16 @@
 | 148 | U-143 | S19 | Sensitive example redaction fixture review | P2 | 2026-05-12 | `docs/operations/aods-sensitive-example-redaction-fixture-review.zh-CN.md`、secret-like scan、redaction posture review | secret-like pattern scan；module redaction query | examples 中敏感占位和 redaction fixture 风险已审查；0 高置信 secret-like hits；不做 secret scanner service |
 | 149 | U-144 | S19 | Credential placeholder policy docs | P2 | 2026-05-12 | `docs/operations/aods-credential-placeholder-policy-docs.zh-CN.md` | secret-like pattern scan；placeholder review | credentials、handles、debug-only payload 示例写法规则已明确；不接入 secret manager |
 | 150 | U-145 | S19 | Remote exposure upgrade checklist | P2 | 2026-05-12 | `docs/operations/aods-remote-exposure-upgrade-checklist.zh-CN.md`、stable contract / remote gateway triage evidence | `rg` local/remote exposure evidence | local-only 到 remote-read / remote-write / adapter-facing 的 upgrade checklist 已明确；不实现 gateway |
+| 151 | U-146 | S19 | Risk taxonomy coverage report | P2 | 2026-05-12 | `docs/operations/aods-risk-taxonomy-coverage-report.zh-CN.md`、stable risk taxonomy evidence | route evidence；stable-contracts field table review；compiled-pilot example review | 9 类风险族覆盖摘要已明确；filesystem / external-send / cost 保持后续示例候选；不做 runtime policy |
+| 152 | U-147 | S19 | Audit metadata completeness report | P2 | 2026-05-12 | `docs/operations/aods-audit-metadata-completeness-report.zh-CN.md`、command / adapter audit evidence | stable-contracts audit table review；compiled-pilot command / adapter review | commands/adapters 的 actor/source/target/receipt/correlation coverage 已明确；不建 audit store |
+| 153 | U-148 | S19 | Policy decision receipt boundary refinement | P3 | 2026-05-12 | `docs/operations/aods-policy-decision-receipt-boundary-refinement.zh-CN.md` | U-147 audit evidence；command receipt review | policy decision、receipt、audit anchor 字段边界已拆清；不实现 permission broker |
+| 154 | U-149 | S19 | Approval label semantics review | P3 | 2026-05-12 | `docs/operations/aods-approval-label-semantics-review.zh-CN.md` | U-148 boundary review；policy / receipt label review | human_approval、review_required、escalate、blocked、needs-review 语义已统一；不建 approval workflow |
+| 155 | U-150 | S19 | Local-only export safety review | P3 | 2026-05-12 | `docs/operations/aods-local-only-export-safety-review.zh-CN.md` | U-145 checklist review；local/export exposure evidence | local-only / local-export 公开误用风险和 guard 已明确；不实现 sandbox |
+| 156 | U-151 | S20 | Workflow runtime minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-workflow-runtime-minimal-poc-decision-gate.zh-CN.md` | U-086 readiness evidence；lifecycle / receipt / fixture gate review | workflow PoC prerequisites、success metrics、abort criteria 已明确；不实现 PoC |
+| 157 | U-152 | S20 | Event store minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-event-store-minimal-poc-decision-gate.zh-CN.md` | U-087 event triage evidence；event correction contract review | event store / replay PoC data model、risk、abort criteria 已明确；不实现 PoC |
+| 158 | U-153 | S20 | Policy engine minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | U-088 policy triage evidence；U-148/U-149 boundary review | policy engine PoC input/output、identity model、audit boundary 已明确；不实现 PoC |
+| 159 | U-154 | S20 | Remote gateway minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | U-089 remote triage evidence；U-145 upgrade checklist review | remote gateway PoC auth、transport、rate/cost、failure semantics 已明确；不实现 PoC |
+| 160 | U-155 | S20 | Migration tool minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | U-090 migration triage evidence；deprecation/migration contract review | migration tool PoC dry-run、rollback、destructive approval、fixtures 已明确；不实现 PoC |
 
 ## 失败或阻塞任务
 
@@ -291,3 +291,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-116` 到 `U-125` 完成 | 本轮先检修并同步本地 `aods-use` skill 安装面，然后完成 fixture smoke output contract、example gap audit、compile determinism、schema mirror、seven-plane freshness、open-source scenario health、benchmark artifact hygiene、CLI help coverage、validate JSON docs 和 text/JSON parity；不建 runner、不 merge、不发布、不 bump version。下一轮应选择 U-126 到 U-135。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-126` 到 `U-135` 完成 | 本轮完成 route explanation、remediation coverage、severity gate、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta ergonomics；并落地 300 soft warning / 500 hard fail 及回归测试。下一轮应选择 U-136 到 U-145。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-136` 到 `U-145` 完成 | 本轮完成 glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface report、docs link checker、sensitive/redaction fixture review、credential placeholder policy 和 remote exposure upgrade checklist；不建 resolver/crawler/semantic judge/secret scanner/gateway。下一轮应选择 U-146 到 U-155。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-146` 到 `U-155` 完成 | 本轮完成 risk taxonomy coverage、audit metadata completeness、policy decision / receipt / approval labels、local-only export safety 和五类 runtime PoC decision gates；不建 workflow/event/policy/remote/migration runtime。下一轮应选择 U-156 到 U-160。 |

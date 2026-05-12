@@ -99,6 +99,31 @@
 | U-133 | S18 | authoring | P2 | 已完成 | Authoring source lint boundary triage | source-first lint 边界保持 schema / compile / validate；不做 style linter |
 | U-134 | S18 | ergonomics | P2 | 已完成 | Changelog delta ergonomics fix plan | 选择 300 soft warning + 500 hard fail |
 | U-135 | S18 | schema / validator | P2 | 已完成 | Changelog delta schema/test implementation | schema、validator、spec、focused regression 已落地 |
+| U-136 | S18 | glossary | P3 | 已完成 | Glossary registry alias lifecycle triage | alias、deprecated term、replacement、scope collision 边界已明确；不做 resolver runtime |
+| U-137 | S18 | glossary docs | P3 | 已完成 | Glossary canonical-term documentation pass | v2 authoring / consumption guidance 已补齐；不全文扫描 |
+| U-138 | S18 | citation | P2 | 已完成 | External citation review workflow triage | source、authority、claim、review status、ref 附着流程已明确；不做 crawler |
+| U-139 | S18 | citation docs | P2 | 已完成 | External citation freshness policy docs | current / stale / unresolved / withheld 维护策略已明确；不抓取 URL |
+| U-140 | S18 | docs quality | P3 | 已完成 | Documentation density quality pass | agent-primary docs 密度和 actionability 问题清单已入账；不重写文档门户 |
+| U-141 | S18 | paired surfaces | P3 | 已完成 | Paired surface sync example report | sync report 示例输出和使用边界已明确；不建 semantic judge |
+| U-142 | S18 | docs tooling | P3 | 已完成 | Docs navigation dead-link local checker triage | 本地 Markdown 链接检查范围和结果已记录；不抓取外网 |
+| U-143 | S19 | redaction | P2 | 已完成 | Sensitive example redaction fixture review | 敏感占位与 redaction fixture 风险已审查；不做 secret scanner service |
+| U-144 | S19 | security docs | P2 | 已完成 | Credential placeholder policy docs | credentials、handles、debug-only payload 写法规则已明确；不接入 secret manager |
+| U-145 | S19 | exposure | P2 | 已完成 | Remote exposure upgrade checklist | local-only/local-export 升级到 remote/adapter-facing 的 checklist 已明确；不实现 gateway |
+| U-146 | S19 | risk report | P2 | 已完成 | Risk taxonomy coverage report | 9 类风险族覆盖摘要已明确；不做 runtime policy |
+| U-147 | S19 | audit report | P2 | 已完成 | Audit metadata completeness report | commands/adapters 的 actor/source/target/receipt/correlation coverage 已明确；不建 audit store |
+| U-148 | S19 | policy boundary | P3 | 已完成 | Policy decision receipt boundary refinement | policy decision、receipt、audit anchor 字段边界已明确；不实现 permission broker |
+| U-149 | S19 | approval boundary | P3 | 已完成 | Approval label semantics review | human_approval / review / escalation labels 的语义一致性审查完成；不建 approval workflow |
+| U-150 | S19 | local export safety | P3 | 已完成 | Local-only export safety review | local-only / local-export 公开误用风险和 guard 已明确；不实现 sandbox |
+| U-151 | S20 | runtime decision | P3 | 已完成 | Workflow runtime minimal PoC decision gate | workflow runtime PoC prerequisites、success metric、abort criteria 已明确；不实现 PoC |
+| U-152 | S20 | runtime decision | P3 | 已完成 | Event store minimal PoC decision gate | event store / replay PoC prerequisites、data model、risk、abort criteria 已明确；不实现 PoC |
+| U-153 | S20 | runtime decision | P3 | 已完成 | Policy engine minimal PoC decision gate | policy engine PoC input/output、identity model、audit boundary 已明确；不实现 PoC |
+| U-154 | S20 | runtime decision | P3 | 已完成 | Remote gateway minimal PoC decision gate | remote gateway PoC auth、transport、rate/cost、failure semantics 已明确；不实现 PoC |
+| U-155 | S20 | runtime decision | P3 | 已完成 | Migration tool minimal PoC decision gate | migration tool PoC dry-run、rollback、destructive approval、fixtures 已明确；不实现 PoC |
+| U-156 | S20 | conformance decision | P3 | 未开始 | Conformance runner implementation plan | 从 fixture smoke 走向 conformance runner 的 staged implementation plan 明确；不实现 runner |
+| U-157 | S20 | adapter protocol | P3 | 未开始 | Adapter negotiation protocol plan | full negotiation handshake 的 metadata prerequisites、protocol sketch 和 non-goals 明确；不实现 negotiation |
+| U-158 | S20 | authority runtime | P3 | 未开始 | Cross-corpus authority resolver research | cross-corpus resolver 的 trust model、fetch policy、cache and failure posture 明确；不实现 resolver |
+| U-159 | S20 | scheduler research | P3 | 未开始 | Dependency scheduler research | dependency ordering 是否进入 runtime scheduler 的 gate、risks、alternatives 明确；不实现 scheduler |
+| U-160 | S20 | observability research | P3 | 未开始 | Telemetry / observability store research | dashboard/trace store/telemetry storage 的 need、inputs、privacy risk 明确；不建 store |
 
 ## 下一批推荐
 
@@ -127,8 +152,8 @@
 | Batch S | U-116 到 U-125 | 已完成；fixture output、examples、compile/schema freshness、benchmark hygiene、CLI / validation docs 已收束 | focused CLI regression、fixture smoke、compile determinism、schema mirror audit、`validate:all` |
 | Batch T | U-126 到 U-135 | 已完成；route/validation DX、authoring lint boundary 和 changelog ergonomics 已收束 | route query/touch evidence、focused scaffold regression、`validate:all` |
 | Batch U | U-136 到 U-145 | 已完成；glossary/citation/docs quality/redaction/exposure docs 已收束 | route/citation/glossary evidence、local docs link checker、secret-like scan、`validate:all` |
-| Batch V | U-146 到 U-155 | 下一轮固定 10 任务；risk/audit plus far runtime decision gates | docs gate; no runtime PoC |
-| Batch W | U-156 到 U-160 | conformance / adapter / resolver / scheduler / observability research | docs gate; no implementation unless separately authorized |
+| Batch V | U-146 到 U-155 | 已完成；risk/audit boundary 和五类 far runtime decision gates 已收束 | route/stable-contracts evidence、compiled-pilot review、`validate:all` |
+| Batch W | U-156 到 U-160 | 下一轮剩余 5 任务；conformance / adapter / resolver / scheduler / observability research | docs gate; no implementation unless separately authorized |
 
 ## 当前非目标
 
