@@ -181,6 +181,135 @@ test("conformance runner rejects arbitrary command-shaped manifest properties", 
   assert.ok(report.issues.some((issue) => issue.rule === "conformance-manifest-property"));
 });
 
+test("conformance runner reports expected-rules mismatch details", (t) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-conformance-rules-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const conformanceManifest = JSON.parse(fs.readFileSync(CONFORMANCE_MANIFEST_PATH, "utf8"));
+  conformanceManifest.cases = [
+    {
+      ...conformanceManifest.cases.find((testCase) => testCase.id === "negative-fixture-invalid-kind"),
+      target: {
+        path: path.join(
+          REPO_ROOT,
+          "examples",
+          "compiled-pilot-source",
+          "fixtures",
+          "negative",
+          "fixture-contract",
+          "invalid-kind.json"
+        )
+      },
+      expected: {
+        status: "fail",
+        rules: ["fixture-input-path"]
+      }
+    }
+  ];
+  const tempManifestPath = path.join(tempDir, "conformance-manifest.json");
+  fs.writeFileSync(tempManifestPath, `${JSON.stringify(conformanceManifest, null, 2)}\n`);
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", tempManifestPath, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.notEqual(result.status, 0);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.status, "fail");
+  assert.equal(report.summary.failed, 1);
+  assert.deepEqual(report.cases[0].missing_rules, ["fixture-input-path"]);
+  assert.deepEqual(report.cases[0].unexpected_rules, ["fixture-kind"]);
+  assert.ok(report.issues.some((issue) => issue.rule === "conformance-case-result"));
+});
+
+test("conformance runner supports warn expectations as an explicit design state", (t) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-conformance-warn-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const conformanceManifest = JSON.parse(fs.readFileSync(CONFORMANCE_MANIFEST_PATH, "utf8"));
+  conformanceManifest.cases = [
+    {
+      ...conformanceManifest.cases[0],
+      target: {
+        path: FIXTURE_MANIFEST_PATH
+      },
+      expected: {
+        status: "warn",
+        rules: []
+      }
+    }
+  ];
+  const tempManifestPath = path.join(tempDir, "conformance-manifest.json");
+  fs.writeFileSync(tempManifestPath, `${JSON.stringify(conformanceManifest, null, 2)}\n`);
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", tempManifestPath, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.notEqual(result.status, 0);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.cases[0].expected_status, "warn");
+  assert.equal(report.cases[0].status, "pass");
+  assert.ok(report.issues.some((issue) => issue.rule === "conformance-case-result"));
+});
+
+test("conformance validate failing-corpus cases expose validation rules", (t) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-conformance-validate-fail-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const conformanceManifest = {
+    aods_conformance_manifest_v: 0,
+    suite_id: "validate-failing-corpus",
+    cases: [
+      {
+        id: "empty-corpus-fails-validation",
+        kind: "validate",
+        target: {
+          path: "empty-corpus",
+          strict: true
+        },
+        expected: {
+          status: "fail",
+          rules: ["manifest-exists", "manifest-schema-exists", "module-schema-exists"]
+        }
+      }
+    ]
+  };
+  fs.mkdirSync(path.join(tempDir, "empty-corpus"));
+  const tempManifestPath = path.join(tempDir, "conformance-manifest.json");
+  fs.writeFileSync(tempManifestPath, `${JSON.stringify(conformanceManifest, null, 2)}\n`);
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", tempManifestPath, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.summary.expected_failures, 1);
+  assert.deepEqual(report.cases[0].matched_rules, ["manifest-exists", "manifest-schema-exists", "module-schema-exists"]);
+});
+
+test("conformance text output keeps the stable smoke fields", () => {
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", CONFORMANCE_MANIFEST_PATH],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stdout, /^PASS conformance run /);
+  assert.match(result.stdout, /suite: compiled-pilot-fixture-conformance/);
+  assert.match(result.stdout, /cases: 4/);
+  assert.match(result.stdout, /passed: 4/);
+  assert.match(result.stdout, /failed: 0/);
+});
+
 test("negative fixture contract inputs fail with expected smoke rules", () => {
   const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
   const manifestDir = path.dirname(FIXTURE_MANIFEST_PATH);

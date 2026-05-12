@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S29 post-conformance release hardening |
-| 当前回合 | R-2026-05-13-04 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 245 |
+| 当前阶段 | S30 package / terminology drift hardening |
+| 当前回合 | R-2026-05-13-05 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 255 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-04 |
-| 开始时间 | 2026-05-13 01:45 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-05 |
+| 开始时间 | 2026-05-13 02:30 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-231、U-232、U-233、U-234、U-235、U-236、U-237、U-238、U-239、U-240 |
-| 本轮范围 | 上轮 U-221 到 U-230 复审；post-conformance task discovery；public issue / PR readonly refresh；conformance schema regression；unknown-property / non-execution hardening；route terminology sanity；fixture / conformance coverage snapshot；release hygiene rerun；handoff navigation sync |
-| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、external fetch、arbitrary command executor、dashboard / telemetry store、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；fixture focused tests；`npm run conformance:compiled-pilot`；route query sanity；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-241、U-242、U-243、U-244、U-245、U-246、U-247、U-248、U-249、U-250 |
+| 本轮范围 | 上轮 U-231 到 U-240 复审；release candidate gate；packed install conformance smoke；PR body refresh；release notes refresh；version bump dry-run plan；README conformance docs plan；conformance warn / rule mismatch / validate fail / text output hardening |
+| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、actual package version bump、CI workflow enablement、external fetch、arbitrary command executor、dashboard / telemetry store、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:self-check`; packed install conformance smoke；fixture focused tests；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-241 | S29 | Release candidate gate after conformance hardening | P1 | 未开始 | conformance hardening 后 release gate 重新入账 | U-239 | 不发布 release |
-| U-242 | S29 | Packed install smoke after conformance runner | P1 | 未开始 | tarball install 后 conformance command smoke 通过 | U-241 | 不发布 npm |
-| U-243 | S29 | PR body refresh after conformance hardening | P1 | 未开始 | PR body 覆盖 U-221 到 U-240 且 close refs 保持 20 | U-233、U-241 | 需要公开写授权 |
-| U-244 | S29 | Release notes refresh after conformance hardening | P1 | 未开始 | release notes body 纳入 conformance runner / schema hardening | U-241 | 不创建 release |
-| U-245 | S29 | Version bump dry-run after conformance package surface | P1 | 未开始 | `0.8.0` dry-run patch plan 覆盖 conformance schemas / lib / examples | U-241 | 不改 version |
-| U-246 | S29 | Public README conformance command docs plan | P2 | 未开始 | README conformance command 是否进入公开 docs 的决策明确 | U-223 | 不夸大 runner |
-| U-247 | S29 | Conformance warn-status fixture design | P2 | 未开始 | warn expected status 的可验证 fixture 设计明确 | U-234 | 不扩大 validator policy |
-| U-248 | S29 | Conformance expected-rules mismatch negative test | P2 | 未开始 | expected rules mismatch 能稳定失败并报告 missing/unexpected | U-234 | 不引入 flaky semantic oracle |
-| U-249 | S29 | Conformance validate failing-corpus fixture | P2 | 未开始 | validate case 的 fail path 有本地 fixture 或 temp corpus 回归 | U-234 | 不 remote fetch |
-| U-250 | S29 | Conformance text output snapshot | P3 | 未开始 | text report 输出字段形成 smoke snapshot | U-223 | 不重写 CLI output |
 | U-251 | S30 | Package install conformance smoke from tarball | P1 | 未开始 | packed install 后 `aods conformance run` 可用 | U-242 | 不发布 npm |
 | U-252 | S30 | CI triage for release hygiene | P2 | 未开始 | 是否启用 minimal CI 的风险 / 成本 / gate 结论明确 | U-239 | 不直接启用 CI |
 | U-253 | S30 | Post-merge issue close reconciliation execution plan | P1 | 未开始 | merge 后 20 close refs 与 deferred issues 核对步骤更新 | U-243 | 不 merge |
@@ -312,6 +302,16 @@
 | 243 | U-238 | S28 | Fixture / conformance coverage snapshot | P2 | 2026-05-13 | fixture smoke JSON、conformance JSON | fixture smoke / conformance commands | fixture smoke 14 cases；conformance 4 cases / 2 expected failures |
 | 244 | U-239 | S28 | Release hygiene rerun after conformance hardening | P1 | 2026-05-13 | release hygiene output | `npm run release:hygiene` | aggregate gate pass after conformance hardening |
 | 245 | U-240 | S28 | Handoff / operations navigation sync | P2 | 2026-05-13 | docs README、operations README、handoff、progress、round log | docs link checker / release hygiene | current handoff and navigation include post-conformance task discovery |
+| 246 | U-241 | S29 | Release candidate gate after conformance hardening | P1 | 2026-05-13 | `docs/operations/aods-post-conformance-release-hardening.zh-CN.md`、release self-check output | `npm run release:self-check` | 90 benchmark tests pass；pack dry-run 61 files；不发布 release |
+| 247 | U-242 | S29 | Packed install smoke after conformance runner | P1 | 2026-05-13 | temp tarball install smoke | `npm pack --pack-destination ...` + packaged `aods conformance run` | packaged conformance command pass；不发布 npm |
+| 248 | U-243 | S29 | PR body refresh after conformance hardening | P1 | 2026-05-13 | PR `#63` body | `gh pr edit 63 --body-file ...` | PR body refreshed for U-221 到 U-250 and latest evidence |
+| 249 | U-244 | S29 | Release notes refresh after conformance hardening | P1 | 2026-05-13 | `docs/operations/aods-post-conformance-release-hardening.zh-CN.md` | docs review | release notes draft includes conformance runner / schema hardening / package install smoke |
+| 250 | U-245 | S29 | Version bump dry-run after conformance package surface | P1 | 2026-05-13 | `docs/operations/aods-post-conformance-release-hardening.zh-CN.md` | package / lockfile version surface review | dry-run plan covers `package.json`、`package-lock.json`、README release links、release body；不改 version |
+| 251 | U-246 | S29 | Public README conformance command docs plan | P2 | 2026-05-13 | `docs/operations/aods-post-conformance-release-hardening.zh-CN.md` | docs review | README should document local conformance command only after release patch；not hosted certification |
+| 252 | U-247 | S29 | Conformance warn-status fixture design | P2 | 2026-05-13 | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | focused fixture regression | `warn` remains manifest-supported design state; current runner does not synthesize warn status |
+| 253 | U-248 | S29 | Conformance expected-rules mismatch negative test | P2 | 2026-05-13 | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | focused fixture regression | mismatch reports `missing_rules` / `unexpected_rules` |
+| 254 | U-249 | S29 | Conformance validate failing-corpus fixture | P2 | 2026-05-13 | `lib/conformance.mjs`、focused fixture regression | focused fixture regression | validate case now exposes validation rules from L1-L4 errors/warnings |
+| 255 | U-250 | S29 | Conformance text output snapshot | P3 | 2026-05-13 | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | focused fixture regression | text output smoke fields are covered |
 
 ## 失败或阻塞任务
 

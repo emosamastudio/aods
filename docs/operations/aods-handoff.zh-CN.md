@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-240 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment、task discovery、PR final freshness、release notes body、version/README dry-run plan、package/install/release gates 和 owner go/no-go packet、local hygiene automation、release hygiene aggregate command、conformance diagnostics implementation、post-conformance task discovery 和 conformance hardening。PR `#63` 已 ready for review、merge clean、无 checks/reviews、changed file count 以 GitHub 最新快照为准；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池已扩展到 U-270，下一轮默认 U-241 到 U-250。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-250 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment、task discovery、PR final freshness、release notes body、version/README dry-run plan、package/install/release gates 和 owner go/no-go packet、local hygiene automation、release hygiene aggregate command、conformance diagnostics implementation、post-conformance task discovery、conformance hardening 和 post-conformance release hardening。PR `#63` 已 ready for review、merge clean、无 checks/reviews、changed file count 以 GitHub 最新快照为准；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池剩余 U-251 到 U-270，下一轮默认 U-251 到 U-260。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -134,9 +134,10 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-240 已连续完
 | 119 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md` | 读取 U-199 到 U-200 handoff compaction / task discovery |
 | 120 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | 读取 U-201 到 U-210 final readiness / owner go-no-go packet |
 | 121 | `docs/operations/aods-post-conformance-task-discovery.zh-CN.md` | 读取 U-231 到 U-240 post-conformance task discovery / conformance hardening |
-| 122 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 123 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 124 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 122 | `docs/operations/aods-post-conformance-release-hardening.zh-CN.md` | 读取 U-241 到 U-250 post-conformance release hardening |
+| 123 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 124 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 125 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -384,21 +385,31 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-240 已连续完
 | U-238 | Fixture / conformance coverage snapshot | fixture smoke 14 cases；conformance 4 cases / 2 expected failures |
 | U-239 | Release hygiene rerun after conformance hardening | `npm run release:hygiene` 通过 |
 | U-240 | Handoff / operations navigation sync | handoff、docs navigation、progress、round log 已同步 |
+| U-241 | Release candidate gate after conformance hardening | `npm run release:self-check` 通过；90 benchmark tests pass；pack dry-run 61 files |
+| U-242 | Packed install smoke after conformance runner | temp install 后 packaged `aods conformance run` 通过 |
+| U-243 | PR body refresh after conformance hardening | PR `#63` body 已刷新到 U-221 到 U-250 / latest evidence 口径 |
+| U-244 | Release notes refresh after conformance hardening | release notes draft 已纳入 conformance runner / schema hardening / package install smoke |
+| U-245 | Version bump dry-run after conformance package surface | `0.8.0` patch plan 覆盖 package、lockfile、README、release body、tag |
+| U-246 | Public README conformance command docs plan | README 后续只把 conformance command 写成本地验证命令，不写成 hosted certification |
+| U-247 | Conformance warn-status fixture design | `warn` expected status 作为 manifest-supported design state 有 regression |
+| U-248 | Conformance expected-rules mismatch negative test | mismatch regression 覆盖 `missing_rules` / `unexpected_rules` |
+| U-249 | Conformance validate failing-corpus fixture | validate case 会展开 L1-L4 validation rules |
+| U-250 | Conformance text output snapshot | text output smoke fields 已有 regression |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-241 | Release candidate gate after conformance hardening | 下一轮默认第 1 个；不发布 release |
-| 2 | U-242 | Packed install smoke after conformance runner | 下一轮默认第 2 个；不发布 npm |
-| 3 | U-243 | PR body refresh after conformance hardening | 下一轮默认第 3 个；需要公开写授权 |
-| 4 | U-244 | Release notes refresh after conformance hardening | 下一轮默认第 4 个；不创建 release |
-| 5 | U-245 | Version bump dry-run after conformance package surface | 下一轮默认第 5 个；不改 version |
-| 6 | U-246 | Public README conformance command docs plan | 下一轮默认第 6 个；不夸大 runner |
-| 7 | U-247 | Conformance warn-status fixture design | 下一轮默认第 7 个；不扩大 validator policy |
-| 8 | U-248 | Conformance expected-rules mismatch negative test | 下一轮默认第 8 个；不引入 semantic oracle |
-| 9 | U-249 | Conformance validate failing-corpus fixture | 下一轮默认第 9 个；不 remote fetch |
-| 10 | U-250 | Conformance text output snapshot | 下一轮默认第 10 个；不重写 CLI output |
+| 1 | U-251 | Package install conformance smoke from tarball | 下一轮默认第 1 个；不发布 npm |
+| 2 | U-252 | CI triage for release hygiene | 下一轮默认第 2 个；不直接启用 CI |
+| 3 | U-253 | Post-merge issue close reconciliation execution plan | 下一轮默认第 3 个；不 merge |
+| 4 | U-254 | v0.8 owner go/no-go refresh | 下一轮默认第 4 个；不代替 owner 决策 |
+| 5 | U-255 | Conformance manifest examples for external consumers | 下一轮默认第 5 个；不建 hosted docs |
+| 6 | U-256 | Terminology drift detection research for lifecycle aliases | 下一轮默认第 6 个；不全文自然语言扫描 |
+| 7 | U-257 | Lifecycle terminology consistency fixture plan | 下一轮默认第 7 个；不做 semantic judge |
+| 8 | U-258 | Glossary term use enforcement boundary | 下一轮默认第 8 个；不自动 rewrite docs |
+| 9 | U-259 | Stable contract terminology mismatch negative fixture | 下一轮默认第 9 个；不扩大到全 repo 文本 |
+| 10 | U-260 | Documentation term drift audit | 下一轮默认第 10 个；不批量重写 |
 
 ## 失败和风险
 
@@ -472,4 +483,4 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-240 已连续完
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-241 到 U-250 | post-conformance release closeout hardening | release gate、packed install、PR/release notes refresh、version/README plan、conformance fail/warn/text hardening；不自动 merge/release |
+| 1 | U-251 到 U-260 | package / terminology drift hardening | packed install conformance smoke follow-up、CI triage、post-merge issue reconciliation plan、owner go/no-go refresh、terminology drift boundary / fixture plan |

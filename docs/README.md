@@ -137,6 +137,7 @@
 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | U-211 到 U-220 local hygiene automation，落地 docs link、secret-like scan、package surface、generated churn、skill alignment 和 release hygiene aggregate 命令。 |
 | `docs/operations/aods-conformance-diagnostics-implementation.zh-CN.md` | U-221 到 U-230 conformance / diagnostics implementation，落地 conformance schema、只读 runner、negative fixtures second slice 和 dependency diagnostics。 |
 | `docs/operations/aods-post-conformance-task-discovery.zh-CN.md` | U-231 到 U-240 post-conformance task discovery、公开状态只读刷新、conformance schema / non-execution hardening 和后续 U-241 到 U-270 任务池。 |
+| `docs/operations/aods-post-conformance-release-hardening.zh-CN.md` | U-241 到 U-250 post-conformance release hardening，记录 release self-check、packed conformance smoke、PR body refresh、release notes / version plan 和 conformance fail/warn/text regressions。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

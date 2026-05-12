@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-05
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-05 |
+| 开始时间 | 2026-05-13 02:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 03:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-231 到 U-240 复审；release candidate gate；packed install conformance smoke；PR body refresh；release notes refresh；version bump dry-run plan；README conformance command docs plan；conformance warn/rule mismatch/validate fail/text output regressions；不 merge、不 tag、不创建 GitHub Release、不发布 npm、不改 package version |
+| 本轮选中任务 | U-241、U-242、U-243、U-244、U-245、U-246、U-247、U-248、U-249、U-250 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-05
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `5a0b700` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 通过，含 docs link、secret scan、package surface、generated clean、skill regression、`validate:all` |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、200 changed files、0 reviews、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-241 到 U-250 |
+
+## 任务执行记录：R-2026-05-13-05
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-241 | 未开始 | 已完成 | conformance hardening 后重跑 release candidate gate | `npm run release:self-check` |
+| 2 | U-242 | 未开始 | 已完成 | temp tarball install 后运行 packaged conformance command | packaged `aods conformance run ... --json` |
+| 3 | U-243 | 未开始 | 已完成 | 刷新 PR `#63` body 到 U-221 到 U-250 和 latest local evidence | `gh pr edit 63 --body-file ...` |
+| 4 | U-244 | 未开始 | 已完成 | 刷新 release notes draft delta | `aods-post-conformance-release-hardening.zh-CN.md` |
+| 5 | U-245 | 未开始 | 已完成 | 刷新 `0.8.0` version bump dry-run plan | package / lockfile / README / release body / tag plan |
+| 6 | U-246 | 未开始 | 已完成 | 明确 README conformance command docs 口径 | local verification only；not hosted certification |
+| 7 | U-247 | 未开始 | 已完成 | 增加 warn expected-status design regression | focused fixture regression |
+| 8 | U-248 | 未开始 | 已完成 | 增加 expected-rules mismatch regression | focused fixture regression |
+| 9 | U-249 | 未开始 | 已完成 | validate case 失败路径展开 L1-L4 validation rules | `lib/conformance.mjs`、focused fixture regression |
+| 10 | U-250 | 未开始 | 已完成 | 增加 conformance text output snapshot | focused fixture regression |
+
+## 验证记录：R-2026-05-13-05
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致 |
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮复审通过 |
+| Release self-check | `npm run release:self-check` | 通过 | 90 benchmark tests pass；pack dry-run 61 files |
+| Packed conformance install smoke | temp project install local tarball + packaged `aods conformance run ... --json` | 通过 | packaged conformance suite pass |
+| Focused conformance regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 14/14 pass |
+
+## 新发现任务：R-2026-05-13-05
+
+本轮没有新增任务 ID；继续执行既有 U-251 到 U-270。
+
+## 回合结束摘要：R-2026-05-13-05
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-241 到 U-250 |
+| 完成任务 | 10 | U-241 到 U-250 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | merge / release / npm publish 仍未执行 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-251 到 U-260 |
+
 ## 回合摘要：R-2026-05-13-04
 
 | 项 | 内容 |

@@ -232,7 +232,8 @@
 | Batch AC | U-211 到 U-220 | 已完成；local hygiene automation / release hygiene aggregate | scripts / npm commands / docs gate |
 | Batch AD | U-221 到 U-230 | 已完成；conformance / diagnostics next implementation slice | conformance schemas/runner、negative fixtures、validator diagnostics、docs parity |
 | Batch AE | U-231 到 U-240 | 已完成；post-conformance task discovery / hardening | task discovery、public state refresh、schema/non-execution hardening、route sanity |
-| Batch AF | U-241 到 U-250 | 下一轮默认；post-conformance release closeout hardening | release gate、packed install、PR/release notes refresh、version/README plan、conformance hardening |
+| Batch AF | U-241 到 U-250 | 已完成；post-conformance release closeout hardening | release gate、packed install、PR/release notes refresh、version/README plan、conformance hardening |
+| Batch AG | U-251 到 U-260 | 下一轮默认；package / terminology drift hardening | package install follow-up、CI triage、post-merge plan、owner packet、terminology drift boundary |
 
 ## 当前非目标
 
