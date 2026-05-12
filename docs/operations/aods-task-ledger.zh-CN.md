@@ -33,7 +33,7 @@
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
 | U-191 | S24 | Release notes finalization plan | P2 | 未开始 | next release notes 覆盖 U-160 后全部 major changes / non-goals / blockers | U-188 | 不发布 release |
-| U-192 | S24 | PR split risk assessment | P2 | 未开始 | 评估 180-file PR 是否应拆分或继续单 PR | U-163、U-180 | 不改历史 |
+| U-192 | S24 | PR split risk assessment | P2 | 未开始 | 评估 182-file PR 是否应拆分或继续单 PR | U-163、U-180 | 不改历史 |
 | U-193 | S24 | GitHub checks setup triage | P2 | 未开始 | no-checks 状态是否需要 minimal Actions gate 的方案明确 | U-163 | 不直接启用 CI |
 | U-194 | S24 | Package public surface diff guard | P2 | 未开始 | package files / public docs / examples release surface diff guard 明确 | U-188 | 不发布 npm |
 | U-195 | S24 | Post-merge reconciliation checklist refresh | P2 | 未开始 | merge 后 issue close verification、release、branch cleanup checklist 更新 | U-183、U-190 | 不 merge |

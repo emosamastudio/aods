@@ -57,7 +57,7 @@
 | quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致，`MEMORY.md` 未跟踪 |
 | quality review | AODS validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
 | quality review | Focused fixture / route dependency regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "fixture|route dependency"` | 通过 | 39/39 pass |
-| U-181 - U-183 | PR public state verification | `source ~/.zshrc && proxy_on && gh pr view 63 --json isDraft,closingIssuesReferences,mergeStateStatus,statusCheckRollup,latestReviews,changedFiles` | 通过 | PR ready、merge clean、180 changed files、0 reviews、0 checks、20 close refs recognized |
+| U-181 - U-183 | PR public state verification | `source ~/.zshrc && proxy_on && gh pr view 63 --json isDraft,closingIssuesReferences,mergeStateStatus,statusCheckRollup,latestReviews,changedFiles` | 通过 | PR ready、merge clean、182 changed files、0 reviews、0 checks、20 close refs recognized |
 | U-184 - U-187 | Issue public comment verification | `gh issue comment ...` output URLs | 通过 | `#13/#41/#59/#60` 均已留言且保持 open |
 | U-188 - U-190 | Release candidate technical gate | `npm run release:self-check` | 通过 | validate / benchmark / pack dry-run pass；package version 仍为 `0.7.0` |
 | U-181 - U-190 | Generated artifact hygiene | `git restore -- benchmarks/aods-eval-lab/generated/... benchmarks/aods-eval-lab/reports/...` | 通过 | release self-check 生成结果 churn 已还原 |

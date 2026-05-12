@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics 和 public sync closeout。PR `#63` 已从 draft 切为 ready for review、merge clean、无 checks/reviews、180 changed files；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。下一轮默认选择 U-191 到 U-200：release notes finalization、review/check gate、package surface、post-merge checklist、handoff closeout。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics 和 public sync closeout。PR `#63` 已从 draft 切为 ready for review、merge clean、无 checks/reviews、182 changed files；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。下一轮默认选择 U-191 到 U-200：release notes finalization、review/check gate、package surface、post-merge checklist、handoff closeout。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 

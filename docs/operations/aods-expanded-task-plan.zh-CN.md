@@ -155,7 +155,7 @@
 | U-189 | S23 | release planning | P1 | 已完成 | Version bump and changelog preparation | version bump / changelog plan 已明确；不创建 tag |
 | U-190 | S23 | release gate | P1 | 已完成 | Release candidate gate rerun after public sync | public sync 后 release:self-check 通过；release 仍 no-go |
 | U-191 | S24 | release docs | P2 | 未开始 | Release notes finalization plan | release notes 覆盖 U-160 后变化；不发布 release |
-| U-192 | S24 | PR hygiene | P2 | 未开始 | PR split risk assessment | 180-file PR 是否拆分或继续单 PR 已评估；不改历史 |
+| U-192 | S24 | PR hygiene | P2 | 未开始 | PR split risk assessment | 182-file PR 是否拆分或继续单 PR 已评估；不改历史 |
 | U-193 | S24 | CI triage | P2 | 未开始 | GitHub checks setup triage | no-checks 状态的 minimal Actions gate 方案明确；不直接启用 CI |
 | U-194 | S24 | package | P2 | 未开始 | Package public surface diff guard | package files / docs / examples release surface guard 明确；不发布 npm |
 | U-195 | S24 | public sync | P2 | 未开始 | Post-merge reconciliation checklist refresh | merge 后 issue/release/branch cleanup checklist 更新；不 merge |
