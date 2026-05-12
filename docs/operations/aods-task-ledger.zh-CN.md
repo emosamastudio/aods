@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S30 package / terminology drift hardening |
-| 当前回合 | R-2026-05-13-05 |
-| 未完成任务数量 | 20 |
-| 已完成任务数量 | 255 |
+| 当前阶段 | S31 conformance expansion / release execution readiness |
+| 当前回合 | R-2026-05-13-06 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 265 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-05 |
-| 开始时间 | 2026-05-13 02:30 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-06 |
+| 开始时间 | 2026-05-13 03:15 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-241、U-242、U-243、U-244、U-245、U-246、U-247、U-248、U-249、U-250 |
-| 本轮范围 | 上轮 U-231 到 U-240 复审；release candidate gate；packed install conformance smoke；PR body refresh；release notes refresh；version bump dry-run plan；README conformance docs plan；conformance warn / rule mismatch / validate fail / text output hardening |
-| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、actual package version bump、CI workflow enablement、external fetch、arbitrary command executor、dashboard / telemetry store、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:self-check`; packed install conformance smoke；fixture focused tests；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-251、U-252、U-253、U-254、U-255、U-256、U-257、U-258、U-259、U-260 |
+| 本轮范围 | 上轮 U-241 到 U-250 复审；packed install conformance smoke follow-up；CI triage；post-merge issue reconciliation plan；owner go/no-go refresh；external conformance examples；lifecycle alias terminology drift boundary、fixture plan、glossary enforcement boundary、negative fixture design、docs term drift audit |
+| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、actual package version bump、CI workflow enablement、external fetch、arbitrary command executor、semantic judge、全文自然语言扫描、dashboard / telemetry store、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`; packed install conformance smoke；route terminology query；docs term drift read-only audit；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-251 | S30 | Package install conformance smoke from tarball | P1 | 未开始 | packed install 后 `aods conformance run` 可用 | U-242 | 不发布 npm |
-| U-252 | S30 | CI triage for release hygiene | P2 | 未开始 | 是否启用 minimal CI 的风险 / 成本 / gate 结论明确 | U-239 | 不直接启用 CI |
-| U-253 | S30 | Post-merge issue close reconciliation execution plan | P1 | 未开始 | merge 后 20 close refs 与 deferred issues 核对步骤更新 | U-243 | 不 merge |
-| U-254 | S30 | v0.8 owner go/no-go refresh | P1 | 未开始 | owner 决策包覆盖 U-231 到 U-253 后状态 | U-253 | 不代替 owner 决策 |
-| U-255 | S30 | Conformance manifest examples for external consumers | P2 | 未开始 | external consumer example boundary 明确 | U-246 | 不建 hosted docs |
-| U-256 | S30 | Terminology drift detection research for lifecycle aliases | P2 | 未开始 | start/begin 类术语漂移检测边界明确 | U-237 | 不全文自然语言扫描 |
-| U-257 | S30 | Lifecycle terminology consistency fixture plan | P2 | 未开始 | lifecycle term mismatch fixture / glossary / validator 候选路线明确 | U-256 | 不立刻做 semantic judge |
-| U-258 | S30 | Glossary term use enforcement boundary | P2 | 未开始 | glossary registry 是否可用于术语一致性 gate 的边界明确 | U-257 | 不自动 rewrite docs |
-| U-259 | S30 | Stable contract terminology mismatch negative fixture | P2 | 未开始 | 稳定契约术语 mismatch 的负例设计明确 | U-258 | 不扩大到全 repo 文本 |
-| U-260 | S30 | Documentation term drift audit | P3 | 未开始 | docs 中高风险 lifecycle / status term drift 只读审查完成 | U-256 | 不批量重写 |
 | U-261 | S31 | Cross-corpus no-fetch conformance case design | P3 | 未开始 | no-fetch conformance case 设计与 runner 边界明确 | U-229 | 不 remote fetch |
 | U-262 | S31 | Adapter capability conformance case expansion | P3 | 未开始 | adapter capability metadata conformance case 候选明确 | U-228 | 不实现 handshake |
 | U-263 | S31 | Observability report store no-go second refresh | P3 | 未开始 | conformance hardening 后 telemetry/store no-go 再确认 | U-230 | 不建 store |
@@ -312,6 +302,16 @@
 | 253 | U-248 | S29 | Conformance expected-rules mismatch negative test | P2 | 2026-05-13 | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | focused fixture regression | mismatch reports `missing_rules` / `unexpected_rules` |
 | 254 | U-249 | S29 | Conformance validate failing-corpus fixture | P2 | 2026-05-13 | `lib/conformance.mjs`、focused fixture regression | focused fixture regression | validate case now exposes validation rules from L1-L4 errors/warnings |
 | 255 | U-250 | S29 | Conformance text output snapshot | P3 | 2026-05-13 | `benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | focused fixture regression | text output smoke fields are covered |
+| 256 | U-251 | S30 | Package install conformance smoke from tarball | P1 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md`、local temp tarball install smoke | `npm pack --pack-destination ...` + packaged `aods conformance run` | packaged conformance suite pass：4 cases、2 expected failures；不发布 npm |
+| 257 | U-252 | S30 | CI triage for release hygiene | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | release hygiene gate review | 结论为暂不启用 CI；本地 `npm run release:hygiene` 继续作为 gate |
+| 258 | U-253 | S30 | Post-merge issue close reconciliation execution plan | P1 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | PR close refs review | merge 后 20 intended-close issues 与 4 deferred issues 核对顺序明确；不 merge |
+| 259 | U-254 | S30 | v0.8 owner go/no-go refresh | P1 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | owner decision packet review | local gates pass；release no-go until version bump / merge / tag / release decision |
+| 260 | U-255 | S30 | Conformance manifest examples for external consumers | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | docs review | external example boundary is local, read-only, JSON-first, not hosted certification |
+| 261 | U-256 | S30 | Terminology drift detection research for lifecycle aliases | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md`、route terminology query | `node ./bin/aods.mjs route . --query ... --json` | start/begin drift can be blocked when structured; prose-only drift remains audit/manual review |
+| 262 | U-257 | S30 | Lifecycle terminology consistency fixture plan | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | fixture design review | enum / glossary / stable contract mismatch fixture route defined; no semantic judge |
+| 263 | U-258 | S30 | Glossary term use enforcement boundary | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | glossary boundary review | glossary can gate structured term refs, aliases, replacements and linked surfaces; no auto rewrite |
+| 264 | U-259 | S30 | Stable contract terminology mismatch negative fixture | P2 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | negative fixture design review | stable lifecycle term mismatch negative fixture designed; implementation deferred until structured term refs exist |
+| 265 | U-260 | S30 | Documentation term drift audit | P3 | 2026-05-13 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | `rg` / route / glossary read-only audit | no structured start/begin lifecycle conflict found; high-risk prose audit completed |
 
 ## 失败或阻塞任务
 

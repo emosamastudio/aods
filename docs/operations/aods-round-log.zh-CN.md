@@ -2,6 +2,76 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-06
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-06 |
+| 开始时间 | 2026-05-13 03:15 Asia/Shanghai |
+| 结束时间 | 2026-05-13 03:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-241 到 U-250 复审；packed install conformance smoke follow-up；CI triage；post-merge issue reconciliation plan；owner go/no-go refresh；external conformance examples；lifecycle alias terminology drift boundary、fixture plan、glossary enforcement boundary、negative fixture design、docs term drift audit；不 merge、不 tag、不创建 GitHub Release、不发布 npm、不改 package version、不启用 CI、不做全文自然语言扫描 |
+| 本轮选中任务 | U-251、U-252、U-253、U-254、U-255、U-256、U-257、U-258、U-259、U-260 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-06
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `fef93c5` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 通过，含 docs link、secret scan、package surface、generated clean、skill regression、`validate:all` |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、201 changed files、0 reviews、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-251 到 U-260 |
+
+## 任务执行记录：R-2026-05-13-06
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-251 | 未开始 | 已完成 | temp tarball install 后运行 packaged conformance command，并修正本轮断言误读 | packaged `aods conformance run ... --json` |
+| 2 | U-252 | 未开始 | 已完成 | 复审是否启用 minimal CI | `aods-package-terminology-drift-hardening.zh-CN.md` |
+| 3 | U-253 | 未开始 | 已完成 | 更新 merge 后 20 close refs 与 deferred issues 核对步骤 | `aods-package-terminology-drift-hardening.zh-CN.md` |
+| 4 | U-254 | 未开始 | 已完成 | 刷新 v0.8 owner go/no-go packet | `aods-package-terminology-drift-hardening.zh-CN.md` |
+| 5 | U-255 | 未开始 | 已完成 | 增加 external consumer conformance manifest 示例边界 | `aods-package-terminology-drift-hardening.zh-CN.md` |
+| 6 | U-256 | 未开始 | 已完成 | 研究 start/begin lifecycle alias drift 可检测边界 | route terminology query、docs audit |
+| 7 | U-257 | 未开始 | 已完成 | 制定 lifecycle terminology consistency fixture plan | `aods-package-terminology-drift-hardening.zh-CN.md` |
+| 8 | U-258 | 未开始 | 已完成 | 明确 glossary term use enforcement boundary | `aods-package-terminology-drift-hardening.zh-CN.md` |
+| 9 | U-259 | 未开始 | 已完成 | 设计 stable contract terminology mismatch negative fixture | `aods-package-terminology-drift-hardening.zh-CN.md` |
+| 10 | U-260 | 未开始 | 已完成 | 做 high-risk lifecycle / status docs term drift 只读审查 | `rg` / route / glossary review |
+
+## 验证记录：R-2026-05-13-06
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致 |
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮复审通过 |
+| PR state review | `gh pr view 63 --json ...` | 通过 | ready、merge clean、20 close refs |
+| Packed conformance install smoke | temp project install local tarball + packaged `aods conformance run ... --json` | 通过 | suite status pass；4 cases、2 expected failures |
+| Route terminology query | `node ./bin/aods.mjs route . --query "lifecycle terminology start begin status drift" --json` | 通过 | 返回 authority governance、boot protocol、surface governance |
+| Documentation term drift audit | `rg` / glossary review | 通过 | 未发现结构化 start/begin lifecycle conflict |
+
+## 本轮返工记录：R-2026-05-13-06
+
+| 问题 | 根因 | 修复 | 再验证 |
+|---|---|---|---|
+| packed conformance smoke 初始断言失败 | 本轮脚本把 suite status 误认为应为 `fail`；实际 expected-fail cases 符合预期时 suite status 应为 `pass` | 按 report contract 校验 `status=pass`、`cases=4`、`expected_failures=2` | packaged conformance report assertion pass |
+
+## 新发现任务：R-2026-05-13-06
+
+本轮没有新增任务 ID；继续执行既有 U-261 到 U-270。
+
+## 回合结束摘要：R-2026-05-13-06
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-251 到 U-260 |
+| 完成任务 | 10 | package / terminology drift hardening 已完成 |
+| 返工项 | 1 | packed conformance smoke 断言误读已修正 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | merge / release / npm publish 仍未执行 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-261 到 U-270 |
+
 ## 回合摘要：R-2026-05-13-05
 
 | 项 | 内容 |
