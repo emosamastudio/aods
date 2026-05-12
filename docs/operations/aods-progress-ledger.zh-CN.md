@@ -40,3 +40,4 @@
 | 2026-05-12 | 100% | 99% | 99% | `U-156` 到 `U-160` 完成 | conformance runner plan、adapter negotiation protocol plan、cross-corpus authority resolver research、dependency scheduler research 和 telemetry / observability store research 已收束；当前任务池无未完成任务。 |
 | 2026-05-12 | 100% | 99% | 99% | `U-161` 到 `U-170` 完成 | post-backlog 任务池扩展到 U-200；公开状态刷新发现 PR `#63` close-on-merge recognition gap，下一步默认进入 negative fixtures / conformance / dependency diagnostics 本地切片。 |
 | 2026-05-12 | 100% | 99% | 99% | `U-171` 到 `U-180` 完成 | 首批 negative fixtures 已落地，conformance manifest/report proposal 已明确，route dependency diagnostics 已扩展，PR generated artifact 接受/还原策略已入账；下一步默认进入 PR public sync / release planning。 |
+| 2026-05-12 | 100% | 99% | 99% | `U-181` 到 `U-190` 完成 | PR `#63` close-on-merge 识别已修复并切为 ready for review；`#13/#41/#59/#60` 已公开同步并保持 open；下一 public release 目标定为 `v0.8.0`，RC 技术门禁通过但不发布。 |

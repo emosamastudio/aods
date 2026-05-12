@@ -10,40 +10,30 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S22 conformance / diagnostics next slice |
-| 当前回合 | R-2026-05-12-10 |
-| 未完成任务数量 | 20 |
-| 已完成任务数量 | 185 |
+| 当前阶段 | S23 public sync / release planning |
+| 当前回合 | R-2026-05-12-11 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 195 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-10 |
-| 开始时间 | 2026-05-12 22:09 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-11 |
+| 开始时间 | 2026-05-12 22:53 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-171、U-172、U-173、U-174、U-175、U-176、U-177、U-178、U-179、U-180 |
-| 本轮范围 | 上轮 U-161 到 U-170 复审；negative fixture first-slice selection / implementation、conformance manifest/report proposal、fixture smoke / conformance docs update、route dependency diagnostics design、validator dependency diagnostics plan、route dependency explanation expansion、dependency query regression、PR generated artifact acceptance audit |
-| 排除范围 | 完整 conformance runner、arbitrary command executor、benchmark generated result churn、PR body update、PR ready/merge、issue comment/close、release、version bump、runtime 实现、dependency scheduler、graph DB、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；focused fixture regression；fixture smoke JSON；route dependency query regression；GitHub generated artifact read-only audit；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和非预期 generated churn |
+| 选中任务 | U-181、U-182、U-183、U-184、U-185、U-186、U-187、U-188、U-189、U-190 |
+| 本轮范围 | 上轮 U-171 到 U-180 复审；PR body close syntax update、PR body scope / validation refresh、PR ready-for-review decision、public comments for `#13/#41/#59/#60`、release version naming decision、version bump / changelog preparation、release candidate gate rerun |
+| 排除范围 | PR merge、issue close before merge、GitHub Release publication、tag creation、npm publish、runtime 实现、version bump commit、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；GitHub PR / issue / release read-write audit；close-on-merge recognition check；`npm run release:self-check`；`git diff --check`；staged set 排除 `MEMORY.md` 和非预期 generated churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-181 | S23 | PR body close syntax update | P1 | 未开始 | PR `#63` body 每个 intended-close issue 被 GitHub 识别 | U-164、U-168 | 公开写操作，需授权 |
-| U-182 | S23 | PR body scope and validation refresh | P1 | 未开始 | PR `#63` summary / validation / release position 覆盖 U-160 后状态 | U-167、U-181 | 公开写操作，需授权 |
-| U-183 | S23 | PR ready-for-review decision execution | P1 | 未开始 | body 修复、validation 通过后执行或记录 ready/no-go | U-181、U-182 | 公开写操作，需授权 |
-| U-184 | S23 | Public comment for changelog delta issue | P2 | 未开始 | `#13` 同步 300 soft / 500 hard 本地修复状态 | U-170 | 公开写操作，需授权 |
-| U-185 | S23 | Public comment for capability negotiation issue | P2 | 未开始 | `#41` 同步 compatibility gates 和 negotiation no-go posture | U-170 | 公开写操作，需授权 |
-| U-186 | S23 | Public comment for observability issue | P2 | 未开始 | `#59` 同步 route JSON explanation 和 telemetry store no-go posture | U-170 | 公开写操作，需授权 |
-| U-187 | S23 | Public comment for roadmap issue | P2 | 未开始 | `#60` 同步 U-160 后 next slice 和 public closeout state | U-170 | 公开写操作，需授权 |
-| U-188 | S23 | Release version naming decision | P1 | 未开始 | 下一 release version / tag / branch naming decision 明确 | U-166、U-183 | 不发布 release |
-| U-189 | S23 | Version bump and changelog preparation | P1 | 未开始 | 若 U-188 通过，version bump / changelog plan 明确 | U-188 | 不创建 tag |
-| U-190 | S23 | Release candidate gate rerun after public sync | P1 | 未开始 | public sync 后 rerun release:self-check / pack / validate / benchmark | U-183、U-189 | 不发布 release |
 | U-191 | S24 | Release notes finalization plan | P2 | 未开始 | next release notes 覆盖 U-160 后全部 major changes / non-goals / blockers | U-188 | 不发布 release |
-| U-192 | S24 | PR split risk assessment | P2 | 未开始 | 评估 167-file PR 是否应拆分或继续单 PR | U-163、U-180 | 不改历史 |
+| U-192 | S24 | PR split risk assessment | P2 | 未开始 | 评估 180-file PR 是否应拆分或继续单 PR | U-163、U-180 | 不改历史 |
 | U-193 | S24 | GitHub checks setup triage | P2 | 未开始 | no-checks 状态是否需要 minimal Actions gate 的方案明确 | U-163 | 不直接启用 CI |
 | U-194 | S24 | Package public surface diff guard | P2 | 未开始 | package files / public docs / examples release surface diff guard 明确 | U-188 | 不发布 npm |
 | U-195 | S24 | Post-merge reconciliation checklist refresh | P2 | 未开始 | merge 后 issue close verification、release、branch cleanup checklist 更新 | U-183、U-190 | 不 merge |
@@ -242,6 +232,16 @@
 | 183 | U-178 | S22 | Route dependency explanation expansion implementation | P2 | 2026-05-12 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-route-json-explanation.zh-CN.md` | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "route"` | route JSON dependency detail 增加 edge counts、coverage、dependency_exists、dependency_status；不建 graph DB |
 | 184 | U-179 | S22 | Dependency query benchmark scenario | P3 | 2026-05-12 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` | route dependency query focused regression | dependency-ordering route scenario 已覆盖；不引外部依赖 |
 | 185 | U-180 | S22 | PR generated artifact acceptance audit | P2 | 2026-05-12 | `docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md`、GitHub PR `#63` read-only snapshot | `source ~/.zshrc && proxy_on && gh pr view 63 --json ...` | PR `#63` open draft、merge clean、0 reviews、0 checks、171 changed files；generated schema mirror 可接受，benchmark result/report churn 默认 ready 前复审/还原 |
+| 186 | U-181 | S23 | PR body close syntax update | P1 | 2026-05-12 | PR `#63` body、`docs/operations/aods-pr-public-sync-execution.zh-CN.md` | `gh pr edit 63 --body-file -`；`gh pr view 63 --json closingIssuesReferences` | 20 个 intended-close issue 均被 GitHub 识别 |
+| 187 | U-182 | S23 | PR body scope and validation refresh | P1 | 2026-05-12 | PR `#63` body、`docs/operations/aods-pr-public-sync-execution.zh-CN.md` | PR body review；`npm run release:self-check` | PR body 覆盖 U-180 后 scope、validation 和 release position |
+| 188 | U-183 | S23 | PR ready-for-review decision execution | P1 | 2026-05-12 | PR `#63` public state | `gh pr ready 63`；`gh pr view 63 --json isDraft` | PR `#63` 已从 draft 切为 ready for review；未 merge |
+| 189 | U-184 | S23 | Public comment for changelog delta issue | P2 | 2026-05-12 | issue `#13` comment | `gh issue comment 13 --body-file -` | 已同步 300 soft / 500 hard 本地修复状态；issue 保持 open |
+| 190 | U-185 | S23 | Public comment for capability negotiation issue | P2 | 2026-05-12 | issue `#41` comment | `gh issue comment 41 --body-file -` | 已同步 deterministic compatibility gates 和 full negotiation no-go；issue 保持 open |
+| 191 | U-186 | S23 | Public comment for observability issue | P2 | 2026-05-12 | issue `#59` comment | `gh issue comment 59 --body-file -` | 已同步 route JSON explanation / dependency diagnostics 和 telemetry no-go；issue 保持 open |
+| 192 | U-187 | S23 | Public comment for roadmap issue | P2 | 2026-05-12 | issue `#60` comment | `gh issue comment 60 --body-file -` | 已同步 U-180 后 public review state；issue 保持 open |
+| 193 | U-188 | S23 | Release version naming decision | P1 | 2026-05-12 | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` | version / release surface review | 下一 public release 目标选择 `v0.8.0`；本轮不发布 release |
+| 194 | U-189 | S23 | Version bump and changelog preparation | P1 | 2026-05-12 | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` | release notes / changelog route review | version bump / changelog plan 已明确；不修改 package version、不创建 tag |
+| 195 | U-190 | S23 | Release candidate gate rerun after public sync | P1 | 2026-05-12 | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md`、release self-check output | `npm run release:self-check` | technical gate pass；pack `aods-0.7.0.tgz` 55 files；release remains no-go until version bump / merge / tag / publication |
 
 ## 失败或阻塞任务
 
@@ -335,3 +335,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-156` 到 `U-160` 完成 | 本轮完成 conformance runner plan、adapter negotiation protocol plan、cross-corpus authority resolver research、dependency scheduler research 和 telemetry / observability store research；当前任务池无未完成任务。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-161` 到 `U-170` 完成 | 本轮完成 post-backlog 任务池扩展、公开仓库/PR/issue/release 状态刷新、PR close-on-merge recognition gap audit、public action approval packet 和下一里程碑选择；下一轮默认选择 U-171 到 U-180。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-171` 到 `U-180` 完成 | 本轮完成首批 negative fixtures、conformance manifest/report proposal、fixture/conformance docs、route dependency diagnostics 扩展、dependency query regression 和 PR generated artifact audit；下一轮默认选择 U-181 到 U-190。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-181` 到 `U-190` 完成 | 本轮完成 PR body close syntax / scope refresh、ready-for-review、`#13/#41/#59/#60` public comments、release version naming 和 release candidate gate rerun；下一轮默认选择 U-191 到 U-200。 |

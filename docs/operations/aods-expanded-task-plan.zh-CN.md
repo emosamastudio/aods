@@ -144,18 +144,18 @@
 | U-178 | S22 | routing | P2 | 已完成 | Route dependency explanation expansion implementation | 最小 route JSON dependency detail 已落地并测试；不建 graph DB |
 | U-179 | S22 | benchmark | P3 | 已完成 | Dependency query benchmark scenario | dependency-ordering route scenario 已覆盖；不引外部依赖 |
 | U-180 | S22 | PR hygiene | P2 | 已完成 | PR generated artifact acceptance audit | PR generated artifacts 接受 / 还原策略已明确；不默认提交 churn |
-| U-181 | S23 | public sync | P1 | 未开始 | PR body close syntax update | 每个 intended-close issue 被 GitHub 识别；需公开写授权 |
-| U-182 | S23 | public sync | P1 | 未开始 | PR body scope and validation refresh | PR body 覆盖 U-160 后状态；需公开写授权 |
-| U-183 | S23 | public sync | P1 | 未开始 | PR ready-for-review decision execution | body 修复和验证后执行或记录 ready/no-go；不 merge |
-| U-184 | S23 | public sync | P2 | 未开始 | Public comment for changelog delta issue | `#13` 同步本地修复状态；需公开写授权 |
-| U-185 | S23 | public sync | P2 | 未开始 | Public comment for capability negotiation issue | `#41` 同步 gates 和 no-go posture；需公开写授权 |
-| U-186 | S23 | public sync | P2 | 未开始 | Public comment for observability issue | `#59` 同步 route JSON / telemetry posture；需公开写授权 |
-| U-187 | S23 | public sync | P2 | 未开始 | Public comment for roadmap issue | `#60` 同步 next slice；需公开写授权 |
-| U-188 | S23 | release planning | P1 | 未开始 | Release version naming decision | 下一 release version / tag / branch 决策明确；不发布 release |
-| U-189 | S23 | release planning | P1 | 未开始 | Version bump and changelog preparation | version bump / changelog plan 明确；不创建 tag |
-| U-190 | S23 | release gate | P1 | 未开始 | Release candidate gate rerun after public sync | public sync 后 rerun release gates；不发布 release |
+| U-181 | S23 | public sync | P1 | 已完成 | PR body close syntax update | 每个 intended-close issue 已被 GitHub 识别；已执行公开写 |
+| U-182 | S23 | public sync | P1 | 已完成 | PR body scope and validation refresh | PR body 已覆盖 U-180 后状态和最新 validation；已执行公开写 |
+| U-183 | S23 | public sync | P1 | 已完成 | PR ready-for-review decision execution | PR `#63` 已从 draft 切为 ready for review；不 merge |
+| U-184 | S23 | public sync | P2 | 已完成 | Public comment for changelog delta issue | `#13` 已同步 300 soft / 500 hard 本地修复状态；保持 open |
+| U-185 | S23 | public sync | P2 | 已完成 | Public comment for capability negotiation issue | `#41` 已同步 compatibility gates 和 negotiation no-go posture；保持 open |
+| U-186 | S23 | public sync | P2 | 已完成 | Public comment for observability issue | `#59` 已同步 route JSON / dependency diagnostics 和 telemetry no-go posture；保持 open |
+| U-187 | S23 | public sync | P2 | 已完成 | Public comment for roadmap issue | `#60` 已同步 U-180 后 public review state；保持 open |
+| U-188 | S23 | release planning | P1 | 已完成 | Release version naming decision | 下一 public release 目标选择 `v0.8.0`；不发布 release |
+| U-189 | S23 | release planning | P1 | 已完成 | Version bump and changelog preparation | version bump / changelog plan 已明确；不创建 tag |
+| U-190 | S23 | release gate | P1 | 已完成 | Release candidate gate rerun after public sync | public sync 后 release:self-check 通过；release 仍 no-go |
 | U-191 | S24 | release docs | P2 | 未开始 | Release notes finalization plan | release notes 覆盖 U-160 后变化；不发布 release |
-| U-192 | S24 | PR hygiene | P2 | 未开始 | PR split risk assessment | 167-file PR 是否拆分或继续单 PR 已评估；不改历史 |
+| U-192 | S24 | PR hygiene | P2 | 未开始 | PR split risk assessment | 180-file PR 是否拆分或继续单 PR 已评估；不改历史 |
 | U-193 | S24 | CI triage | P2 | 未开始 | GitHub checks setup triage | no-checks 状态的 minimal Actions gate 方案明确；不直接启用 CI |
 | U-194 | S24 | package | P2 | 未开始 | Package public surface diff guard | package files / docs / examples release surface guard 明确；不发布 npm |
 | U-195 | S24 | public sync | P2 | 未开始 | Post-merge reconciliation checklist refresh | merge 后 issue/release/branch cleanup checklist 更新；不 merge |
@@ -196,7 +196,8 @@
 | Batch W | U-156 到 U-160 | 已完成；conformance / adapter / resolver / scheduler / observability research 已收束 | route / stable-contracts / validation evidence、docs gate、`validate:all` |
 | Batch X | U-161 到 U-170 | 已完成；post-backlog public state refresh、close-on-merge recognition gap 和 public action approval packet 已收束 | GitHub read-only state review、docs gate、`validate:all` |
 | Batch Y | U-171 到 U-180 | 已完成；negative fixtures、conformance proposal、dependency diagnostics、PR generated artifact audit 已收束 | focused fixture regression、route dependency regression、fixture smoke、GitHub read-only audit、`validate:all` |
-| Batch Z | U-181 到 U-190 | 下一轮推荐；PR public sync 和 release planning，公开写动作按当前授权边界处理 | PR body / issue comment 需要公开写授权，release gate 仍需 `validate:all` / benchmark gate |
+| Batch Z | U-181 到 U-190 | 已完成；PR public sync、ready-for-review、release version decision 和 RC gate rerun 已收束 | PR body close refs recognized、issue comments、release:self-check |
+| Batch AA | U-191 到 U-200 | 下一轮推荐；release notes finalization、PR split/checks/package guard、handoff 和 rediscovery | docs gate、GitHub read-only state review、`validate:all` |
 
 ## 当前非目标
 

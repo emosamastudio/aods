@@ -2,6 +2,86 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-11
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-11 |
+| 开始时间 | 2026-05-12 22:53 Asia/Shanghai |
+| 结束时间 | 2026-05-12 23:06 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-171 到 U-180 复审；PR body close syntax / scope refresh、ready-for-review、`#13/#41/#59/#60` public comments、release version naming、version bump / changelog preparation plan、release candidate gate rerun；不 merge、不创建 tag、不发布 release、不修改 package version |
+| 本轮选中任务 | U-181、U-182、U-183、U-184、U-185、U-186、U-187、U-188、U-189、U-190 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-11
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | PR `#63` body / ready state、issue `#13/#41/#59/#60` comments、release planning docs、operations docs、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、`MEMORY.md` local-only |
+| 禁止触碰 | PR merge、issue close、GitHub release、tag creation、package version bump、npm publish、runtime 实现、conformance runner 实现、scheduler / resolver / telemetry store、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | GitHub public writes 按 owner 授权执行；网络命令使用 `source ~/.zshrc && proxy_on && gh ...` |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 已还原 |
+
+## 上轮质量复审：R-2026-05-12-11
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `e0e62bf` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | 上轮 `validate:all`、`benchmark:test`、focused fixture/route tests、diff hygiene 和 push 记录完整 |
+| AODS validation | 通过 | 本轮复审重新运行 `npm run validate:all`，root / pilot / compiled-pilot 全部通过 |
+| AODS route | 通过 | release / public sync query 命中 stable contracts 和 validation；dependency detail 包含 selected / unselected / missing counts |
+| Focused regression | 通过 | `node --test ... --test-name-pattern "fixture|route dependency"` 39/39 pass |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-181 到 U-190 |
+
+## 任务执行记录：R-2026-05-12-11
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-181 | 未开始 | 已完成 | 重写 PR `#63` body 的 close-on-merge 引用格式 | `gh pr edit 63 --body-file -`；20 个 close refs 被识别 |
+| 2 | U-182 | 未开始 | 已完成 | 刷新 PR summary、validation、release position 和 deferred issue wording | `docs/operations/aods-pr-public-sync-execution.zh-CN.md` |
+| 3 | U-183 | 未开始 | 已完成 | 将 PR `#63` 从 draft 切为 ready for review | `gh pr ready 63`；`isDraft=false` |
+| 4 | U-184 | 未开始 | 已完成 | 在 issue `#13` 评论本地 changelog delta 状态，保持 open | `https://github.com/emosamastudio/aods/issues/13#issuecomment-4431697011` |
+| 5 | U-185 | 未开始 | 已完成 | 在 issue `#41` 评论 capability compatibility / negotiation 边界，保持 open | `https://github.com/emosamastudio/aods/issues/41#issuecomment-4431701392` |
+| 6 | U-186 | 未开始 | 已完成 | 在 issue `#59` 评论 route diagnostics / observability 边界，保持 open | `https://github.com/emosamastudio/aods/issues/59#issuecomment-4431704337` |
+| 7 | U-187 | 未开始 | 已完成 | 在 issue `#60` 评论 post-v0.7 public review state，保持 open | `https://github.com/emosamastudio/aods/issues/60#issuecomment-4431707477` |
+| 8 | U-188 | 未开始 | 已完成 | 选择下一 public release 目标为 `v0.8.0` / package `0.8.0` | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` |
+| 9 | U-189 | 未开始 | 已完成 | 记录 version bump / changelog preparation plan，不改 package version、不创建 tag | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` |
+| 10 | U-190 | 未开始 | 已完成 | public sync 后重跑 release candidate technical gate | `npm run release:self-check` pass；pack `aods-0.7.0.tgz` 55 files |
+
+## 验证记录：R-2026-05-12-11
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致，`MEMORY.md` 未跟踪 |
+| quality review | AODS validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| quality review | Focused fixture / route dependency regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "fixture|route dependency"` | 通过 | 39/39 pass |
+| U-181 - U-183 | PR public state verification | `source ~/.zshrc && proxy_on && gh pr view 63 --json isDraft,closingIssuesReferences,mergeStateStatus,statusCheckRollup,latestReviews,changedFiles` | 通过 | PR ready、merge clean、180 changed files、0 reviews、0 checks、20 close refs recognized |
+| U-184 - U-187 | Issue public comment verification | `gh issue comment ...` output URLs | 通过 | `#13/#41/#59/#60` 均已留言且保持 open |
+| U-188 - U-190 | Release candidate technical gate | `npm run release:self-check` | 通过 | validate / benchmark / pack dry-run pass；package version 仍为 `0.7.0` |
+| U-181 - U-190 | Generated artifact hygiene | `git restore -- benchmarks/aods-eval-lab/generated/... benchmarks/aods-eval-lab/reports/...` | 通过 | release self-check 生成结果 churn 已还原 |
+
+## 新发现任务：R-2026-05-12-11
+
+本轮没有新增任务 ID。下一轮默认选择 U-191 到 U-200；所有 release / merge / close 操作仍需按当前授权边界执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-181 - U-190 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-11
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-181 到 U-190 |
+| 完成任务 | 10 | PR public sync、issue comments、ready-for-review、release naming / RC gate 已完成 |
+| 返工项 | 0 | 上轮成果审查通过，本轮没有返工；本轮生成结果 churn 已还原 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认选择 U-191 到 U-200 |
+
 ## 回合摘要：R-2026-05-12-10
 
 | 项 | 内容 |

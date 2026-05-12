@@ -128,6 +128,8 @@
 | `docs/operations/aods-fixture-conformance-docs-update.zh-CN.md` | U-175 fixture smoke / conformance docs update，区分 smoke、manifest proposal 和 runner 非目标。 |
 | `docs/operations/aods-dependency-diagnostics-plan.zh-CN.md` | U-176 到 U-178 dependency diagnostics plan，记录 route JSON dependency status 扩展和 validator 计划。 |
 | `docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` | U-179 到 U-180 dependency query regression 和 PR generated artifact audit。 |
+| `docs/operations/aods-pr-public-sync-execution.zh-CN.md` | U-181 到 U-187 PR public sync execution，记录 PR body、close refs、issue comments 和 ready-for-review。 |
+| `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` | U-188 到 U-190 release version decision、changelog preparation 和 RC gate rerun。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界
