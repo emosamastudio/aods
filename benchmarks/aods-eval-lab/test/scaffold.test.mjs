@@ -134,12 +134,55 @@ test("route JSON includes machine-readable explanation metadata", () => {
   );
   assert.equal(route.explanation.dependency.source, "manifest.modules[].deps");
   assert.ok(Array.isArray(route.explanation.dependency.edges));
+  assert.equal(route.explanation.dependency.edge_count, route.explanation.dependency.edges.length);
+  assert.equal(
+    route.explanation.dependency.selected_edge_count + route.explanation.dependency.unselected_edge_count + route.explanation.dependency.missing_edge_count,
+    route.explanation.dependency.edge_count
+  );
+  assert.deepEqual(route.explanation.dependency.missing_dependency_ids, []);
   assert.ok(
     route.explanation.dependency.edges.some(
       (edge) =>
         edge.module_id === "spec-stable-surface-contracts" &&
-        edge.dependency_id === "spec-authority-governance"
+        edge.dependency_id === "spec-authority-governance" &&
+        edge.dependency_exists === true &&
+        edge.dependency_status === "selected"
     )
+  );
+  assert.ok(route.explanation.dependency.coverage.unselected >= 1);
+  assert.ok(
+    route.explanation.dependency.edges.some(
+      (edge) =>
+        edge.dependency_status === "unselected" &&
+        edge.dependency_selected === false &&
+        edge.dependency_exists === true
+    )
+  );
+});
+
+test("route dependency query exposes dependency diagnostics", () => {
+  const query = "surface dependency ordering optional dependency scheduler";
+  const output = runCli(["route", ".", "--query", query, "--stage", "plan", "--intent", "read", "--json"]);
+  const route = JSON.parse(output);
+
+  assert.equal(route.strategy, "query-route");
+  assert.deepEqual(
+    route.recommended_modules.map((module) => module.id),
+    ["spec-stable-surface-contracts"]
+  );
+  assert.equal(route.explanation.dependency.edge_count, 2);
+  assert.equal(route.explanation.dependency.selected_edge_count, 0);
+  assert.equal(route.explanation.dependency.unselected_edge_count, 2);
+  assert.equal(route.explanation.dependency.missing_edge_count, 0);
+  assert.deepEqual(route.explanation.dependency.missing_dependency_ids, []);
+  assert.deepEqual(route.explanation.dependency.coverage, {
+    selected: 0,
+    unselected: 2,
+    missing: 0
+  });
+  assert.deepEqual(
+    route.explanation.dependency.edges.map((edge) => edge.dependency_status),
+    ["unselected", "unselected"]
   );
 });
 

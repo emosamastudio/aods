@@ -114,6 +114,11 @@
 | `aods-public-state-refresh-after-backlog-closure.zh-CN.md` | U-162 到 U-166 public state refresh，刷新 repo / PR / issue / release / version 状态 | 高 |
 | `aods-pr-public-action-approval-packet.zh-CN.md` | U-167 到 U-168 PR public action approval packet，审查 PR body stale scope 和公开动作审批边界 | 高 |
 | `aods-next-milestone-options.zh-CN.md` | U-169 到 U-170 next milestone options，定义 public closeout 与本地 conformance / diagnostics next slice | 高 |
+| `aods-negative-fixture-first-slice.zh-CN.md` | U-171 到 U-172 negative fixture first slice，落地 3 个 fixture contract 负例和 focused regression | 高 |
+| `aods-conformance-manifest-report-proposal.zh-CN.md` | U-173 到 U-174 conformance manifest / report proposal，定义 suite / case / report 字段边界 | 高 |
+| `aods-fixture-conformance-docs-update.zh-CN.md` | U-175 fixture smoke / conformance docs update，区分 smoke、manifest proposal 和 runner 非目标 | 高 |
+| `aods-dependency-diagnostics-plan.zh-CN.md` | U-176 到 U-178 dependency diagnostics plan，记录 route JSON dependency status 扩展和 validator 计划 | 高 |
+| `aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` | U-179 到 U-180 dependency query regression 和 PR generated artifact audit | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -232,9 +237,14 @@
 109. 读 `aods-public-state-refresh-after-backlog-closure.zh-CN.md`
 110. 读 `aods-pr-public-action-approval-packet.zh-CN.md`
 111. 读 `aods-next-milestone-options.zh-CN.md`
-112. 读 `aods-v0.7-rc-gate.zh-CN.md`
-113. 读 `aods-handoff.zh-CN.md`
-114. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+112. 读 `aods-negative-fixture-first-slice.zh-CN.md`
+113. 读 `aods-conformance-manifest-report-proposal.zh-CN.md`
+114. 读 `aods-fixture-conformance-docs-update.zh-CN.md`
+115. 读 `aods-dependency-diagnostics-plan.zh-CN.md`
+116. 读 `aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md`
+117. 读 `aods-v0.7-rc-gate.zh-CN.md`
+118. 读 `aods-handoff.zh-CN.md`
+119. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -282,4 +292,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-170 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-180 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

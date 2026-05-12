@@ -14,7 +14,8 @@
 |---|---|---|
 | `explanation.source` | `kind`、`role`、`touch`、`query`、`stage`、`stage_source`、`intent` | 说明本次 route 由哪个输入和策略产生。 |
 | `explanation.reason` | `strategy`、`fallback`、`selected_module_ids`、`matched_touch_routes`、`matched_query_module_ids`、`touched_module`、`touched_surface_pair`、`text` | 让 agent 不解析 prose 也能知道哪些模块被选中以及命中来源。 |
-| `explanation.dependency` | `source`、`mode`、`selected_module_ids`、`dependency_ids`、`selected_dependency_ids`、`unselected_dependency_ids`、`edges` | 暴露 `manifest.modules[].deps` 的依赖边，解释工作集和声明依赖之间的关系。 |
+| `explanation.dependency` | `source`、`mode`、`selected_module_ids`、`edge_count`、`selected_edge_count`、`unselected_edge_count`、`missing_edge_count`、`dependency_ids`、`selected_dependency_ids`、`unselected_dependency_ids`、`missing_dependency_ids`、`coverage`、`edges` | 暴露 `manifest.modules[].deps` 的依赖边，解释工作集和声明依赖之间的关系。 |
+| `explanation.dependency.edges[]` | `module_id`、`dependency_id`、`dependency_selected`、`dependency_exists`、`dependency_status` | 逐条说明 declared dependency 是否存在，以及状态是 `selected`、`unselected` 还是 `missing`。 |
 
 ## 验收证据
 

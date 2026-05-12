@@ -15,6 +15,11 @@ const FIXTURE_MANIFEST_PATH = path.join(
   "fixtures",
   "fixture-manifest.json"
 );
+const NEGATIVE_FIXTURE_RULES = new Set([
+  "fixture-golden-path",
+  "fixture-positive-rules",
+  "fixture-negative-rules"
+]);
 
 test("compiled-pilot source declares a conventional fixture and golden export", () => {
   const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
@@ -40,8 +45,25 @@ test("compiled-pilot source declares a conventional fixture and golden export", 
   assert.ok(fs.existsSync(path.resolve(manifestDir, goldenExport.path)));
 });
 
+test("compiled-pilot source declares first-slice negative fixture contracts", () => {
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const manifestDir = path.dirname(FIXTURE_MANIFEST_PATH);
+  const negativeFixtures = fixtureManifest.fixtures.filter((fixture) => fixture.kind === "negative");
+
+  assert.equal(negativeFixtures.length, 3);
+  for (const fixture of negativeFixtures) {
+    assert.equal(fixture.input.kind, "fixture-manifest");
+    assert.equal(fixture.expected_status, "fail");
+    assert.equal(fixture.expected_rules.length, 1);
+    assert.ok(NEGATIVE_FIXTURE_RULES.has(fixture.expected_rules[0]));
+    assert.ok(fs.existsSync(path.resolve(manifestDir, fixture.input.path)));
+  }
+});
+
 test("fixture smoke command reports declared fixture and golden export coverage as JSON", () => {
   const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const positiveFixtures = fixtureManifest.fixtures.filter((fixture) => fixture.kind === "positive");
+  const negativeFixtures = fixtureManifest.fixtures.filter((fixture) => fixture.kind === "negative");
   const result = spawnSync(
     "node",
     [CLI_PATH, "fixture", "smoke", FIXTURE_MANIFEST_PATH, "--json"],
@@ -56,9 +78,44 @@ test("fixture smoke command reports declared fixture and golden export coverage 
   assert.equal(report.accepted, true);
   assert.equal(report.manifest.path, FIXTURE_MANIFEST_PATH);
   assert.equal(report.summary.fixtures, fixtureManifest.fixtures.length);
-  assert.equal(report.summary.expected_status.pass, fixtureManifest.fixtures.length);
-  assert.ok(report.summary.golden_exports > 0);
+  assert.equal(report.summary.kind.positive, 9);
+  assert.equal(report.summary.kind.negative, 3);
+  assert.equal(report.summary.expected_status.pass, positiveFixtures.length);
+  assert.equal(report.summary.expected_status.fail, negativeFixtures.length);
+  assert.equal(report.summary.expected_status.warn, 0);
+  assert.equal(report.summary.expected_rules, 3);
+  assert.equal(report.summary.golden_exports, 9);
   assert.deepEqual(report.issues, []);
+});
+
+test("negative fixture contract inputs fail with expected smoke rules", () => {
+  const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
+  const manifestDir = path.dirname(FIXTURE_MANIFEST_PATH);
+  const negativeFixtures = fixtureManifest.fixtures.filter((fixture) => fixture.kind === "negative");
+
+  for (const fixture of negativeFixtures) {
+    const result = spawnSync(
+      "node",
+      [CLI_PATH, "fixture", "smoke", path.resolve(manifestDir, fixture.input.path), "--json"],
+      { cwd: REPO_ROOT, encoding: "utf8" }
+    );
+
+    assert.notEqual(result.status, 0, `${fixture.id} unexpectedly passed`);
+    const report = JSON.parse(result.stdout);
+    assert.equal(report.action, "fixture smoke");
+    assert.equal(report.status, "fail");
+    assert.equal(report.accepted, false);
+    assert.deepEqual(
+      [...new Set(report.issues.map((issue) => issue.rule))].sort(),
+      [...fixture.expected_rules].sort()
+    );
+    for (const expectedRule of fixture.expected_rules) {
+      assert.ok(
+        report.issues.some((issue) => issue.rule === expectedRule),
+        `${fixture.id} did not report ${expectedRule}`
+      );
+    }
+  }
 });
 
 test("fixture smoke command rejects invalid expected outcome contracts", (t) => {

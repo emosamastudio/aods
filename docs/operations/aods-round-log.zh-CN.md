@@ -2,6 +2,86 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-10
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-10 |
+| 开始时间 | 2026-05-12 22:09 Asia/Shanghai |
+| 结束时间 | 2026-05-12 22:34 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-161 到 U-170 复审；negative fixture first-slice selection / implementation、conformance manifest/report proposal、fixture smoke / conformance docs update、route dependency diagnostics design、validator dependency diagnostics plan、route dependency explanation expansion、dependency query regression、PR generated artifact acceptance audit；不实现完整 runner、不执行公开写操作 |
+| 本轮选中任务 | U-171、U-172、U-173、U-174、U-175、U-176、U-177、U-178、U-179、U-180 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-10
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/route.mjs`、fixture manifest / negative fixture inputs、focused regression、README fixture wording、operations docs、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、`MEMORY.md` local-only |
+| 禁止触碰 | 完整 conformance runner、arbitrary command executor、benchmark generated result churn、PR body update、PR ready/merge、issue comment/close、release、version bump、runtime 实现、dependency scheduler、graph DB、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | GitHub 只读查询；首次超时后按 AGENTS 经验使用 `proxy_on` 重试 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 已还原 |
+
+## 上轮质量复审：R-2026-05-12-10
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `1e26c00` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | 上轮 `validate:all`、`benchmark:test`、diff hygiene 和 push 记录完整 |
+| AODS validation | 通过 | 本轮复审重新运行 `npm run validate:all`，root / pilot / compiled-pilot 全部通过 |
+| AODS route | 通过 | conformance / dependency diagnostics query 命中 stable contracts、boot protocol 和 validation |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-171 到 U-180 |
+
+## 任务执行记录：R-2026-05-12-10
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-171 | 未开始 | 已完成 | 选择 3 个 first-slice negative fixture contract cases | `docs/operations/aods-negative-fixture-first-slice.zh-CN.md` |
+| 2 | U-172 | 未开始 | 已完成 | 落地 negative fixture manifests，并补 focused regression 验证 expected rule failures | `examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot-source/fixtures/negative/fixture-contract/`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` |
+| 3 | U-173 | 未开始 | 已完成 | 制定 conformance manifest v0 proposal | `docs/operations/aods-conformance-manifest-report-proposal.zh-CN.md` |
+| 4 | U-174 | 未开始 | 已完成 | 制定 conformance report schema proposal | `docs/operations/aods-conformance-manifest-report-proposal.zh-CN.md` |
+| 5 | U-175 | 未开始 | 已完成 | 更新 fixture smoke / conformance docs 边界 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-fixture-conformance-docs-update.zh-CN.md` |
+| 6 | U-176 | 未开始 | 已完成 | 设计 route dependency diagnostics 字段和非目标 | `docs/operations/aods-dependency-diagnostics-plan.zh-CN.md` |
+| 7 | U-177 | 未开始 | 已完成 | 记录 validator dependency diagnostics 后续实现计划 | `docs/operations/aods-dependency-diagnostics-plan.zh-CN.md` |
+| 8 | U-178 | 未开始 | 已完成 | 扩展 route JSON dependency explanation 并补 regression | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-route-json-explanation.zh-CN.md` |
+| 9 | U-179 | 未开始 | 已完成 | 增加 dependency-ordering route query regression | `benchmarks/aods-eval-lab/test/scaffold.test.mjs` |
+| 10 | U-180 | 未开始 | 已完成 | 只读审查 PR generated artifact 接受/还原策略 | `docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-10
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog`、`npm run validate:all` | 通过 | 上轮成果可接续；`MEMORY.md` 未跟踪 |
+| U-171 - U-172 | Fixture focused regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 6/6 pass；3 个 negative inputs 均按 expected rule 失败 |
+| U-171 - U-172 | Fixture smoke JSON | `npm run fixture:smoke -- --json` | 通过 | fixtures=12、positive=9、negative=3、expected_rules=3、golden_exports=9 |
+| U-178 - U-179 | Route dependency regression | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "route"` | 通过 | 33/33 pass；覆盖 dependency status / counts / coverage |
+| U-180 | GitHub read-only PR audit | `source ~/.zshrc && proxy_on && gh pr view 63 --json ...` | 通过 | PR `#63` open draft、merge clean、0 reviews、0 checks、171 changed files |
+| U-171 - U-180 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-171 - U-180 | Benchmark test gate | `npm run benchmark:test` | 通过 | 85/85 pass；生成结果 churn 已还原 |
+| U-171 - U-180 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-10
+
+本轮没有新增任务 ID。下一轮默认选择 U-181 到 U-190；其中 U-181 到 U-187 涉及公开写操作，必须按当前授权边界执行。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-171 - U-180 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-10
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-171 到 U-180 |
+| 完成任务 | 10 | negative fixtures、conformance proposal、dependency diagnostics、PR generated artifact audit 已完成 |
+| 返工项 | 0 | 上轮成果审查通过，本轮没有返工；本轮生成结果 churn 已还原 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认选择 U-181 到 U-190 |
+
 ## 回合摘要：R-2026-05-12-09
 
 | 项 | 内容 |

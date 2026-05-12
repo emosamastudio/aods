@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S21 public state closure |
-| 当前回合 | R-2026-05-12-09 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 175 |
+| 当前阶段 | S22 conformance / diagnostics next slice |
+| 当前回合 | R-2026-05-12-10 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 185 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-09 |
-| 开始时间 | 2026-05-12 21:22 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-10 |
+| 开始时间 | 2026-05-12 22:09 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-161、U-162、U-163、U-164、U-165、U-166、U-167、U-168、U-169、U-170 |
-| 本轮范围 | 上轮 U-156 到 U-160 复审；post-backlog task pool expansion、public repository state refresh、PR branch/check/close-on-merge recognition audit、open issue coverage matrix、release/version no-go refresh、PR body stale scope audit、public action approval packet、next milestone options、roadmap/changelog public follow-up plan |
-| 排除范围 | 公开写操作、PR body update、PR ready/merge、issue comment/close、release、version bump、runtime 实现、conformance runner、adapter negotiation runtime、cross-corpus resolver、dependency scheduler、telemetry store、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；route query evidence；GitHub read-only state review；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
+| 选中任务 | U-171、U-172、U-173、U-174、U-175、U-176、U-177、U-178、U-179、U-180 |
+| 本轮范围 | 上轮 U-161 到 U-170 复审；negative fixture first-slice selection / implementation、conformance manifest/report proposal、fixture smoke / conformance docs update、route dependency diagnostics design、validator dependency diagnostics plan、route dependency explanation expansion、dependency query regression、PR generated artifact acceptance audit |
+| 排除范围 | 完整 conformance runner、arbitrary command executor、benchmark generated result churn、PR body update、PR ready/merge、issue comment/close、release、version bump、runtime 实现、dependency scheduler、graph DB、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；focused fixture regression；fixture smoke JSON；route dependency query regression；GitHub generated artifact read-only audit；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和非预期 generated churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-171 | S22 | Negative fixture first-slice selection | P1 | 未开始 | 选择首批 high-value negative fixtures、rule families 和 source-first 文件范围 | U-156、U-161 | 本地可执行 |
-| U-172 | S22 | Negative fixture implementation first slice | P1 | 未开始 | 首批 negative fixtures 落地并由 focused regression / fixture smoke 覆盖 | U-171 | 不扩全量 |
-| U-173 | S22 | Conformance manifest v0 proposal | P2 | 未开始 | conformance suite / case / expected outcome manifest proposal 明确 | U-156 | 不实现 runner |
-| U-174 | S22 | Conformance report schema proposal | P2 | 未开始 | pass/fail/warn/skip/xfail、rule coverage、fixture coverage report fields 明确 | U-173 | 不建 dashboard |
-| U-175 | S22 | Fixture smoke to conformance docs update | P2 | 未开始 | public docs 区分 fixture smoke、conformance manifest、runner 非目标 | U-173、U-174 | 不改 CLI |
-| U-176 | S22 | Route dependency diagnostics design | P2 | 未开始 | `explanation.dependency` 后续扩展设计和非目标明确 | U-159 | 不改 ranking |
-| U-177 | S22 | Validator dependency diagnostics implementation plan | P2 | 未开始 | missing target / cycle / optional fallback diagnostics plan 明确 | U-159 | 不实现 scheduler |
-| U-178 | S22 | Route dependency explanation expansion implementation | P2 | 未开始 | 若 U-176 通过，最小 route JSON dependency detail 落地并测试 | U-176 | 不建 graph DB |
-| U-179 | S22 | Dependency query benchmark scenario | P3 | 未开始 | dependency-ordering query scenario 覆盖 route benchmark | U-176 | 不引外部依赖 |
-| U-180 | S22 | PR generated artifact acceptance audit | P2 | 未开始 | PR `#63` 中 generated artifacts 的接受 / 还原策略明确 | U-162、U-163 | 不默认提交 churn |
 | U-181 | S23 | PR body close syntax update | P1 | 未开始 | PR `#63` body 每个 intended-close issue 被 GitHub 识别 | U-164、U-168 | 公开写操作，需授权 |
 | U-182 | S23 | PR body scope and validation refresh | P1 | 未开始 | PR `#63` summary / validation / release position 覆盖 U-160 后状态 | U-167、U-181 | 公开写操作，需授权 |
 | U-183 | S23 | PR ready-for-review decision execution | P1 | 未开始 | body 修复、validation 通过后执行或记录 ready/no-go | U-181、U-182 | 公开写操作，需授权 |
@@ -242,6 +232,16 @@
 | 173 | U-168 | S21 | Public action approval packet | P1 | 2026-05-12 | `docs/operations/aods-pr-public-action-approval-packet.zh-CN.md` | public write target matrix | 后续 PR body update、issue comments、ready-for-review 需要明确授权 |
 | 174 | U-169 | S21 | Next milestone options after task pool closure | P2 | 2026-05-12 | `docs/operations/aods-next-milestone-options.zh-CN.md` | local/public route comparison | 下一阶段分为 public closeout 和本地 conformance / diagnostics next slice |
 | 175 | U-170 | S21 | Roadmap / changelog public follow-up plan | P2 | 2026-05-12 | `docs/operations/aods-next-milestone-options.zh-CN.md` | issue `#60/#13/#41/#59` posture review | deferred public follow-up 目标和本地证据已明确 |
+| 176 | U-171 | S22 | Negative fixture first-slice selection | P1 | 2026-05-12 | `docs/operations/aods-negative-fixture-first-slice.zh-CN.md` | U-114 plan review；fixture manifest contract review | 首批 3 个 fixture contract negative cases 已选定：missing golden path、positive expected rules、negative without rules |
+| 177 | U-172 | S22 | Negative fixture implementation first slice | P1 | 2026-05-12 | `examples/compiled-pilot-source/fixtures/fixture-manifest.json`、`examples/compiled-pilot-source/fixtures/negative/fixture-contract/*.json`、`benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs`；`npm run fixture:smoke -- --json` | fixture manifest 现在 12 fixtures：9 positive、3 negative、9 golden exports；每个 negative input 都按 expected rule 失败 |
+| 178 | U-173 | S22 | Conformance manifest v0 proposal | P2 | 2026-05-12 | `docs/operations/aods-conformance-manifest-report-proposal.zh-CN.md` | U-156 plan review；fixture smoke output contract review | conformance suite / case / expected outcome manifest proposal 已明确；不实现 runner |
+| 179 | U-174 | S22 | Conformance report schema proposal | P2 | 2026-05-12 | `docs/operations/aods-conformance-manifest-report-proposal.zh-CN.md` | U-173 proposal review | pass/fail/warn/skip/xfail、rule coverage、fixture coverage report fields 已明确；不建 dashboard |
+| 180 | U-175 | S22 | Fixture smoke to conformance docs update | P2 | 2026-05-12 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-fixture-conformance-docs-update.zh-CN.md`、operations docs | docs diff review；fixture smoke contract review | public docs 区分 fixture smoke、conformance manifest proposal、runner 非目标；不改 CLI |
+| 181 | U-176 | S22 | Route dependency diagnostics design | P2 | 2026-05-12 | `docs/operations/aods-dependency-diagnostics-plan.zh-CN.md` | U-159 scheduler research review；route JSON sample | `explanation.dependency` 后续扩展设计和非目标已明确；不改 ranking |
+| 182 | U-177 | S22 | Validator dependency diagnostics implementation plan | P2 | 2026-05-12 | `docs/operations/aods-dependency-diagnostics-plan.zh-CN.md` | validation dependency gate review | missing target / cycle / optional fallback diagnostics plan 已明确；不实现 scheduler |
+| 183 | U-178 | S22 | Route dependency explanation expansion implementation | P2 | 2026-05-12 | `lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-route-json-explanation.zh-CN.md` | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "route"` | route JSON dependency detail 增加 edge counts、coverage、dependency_exists、dependency_status；不建 graph DB |
+| 184 | U-179 | S22 | Dependency query benchmark scenario | P3 | 2026-05-12 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` | route dependency query focused regression | dependency-ordering route scenario 已覆盖；不引外部依赖 |
+| 185 | U-180 | S22 | PR generated artifact acceptance audit | P2 | 2026-05-12 | `docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md`、GitHub PR `#63` read-only snapshot | `source ~/.zshrc && proxy_on && gh pr view 63 --json ...` | PR `#63` open draft、merge clean、0 reviews、0 checks、171 changed files；generated schema mirror 可接受，benchmark result/report churn 默认 ready 前复审/还原 |
 
 ## 失败或阻塞任务
 
@@ -334,3 +334,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-146` 到 `U-155` 完成 | 本轮完成 risk taxonomy coverage、audit metadata completeness、policy decision / receipt / approval labels、local-only export safety 和五类 runtime PoC decision gates；不建 workflow/event/policy/remote/migration runtime。下一轮应选择 U-156 到 U-160。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-156` 到 `U-160` 完成 | 本轮完成 conformance runner plan、adapter negotiation protocol plan、cross-corpus authority resolver research、dependency scheduler research 和 telemetry / observability store research；当前任务池无未完成任务。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-161` 到 `U-170` 完成 | 本轮完成 post-backlog 任务池扩展、公开仓库/PR/issue/release 状态刷新、PR close-on-merge recognition gap audit、public action approval packet 和下一里程碑选择；下一轮默认选择 U-171 到 U-180。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-171` 到 `U-180` 完成 | 本轮完成首批 negative fixtures、conformance manifest/report proposal、fixture/conformance docs、route dependency diagnostics 扩展、dependency query regression 和 PR generated artifact audit；下一轮默认选择 U-181 到 U-190。 |

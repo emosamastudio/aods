@@ -430,7 +430,7 @@ npm run fixture:smoke
 node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json
 ```
 
-The smoke command checks fixture manifest outcome fields and declared input/golden paths. It does not execute golden update commands or act as a full conformance runner.
+The smoke command checks fixture manifest outcome fields and declared input/golden paths. The source-first pilot also declares a first slice of negative fixture manifests for missing golden paths and invalid expected-rule contracts. Smoke still does not execute golden update commands or act as a full conformance runner.
 
 Direct CLI usage:
 

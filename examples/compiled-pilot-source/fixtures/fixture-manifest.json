@@ -190,6 +190,42 @@
           "review_gate": "manual-diff"
         }
       ]
+    },
+    {
+      "id": "negative-fixture-missing-golden-path",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/missing-golden-path.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-golden-path"
+      ]
+    },
+    {
+      "id": "negative-fixture-positive-with-expected-rules",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/positive-with-expected-rules.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-positive-rules"
+      ]
+    },
+    {
+      "id": "negative-fixture-negative-without-expected-rules",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/negative-without-expected-rules.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-negative-rules"
+      ]
     }
   ]
 }

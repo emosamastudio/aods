@@ -123,6 +123,11 @@
 | `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` | U-162 到 U-166 public state refresh，刷新 repo、PR、issue、release/version 状态。 |
 | `docs/operations/aods-pr-public-action-approval-packet.zh-CN.md` | U-167 到 U-168 PR public action approval packet，记录 PR body stale scope、close syntax gap 和公开动作审批包。 |
 | `docs/operations/aods-next-milestone-options.zh-CN.md` | U-169 到 U-170 next milestone options，定义 public closeout 与本地 conformance / diagnostics next slice。 |
+| `docs/operations/aods-negative-fixture-first-slice.zh-CN.md` | U-171 到 U-172 negative fixture first slice，落地 3 个 fixture contract 负例并补 focused regression。 |
+| `docs/operations/aods-conformance-manifest-report-proposal.zh-CN.md` | U-173 到 U-174 conformance manifest / report proposal，定义 suite / case / report 字段边界。 |
+| `docs/operations/aods-fixture-conformance-docs-update.zh-CN.md` | U-175 fixture smoke / conformance docs update，区分 smoke、manifest proposal 和 runner 非目标。 |
+| `docs/operations/aods-dependency-diagnostics-plan.zh-CN.md` | U-176 到 U-178 dependency diagnostics plan，记录 route JSON dependency status 扩展和 validator 计划。 |
+| `docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` | U-179 到 U-180 dependency query regression 和 PR generated artifact audit。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界
@@ -141,4 +146,4 @@
 | Surface-family packs | `examples/compiled-pilot/modules/shift-ops-*.json` | read-model、command、event、adapter、artifact/export、resource 六类 canonical packs。 |
 | Glossary registry | `examples/compiled-pilot/indexes/runtime.json` | canonical term、alias、deprecated term、owner 和 linked surfaces 示例。 |
 | External citation | `examples/compiled-pilot/modules/shift-ops-governance.json` | external citation registry、citation refs、decision provenance 与 unsupported assumption 示例。 |
-| Fixture smoke | `examples/compiled-pilot-source/fixtures/fixture-manifest.json` | 可用 `npm run fixture:smoke` 冒烟检查 expected outcome 与 input / golden path。 |
+| Fixture smoke | `examples/compiled-pilot-source/fixtures/fixture-manifest.json` | 可用 `npm run fixture:smoke` 冒烟检查 expected outcome 与 input / golden path；当前包含 9 个 positive 和 3 个 first-slice negative fixture 声明。 |

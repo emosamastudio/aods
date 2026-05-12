@@ -428,7 +428,7 @@ npm run fixture:smoke
 node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json
 ```
 
-这个 smoke command 只检查 fixture manifest 的 outcome 字段和声明的 input / golden path。它不执行 golden update command，也不是完整 conformance runner。
+这个 smoke command 只检查 fixture manifest 的 outcome 字段和声明的 input / golden path。source-first pilot 现在也声明了首批 negative fixture manifests，用来覆盖缺失 golden path 和 expected-rule contract 错误。它仍不执行 golden update command，也不是完整 conformance runner。
 
 直接使用 CLI：
 

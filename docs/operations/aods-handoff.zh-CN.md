@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-170 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure 和 post-backlog public state refresh。U-161 到 U-170 已把任务池扩展到 U-200，并发现 PR `#63` 仍为 open draft、merge clean、无 checks/reviews、167 changed files；PR body intended close 20 issues，但 GitHub 只识别 `#33` 为 close-on-merge。latest release 和 package version 仍为 `0.7.0`，当前不 merge、不 release、不 bump version。下一轮默认选择 U-171 到 U-180：negative fixtures、conformance proposal、dependency diagnostics 和 PR generated artifact audit。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-180 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal 和 dependency diagnostics。PR `#63` 仍为 open draft、merge clean、无 checks/reviews、171 changed files；PR body intended close 20 issues，但 GitHub 只识别 `#33` 为 close-on-merge。latest release 和 package version 仍为 `0.7.0`，当前不 merge、不 release、不 bump version。下一轮默认选择 U-181 到 U-190：PR body close syntax / stale scope 修复、ready decision 和 release planning；公开写动作仍按当前授权边界执行。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -122,9 +122,14 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-170 已连续完
 | 107 | `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` | 读取 U-162 到 U-166 public state refresh |
 | 108 | `docs/operations/aods-pr-public-action-approval-packet.zh-CN.md` | 读取 U-167 到 U-168 public action approval packet |
 | 109 | `docs/operations/aods-next-milestone-options.zh-CN.md` | 读取 U-169 到 U-170 next milestone options |
-| 110 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 111 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 112 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 110 | `docs/operations/aods-negative-fixture-first-slice.zh-CN.md` | 读取 U-171 到 U-172 negative fixture first slice |
+| 111 | `docs/operations/aods-conformance-manifest-report-proposal.zh-CN.md` | 读取 U-173 到 U-174 conformance manifest / report proposal |
+| 112 | `docs/operations/aods-fixture-conformance-docs-update.zh-CN.md` | 读取 U-175 fixture / conformance docs update |
+| 113 | `docs/operations/aods-dependency-diagnostics-plan.zh-CN.md` | 读取 U-176 到 U-178 dependency diagnostics plan |
+| 114 | `docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` | 读取 U-179 到 U-180 dependency query / generated artifact audit |
+| 115 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 116 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 117 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -312,21 +317,31 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-170 已连续完
 | U-168 | Public action approval packet | PR body update、issue comments、ready-for-review 的公开写边界已明确 |
 | U-169 | Next milestone options after task pool closure | 下一阶段分为 public closeout 和本地 conformance / diagnostics next slice |
 | U-170 | Roadmap / changelog public follow-up plan | `#60/#13/#41/#59` 的后续公开同步目标和本地证据已明确 |
+| U-171 | Negative fixture first-slice selection | 首批 3 个 fixture contract negative cases 已选定 |
+| U-172 | Negative fixture implementation first slice | fixture manifest 现在 12 fixtures：9 positive、3 negative、9 golden exports；negative inputs 有 focused regression |
+| U-173 | Conformance manifest v0 proposal | suite / case / expected outcome manifest proposal 已明确；不实现 runner |
+| U-174 | Conformance report schema proposal | pass/fail/warn/skip/xfail、rule coverage、fixture coverage report fields 已明确；不建 dashboard |
+| U-175 | Fixture smoke to conformance docs update | public docs 已区分 fixture smoke、conformance manifest proposal 和 runner 非目标 |
+| U-176 | Route dependency diagnostics design | route dependency edge status / count / coverage 字段设计已明确 |
+| U-177 | Validator dependency diagnostics implementation plan | missing target / cycle / optional fallback diagnostics plan 已明确；不实现 scheduler |
+| U-178 | Route dependency explanation expansion implementation | `route --json` dependency detail 已增加 edge counts、coverage、dependency_exists、dependency_status |
+| U-179 | Dependency query benchmark scenario | dependency-ordering route scenario 已由 focused regression 覆盖 |
+| U-180 | PR generated artifact acceptance audit | PR generated schema mirror 可接受；benchmark result/report churn 默认 ready 前复审或还原 |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-171 | Negative fixture first-slice selection | 下一轮默认第 1 个；本地可执行 |
-| 2 | U-172 | Negative fixture implementation first slice | 下一轮默认第 2 个；不扩全量 |
-| 3 | U-173 | Conformance manifest v0 proposal | 下一轮默认第 3 个；不实现 runner |
-| 4 | U-174 | Conformance report schema proposal | 下一轮默认第 4 个；不建 dashboard |
-| 5 | U-175 | Fixture smoke to conformance docs update | 下一轮默认第 5 个；不改 CLI |
-| 6 | U-176 | Route dependency diagnostics design | 下一轮默认第 6 个；不改 ranking |
-| 7 | U-177 | Validator dependency diagnostics implementation plan | 下一轮默认第 7 个；不实现 scheduler |
-| 8 | U-178 | Route dependency explanation expansion implementation | 下一轮默认第 8 个；不建 graph DB |
-| 9 | U-179 | Dependency query benchmark scenario | 下一轮默认第 9 个；不引外部依赖 |
-| 10 | U-180 | PR generated artifact acceptance audit | 下一轮默认第 10 个；不默认提交 churn |
+| 1 | U-181 | PR body close syntax update | 下一轮默认第 1 个；公开写操作 |
+| 2 | U-182 | PR body scope and validation refresh | 下一轮默认第 2 个；公开写操作 |
+| 3 | U-183 | PR ready-for-review decision execution | 下一轮默认第 3 个；不 merge |
+| 4 | U-184 | Public comment for changelog delta issue | 下一轮默认第 4 个；公开写操作 |
+| 5 | U-185 | Public comment for capability negotiation issue | 下一轮默认第 5 个；公开写操作 |
+| 6 | U-186 | Public comment for observability issue | 下一轮默认第 6 个；公开写操作 |
+| 7 | U-187 | Public comment for roadmap issue | 下一轮默认第 7 个；公开写操作 |
+| 8 | U-188 | Release version naming decision | 下一轮默认第 8 个；不发布 release |
+| 9 | U-189 | Version bump and changelog preparation | 下一轮默认第 9 个；不创建 tag |
+| 10 | U-190 | Release candidate gate rerun after public sync | 下一轮默认第 10 个；不发布 release |
 
 ## 失败和风险
 
@@ -381,6 +396,8 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-170 已连续完
 | PR close syntax recognition gap | PR body 写了 20 个 intended close targets，但 GitHub 当前只识别 `#33` | 后续 U-181/U-182 必须修复 PR body 后再 ready / merge |
 | PR scope stale 风险 | PR body 仍偏向 v0.11 release readiness，但分支已推进到 U-160 后状态 | 后续更新 summary、validation、release position 和 deferred issue wording |
 | no-checks public review risk | PR `#63` 当前没有 GitHub checks reported | 本地 gates 继续入账；U-193 评估是否需要 minimal Actions gate |
+| generated artifact acceptance 风险 | PR `#63` 包含 generated schema mirror 和 benchmark generated result/report 文件 | schema mirror 可随源 schema 变更接受；benchmark result/report churn 在 ready 前必须复审，非预期则还原 |
+| negative fixture 过度扩散风险 | 首批 negative fixtures 只覆盖 fixture manifest contract，不代表完整 conformance coverage | 后续增加负例仍按小批量、focused regression 和 fixture smoke 逐步推进 |
 | route discoverability 残留风险 | `aods route --help` 曾返回 unknown arg | U-076 已修复；后续如扩 CLI discoverability，仍不得改变 route ranking |
 | fixture smoke 扩散风险 | fixture manifest smoke runner 容易被误读成完整 conformance runner 或 golden updater | U-080 只检查 manifest outcome 字段和声明路径；不得执行 update command、remote fetch 或自动接受 golden diff |
 | adoption docs 过度承诺风险 | source-first example packs 容易被读成完整 runtime coverage | U-081 明确这些是采用示例，不代表 command executor、event store、adapter runtime、resource scheduler、crawler 或 fact checker 已实现 |

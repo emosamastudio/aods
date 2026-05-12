@@ -33,6 +33,8 @@ node ./bin/aods.mjs route ./examples/compiled-pilot --query "release readiness e
 
 Run `npm run validate:all` before treating changes as repository-ready. If a change updates example semantics, review the generated diff in `examples/compiled-pilot/` and the fixture manifest together.
 
+The fixture manifest includes conventional positive examples plus a first slice of negative fixture-manifest inputs. The smoke step checks those declarations and paths; it does not execute update commands or replace a full conformance runner.
+
 These packs are adoption examples. They are not a command executor, event store, adapter runtime, resource scheduler, crawler, or fact checker.
 
 ## What this pilot demonstrates
