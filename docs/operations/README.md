@@ -132,6 +132,7 @@
 | `aods-package-terminology-drift-hardening.zh-CN.md` | U-251 到 U-260 package / terminology drift hardening，记录 packed conformance smoke follow-up、CI triage、post-merge reconciliation、owner go/no-go refresh、external conformance example 和 lifecycle alias terminology drift 边界 | 高 |
 | `aods-conformance-release-readiness-closeout.zh-CN.md` | U-261 到 U-270 conformance expansion / release execution readiness closeout，记录 no-fetch / adapter conformance design、observability no-go、package/generated guard audits、skill publish plan、release dry-run，以及 post-merge/post-release 阻塞项 | 高 |
 | `aods-v0.8-release-closeout.zh-CN.md` | v0.8 release closeout，记录 PR merge、issue close verification、GitHub Release、post-release retrospective 和 next milestone candidates | 高 |
+| `aods-post-v0.8-next-task-discovery.zh-CN.md` | U-271 到 U-280 post-v0.8 next task discovery，记录 `#13` close、`#60` refresh、`#59/#41` coverage audit 和 U-281 到 U-330 新任务池 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -266,9 +267,10 @@
 125. 读 `aods-package-terminology-drift-hardening.zh-CN.md`
 126. 读 `aods-conformance-release-readiness-closeout.zh-CN.md`
 127. 读 `aods-v0.8-release-closeout.zh-CN.md`
-128. 读 `aods-v0.7-rc-gate.zh-CN.md`
-129. 读 `aods-handoff.zh-CN.md`
-130. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+128. 读 `aods-post-v0.8-next-task-discovery.zh-CN.md`
+129. 读 `aods-v0.7-rc-gate.zh-CN.md`
+130. 读 `aods-handoff.zh-CN.md`
+131. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 

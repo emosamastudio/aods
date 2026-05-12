@@ -8,31 +8,80 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | v0.8 released; next milestone planning ready |
+| 状态 | post-v0.8 next milestone planning |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S31 conformance expansion / release execution closeout |
-| 当前回合 | R-2026-05-13-08 |
-| 未完成任务数量 | 0 |
-| 已完成任务数量 | 275 |
+| 当前阶段 | S32 post-v0.8 public backlog and observability planning |
+| 当前回合 | R-2026-05-13-09 |
+| 未完成任务数量 | 50 |
+| 已完成任务数量 | 285 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-08 |
-| 开始时间 | 2026-05-13 04:45 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-09 |
+| 开始时间 | 2026-05-13 05:35 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-267、U-269、U-270 |
-| 本轮范围 | 上轮质量复审；PR `#63` merge 后 issue close verification；package / README / skill version surface bump to `0.8.0` / `v0.8.0`；GitHub Release `v0.8.0` publication；post-release retrospective；next milestone candidate planning |
-| 排除范围 | npm publish、CI workflow enablement、external fetch、arbitrary command executor、adapter handshake、telemetry store、runtime 启动、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；GitHub PR / issue / release snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-271、U-272、U-273、U-274、U-275、U-276、U-277、U-278、U-279、U-280 |
+| 本轮范围 | 上轮质量复审；post-v0.8 open issue snapshot；`#13` changelog close execution；`#60` roadmap public status refresh；`#59/#41` current coverage audit；新增 U-281 到 U-330 任务池 |
+| 排除范围 | runtime implementation、adapter handshake、telemetry store、CI workflow enablement、npm publish、external fetch、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；GitHub open issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| 无 | - | - | - | - | 当前任务池清空；下一轮先从 open issues `#13/#41/#59/#60` 和 release closeout 记录发现新任务 | - | `MEMORY.md` 仍不进仓库 |
+| U-281 | S32 | Validator source-location audit | P1 | 未开始 | 列出当前 validation issue 是否含 file/json pointer/sid/module 信息，以及缺口 | U-277 | 下一轮默认首选 |
+| U-282 | S32 | Validator issue location minimal schema | P1 | 未开始 | 设计 `location` / `json_pointer` / `source_path` 输出边界 | U-281 | 不改 runtime |
+| U-283 | S32 | Validator location regression plan | P1 | 未开始 | 规划 positive / negative fixture，不改 runtime | U-282 | focused plan |
+| U-284 | S32 | Validator suggested-action coverage audit | P1 | 未开始 | 统计哪些 rule 已有 remediation，哪些只有 prose message | U-277 | #59 |
+| U-285 | S32 | Validator suggested-action next slice | P1 | 未开始 | 选择 3 个高价值 rule 补 remediation 的最小实现路线 | U-284 | 不启动 dashboard |
+| U-286 | S32 | Route skipped-module semantics audit | P2 | 未开始 | 判断 `route --json` 是否需要 skipped modules，而不是默认输出全量未选模块 | U-276 | #59 |
+| U-287 | S32 | Route skipped-module boundary design | P2 | 未开始 | 设计 no-dashboard / no-ranking-change 的 skipped explanation | U-286 | 不改 ranking |
+| U-288 | S32 | Route explanation docs refresh | P2 | 未开始 | 把 current explanation shape 写成 public README 或 docs snippet | U-276 | docs |
+| U-289 | S32 | Observability example output pack | P2 | 未开始 | 增加 validate / route JSON sample 文档，不改变 CLI | U-281 | docs |
+| U-290 | S32 | `#59` public status refresh | P2 | 未开始 | 在 issue 上同步当前已覆盖与剩余切片 | U-281,U-284,U-286 | GitHub comment |
+| U-291 | S33 | Capability unsupported-feature audit | P1 | 未开始 | 审查现有 metadata 是否能表达 unsupported / partial / unknown | U-279 | #41 |
+| U-292 | S33 | Capability fallback semantics boundary | P1 | 未开始 | 设计 fallback metadata，不做 fallback execution | U-291 | metadata-only |
+| U-293 | S33 | Capability protocol surface sketch | P1 | 未开始 | 定义 future provider/consumer exchange 的静态 surface，不实现 handshake | U-292 | no runtime |
+| U-294 | S33 | Capability conformance fixture plan | P1 | 未开始 | 规划 provider/consumer mismatch fixture | U-293 | conformance |
+| U-295 | S33 | Capability matrix docs refresh | P2 | 未开始 | 将 matrix columns / expected_result 写成 adoption guidance | U-291 | docs |
+| U-296 | S33 | `#41` public status refresh | P2 | 未开始 | 在 issue 上同步 metadata coverage 与 deferred runtime scope | U-291,U-293 | GitHub comment |
+| U-297 | S34 | Governance roadmap issue body audit | P1 | 未开始 | 检查 `#60` tracker checklist 与 closed issue mismatch | U-275 | public tracker |
+| U-298 | S34 | Governance roadmap next milestone split | P1 | 未开始 | 将 `#60` 拆成 S33/S34/S35 候选 milestone | U-297 | planning |
+| U-299 | S34 | Closed issue traceability table | P1 | 未开始 | 生成 closed issues -> local task -> release evidence 表 | U-297 | docs |
+| U-300 | S34 | Public tracker update plan | P1 | 未开始 | 规划是否编辑 `#60` body 或继续 comment-only | U-297 | GitHub |
+| U-301 | S34 | Release-to-issue close report | P2 | 未开始 | 写 v0.8 closed issues public report | U-299 | docs |
+| U-302 | S34 | Post-v0.8 docs stale reference audit | P2 | 未开始 | 找出仍说 PR open / release no-go 的非历史段落 | U-271 | docs |
+| U-303 | S34 | Handoff stale risk compression | P2 | 未开始 | 精简 handoff 中过长的历史风险，保留当前入口 | U-302 | docs |
+| U-304 | S34 | Operations index pruning plan | P2 | 未开始 | 规划 operations README 是否需要分层索引 | U-302 | docs |
+| U-305 | S34 | Task ledger archive split plan | P2 | 未开始 | 规划已完成 285+ 任务是否需要 archive 视图 | U-280 | docs |
+| U-306 | S35 | Release hygiene CI reconsideration | P2 | 未开始 | 基于 v0.8 结果重新判断是否启用轻量 CI | U-271 | no CI by default |
+| U-307 | S35 | Package install smoke repeat | P2 | 未开始 | 对 v0.8 GitHub tag 做 fresh install smoke | U-306 | network |
+| U-308 | S35 | GitHub release artifact audit | P2 | 未开始 | 核对 release tag / source archive / README links | U-306 | GitHub |
+| U-309 | S35 | `aods-use` installed-skill drift check | P2 | 未开始 | 比较 repo packaged skill 与本地安装 skill | U-271 | no overwrite |
+| U-310 | S35 | Skill install/update route plan | P2 | 未开始 | 规划是否更新用户本地 skill，不直接覆盖 | U-309 | skill route |
+| U-311 | S35 | Changelog issue post-close audit | P2 | 未开始 | 确认 `#13` 关闭后无残留 blocker 引用 | U-274 | docs/GitHub |
+| U-312 | S35 | Changelog docs example refresh | P3 | 未开始 | 增加 300/500 行为示例 | U-311 | docs |
+| U-313 | S35 | Changelog regression naming cleanup | P3 | 未开始 | 审查 test name 是否清楚表达 warning vs hard fail | U-311 | tests |
+| U-314 | S35 | Strict-warning behavior docs | P3 | 未开始 | 明确 normal validate 与 strict validate 对 warning 的差异 | U-312 | docs |
+| U-315 | S36 | Conformance suite release docs | P2 | 未开始 | 为外部使用者写本地 conformance run 示例 | U-271 | docs |
+| U-316 | S36 | Conformance report sample | P2 | 未开始 | 保存一个小型 JSON report sample | U-315 | sample |
+| U-317 | S36 | Conformance no-fetch public note | P2 | 未开始 | 明确 runner 不 remote fetch / 不执行 provider | U-315 | docs |
+| U-318 | S36 | Fixture expected-fail docs | P2 | 未开始 | 解释 suite pass with expected failures 的语义 | U-315 | docs |
+| U-319 | S36 | Generated clean guard docs | P2 | 未开始 | 记录哪些目录被视为 generated hygiene | U-271 | docs |
+| U-320 | S36 | Package surface allowlist docs | P2 | 未开始 | 记录 allowlist 变更审查流程 | U-271 | docs |
+| U-321 | S37 | Code drift next slice revisit | P2 | 未开始 | 复查 implementation evidence / acceptance 后下一步 | U-280 | drift |
+| U-322 | S37 | Stable terminology drift implementation gate | P2 | 未开始 | 判断 start/begin fixture 是否应该落地 | U-321 | terminology |
+| U-323 | S37 | Glossary enforcement next slice | P2 | 未开始 | 选择 structured term refs 的最小实现路线 | U-322 | glossary |
+| U-324 | S37 | Lifecycle alias negative fixture | P2 | 未开始 | 如果 U-322 通过，则实现最小负例 | U-323 | fixture |
+| U-325 | S37 | Docs density lint feasibility | P3 | 未开始 | 只做 feasibility，不做 linter | U-280 | docs |
+| U-326 | S37 | External citation public docs | P3 | 未开始 | 提供 citation registry adoption snippet | U-280 | docs |
+| U-327 | S37 | Resource surface docs follow-up | P3 | 未开始 | 提供 resource surface non-runtime warning | U-280 | docs |
+| U-328 | S37 | Runtime no-go summary refresh | P3 | 未开始 | 汇总哪些 runtime 仍 deferred | U-280 | docs |
+| U-329 | S37 | v0.8 adoption checklist | P3 | 未开始 | 写最短采用检查清单 | U-280 | docs |
+| U-330 | S37 | Next release naming guard | P3 | 未开始 | 规划 v0.8 后下一 release 的版本面守卫 | U-280 | release |
 
 ## 已完成任务
 
@@ -313,6 +362,16 @@
 | 273 | U-267 | S31 | Post-merge issue close verification execution | P1 | 2026-05-13 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md`、PR `#63`、open issue snapshot | `gh pr view 63 --json state,mergedAt,mergeCommit,closingIssuesReferences`、`gh issue list --state open --limit 100 --json number,title,labels` | PR `#63` merged；20 intended close refs verified；`#13/#41/#59/#60` remain open by design |
 | 274 | U-269 | S31 | Post-release retrospective update | P2 | 2026-05-13 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md`、GitHub Release `v0.8.0` | `gh release view v0.8.0 --json tagName,url,isDraft,isPrerelease,publishedAt,targetCommitish`、`npm run release:hygiene` | release published；retrospective records what worked, what to keep, and remaining public backlog anchors |
 | 275 | U-270 | S31 | Next milestone planning after v0.8 closeout | P2 | 2026-05-13 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md` | release closeout review | next milestone candidates documented from open issues and no-runtime boundaries |
+| 276 | U-271 | S32 | Post-v0.8 backlog discovery | P0 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md`、task ledger | `gh issue list --state open --limit 100 --json ...`、`npm run release:hygiene` | 新增 U-281 到 U-330；下一轮默认 U-281 到 U-290 |
+| 277 | U-272 | S32 | Public issue state classification | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | `gh issue list --state open --limit 100 --json number,title,labels` | v0.8 后 open issues 为 `#60/#59/#41` |
+| 278 | U-273 | S32 | `#13` changelog current-state audit | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | `rg -n "changelog|delta|300|500" schema lib spec docs/operations` | two-tier 300 warning / 500 hard limit 已覆盖 issue |
+| 279 | U-274 | S32 | `#13` public close execution | P1 | 2026-05-13 | GitHub issue `#13` comment / close | `gh issue comment 13 ...`、`gh issue close 13 --reason completed` | `#13` 已关闭为 completed |
+| 280 | U-275 | S32 | `#60` roadmap public status refresh | P1 | 2026-05-13 | GitHub issue `#60` comment | `gh issue comment 60 ...` | public roadmap 已记录 v0.8 closed set 和 remaining anchors |
+| 281 | U-276 | S32 | `#59` observability coverage audit | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | route / validation observability surface review | route JSON explanation 已覆盖；validator explainability 仍有缺口 |
+| 282 | U-277 | S32 | `#59` next slice decision | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | docs review | 下一步优先 validator location / suggested action enrichment |
+| 283 | U-278 | S32 | `#41` capability coverage audit | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | capability metadata / matrix review | metadata-only compatibility matrix 已覆盖；runtime negotiation 未覆盖 |
+| 284 | U-279 | S32 | `#41` next slice decision | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | docs review | 下一步优先 protocol surface design，不做 handshake implementation |
+| 285 | U-280 | S32 | Next task pool expansion | P0 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md`、task ledger | task ledger review | U-281 到 U-330 已进入未完成任务表 |
 
 ## 失败或阻塞任务
 

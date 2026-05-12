@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-270 已完成，20 个 close-on-merge issues 已关闭，`#13/#41/#59/#60` 仍按计划保持 open。当前任务池清空；下一轮应先从这 4 个 open issues 和 `docs/operations/aods-v0.8-release-closeout.zh-CN.md` 做任务发现。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-280 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。任务池已扩展到 U-330；下一轮默认选择 U-281 到 U-290，优先推进 validation / routing observability 的低风险切片。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -138,9 +138,10 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 123 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | 读取 U-251 到 U-260 package / terminology drift hardening |
 | 124 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | 读取 U-261 到 U-270 conformance expansion / release execution readiness closeout |
 | 125 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md` | 读取 v0.8 release closeout、issue close verification 和下一 milestone candidates |
-| 126 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 127 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 128 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 126 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | 读取 U-271 到 U-280、`#13/#60` 公开同步和 U-281 到 U-330 新任务池 |
+| 127 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 128 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 129 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -420,7 +421,16 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | 无 | 当前任务池清空 | 下一轮先从 open issues `#13/#41/#59/#60` 和 v0.8 release closeout 记录发现新任务 |
+| 1 | U-281 | Validator source-location audit | 下一轮默认首选 |
+| 2 | U-282 | Validator issue location minimal schema | U-281 后执行 |
+| 3 | U-283 | Validator location regression plan | U-282 后执行 |
+| 4 | U-284 | Validator suggested-action coverage audit | 可与 U-281 同轮 |
+| 5 | U-285 | Validator suggested-action next slice | U-284 后执行 |
+| 6 | U-286 | Route skipped-module semantics audit | `#59` route explanation residual |
+| 7 | U-287 | Route skipped-module boundary design | U-286 后执行 |
+| 8 | U-288 | Route explanation docs refresh | U-276 后执行 |
+| 9 | U-289 | Observability example output pack | U-281 后执行 |
+| 10 | U-290 | `#59` public status refresh | U-281/U-284/U-286 后执行 |
 
 ## 失败和风险
 
@@ -431,7 +441,7 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | dirty worktree 混轮风险 | 当前工作树仅剩本地 untracked `MEMORY.md` | 后续 public push / PR 前确认 staged set / working tree 不包含 `MEMORY.md` |
 | release 渠道混淆风险 | 正式版本发布已定为 GitHub Releases-only | 后续若出现 npm publish 相关建议或脚本扩张，不应把 registry 发布重新当成完成条件，除非 owner 明确改策略 |
 | release version surface 风险 | v0.8 已发布，但下一次 release 仍可能出现 package / README / skill / tag 不一致 | 后续若创建新 release，仍必须先完成 version bump、release branch / tag decision、release notes 和 `npm run release:hygiene` |
-| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | PR `#63` 已 merge；Release `v0.8.0` 已发布；`#13/#41/#59/#60` 保持 open，后续关闭或评论必须有新任务依据 |
+| 外部公开动作风险 | GitHub issue / PR / release 会改变公开项目状态 | PR `#63` 已 merge；Release `v0.8.0` 已发布；`#13` 已关闭；`#60/#59/#41` 保持 open，后续关闭或评论必须有新任务依据 |
 | 代码漂移范围扩散风险 | drift 问题容易扩大成未裁剪的全量静态/语义分析器 | 下一步只从 topology、implementation linkage、implementation evidence 和 contract drift 最小闭环推进 |
 | acceptance criteria 过度设计风险 | criteria 容易扩成通用测试编排或 arbitrary command executor | U-029 必须限制为 contract-to-evidence linkage；validator 默认不执行任意 command |
 | remediation workflow 过度设计风险 | remediation 容易扩成审批系统或自动修复器 | U-030 只落 validator guidance 和 spec action vocabulary；后续审批/waiver 机制必须另立任务 |
@@ -471,7 +481,7 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | skill 发布面漂移风险 | 随包 skill 曾把 `boot_by_touch` 写成错误字段名 | 本轮已修复 skill text / metadata，并用 focused test 阻断错误写法回归 |
 | evidence command 执行风险 | fixture / golden update command 容易被误读为 smoke 时会执行 | U-110 已补 non-execution regression；fixture smoke 仍只检查声明和路径 |
 | 10-task 批量执行扩散风险 | 每轮固定选择 10 个任务，容易把低风险 docs、public sync、schema、runtime decision 混成一个不可验证的大改动 | U-092 规定仍必须先过上一轮质量门禁；需要公开 merge/release/破坏性副作用的任务只做 readiness / dry-run / decision record |
-| public sync 过早关闭风险 | 已覆盖 issue 数量较多，直接关闭会早于 PR review / merge | PR `#63` 只设置 close-on-merge；`#13/#41/#59/#60` 保持 open；merge 前不手动关闭 issue |
+| public sync 过早关闭风险 | 已覆盖 issue 数量较多，直接关闭会早于 PR review / merge | v0.8 已发布后才关闭 `#13`；`#60/#59/#41` 仍保持 open；后续关闭必须先有任务和证据 |
 | PR close syntax recognition gap | U-181 已修复 close refs recognition，但后续 body 改动仍可能破坏 close-on-merge 识别 | 合并前重新运行 `gh pr view 63 --json closingIssuesReferences` |
 | PR scope stale 风险 | U-182 已刷新 PR body，但 U-191 到 U-200 又补充了 release closeout / local hygiene / task discovery 状态 | U-201 应再次刷新 summary、validation、release position 和 deferred issue wording |
 | no-checks public review risk | PR `#63` 当前没有 GitHub checks reported | U-193 已记录不直接启用 CI；后续 U-203 明确 review / checks / owner override policy |
@@ -496,7 +506,13 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | 新任务发现 | 从 `#60` governance roadmap 拆出下一批可验证任务 | 新任务先进入 `aods-task-ledger.zh-CN.md` 未完成任务表 |
-| 2 | 新任务发现 | 从 `#59` validation/routing observability metadata 拆出最小后续切片 | 明确不建 telemetry store，先做 stdout / JSON report 边界 |
-| 3 | 新任务发现 | 从 `#41` capability negotiation 拆出 metadata-to-protocol 下一步 | 明确不启动 handshake/runtime |
-| 4 | 新任务发现 | 从 `#13` changelog ergonomics 判断是否需要进一步 authoring DX | 保持 deterministic validation limits |
+| 1 | U-281 | Validator source-location audit | 缺口表落到 operations docs |
+| 2 | U-282 | Validator issue location minimal schema | 输出边界明确，不改 runtime |
+| 3 | U-283 | Validator location regression plan | focused fixture 计划明确 |
+| 4 | U-284 | Validator suggested-action coverage audit | remediation 覆盖表落地 |
+| 5 | U-285 | Validator suggested-action next slice | 选择 3 个 rule 的最小实现路线 |
+| 6 | U-286 | Route skipped-module semantics audit | 不改变 ranking |
+| 7 | U-287 | Route skipped-module boundary design | 不建 dashboard |
+| 8 | U-288 | Route explanation docs refresh | docs snippet 明确 |
+| 9 | U-289 | Observability example output pack | sample 文档落地 |
+| 10 | U-290 | `#59` public status refresh | issue comment 同步 |
