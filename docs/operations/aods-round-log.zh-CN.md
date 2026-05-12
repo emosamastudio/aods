@@ -32,7 +32,7 @@
 | 上轮验证记录 | 通过 | 上轮 `validate:all`、PR close refs verification、diff hygiene 和 push 记录完整 |
 | AODS validation | 通过 | 本轮复审重新运行 `npm run validate:all`，root / pilot / compiled-pilot 全部通过 |
 | AODS route | 通过 | release / package / local hygiene query 命中 stable contracts、validation 和 boot protocol |
-| GitHub PR state | 通过 | PR `#63` ready、merge clean、182 changed files、0 reviews、0 checks、20 close refs recognized |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、185 changed files、0 reviews、0 checks、20 close refs recognized |
 | 返工项 | 无 | 上轮成果合格，直接进入 U-191 到 U-200 |
 
 ## 任务执行记录：R-2026-05-12-12
@@ -40,7 +40,7 @@
 | 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
 |---:|---|---|---|---|---|
 | 1 | U-191 | 未开始 | 已完成 | 固化 release notes finalization structure | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
-| 2 | U-192 | 未开始 | 已完成 | 评估 182-file PR split risk，建议继续单 PR review | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
+| 2 | U-192 | 未开始 | 已完成 | 评估 185-file PR split risk，建议继续单 PR review | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
 | 3 | U-193 | 未开始 | 已完成 | 记录 GitHub checks setup triage，当前 no checks reported | `gh pr checks 63`、`docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
 | 4 | U-194 | 未开始 | 已完成 | 刷新 package public surface guard | `npm pack --dry-run --json`、`docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
 | 5 | U-195 | 未开始 | 已完成 | 刷新 post-merge reconciliation checklist | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
@@ -57,7 +57,7 @@
 | quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致，`MEMORY.md` 未跟踪 |
 | quality review | AODS validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
 | quality review | AODS route | `node ./bin/aods.mjs route . --query "release notes PR split checks package docs link secret scan skill handoff task discovery" --stage plan --intent sync --json` | 通过 | query-route 命中 stable contracts / validation / boot protocol |
-| U-192 - U-193 | PR / checks state | `gh pr view 63 --json ...`、`gh pr checks 63` | 通过 | PR ready、merge clean、182 changed files、0 reviews、0 checks、20 close refs recognized；checks command reports no checks |
+| U-192 - U-193 | PR / checks state | `gh pr view 63 --json ...`、`gh pr checks 63` | 通过 | PR ready、merge clean、185 changed files、0 reviews、0 checks、20 close refs recognized；checks command reports no checks |
 | U-194 | Package dry-run | `npm pack --dry-run --json` | 通过 | package `aods@0.7.0`、entry count 55 |
 | U-196 | Docs link one-shot | Node local Markdown link checker | 通过 | 125 Markdown files、61 local links、0 missing |
 | U-197 | Secret-like scan | high-confidence `rg` scan | 通过 | 1 synthetic test token hit；排除该测试样本后 0 hits |

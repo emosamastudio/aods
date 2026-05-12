@@ -25,7 +25,7 @@ PR `#63` 已进入 review surface，但仍不应直接 merge / release。当前�
 
 | 维度 | 当前状态 | 判断 |
 |---|---|---|
-| Changed files | 182 | 大，但主要是长期积累的 spec / schema / examples / docs / tests / generated corpus surface |
+| Changed files | 185 | 大，但主要是长期积累的 spec / schema / examples / docs / tests / generated corpus surface |
 | Review shape | one public PR already ready for review | 保持单 PR 更低风险；拆分会破坏 close-on-merge issue mapping 和 release narrative |
 | Semantic coupling | 高 | drift evidence、fixtures、examples、docs、release notes 相互引用 |
 | Regression surface | 本地 gates 已可重复 | split 后需要重复审查 generated output / issue close refs |

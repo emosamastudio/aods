@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-200 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment 和 task discovery。PR `#63` 已 ready for review、merge clean、无 checks/reviews、182 changed files；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池已扩展到 U-230，下一轮默认选择 U-201 到 U-210：PR body / close refs final audit、review/check policy、release notes body、version / README dry-run plan、package / install / release gates 和 owner go/no-go packet。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-200 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment 和 task discovery。PR `#63` 已 ready for review、merge clean、无 checks/reviews、185 changed files；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池已扩展到 U-230，下一轮默认选择 U-201 到 U-210：PR body / close refs final audit、review/check policy、release notes body、version / README dry-run plan、package / install / release gates 和 owner go/no-go packet。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -343,7 +343,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-200 已连续完
 | U-189 | Version bump and changelog preparation | version bump / changelog plan 已明确；不修改 package version、不创建 tag |
 | U-190 | Release candidate gate rerun after public sync | `npm run release:self-check` 通过；dry-run package 仍为 `aods@0.7.0` / 55 files；release remains no-go |
 | U-191 | Release notes finalization plan | release notes 结构已覆盖 changes、validation、non-goals、public issue handling 和 release caveat；不发布 release |
-| U-192 | PR split risk assessment | 182-file PR 建议继续单 PR review；不改历史 |
+| U-192 | PR split risk assessment | 185-file PR 建议继续单 PR review；不改历史 |
 | U-193 | GitHub checks setup triage | 当前 no checks reported；本轮不启用 CI |
 | U-194 | Package public surface diff guard | package entry count 55；CLI/lib/schema/spec/examples/skill included，operations docs / benchmarks excluded |
 | U-195 | Post-merge reconciliation checklist refresh | merge 后 issue close、deferred issue、release、branch cleanup 顺序已刷新；不 merge |
