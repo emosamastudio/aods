@@ -126,8 +126,8 @@
 | Batch R | U-106 到 U-115 | 已完成；drift workflow 与 fixture coverage 前十项已收束，并修复 skill 字段名漂移 | skill package focused test、fixture non-execution regression、docs gate、`validate:all` |
 | Batch S | U-116 到 U-125 | 已完成；fixture output、examples、compile/schema freshness、benchmark hygiene、CLI / validation docs 已收束 | focused CLI regression、fixture smoke、compile determinism、schema mirror audit、`validate:all` |
 | Batch T | U-126 到 U-135 | 已完成；route/validation DX、authoring lint boundary 和 changelog ergonomics 已收束 | route query/touch evidence、focused scaffold regression、`validate:all` |
-| Batch U | U-136 到 U-145 | 下一轮固定 10 任务；glossary/citation/docs/risk/exposure | docs gate or stable-contracts tests as scoped |
-| Batch V | U-146 到 U-155 | risk/audit plus far runtime decision gates | docs gate; no runtime PoC |
+| Batch U | U-136 到 U-145 | 已完成；glossary/citation/docs quality/redaction/exposure docs 已收束 | route/citation/glossary evidence、local docs link checker、secret-like scan、`validate:all` |
+| Batch V | U-146 到 U-155 | 下一轮固定 10 任务；risk/audit plus far runtime decision gates | docs gate; no runtime PoC |
 | Batch W | U-156 到 U-160 | conformance / adapter / resolver / scheduler / observability research | docs gate; no implementation unless separately authorized |
 
 ## 当前非目标

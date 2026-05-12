@@ -94,6 +94,16 @@
 | `docs/operations/aods-authoring-source-lint-boundary-triage.zh-CN.md` | U-133 authoring source lint boundary triage，明确 source-first lint 仍以 schema/compile/validate 为主。 |
 | `docs/operations/aods-changelog-delta-ergonomics-fix-plan.zh-CN.md` | U-134 changelog delta ergonomics fix plan，选择 300 soft warning + 500 hard fail。 |
 | `docs/operations/aods-changelog-delta-schema-test-implementation.zh-CN.md` | U-135 changelog delta schema/test implementation，落地 schema、validator、test 和 spec 同步。 |
+| `docs/operations/aods-glossary-alias-lifecycle-triage.zh-CN.md` | U-136 glossary alias lifecycle triage，明确 alias、deprecated term、replacement 和 scope collision 边界。 |
+| `docs/operations/aods-glossary-canonical-term-documentation-pass.zh-CN.md` | U-137 glossary canonical-term documentation pass，补齐 v2 authoring / consumption guidance。 |
+| `docs/operations/aods-external-citation-review-workflow-triage.zh-CN.md` | U-138 external citation review workflow triage，明确 source、authority、claim、review status 和 ref 附着流程。 |
+| `docs/operations/aods-external-citation-freshness-policy-docs.zh-CN.md` | U-139 external citation freshness policy docs，明确 current / stale / unresolved / withheld 维护策略。 |
+| `docs/operations/aods-documentation-density-quality-pass.zh-CN.md` | U-140 documentation density quality pass，记录 agent-primary docs 密度与 actionability 审查。 |
+| `docs/operations/aods-paired-surface-sync-example-report.zh-CN.md` | U-141 paired surface sync example report，给 paired human/agent sync report 提供示例输出和边界。 |
+| `docs/operations/aods-docs-navigation-dead-link-local-checker-triage.zh-CN.md` | U-142 docs navigation dead-link local checker triage，记录本地 Markdown 链接检查范围和结果。 |
+| `docs/operations/aods-sensitive-example-redaction-fixture-review.zh-CN.md` | U-143 sensitive example redaction fixture review，审查 examples 中敏感占位和 redaction fixture 风险。 |
+| `docs/operations/aods-credential-placeholder-policy-docs.zh-CN.md` | U-144 credential placeholder policy docs，定义 credentials、handles、debug-only payload 的示例写法规则。 |
+| `docs/operations/aods-remote-exposure-upgrade-checklist.zh-CN.md` | U-145 remote exposure upgrade checklist，定义 local-only/local-export 升级到 remote/adapter-facing 的审查清单。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

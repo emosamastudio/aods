@@ -2,6 +2,87 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-06
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-06 |
+| 开始时间 | 2026-05-12 17:06 Asia/Shanghai |
+| 结束时间 | 2026-05-12 17:30 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-126 到 U-135 复审；glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface sync report、docs local link checker、sensitive/redaction fixture review、credential placeholder policy、remote exposure upgrade checklist；不实现 resolver、crawler、semantic judge、secret scanner、gateway；不 merge、不 release、不 bump version |
+| 本轮选中任务 | U-136、U-137、U-138、U-139、U-140、U-141、U-142、U-143、U-144、U-145 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-06
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | U-136 到 U-145 operations docs、docs navigation、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、`MEMORY.md` local-only |
+| 禁止触碰 | runtime 实现、resolver runtime、crawler、semantic judge、secret scanner service、remote gateway、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | 无外部写操作；GitHub 不读写 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 已还原 |
+
+## 上轮质量复审：R-2026-05-12-06
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `0f4e9a7` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | focused scaffold regression、`validate:all`、`benchmark:test`、diff hygiene 和 push 记录完整 |
+| AODS route | 通过 | 本轮 query 指向 stable contracts、validation、authority governance 等相关 authority |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-136 到 U-145 |
+
+## 任务执行记录：R-2026-05-12-06
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-136 | 未开始 | 已完成 | 明确 glossary alias、deprecated term、replacement、scope collision lifecycle | `docs/operations/aods-glossary-alias-lifecycle-triage.zh-CN.md` |
+| 2 | U-137 | 未开始 | 已完成 | 补 glossary v2 authoring / consumption guidance | `docs/operations/aods-glossary-canonical-term-documentation-pass.zh-CN.md` |
+| 3 | U-138 | 未开始 | 已完成 | 明确 external citation source、authority、claim、review status、ref attachment workflow | `docs/operations/aods-external-citation-review-workflow-triage.zh-CN.md` |
+| 4 | U-139 | 未开始 | 已完成 | 补 current / stale / unresolved / withheld freshness policy | `docs/operations/aods-external-citation-freshness-policy-docs.zh-CN.md` |
+| 5 | U-140 | 未开始 | 已完成 | 审查 agent-primary docs density 和 actionability | `docs/operations/aods-documentation-density-quality-pass.zh-CN.md` |
+| 6 | U-141 | 未开始 | 已完成 | 提供 paired surface sync example report | `docs/operations/aods-paired-surface-sync-example-report.zh-CN.md` |
+| 7 | U-142 | 未开始 | 已完成 | triage 本地 Markdown link checker 范围和结果 | `docs/operations/aods-docs-navigation-dead-link-local-checker-triage.zh-CN.md` |
+| 8 | U-143 | 未开始 | 已完成 | 审查 sensitive placeholder / redaction fixture 风险 | `docs/operations/aods-sensitive-example-redaction-fixture-review.zh-CN.md` |
+| 9 | U-144 | 未开始 | 已完成 | 定义 credential placeholder、handle、debug-only payload 写法规则 | `docs/operations/aods-credential-placeholder-policy-docs.zh-CN.md` |
+| 10 | U-145 | 未开始 | 已完成 | 制定 local-only/local-export 到 remote/adapter-facing 的 upgrade checklist | `docs/operations/aods-remote-exposure-upgrade-checklist.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-06
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮成果可接续；仅 `MEMORY.md` 未跟踪 |
+| U-136 - U-145 | Route query evidence | `node ./bin/aods.mjs route . --query ... --stage plan --intent read --json` | 通过 | query-route 命中 stable contracts、validation、authority governance |
+| U-136 - U-139 | Glossary / citation evidence | `rg` schema/validator/example；compiled-pilot strict reality JSON | 通过 | glossary/citation gates 和 example posture 已入账 |
+| U-140 | Density scan | Node spec density scan | 通过 | 63 sections；top section 约 514 tokens；filler hit 为 AOP 反例说明 |
+| U-141 | Surface pair snapshot | runtime companion surface pair query | 通过 | 1 pair、2 shared invariants、`sync_source=agent-primary` |
+| U-142 | Local docs link checker | Node Markdown local link checker | 通过 | 99 Markdown files、61 local links、0 missing |
+| U-143/U-144 | Secret-like scan | Node high-confidence pattern scan | 通过 | 135 files scanned、0 secret-like hits |
+| U-136 - U-145 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-136 - U-145 | Benchmark test gate | `npm run benchmark:test` | 通过 | 82/82 pass；generated results churn 已还原 |
+| U-136 - U-145 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-06
+
+本轮没有新增任务 ID。U-146 到 U-155 仍按 U-092 综合任务池顺序作为下一轮固定 10 任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-136 - U-145 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-06
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-136、U-137、U-138、U-139、U-140、U-141、U-142、U-143、U-144、U-145 |
+| 完成任务 | 10 | glossary/citation/docs quality/redaction/exposure docs 已完成 |
+| 返工项 | 0 | 上轮成果审查通过，本轮没有返工 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 15 | 下一轮固定选择 U-146 到 U-155 |
+
 ## 回合摘要：R-2026-05-12-05
 
 | 项 | 内容 |

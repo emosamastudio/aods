@@ -85,6 +85,16 @@
 | `aods-authoring-source-lint-boundary-triage.zh-CN.md` | U-133 authoring source lint boundary triage，明确 source-first lint 仍以 schema/compile/validate 为主 | 高 |
 | `aods-changelog-delta-ergonomics-fix-plan.zh-CN.md` | U-134 changelog delta ergonomics fix plan，选择 300 soft warning + 500 hard fail | 高 |
 | `aods-changelog-delta-schema-test-implementation.zh-CN.md` | U-135 changelog delta schema/test implementation，落地 schema、validator、test 和 spec 同步 | 高 |
+| `aods-glossary-alias-lifecycle-triage.zh-CN.md` | U-136 glossary alias lifecycle triage，明确 alias、deprecated term、replacement 和 scope collision 边界 | 高 |
+| `aods-glossary-canonical-term-documentation-pass.zh-CN.md` | U-137 glossary canonical-term documentation pass，补齐 v2 authoring / consumption guidance | 高 |
+| `aods-external-citation-review-workflow-triage.zh-CN.md` | U-138 external citation review workflow triage，明确 source、authority、claim、review status 和 ref 附着流程 | 高 |
+| `aods-external-citation-freshness-policy-docs.zh-CN.md` | U-139 external citation freshness policy docs，明确 current / stale / unresolved / withheld 维护策略 | 高 |
+| `aods-documentation-density-quality-pass.zh-CN.md` | U-140 documentation density quality pass，记录 agent-primary docs 密度与 actionability 审查 | 高 |
+| `aods-paired-surface-sync-example-report.zh-CN.md` | U-141 paired surface sync example report，提供 paired human/agent sync quality report 示例输出 | 高 |
+| `aods-docs-navigation-dead-link-local-checker-triage.zh-CN.md` | U-142 docs navigation dead-link local checker triage，记录本地 Markdown 链接检查范围和结果 | 高 |
+| `aods-sensitive-example-redaction-fixture-review.zh-CN.md` | U-143 sensitive example redaction fixture review，审查 examples 中敏感占位和 redaction fixture 风险 | 高 |
+| `aods-credential-placeholder-policy-docs.zh-CN.md` | U-144 credential placeholder policy docs，定义 credentials、handles、debug-only payload 的示例写法规则 | 高 |
+| `aods-remote-exposure-upgrade-checklist.zh-CN.md` | U-145 remote exposure upgrade checklist，定义 local-only/local-export 升级到 remote/adapter-facing 的审查清单 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -174,9 +184,19 @@
 80. 读 `aods-authoring-source-lint-boundary-triage.zh-CN.md`
 81. 读 `aods-changelog-delta-ergonomics-fix-plan.zh-CN.md`
 82. 读 `aods-changelog-delta-schema-test-implementation.zh-CN.md`
-83. 读 `aods-v0.7-rc-gate.zh-CN.md`
-84. 读 `aods-handoff.zh-CN.md`
-85. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+83. 读 `aods-glossary-alias-lifecycle-triage.zh-CN.md`
+84. 读 `aods-glossary-canonical-term-documentation-pass.zh-CN.md`
+85. 读 `aods-external-citation-review-workflow-triage.zh-CN.md`
+86. 读 `aods-external-citation-freshness-policy-docs.zh-CN.md`
+87. 读 `aods-documentation-density-quality-pass.zh-CN.md`
+88. 读 `aods-paired-surface-sync-example-report.zh-CN.md`
+89. 读 `aods-docs-navigation-dead-link-local-checker-triage.zh-CN.md`
+90. 读 `aods-sensitive-example-redaction-fixture-review.zh-CN.md`
+91. 读 `aods-credential-placeholder-policy-docs.zh-CN.md`
+92. 读 `aods-remote-exposure-upgrade-checklist.zh-CN.md`
+93. 读 `aods-v0.7-rc-gate.zh-CN.md`
+94. 读 `aods-handoff.zh-CN.md`
+95. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -224,4 +244,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-135 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-145 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

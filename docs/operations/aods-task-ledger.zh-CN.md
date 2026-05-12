@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S18 authoring / validation DX hardening |
-| 当前回合 | R-2026-05-12-05 |
-| 未完成任务数量 | 25 |
-| 已完成任务数量 | 140 |
+| 当前阶段 | S19 risk / security / exposure docs |
+| 当前回合 | R-2026-05-12-06 |
+| 未完成任务数量 | 15 |
+| 已完成任务数量 | 150 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-05 |
-| 开始时间 | 2026-05-12 16:39 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-06 |
+| 开始时间 | 2026-05-12 17:06 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-126、U-127、U-128、U-129、U-130、U-131、U-132、U-133、U-134、U-135 |
-| 本轮范围 | 上轮 U-116 到 U-125 复审；route explanation dependency graph review、remediation guidance coverage、severity gate consistency、compact/verbose triage、route query coverage、touch-route stale path audit、error message wording、authoring source lint boundary、changelog delta fix plan、changelog delta schema/test implementation |
+| 选中任务 | U-136、U-137、U-138、U-139、U-140、U-141、U-142、U-143、U-144、U-145 |
+| 本轮范围 | 上轮 U-126 到 U-135 复审；glossary alias lifecycle、glossary canonical-term docs、external citation review workflow、citation freshness policy、documentation density、paired surface sync report、docs local link checker、sensitive/redaction fixture review、credential placeholder policy、remote exposure upgrade checklist |
 | 排除范围 | runtime 实现、dashboard 实现、conformance runner、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；route query/touch evidence；focused scaffold regression；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
+| 验证计划 | 上轮质量复审；route query evidence；compiled-pilot strict reality summary；local docs link checker；secret-like placeholder scan；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-136 | S18 | Glossary registry alias lifecycle triage | P3 | 未开始 | alias/deprecated term lifecycle、replacement、scope collision 后续边界明确；不做 resolver runtime | U-064 | glossary |
-| U-137 | S18 | Glossary canonical-term documentation pass | P3 | 未开始 | glossary v2 authoring / consumption guidance 补齐且不夸大 runtime；不全文扫描 | U-136 | glossary docs |
-| U-138 | S18 | External citation review workflow triage | P2 | 未开始 | citation review_status、claim_posture、authority_relation 的 review workflow 明确；不做 crawler | U-082 | citation |
-| U-139 | S18 | External citation freshness policy docs | P2 | 未开始 | authoritative citation freshness、stale、withheld、unresolved 的维护指引明确；不抓取 URL | U-138 | citation docs |
-| U-140 | S18 | Documentation density quality pass | P3 | 未开始 | agent-primary docs 的 dense / actionable / non-marketing 问题清单明确；不重写文档门户 | U-049 | docs quality |
-| U-141 | S18 | Paired surface sync example report | P3 | 未开始 | paired human/agent sync quality report 的示例输出和使用边界明确；不建 semantic judge | U-048 | paired surfaces |
-| U-142 | S18 | Docs navigation dead-link local checker triage | P3 | 未开始 | 本地 docs 链接检查的范围、误报和最小命令路线明确；不抓取外网 | U-140 | docs tooling |
-| U-143 | S19 | Sensitive example redaction fixture review | P2 | 未开始 | examples 中 sensitive placeholder / redaction posture 的 fixture 风险审查完成；不做 secret scanner service | U-005 | redaction |
-| U-144 | S19 | Credential placeholder policy docs | P2 | 未开始 | credentials、handles、debug-only payload 在 examples/docs 中的写法规则明确；不接入 secret manager | U-143 | security docs |
-| U-145 | S19 | Remote exposure upgrade checklist | P2 | 未开始 | local-only 到 remote-read / remote-write / adapter-facing 的 upgrade checklist 明确；不实现 gateway | U-089 | exposure |
 | U-146 | S19 | Risk taxonomy coverage report | P2 | 未开始 | read/write/credential/filesystem/network/cost/production mutation risk 的覆盖摘要明确；不做 runtime policy | U-088 | risk report |
 | U-147 | S19 | Audit metadata completeness report | P2 | 未开始 | commands/adapters 的 actor/source/target/receipt/correlation coverage 明确；不建 audit store | U-044 | audit report |
 | U-148 | S19 | Policy decision receipt boundary refinement | P3 | 未开始 | policy decision 与 receipt/audit anchor 的字段边界和缺口明确；不实现 permission broker | U-147 | policy boundary |
@@ -202,6 +192,16 @@
 | 138 | U-133 | S18 | Authoring source lint boundary triage | P2 | 2026-05-12 | `docs/operations/aods-authoring-source-lint-boundary-triage.zh-CN.md` | authoring schema / compile / validate review | authoring lint 边界明确为 schema + compile + validate；不实现 style linter |
 | 139 | U-134 | S18 | Changelog delta ergonomics fix plan | P2 | 2026-05-12 | `docs/operations/aods-changelog-delta-ergonomics-fix-plan.zh-CN.md`、GitHub issue `#13` read-only context | plan review | 选择 300 soft warning + 500 hard fail；不扩成 changelog framework |
 | 140 | U-135 | S18 | Changelog delta schema/test implementation | P2 | 2026-05-12 | `schema/module.schema.json`、`lib/validate.mjs`、`lib/corpus-helpers.mjs`、`lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`docs/operations/aods-changelog-delta-schema-test-implementation.zh-CN.md` | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs` | changelog delta 500 hard limit 和 300 warning 已落地；32/32 focused regression pass |
+| 141 | U-136 | S18 | Glossary registry alias lifecycle triage | P3 | 2026-05-12 | `docs/operations/aods-glossary-alias-lifecycle-triage.zh-CN.md`、glossary schema/validator/example evidence | `rg` glossary gates；compiled-pilot glossary query | alias/deprecated term lifecycle、replacement、scope collision 边界已明确；不做 resolver runtime |
+| 142 | U-137 | S18 | Glossary canonical-term documentation pass | P3 | 2026-05-12 | `docs/operations/aods-glossary-canonical-term-documentation-pass.zh-CN.md` | glossary schema / example review | glossary v2 authoring / consumption guidance 已补齐；不全文扫描、不自动 rewrite |
+| 143 | U-138 | S18 | External citation review workflow triage | P2 | 2026-05-12 | `docs/operations/aods-external-citation-review-workflow-triage.zh-CN.md`、citation schema/validator/example evidence | `rg` citation gates；compiled-pilot citation summary | review_status、claim_posture、authority_relation 的 review workflow 已明确；不做 crawler |
+| 144 | U-139 | S18 | External citation freshness policy docs | P2 | 2026-05-12 | `docs/operations/aods-external-citation-freshness-policy-docs.zh-CN.md`、compiled-pilot citation counters | `node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality --json` | authoritative citation freshness、stale、withheld、unresolved 维护指引已明确；不抓取 URL |
+| 145 | U-140 | S18 | Documentation density quality pass | P3 | 2026-05-12 | `docs/operations/aods-documentation-density-quality-pass.zh-CN.md`、spec density scan | Node density scan | agent-primary docs 密度 / actionability 问题清单已入账；不重写文档门户 |
+| 146 | U-141 | S18 | Paired surface sync example report | P3 | 2026-05-12 | `docs/operations/aods-paired-surface-sync-example-report.zh-CN.md`、compiled-pilot surface pair snapshot | runtime companion surface pair query | paired human/agent sync report 示例输出和使用边界已明确；不建 semantic judge |
+| 147 | U-142 | S18 | Docs navigation dead-link local checker triage | P3 | 2026-05-12 | `docs/operations/aods-docs-navigation-dead-link-local-checker-triage.zh-CN.md` | local Markdown link checker | 89 个 Markdown 文件、61 个本地链接、0 missing；不抓取外网 |
+| 148 | U-143 | S19 | Sensitive example redaction fixture review | P2 | 2026-05-12 | `docs/operations/aods-sensitive-example-redaction-fixture-review.zh-CN.md`、secret-like scan、redaction posture review | secret-like pattern scan；module redaction query | examples 中敏感占位和 redaction fixture 风险已审查；0 高置信 secret-like hits；不做 secret scanner service |
+| 149 | U-144 | S19 | Credential placeholder policy docs | P2 | 2026-05-12 | `docs/operations/aods-credential-placeholder-policy-docs.zh-CN.md` | secret-like pattern scan；placeholder review | credentials、handles、debug-only payload 示例写法规则已明确；不接入 secret manager |
+| 150 | U-145 | S19 | Remote exposure upgrade checklist | P2 | 2026-05-12 | `docs/operations/aods-remote-exposure-upgrade-checklist.zh-CN.md`、stable contract / remote gateway triage evidence | `rg` local/remote exposure evidence | local-only 到 remote-read / remote-write / adapter-facing 的 upgrade checklist 已明确；不实现 gateway |
 
 ## 失败或阻塞任务
 
@@ -290,3 +290,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-106` 到 `U-115` 完成 | 本轮先返工修复 `aods-use` skill 字段名漂移并补测试，然后完成 stale evidence refresh、locator remediation、summary guard、non-execution invariant、dashboard/ownership boundary、fixture coverage、negative fixture plan 和 golden drift report；不建 runtime/dashboard/runner、不 merge、不发布、不 bump version。下一轮应选择 U-116 到 U-125。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-116` 到 `U-125` 完成 | 本轮先检修并同步本地 `aods-use` skill 安装面，然后完成 fixture smoke output contract、example gap audit、compile determinism、schema mirror、seven-plane freshness、open-source scenario health、benchmark artifact hygiene、CLI help coverage、validate JSON docs 和 text/JSON parity；不建 runner、不 merge、不发布、不 bump version。下一轮应选择 U-126 到 U-135。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-126` 到 `U-135` 完成 | 本轮完成 route explanation、remediation coverage、severity gate、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta ergonomics；并落地 300 soft warning / 500 hard fail 及回归测试。下一轮应选择 U-136 到 U-145。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-136` 到 `U-145` 完成 | 本轮完成 glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface report、docs link checker、sensitive/redaction fixture review、credential placeholder policy 和 remote exposure upgrade checklist；不建 resolver/crawler/semantic judge/secret scanner/gateway。下一轮应选择 U-146 到 U-155。 |
