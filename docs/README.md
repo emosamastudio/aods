@@ -84,6 +84,16 @@
 | `docs/operations/aods-cli-help-coverage-matrix.zh-CN.md` | U-123 CLI help coverage matrix，补齐 validate / hook / upgrade / compile / scaffold 等子命令 help。 |
 | `docs/operations/aods-validate-json-report-schema-docs.zh-CN.md` | U-124 validate JSON report schema docs，文档化 base report 与 reality extension 字段。 |
 | `docs/operations/aods-validate-text-json-parity-audit.zh-CN.md` | U-125 validate text / JSON parity audit，明确 text 与 JSON 输出的信息差和保留差异。 |
+| `docs/operations/aods-route-explanation-dependency-graph-review.zh-CN.md` | U-126 route explanation dependency graph review，确认 `source/reason/dependency` 覆盖与直接依赖边界。 |
+| `docs/operations/aods-remediation-guidance-coverage-matrix.zh-CN.md` | U-127 remediation guidance coverage matrix，记录 validator remediation 覆盖与新增 changelog action。 |
+| `docs/operations/aods-validation-severity-gate-consistency-review.zh-CN.md` | U-128 validation severity gate consistency review，确认 warning / strict gate 行为一致。 |
+| `docs/operations/aods-compact-verbose-validation-output-triage.zh-CN.md` | U-129 compact vs verbose validation output triage，明确暂不新增输出模式并做局部 message 改进。 |
+| `docs/operations/aods-route-query-corpus-coverage-audit.zh-CN.md` | U-130 route query corpus coverage audit，审查 common query terms 到 authority module 的覆盖。 |
+| `docs/operations/aods-route-touch-route-stale-path-audit.zh-CN.md` | U-131 route touch-route stale path audit，确认现有 touch routes 无 stale path 并记录 docs fallback。 |
+| `docs/operations/aods-error-message-actionable-wording-pass.zh-CN.md` | U-132 error message actionable wording pass，补 route invalid arg 和 maxLength length diagnostics。 |
+| `docs/operations/aods-authoring-source-lint-boundary-triage.zh-CN.md` | U-133 authoring source lint boundary triage，明确 source-first lint 仍以 schema/compile/validate 为主。 |
+| `docs/operations/aods-changelog-delta-ergonomics-fix-plan.zh-CN.md` | U-134 changelog delta ergonomics fix plan，选择 300 soft warning + 500 hard fail。 |
+| `docs/operations/aods-changelog-delta-schema-test-implementation.zh-CN.md` | U-135 changelog delta schema/test implementation，落地 schema、validator、test 和 spec 同步。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

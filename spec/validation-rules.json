@@ -1,7 +1,7 @@
 {
   "aods_v": 3,
   "module_id": "spec-validation",
-  "v": 30,
+  "v": 31,
   "context": "Defines AODS validation governance: schema/reference checks, surface and stable contracts, fixture/golden smoke reports, glossary/citation gates, topology, implementation evidence and acceptance, provenance, remediation, severity, reality, and AOP discipline.",
   "assumptions": [
     "Validator has access to all files in corpus",
@@ -11,7 +11,7 @@
     {
       "sid": "structural",
       "topic": "structural validation rules",
-      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. Module schema permits section-first, artifact-first, or mixed modules, but every module must declare at least one section or artifact. Artifact decision_provenance, when declared, validates consumer_surface + basis + source_refs + evidence_status + consumption_gate shape. Section, artifact, and decision_provenance citation_refs validate as module-local external citation ids. module.meta.external_citations[], when declared, validates citation_id, source_type, locator, version_or_date, authority_relation, claim_posture, uncertainty, and review_status shape. Read-model contract metadata, when declared, validates read_model.freshness snapshot_id + exported_at + source_watermark + staleness shape. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained. human_generation, when declared, stays within the allowed opt-in contract: mode=deterministic, profile=overview|checklist, title optional. manifest-companion roles are runtime role profiles: id required; scope may be omitted; required_modules may be omitted when boot_by_role already carries runtime bindings. Root and companion glossary maps permit v1 string shorthand and v2 canonical term records with definition, aliases, deprecated_terms, scope, owner, linked_surfaces, and status. project_topology, when declared, validates root design_repo plus implementation_repos[] structure. module.meta.implementation and manifest.modules[].implementation, when declared, validate repo_id + paths + status + authority_surface shape. module.meta.implementation.evidence[], when declared, validates id + kind + locator + status + authority_surface shape. module.meta.implementation.acceptance_criteria[], when declared, validates id + surface_ref + requirement + check_type + blocking + status + authority_surface shape. manifest.modules[].implementation.evidence_summary, when declared, validates total + current + planned + stale + blocked counters. manifest.modules[].implementation.acceptance_summary, when declared, validates total + satisfied + planned + partial + waived + blocked + manual_review counters. control metadata, provenance summaries, runtime-contract summaries, redaction summaries, contract profile summaries, implementation linkage summaries, and schema-versioning summaries, when declared, validate on both manifest.modules[] and module.meta. surface-inventory entries keep relative paths and typed current|reserved|future states.",
+      "content": "L1 MUST: manifest.json exists and validates against manifest.schema.json. Every modules[].path resolves inside corpus root. Every module file validates against module.schema.json. module_id matches manifest entry. No duplicate module IDs. No duplicate sid within module. Module schema permits section-first, artifact-first, or mixed modules, but every module must declare at least one section or artifact. Artifact decision_provenance, when declared, validates consumer_surface + basis + source_refs + evidence_status + consumption_gate shape. Section, artifact, and decision_provenance citation_refs validate as module-local external citation ids. module.meta.external_citations[], when declared, validates citation_id, source_type, locator, version_or_date, authority_relation, claim_posture, uncertainty, and review_status shape. Read-model contract metadata, when declared, validates read_model.freshness snapshot_id + exported_at + source_watermark + staleness shape. boot_sequence and boot_by_role contain valid module IDs. boot_by_touch.match stays relative and corpus-contained. surface_pairs records match schema and keep human paths corpus-contained. human_generation, when declared, stays within the allowed opt-in contract: mode=deterministic, profile=overview|checklist, title optional. manifest-companion roles are runtime role profiles: id required; scope may be omitted; required_modules may be omitted when boot_by_role already carries runtime bindings. Root and companion glossary maps permit v1 string shorthand and v2 canonical term records with definition, aliases, deprecated_terms, scope, owner, linked_surfaces, and status. project_topology, when declared, validates root design_repo plus implementation_repos[] structure. module changelog delta accepts up to 500 characters, with the validator warning above 300 characters. module.meta.implementation and manifest.modules[].implementation, when declared, validate repo_id + paths + status + authority_surface shape. module.meta.implementation.evidence[], when declared, validates id + kind + locator + status + authority_surface shape. module.meta.implementation.acceptance_criteria[], when declared, validates id + surface_ref + requirement + check_type + blocking + status + authority_surface shape. manifest.modules[].implementation.evidence_summary, when declared, validates total + current + planned + stale + blocked counters. manifest.modules[].implementation.acceptance_summary, when declared, validates total + satisfied + planned + partial + waived + blocked + manual_review counters. control metadata, provenance summaries, runtime-contract summaries, redaction summaries, contract profile summaries, implementation linkage summaries, and schema-versioning summaries, when declared, validate on both manifest.modules[] and module.meta. surface-inventory entries keep relative paths and typed current|reserved|future states.",
       "content_type": "rules",
       "refs": [
         "referential",
@@ -105,7 +105,7 @@
     {
       "sid": "validation-output",
       "topic": "validation report format",
-      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, current_evidence:int, planned_evidence:int, stale_evidence:int, blocked_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_repos?:[{repo_id:str, locator:str, reason:str}], unchecked_reason?:str}, external_citations?:{total:int, modules_with_citations:int, authoritative:int, current_authoritative:int, stale_authoritative:int, unresolved_authoritative:int, withheld_authoritative:int, assumptions:int, unsupported_assumptions:int, current:int, stale:int, unresolved:int, withheld:int, cited_refs:int, stable_decision_refs:int, stable_decision_current_authoritative_refs:int, stable_decision_noncurrent_authoritative_refs:int}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. unchecked_repos is emitted only when linked implementation repositories cannot be resolved from --repo-root; unchecked_reason is a human-readable aggregation of the same repo id, reason, and locator facts. external_citations is emitted when declared citations or citation refs exist; it counts declared review_status and posture only, without fetching locators or checking factual truth. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error and warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket.",
+      "content": "Validator outputs JSON: {corpus:str, timestamp:iso8601, strict:bool, accepted:bool, status:\"pass\"|\"fail\", levels:{L1,L2,L3,L4}, summary:{total_modules:int, total_sections:int, total_artifacts:int, total_tokens:int, total_surface_pairs:int, errors:int, warnings:int}, topology?:{linked_modules:int, unlinked_modules:int, checked_paths:int, missing_paths:int, evidence_total:int, modules_with_evidence:int, modules_without_evidence:int, current_evidence:int, planned_evidence:int, stale_evidence:int, blocked_evidence:int, checked_evidence_locators:int, missing_evidence_locators:int, unchecked_repos?:[{repo_id:str, locator:str, reason:str}], unchecked_reason?:str}, external_citations?:{total:int, modules_with_citations:int, authoritative:int, current_authoritative:int, stale_authoritative:int, unresolved_authoritative:int, withheld_authoritative:int, assumptions:int, unsupported_assumptions:int, current:int, stale:int, unresolved:int, withheld:int, cited_refs:int, stable_decision_refs:int, stable_decision_current_authoritative_refs:int, stable_decision_noncurrent_authoritative_refs:int}}. In strict mode, warning-bearing levels report pass=false when warnings block the gate. topology is emitted only when validate --reality can see manifest.project_topology. unchecked_repos is emitted only when linked implementation repositories cannot be resolved from --repo-root; unchecked_reason is a human-readable aggregation of the same repo id, reason, and locator facts. external_citations is emitted when declared citations or citation refs exist; it counts declared review_status and posture only, without fetching locators or checking factual truth. issue = {level:str, module_id:str|null, sid:str|null, rule:str, message:str, severity_class?:str, remediation?:{action:str, gate:str, guidance:str}}. severity_class is optional because the current runtime still emits error and warning buckets first, while the richer gating taxonomy is specified separately in the validation severity policy. remediation is optional and appears only for findings with a standardized next action; it guides maintainer response but does not override the existing error/warning bucket. changelog-delta-soft-limit is a warning-class finding; normal validate accepts it, while strict compile and strict validate reject it.",
       "content_type": "prose",
       "refs": [],
       "artifact_refs": [
@@ -118,7 +118,7 @@
     {
       "sid": "severity-gating-policy",
       "topic": "validation severity and gate policy",
-      "content": "v0.7 defines six governance severity classes: info, warning, strict-error, drift-blocking, security-blocking, and release-blocking. The current validator runtime still emits error and warning buckets, so these classes are a policy layer above the existing machine output rather than a full runtime rewrite. info is advisory only and does not block validate, strict, reality, or release. warning is advisory in normal validate output but fails strict compile or strict validate because strict mode already treats warnings as gate blockers. strict-error is the default failing class and must block compile, validate, strict, and any reality run that hits the finding. drift-blocking is a strict-error subclass for authority, pairing, invariant, topology, implementation evidence, or implementation acceptance drift findings; when present it must block strict, reality, and release. security-blocking is a strict-error subclass for redaction, sensitive leakage, auth, or trust-boundary violations; it must block validate, strict, reality, and release. release-blocking is the publication-facing class for version, adapter, packaging, or compatibility posture findings that may be tolerated during local iteration but must fail any release or export gate. Remediation gate labels identify the intended response path for a finding; they do not soften or bypass the runtime bucket. This keeps the current validator honest while giving future refs, adapter contracts, and release sensors one shared gate vocabulary.",
+      "content": "v0.7 defines six governance severity classes: info, warning, strict-error, drift-blocking, security-blocking, and release-blocking. The current validator runtime still emits error and warning buckets, so these classes are a policy layer above the existing machine output rather than a full runtime rewrite. info is advisory only and does not block validate, strict, reality, or release. warning is advisory in normal validate output but fails strict compile or strict validate because strict mode already treats warnings as gate blockers; changelog deltas above the preferred 300-character guidance limit use this warning path until the 500-character schema limit is exceeded. strict-error is the default failing class and must block compile, validate, strict, and any reality run that hits the finding. drift-blocking is a strict-error subclass for authority, pairing, invariant, topology, implementation evidence, or implementation acceptance drift findings; when present it must block strict, reality, and release. security-blocking is a strict-error subclass for redaction, sensitive leakage, auth, or trust-boundary violations; it must block validate, strict, reality, and release. release-blocking is the publication-facing class for version, adapter, packaging, or compatibility posture findings that may be tolerated during local iteration but must fail any release or export gate. Remediation gate labels identify the intended response path for a finding; they do not soften or bypass the runtime bucket. This keeps the current validator honest while giving future refs, adapter contracts, and release sensors one shared gate vocabulary.",
       "content_type": "rules",
       "refs": [
         "validation-output",
@@ -332,7 +332,7 @@
             "L3",
             "coverage and governance discipline",
             "warning",
-            "capsule missing meta.capsule; boot order starts with detail; missing tokens_approx; unregistered module-like JSON on disk; topology declared without any implementation-linked modules"
+            "capsule missing meta.capsule; boot order starts with detail; missing tokens_approx; unregistered module-like JSON on disk; topology declared without any implementation-linked modules; changelog delta above preferred 300-character guidance"
           ],
           [
             "L4",
@@ -598,6 +598,12 @@
             "drift-blocking",
             "capability compatibility expected_result uses an unsupported value",
             "set expected_result to compatible, incompatible, partial, or unknown"
+          ],
+          [
+            "tighten-changelog-delta",
+            "warning",
+            "changelog delta is above the preferred 300-character guidance limit",
+            "keep the delta concise, split unrelated changes, or accept the warning until the 500-character schema limit is reached"
           ]
         ]
       }
@@ -931,6 +937,13 @@
             "condition": "surface_pair.sync_source == 'bidirectional'",
             "action": "L3 warning: bidirectional sync remains experimental until merge protocol exists",
             "priority": 70,
+            "source": "validation"
+          },
+          {
+            "id": "changelog-delta-soft-limit",
+            "condition": "module.changelog[].delta length > 300 AND length <= 500",
+            "action": "L3 warning: changelog delta should stay within the preferred 300-character guidance limit",
+            "priority": 72,
             "source": "validation"
           }
         ]
@@ -1360,6 +1373,11 @@
     {
       "v": 30,
       "delta": "Added external citation hygiene report counters for declared authoritative, stale, current, assumption, unsupported-assumption, and stable-decision citation posture.",
+      "breaking": false
+    },
+    {
+      "v": 31,
+      "delta": "Raised changelog delta hard limit to 500 characters and added a warning-class remediation path above the preferred 300-character guidance limit.",
       "breaking": false
     }
   ],

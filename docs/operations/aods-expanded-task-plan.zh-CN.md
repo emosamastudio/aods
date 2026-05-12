@@ -89,6 +89,16 @@
 | U-123 | S17 | CLI DX | P2 | 已完成 | CLI help coverage for all subcommands | validate / hook / upgrade / compile / scaffold help 已补齐；focused regression 覆盖所有子命令 |
 | U-124 | S17 | validation docs | P2 | 已完成 | Validate JSON report schema documentation | validate base JSON report、topology、external_citations 字段契约已文档化 |
 | U-125 | S17 | validation parity | P2 | 已完成 | Validate text/JSON parity audit | text / JSON parity matrix 与保留差异已明确；不大改输出 |
+| U-126 | S17 | route observability | P2 | 已完成 | Route explanation dependency graph review | `source/reason/dependency` 覆盖可接受；直接依赖边界已明确 |
+| U-127 | S17 | remediation | P2 | 已完成 | Remediation guidance coverage matrix | remediation 覆盖矩阵已入账；新增 changelog delta warning action |
+| U-128 | S17 | validation policy | P2 | 已完成 | Validation severity gate consistency review | warning / strict gate 行为一致；changelog warning 回归覆盖 |
+| U-129 | S17 | CLI output | P3 | 已完成 | Compact vs verbose validation output triage | 暂不新增输出模式；先改善 maxLength length diagnostics |
+| U-130 | S17 | routing quality | P2 | 已完成 | Route query corpus coverage audit | common query terms 覆盖可接受；write intent dependency expansion 已确认 |
+| U-131 | S17 | routing hygiene | P2 | 已完成 | Route touch-route stale path audit | 16 条 touch route 无 stale path；operations docs fallback 缺口已记录 |
+| U-132 | S17 | DX wording | P3 | 已完成 | Error message actionable wording pass | route invalid stage/intent 与 maxLength diagnostics 已修复并测试 |
+| U-133 | S18 | authoring | P2 | 已完成 | Authoring source lint boundary triage | source-first lint 边界保持 schema / compile / validate；不做 style linter |
+| U-134 | S18 | ergonomics | P2 | 已完成 | Changelog delta ergonomics fix plan | 选择 300 soft warning + 500 hard fail |
+| U-135 | S18 | schema / validator | P2 | 已完成 | Changelog delta schema/test implementation | schema、validator、spec、focused regression 已落地 |
 
 ## 下一批推荐
 
@@ -115,8 +125,8 @@
 | Batch Q | U-096 到 U-105 | 已完成；release/package/drift 前十项已收束为 package smoke、public sync dry-run 和 evidence trace docs | package dry-run、packed install smoke、release:self-check、docs gate、`npm run validate:all`、`git diff --check` |
 | Batch R | U-106 到 U-115 | 已完成；drift workflow 与 fixture coverage 前十项已收束，并修复 skill 字段名漂移 | skill package focused test、fixture non-execution regression、docs gate、`validate:all` |
 | Batch S | U-116 到 U-125 | 已完成；fixture output、examples、compile/schema freshness、benchmark hygiene、CLI / validation docs 已收束 | focused CLI regression、fixture smoke、compile determinism、schema mirror audit、`validate:all` |
-| Batch T | U-126 到 U-135 | 下一轮固定 10 任务；route/validation DX、authoring、changelog ergonomics | focused tests as scoped |
-| Batch U | U-136 到 U-145 | glossary/citation/docs/risk/exposure | docs gate or stable-contracts tests as scoped |
+| Batch T | U-126 到 U-135 | 已完成；route/validation DX、authoring lint boundary 和 changelog ergonomics 已收束 | route query/touch evidence、focused scaffold regression、`validate:all` |
+| Batch U | U-136 到 U-145 | 下一轮固定 10 任务；glossary/citation/docs/risk/exposure | docs gate or stable-contracts tests as scoped |
 | Batch V | U-146 到 U-155 | risk/audit plus far runtime decision gates | docs gate; no runtime PoC |
 | Batch W | U-156 到 U-160 | conformance / adapter / resolver / scheduler / observability research | docs gate; no implementation unless separately authorized |
 

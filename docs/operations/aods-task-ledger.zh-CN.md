@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S17 validation / routing / CLI DX hardening |
-| 当前回合 | R-2026-05-12-04 |
-| 未完成任务数量 | 35 |
-| 已完成任务数量 | 130 |
+| 当前阶段 | S18 authoring / validation DX hardening |
+| 当前回合 | R-2026-05-12-05 |
+| 未完成任务数量 | 25 |
+| 已完成任务数量 | 140 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-04 |
-| 开始时间 | 2026-05-12 15:41 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-05 |
+| 开始时间 | 2026-05-12 16:39 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-116、U-117、U-118、U-119、U-120、U-121、U-122、U-123、U-124、U-125 |
-| 本轮范围 | 上轮 U-106 到 U-115 复审；本地 aods-use skill 安装面同步检修；fixture smoke output contract、example pack gap audit、source-first compile determinism、compiled-pilot schema mirror、seven-plane pilot freshness、open-source scenario health、benchmark generated artifact hygiene、CLI help coverage、validate JSON report schema docs、validate text/JSON parity |
+| 选中任务 | U-126、U-127、U-128、U-129、U-130、U-131、U-132、U-133、U-134、U-135 |
+| 本轮范围 | 上轮 U-116 到 U-125 复审；route explanation dependency graph review、remediation guidance coverage、severity gate consistency、compact/verbose triage、route query coverage、touch-route stale path audit、error message wording、authoring source lint boundary、changelog delta fix plan、changelog delta schema/test implementation |
 | 排除范围 | runtime 实现、dashboard 实现、conformance runner、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；本地 skill sync diff；CLI help focused regression；fixture smoke JSON/text；source-first compile determinism；schema mirror cmp/shasum；seven-plane strict validation；open-source scenario fixture query；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
+| 验证计划 | 上轮质量复审；route query/touch evidence；focused scaffold regression；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-126 | S17 | Route explanation dependency graph review | P2 | 未开始 | route explanation 的 source/reason/dependency 字段覆盖和不足明确；不改 ranking | U-079 | route observability |
-| U-127 | S17 | Remediation guidance coverage matrix | P2 | 未开始 | validator rules 中 remediation guidance 覆盖率和缺口明确；不自动修复 | U-030 | remediation |
-| U-128 | S17 | Validation severity gate consistency review | P2 | 未开始 | L1-L4 severity/gate 与 strict 行为一致性审查完成；不改 severity policy unless separately scoped | U-011 | validation policy |
-| U-129 | S17 | Compact vs verbose validation output triage | P3 | 未开始 | 是否需要 compact/verbose 模式的需求、风险和最小实现路线明确；不实现新模式 | U-125 | CLI output |
-| U-130 | S17 | Route query corpus coverage audit | P2 | 未开始 | common query terms 到 authority module 的覆盖、miss 和 stale route 风险明确；不改 scoring | U-126 | routing quality |
-| U-131 | S17 | Route touch-route stale path audit | P2 | 未开始 | touch routes 中 stale path、unregistered path、unexpected fallback 的审查完成；不重排 authority | U-130 | routing hygiene |
-| U-132 | S17 | Error message actionable wording pass | P3 | 未开始 | 高噪声错误信息的可操作性问题列表和优先级明确；不一次性改全部错误 | U-127 | DX wording |
-| U-133 | S18 | Authoring source lint boundary triage | P2 | 未开始 | source-first authoring lint 的可验证字段、非目标和候选 tests 明确；不实现 style linter | U-081 | authoring |
-| U-134 | S18 | Changelog delta ergonomics fix plan | P2 | 未开始 | `#13` 的真实 pain、schema options、migration risk 和 test plan 明确；不直接改 schema | U-083 | ergonomics |
-| U-135 | S18 | Changelog delta schema/test implementation | P2 | 未开始 | 若 U-134 通过，最小 schema/test 改动落地并验证；不扩成 changelog framework | U-134 | schema / validator |
 | U-136 | S18 | Glossary registry alias lifecycle triage | P3 | 未开始 | alias/deprecated term lifecycle、replacement、scope collision 后续边界明确；不做 resolver runtime | U-064 | glossary |
 | U-137 | S18 | Glossary canonical-term documentation pass | P3 | 未开始 | glossary v2 authoring / consumption guidance 补齐且不夸大 runtime；不全文扫描 | U-136 | glossary docs |
 | U-138 | S18 | External citation review workflow triage | P2 | 未开始 | citation review_status、claim_posture、authority_relation 的 review workflow 明确；不做 crawler | U-082 | citation |
@@ -202,6 +192,16 @@
 | 128 | U-123 | S17 | CLI help coverage for all subcommands | P2 | 2026-05-12 | `lib/compile.mjs`、`lib/hook.mjs`、`lib/scaffold.mjs`、`lib/upgrade.mjs`、`lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-cli-help-coverage-matrix.zh-CN.md` | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs` | validate / hook / upgrade / compile / scaffold help 已补齐；31/31 focused regression pass |
 | 129 | U-124 | S17 | Validate JSON report schema documentation | P2 | 2026-05-12 | `docs/operations/aods-validate-json-report-schema-docs.zh-CN.md` | `node ./bin/aods.mjs validate . --strict --json`；compiled-pilot `--reality --json` keys query | base report、topology、external_citations 字段契约已文档化 |
 | 130 | U-125 | S17 | Validate text/JSON parity audit | P2 | 2026-05-12 | `docs/operations/aods-validate-text-json-parity-audit.zh-CN.md` | validate text / JSON output query | text / JSON parity matrix 与保留差异已明确；不大改输出 |
+| 131 | U-126 | S17 | Route explanation dependency graph review | P2 | 2026-05-12 | `docs/operations/aods-route-explanation-dependency-graph-review.zh-CN.md` | route query / touch JSON evidence | `source/reason/dependency` 覆盖可接受；直接依赖边界已明确；不改 ranking |
+| 132 | U-127 | S17 | Remediation guidance coverage matrix | P2 | 2026-05-12 | `docs/operations/aods-remediation-guidance-coverage-matrix.zh-CN.md`、`lib/validate.mjs`、`spec/validation-rules.json` | focused scaffold regression | remediation 覆盖矩阵已入账；新增 changelog delta warning remediation |
+| 133 | U-128 | S17 | Validation severity gate consistency review | P2 | 2026-05-12 | `docs/operations/aods-validation-severity-gate-consistency-review.zh-CN.md`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs` | changelog warning strict regression | warning / strict gate 行为一致；普通 validate pass、strict fail、schema hard fail 均有回归 |
+| 134 | U-129 | S17 | Compact vs verbose validation output triage | P3 | 2026-05-12 | `docs/operations/aods-compact-verbose-validation-output-triage.zh-CN.md`、`lib/corpus-helpers.mjs` | maxLength hard fail regression | 暂不新增 compact/verbose；先改善 maxLength limit / received length 信息 |
+| 135 | U-130 | S17 | Route query corpus coverage audit | P2 | 2026-05-12 | `docs/operations/aods-route-query-corpus-coverage-audit.zh-CN.md` | route query JSON samples | common query terms 覆盖可接受；write intent dependency expansion 已确认 |
+| 136 | U-131 | S17 | Route touch-route stale path audit | P2 | 2026-05-12 | `docs/operations/aods-route-touch-route-stale-path-audit.zh-CN.md` | manifest `boot_by_touch` query；route touch samples | 16 条 touch route 未发现 stale path；operations docs fallback 缺口已记录 |
+| 137 | U-132 | S17 | Error message actionable wording pass | P3 | 2026-05-12 | `docs/operations/aods-error-message-actionable-wording-pass.zh-CN.md`、`lib/route.mjs`、`lib/corpus-helpers.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs` | focused scaffold regression | route invalid stage/intent 现在直接失败并列 allowed values；maxLength 输出 received length |
+| 138 | U-133 | S18 | Authoring source lint boundary triage | P2 | 2026-05-12 | `docs/operations/aods-authoring-source-lint-boundary-triage.zh-CN.md` | authoring schema / compile / validate review | authoring lint 边界明确为 schema + compile + validate；不实现 style linter |
+| 139 | U-134 | S18 | Changelog delta ergonomics fix plan | P2 | 2026-05-12 | `docs/operations/aods-changelog-delta-ergonomics-fix-plan.zh-CN.md`、GitHub issue `#13` read-only context | plan review | 选择 300 soft warning + 500 hard fail；不扩成 changelog framework |
+| 140 | U-135 | S18 | Changelog delta schema/test implementation | P2 | 2026-05-12 | `schema/module.schema.json`、`lib/validate.mjs`、`lib/corpus-helpers.mjs`、`lib/route.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`spec/validation-rules.json`、`docs/operations/aods-changelog-delta-schema-test-implementation.zh-CN.md` | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs` | changelog delta 500 hard limit 和 300 warning 已落地；32/32 focused regression pass |
 
 ## 失败或阻塞任务
 
@@ -289,3 +289,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-096` 到 `U-105` 完成 | 本轮 10 任务已完成：package inventory、packed install smoke、close-on-merge audit、post-merge reconciliation、release candidate gate、release playbook dry run、post-release retrospective template、implementation evidence locator matrix、acceptance coverage、requirement-to-evidence trace 已入账；不 merge、不发布、不 bump version。下一轮应选择 U-106 到 U-115。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-106` 到 `U-115` 完成 | 本轮先返工修复 `aods-use` skill 字段名漂移并补测试，然后完成 stale evidence refresh、locator remediation、summary guard、non-execution invariant、dashboard/ownership boundary、fixture coverage、negative fixture plan 和 golden drift report；不建 runtime/dashboard/runner、不 merge、不发布、不 bump version。下一轮应选择 U-116 到 U-125。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-116` 到 `U-125` 完成 | 本轮先检修并同步本地 `aods-use` skill 安装面，然后完成 fixture smoke output contract、example gap audit、compile determinism、schema mirror、seven-plane freshness、open-source scenario health、benchmark artifact hygiene、CLI help coverage、validate JSON docs 和 text/JSON parity；不建 runner、不 merge、不发布、不 bump version。下一轮应选择 U-126 到 U-135。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-126` 到 `U-135` 完成 | 本轮完成 route explanation、remediation coverage、severity gate、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta ergonomics；并落地 300 soft warning / 500 hard fail 及回归测试。下一轮应选择 U-136 到 U-145。 |

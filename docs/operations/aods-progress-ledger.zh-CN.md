@@ -34,3 +34,4 @@
 | 2026-05-02 | 100% | 80% | 58% | `U-008`、`U-011`、`U-014` 完成 | root topology 已从 design-only 进入 schema + compiled-authoring + example 链路；severity/gating 与 adapter minimum contract 也已形成统一 spec vocabulary。 |
 | 2026-05-02 | 100% | 85% | 63% | `U-009`、`U-010`、`U-013`、`U-018` 完成 | module-level implementation linkage 与 topology-aware reality summary 已落盘；cross-surface ref boundary 和 invariant normalization 也已进入 spec/validator，当前只剩 release alignment blocked work。 |
 | 2026-05-02 | 100% | 88% | 66% | `U-015` 完成 | release alignment checklist 已收敛；正式版本发布统一走 GitHub Releases，repo 当前台账已无未完成任务。 |
+| 2026-05-12 | 100% | 99% | 99% | `U-126` 到 `U-135` 完成 | route / validation DX、authoring lint boundary 和 changelog ergonomics 已收束；changelog delta 采用 300 soft warning + 500 hard fail，并由 focused regression 覆盖。 |

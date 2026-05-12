@@ -75,6 +75,16 @@
 | `aods-cli-help-coverage-matrix.zh-CN.md` | U-123 CLI help coverage matrix，补齐 validate / hook / upgrade / compile / scaffold 等子命令 help | 高 |
 | `aods-validate-json-report-schema-docs.zh-CN.md` | U-124 validate JSON report schema docs，文档化 base report 与 reality extension 字段 | 高 |
 | `aods-validate-text-json-parity-audit.zh-CN.md` | U-125 validate text / JSON parity audit，明确 text 与 JSON 输出的信息差和保留差异 | 高 |
+| `aods-route-explanation-dependency-graph-review.zh-CN.md` | U-126 route explanation dependency graph review，确认 `source/reason/dependency` 覆盖与直接依赖边界 | 高 |
+| `aods-remediation-guidance-coverage-matrix.zh-CN.md` | U-127 remediation guidance coverage matrix，记录 validator remediation 覆盖与新增 changelog action | 高 |
+| `aods-validation-severity-gate-consistency-review.zh-CN.md` | U-128 validation severity gate consistency review，确认 warning / strict gate 行为一致 | 高 |
+| `aods-compact-verbose-validation-output-triage.zh-CN.md` | U-129 compact vs verbose validation output triage，明确暂不新增输出模式并做局部 message 改进 | 高 |
+| `aods-route-query-corpus-coverage-audit.zh-CN.md` | U-130 route query corpus coverage audit，审查 common query terms 到 authority module 的覆盖 | 高 |
+| `aods-route-touch-route-stale-path-audit.zh-CN.md` | U-131 route touch-route stale path audit，确认现有 touch routes 无 stale path 并记录 docs fallback | 高 |
+| `aods-error-message-actionable-wording-pass.zh-CN.md` | U-132 error message actionable wording pass，补 route invalid arg 和 maxLength length diagnostics | 高 |
+| `aods-authoring-source-lint-boundary-triage.zh-CN.md` | U-133 authoring source lint boundary triage，明确 source-first lint 仍以 schema/compile/validate 为主 | 高 |
+| `aods-changelog-delta-ergonomics-fix-plan.zh-CN.md` | U-134 changelog delta ergonomics fix plan，选择 300 soft warning + 500 hard fail | 高 |
+| `aods-changelog-delta-schema-test-implementation.zh-CN.md` | U-135 changelog delta schema/test implementation，落地 schema、validator、test 和 spec 同步 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -154,9 +164,19 @@
 70. 读 `aods-cli-help-coverage-matrix.zh-CN.md`
 71. 读 `aods-validate-json-report-schema-docs.zh-CN.md`
 72. 读 `aods-validate-text-json-parity-audit.zh-CN.md`
-73. 读 `aods-v0.7-rc-gate.zh-CN.md`
-74. 读 `aods-handoff.zh-CN.md`
-75. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+73. 读 `aods-route-explanation-dependency-graph-review.zh-CN.md`
+74. 读 `aods-remediation-guidance-coverage-matrix.zh-CN.md`
+75. 读 `aods-validation-severity-gate-consistency-review.zh-CN.md`
+76. 读 `aods-compact-verbose-validation-output-triage.zh-CN.md`
+77. 读 `aods-route-query-corpus-coverage-audit.zh-CN.md`
+78. 读 `aods-route-touch-route-stale-path-audit.zh-CN.md`
+79. 读 `aods-error-message-actionable-wording-pass.zh-CN.md`
+80. 读 `aods-authoring-source-lint-boundary-triage.zh-CN.md`
+81. 读 `aods-changelog-delta-ergonomics-fix-plan.zh-CN.md`
+82. 读 `aods-changelog-delta-schema-test-implementation.zh-CN.md`
+83. 读 `aods-v0.7-rc-gate.zh-CN.md`
+84. 读 `aods-handoff.zh-CN.md`
+85. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -204,4 +224,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-125 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-135 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-115 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage、contract-to-evidence trace、stale evidence refresh workflow、locator remediation、non-execution invariant、fixture coverage matrix 和 golden export drift report。U-116 到 U-125 已完成 fixture smoke output contract、example pack gap audit、source-first compile determinism、compiled-pilot schema mirror、seven-plane freshness、open-source scenario health、benchmark generated hygiene、CLI help coverage、validate JSON docs 和 text/JSON parity audit。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 保持 P3 open。下一轮应选择 U-126、U-127、U-128、U-129、U-130、U-131、U-132、U-133、U-134、U-135。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-125 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage、contract-to-evidence trace、stale evidence refresh workflow、locator remediation、non-execution invariant、fixture coverage matrix、golden export drift report、fixture output、examples、benchmark hygiene、CLI / validation docs。U-126 到 U-135 已完成 route explanation dependency review、remediation coverage、severity gate consistency、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta schema/test implementation；changelog delta 现在是 300 soft warning + 500 hard fail。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 的本地最小修复已完成但公开同步仍需授权。下一轮应选择 U-136、U-137、U-138、U-139、U-140、U-141、U-142、U-143、U-144、U-145。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -83,9 +83,19 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | 68 | `docs/operations/aods-cli-help-coverage-matrix.zh-CN.md` | 读取 U-123 CLI help coverage matrix |
 | 69 | `docs/operations/aods-validate-json-report-schema-docs.zh-CN.md` | 读取 U-124 validate JSON report docs |
 | 70 | `docs/operations/aods-validate-text-json-parity-audit.zh-CN.md` | 读取 U-125 validate text/JSON parity audit |
-| 71 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 72 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 73 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 71 | `docs/operations/aods-route-explanation-dependency-graph-review.zh-CN.md` | 读取 U-126 route explanation dependency graph review |
+| 72 | `docs/operations/aods-remediation-guidance-coverage-matrix.zh-CN.md` | 读取 U-127 remediation coverage matrix |
+| 73 | `docs/operations/aods-validation-severity-gate-consistency-review.zh-CN.md` | 读取 U-128 severity gate consistency review |
+| 74 | `docs/operations/aods-compact-verbose-validation-output-triage.zh-CN.md` | 读取 U-129 validation output triage |
+| 75 | `docs/operations/aods-route-query-corpus-coverage-audit.zh-CN.md` | 读取 U-130 route query coverage audit |
+| 76 | `docs/operations/aods-route-touch-route-stale-path-audit.zh-CN.md` | 读取 U-131 touch-route stale path audit |
+| 77 | `docs/operations/aods-error-message-actionable-wording-pass.zh-CN.md` | 读取 U-132 error message wording pass |
+| 78 | `docs/operations/aods-authoring-source-lint-boundary-triage.zh-CN.md` | 读取 U-133 authoring source lint boundary |
+| 79 | `docs/operations/aods-changelog-delta-ergonomics-fix-plan.zh-CN.md` | 读取 U-134 changelog delta ergonomics plan |
+| 80 | `docs/operations/aods-changelog-delta-schema-test-implementation.zh-CN.md` | 读取 U-135 changelog delta implementation |
+| 81 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 82 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 83 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -228,22 +238,32 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-123 | CLI help coverage for all subcommands | validate / hook / upgrade / compile / scaffold help 已补齐；focused regression 覆盖所有子命令 |
 | U-124 | Validate JSON report schema documentation | validate base JSON report、topology、external_citations 字段契约已文档化 |
 | U-125 | Validate text/JSON parity audit | text / JSON parity matrix 与保留差异已明确；不大改输出 |
+| U-126 | Route explanation dependency graph review | `source/reason/dependency` 覆盖可接受；直接依赖边界已明确 |
+| U-127 | Remediation guidance coverage matrix | remediation 覆盖矩阵已入账；新增 changelog delta warning action |
+| U-128 | Validation severity gate consistency review | warning / strict gate 行为一致；changelog warning 回归覆盖 |
+| U-129 | Compact vs verbose validation output triage | 暂不新增输出模式；先改善 maxLength length diagnostics |
+| U-130 | Route query corpus coverage audit | common query terms 覆盖可接受；write intent dependency expansion 已确认 |
+| U-131 | Route touch-route stale path audit | 16 条 touch route 未发现 stale path；operations docs fallback 已记录 |
+| U-132 | Error message actionable wording pass | route invalid stage/intent 现在直接失败并列 allowed values；maxLength 输出 received length |
+| U-133 | Authoring source lint boundary triage | source-first lint 边界保持 schema / compile / validate；不做 style linter |
+| U-134 | Changelog delta ergonomics fix plan | 已选择 300 soft warning + 500 hard fail；不扩成 changelog framework |
+| U-135 | Changelog delta schema/test implementation | schema、validator、spec 和 focused regression 已落地 |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-126 | Route explanation dependency graph review | 下一轮 10 任务第 1 个 |
-| 2 | U-127 | Remediation guidance coverage matrix | 下一轮 10 任务第 2 个 |
-| 3 | U-128 | Validation severity gate consistency review | 下一轮 10 任务第 3 个 |
-| 4 | U-129 | Compact vs verbose validation output triage | 下一轮 10 任务第 4 个 |
-| 5 | U-130 | Route query corpus coverage audit | 下一轮 10 任务第 5 个 |
-| 6 | U-131 | Route touch-route stale path audit | 下一轮 10 任务第 6 个 |
-| 7 | U-132 | Error message actionable wording pass | 下一轮 10 任务第 7 个 |
-| 8 | U-133 | Authoring source lint boundary triage | 下一轮 10 任务第 8 个 |
-| 9 | U-134 | Changelog delta ergonomics fix plan | 下一轮 10 任务第 9 个 |
-| 10 | U-135 | Changelog delta schema/test implementation | 下一轮 10 任务第 10 个 |
-| 11 | U-136 - U-160 | 综合任务池剩余任务 | 详见 `aods-comprehensive-task-plan.zh-CN.md` 和任务台账 |
+| 1 | U-136 | Glossary registry alias lifecycle triage | 下一轮 10 任务第 1 个 |
+| 2 | U-137 | Glossary canonical-term documentation pass | 下一轮 10 任务第 2 个 |
+| 3 | U-138 | External citation review workflow triage | 下一轮 10 任务第 3 个 |
+| 4 | U-139 | External citation freshness policy docs | 下一轮 10 任务第 4 个 |
+| 5 | U-140 | Documentation density quality pass | 下一轮 10 任务第 5 个 |
+| 6 | U-141 | Paired surface sync example report | 下一轮 10 任务第 6 个 |
+| 7 | U-142 | Docs navigation dead-link local checker triage | 下一轮 10 任务第 7 个 |
+| 8 | U-143 | Sensitive example redaction fixture review | 下一轮 10 任务第 8 个 |
+| 9 | U-144 | Credential placeholder policy docs | 下一轮 10 任务第 9 个 |
+| 10 | U-145 | Remote exposure upgrade checklist | 下一轮 10 任务第 10 个 |
+| 11 | U-146 - U-160 | 综合任务池剩余任务 | 详见 `aods-comprehensive-task-plan.zh-CN.md` 和任务台账 |
 
 ## 失败和风险
 
@@ -286,7 +306,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | resource surface 扩散风险 | resource 示例容易扩成 resource runtime、scheduler、cleanup executor、permission broker 或生产资源控制系统 | U-058 已只落 source-first canonical example pack；后续不要把示例误读为 runtime、scheduler、cleanup executor、permission broker 或 schema |
 | glossary registry 扩散风险 | `#57` 容易继续扩成 term resolver runtime、migration tool 或自然语言术语扫描 | U-062/U-064 已只落 schema、deterministic gates 和 source-first example pack；后续不要把 example 解读为 resolver/runtime 或全文扫描 |
 | external citation 扩散风险 | `#58` 容易扩成 citation crawler、事实核验器、cross-corpus resolver 或 LLM summary faithfulness 判定 | U-061 到 U-067 已裁剪并落地 schema、deterministic gates 和 canonical example pack；U-082 只补 declared posture report；后续不要把 example 或 report 解读为 crawler、claim detector、remote fetch 或 resolver |
-| changelog ergonomics 过早实现风险 | `#13` 是真实体验问题，但不阻塞当前 release workflow | U-083 已写 public response plan；后续除非 release workflow 被实际阻塞，否则不应在 hardening 分支顺手改 schema 上限 |
+| changelog ergonomics 公开同步风险 | `#13` 的本地最小修复已落地，但公开 issue 仍需要按授权同步 | 后续如处理公开状态，只能评论说明 300 soft warning + 500 hard fail 已在本分支实现，不提前关闭 issue |
 | runtime 过早实现风险 | workflow runtime、event store、policy engine、remote gateway、migration tool 都是合理方向，但当前仍只允许 metadata-only 边界和 PoC decision gate | U-085 到 U-090 已完成 readiness / entry triage；下一步若继续 runtime，只能进入 U-151 到 U-155 decision gate，不能直接实现 runtime |
 | PR closeout 混入实现风险 | PR `#63` final readiness / merge / release 会改变公开状态，容易和 package/release/drift 工作混在一轮 | U-091/U-093/U-094/U-095 和 U-098/U-099 已入账；未获 owner 明确指令前不 ready、不 merge、不 release、不 bump version |
 | package release 误判风险 | package inventory、install smoke 和 release self-check 都通过，但 version 仍是 `0.7.0` 且 PR 仍是 draft | U-096/U-097/U-100/U-101 已明确 technical gate pass 不等于 public release authorization |
@@ -305,6 +325,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-126 - U-135 | 下一轮固定 10 任务 | route/validation DX、authoring、changelog ergonomics |
-| 2 | U-136 - U-145 | 再下一轮固定 10 任务 | glossary/citation/docs/risk/exposure |
-| 3 | U-146 - U-160 | 后续任务池 | 每轮继续按顺序取 10 个，少于 10 个时全选 |
+| 1 | U-136 - U-145 | 下一轮固定 10 任务 | glossary/citation/docs quality/redaction/exposure |
+| 2 | U-146 - U-155 | 再下一轮固定 10 任务 | risk/audit plus far runtime decision gates |
+| 3 | U-156 - U-160 | 后续任务池 | 每轮继续按顺序取 10 个，少于 10 个时全选 |

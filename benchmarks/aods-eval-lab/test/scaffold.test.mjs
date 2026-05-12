@@ -26,7 +26,40 @@ test("CLI help and compile errors expose allowed enum values", () => {
   const routeHelp = runCli(["route", "--help"]);
   assert.match(routeHelp, /aods route \[root\] \[--role <role-id>\]/);
   assert.match(routeHelp, /--stage <stage>/);
+  assert.match(routeHelp, /route stage: any \| orientation \| plan \| action \| verification \| evidence/);
   assert.match(routeHelp, /route intent: any \| read \| write \| validate \| sync/);
+
+  const invalidRouteStage = spawnSync("node", [
+    CLI_PATH,
+    "route",
+    ".",
+    "--stage",
+    "begin",
+    "--intent",
+    "read"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidRouteStage.status, 0);
+  assert.match(invalidRouteStage.stderr, /Invalid route stage/);
+  assert.match(invalidRouteStage.stderr, /"verification"/);
+
+  const invalidRouteIntent = spawnSync("node", [
+    CLI_PATH,
+    "route",
+    ".",
+    "--stage",
+    "plan",
+    "--intent",
+    "inspect"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidRouteIntent.status, 0);
+  assert.match(invalidRouteIntent.stderr, /Invalid route intent/);
+  assert.match(invalidRouteIntent.stderr, /"validate"/);
 
   const subcommandHelp = new Map([
     ["validate", [/AODS validate/, /--repo-root <path>/]],
@@ -229,6 +262,70 @@ test("compile --strict turns warning-only output into a failing gate", () => {
   assert.deepEqual(strictJson.created_files, []);
   assert.equal(strictJson.validation.errors, 0);
   assert.ok(strictJson.validation.warnings > 0);
+});
+
+test("changelog delta uses a soft warning before the hard schema limit", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-changelog-delta-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.modules[0].changelog = [
+    {
+      v: 2,
+      delta: "x".repeat(350)
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const warningRoot = path.join(tempDir, "compiled-warning");
+  const warningCompile = spawnSync("node", [CLI_PATH, "compile", sourcePath, warningRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(warningCompile.status, 0);
+  assert.match(warningCompile.stdout, /WARN compile corpus/);
+  assert.match(warningCompile.stdout, /changelog-delta-soft-limit/);
+
+  const compiledModule = JSON.parse(fs.readFileSync(path.join(warningRoot, "modules", "demo-system-root.json"), "utf8"));
+  assert.equal(compiledModule.changelog[0].delta.length, 350);
+
+  const warningValidate = spawnSync("node", [CLI_PATH, "validate", warningRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(warningValidate.status, 0);
+  const warningReport = JSON.parse(warningValidate.stdout);
+  const warning = warningReport.levels.L3.warnings.find((issue) => issue.rule === "changelog-delta-soft-limit");
+  assert.ok(warning);
+  assert.equal(warning.remediation.action, "tighten-changelog-delta");
+
+  const strictRoot = path.join(tempDir, "compiled-strict");
+  const strictCompile = spawnSync("node", [
+    CLI_PATH,
+    "compile",
+    sourcePath,
+    strictRoot,
+    "--force",
+    "--strict"
+  ], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(strictCompile.status, 0);
+  assert.match(strictCompile.stdout, /strict gate blocked by warnings/);
+  assert.match(strictCompile.stdout, /target not updated because strict gate failed/);
+  assert.equal(fs.existsSync(path.join(strictRoot, "manifest.json")), false);
+
+  source.modules[0].changelog[0].delta = "x".repeat(501);
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+  const hardCompile = spawnSync("node", [CLI_PATH, "compile", sourcePath, path.join(tempDir, "compiled-hard"), "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(hardCompile.status, 0);
+  assert.match(hardCompile.stderr, /must NOT have more than 500 characters/);
+  assert.match(hardCompile.stderr, /Received length: 501/);
 });
 
 test("authoring source can pin compiled manifest timestamps", () => {

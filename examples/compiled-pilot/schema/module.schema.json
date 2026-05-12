@@ -1283,7 +1283,7 @@
       "properties": {
         "v": { "type": "integer" },
         "ts": { "type": "string", "format": "date-time" },
-        "delta": { "type": "string", "maxLength": 300 },
+        "delta": { "type": "string", "maxLength": 500 },
         "breaking": { "type": "boolean", "default": false }
       }
     },

@@ -2,6 +2,85 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-05
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-05 |
+| 开始时间 | 2026-05-12 16:39 Asia/Shanghai |
+| 结束时间 | 2026-05-12 16:52 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-116 到 U-125 复审；route explanation、remediation coverage、severity gate、validation output triage、route query/touch audit、error wording、authoring lint boundary、changelog delta ergonomics 和最小 schema/test implementation；不实现 runtime、dashboard、runner；不 merge、不 release、不 bump version |
+| 本轮选中任务 | U-126、U-127、U-128、U-129、U-130、U-131、U-132、U-133、U-134、U-135 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-05
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/route.mjs`、`lib/validate.mjs`、`lib/corpus-helpers.mjs`、`schema/module.schema.json`、schema mirrors、`spec/validation-rules.json`、focused regression、U-126 到 U-135 operations docs、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、round log、docs navigation |
+| 禁止触碰 | runtime 实现、dashboard 实现、conformance runner、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub issue `#13` 只读上下文；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 已还原 |
+
+## 上轮质量复审：R-2026-05-12-05
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `adffa2a` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | focused scaffold regression、`validate:all`、`benchmark:test`、diff hygiene 和 push 记录完整 |
+| AODS route | 通过 | 本轮 query 指向 validation、boot protocol、stable contracts 等相关 authority |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-126 到 U-135 |
+
+## 任务执行记录：R-2026-05-12-05
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-126 | 未开始 | 已完成 | 审查 route explanation 的 source/reason/dependency 和直接依赖边界 | `docs/operations/aods-route-explanation-dependency-graph-review.zh-CN.md` |
+| 2 | U-127 | 未开始 | 已完成 | 建立 remediation guidance 覆盖矩阵，并为 changelog warning 增加 action | `docs/operations/aods-remediation-guidance-coverage-matrix.zh-CN.md`、`lib/validate.mjs` |
+| 3 | U-128 | 未开始 | 已完成 | 复审 warning / strict gate 行为，并用 changelog warning 回归覆盖 | `docs/operations/aods-validation-severity-gate-consistency-review.zh-CN.md`、focused test |
+| 4 | U-129 | 未开始 | 已完成 | triage compact / verbose output，选择局部改善 maxLength message | `docs/operations/aods-compact-verbose-validation-output-triage.zh-CN.md`、`lib/corpus-helpers.mjs` |
+| 5 | U-130 | 未开始 | 已完成 | 审查 common query terms 覆盖和 write intent dependency expansion | `docs/operations/aods-route-query-corpus-coverage-audit.zh-CN.md` |
+| 6 | U-131 | 未开始 | 已完成 | 审查 16 条 touch route 和 docs fallback | `docs/operations/aods-route-touch-route-stale-path-audit.zh-CN.md` |
+| 7 | U-132 | 未开始 | 已完成 | 修复 route invalid stage/intent 和 maxLength received length 信息 | `lib/route.mjs`、`lib/corpus-helpers.mjs`、focused test |
+| 8 | U-133 | 未开始 | 已完成 | 明确 authoring lint 继续以 schema / compile / validate 为主 | `docs/operations/aods-authoring-source-lint-boundary-triage.zh-CN.md` |
+| 9 | U-134 | 未开始 | 已完成 | 为 `#13` 选择 300 soft warning + 500 hard fail 路线 | `docs/operations/aods-changelog-delta-ergonomics-fix-plan.zh-CN.md` |
+| 10 | U-135 | 未开始 | 已完成 | 落地 changelog delta schema/test implementation 和 spec 同步 | `schema/module.schema.json`、`lib/validate.mjs`、`spec/validation-rules.json`、focused test |
+
+## 验证记录：R-2026-05-12-05
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮成果可接续；仅 `MEMORY.md` 未跟踪 |
+| U-126/U-130 | Route query evidence | route query JSON samples | 通过 | query-route explanation 和 write dependency expansion 已入账 |
+| U-131 | Touch route audit | `jq` 统计 `boot_by_touch`；route touch samples | 通过 | 16 条 route 无 stale path；docs fallback 已记录 |
+| U-132/U-135 | Focused regression | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 32/32 pass |
+| U-135 | Compiled pilot schema mirror | `npm run compile:pilot` | 通过 | compiled-pilot schema mirror 已同步 500 hard limit |
+| U-126 - U-135 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-126 - U-135 | Benchmark test gate | `npm run benchmark:test` | 通过 | 82/82 pass；generated results churn 已还原 |
+| U-126 - U-135 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-05
+
+本轮没有新增任务 ID。U-136 到 U-145 仍按 U-092 综合任务池顺序作为下一轮固定 10 任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-126 - U-135 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-05
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-126、U-127、U-128、U-129、U-130、U-131、U-132、U-133、U-134、U-135 |
+| 完成任务 | 10 | route/validation DX、authoring lint boundary、changelog ergonomics 已完成 |
+| 返工项 | 0 | 上轮成果审查通过，本轮没有返工 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 25 | 下一轮固定选择 U-136 到 U-145 |
+
 ## 回合摘要：R-2026-05-12-04
 
 | 项 | 内容 |
