@@ -1,7 +1,7 @@
 # AODS Comprehensive Task Plan
 
-状态：U-092 已完成
-日期：2026-05-08
+状态：U-092 已完成；U-085 到 U-095 执行游标已同步
+日期：2026-05-12
 适用范围：U-084 runtime boundary research 之后的全量规划；每轮执行前仍必须先做上一轮质量审查
 
 ## 目标
@@ -30,22 +30,22 @@
 | S19 | risk / security / exposure / audit | U-143 到 U-150 |
 | S20 | far runtime PoC decision gates | U-151 到 U-160 |
 
-## 下一轮 10 任务选择
+## 当前执行游标
 
-下一轮若上一轮质量审查通过，应选择以下 10 个任务：
+U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 已完成。下一轮若上一轮质量审查通过，应选择以下 10 个任务：
 
 | 顺序 | 任务 ID | 执行意图 |
 |---:|---|---|
-| 1 | U-085 | 建立 runtime readiness gate matrix |
-| 2 | U-086 | 裁剪 workflow runtime entry contract |
-| 3 | U-087 | 裁剪 event store / replay entry contract |
-| 4 | U-088 | 裁剪 policy engine / approval runtime entry contract |
-| 5 | U-089 | 裁剪 remote gateway / adapter runtime entry contract |
-| 6 | U-090 | 裁剪 migration tool entry contract |
-| 7 | U-091 | 做 PR final readiness / public sync closeout 的 readiness 检查 |
-| 8 | U-093 | 做 PR review response matrix |
-| 9 | U-094 | 做 version bump / changelog route triage |
-| 10 | U-095 | 做 release notes completeness pass |
+| 1 | U-096 | 做 package artifact inventory guard update |
+| 2 | U-097 | 做 packed tarball install smoke 路线和结果入账 |
+| 3 | U-098 | 做 public issue close-on-merge audit |
+| 4 | U-099 | 做 post-merge public state reconciliation plan |
+| 5 | U-100 | 做 v0.12 release candidate gate |
+| 6 | U-101 | 做 release execution playbook dry run |
+| 7 | U-102 | 做 post-release retrospective and next milestone triage |
+| 8 | U-103 | 做 implementation evidence locator matrix v2 |
+| 9 | U-104 | 做 acceptance criteria coverage report |
+| 10 | U-105 | 做 contract requirement to evidence trace report |
 
 ## 完整任务清单
 
@@ -131,8 +131,8 @@
 
 | 批次 | 任务 | 验证 |
 |---|---|---|
-| Next 10 | U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 | docs gate、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
-| After next 10 | U-096 到 U-105 | release/package/drift docs + validation gates |
+| Completed 10 | U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 | docs gate、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
+| Next 10 | U-096 到 U-105 | release/package/drift docs + validation gates |
 | Drift block | U-106 到 U-112 | docs gate；只有进入 code slice 时再加 focused regression |
 | Fixture block | U-113 到 U-122 | fixture / benchmark relevant tests + `validate:all` |
 | DX block | U-123 到 U-132 | focused CLI / route / validation tests as needed |

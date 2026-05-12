@@ -1,7 +1,7 @@
 # AODS 扩展任务池与批量执行计划
 
 状态：当前执行计划
-日期：2026-05-08
+日期：2026-05-12
 适用范围：U-058 resource surface example pack 之后的 v0.11+ / S13 迭代
 
 ## 目标
@@ -48,14 +48,17 @@
 | U-082 | S12 | citation hygiene | P2 | 已完成 | External citation stale/current hygiene report | `validate` / `validate --json` 已输出 declared citation posture counters；不做 crawler、URL checker、fact checker |
 | U-083 | S12 | ergonomics | P3 | 已完成 | Changelog delta ergonomics review | 已复审 `#13`：有效但不阻塞当前 release workflow；本轮只写 public response plan，不改 schema |
 | U-084 | S12 | research / boundary | P3 | 已完成 | Runtime-boundary research spike | 已梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的 metadata-only 边界、进入条件和非目标；不实现 runtime |
-| U-085 | S13 | docs / boundary | P2 | 下一批首选 | Runtime readiness gate matrix | 将五类 runtime 候选映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime |
-| U-086 | S13 | boundary triage | P2 | U-085 后 | Workflow runtime entry contract triage | 明确 lifecycle / command / audit / dependency 前置条件和 workflow non-goals；不实现 workflow engine |
-| U-087 | S13 | boundary triage | P2 | U-085 后 | Event store and replay contract triage | 明确 event identity、ordering、retention、replay、correction projection 前置条件；不实现 event store |
-| U-088 | S13 | boundary triage | P2 | U-085 后 | Policy engine and approval runtime triage | 明确 risk label 到 policy decision input/output、audit receipt 和 approval boundary；不实现 permission broker 或 approval workflow |
-| U-089 | S13 | boundary triage | P2 | U-085 后 | Remote gateway / adapter runtime triage | 明确 exposure upgrade、auth、transport、audit、compatibility 前置条件；不实现 remote gateway |
-| U-090 | S13 | boundary triage | P3 | U-085 后 | Migration tool entry contract triage | 明确 source/target authority、dry-run、rollback、mapping、destructive-change approval 边界；不实现 migration executor |
-| U-091 | S13 | release / public sync | P1 | 单独执行 | PR final readiness / public sync closeout | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确；未获 owner 明确指令前不 merge、不 release |
+| U-085 | S13 | docs / boundary | P2 | 已完成 | Runtime readiness gate matrix | 五类 runtime 候选已映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime |
+| U-086 | S13 | boundary triage | P2 | 已完成 | Workflow runtime entry contract triage | lifecycle / command / audit / dependency 前置条件和 workflow non-goals 已明确；不实现 workflow engine |
+| U-087 | S13 | boundary triage | P2 | 已完成 | Event store and replay contract triage | event identity、ordering、retention、replay、correction projection 前置条件已明确；不实现 event store |
+| U-088 | S13 | boundary triage | P2 | 已完成 | Policy engine and approval runtime triage | risk label 到 policy decision input/output、audit receipt 和 approval boundary 已明确；不实现 permission broker 或 approval workflow |
+| U-089 | S13 | boundary triage | P2 | 已完成 | Remote gateway / adapter runtime triage | exposure upgrade、auth、transport、audit、compatibility 前置条件已明确；不实现 remote gateway |
+| U-090 | S13 | boundary triage | P3 | 已完成 | Migration tool entry contract triage | source/target authority、dry-run、rollback、mapping、destructive-change approval 边界已明确；不实现 migration executor |
+| U-091 | S13 | release / public sync | P1 | 已完成 | PR final readiness / public sync closeout | PR `#63` 仍为 draft；reviews/checks 为空；version/release 决策明确为本轮不 merge、不 release、不 bump |
 | U-092 | S20 | planning | P0 | 已完成 | Comprehensive task backlog and 10-task execution rule | 综合任务池扩展到 U-160；后续每轮复审通过后按顺序选 10 个任务 |
+| U-093 | S14 | release / public sync | P1 | 已完成 | PR review response matrix | PR review、covered issue、deferred issue 状态已形成矩阵；不改代码、不关闭 issue |
+| U-094 | S14 | release planning | P1 | 已完成 | Version bump and changelog route triage | 下一 release 前必须先 version bump、tag、changelog entry 和 README version surface；本轮不 bump、不发布 |
+| U-095 | S14 | release docs | P1 | 已完成 | Release notes completeness pass | release note skeleton 已覆盖 major changes、non-goals、known deferred runtime、validation evidence；本轮不发布 |
 
 ## 下一批推荐
 
@@ -78,8 +81,8 @@
 | Batch M | U-081 | 已完成；把 source-first authoring、compile、validate、route、fixture smoke 串成公开 adoption path | RED/GREEN example-pack docs regression、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch N | U-082 + U-083 | 已完成；citation posture 进入 validate report，同时复审 changelog.delta 300 字符限制是否阻塞 release workflow | RED/GREEN scaffold regression、compiled-pilot citation report smoke、GitHub issue `#13` read-only review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch O | U-084 | 已完成；只做 runtime 边界和进入条件研究，不实现 runtime | route/read evidence、docs gate、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
-| Batch P | U-085 + U-086 + U-087 + U-088 + U-089 + U-090 + U-091 + U-093 + U-094 + U-095 | 下一轮固定 10 任务；先收束五类 runtime readiness / entry contract，再做 PR / release readiness 的前置检查 | docs gate、GitHub state review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
-| Batch Q | U-096 到 U-105 | release/package/drift 前十项；按综合任务池顺序推进 | package dry-run、docs gate、`npm run validate:all`、`git diff --check` |
+| Batch P | U-085 + U-086 + U-087 + U-088 + U-089 + U-090 + U-091 + U-093 + U-094 + U-095 | 已完成；五类 runtime readiness / entry contract 已收束，PR / release readiness 前置检查已完成 | docs gate、GitHub state review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
+| Batch Q | U-096 到 U-105 | 下一轮固定 10 任务；release/package/drift 前十项；按综合任务池顺序推进 | package dry-run、docs gate、`npm run validate:all`、`git diff --check` |
 | Batch R | U-106 到 U-115 | drift workflow 与 fixture coverage 前十项 | docs gate、fixture/benchmark relevant tests as scoped |
 | Batch S | U-116 到 U-125 | fixture output、examples、benchmark hygiene、CLI / validation docs | focused CLI / fixture tests as scoped |
 | Batch T | U-126 到 U-135 | route/validation DX、authoring、changelog ergonomics | focused tests as scoped |

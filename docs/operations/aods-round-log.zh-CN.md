@@ -2,6 +2,74 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-01
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-01 |
+| 开始时间 | 2026-05-12 13:59 Asia/Shanghai |
+| 结束时间 | 2026-05-12 14:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | runtime readiness gate、五类 runtime entry contract triage、PR/release readiness docs；不实现 runtime、不 ready/merge PR、不发布 release、不 bump version |
+| 本轮选中任务 | U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-01
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/aods-runtime-readiness-gate-matrix.zh-CN.md`、`aods-workflow-runtime-entry-triage.zh-CN.md`、`aods-event-store-entry-triage.zh-CN.md`、`aods-policy-engine-entry-triage.zh-CN.md`、`aods-remote-gateway-entry-triage.zh-CN.md`、`aods-migration-tool-entry-triage.zh-CN.md`、`aods-pr-final-readiness.zh-CN.md`、`aods-pr-review-response-matrix.zh-CN.md`、`aods-version-changelog-triage.zh-CN.md`、`aods-release-notes-completeness.zh-CN.md`、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、round log、docs navigation |
+| 禁止触碰 | schema/validator/code 改动、runtime 实现、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR / issue / release state 只读审查；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；如 benchmark 产生 generated result churn，必须还原 |
+
+## 任务执行记录：R-2026-05-12-01
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-085 | 未开始 | 已完成 | 复审 U-092 后建立 runtime readiness gate matrix，把五类 runtime 候选映射到 authority、evidence、risk、fixture、public sync gate | `docs/operations/aods-runtime-readiness-gate-matrix.zh-CN.md` |
+| 2 | U-086 | 未开始 | 已完成 | 明确 workflow runtime 的 object identity、state source、transition、command/receipt、retry/cancel/cleanup、audit 和 fixture 前置条件 | `docs/operations/aods-workflow-runtime-entry-triage.zh-CN.md` |
+| 3 | U-087 | 未开始 | 已完成 | 明确 event store / replay 的 event identity、ordering、retention、replay scope、correction projection、idempotency 和 fixture 前置条件 | `docs/operations/aods-event-store-entry-triage.zh-CN.md` |
+| 4 | U-088 | 未开始 | 已完成 | 明确 policy decision input/output、approval boundary、override、audit receipt、determinism 和 fixture 前置条件 | `docs/operations/aods-policy-engine-entry-triage.zh-CN.md` |
+| 5 | U-089 | 未开始 | 已完成 | 明确 remote gateway / adapter runtime 的 exposure upgrade、auth/identity、transport failure、compatibility、audit、cost/quota 和 fixture 前置条件 | `docs/operations/aods-remote-gateway-entry-triage.zh-CN.md` |
+| 6 | U-090 | 未开始 | 已完成 | 明确 migration tool 的 source/target authority、mapping、dry-run、rollback、destructive approval、validation gate 和 fixture 前置条件 | `docs/operations/aods-migration-tool-entry-triage.zh-CN.md` |
+| 7 | U-091 | 未开始 | 已完成 | 只读复核 PR `#63`、close-on-merge、review/check、version/release state；确认本轮不 ready、不 merge、不 release、不 bump | `docs/operations/aods-pr-final-readiness.zh-CN.md` |
+| 8 | U-093 | 未开始 | 已完成 | 形成 PR review response matrix，记录当前无 review/check response、covered issue 等待 merge、deferred issue 保持 open | `docs/operations/aods-pr-review-response-matrix.zh-CN.md` |
+| 9 | U-094 | 未开始 | 已完成 | 复核 package/tag/release/README version surface，明确下一 release 前必须先 version bump / tag / release branch decision | `docs/operations/aods-version-changelog-triage.zh-CN.md` |
+| 10 | U-095 | 未开始 | 已完成 | 完成 release notes completeness pass，提供下一 release notes skeleton、non-goals、known deferred work 和 blockers | `docs/operations/aods-release-notes-completeness.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-01
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-085 - U-095 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check`、`gh pr view 63 --json ...` | 通过 | U-092 commit `e884293` 已在 origin；PR `#63` 仍为 open draft；benchmark generated churn 已还原；仅 `MEMORY.md` 未跟踪 |
+| U-085 | Runtime readiness route evidence | `node ./bin/aods.mjs route . --query "runtime readiness workflow event store policy remote gateway migration release PR version changelog" --stage plan --intent read --json` | 通过 | route 推荐 stable surface contracts authority |
+| U-091/U-093 | GitHub PR / issue state review | `gh pr view 63 --json number,state,isDraft,headRefName,baseRefName,url,title,body,commits,latestReviews,statusCheckRollup`、`gh issue list --state open --limit 100 --json number,title,labels,updatedAt,url` | 通过 | PR `#63` open draft；reviews/checks 为空；covered / deferred issue posture 已入账 |
+| U-094 | Version / release surface review | `jq -r '.version' package.json`、`git tag --sort=-version:refname | head -20`、`gh release list --limit 20`、`rg -n "0\\.7\\.0|0\\.8|0\\.12|version|Release|release" ...` | 通过 | package version、latest tag、latest GitHub release 仍为 `v0.7.0` |
+| U-085 - U-095 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-085 - U-095 | Benchmark test gate | `npm run benchmark:test` | 通过 | 80/80 pass；benchmark generated result churn 已还原 |
+| U-085 - U-095 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-01
+
+本轮没有新增任务 ID。U-096 到 U-105 仍按 U-092 综合任务池顺序作为下一轮固定 10 任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-085 - U-095 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-01
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 |
+| 完成任务 | 10 | runtime readiness / entry triage 与 PR / release readiness docs 已完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 65 | 下一轮固定选择 U-096 到 U-105 |
+
 ## 回合摘要：R-2026-05-08-20
 
 | 项 | 内容 |

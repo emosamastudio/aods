@@ -35,6 +35,16 @@
 | `aods-changelog-delta-ergonomics-review.zh-CN.md` | U-083 changelog.delta 300 字符限制是否阻塞 release workflow 的复审 | 高 |
 | `aods-runtime-boundary-research.zh-CN.md` | U-084 runtime-boundary research spike，梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的边界和进入条件 | 高 |
 | `aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池、长期任务分段和每轮 10 任务执行规则 | 高 |
+| `aods-runtime-readiness-gate-matrix.zh-CN.md` | U-085 runtime readiness gate matrix，把五类 runtime 候选映射到 authority / evidence / risk / fixture / public sync gate | 高 |
+| `aods-workflow-runtime-entry-triage.zh-CN.md` | U-086 workflow runtime entry contract triage，明确 lifecycle / command / audit / dependency 前置条件和非目标 | 高 |
+| `aods-event-store-entry-triage.zh-CN.md` | U-087 event store / replay entry contract triage，明确 event identity、ordering、retention、replay 和 correction projection 边界 | 高 |
+| `aods-policy-engine-entry-triage.zh-CN.md` | U-088 policy engine / approval runtime triage，明确 policy decision input/output、audit receipt 和 approval boundary | 高 |
+| `aods-remote-gateway-entry-triage.zh-CN.md` | U-089 remote gateway / adapter runtime triage，明确 exposure upgrade、auth、transport、audit 和 compatibility 前置条件 | 高 |
+| `aods-migration-tool-entry-triage.zh-CN.md` | U-090 migration tool entry contract triage，明确 source/target authority、dry-run、rollback、mapping 和 destructive approval 边界 | 高 |
+| `aods-pr-final-readiness.zh-CN.md` | U-091 PR final readiness / public sync closeout，记录 draft PR、close-on-merge、version 和 release 决策 | 高 |
+| `aods-pr-review-response-matrix.zh-CN.md` | U-093 PR review response matrix，记录 PR review、covered issue 和 deferred issue 状态 | 高 |
+| `aods-version-changelog-triage.zh-CN.md` | U-094 version bump and changelog route triage，明确下一 release 前的版本和 changelog 路线 | 高 |
+| `aods-release-notes-completeness.zh-CN.md` | U-095 release notes completeness pass，提供下一 release notes skeleton 和发布前 blockers | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -74,9 +84,19 @@
 30. 读 `aods-changelog-delta-ergonomics-review.zh-CN.md`
 31. 读 `aods-runtime-boundary-research.zh-CN.md`
 32. 读 `aods-comprehensive-task-plan.zh-CN.md`
-33. 读 `aods-v0.7-rc-gate.zh-CN.md`
-34. 读 `aods-handoff.zh-CN.md`
-35. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+33. 读 `aods-runtime-readiness-gate-matrix.zh-CN.md`
+34. 读 `aods-workflow-runtime-entry-triage.zh-CN.md`
+35. 读 `aods-event-store-entry-triage.zh-CN.md`
+36. 读 `aods-policy-engine-entry-triage.zh-CN.md`
+37. 读 `aods-remote-gateway-entry-triage.zh-CN.md`
+38. 读 `aods-migration-tool-entry-triage.zh-CN.md`
+39. 读 `aods-pr-final-readiness.zh-CN.md`
+40. 读 `aods-pr-review-response-matrix.zh-CN.md`
+41. 读 `aods-version-changelog-triage.zh-CN.md`
+42. 读 `aods-release-notes-completeness.zh-CN.md`
+43. 读 `aods-v0.7-rc-gate.zh-CN.md`
+44. 读 `aods-handoff.zh-CN.md`
+45. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -124,3 +144,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
+8. U-085 到 U-095 已完成 readiness / triage / release closeout docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

@@ -44,6 +44,16 @@
 | `docs/operations/aods-external-citation-hygiene-report.zh-CN.md` | U-082 external citation stale/current/assumption posture 的 validation report 摘要。 |
 | `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md` | U-083 changelog.delta 300 字符限制是否阻塞 release workflow 的复审。 |
 | `docs/operations/aods-runtime-boundary-research.zh-CN.md` | U-084 runtime-boundary research spike，梳理五类未来 runtime 的边界和进入条件。 |
+| `docs/operations/aods-runtime-readiness-gate-matrix.zh-CN.md` | U-085 runtime readiness gate matrix，把五类 runtime 候选映射到 authority / evidence / risk / fixture / public sync gate。 |
+| `docs/operations/aods-workflow-runtime-entry-triage.zh-CN.md` | U-086 workflow runtime entry contract triage，明确 lifecycle / command / audit / dependency 前置条件和非目标。 |
+| `docs/operations/aods-event-store-entry-triage.zh-CN.md` | U-087 event store / replay entry contract triage，明确 event identity、ordering、retention、replay 和 correction projection 边界。 |
+| `docs/operations/aods-policy-engine-entry-triage.zh-CN.md` | U-088 policy engine / approval runtime triage，明确 policy decision input/output、audit receipt 和 approval boundary。 |
+| `docs/operations/aods-remote-gateway-entry-triage.zh-CN.md` | U-089 remote gateway / adapter runtime triage，明确 exposure upgrade、auth、transport、audit 和 compatibility 前置条件。 |
+| `docs/operations/aods-migration-tool-entry-triage.zh-CN.md` | U-090 migration tool entry contract triage，明确 source/target authority、dry-run、rollback、mapping 和 destructive approval 边界。 |
+| `docs/operations/aods-pr-final-readiness.zh-CN.md` | U-091 PR final readiness / public sync closeout，记录 draft PR、close-on-merge、version 和 release 决策。 |
+| `docs/operations/aods-pr-review-response-matrix.zh-CN.md` | U-093 PR review response matrix，记录 PR review、covered issue 和 deferred issue 状态。 |
+| `docs/operations/aods-version-changelog-triage.zh-CN.md` | U-094 version bump and changelog route triage，明确下一 release 前必须完成的版本和 changelog 路线。 |
+| `docs/operations/aods-release-notes-completeness.zh-CN.md` | U-095 release notes completeness pass，提供下一 release notes skeleton 和发布前 blockers。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

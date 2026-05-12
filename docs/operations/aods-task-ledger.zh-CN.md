@@ -1,7 +1,7 @@
 # AODS 任务台账
 
 状态：当前权威台账
-更新时间：2026-05-08
+更新时间：2026-05-12
 
 ## 台账元信息
 
@@ -9,39 +9,29 @@
 |---|---|
 | 项目 | AODS |
 | 状态 | 开发中 |
-| 更新时间 | 2026-05-08 |
-| 当前阶段 | S20 comprehensive backlog / 10-task batch execution |
-| 当前回合 | R-2026-05-08-20 |
-| 未完成任务数量 | 75 |
-| 已完成任务数量 | 90 |
+| 更新时间 | 2026-05-12 |
+| 当前阶段 | S14 release / public sync readiness after runtime gate |
+| 当前回合 | R-2026-05-12-01 |
+| 未完成任务数量 | 65 |
+| 已完成任务数量 | 100 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-08-20 |
-| 开始时间 | 2026-05-08 18:51 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-01 |
+| 开始时间 | 2026-05-12 13:59 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-092 |
-| 本轮范围 | 上轮 U-084 复审、综合任务清单扩展、每轮 10 任务执行规则、operations docs 同步 |
-| 排除范围 | schema/validator/code 改动、runtime 实现、release、version bump、PR merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；GitHub open issue snapshot；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 |
+| 本轮范围 | 上轮 U-092 复审、runtime readiness gate、五类 runtime entry contract triage、PR final readiness、PR response matrix、version/changelog route、release notes completeness |
+| 排除范围 | schema/validator/code 改动、runtime 实现、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；GitHub PR / issue / release state review；version surface review；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-085 | S13 | Runtime readiness gate matrix | P2 | 未开始 | 将 workflow runtime、event store、policy engine、remote gateway、migration tool 映射到 authority、evidence、risk、fixture、public sync gate；不实现 runtime | U-084 | 下一轮 10 任务第 1 个 |
-| U-086 | S13 | Workflow runtime entry contract triage | P2 | 未开始 | 明确 lifecycle / command / audit / dependency 前置条件和 workflow non-goals；不实现 workflow engine | U-085 | 下一轮 10 任务第 2 个 |
-| U-087 | S13 | Event store and replay contract triage | P2 | 未开始 | 明确 event identity、ordering、retention、replay、correction projection 前置条件；不实现 event store | U-085 | 下一轮 10 任务第 3 个 |
-| U-088 | S13 | Policy engine and approval runtime triage | P2 | 未开始 | 明确 risk label 到 policy decision input/output、audit receipt 和 approval boundary；不实现 permission broker 或 approval workflow | U-085 | 下一轮 10 任务第 4 个 |
-| U-089 | S13 | Remote gateway / adapter runtime triage | P2 | 未开始 | 明确 exposure upgrade、auth、transport、audit、compatibility 前置条件；不实现 remote gateway | U-085 | 下一轮 10 任务第 5 个 |
-| U-090 | S13 | Migration tool entry contract triage | P3 | 未开始 | 明确 source/target authority、dry-run、rollback、mapping、destructive-change approval 边界；不实现 migration executor | U-085 | 下一轮 10 任务第 6 个 |
-| U-091 | S13 | PR final readiness / public sync closeout | P1 | 未开始 | final validation、PR ready / merge 决策、close-on-merge issue 检查、version / release decision 明确；未获当前回合明确授权前不 merge、不 release | U-084 | 下一轮 10 任务第 7 个 |
-| U-093 | S14 | PR review response matrix | P1 | 未开始 | PR `#63` 的 review、commit、covered issue、deferred issue 状态形成矩阵；不改代码、不关闭 issue | U-091 | 下一轮 10 任务第 8 个 |
-| U-094 | S14 | Version bump and changelog route triage | P1 | 未开始 | 明确下一 release 是否需要 version bump、tag、changelog entry、README version surface；不直接 bump、不发布 | U-091 | 下一轮 10 任务第 9 个 |
-| U-095 | S14 | Release notes completeness pass | P1 | 未开始 | release note skeleton 覆盖 major changes、non-goals、known deferred runtime、validation evidence；不发布 release | U-091 | 下一轮 10 任务第 10 个 |
 | U-096 | S14 | Package artifact inventory guard update | P2 | 未开始 | `npm pack --dry-run --json` 文件清单与 expected package surface 有审查记录 | U-094 | packaging |
 | U-097 | S14 | Install smoke from packed tarball | P2 | 未开始 | 本地 tarball install / CLI smoke 路线和结果入账；不发布 npm | U-096 | packaging smoke |
 | U-098 | S14 | Public issue close-on-merge audit | P2 | 未开始 | PR body 中 close-on-merge issue 与本地覆盖矩阵一致；不提前关闭 issue | U-091 | public sync |
@@ -202,6 +192,16 @@
 | 88 | U-083 | S12 | Changelog delta ergonomics review | P3 | 2026-05-08 | `docs/operations/aods-changelog-delta-ergonomics-review.zh-CN.md`、operations docs、GitHub issue `#13` read-only review | `gh issue view 13 --json ...`；`jq '.definitions.changelog_entry' schema/module.schema.json`；`npm run validate:all`；`git diff --check` | `#13` 仍是有效 ergonomics 问题，但当前不阻塞 release workflow；本轮只写 public response plan，不改 changelog schema |
 | 89 | U-084 | S12 | Runtime-boundary research spike | P3 | 2026-05-08 | `docs/operations/aods-runtime-boundary-research.zh-CN.md`、operations docs、S13 task pool | `node ./bin/aods.mjs route . --query "workflow runtime event store policy engine remote gateway migration tool boundary" --stage plan --intent read --json`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已梳理 workflow runtime、event store、policy engine、remote gateway、migration tool 的当前 metadata-only 边界、非目标和进入条件；新增 U-085 到 U-091，不实现 runtime |
 | 90 | U-092 | S20 | Comprehensive task backlog and 10-task execution rule | P0 | 2026-05-08 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md`、task ledger、expanded task plan、handoff、round log、docs navigation | `gh issue list --state open --limit 100 --json ...`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已将长期任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选 |
+| 91 | U-085 | S13 | Runtime readiness gate matrix | P2 | 2026-05-12 | `docs/operations/aods-runtime-readiness-gate-matrix.zh-CN.md`、operations docs | `node ./bin/aods.mjs route . --query "runtime readiness workflow event store policy remote gateway migration release PR version changelog" --stage plan --intent read --json`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 五类 runtime 候选已映射到 authority、evidence、risk、fixture、public sync gate；当前均不进入实现 |
+| 92 | U-086 | S13 | Workflow runtime entry contract triage | P2 | 2026-05-12 | `docs/operations/aods-workflow-runtime-entry-triage.zh-CN.md` | `npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已明确 workflow object identity、state source、transition、command/receipt、retry/cancel/cleanup、audit 和 fixture 前置条件；不实现 workflow engine |
+| 93 | U-087 | S13 | Event store and replay contract triage | P2 | 2026-05-12 | `docs/operations/aods-event-store-entry-triage.zh-CN.md` | `npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已明确 event identity、ordering、retention、replay scope、correction projection、idempotency 和 fixture 前置条件；不实现 event store |
+| 94 | U-088 | S13 | Policy engine and approval runtime triage | P2 | 2026-05-12 | `docs/operations/aods-policy-engine-entry-triage.zh-CN.md` | `npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已明确 policy decision input/output、approval boundary、override、audit receipt、determinism 和 fixture 前置条件；不实现 permission broker 或 approval workflow |
+| 95 | U-089 | S13 | Remote gateway / adapter runtime triage | P2 | 2026-05-12 | `docs/operations/aods-remote-gateway-entry-triage.zh-CN.md` | `npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已明确 exposure upgrade、auth/identity、transport failure、compatibility、audit、cost/quota 和 fixture 前置条件；不实现 remote gateway |
+| 96 | U-090 | S13 | Migration tool entry contract triage | P3 | 2026-05-12 | `docs/operations/aods-migration-tool-entry-triage.zh-CN.md` | `npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 已明确 source/target authority、mapping、dry-run、rollback、destructive approval、validation gate 和 fixture 前置条件；不实现 migration executor |
+| 97 | U-091 | S13 | PR final readiness / public sync closeout | P1 | 2026-05-12 | `docs/operations/aods-pr-final-readiness.zh-CN.md`、GitHub PR `#63` state | `gh pr view 63 --json number,state,isDraft,headRefName,baseRefName,url,title,body,commits,latestReviews,statusCheckRollup`；`npm run validate:all`；`npm run benchmark:test`；`git diff --check` | PR `#63` 仍为 open draft；reviews/checks 为空；close-on-merge 只保留在 PR body；本轮不 ready、不 merge、不 release |
+| 98 | U-093 | S14 | PR review response matrix | P1 | 2026-05-12 | `docs/operations/aods-pr-review-response-matrix.zh-CN.md`、GitHub issue snapshot | `gh pr view 63 --json ...`；`gh issue list --state open --limit 100 --json ...`；`npm run validate:all`；`git diff --check` | 当前无 GitHub review / check response；covered issues 等待 PR merge；`#41/#59/#60/#13` 保持 open |
+| 99 | U-094 | S14 | Version bump and changelog route triage | P1 | 2026-05-12 | `docs/operations/aods-version-changelog-triage.zh-CN.md`、version / release surface snapshot | `jq -r '.version' package.json`；`git tag --sort=-version:refname | head -20`；`gh release list --limit 20`；`rg -n "0\\.7\\.0|0\\.8|0\\.12|version|Release|release" ...`；`npm run validate:all`；`git diff --check` | 当前 package/tag/latest release 均为 `v0.7.0`；下一 release 必须先 version bump / tag / release branch decision；本轮不 bump、不发布 |
+| 100 | U-095 | S14 | Release notes completeness pass | P1 | 2026-05-12 | `docs/operations/aods-release-notes-completeness.zh-CN.md` | `npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 下一 release notes skeleton 已覆盖 major changes、non-goals、known deferred runtime、validation evidence 和 blockers；本轮不发布 release |
 
 ## 失败或阻塞任务
 
@@ -285,3 +285,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-082`、`U-083` 完成 | Batch N 已完成：external citation posture 现在进入 validate report；`#13` changelog.delta 限制已复审为有效但非当前 release blocker。下一步优先 U-084 runtime-boundary research spike。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-084` 完成 | Batch O 已完成：五类未来 runtime 候选已拆清 metadata-only 边界、进入条件和非目标；新增 S13 任务 U-085 到 U-091，下一步优先 U-085 readiness gate matrix。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-092` 完成 | 综合任务池已扩展到 U-160；执行规则改为每轮复审通过后选择 10 个未完成任务，少于 10 个时全选。下一轮应选择 U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-085` 到 `U-095` 完成 | 本轮 10 任务已完成：runtime readiness gate、五类 runtime entry contract triage、PR final readiness、PR response matrix、version/changelog route 和 release notes completeness 已入账；不实现 runtime、不 merge、不发布、不 bump version。下一轮应选择 U-096 到 U-105。 |
