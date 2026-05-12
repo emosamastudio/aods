@@ -26,6 +26,7 @@ Use this skill as an AODS workflow adapter, not as a second copy of the AODS spe
    - repo reality checks: `aods validate ... --strict --reality --repo-root <repo-root>`
    - corpus schema refresh: `aods upgrade ...`
    - minimal context loading: `aods route ...`
+   - CLI surface discovery: `aods --help`
 4. Treat agent-primary surfaces as semantic authority. Human-facing docs do not replace agent-primary authority.
 
 ## Use when
@@ -48,6 +49,7 @@ Use this skill as an AODS workflow adapter, not as a second copy of the AODS spe
 - Use `aods compile` to regenerate compiled corpus output instead of hand-editing generated corpus files.
 - Use `aods validate --strict --reality --repo-root <repo-root>` as the final alignment gate for repos with paired current surfaces.
 - Use `aods upgrade` only when you intentionally want newer schema/runtime metadata in the compiled corpus and have checked source-first authority first.
+- Use `aods --help` when command availability is uncertain; do not rely on stale memory of the CLI surface.
 - If release tag and installed package version disagree, report the mismatch explicitly. Do not invent a version and do not claim alignment that upstream has not published.
 
 ## Trigger contract

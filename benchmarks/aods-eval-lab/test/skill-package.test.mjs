@@ -34,6 +34,12 @@ test("aods-use skill stays release-aligned and keeps a narrow trigger contract",
   assert.ok(skillMeta.positive_triggers.some((item) => item.includes("boot_by_touch")));
   assert.ok(skillMeta.positive_triggers.every((item) => !item.includes("boot.by_touch")));
   assert.ok(skillMeta.negative_triggers.some((item) => item.includes("generic README")));
+
+  assert.equal(packageJson.scripts["help"], "node ./bin/aods.mjs --help");
+  assert.equal(packageJson.scripts["upgrade"], "node ./bin/aods.mjs upgrade .");
+  assert.equal(packageJson.scripts["release:hygiene"], "node ./scripts/release-hygiene.mjs");
+  assert.match(skillText, /aods --help/);
+  assert.match(skillText, /aods upgrade/);
 });
 
 test("release self-check keeps public version surfaces aligned", () => {

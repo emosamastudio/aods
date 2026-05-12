@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S26 local hygiene automation |
-| 当前回合 | R-2026-05-13-01 |
-| 未完成任务数量 | 20 |
-| 已完成任务数量 | 215 |
+| 当前阶段 | S27 conformance / diagnostics next implementation slice |
+| 当前回合 | R-2026-05-13-02 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 225 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-01 |
-| 开始时间 | 2026-05-13 00:10 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-02 |
+| 开始时间 | 2026-05-13 00:30 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-201、U-202、U-203、U-204、U-205、U-206、U-207、U-208、U-209、U-210 |
-| 本轮范围 | 上轮 U-191 到 U-200 复审；PR body final freshness refresh、close-on-merge refs final audit、review/checks policy decision record、release notes final body draft、version bump dry-run patch plan、README release link diff plan、package inventory rerun、packed install smoke rerun、release self-check rerun、owner go/no-go packet refresh |
-| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、external release link creation、runtime 实现、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；AODS route / validation；GitHub PR body / close refs / checks audit；npm pack dry-run；local packed install smoke；`npm run release:self-check`；generated churn restore；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-211、U-212、U-213、U-214、U-215、U-216、U-217、U-218、U-219、U-220 |
+| 本轮范围 | 上轮 U-201 到 U-210 复审；local docs link checker script/npm/docs、secret-like scan script/allowlist docs、package surface guard script、generated artifact hygiene script、PR snapshot command、issue reconciliation command、skill alignment regression、release hygiene aggregate command |
+| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、external link crawl、runtime 实现、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；new local hygiene scripts；skill package regression；`npm run release:hygiene`；`npm run validate:all`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-211 | S26 | Local docs link checker script implementation | P2 | 未开始 | 本地 Markdown relative link checker 脚本落地 | U-196 | 不抓取外网 |
-| U-212 | S26 | Docs link checker npm script / docs | P2 | 未开始 | npm script / docs 说明可重复运行 | U-211 | 不新增 CI |
-| U-213 | S26 | Secret-like placeholder scan script implementation | P2 | 未开始 | 高置信 secret-like scan 脚本落地 | U-197 | 不建 secret scanner service |
-| U-214 | S26 | Secret scan allowlist docs | P2 | 未开始 | 合成测试样本 allowlist 边界明确 | U-213 | 不隐藏真实命中 |
-| U-215 | S26 | Package public surface guard script | P2 | 未开始 | package entry allowlist / diff guard 脚本方案落地 | U-194 | 不发布 npm |
-| U-216 | S26 | Generated artifact hygiene check script | P2 | 未开始 | benchmark generated churn 检查可重复 | U-180 | 不自动接受 generated churn |
-| U-217 | S26 | PR status snapshot command plan | P3 | 未开始 | read-only PR state snapshot 命令文档化 | U-203 | read-only GitHub |
-| U-218 | S26 | Issue close reconciliation command plan | P3 | 未开始 | merge 后 issue close/open verification command 明确 | U-195 | 不关闭 issue |
-| U-219 | S26 | Skill alignment regression | P2 | 未开始 | packaged skill 与 CLI surface 的 drift check 有测试或脚本 | U-198 | 不发布 skill |
-| U-220 | S26 | Release hygiene aggregate command plan | P3 | 未开始 | 本地 release hygiene aggregate command 方案明确 | U-211、U-213、U-215 | 不新增 CI |
 | U-221 | S27 | Conformance manifest schema implementation | P1 | 未开始 | conformance manifest schema first slice 落地 | U-173 | fixture-only first |
 | U-222 | S27 | Conformance report JSON schema implementation | P1 | 未开始 | conformance report JSON schema first slice 落地 | U-174、U-221 | 不建 dashboard |
 | U-223 | S27 | Conformance runner read-only MVP | P1 | 未开始 | runner 只读取 fixture / validate 输出，不执行 arbitrary commands | U-221、U-222 | 不执行 commands |
@@ -272,6 +262,16 @@
 | 213 | U-208 | S25 | Packed install smoke rerun | P1 | 2026-05-13 | local temp install smoke、`docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | local tarball install script | CLI help、packaged compiled-pilot strict reality validation、packaged fixture smoke all pass |
 | 214 | U-209 | S25 | Release self-check rerun | P1 | 2026-05-13 | release self-check output、generated churn restore | `npm run release:self-check`、`git restore ...generated...reports...` | self-check pass、85 benchmark tests pass、generated churn restored；不发布 release |
 | 215 | U-210 | S25 | Owner go/no-go packet refresh | P1 | 2026-05-13 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | owner decision packet review | merge conditional go；release no-go until version bump / tag / GitHub Release alignment；next default U-211 到 U-220 |
+| 216 | U-211 | S26 | Local docs link checker script implementation | P2 | 2026-05-13 | `scripts/check-doc-links.mjs`、`docs/operations/aods-local-hygiene-automation.zh-CN.md` | `npm run docs:check-links` | 149 Markdown files、61 relative links、0 missing；不抓取外网 |
+| 217 | U-212 | S26 | Docs link checker npm script / docs | P2 | 2026-05-13 | `package.json`、`docs/operations/aods-local-hygiene-automation.zh-CN.md` | `npm run docs:check-links` | `docs:check-links` 可重复运行；不新增 CI |
+| 218 | U-213 | S26 | Secret-like placeholder scan script implementation | P2 | 2026-05-13 | `scripts/scan-secret-placeholders.mjs`、`docs/operations/aods-local-hygiene-automation.zh-CN.md` | `npm run security:scan-placeholders` | 0 high-confidence hits；不建 secret scanner service |
+| 219 | U-214 | S26 | Secret scan allowlist docs | P2 | 2026-05-13 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | docs review、secret scan JSON | allowlist 边界限定为合成测试样本；不隐藏真实命中 |
+| 220 | U-215 | S26 | Package public surface guard script | P2 | 2026-05-13 | `scripts/check-package-surface.mjs`、`package.json` | `npm run package:check-surface` | package `aods@0.7.0` 55 expected entries、0 missing、0 unexpected；不发布 npm |
+| 221 | U-216 | S26 | Generated artifact hygiene check script | P2 | 2026-05-13 | `scripts/check-generated-clean.mjs`、`package.json` | `npm run generated:check-clean` | benchmark generated / reports / compiled-pilot 0 dirty entries；不自动接受 churn |
+| 222 | U-217 | S26 | PR status snapshot command plan | P3 | 2026-05-13 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | read-only `gh pr view` command plan | PR state snapshot command documented；read-only GitHub |
+| 223 | U-218 | S26 | Issue close reconciliation command plan | P3 | 2026-05-13 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | read-only `gh issue list` command plan | merge 后 close/deferred issue reconciliation 明确；不关闭 issue |
+| 224 | U-219 | S26 | Skill alignment regression | P2 | 2026-05-13 | `benchmarks/aods-eval-lab/test/skill-package.test.mjs`、`skills/aods-use/SKILL.md` | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | packaged skill 与 CLI help / upgrade / release hygiene command surface 已有 regression；不发布 skill |
+| 225 | U-220 | S26 | Release hygiene aggregate command plan | P3 | 2026-05-13 | `scripts/release-hygiene.mjs`、`package.json`、`docs/operations/aods-local-hygiene-automation.zh-CN.md` | `npm run release:hygiene` | aggregate local release hygiene command 已落地；不新增 CI |
 
 ## 失败或阻塞任务
 

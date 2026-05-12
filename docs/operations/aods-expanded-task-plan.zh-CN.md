@@ -174,16 +174,16 @@
 | U-208 | S25 | package smoke | P1 | 已完成 | Packed install smoke rerun | packed tarball CLI / validate / fixture smoke 再验证通过；local-only |
 | U-209 | S25 | release gate | P1 | 已完成 | Release self-check rerun | `npm run release:self-check` 再通过，generated churn 已还原；不发布 release |
 | U-210 | S25 | owner packet | P1 | 已完成 | Owner go/no-go packet refresh | merge / release / no-release 三选一决策包已可交给 owner；不执行 release |
-| U-211 | S26 | docs tooling | P2 | 未开始 | Local docs link checker script implementation | 本地 Markdown relative link checker 脚本落地；不抓取外网 |
-| U-212 | S26 | docs tooling | P2 | 未开始 | Docs link checker npm script / docs | npm script / docs 说明可重复运行；不新增 CI |
-| U-213 | S26 | security tooling | P2 | 未开始 | Secret-like placeholder scan script implementation | 高置信 secret-like scan 脚本落地；不建 secret scanner service |
-| U-214 | S26 | security docs | P2 | 未开始 | Secret scan allowlist docs | 合成测试样本 allowlist 边界明确；不隐藏真实命中 |
-| U-215 | S26 | package tooling | P2 | 未开始 | Package public surface guard script | package entry allowlist / diff guard 脚本方案落地；不发布 npm |
-| U-216 | S26 | generated artifact tooling | P2 | 未开始 | Generated artifact hygiene check script | benchmark generated churn 检查可重复；不自动接受 generated churn |
-| U-217 | S26 | GitHub tooling | P3 | 未开始 | PR status snapshot command plan | read-only PR state snapshot 命令文档化；read-only GitHub |
-| U-218 | S26 | GitHub tooling | P3 | 未开始 | Issue close reconciliation command plan | merge 后 issue close/open verification command 明确；不关闭 issue |
-| U-219 | S26 | skill test | P2 | 未开始 | Skill alignment regression | packaged skill 与 CLI surface 的 drift check 有测试或脚本；不发布 skill |
-| U-220 | S26 | release tooling | P3 | 未开始 | Release hygiene aggregate command plan | 本地 release hygiene aggregate command 方案明确；不新增 CI |
+| U-211 | S26 | docs tooling | P2 | 已完成 | Local docs link checker script implementation | `scripts/check-doc-links.mjs`；不抓取外网 |
+| U-212 | S26 | docs tooling | P2 | 已完成 | Docs link checker npm script / docs | `npm run docs:check-links`；不新增 CI |
+| U-213 | S26 | security tooling | P2 | 已完成 | Secret-like placeholder scan script implementation | `scripts/scan-secret-placeholders.mjs`；不建 secret scanner service |
+| U-214 | S26 | security docs | P2 | 已完成 | Secret scan allowlist docs | allowlist 边界已写入 local hygiene docs；不隐藏真实命中 |
+| U-215 | S26 | package tooling | P2 | 已完成 | Package public surface guard script | `scripts/check-package-surface.mjs`；不发布 npm |
+| U-216 | S26 | generated artifact tooling | P2 | 已完成 | Generated artifact hygiene check script | `scripts/check-generated-clean.mjs`；不自动接受 generated churn |
+| U-217 | S26 | GitHub tooling | P3 | 已完成 | PR status snapshot command plan | read-only PR snapshot command 已文档化；read-only GitHub |
+| U-218 | S26 | GitHub tooling | P3 | 已完成 | Issue close reconciliation command plan | merge 后 issue verification command 已文档化；不关闭 issue |
+| U-219 | S26 | skill test | P2 | 已完成 | Skill alignment regression | skill package regression 覆盖 CLI surface；不发布 skill |
+| U-220 | S26 | release tooling | P3 | 已完成 | Release hygiene aggregate command plan | `npm run release:hygiene`；不新增 CI |
 | U-221 | S27 | conformance | P1 | 未开始 | Conformance manifest schema implementation | conformance manifest schema first slice 落地；fixture-only first |
 | U-222 | S27 | conformance | P1 | 未开始 | Conformance report JSON schema implementation | conformance report JSON schema first slice 落地；不建 dashboard |
 | U-223 | S27 | conformance | P1 | 未开始 | Conformance runner read-only MVP | runner 只读取 fixture / validate 输出，不执行 arbitrary commands；不执行 commands |
@@ -229,7 +229,8 @@
 | Batch Z | U-181 到 U-190 | 已完成；PR public sync、ready-for-review、release version decision 和 RC gate rerun 已收束 | PR body close refs recognized、issue comments、release:self-check |
 | Batch AA | U-191 到 U-200 | 已完成；release closeout readiness、local hygiene repeatability、skill alignment、handoff 和 task discovery 已收束 | docs link checker、secret-like scan、pack dry-run、GitHub read-only state review、`validate:all` |
 | Batch AB | U-201 到 U-210 | 已完成；PR body / close refs final audit、release notes body、package / release gates、owner go/no-go | GitHub state review、package / release gates、docs gate |
-| Batch AC | U-211 到 U-220 | 下一轮推荐；local hygiene automation / release hygiene aggregate | scripts / npm commands / docs gate |
+| Batch AC | U-211 到 U-220 | 已完成；local hygiene automation / release hygiene aggregate | scripts / npm commands / docs gate |
+| Batch AD | U-221 到 U-230 | 下一轮推荐；conformance / diagnostics next implementation slice | conformance schemas/runner、negative fixtures、validator diagnostics、docs parity |
 
 ## 当前非目标
 

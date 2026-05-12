@@ -2,6 +2,79 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-02
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-02 |
+| 开始时间 | 2026-05-13 00:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 00:55 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-201 到 U-210 复审；local docs link checker script/npm/docs、secret-like scan script/allowlist docs、package surface guard、generated artifact hygiene、PR snapshot command、issue reconciliation command、skill alignment regression、release hygiene aggregate command；不 merge、不 release、不 bump version、不创建 tag、不发布 npm、不新增 CI、不抓外网 |
+| 本轮选中任务 | U-211、U-212、U-213、U-214、U-215、U-216、U-217、U-218、U-219、U-220 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-02
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `b9bb6df` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| AODS validation | 通过 | 本轮复审重新运行 `npm run validate:all`，root / pilot / compiled-pilot 全部通过 |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、186 changed files、0 reviews、0 checks、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-211 到 U-220 |
+
+## 任务执行记录：R-2026-05-13-02
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-211 | 未开始 | 已完成 | 增加本地 Markdown relative link checker | `scripts/check-doc-links.mjs`、`npm run docs:check-links` |
+| 2 | U-212 | 未开始 | 已完成 | 增加 npm script 和 docs 说明 | `package.json`、`aods-local-hygiene-automation.zh-CN.md` |
+| 3 | U-213 | 未开始 | 已完成 | 增加高置信 secret-like placeholder scan | `scripts/scan-secret-placeholders.mjs`、`npm run security:scan-placeholders` |
+| 4 | U-214 | 未开始 | 已完成 | 记录 allowlist 边界 | `aods-local-hygiene-automation.zh-CN.md` |
+| 5 | U-215 | 未开始 | 已完成 | 增加 package public surface allowlist guard | `scripts/check-package-surface.mjs`、`npm run package:check-surface` |
+| 6 | U-216 | 未开始 | 已完成 | 增加 generated artifact hygiene checker | `scripts/check-generated-clean.mjs`、`npm run generated:check-clean` |
+| 7 | U-217 | 未开始 | 已完成 | 文档化 read-only PR status snapshot command | `aods-local-hygiene-automation.zh-CN.md` |
+| 8 | U-218 | 未开始 | 已完成 | 文档化 merge 后 issue reconciliation command | `aods-local-hygiene-automation.zh-CN.md` |
+| 9 | U-219 | 未开始 | 已完成 | 扩展 packaged skill / CLI surface drift regression | `benchmarks/aods-eval-lab/test/skill-package.test.mjs`、`skills/aods-use/SKILL.md` |
+| 10 | U-220 | 未开始 | 已完成 | 增加 release hygiene aggregate command | `scripts/release-hygiene.mjs`、`npm run release:hygiene` |
+
+## 验证记录：R-2026-05-13-02
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致 |
+| AODS validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| PR state review | `gh pr view 63 --json ...` | 通过 | ready、merge clean、20 close refs |
+| docs link checker | `npm run docs:check-links` | 通过 | 149 Markdown files、61 local links、0 missing |
+| secret-like scan | `npm run security:scan-placeholders` | 通过 | 0 hits |
+| package surface guard | `npm run package:check-surface` | 通过 | 55 expected entries、0 missing、0 unexpected |
+| generated hygiene | `npm run generated:check-clean` | 通过 | 0 dirty entries |
+| skill package regression | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | 通过 | 2/2 pass |
+
+## 本轮返工记录：R-2026-05-13-02
+
+| 问题 | 根因 | 修复 | 再验证 |
+|---|---|---|---|
+| docs link checker 初跑误报 283 个 missing | 脚本误扫 benchmark generated open-source corpora，里面包含不属于本仓库维护面的外部文档链接 | 排除 `benchmarks/aods-eval-lab/generated/` | `npm run docs:check-links` 通过：149 files、61 links、0 missing |
+| skill package regression 初跑失败 | 新增断言要求 skill 文本显式覆盖 CLI help discovery，但 packaged skill 尚未写入 `aods --help` | 在 packaged skill First action / Operating rules 中补 `aods --help` | focused skill regression 2/2 pass |
+
+## 新发现任务：R-2026-05-13-02
+
+本轮没有新增任务 ID。下一轮默认选择 U-221 到 U-230。
+
+## 回合结束摘要：R-2026-05-13-02
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-211 到 U-220 |
+| 完成任务 | 10 | 本地 hygiene / release aggregate 命令全部落地 |
+| 返工项 | 2 | docs link checker 扫描范围、skill CLI help wording 已修复并再验证 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认选择 U-221 到 U-230 |
+
 ## 回合摘要：R-2026-05-13-01
 
 | 项 | 内容 |
