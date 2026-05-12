@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aods.dev/schema/conformance-report.schema.json",
+  "title": "AODS Conformance Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action",
+    "status",
+    "accepted",
+    "suite_id",
+    "summary",
+    "cases",
+    "issues"
+  ],
+  "properties": {
+    "action": {
+      "const": "conformance run"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail",
+        "warn"
+      ]
+    },
+    "accepted": {
+      "type": "boolean"
+    },
+    "suite_id": {
+      "type": "string"
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "version"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "version": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cases",
+        "passed",
+        "failed",
+        "expected_failures"
+      ],
+      "properties": {
+        "cases": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_failures": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "expected_status",
+          "target_path",
+          "matched_rules",
+          "missing_rules",
+          "unexpected_rules"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "warn"
+            ]
+          },
+          "expected_status": {
+            "enum": [
+              "pass",
+              "fail",
+              "warn"
+            ]
+          },
+          "target_path": {
+            "type": "string"
+          },
+          "matched_rules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "missing_rules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "unexpected_rules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "level",
+          "rule",
+          "message"
+        ],
+        "properties": {
+          "level": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

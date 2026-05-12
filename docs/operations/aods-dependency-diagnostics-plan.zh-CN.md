@@ -1,6 +1,6 @@
 # AODS dependency diagnostics plan
 
-状态：U-176、U-177、U-178 已完成
+状态：U-176、U-177、U-178 已完成；U-225、U-226 已实现 first slice
 日期：2026-05-12
 范围：route JSON dependency explanation 最小扩展；validator diagnostics 仍为计划
 
@@ -29,8 +29,8 @@ dependency ordering 暂不进入 scheduler。当前最高价值切片是让 `rou
 
 | 诊断 | 进入条件 | 建议字段 | 本轮状态 |
 |---|---|---|---|
-| missing dependency target | `deps[]` 指向不存在 module id | `module_id`、`dependency_id`、`available_module_ids_sample` | 已有 L2 ref gate；后续可改善 report shape |
-| dependency cycle | declared deps 形成环 | `cycle_path`、`cycle_length`、`severity` | 暂不实现；需要先确认是否禁止环 |
+| missing dependency target | `deps[]` 指向不存在 module id | `module_id`、`dependency_id`、`available_module_ids_sample` | 已实现 first slice |
+| dependency cycle | declared deps 形成环 | `cycle_path`、`cycle_length`、`severity` | 已实现 `cycle_path` / `cycle_length` |
 | optional fallback ambiguity | optional dependency 指向多个候选或缺少 fallback | `dependency_id`、`fallback_policy`、`consumer_surface` | 暂不实现；需要 stable surface metadata 更具体 |
 | selected-but-unexpanded dependency | route query 命中模块但依赖未展开 | `selected_module_ids`、`unselected_dependency_ids` | route JSON 已覆盖 |
 

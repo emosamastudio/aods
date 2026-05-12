@@ -10,38 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S27 conformance / diagnostics next implementation slice |
-| 当前回合 | R-2026-05-13-02 |
-| 未完成任务数量 | 10 |
-| 已完成任务数量 | 225 |
+| 当前阶段 | S28 backlog cleared / release handoff |
+| 当前回合 | R-2026-05-13-03 |
+| 未完成任务数量 | 0 |
+| 已完成任务数量 | 235 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-02 |
-| 开始时间 | 2026-05-13 00:30 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-03 |
+| 开始时间 | 2026-05-13 01:05 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-211、U-212、U-213、U-214、U-215、U-216、U-217、U-218、U-219、U-220 |
-| 本轮范围 | 上轮 U-201 到 U-210 复审；local docs link checker script/npm/docs、secret-like scan script/allowlist docs、package surface guard script、generated artifact hygiene script、PR snapshot command、issue reconciliation command、skill alignment regression、release hygiene aggregate command |
-| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、external link crawl、runtime 实现、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；new local hygiene scripts；skill package regression；`npm run release:hygiene`；`npm run validate:all`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-221、U-222、U-223、U-224、U-225、U-226、U-227、U-228、U-229、U-230 |
+| 本轮范围 | 上轮 U-211 到 U-220 复审；conformance manifest/report schema、read-only conformance runner、negative fixture second slice、validator dependency diagnostics、route docs parity、cycle fixture design、adapter/cross-corpus/observability no-go posture |
+| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、external fetch、arbitrary command executor、dashboard / telemetry store、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；conformance focused tests；dependency diagnostics regression；`npm run conformance:compiled-pilot`；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-221 | S27 | Conformance manifest schema implementation | P1 | 未开始 | conformance manifest schema first slice 落地 | U-173 | fixture-only first |
-| U-222 | S27 | Conformance report JSON schema implementation | P1 | 未开始 | conformance report JSON schema first slice 落地 | U-174、U-221 | 不建 dashboard |
-| U-223 | S27 | Conformance runner read-only MVP | P1 | 未开始 | runner 只读取 fixture / validate 输出，不执行 arbitrary commands | U-221、U-222 | 不执行 commands |
-| U-224 | S27 | Negative fixture second slice | P2 | 未开始 | 第二批 negative fixtures 小批量落地 | U-172、U-223 | 小批量 |
-| U-225 | S27 | Validator dependency diagnostics first slice | P2 | 未开始 | missing target / status diagnostics first slice 落地 | U-177 | 不建 scheduler |
-| U-226 | S27 | Route dependency docs parity pass | P3 | 未开始 | route dependency JSON docs 与实现同步 | U-178、U-225 | 不改 ranking |
-| U-227 | S27 | Dependency graph cycle fixture design | P3 | 未开始 | cycle fixture design 与 validator route 边界明确 | U-225 | 不执行 graph runtime |
-| U-228 | S27 | Adapter negotiation example fixture | P3 | 未开始 | metadata-only negotiation example fixture 设计 | U-157 | 不实现 handshake |
-| U-229 | S27 | Cross-corpus resolver no-fetch fixture | P3 | 未开始 | no-fetch resolver posture fixture 设计 | U-158 | 不 remote fetch |
-| U-230 | S27 | Observability report store no-go refresh | P3 | 未开始 | telemetry / report store no-go posture 复审 | U-160 | 不建 telemetry store |
+| 无 | - | 无 | - | - | 当前任务池已清空；下一步需要重新发现任务或进入 release/public decision | - | 不自动 merge/release |
 
 ## 已完成任务
 
@@ -266,12 +257,22 @@
 | 217 | U-212 | S26 | Docs link checker npm script / docs | P2 | 2026-05-13 | `package.json`、`docs/operations/aods-local-hygiene-automation.zh-CN.md` | `npm run docs:check-links` | `docs:check-links` 可重复运行；不新增 CI |
 | 218 | U-213 | S26 | Secret-like placeholder scan script implementation | P2 | 2026-05-13 | `scripts/scan-secret-placeholders.mjs`、`docs/operations/aods-local-hygiene-automation.zh-CN.md` | `npm run security:scan-placeholders` | 0 high-confidence hits；不建 secret scanner service |
 | 219 | U-214 | S26 | Secret scan allowlist docs | P2 | 2026-05-13 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | docs review、secret scan JSON | allowlist 边界限定为合成测试样本；不隐藏真实命中 |
-| 220 | U-215 | S26 | Package public surface guard script | P2 | 2026-05-13 | `scripts/check-package-surface.mjs`、`package.json` | `npm run package:check-surface` | package `aods@0.7.0` 55 expected entries、0 missing、0 unexpected；不发布 npm |
+| 220 | U-215 | S26 | Package public surface guard script | P2 | 2026-05-13 | `scripts/check-package-surface.mjs`、`package.json` | `npm run package:check-surface` | U-215 snapshot 为 package `aods@0.7.0` 55 expected entries；当前 guard 已随 U-221 到 U-223 conformance surface 扩展到 61；不发布 npm |
 | 221 | U-216 | S26 | Generated artifact hygiene check script | P2 | 2026-05-13 | `scripts/check-generated-clean.mjs`、`package.json` | `npm run generated:check-clean` | benchmark generated / reports / compiled-pilot 0 dirty entries；不自动接受 churn |
 | 222 | U-217 | S26 | PR status snapshot command plan | P3 | 2026-05-13 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | read-only `gh pr view` command plan | PR state snapshot command documented；read-only GitHub |
 | 223 | U-218 | S26 | Issue close reconciliation command plan | P3 | 2026-05-13 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | read-only `gh issue list` command plan | merge 后 close/deferred issue reconciliation 明确；不关闭 issue |
 | 224 | U-219 | S26 | Skill alignment regression | P2 | 2026-05-13 | `benchmarks/aods-eval-lab/test/skill-package.test.mjs`、`skills/aods-use/SKILL.md` | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | packaged skill 与 CLI help / upgrade / release hygiene command surface 已有 regression；不发布 skill |
 | 225 | U-220 | S26 | Release hygiene aggregate command plan | P3 | 2026-05-13 | `scripts/release-hygiene.mjs`、`package.json`、`docs/operations/aods-local-hygiene-automation.zh-CN.md` | `npm run release:hygiene` | aggregate local release hygiene command 已落地；不新增 CI |
+| 226 | U-221 | S27 | Conformance manifest schema implementation | P1 | 2026-05-13 | `schema/conformance-manifest.schema.json`、`examples/compiled-pilot-source/fixtures/conformance-manifest.json` | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | conformance manifest v0 first slice 落地；fixture-only first |
+| 227 | U-222 | S27 | Conformance report JSON schema implementation | P1 | 2026-05-13 | `schema/conformance-report.schema.json`、`lib/conformance.mjs` | `npm run conformance:compiled-pilot -- --json` | report schema first slice 落地；不建 dashboard |
+| 228 | U-223 | S27 | Conformance runner read-only MVP | P1 | 2026-05-13 | `bin/aods.mjs`、`lib/conformance.mjs`、`package.json` | `npm run conformance:compiled-pilot -- --json` | runner 只运行 fixture-smoke / validate case，不执行 arbitrary commands |
+| 229 | U-224 | S27 | Negative fixture second slice | P2 | 2026-05-13 | `invalid-kind.json`、`missing-input-path.json`、fixture manifest | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 第二批 2 个 negative fixture 已落地 |
+| 230 | U-225 | S27 | Validator dependency diagnostics first slice | P2 | 2026-05-13 | `lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs` | focused scaffold regression | missing dependency 带 `dependency_id` / sample；cycle 带 `cycle_path` / `cycle_length` |
+| 231 | U-226 | S27 | Route dependency docs parity pass | P3 | 2026-05-13 | `docs/operations/aods-route-json-explanation.zh-CN.md`、`aods-dependency-diagnostics-plan.zh-CN.md` | route dependency docs review | route dependency JSON docs 与实现保持同步；不改 ranking |
+| 232 | U-227 | S27 | Dependency graph cycle fixture design | P3 | 2026-05-13 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`aods-conformance-diagnostics-implementation.zh-CN.md` | focused scaffold regression | two-node cycle fixture design 已覆盖 validator 边界；不执行 graph runtime |
+| 233 | U-228 | S27 | Adapter negotiation example fixture | P3 | 2026-05-13 | `docs/operations/aods-conformance-diagnostics-implementation.zh-CN.md` | docs review | 保持 metadata-only negotiation；本轮不实现 handshake fixture |
+| 234 | U-229 | S27 | Cross-corpus resolver no-fetch fixture | P3 | 2026-05-13 | `docs/operations/aods-conformance-diagnostics-implementation.zh-CN.md`、conformance runner boundary | docs / runner review | conformance cases 只读 repo-local path；不 remote fetch |
+| 235 | U-230 | S27 | Observability report store no-go refresh | P3 | 2026-05-13 | `docs/operations/aods-conformance-diagnostics-implementation.zh-CN.md` | docs review | conformance report 输出 stdout；不建 telemetry store |
 
 ## 失败或阻塞任务
 

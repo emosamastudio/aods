@@ -66,6 +66,7 @@ test("CLI help and compile errors expose allowed enum values", () => {
     ["hook", [/AODS hook/, /pre-commit/]],
     ["upgrade", [/AODS upgrade/, /--dry-run/]],
     ["compile", [/AODS compile/, /<source-file>/]],
+    ["conformance", [/AODS conformance/, /conformance run/]],
     ["fixture", [/AODS fixture/, /fixture smoke/]],
     ["scaffold", [/AODS scaffold/, /authoring-pair/]]
   ]);
@@ -110,6 +111,49 @@ test("CLI help and compile errors expose allowed enum values", () => {
   assert.match(result.stderr, /Received: "plan"/);
   assert.match(result.stderr, /Allowed values:/);
   assert.match(result.stderr, /"architecture"/);
+});
+
+test("validate JSON reports dependency target and cycle diagnostics", () => {
+  const missingDepDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-missing-dep-"));
+  runCli(["scaffold", "corpus", missingDepDir, "--sys", "missing-dep-demo", "--force"]);
+  runCli([
+    "scaffold",
+    "module",
+    missingDepDir,
+    "dependent-module",
+    "--category",
+    "reference",
+    "--layer",
+    "detail",
+    "--dep",
+    "missing-target"
+  ]);
+
+  const missingDepValidate = spawnSync("node", [CLI_PATH, "validate", missingDepDir, "--strict", "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(missingDepValidate.status, 0);
+  const missingDepReport = JSON.parse(missingDepValidate.stdout);
+  const missingDepIssue = missingDepReport.levels.L2.errors.find((issue) => issue.rule === "module-dependency");
+  assert.equal(missingDepIssue.dependency_id, "missing-target");
+  assert.ok(Array.isArray(missingDepIssue.available_module_ids_sample));
+
+  const cycleDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-cycle-"));
+  runCli(["scaffold", "corpus", cycleDir, "--sys", "cycle-demo", "--force"]);
+  runCli(["scaffold", "module", cycleDir, "cycle-a", "--category", "reference", "--layer", "detail", "--dep", "cycle-b"]);
+  runCli(["scaffold", "module", cycleDir, "cycle-b", "--category", "reference", "--layer", "detail", "--dep", "cycle-a"]);
+
+  const cycleValidate = spawnSync("node", [CLI_PATH, "validate", cycleDir, "--strict", "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(cycleValidate.status, 0);
+  const cycleReport = JSON.parse(cycleValidate.stdout);
+  const cycleIssue = cycleReport.levels.L2.errors.find((issue) => issue.rule === "dependency-cycle");
+  assert.ok(cycleIssue.cycle_path.includes("cycle-a"));
+  assert.ok(cycleIssue.cycle_path.includes("cycle-b"));
+  assert.ok(cycleIssue.cycle_length >= 2);
 });
 
 test("route JSON includes machine-readable explanation metadata", () => {

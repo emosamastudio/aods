@@ -37,9 +37,11 @@ test("aods-use skill stays release-aligned and keeps a narrow trigger contract",
 
   assert.equal(packageJson.scripts["help"], "node ./bin/aods.mjs --help");
   assert.equal(packageJson.scripts["upgrade"], "node ./bin/aods.mjs upgrade .");
+  assert.equal(packageJson.scripts["conformance:compiled-pilot"], "node ./bin/aods.mjs conformance run ./examples/compiled-pilot-source/fixtures/conformance-manifest.json");
   assert.equal(packageJson.scripts["release:hygiene"], "node ./scripts/release-hygiene.mjs");
   assert.match(skillText, /aods --help/);
   assert.match(skillText, /aods upgrade/);
+  assert.match(skillText, /aods conformance run/);
 });
 
 test("release self-check keeps public version surfaces aligned", () => {

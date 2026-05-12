@@ -26,6 +26,7 @@ Use this skill as an AODS workflow adapter, not as a second copy of the AODS spe
    - repo reality checks: `aods validate ... --strict --reality --repo-root <repo-root>`
    - corpus schema refresh: `aods upgrade ...`
    - minimal context loading: `aods route ...`
+   - fixture/conformance check: `aods fixture smoke ...` or `aods conformance run ...`
    - CLI surface discovery: `aods --help`
 4. Treat agent-primary surfaces as semantic authority. Human-facing docs do not replace agent-primary authority.
 

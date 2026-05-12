@@ -126,6 +126,7 @@
 | `aods-final-handoff-and-task-discovery.zh-CN.md` | U-199 到 U-200 handoff compaction 和 U-201 到 U-230 task discovery | 高 |
 | `aods-release-closeout-final-readiness-packet.zh-CN.md` | U-201 到 U-210 PR body final freshness、close refs final audit、review/checks policy、release notes body、version / README plan、package / install / release gates 和 owner go/no-go packet | 高 |
 | `aods-local-hygiene-automation.zh-CN.md` | U-211 到 U-220 local hygiene automation，落地 docs link、secret-like scan、package surface、generated churn、skill alignment 和 release hygiene aggregate 命令 | 高 |
+| `aods-conformance-diagnostics-implementation.zh-CN.md` | U-221 到 U-230 conformance / diagnostics implementation，落地 conformance schema、只读 runner、negative fixtures second slice 和 dependency diagnostics | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |

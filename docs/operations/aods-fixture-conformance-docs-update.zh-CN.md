@@ -1,6 +1,6 @@
 # AODS fixture smoke / conformance docs update
 
-状态：U-175 已完成
+状态：U-175 已完成；U-221 到 U-224 已实现 first slice
 日期：2026-05-12
 范围：公开 README 与 operations docs 的 fixture / conformance 边界说明
 
@@ -11,8 +11,8 @@
 | 层级 | 当前状态 | 作用 | 非目标 |
 |---|---|---|---|
 | Fixture smoke | 已实现 | 检查 fixture manifest 字段、expected outcome、input/golden path | 不执行 command、不验证业务语义 |
-| Conformance manifest | 本轮 proposal | 描述 suite/case/expected outcome | 不直接跑测试 |
-| Conformance runner | 未实现 | 未来按 manifest 执行并输出 report | 当前不建 dashboard、不接外部服务 |
+| Conformance manifest | 已实现 first slice | 描述 suite/case/expected outcome | 不声明 arbitrary command |
+| Conformance runner | 已实现只读 MVP | 按 manifest 执行 fixture-smoke / validate case 并输出 report | 当前不建 dashboard、不接外部服务、不执行任意命令 |
 
 ## 本轮文档更新点
 
@@ -26,7 +26,7 @@
 
 ## 保留边界
 
-1. 不新增 CLI 子命令。
-2. 不改变 fixture smoke JSON 字段。
-3. 不把 negative fixture 输入纳入主清单的 golden exports。
-4. 不让 README benchmark sync 区块承载 durable wording。
+1. 不改变 fixture smoke JSON 字段。
+2. 不把 negative fixture 输入纳入主清单的 golden exports。
+3. 不让 README benchmark sync 区块承载 durable wording。
+4. 不把 conformance runner 扩成通用命令执行器。

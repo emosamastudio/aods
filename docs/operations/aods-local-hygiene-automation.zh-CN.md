@@ -14,7 +14,7 @@
 | U-212 | `npm run docs:check-links` | 149 个 Markdown 文件、61 个本地相对链接、0 missing |
 | U-213 | `scripts/scan-secret-placeholders.mjs` | 高置信 secret-like placeholder scan 已落地 |
 | U-214 | 本文件 allowlist 说明 | allowlist 只允许已知合成测试样本边界；真实命中不隐藏 |
-| U-215 | `scripts/check-package-surface.mjs` | package entry allowlist / diff guard 已落地；当前 55/55 entries matched |
+| U-215 | `scripts/check-package-surface.mjs` | package entry allowlist / diff guard 已落地；当前 61/61 entries matched |
 | U-216 | `scripts/check-generated-clean.mjs` | generated / reports / compiled pilot churn 检查已落地；当前 0 dirty entries |
 | U-217 | PR snapshot command | read-only PR state snapshot 已文档化 |
 | U-218 | issue reconciliation command | merge 后 issue close/open verification 已文档化；不关闭 issue |
@@ -69,7 +69,7 @@ source ~/.zshrc && proxy_on >/dev/null && gh issue list --state closed --json nu
 |---|---|
 | `npm run docs:check-links` | pass；149 Markdown files、61 local links、0 missing |
 | `npm run security:scan-placeholders` | pass；0 hits |
-| `npm run package:check-surface` | pass；package `aods@0.7.0`、55 expected entries、0 missing、0 unexpected |
+| `npm run package:check-surface` | pass；package `aods@0.7.0`、61 expected entries、0 missing、0 unexpected |
 | `npm run generated:check-clean` | pass；0 dirty entries |
 | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | pass；2/2 |
 

@@ -226,6 +226,30 @@
       "expected_rules": [
         "fixture-negative-rules"
       ]
+    },
+    {
+      "id": "negative-fixture-invalid-kind",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/invalid-kind.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-kind"
+      ]
+    },
+    {
+      "id": "negative-fixture-missing-input-path",
+      "kind": "negative",
+      "input": {
+        "kind": "fixture-manifest",
+        "path": "negative/fixture-contract/missing-input-path.json"
+      },
+      "expected_status": "fail",
+      "expected_rules": [
+        "fixture-input-path"
+      ]
     }
   ]
 }

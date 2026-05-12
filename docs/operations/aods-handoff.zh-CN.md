@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-220 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment、task discovery、PR final freshness、release notes body、version/README dry-run plan、package/install/release gates 和 owner go/no-go packet、local hygiene automation 和 release hygiene aggregate command。PR `#63` 已 ready for review、merge clean、无 checks/reviews、changed file count 以 GitHub 最新快照为准；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池已扩展到 U-230，下一轮默认选择 U-221 到 U-230：conformance manifest/report/runner、negative fixture second slice、validator dependency diagnostics、docs parity 和 no-fetch/no-telemetry posture。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-230 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment、task discovery、PR final freshness、release notes body、version/README dry-run plan、package/install/release gates 和 owner go/no-go packet、local hygiene automation、release hygiene aggregate command、conformance diagnostics implementation。PR `#63` 已 ready for review、merge clean、无 checks/reviews、changed file count 以 GitHub 最新快照为准；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池 U-201 到 U-230 已清空；下一轮应先做 task discovery 或 release/public decision。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -357,7 +357,7 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-220 已连续完
 | U-212 | Docs link checker npm script / docs | `npm run docs:check-links` 和 local hygiene docs 已落地；不新增 CI |
 | U-213 | Secret-like placeholder scan script implementation | `scripts/scan-secret-placeholders.mjs` 已落地；0 high-confidence hits |
 | U-214 | Secret scan allowlist docs | allowlist 边界已写入 local hygiene docs；不隐藏真实命中 |
-| U-215 | Package public surface guard script | `scripts/check-package-surface.mjs` 已落地；55 expected package entries matched |
+| U-215 | Package public surface guard script | `scripts/check-package-surface.mjs` 已落地；U-215 snapshot 为 55 expected package entries，当前 guard 已随 conformance surface 扩展到 61 |
 | U-216 | Generated artifact hygiene check script | `scripts/check-generated-clean.mjs` 已落地；0 dirty generated entries |
 | U-217 | PR status snapshot command plan | read-only PR snapshot command 已文档化 |
 | U-218 | Issue close reconciliation command plan | merge 后 issue close/open verification command 已文档化；不关闭 issue |
@@ -451,4 +451,4 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-220 已连续完
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-221 - U-230 | 下一轮默认 10 任务 | conformance manifest/report/runner、negative fixtures、dependency diagnostics |
+| 1 | task discovery or release/public decision | 当前任务池清空 | 重新发现下一批任务，或在明确授权下处理 merge/release/version bump |

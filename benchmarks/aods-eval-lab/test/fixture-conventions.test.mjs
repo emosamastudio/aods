@@ -15,10 +15,19 @@ const FIXTURE_MANIFEST_PATH = path.join(
   "fixtures",
   "fixture-manifest.json"
 );
+const CONFORMANCE_MANIFEST_PATH = path.join(
+  REPO_ROOT,
+  "examples",
+  "compiled-pilot-source",
+  "fixtures",
+  "conformance-manifest.json"
+);
 const NEGATIVE_FIXTURE_RULES = new Set([
   "fixture-golden-path",
   "fixture-positive-rules",
-  "fixture-negative-rules"
+  "fixture-negative-rules",
+  "fixture-kind",
+  "fixture-input-path"
 ]);
 
 test("compiled-pilot source declares a conventional fixture and golden export", () => {
@@ -50,7 +59,7 @@ test("compiled-pilot source declares first-slice negative fixture contracts", ()
   const manifestDir = path.dirname(FIXTURE_MANIFEST_PATH);
   const negativeFixtures = fixtureManifest.fixtures.filter((fixture) => fixture.kind === "negative");
 
-  assert.equal(negativeFixtures.length, 3);
+  assert.equal(negativeFixtures.length, 5);
   for (const fixture of negativeFixtures) {
     assert.equal(fixture.input.kind, "fixture-manifest");
     assert.equal(fixture.expected_status, "fail");
@@ -79,13 +88,48 @@ test("fixture smoke command reports declared fixture and golden export coverage 
   assert.equal(report.manifest.path, FIXTURE_MANIFEST_PATH);
   assert.equal(report.summary.fixtures, fixtureManifest.fixtures.length);
   assert.equal(report.summary.kind.positive, 9);
-  assert.equal(report.summary.kind.negative, 3);
+  assert.equal(report.summary.kind.negative, 5);
   assert.equal(report.summary.expected_status.pass, positiveFixtures.length);
   assert.equal(report.summary.expected_status.fail, negativeFixtures.length);
   assert.equal(report.summary.expected_status.warn, 0);
-  assert.equal(report.summary.expected_rules, 3);
+  assert.equal(report.summary.expected_rules, 5);
   assert.equal(report.summary.golden_exports, 9);
   assert.deepEqual(report.issues, []);
+});
+
+test("conformance manifest schema and report schema are checked in", () => {
+  const manifestSchema = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "schema", "conformance-manifest.schema.json"), "utf8"));
+  const reportSchema = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "schema", "conformance-report.schema.json"), "utf8"));
+  const conformanceManifest = JSON.parse(fs.readFileSync(CONFORMANCE_MANIFEST_PATH, "utf8"));
+
+  assert.equal(manifestSchema.title, "AODS Conformance Manifest");
+  assert.equal(reportSchema.title, "AODS Conformance Report");
+  assert.equal(conformanceManifest.aods_conformance_manifest_v, 0);
+  assert.equal(conformanceManifest.suite_id, "compiled-pilot-fixture-conformance");
+  assert.ok(conformanceManifest.cases.some((testCase) => testCase.kind === "fixture-smoke"));
+  assert.ok(conformanceManifest.cases.some((testCase) => testCase.kind === "validate"));
+});
+
+test("conformance runner consumes declared fixture and validate cases without arbitrary commands", () => {
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", CONFORMANCE_MANIFEST_PATH, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(result.stdout);
+
+  assert.equal(report.action, "conformance run");
+  assert.equal(report.status, "pass");
+  assert.equal(report.accepted, true);
+  assert.equal(report.suite_id, "compiled-pilot-fixture-conformance");
+  assert.equal(report.summary.cases, 4);
+  assert.equal(report.summary.passed, 4);
+  assert.equal(report.summary.failed, 0);
+  assert.equal(report.summary.expected_failures, 2);
+  assert.deepEqual(report.issues, []);
+  assert.ok(report.cases.some((testCase) => testCase.id === "compiled-pilot-strict-reality"));
 });
 
 test("negative fixture contract inputs fail with expected smoke rules", () => {

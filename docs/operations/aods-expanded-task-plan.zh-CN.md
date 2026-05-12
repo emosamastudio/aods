@@ -184,16 +184,16 @@
 | U-218 | S26 | GitHub tooling | P3 | 已完成 | Issue close reconciliation command plan | merge 后 issue verification command 已文档化；不关闭 issue |
 | U-219 | S26 | skill test | P2 | 已完成 | Skill alignment regression | skill package regression 覆盖 CLI surface；不发布 skill |
 | U-220 | S26 | release tooling | P3 | 已完成 | Release hygiene aggregate command plan | `npm run release:hygiene`；不新增 CI |
-| U-221 | S27 | conformance | P1 | 未开始 | Conformance manifest schema implementation | conformance manifest schema first slice 落地；fixture-only first |
-| U-222 | S27 | conformance | P1 | 未开始 | Conformance report JSON schema implementation | conformance report JSON schema first slice 落地；不建 dashboard |
-| U-223 | S27 | conformance | P1 | 未开始 | Conformance runner read-only MVP | runner 只读取 fixture / validate 输出，不执行 arbitrary commands；不执行 commands |
-| U-224 | S27 | fixtures | P2 | 未开始 | Negative fixture second slice | 第二批 negative fixtures 小批量落地；小批量 |
-| U-225 | S27 | validation | P2 | 未开始 | Validator dependency diagnostics first slice | missing target / status diagnostics first slice 落地；不建 scheduler |
-| U-226 | S27 | docs parity | P3 | 未开始 | Route dependency docs parity pass | route dependency JSON docs 与实现同步；不改 ranking |
-| U-227 | S27 | fixture design | P3 | 未开始 | Dependency graph cycle fixture design | cycle fixture design 与 validator route 边界明确；不执行 graph runtime |
-| U-228 | S27 | fixture design | P3 | 未开始 | Adapter negotiation example fixture | metadata-only negotiation example fixture 设计；不实现 handshake |
-| U-229 | S27 | fixture design | P3 | 未开始 | Cross-corpus resolver no-fetch fixture | no-fetch resolver posture fixture 设计；不 remote fetch |
-| U-230 | S27 | research refresh | P3 | 未开始 | Observability report store no-go refresh | telemetry / report store no-go posture 复审；不建 telemetry store |
+| U-221 | S27 | conformance | P1 | 已完成 | Conformance manifest schema implementation | conformance manifest schema first slice 落地；fixture-only first |
+| U-222 | S27 | conformance | P1 | 已完成 | Conformance report JSON schema implementation | conformance report JSON schema first slice 落地；不建 dashboard |
+| U-223 | S27 | conformance | P1 | 已完成 | Conformance runner read-only MVP | runner 只读取 fixture / validate 输出，不执行 arbitrary commands；不执行 commands |
+| U-224 | S27 | fixtures | P2 | 已完成 | Negative fixture second slice | 第二批 negative fixtures 小批量落地；小批量 |
+| U-225 | S27 | validation | P2 | 已完成 | Validator dependency diagnostics first slice | missing target / status diagnostics first slice 落地；不建 scheduler |
+| U-226 | S27 | docs parity | P3 | 已完成 | Route dependency docs parity pass | route dependency JSON docs 与实现同步；不改 ranking |
+| U-227 | S27 | fixture design | P3 | 已完成 | Dependency graph cycle fixture design | cycle fixture design 与 validator route 边界明确；不执行 graph runtime |
+| U-228 | S27 | fixture design | P3 | 已完成 | Adapter negotiation example fixture | metadata-only negotiation example fixture 设计；不实现 handshake |
+| U-229 | S27 | fixture design | P3 | 已完成 | Cross-corpus resolver no-fetch fixture | no-fetch resolver posture fixture 设计；不 remote fetch |
+| U-230 | S27 | research refresh | P3 | 已完成 | Observability report store no-go refresh | telemetry / report store no-go posture 复审；不建 telemetry store |
 
 ## 下一批推荐
 
@@ -230,7 +230,7 @@
 | Batch AA | U-191 到 U-200 | 已完成；release closeout readiness、local hygiene repeatability、skill alignment、handoff 和 task discovery 已收束 | docs link checker、secret-like scan、pack dry-run、GitHub read-only state review、`validate:all` |
 | Batch AB | U-201 到 U-210 | 已完成；PR body / close refs final audit、release notes body、package / release gates、owner go/no-go | GitHub state review、package / release gates、docs gate |
 | Batch AC | U-211 到 U-220 | 已完成；local hygiene automation / release hygiene aggregate | scripts / npm commands / docs gate |
-| Batch AD | U-221 到 U-230 | 下一轮推荐；conformance / diagnostics next implementation slice | conformance schemas/runner、negative fixtures、validator diagnostics、docs parity |
+| Batch AD | U-221 到 U-230 | 已完成；conformance / diagnostics next implementation slice | conformance schemas/runner、negative fixtures、validator diagnostics、docs parity |
 
 ## 当前非目标
 

@@ -2,6 +2,78 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-03
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-03 |
+| 开始时间 | 2026-05-13 01:05 Asia/Shanghai |
+| 结束时间 | 2026-05-13 01:35 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-211 到 U-220 复审；conformance manifest/report schema、read-only conformance runner、negative fixture second slice、validator dependency diagnostics、route docs parity、cycle fixture design、adapter/cross-corpus/observability no-go posture；不 merge、不 release、不 bump version、不创建 tag、不发布 npm、不新增 CI、不抓外网、不执行 arbitrary commands |
+| 本轮选中任务 | U-221、U-222、U-223、U-224、U-225、U-226、U-227、U-228、U-229、U-230 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-03
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `0bc4fdf` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 通过，含 docs link、secret scan、package surface、generated clean、skill regression、`validate:all` |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、192 changed files、0 reviews、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-221 到 U-230 |
+
+## 任务执行记录：R-2026-05-13-03
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-221 | 未开始 | 已完成 | 增加 conformance manifest schema first slice | `schema/conformance-manifest.schema.json` |
+| 2 | U-222 | 未开始 | 已完成 | 增加 conformance report JSON schema first slice | `schema/conformance-report.schema.json` |
+| 3 | U-223 | 未开始 | 已完成 | 增加 `aods conformance run` 只读 MVP | `lib/conformance.mjs`、`bin/aods.mjs`、`npm run conformance:compiled-pilot` |
+| 4 | U-224 | 未开始 | 已完成 | 增加第二批 negative fixtures | `invalid-kind.json`、`missing-input-path.json` |
+| 5 | U-225 | 未开始 | 已完成 | 增强 validator dependency diagnostics | `dependency_id` / `available_module_ids_sample` / `cycle_path` / `cycle_length` |
+| 6 | U-226 | 未开始 | 已完成 | 复审 route dependency docs parity | dependency docs 与 route JSON 字段同步 |
+| 7 | U-227 | 未开始 | 已完成 | 固化 dependency graph cycle fixture design | focused scaffold regression |
+| 8 | U-228 | 未开始 | 已完成 | 记录 adapter negotiation example fixture no-go | metadata-only posture，不实现 handshake |
+| 9 | U-229 | 未开始 | 已完成 | 记录 cross-corpus resolver no-fetch fixture posture | conformance runner 只读本地 path |
+| 10 | U-230 | 未开始 | 已完成 | 刷新 observability report store no-go | conformance report stdout-only，不建 telemetry store |
+
+## 验证记录：R-2026-05-13-03
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致 |
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮新增 local hygiene aggregate gate 通过 |
+| PR state review | `gh pr view 63 --json ...` | 通过 | ready、merge clean、20 close refs |
+| Conformance focused regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 8/8 pass |
+| Dependency diagnostics regression | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs --test-name-pattern "dependency target\|CLI help"` | 通过 | 34/34 in pattern pass |
+| Conformance runner smoke | `npm run conformance:compiled-pilot -- --json` | 通过 | 4 cases、2 expected failures、0 issues |
+| Package surface guard | `npm run package:check-surface` | 通过 | package entry count 61 |
+
+## 本轮返工记录：R-2026-05-13-03
+
+| 问题 | 根因 | 修复 | 再验证 |
+|---|---|---|---|
+| conformance validate case 初跑失败 | 内部 `validateCorpus()` 返回未套 gate 的 report，`status` 只由 CLI 层补充 | conformance validate case 按 errors/warnings 和 strict 计算 status | conformance focused regression / smoke 通过 |
+| dependency diagnostics test 初跑读错 report shape | validate JSON issue 不在顶层 `issues`，而在 `levels.L*.errors/warnings` | 测试改按真实 report shape 读取；`addIssue` 保留扩展诊断字段 | focused scaffold regression 通过 |
+
+## 新发现任务：R-2026-05-13-03
+
+本轮没有新增任务 ID。当前任务池已清空；下一轮应先做 task discovery 或 release/public decision。
+
+## 回合结束摘要：R-2026-05-13-03
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-221 到 U-230 |
+| 完成任务 | 10 | conformance / diagnostics slice 已完成 |
+| 返工项 | 2 | conformance validate status 和 dependency diagnostics test shape 已修复 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 0 | 当前任务池清空 |
+
 ## 回合摘要：R-2026-05-13-02
 
 | 项 | 内容 |

@@ -135,6 +135,7 @@
 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md` | U-199 到 U-200 handoff compaction 和 U-201 到 U-230 task discovery。 |
 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | U-201 到 U-210 PR body final refresh、close refs audit、review/checks policy、release notes draft、version/README plan、package/install/release gates 和 owner go/no-go packet。 |
 | `docs/operations/aods-local-hygiene-automation.zh-CN.md` | U-211 到 U-220 local hygiene automation，落地 docs link、secret-like scan、package surface、generated churn、skill alignment 和 release hygiene aggregate 命令。 |
+| `docs/operations/aods-conformance-diagnostics-implementation.zh-CN.md` | U-221 到 U-230 conformance / diagnostics implementation，落地 conformance schema、只读 runner、negative fixtures second slice 和 dependency diagnostics。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界
