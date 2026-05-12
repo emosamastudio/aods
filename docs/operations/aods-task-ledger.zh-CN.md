@@ -10,33 +10,29 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S20 far runtime PoC decision gates |
-| 当前回合 | R-2026-05-12-07 |
-| 未完成任务数量 | 5 |
-| 已完成任务数量 | 160 |
+| 当前阶段 | S20 research closure |
+| 当前回合 | R-2026-05-12-08 |
+| 未完成任务数量 | 0 |
+| 已完成任务数量 | 165 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-07 |
-| 开始时间 | 2026-05-12 17:36 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-08 |
+| 开始时间 | 2026-05-12 18:08 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-146、U-147、U-148、U-149、U-150、U-151、U-152、U-153、U-154、U-155 |
-| 本轮范围 | 上轮 U-136 到 U-145 复审；risk taxonomy coverage、audit metadata completeness、policy decision receipt boundary、approval label semantics、local-only export safety、workflow/event/policy/remote/migration minimal PoC decision gates |
-| 排除范围 | runtime 实现、dashboard 实现、conformance runner、workflow engine、event store、policy engine、remote gateway、migration executor、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；route query evidence；compiled-pilot strict reality summary；stable-contracts evidence review；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
+| 选中任务 | U-156、U-157、U-158、U-159、U-160 |
+| 本轮范围 | 上轮 U-146 到 U-155 复审；conformance runner implementation plan、adapter negotiation protocol plan、cross-corpus authority resolver research、dependency scheduler research、telemetry / observability store research |
+| 排除范围 | runtime 实现、dashboard 实现、conformance runner、adapter negotiation runtime、cross-corpus resolver、dependency scheduler、telemetry store、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；route query evidence；stable-contracts / validation evidence review；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-156 | S20 | Conformance runner implementation plan | P3 | 未开始 | 从 fixture smoke 走向 conformance runner 的 staged implementation plan 明确；不实现 runner | U-116 | conformance decision |
-| U-157 | S20 | Adapter negotiation protocol plan | P3 | 未开始 | full negotiation handshake 的 metadata prerequisites、protocol sketch 和 non-goals 明确；不实现 negotiation | U-078 | adapter protocol |
-| U-158 | S20 | Cross-corpus authority resolver research | P3 | 未开始 | cross-corpus resolver 的 trust model、fetch policy、cache and failure posture 明确；不实现 resolver | U-038 | authority runtime |
-| U-159 | S20 | Dependency scheduler research | P3 | 未开始 | dependency ordering 是否进入 runtime scheduler 的 gate、risks、alternatives 明确；不实现 scheduler | U-087 | scheduler research |
-| U-160 | S20 | Telemetry / observability store research | P3 | 未开始 | dashboard/trace store/telemetry storage 的 need、inputs、privacy risk 明确；不建 store | U-046 | observability research |
+| 无 | - | 当前无未完成任务 | - | - | - | - | - |
 
 ## 已完成任务
 
@@ -202,6 +198,11 @@
 | 158 | U-153 | S20 | Policy engine minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | U-088 policy triage evidence；U-148/U-149 boundary review | policy engine PoC input/output、identity model、audit boundary 已明确；不实现 PoC |
 | 159 | U-154 | S20 | Remote gateway minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | U-089 remote triage evidence；U-145 upgrade checklist review | remote gateway PoC auth、transport、rate/cost、failure semantics 已明确；不实现 PoC |
 | 160 | U-155 | S20 | Migration tool minimal PoC decision gate | P3 | 2026-05-12 | `docs/operations/aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | U-090 migration triage evidence；deprecation/migration contract review | migration tool PoC dry-run、rollback、destructive approval、fixtures 已明确；不实现 PoC |
+| 161 | U-156 | S20 | Conformance runner implementation plan | P3 | 2026-05-12 | `docs/operations/aods-conformance-runner-implementation-plan.zh-CN.md` | U-116 fixture smoke output contract；spec validation fixture field table review | 从 fixture smoke 到 conformance runner 的 staged implementation plan 已明确；不实现 runner |
+| 162 | U-157 | S20 | Adapter negotiation protocol plan | P3 | 2026-05-12 | `docs/operations/aods-adapter-negotiation-protocol-plan.zh-CN.md` | U-078 capability gates；capability negotiation boundary table review | full negotiation handshake 的 metadata prerequisites、protocol sketch 和 non-goals 已明确；不实现 negotiation |
+| 163 | U-158 | S20 | Cross-corpus authority resolver research | P3 | 2026-05-12 | `docs/operations/aods-cross-corpus-authority-resolver-research.zh-CN.md` | U-038 authority hierarchy；route dependency evidence review | cross-corpus resolver 的 trust model、fetch policy、cache / failure posture 已明确；不实现 resolver |
+| 164 | U-159 | S20 | Dependency scheduler research | P3 | 2026-05-12 | `docs/operations/aods-dependency-scheduler-research.zh-CN.md` | surface dependency field table；workflow/event decision gates review | dependency ordering 是否进入 runtime scheduler 的 gate、risks、alternatives 已明确；不实现 scheduler |
+| 165 | U-160 | S20 | Telemetry / observability store research | P3 | 2026-05-12 | `docs/operations/aods-telemetry-observability-store-research.zh-CN.md` | route JSON explanation；validate JSON docs；fixture smoke report schema review | dashboard / trace store / telemetry storage 的 need、inputs、privacy risk 已明确；不建 store |
 
 ## 失败或阻塞任务
 
@@ -292,3 +293,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-126` 到 `U-135` 完成 | 本轮完成 route explanation、remediation coverage、severity gate、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta ergonomics；并落地 300 soft warning / 500 hard fail 及回归测试。下一轮应选择 U-136 到 U-145。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-136` 到 `U-145` 完成 | 本轮完成 glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface report、docs link checker、sensitive/redaction fixture review、credential placeholder policy 和 remote exposure upgrade checklist；不建 resolver/crawler/semantic judge/secret scanner/gateway。下一轮应选择 U-146 到 U-155。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-146` 到 `U-155` 完成 | 本轮完成 risk taxonomy coverage、audit metadata completeness、policy decision / receipt / approval labels、local-only export safety 和五类 runtime PoC decision gates；不建 workflow/event/policy/remote/migration runtime。下一轮应选择 U-156 到 U-160。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-156` 到 `U-160` 完成 | 本轮完成 conformance runner plan、adapter negotiation protocol plan、cross-corpus authority resolver research、dependency scheduler research 和 telemetry / observability store research；当前任务池无未完成任务。 |

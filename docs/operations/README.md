@@ -105,6 +105,11 @@
 | `aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | U-153 policy engine minimal PoC decision gate，定义 policy engine PoC 的 input/output、identity model 和 audit boundary | 高 |
 | `aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | U-154 remote gateway minimal PoC decision gate，定义 auth、transport、rate/cost 和 failure semantics gate | 高 |
 | `aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | U-155 migration tool minimal PoC decision gate，定义 migration dry-run、rollback、destructive approval 和 fixtures gate | 高 |
+| `aods-conformance-runner-implementation-plan.zh-CN.md` | U-156 conformance runner implementation plan，定义从 fixture smoke 到 conformance runner 的 staged implementation plan | 高 |
+| `aods-adapter-negotiation-protocol-plan.zh-CN.md` | U-157 adapter negotiation protocol plan，定义 metadata prerequisites、protocol sketch 和 non-goals | 高 |
+| `aods-cross-corpus-authority-resolver-research.zh-CN.md` | U-158 cross-corpus authority resolver research，定义 trust model、fetch policy、cache and failure posture | 高 |
+| `aods-dependency-scheduler-research.zh-CN.md` | U-159 dependency scheduler research，判断 dependency ordering 是否应进入 runtime scheduler | 高 |
+| `aods-telemetry-observability-store-research.zh-CN.md` | U-160 telemetry / observability store research，审查 dashboard / trace store / telemetry storage 的 need、inputs、privacy risk | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -214,9 +219,14 @@
 100. 读 `aods-policy-engine-minimal-poc-decision-gate.zh-CN.md`
 101. 读 `aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md`
 102. 读 `aods-migration-tool-minimal-poc-decision-gate.zh-CN.md`
-103. 读 `aods-v0.7-rc-gate.zh-CN.md`
-104. 读 `aods-handoff.zh-CN.md`
-105. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+103. 读 `aods-conformance-runner-implementation-plan.zh-CN.md`
+104. 读 `aods-adapter-negotiation-protocol-plan.zh-CN.md`
+105. 读 `aods-cross-corpus-authority-resolver-research.zh-CN.md`
+106. 读 `aods-dependency-scheduler-research.zh-CN.md`
+107. 读 `aods-telemetry-observability-store-research.zh-CN.md`
+108. 读 `aods-v0.7-rc-gate.zh-CN.md`
+109. 读 `aods-handoff.zh-CN.md`
+110. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -264,4 +274,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-155 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-160 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

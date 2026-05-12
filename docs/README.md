@@ -114,6 +114,11 @@
 | `docs/operations/aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | U-153 policy engine minimal PoC decision gate，定义 policy decision input/output、identity 和 audit boundary。 |
 | `docs/operations/aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | U-154 remote gateway minimal PoC decision gate，定义 auth、transport、rate/cost、failure semantics 进入条件。 |
 | `docs/operations/aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | U-155 migration tool minimal PoC decision gate，定义 dry-run、rollback、destructive approval 和 fixtures 进入条件。 |
+| `docs/operations/aods-conformance-runner-implementation-plan.zh-CN.md` | U-156 conformance runner implementation plan，定义从 fixture smoke 到 runner 的分阶段路线和进入条件。 |
+| `docs/operations/aods-adapter-negotiation-protocol-plan.zh-CN.md` | U-157 adapter negotiation protocol plan，定义 negotiation 的 metadata prerequisites、protocol sketch 和非目标。 |
+| `docs/operations/aods-cross-corpus-authority-resolver-research.zh-CN.md` | U-158 cross-corpus authority resolver research，定义 trust model、fetch policy、cache 和 failure posture。 |
+| `docs/operations/aods-dependency-scheduler-research.zh-CN.md` | U-159 dependency scheduler research，审查 dependency ordering 是否应进入 runtime scheduler。 |
+| `docs/operations/aods-telemetry-observability-store-research.zh-CN.md` | U-160 telemetry / observability store research，审查 report storage、dashboard 需求和隐私风险。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

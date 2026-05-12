@@ -2,6 +2,78 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-08
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-08 |
+| 开始时间 | 2026-05-12 18:08 Asia/Shanghai |
+| 结束时间 | 2026-05-12 21:09 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-146 到 U-155 复审；conformance runner implementation plan、adapter negotiation protocol plan、cross-corpus authority resolver research、dependency scheduler research、telemetry / observability store research；不实现 runner、adapter negotiation runtime、cross-corpus resolver、dependency scheduler、telemetry store；不 merge、不 release、不 bump version |
+| 本轮选中任务 | U-156、U-157、U-158、U-159、U-160 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-08
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | U-156 到 U-160 operations docs、docs navigation、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、`MEMORY.md` local-only |
+| 禁止触碰 | runtime 实现、dashboard、conformance runner、adapter negotiation runtime、cross-corpus resolver、dependency scheduler、telemetry / observability store、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | 无外部写操作；GitHub 不读写 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 如出现则还原 |
+
+## 上轮质量复审：R-2026-05-12-08
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `10209da` 与 origin 一致，工作树仅有本轮文档改动和 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | 上轮 `validate:all`、`benchmark:test`、diff hygiene 和 push 记录完整 |
+| AODS route | 通过 | 本轮 query 命中 `spec-stable-surface-contracts` 和 `spec-validation`，覆盖 conformance、adapter negotiation、authority resolver、scheduler、observability store 等关键词 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-156 到 U-160 |
+
+## 任务执行记录：R-2026-05-12-08
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-156 | 未开始 | 已完成 | 制定 fixture smoke 到 conformance runner 的 staged implementation plan | `docs/operations/aods-conformance-runner-implementation-plan.zh-CN.md` |
+| 2 | U-157 | 未开始 | 已完成 | 制定 adapter negotiation 的 metadata prerequisites、protocol sketch 和 non-goals | `docs/operations/aods-adapter-negotiation-protocol-plan.zh-CN.md` |
+| 3 | U-158 | 未开始 | 已完成 | 定义 cross-corpus authority resolver 的 trust model、fetch policy、cache / failure posture | `docs/operations/aods-cross-corpus-authority-resolver-research.zh-CN.md` |
+| 4 | U-159 | 未开始 | 已完成 | 审查 dependency ordering 是否应进入 runtime scheduler，并记录替代路线 | `docs/operations/aods-dependency-scheduler-research.zh-CN.md` |
+| 5 | U-160 | 未开始 | 已完成 | 审查 telemetry / observability store 的 need、inputs、privacy risk 和最小未来形态 | `docs/operations/aods-telemetry-observability-store-research.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-08
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog`、`npm run validate:all` | 通过 | 上轮成果可接续；`MEMORY.md` 未跟踪 |
+| U-156 - U-160 | Route query evidence | `node ./bin/aods.mjs route . --query ... --stage plan --intent read --json` | 通过 | query-route 命中 stable contracts 与 validation |
+| U-156 - U-160 | Stable contract evidence | fixture smoke output contract、capability compatibility gates、authority hierarchy、dependency ordering、route observability metadata review | 通过 | 五项 research 均有现有 stable surface 证据支撑 |
+| U-156 - U-160 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-156 - U-160 | Benchmark test gate | `npm run benchmark:test` | 通过 | benchmark generated result churn 如出现则不提交 |
+| U-156 - U-160 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-08
+
+本轮没有新增任务 ID。当前任务池无未完成任务；后续新增任务必须先进入 `aods-task-ledger.zh-CN.md`，再进入当前回合。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-156 - U-160 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-08
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 5 | U-156、U-157、U-158、U-159、U-160 |
+| 完成任务 | 5 | conformance / adapter / resolver / scheduler / observability research 已完成 |
+| 返工项 | 0 | 上轮成果审查通过，本轮没有返工 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 0 | 当前任务池无未完成任务 |
+
 ## 回合摘要：R-2026-05-12-07
 
 | 项 | 内容 |

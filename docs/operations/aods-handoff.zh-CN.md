@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-125 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage、contract-to-evidence trace、stale evidence refresh workflow、locator remediation、non-execution invariant、fixture coverage matrix、golden export drift report、fixture output、examples、benchmark hygiene、CLI / validation docs。U-126 到 U-135 已完成 route explanation dependency review、remediation coverage、severity gate consistency、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta schema/test implementation；changelog delta 现在是 300 soft warning + 500 hard fail。U-136 到 U-145 已完成 glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface sync report、docs local link checker、sensitive/redaction fixture review、credential placeholder policy 和 remote exposure upgrade checklist。U-146 到 U-155 已完成 risk taxonomy coverage、audit metadata completeness、policy decision / receipt / audit anchor boundary、approval label semantics、local-only export safety 和五类 runtime PoC decision gates。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 的本地最小修复已完成但公开同步仍需授权。下一轮未完成任务不足 10 个，应选择 U-156、U-157、U-158、U-159、U-160。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落地 implementation drift、authoring quality、surface examples、glossary registry 和 external citation 能力。U-068 到 U-084 已完成 public sync triage、next drift slice、route discoverability、reality locator diagnostics、public docs navigation、v0.12+ backlog triage、release readiness gate、GitHub public sync、implementation evidence stale/current hygiene、capability compatibility metadata deterministic gates、route JSON explanation minimal enrichment、fixture smoke runner、source-first adoption guide、external citation hygiene report、changelog delta ergonomics review 和 runtime-boundary research spike。U-085 到 U-125 已完成 runtime readiness、五类 runtime entry contract、PR / release readiness、package inventory、packed install smoke、close-on-merge audit、release candidate gate、release playbook dry run、implementation evidence locator matrix、acceptance criteria coverage、contract-to-evidence trace、stale evidence refresh workflow、locator remediation、non-execution invariant、fixture coverage matrix、golden export drift report、fixture output、examples、benchmark hygiene、CLI / validation docs。U-126 到 U-135 已完成 route explanation dependency review、remediation coverage、severity gate consistency、validation output triage、route query/touch audit、error wording、authoring lint boundary 和 changelog delta schema/test implementation；changelog delta 现在是 300 soft warning + 500 hard fail。U-136 到 U-145 已完成 glossary alias lifecycle、canonical-term docs、external citation workflow/freshness、documentation density、paired surface sync report、docs local link checker、sensitive/redaction fixture review、credential placeholder policy 和 remote exposure upgrade checklist。U-146 到 U-155 已完成 risk taxonomy coverage、audit metadata completeness、policy decision / receipt / audit anchor boundary、approval label semantics、local-only export safety 和五类 runtime PoC decision gates。U-156 到 U-160 已完成 conformance runner plan、adapter negotiation protocol plan、cross-corpus authority resolver research、dependency scheduler research 和 telemetry / observability store research。U-092 已把综合任务池扩展到 U-160，并规定每轮质量复审通过后选择 10 个未完成任务执行；少于 10 个时全选。draft PR `#63` 仍为 open draft，已覆盖 issue 在 PR 合并时自动关闭，`#41/#59/#60` 保持 open 并已留言，`#13` 的本地最小修复已完成但公开同步仍需授权。当前任务池无未完成任务；新增任务必须先入 `aods-task-ledger.zh-CN.md`。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -113,9 +113,14 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | 98 | `docs/operations/aods-policy-engine-minimal-poc-decision-gate.zh-CN.md` | 读取 U-153 policy engine PoC decision gate |
 | 99 | `docs/operations/aods-remote-gateway-minimal-poc-decision-gate.zh-CN.md` | 读取 U-154 remote gateway PoC decision gate |
 | 100 | `docs/operations/aods-migration-tool-minimal-poc-decision-gate.zh-CN.md` | 读取 U-155 migration tool PoC decision gate |
-| 101 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 102 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 103 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 101 | `docs/operations/aods-conformance-runner-implementation-plan.zh-CN.md` | 读取 U-156 conformance runner implementation plan |
+| 102 | `docs/operations/aods-adapter-negotiation-protocol-plan.zh-CN.md` | 读取 U-157 adapter negotiation protocol plan |
+| 103 | `docs/operations/aods-cross-corpus-authority-resolver-research.zh-CN.md` | 读取 U-158 cross-corpus authority resolver research |
+| 104 | `docs/operations/aods-dependency-scheduler-research.zh-CN.md` | 读取 U-159 dependency scheduler research |
+| 105 | `docs/operations/aods-telemetry-observability-store-research.zh-CN.md` | 读取 U-160 telemetry / observability store research |
+| 106 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 107 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 108 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -288,16 +293,17 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | U-153 | Policy engine minimal PoC decision gate | policy engine PoC input/output、identity model、audit boundary 已明确；不实现 PoC |
 | U-154 | Remote gateway minimal PoC decision gate | remote gateway PoC auth、transport、rate/cost、failure semantics 已明确；不实现 PoC |
 | U-155 | Migration tool minimal PoC decision gate | migration tool PoC dry-run、rollback、destructive approval、fixtures 已明确；不实现 PoC |
+| U-156 | Conformance runner implementation plan | 从 fixture smoke 到 conformance runner 的 staged plan、进入条件和 no-go posture 已明确；不实现 runner |
+| U-157 | Adapter negotiation protocol plan | metadata prerequisites、protocol sketch 和 non-goals 已明确；不实现 negotiation |
+| U-158 | Cross-corpus authority resolver research | trust model、fetch policy、cache / failure posture 已明确；不实现 resolver |
+| U-159 | Dependency scheduler research | dependency ordering 进入 runtime scheduler 的 gate、risks、alternatives 已明确；不实现 scheduler |
+| U-160 | Telemetry / observability store research | report storage、dashboard need、privacy risk 和最小未来形态已明确；不建 store |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-156 | Conformance runner implementation plan | 下一轮剩余 5 任务第 1 个；不实现 runner |
-| 2 | U-157 | Adapter negotiation protocol plan | 下一轮剩余 5 任务第 2 个；不实现 negotiation |
-| 3 | U-158 | Cross-corpus authority resolver research | 下一轮剩余 5 任务第 3 个；不实现 resolver |
-| 4 | U-159 | Dependency scheduler research | 下一轮剩余 5 任务第 4 个；不实现 scheduler |
-| 5 | U-160 | Telemetry / observability store research | 下一轮剩余 5 任务第 5 个；不建 store |
+| 1 | 无 | 当前无未完成任务 | 新增任务必须先入 `aods-task-ledger.zh-CN.md`，再进入当前回合 |
 
 ## 失败和风险
 
@@ -352,6 +358,11 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 | route discoverability 残留风险 | `aods route --help` 曾返回 unknown arg | U-076 已修复；后续如扩 CLI discoverability，仍不得改变 route ranking |
 | fixture smoke 扩散风险 | fixture manifest smoke runner 容易被误读成完整 conformance runner 或 golden updater | U-080 只检查 manifest outcome 字段和声明路径；不得执行 update command、remote fetch 或自动接受 golden diff |
 | adoption docs 过度承诺风险 | source-first example packs 容易被读成完整 runtime coverage | U-081 明确这些是采用示例，不代表 command executor、event store、adapter runtime、resource scheduler、crawler 或 fact checker 已实现 |
+| conformance runner 过早实现风险 | fixture smoke 到完整 conformance runner 之间还缺 manifest、report schema、negative fixture 和执行边界 | U-156 只记录 staged implementation plan；未获明确任务前不实现 runner |
+| adapter negotiation 过早实现风险 | negotiation protocol 容易扩成 discovery、auth、fallback、dynamic probing 或 provider selection runtime | U-157 只记录 metadata prerequisites 和 protocol sketch；不实现 runtime handshake |
+| cross-corpus resolver 过早实现风险 | authority resolver 容易触发 remote fetch、cache trust、conflict resolution 和跨仓库写入边界 | U-158 只记录 trust model、fetch policy、cache / failure posture；默认 no-fetch |
+| dependency scheduler 过早实现风险 | dependency ordering 容易扩成 package manager、workflow scheduler 或 cross-repo executor | U-159 结论为先强化 validator / route / compile / fixture 替代路径；不实现 scheduler |
+| observability store 过早实现风险 | route / validate / fixture report 容易扩成 telemetry collection、dashboard 或 trace store | U-160 结论为当前无 store 需求；后续必须先定义隐私、保留和 opt-in 边界 |
 | hosted repeatability 外部捕获风险 | benchmark summary 测试依赖 optional hosted repeatability 数据，本轮 hosted 捕获运行 11 分钟无输出后终止 | 本轮以 focused regression、`validate:all` 和 diff hygiene 为通过 gate；后续若要恢复 full `benchmark:test` gate，需要可用 hosted relay / Keychain / 网络环境或先裁剪 benchmark 入口问题 |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
 
@@ -359,6 +370,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-067 已连续落
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-156 - U-160 | 下一轮剩余 5 任务 | conformance / adapter / resolver / scheduler / observability research |
+| 1 | 无 | 当前任务池无未完成任务 | 下一轮先做任务发现 / public state review，并把新增任务写入 `aods-task-ledger.zh-CN.md` |
 | 2 | PR `#63` closeout | 后续公开状态处理 | ready / merge / release 仍需当前回合明确授权 |
-| 3 | U-156 后续扩展 | 后续任务池补充 | 若新增任务，先入 `aods-task-ledger.zh-CN.md`，再进入当前回合 |
+| 3 | 后续扩展 | 后续任务池补充 | 若新增任务，先入 `aods-task-ledger.zh-CN.md`，再进入当前回合 |

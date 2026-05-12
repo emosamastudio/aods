@@ -119,11 +119,11 @@
 | U-153 | S20 | runtime decision | P3 | 已完成 | Policy engine minimal PoC decision gate | policy engine PoC input/output、identity model、audit boundary 已明确；不实现 PoC |
 | U-154 | S20 | runtime decision | P3 | 已完成 | Remote gateway minimal PoC decision gate | remote gateway PoC auth、transport、rate/cost、failure semantics 已明确；不实现 PoC |
 | U-155 | S20 | runtime decision | P3 | 已完成 | Migration tool minimal PoC decision gate | migration tool PoC dry-run、rollback、destructive approval、fixtures 已明确；不实现 PoC |
-| U-156 | S20 | conformance decision | P3 | 未开始 | Conformance runner implementation plan | 从 fixture smoke 走向 conformance runner 的 staged implementation plan 明确；不实现 runner |
-| U-157 | S20 | adapter protocol | P3 | 未开始 | Adapter negotiation protocol plan | full negotiation handshake 的 metadata prerequisites、protocol sketch 和 non-goals 明确；不实现 negotiation |
-| U-158 | S20 | authority runtime | P3 | 未开始 | Cross-corpus authority resolver research | cross-corpus resolver 的 trust model、fetch policy、cache and failure posture 明确；不实现 resolver |
-| U-159 | S20 | scheduler research | P3 | 未开始 | Dependency scheduler research | dependency ordering 是否进入 runtime scheduler 的 gate、risks、alternatives 明确；不实现 scheduler |
-| U-160 | S20 | observability research | P3 | 未开始 | Telemetry / observability store research | dashboard/trace store/telemetry storage 的 need、inputs、privacy risk 明确；不建 store |
+| U-156 | S20 | conformance decision | P3 | 已完成 | Conformance runner implementation plan | 从 fixture smoke 走向 conformance runner 的 staged implementation plan 已明确；不实现 runner |
+| U-157 | S20 | adapter protocol | P3 | 已完成 | Adapter negotiation protocol plan | full negotiation handshake 的 metadata prerequisites、protocol sketch 和 non-goals 已明确；不实现 negotiation |
+| U-158 | S20 | authority runtime | P3 | 已完成 | Cross-corpus authority resolver research | cross-corpus resolver 的 trust model、fetch policy、cache and failure posture 已明确；不实现 resolver |
+| U-159 | S20 | scheduler research | P3 | 已完成 | Dependency scheduler research | dependency ordering 是否进入 runtime scheduler 的 gate、risks、alternatives 已明确；不实现 scheduler |
+| U-160 | S20 | observability research | P3 | 已完成 | Telemetry / observability store research | dashboard/trace store/telemetry storage 的 need、inputs、privacy risk 已明确；不建 store |
 
 ## 下一批推荐
 
@@ -153,7 +153,8 @@
 | Batch T | U-126 到 U-135 | 已完成；route/validation DX、authoring lint boundary 和 changelog ergonomics 已收束 | route query/touch evidence、focused scaffold regression、`validate:all` |
 | Batch U | U-136 到 U-145 | 已完成；glossary/citation/docs quality/redaction/exposure docs 已收束 | route/citation/glossary evidence、local docs link checker、secret-like scan、`validate:all` |
 | Batch V | U-146 到 U-155 | 已完成；risk/audit boundary 和五类 far runtime decision gates 已收束 | route/stable-contracts evidence、compiled-pilot review、`validate:all` |
-| Batch W | U-156 到 U-160 | 下一轮剩余 5 任务；conformance / adapter / resolver / scheduler / observability research | docs gate; no implementation unless separately authorized |
+| Batch W | U-156 到 U-160 | 已完成；conformance / adapter / resolver / scheduler / observability research 已收束 | route / stable-contracts / validation evidence、docs gate、`validate:all` |
+| Batch X | 无 | 当前任务池无未完成任务；新增任务必须先进入 task ledger | docs gate |
 
 ## 当前非目标
 
