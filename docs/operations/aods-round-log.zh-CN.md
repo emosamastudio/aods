@@ -2,6 +2,95 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-01
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-01 |
+| 开始时间 | 2026-05-13 00:10 Asia/Shanghai |
+| 结束时间 | 2026-05-13 00:25 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-191 到 U-200 复审；PR body final freshness refresh、close-on-merge refs final audit、review/checks policy decision record、release notes final body draft、version bump dry-run patch plan、README release link diff plan、package inventory rerun、packed install smoke rerun、release self-check rerun、owner go/no-go packet refresh；不 merge、不 release、不 bump version、不创建 tag、不发布 npm、不启用 CI |
+| 本轮选中任务 | U-201、U-202、U-203、U-204、U-205、U-206、U-207、U-208、U-209、U-210 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-13-01
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | PR `#63` body、release closeout final readiness packet、operations docs、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、`MEMORY.md` local-only |
+| 禁止触碰 | PR merge、issue close、GitHub Release、tag creation、package version bump、npm publish、CI workflow enablement、runtime 实现、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | GitHub PR body write 已在本轮授权边界内；网络命令使用 `source ~/.zshrc && proxy_on && gh ...` |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；generated result/report churn 如出现则还原 |
+
+## 上轮质量复审：R-2026-05-13-01
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `43e5595` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | 上轮 `validate:all`、skill package regression、benchmark regression、pack dry-run 和 diff hygiene 记录完整 |
+| AODS validation | 通过 | 本轮复审重新运行 `npm run validate:all`，root / pilot / compiled-pilot 全部通过 |
+| AODS route | 通过 | release closeout query 命中 stable contracts、validation 和 authority governance |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、185 changed files、0 reviews、0 checks、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-201 到 U-210 |
+
+## 任务执行记录：R-2026-05-13-01
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-201 | 未开始 | 已完成 | 刷新 PR `#63` body，覆盖 U-191 到 U-200 后状态和最新 package / install / self-check evidence | PR body、`docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` |
+| 2 | U-202 | 未开始 | 已完成 | 复核 close-on-merge refs | `gh pr view 63 --json closingIssuesReferences` 识别 20 refs |
+| 3 | U-203 | 未开始 | 已完成 | 记录 no checks / no reviews / owner override policy | `gh pr checks 63`、PR reviews snapshot、final readiness packet |
+| 4 | U-204 | 未开始 | 已完成 | 起草 GitHub Release body | final readiness packet |
+| 5 | U-205 | 未开始 | 已完成 | 制定 `0.8.0` version bump dry-run patch plan | final readiness packet |
+| 6 | U-206 | 未开始 | 已完成 | 制定 README release link diff plan | README version surface scan、final readiness packet |
+| 7 | U-207 | 未开始 | 已完成 | 重新运行 package inventory | `npm pack --dry-run --json` |
+| 8 | U-208 | 未开始 | 已完成 | 重新运行 packed install smoke | temp local npm project install / CLI / validate / fixture smoke |
+| 9 | U-209 | 未开始 | 已完成 | 重新运行 release self-check 并还原 generated churn | `npm run release:self-check`、`git restore` generated/report churn |
+| 10 | U-210 | 未开始 | 已完成 | 刷新 owner go/no-go packet | final readiness packet |
+
+## 验证记录：R-2026-05-13-01
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致，`MEMORY.md` 未跟踪 |
+| quality review | AODS validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| quality review | Skill package focused regression | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | 通过 | 2/2 pass |
+| quality review | AODS route | `node ./bin/aods.mjs route . --query "release closeout PR body checks version package install self-check owner go no-go" --stage plan --intent sync --json` | 通过 | query-route 命中 stable contracts / validation / authority governance |
+| U-201 - U-203 | PR body / close refs / checks state | `gh pr edit 63 --body-file -`、`gh pr view 63 --json ...`、`gh pr checks 63` | 通过 | PR body refreshed；20 close refs recognized；checks command reports no checks；reviews empty |
+| U-205 - U-206 | Version surface scan | `rg -n "v0\\.7\\.0|0\\.7\\.0|v0\\.8\\.0|0\\.8\\.0|latest release|Latest" ...` | 通过 | current surfaces still `v0.7.0` / `0.7.0`; patch plan only |
+| U-207 | Package dry-run | `npm pack --dry-run --json` | 通过 | package `aods@0.7.0`、entry count 55、size 210524、unpacked 1073821 |
+| U-208 | Packed install smoke | local temp npm project installing packed tarball | 通过 | CLI help、packaged compiled-pilot strict reality validation、fixture smoke all pass |
+| U-209 | Release self-check | `npm run release:self-check` | 通过 | 85 benchmark tests pass；pack dry-run 55 files |
+| U-209 | Generated churn restore | `git status -sb` after restore | 通过 | benchmark generated/report churn restored；only `MEMORY.md` remains untracked before docs edits |
+
+## 本轮返工记录：R-2026-05-13-01
+
+| 问题 | 根因 | 修复 | 再验证 |
+|---|---|---|---|
+| release self-check 后出现 generated/report churn | benchmark summary / evaluation run updates generated outputs | 还原本轮非目标 generated / reports files | `git status -sb` 确认只剩 `MEMORY.md`，随后写入本轮 docs |
+
+## 新发现任务：R-2026-05-13-01
+
+本轮没有新增任务 ID。下一轮默认选择 U-211 到 U-220。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| 无 | 无 | 无 | - | 无 | 无 |
+
+## 回合结束摘要：R-2026-05-13-01
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-201 到 U-210 |
+| 完成任务 | 10 | PR body refresh、close refs audit、review/checks policy、release notes draft、version/README plan、package/install/release gates、owner packet 已完成 |
+| 返工项 | 1 | release self-check generated/report churn 已还原 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认选择 U-211 到 U-220 |
+
 ## 回合摘要：R-2026-05-12-12
 
 | 项 | 内容 |

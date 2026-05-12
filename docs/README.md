@@ -133,6 +133,7 @@
 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` | U-191 到 U-195 release closeout readiness，记录 release notes、PR split/checks/package/post-merge guard。 |
 | `docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | U-196 到 U-198 local docs link / secret scan repeatability 和 `aods-use` skill alignment。 |
 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md` | U-199 到 U-200 handoff compaction 和 U-201 到 U-230 task discovery。 |
+| `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | U-201 到 U-210 PR body final refresh、close refs audit、review/checks policy、release notes draft、version/README plan、package/install/release gates 和 owner go/no-go packet。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

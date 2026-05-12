@@ -1,13 +1,13 @@
 # AODS Agent Handoff
 
-日期：2026-05-12
+日期：2026-05-13
 分支：`codex/aods-v0.8-backlog`
 最新提交：以 `git log -1 --oneline` 为准（本分支基线为 `35c26f0`；PR `#62` squash merge 为 `831e10b`）
 状态：开发中
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-200 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment 和 task discovery。PR `#63` 已 ready for review、merge clean、无 checks/reviews、185 changed files；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池已扩展到 U-230，下一轮默认选择 U-201 到 U-210：PR body / close refs final audit、review/check policy、release notes body、version / README dry-run plan、package / install / release gates 和 owner go/no-go packet。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-210 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment、task discovery、PR final freshness、release notes body、version/README dry-run plan、package/install/release gates 和 owner go/no-go packet。PR `#63` 已 ready for review、merge clean、无 checks/reviews；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池已扩展到 U-230，下一轮默认选择 U-211 到 U-220：local docs link checker、secret-like scan、package guard、generated artifact hygiene、PR/issue snapshot、skill alignment regression 和 release hygiene aggregate command plan。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -132,9 +132,10 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-200 已连续完
 | 117 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` | 读取 U-191 到 U-195 release closeout readiness |
 | 118 | `docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | 读取 U-196 到 U-198 local hygiene / skill alignment |
 | 119 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md` | 读取 U-199 到 U-200 handoff compaction / task discovery |
-| 120 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 121 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 122 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 120 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | 读取 U-201 到 U-210 final readiness / owner go-no-go packet |
+| 121 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 122 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 123 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 

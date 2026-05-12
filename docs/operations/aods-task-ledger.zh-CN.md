@@ -1,7 +1,7 @@
 # AODS 任务台账
 
 状态：当前权威台账
-更新时间：2026-05-12
+更新时间：2026-05-13
 
 ## 台账元信息
 
@@ -9,39 +9,29 @@
 |---|---|
 | 项目 | AODS |
 | 状态 | 开发中 |
-| 更新时间 | 2026-05-12 |
-| 当前阶段 | S25 release closeout dry-run |
-| 当前回合 | R-2026-05-12-12 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 205 |
+| 更新时间 | 2026-05-13 |
+| 当前阶段 | S26 local hygiene automation |
+| 当前回合 | R-2026-05-13-01 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 215 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-12 |
-| 开始时间 | 2026-05-12 23:10 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-01 |
+| 开始时间 | 2026-05-13 00:10 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-191、U-192、U-193、U-194、U-195、U-196、U-197、U-198、U-199、U-200 |
-| 本轮范围 | 上轮 U-181 到 U-190 复审；release notes finalization、PR split risk、GitHub checks setup triage、package public surface diff guard、post-merge reconciliation checklist、local docs link checker automation plan、secret-like scan repeatability plan、aods-use skill release alignment check、handoff compaction、post-public-closeout task discovery |
-| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、secret scanner service、external link crawl、runtime 实现、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；AODS route / validation；GitHub PR / issue / checks read-only audit；npm pack dry-run；local docs link checker one-shot；secret-like scan；skill package diff review；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-201、U-202、U-203、U-204、U-205、U-206、U-207、U-208、U-209、U-210 |
+| 本轮范围 | 上轮 U-191 到 U-200 复审；PR body final freshness refresh、close-on-merge refs final audit、review/checks policy decision record、release notes final body draft、version bump dry-run patch plan、README release link diff plan、package inventory rerun、packed install smoke rerun、release self-check rerun、owner go/no-go packet refresh |
+| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、external release link creation、runtime 实现、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；AODS route / validation；GitHub PR body / close refs / checks audit；npm pack dry-run；local packed install smoke；`npm run release:self-check`；generated churn restore；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-201 | S25 | PR body final freshness refresh | P1 | 未开始 | PR body 覆盖 U-191-U-200 后状态并保持 close refs | U-191、U-195 | 可公开写；不 merge |
-| U-202 | S25 | Close-on-merge refs final audit | P1 | 未开始 | 20 个 close-on-merge refs 仍被 GitHub 识别 | U-201 | 不关闭 issue |
-| U-203 | S25 | Review / checks policy decision record | P1 | 未开始 | PR review / checks / owner override policy 明确 | U-193 | 不直接启用 CI |
-| U-204 | S25 | Release notes final body draft | P1 | 未开始 | GitHub Release body draft 覆盖 changes / non-goals / validation / caveats | U-191 | 不创建 release |
-| U-205 | S25 | Version bump dry-run patch plan | P1 | 未开始 | `0.8.0` version bump 所需文件和 diff plan 明确 | U-188、U-194 | 不修改 package version |
-| U-206 | S25 | README release link diff plan | P2 | 未开始 | README release links / version surface 改动计划明确 | U-205 | 不创建 release link |
-| U-207 | S25 | Package inventory rerun after final docs | P1 | 未开始 | pack dry-run entry count / package surface refresh | U-194 | 不发布 npm |
-| U-208 | S25 | Packed install smoke rerun | P1 | 未开始 | packed tarball CLI / validate / fixture smoke 再验证 | U-207 | local-only |
-| U-209 | S25 | Release self-check rerun | P1 | 未开始 | `npm run release:self-check` 再通过，generated churn 已还原 | U-207 | 不发布 release |
-| U-210 | S25 | Owner go/no-go packet refresh | P1 | 未开始 | merge / release / no-release 三选一决策包可交给 owner | U-201、U-209 | 不执行 release |
 | U-211 | S26 | Local docs link checker script implementation | P2 | 未开始 | 本地 Markdown relative link checker 脚本落地 | U-196 | 不抓取外网 |
 | U-212 | S26 | Docs link checker npm script / docs | P2 | 未开始 | npm script / docs 说明可重复运行 | U-211 | 不新增 CI |
 | U-213 | S26 | Secret-like placeholder scan script implementation | P2 | 未开始 | 高置信 secret-like scan 脚本落地 | U-197 | 不建 secret scanner service |
@@ -272,6 +262,16 @@
 | 203 | U-198 | S24 | aods-use skill release alignment check | P3 | 2026-05-12 | `skills/aods-use/SKILL.md`、`skills/aods-use/skill.json`、`docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | packaged / local skill diff review | repo packaged skill 已补齐 `upgrade` / release alignment trigger；不发布 skill |
 | 204 | U-199 | S24 | Final handoff compaction pass | P2 | 2026-05-12 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md`、handoff / MEMORY / round log | handoff review | 接手入口压缩到当前 ledger / round log / handoff / 三份本轮 docs；`MEMORY.md` local-only |
 | 205 | U-200 | S24 | Post-public-closeout task discovery | P2 | 2026-05-12 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md`、task ledger | GitHub open issue / PR state review | 新增 U-201 到 U-230；下一轮默认 U-201 到 U-210 |
+| 206 | U-201 | S25 | PR body final freshness refresh | P1 | 2026-05-13 | PR `#63` body、`docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | `gh pr edit 63 --body-file -`、`gh pr view 63 --json body` | PR body 已覆盖 U-191 到 U-200 后 release closeout / package / install / self-check 状态；未 merge |
+| 207 | U-202 | S25 | Close-on-merge refs final audit | P1 | 2026-05-13 | PR `#63` closing refs | `gh pr view 63 --json closingIssuesReferences` | 20 个 close-on-merge refs 仍被 GitHub 识别；不关闭 issue |
+| 208 | U-203 | S25 | Review / checks policy decision record | P1 | 2026-05-13 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md`、PR state | `gh pr checks 63`、`gh pr view 63 --json reviews` | no checks reported、0 reviews；owner override / review / no-CI policy 已明确 |
+| 209 | U-204 | S25 | Release notes final body draft | P1 | 2026-05-13 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | release notes draft review | GitHub Release body draft 覆盖 changes / validation / non-goals / caveats；不创建 release |
+| 210 | U-205 | S25 | Version bump dry-run patch plan | P1 | 2026-05-13 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | version surface review | `0.8.0` version bump 文件清单和验证计划已明确；不修改 package version |
+| 211 | U-206 | S25 | README release link diff plan | P2 | 2026-05-13 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | README version surface scan | README / README.zh-CN release link diff plan 已明确；不创建 release link |
+| 212 | U-207 | S25 | Package inventory rerun after final docs | P1 | 2026-05-13 | npm pack dry-run output、`docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | `npm pack --dry-run --json` | package `aods@0.7.0`、entry count 55、size 210524、unpacked 1073821；不发布 npm |
+| 213 | U-208 | S25 | Packed install smoke rerun | P1 | 2026-05-13 | local temp install smoke、`docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | local tarball install script | CLI help、packaged compiled-pilot strict reality validation、packaged fixture smoke all pass |
+| 214 | U-209 | S25 | Release self-check rerun | P1 | 2026-05-13 | release self-check output、generated churn restore | `npm run release:self-check`、`git restore ...generated...reports...` | self-check pass、85 benchmark tests pass、generated churn restored；不发布 release |
+| 215 | U-210 | S25 | Owner go/no-go packet refresh | P1 | 2026-05-13 | `docs/operations/aods-release-closeout-final-readiness-packet.zh-CN.md` | owner decision packet review | merge conditional go；release no-go until version bump / tag / GitHub Release alignment；next default U-211 到 U-220 |
 
 ## 失败或阻塞任务
 
@@ -367,3 +367,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-171` 到 `U-180` 完成 | 本轮完成首批 negative fixtures、conformance manifest/report proposal、fixture/conformance docs、route dependency diagnostics 扩展、dependency query regression 和 PR generated artifact audit；下一轮默认选择 U-181 到 U-190。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-181` 到 `U-190` 完成 | 本轮完成 PR body close syntax / scope refresh、ready-for-review、`#13/#41/#59/#60` public comments、release version naming 和 release candidate gate rerun；下一轮默认选择 U-191 到 U-200。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-191` 到 `U-200` 完成 | 本轮完成 release closeout readiness、PR split/checks/package/post-merge guard、local docs link / secret scan repeatability、`aods-use` skill alignment、handoff compaction 和 U-201 到 U-230 task discovery；下一轮默认选择 U-201 到 U-210。 |
+| 2026-05-13 | 100% | 100% | 99% | `U-201` 到 `U-210` 完成 | 本轮完成 PR body final refresh、20 close refs final audit、review/checks policy、release notes body draft、version / README dry-run plan、package inventory、packed install smoke、release self-check 和 owner go/no-go packet；下一轮默认选择 U-211 到 U-220。 |

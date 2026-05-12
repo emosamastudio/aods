@@ -124,6 +124,7 @@
 | `aods-release-closeout-readiness-plan.zh-CN.md` | U-191 到 U-195 release closeout readiness，记录 release notes、PR split/checks/package/post-merge guard | 高 |
 | `aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | U-196 到 U-198 local docs link / secret scan repeatability 和 `aods-use` skill alignment | 高 |
 | `aods-final-handoff-and-task-discovery.zh-CN.md` | U-199 到 U-200 handoff compaction 和 U-201 到 U-230 task discovery | 高 |
+| `aods-release-closeout-final-readiness-packet.zh-CN.md` | U-201 到 U-210 PR body final freshness、close refs final audit、review/checks policy、release notes body、version / README plan、package / install / release gates 和 owner go/no-go packet | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -252,9 +253,10 @@
 119. 读 `aods-release-closeout-readiness-plan.zh-CN.md`
 120. 读 `aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md`
 121. 读 `aods-final-handoff-and-task-discovery.zh-CN.md`
-122. 读 `aods-v0.7-rc-gate.zh-CN.md`
-123. 读 `aods-handoff.zh-CN.md`
-124. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+122. 读 `aods-release-closeout-final-readiness-packet.zh-CN.md`
+123. 读 `aods-v0.7-rc-gate.zh-CN.md`
+124. 读 `aods-handoff.zh-CN.md`
+125. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -302,4 +304,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-200 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-210 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery / final readiness packet；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
