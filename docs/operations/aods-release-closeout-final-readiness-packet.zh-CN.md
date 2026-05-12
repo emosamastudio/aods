@@ -51,7 +51,7 @@
 | Reviews | `0` | 尚无 reviewer 结论 |
 | Checks | `0` | `gh pr checks 63` reports no checks |
 | Changed files | `186` | 已在本轮 docs commit 推送后刷新 |
-| Head OID | `5e54c670cf90d23f075fb344fb5fe3c3dca48740` | 本轮 final readiness packet commit |
+| Head OID | use `gh pr view 63 --json headRefOid` | 不在本文件硬编码；刷新本文件本身会改变 head OID |
 
 ## Close-on-merge Audit
 
