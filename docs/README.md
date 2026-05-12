@@ -74,6 +74,16 @@
 | `docs/operations/aods-fixture-manifest-coverage-matrix.zh-CN.md` | U-113 fixture manifest coverage matrix，汇总 positive / negative / golden coverage。 |
 | `docs/operations/aods-negative-fixture-expansion-plan.zh-CN.md` | U-114 negative fixture expansion plan，排序下一批 high-value negative fixtures。 |
 | `docs/operations/aods-golden-export-drift-report.zh-CN.md` | U-115 golden export drift report，定义 golden diff 检测、人工接受和拒绝边界。 |
+| `docs/operations/aods-fixture-smoke-output-contract-snapshot.zh-CN.md` | U-116 fixture smoke output contract snapshot，固化 fixture smoke JSON / text 输出字段。 |
+| `docs/operations/aods-example-pack-gap-audit-after-pr-review.zh-CN.md` | U-117 example pack gap audit after PR review，记录 PR review 空状态下的示例包缺口矩阵。 |
+| `docs/operations/aods-source-first-compile-determinism-report.zh-CN.md` | U-118 source-first compile determinism report，确认连续编译无 generated diff。 |
+| `docs/operations/aods-compiled-pilot-schema-mirror-audit.zh-CN.md` | U-119 compiled pilot schema mirror audit，确认 compiled-pilot schema 与 root schema 一致。 |
+| `docs/operations/aods-seven-plane-pilot-freshness-review.zh-CN.md` | U-120 seven-plane pilot freshness review，确认旧 pilot 仍适合核心结构示例但不承载新能力展示。 |
+| `docs/operations/aods-open-source-scenario-pack-health-review.zh-CN.md` | U-121 open-source scenario pack health review，记录 scenario / corpus fixture 覆盖和维护成本。 |
+| `docs/operations/aods-benchmark-generated-artifact-hygiene-policy.zh-CN.md` | U-122 benchmark generated artifact hygiene policy，定义 generated / reports churn 的接受和还原规则。 |
+| `docs/operations/aods-cli-help-coverage-matrix.zh-CN.md` | U-123 CLI help coverage matrix，补齐 validate / hook / upgrade / compile / scaffold 等子命令 help。 |
+| `docs/operations/aods-validate-json-report-schema-docs.zh-CN.md` | U-124 validate JSON report schema docs，文档化 base report 与 reality extension 字段。 |
+| `docs/operations/aods-validate-text-json-parity-audit.zh-CN.md` | U-125 validate text / JSON parity audit，明确 text 与 JSON 输出的信息差和保留差异。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

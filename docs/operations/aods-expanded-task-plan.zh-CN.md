@@ -79,6 +79,16 @@
 | U-113 | S16 | fixtures | P1 | 已完成 | Fixture manifest coverage matrix | 9 positive、0 negative、9 golden coverage 已入账；不补全部 fixture |
 | U-114 | S16 | fixtures | P2 | 已完成 | Negative fixture expansion plan | 下一批 high-value negative fixtures、expected rules 和文件范围已排序；不一次性扩全量 |
 | U-115 | S16 | golden export | P2 | 已完成 | Golden export drift report | golden export drift 检测、人工接受、拒绝和更新边界已明确；不自动接受 golden diff |
+| U-116 | S16 | fixture tooling | P2 | 已完成 | Fixture smoke output contract snapshot | fixture smoke JSON / text 输出契约已固化；不扩成 conformance runner |
+| U-117 | S16 | examples | P2 | 已完成 | Example pack gap audit after PR review | PR `#63` 当前无 review/check；canonical example pack gap matrix 已入账；不新增示例包 |
+| U-118 | S16 | compile determinism | P2 | 已完成 | Source-first compile determinism report | compiled-pilot 连续两次 compile 后无 generated diff；timestamp pinning regression 已确认 |
+| U-119 | S16 | schema mirror | P2 | 已完成 | Compiled pilot schema mirror audit | compiled-pilot manifest / companion / module schema 与 root schema SHA 一致；不手改 generated schema |
+| U-120 | S16 | example maintenance | P3 | 已完成 | Seven-plane pilot freshness review | seven-plane pilot strict pass；定位为旧核心结构示例，不扩成新能力 showcase |
+| U-121 | S16 | benchmark | P3 | 已完成 | Open-source scenario pack health review | behavior drift=4、drift=9、loading=9、open-source corpora=4；不新增外部依赖 |
+| U-122 | S16 | benchmark hygiene | P2 | 已完成 | Benchmark generated artifact hygiene policy | generated / reports churn 的默认恢复、接受条件和入账规则已定义；不默认提交 churn |
+| U-123 | S17 | CLI DX | P2 | 已完成 | CLI help coverage for all subcommands | validate / hook / upgrade / compile / scaffold help 已补齐；focused regression 覆盖所有子命令 |
+| U-124 | S17 | validation docs | P2 | 已完成 | Validate JSON report schema documentation | validate base JSON report、topology、external_citations 字段契约已文档化 |
+| U-125 | S17 | validation parity | P2 | 已完成 | Validate text/JSON parity audit | text / JSON parity matrix 与保留差异已明确；不大改输出 |
 
 ## 下一批推荐
 
@@ -104,8 +114,8 @@
 | Batch P | U-085 + U-086 + U-087 + U-088 + U-089 + U-090 + U-091 + U-093 + U-094 + U-095 | 已完成；五类 runtime readiness / entry contract 已收束，PR / release readiness 前置检查已完成 | docs gate、GitHub state review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch Q | U-096 到 U-105 | 已完成；release/package/drift 前十项已收束为 package smoke、public sync dry-run 和 evidence trace docs | package dry-run、packed install smoke、release:self-check、docs gate、`npm run validate:all`、`git diff --check` |
 | Batch R | U-106 到 U-115 | 已完成；drift workflow 与 fixture coverage 前十项已收束，并修复 skill 字段名漂移 | skill package focused test、fixture non-execution regression、docs gate、`validate:all` |
-| Batch S | U-116 到 U-125 | 下一轮固定 10 任务；fixture output、examples、benchmark hygiene、CLI / validation docs | focused CLI / fixture tests as scoped |
-| Batch T | U-126 到 U-135 | route/validation DX、authoring、changelog ergonomics | focused tests as scoped |
+| Batch S | U-116 到 U-125 | 已完成；fixture output、examples、compile/schema freshness、benchmark hygiene、CLI / validation docs 已收束 | focused CLI regression、fixture smoke、compile determinism、schema mirror audit、`validate:all` |
+| Batch T | U-126 到 U-135 | 下一轮固定 10 任务；route/validation DX、authoring、changelog ergonomics | focused tests as scoped |
 | Batch U | U-136 到 U-145 | glossary/citation/docs/risk/exposure | docs gate or stable-contracts tests as scoped |
 | Batch V | U-146 到 U-155 | risk/audit plus far runtime decision gates | docs gate; no runtime PoC |
 | Batch W | U-156 到 U-160 | conformance / adapter / resolver / scheduler / observability research | docs gate; no implementation unless separately authorized |

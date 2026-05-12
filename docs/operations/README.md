@@ -65,6 +65,16 @@
 | `aods-fixture-manifest-coverage-matrix.zh-CN.md` | U-113 fixture manifest coverage matrix，汇总 positive / negative / golden coverage | 高 |
 | `aods-negative-fixture-expansion-plan.zh-CN.md` | U-114 negative fixture expansion plan，排序下一批 high-value negative fixtures | 高 |
 | `aods-golden-export-drift-report.zh-CN.md` | U-115 golden export drift report，定义 golden diff 检测、人工接受和拒绝边界 | 高 |
+| `aods-fixture-smoke-output-contract-snapshot.zh-CN.md` | U-116 fixture smoke output contract snapshot，固化 fixture smoke JSON / text 输出字段 | 高 |
+| `aods-example-pack-gap-audit-after-pr-review.zh-CN.md` | U-117 example pack gap audit after PR review，记录 PR review 空状态下的示例包缺口矩阵 | 高 |
+| `aods-source-first-compile-determinism-report.zh-CN.md` | U-118 source-first compile determinism report，确认连续编译无 generated diff | 高 |
+| `aods-compiled-pilot-schema-mirror-audit.zh-CN.md` | U-119 compiled pilot schema mirror audit，确认 compiled-pilot schema 与 root schema 一致 | 高 |
+| `aods-seven-plane-pilot-freshness-review.zh-CN.md` | U-120 seven-plane pilot freshness review，确认旧 pilot 仍适合核心结构示例但不承载新能力展示 | 高 |
+| `aods-open-source-scenario-pack-health-review.zh-CN.md` | U-121 open-source scenario pack health review，记录 scenario / corpus fixture 覆盖和维护成本 | 高 |
+| `aods-benchmark-generated-artifact-hygiene-policy.zh-CN.md` | U-122 benchmark generated artifact hygiene policy，定义 generated / reports churn 的接受和还原规则 | 高 |
+| `aods-cli-help-coverage-matrix.zh-CN.md` | U-123 CLI help coverage matrix，补齐 validate / hook / upgrade / compile / scaffold 等子命令 help | 高 |
+| `aods-validate-json-report-schema-docs.zh-CN.md` | U-124 validate JSON report schema docs，文档化 base report 与 reality extension 字段 | 高 |
+| `aods-validate-text-json-parity-audit.zh-CN.md` | U-125 validate text / JSON parity audit，明确 text 与 JSON 输出的信息差和保留差异 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -134,9 +144,19 @@
 60. 读 `aods-fixture-manifest-coverage-matrix.zh-CN.md`
 61. 读 `aods-negative-fixture-expansion-plan.zh-CN.md`
 62. 读 `aods-golden-export-drift-report.zh-CN.md`
-63. 读 `aods-v0.7-rc-gate.zh-CN.md`
-64. 读 `aods-handoff.zh-CN.md`
-65. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+63. 读 `aods-fixture-smoke-output-contract-snapshot.zh-CN.md`
+64. 读 `aods-example-pack-gap-audit-after-pr-review.zh-CN.md`
+65. 读 `aods-source-first-compile-determinism-report.zh-CN.md`
+66. 读 `aods-compiled-pilot-schema-mirror-audit.zh-CN.md`
+67. 读 `aods-seven-plane-pilot-freshness-review.zh-CN.md`
+68. 读 `aods-open-source-scenario-pack-health-review.zh-CN.md`
+69. 读 `aods-benchmark-generated-artifact-hygiene-policy.zh-CN.md`
+70. 读 `aods-cli-help-coverage-matrix.zh-CN.md`
+71. 读 `aods-validate-json-report-schema-docs.zh-CN.md`
+72. 读 `aods-validate-text-json-parity-audit.zh-CN.md`
+73. 读 `aods-v0.7-rc-gate.zh-CN.md`
+74. 读 `aods-handoff.zh-CN.md`
+75. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -184,4 +204,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-115 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-125 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S16 implementation drift / fixture coverage hardening |
-| 当前回合 | R-2026-05-12-03 |
-| 未完成任务数量 | 45 |
-| 已完成任务数量 | 120 |
+| 当前阶段 | S17 validation / routing / CLI DX hardening |
+| 当前回合 | R-2026-05-12-04 |
+| 未完成任务数量 | 35 |
+| 已完成任务数量 | 130 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-03 |
-| 开始时间 | 2026-05-12 15:05 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-04 |
+| 开始时间 | 2026-05-12 15:41 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-106、U-107、U-108、U-109、U-110、U-111、U-112、U-113、U-114、U-115 |
-| 本轮范围 | 上轮 U-096 到 U-105 复审；aods-use skill 字段名返工；stale evidence refresh workflow、missing locator remediation、repo locator normalization、current/planned summary guard、evidence command non-execution invariant、drift dashboard boundary、code ownership boundary、fixture coverage matrix、negative fixture expansion plan、golden export drift report |
+| 选中任务 | U-116、U-117、U-118、U-119、U-120、U-121、U-122、U-123、U-124、U-125 |
+| 本轮范围 | 上轮 U-106 到 U-115 复审；本地 aods-use skill 安装面同步检修；fixture smoke output contract、example pack gap audit、source-first compile determinism、compiled-pilot schema mirror、seven-plane pilot freshness、open-source scenario health、benchmark generated artifact hygiene、CLI help coverage、validate JSON report schema docs、validate text/JSON parity |
 | 排除范围 | runtime 实现、dashboard 实现、conformance runner、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；skill package focused test；fixture conventions focused test；compiled-pilot reality query；fixture smoke query；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
+| 验证计划 | 上轮质量复审；本地 skill sync diff；CLI help focused regression；fixture smoke JSON/text；source-first compile determinism；schema mirror cmp/shasum；seven-plane strict validation；open-source scenario fixture query；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` 和 generated benchmark churn |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-116 | S16 | Fixture smoke output contract snapshot | P2 | 未开始 | fixture smoke JSON/text 输出字段稳定性有 snapshot 或 docs gate；不扩成 conformance runner | U-080 | fixture tooling |
-| U-117 | S16 | Example pack gap audit after PR review | P2 | 未开始 | PR review 后 canonical example 残缺、重复和过度承诺形成矩阵；不新增示例包 | U-113 | examples |
-| U-118 | S16 | Source-first compile determinism report | P2 | 未开始 | source-first compile 输出稳定性、timestamp pinning、generated output churn 策略明确；不改 authoring semantics | U-081 | compile determinism |
-| U-119 | S16 | Compiled pilot schema mirror audit | P2 | 未开始 | compiled-pilot schema 与 root schema 的同步策略和风险点明确；不手改 generated schema | U-118 | schema mirror |
-| U-120 | S16 | Seven-plane pilot freshness review | P3 | 未开始 | seven-plane pilot 是否仍覆盖核心 semantics 的审查结论明确；不重写 pilot | U-119 | example maintenance |
-| U-121 | S16 | Open-source scenario pack health review | P3 | 未开始 | seeded open-source routing scenarios 的覆盖、稳定性和维护成本明确；不新增外部依赖 | U-079 | benchmark |
-| U-122 | S16 | Benchmark generated artifact hygiene policy | P2 | 未开始 | benchmark:test 生成结果 churn 的还原、接受和入账规则明确；不默认提交 churn | U-121 | benchmark hygiene |
-| U-123 | S17 | CLI help coverage for all subcommands | P2 | 未开始 | compile / validate / route / fixture 等 help coverage 矩阵明确；不重写 CLI parser | U-076 | CLI DX |
-| U-124 | S17 | Validate JSON report schema documentation | P2 | 未开始 | validate JSON top-level fields、report summaries、reality/citation outputs 有文档契约 | U-082 | validation docs |
-| U-125 | S17 | Validate text/JSON parity audit | P2 | 未开始 | text 和 JSON 输出的信息差、必要保留差异和 future fixes 明确；不大改输出 | U-124 | validation parity |
 | U-126 | S17 | Route explanation dependency graph review | P2 | 未开始 | route explanation 的 source/reason/dependency 字段覆盖和不足明确；不改 ranking | U-079 | route observability |
 | U-127 | S17 | Remediation guidance coverage matrix | P2 | 未开始 | validator rules 中 remediation guidance 覆盖率和缺口明确；不自动修复 | U-030 | remediation |
 | U-128 | S17 | Validation severity gate consistency review | P2 | 未开始 | L1-L4 severity/gate 与 strict 行为一致性审查完成；不改 severity policy unless separately scoped | U-011 | validation policy |
@@ -202,6 +192,16 @@
 | 118 | U-113 | S16 | Fixture manifest coverage matrix | P1 | 2026-05-12 | `docs/operations/aods-fixture-manifest-coverage-matrix.zh-CN.md` | `node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json` | 当前 9 positive、0 negative、9 golden coverage 已入账；不补全部 fixture |
 | 119 | U-114 | S16 | Negative fixture expansion plan | P2 | 2026-05-12 | `docs/operations/aods-negative-fixture-expansion-plan.zh-CN.md` | fixture manifest coverage query | 下一批 high-value negative fixtures 和 expected rules 已排序；不一次性扩全量 |
 | 120 | U-115 | S16 | Golden export drift report | P2 | 2026-05-12 | `docs/operations/aods-golden-export-drift-report.zh-CN.md` | fixture smoke query；compile / validate command review | golden export drift 检测、人工接受、拒绝和更新边界已定义；不自动接受 golden diff |
+| 121 | U-116 | S16 | Fixture smoke output contract snapshot | P2 | 2026-05-12 | `docs/operations/aods-fixture-smoke-output-contract-snapshot.zh-CN.md` | `node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json`；text smoke | JSON / text 输出字段已固化；机器消费优先 JSON；不扩成 conformance runner |
+| 122 | U-117 | S16 | Example pack gap audit after PR review | P2 | 2026-05-12 | `docs/operations/aods-example-pack-gap-audit-after-pr-review.zh-CN.md` | `gh pr view 63 --json number,state,isDraft,latestReviews,statusCheckRollup`；fixture manifest coverage query | PR `#63` 当前无 review/check；canonical example pack gap matrix 已入账；不新增示例包 |
+| 123 | U-118 | S16 | Source-first compile determinism report | P2 | 2026-05-12 | `docs/operations/aods-source-first-compile-determinism-report.zh-CN.md` | `npm run compile:pilot` twice + `git diff --quiet -- examples/compiled-pilot` | compiled-pilot 连续两次 compile 后无 generated diff；timestamp pinning regression 已确认 |
+| 124 | U-119 | S16 | Compiled pilot schema mirror audit | P2 | 2026-05-12 | `docs/operations/aods-compiled-pilot-schema-mirror-audit.zh-CN.md` | `cmp` + `shasum -a 256` root schema vs compiled-pilot schema | manifest / companion / module schema SHA 一致；不手改 generated schema |
+| 125 | U-120 | S16 | Seven-plane pilot freshness review | P3 | 2026-05-12 | `docs/operations/aods-seven-plane-pilot-freshness-review.zh-CN.md` | `node ./bin/aods.mjs validate ./examples/seven-plane-pilot --strict --json` | seven-plane pilot strict pass；定位为旧核心结构示例，不扩成新能力 showcase |
+| 126 | U-121 | S16 | Open-source scenario pack health review | P3 | 2026-05-12 | `docs/operations/aods-open-source-scenario-pack-health-review.zh-CN.md` | `jq` scenario counts and open-source corpora fixture query | behavior drift=4、drift=9、loading=9、open-source corpora=4；不新增外部依赖 |
+| 127 | U-122 | S16 | Benchmark generated artifact hygiene policy | P2 | 2026-05-12 | `docs/operations/aods-benchmark-generated-artifact-hygiene-policy.zh-CN.md` | benchmark path / command impact review | generated / reports churn 的默认恢复、接受条件和入账规则已定义；不默认提交 churn |
+| 128 | U-123 | S17 | CLI help coverage for all subcommands | P2 | 2026-05-12 | `lib/compile.mjs`、`lib/hook.mjs`、`lib/scaffold.mjs`、`lib/upgrade.mjs`、`lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-cli-help-coverage-matrix.zh-CN.md` | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs` | validate / hook / upgrade / compile / scaffold help 已补齐；31/31 focused regression pass |
+| 129 | U-124 | S17 | Validate JSON report schema documentation | P2 | 2026-05-12 | `docs/operations/aods-validate-json-report-schema-docs.zh-CN.md` | `node ./bin/aods.mjs validate . --strict --json`；compiled-pilot `--reality --json` keys query | base report、topology、external_citations 字段契约已文档化 |
+| 130 | U-125 | S17 | Validate text/JSON parity audit | P2 | 2026-05-12 | `docs/operations/aods-validate-text-json-parity-audit.zh-CN.md` | validate text / JSON output query | text / JSON parity matrix 与保留差异已明确；不大改输出 |
 
 ## 失败或阻塞任务
 
@@ -288,3 +288,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-085` 到 `U-095` 完成 | 本轮 10 任务已完成：runtime readiness gate、五类 runtime entry contract triage、PR final readiness、PR response matrix、version/changelog route 和 release notes completeness 已入账；不实现 runtime、不 merge、不发布、不 bump version。下一轮应选择 U-096 到 U-105。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-096` 到 `U-105` 完成 | 本轮 10 任务已完成：package inventory、packed install smoke、close-on-merge audit、post-merge reconciliation、release candidate gate、release playbook dry run、post-release retrospective template、implementation evidence locator matrix、acceptance coverage、requirement-to-evidence trace 已入账；不 merge、不发布、不 bump version。下一轮应选择 U-106 到 U-115。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-106` 到 `U-115` 完成 | 本轮先返工修复 `aods-use` skill 字段名漂移并补测试，然后完成 stale evidence refresh、locator remediation、summary guard、non-execution invariant、dashboard/ownership boundary、fixture coverage、negative fixture plan 和 golden drift report；不建 runtime/dashboard/runner、不 merge、不发布、不 bump version。下一轮应选择 U-116 到 U-125。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-116` 到 `U-125` 完成 | 本轮先检修并同步本地 `aods-use` skill 安装面，然后完成 fixture smoke output contract、example gap audit、compile determinism、schema mirror、seven-plane freshness、open-source scenario health、benchmark artifact hygiene、CLI help coverage、validate JSON docs 和 text/JSON parity；不建 runner、不 merge、不发布、不 bump version。下一轮应选择 U-126 到 U-135。 |

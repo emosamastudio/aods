@@ -28,6 +28,21 @@ test("CLI help and compile errors expose allowed enum values", () => {
   assert.match(routeHelp, /--stage <stage>/);
   assert.match(routeHelp, /route intent: any \| read \| write \| validate \| sync/);
 
+  const subcommandHelp = new Map([
+    ["validate", [/AODS validate/, /--repo-root <path>/]],
+    ["hook", [/AODS hook/, /pre-commit/]],
+    ["upgrade", [/AODS upgrade/, /--dry-run/]],
+    ["compile", [/AODS compile/, /<source-file>/]],
+    ["fixture", [/AODS fixture/, /fixture smoke/]],
+    ["scaffold", [/AODS scaffold/, /authoring-pair/]]
+  ]);
+  for (const [command, patterns] of subcommandHelp) {
+    const output = runCli([command, "--help"]);
+    for (const pattern of patterns) {
+      assert.match(output, pattern);
+    }
+  }
+
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-discoverability-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
 

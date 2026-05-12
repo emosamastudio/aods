@@ -2,6 +2,89 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-04
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-04 |
+| 开始时间 | 2026-05-12 15:41 Asia/Shanghai |
+| 结束时间 | 2026-05-12 16:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-106 到 U-115 复审；本地 aods-use skill 安装面同步检修；fixture smoke output contract、example pack gap audit、compile determinism、schema mirror、seven-plane freshness、open-source scenario health、benchmark artifact hygiene、CLI help coverage、validate JSON docs、text/JSON parity；不实现 runtime、dashboard、runner；不 merge、不 release、不 bump version |
+| 本轮选中任务 | U-116、U-117、U-118、U-119、U-120、U-121、U-122、U-123、U-124、U-125 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-04
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `lib/compile.mjs`、`lib/hook.mjs`、`lib/scaffold.mjs`、`lib/upgrade.mjs`、`lib/validate.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、U-116 到 U-125 operations docs、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、round log、docs navigation |
+| 禁止触碰 | runtime 实现、dashboard 实现、conformance runner、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR 只读状态；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 必须还原 |
+
+## 上轮质量复审：R-2026-05-12-04
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `b494c40` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | skill package focused test、fixture non-execution regression、`validate:all`、`benchmark:test`、`git diff --check` 记录完整 |
+| 检修项 | 已完成 | 发现本地安装的 `aods-use` skill 仍落后于仓库版本；已同步 `SKILL.md` 和 `skill.json` 到本地安装面，未纳入仓库提交 |
+| 再审查 | 通过 | 本地安装面与仓库 `skills/aods-use` 对应文件 diff clean；本轮可进入新任务 |
+
+## 任务执行记录：R-2026-05-12-04
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-116 | 未开始 | 已完成 | 固化 fixture smoke JSON / text 输出字段、稳定字段和非执行边界 | `docs/operations/aods-fixture-smoke-output-contract-snapshot.zh-CN.md` |
+| 2 | U-117 | 未开始 | 已完成 | 只读核对 PR `#63` review/check 空状态，并形成 canonical example pack gap matrix | `docs/operations/aods-example-pack-gap-audit-after-pr-review.zh-CN.md` |
+| 3 | U-118 | 未开始 | 已完成 | 连续两次运行 source-first compile，确认 compiled-pilot 无 generated diff | `docs/operations/aods-source-first-compile-determinism-report.zh-CN.md` |
+| 4 | U-119 | 未开始 | 已完成 | 比对 root schema 与 compiled-pilot schema 的 cmp / SHA-256 | `docs/operations/aods-compiled-pilot-schema-mirror-audit.zh-CN.md` |
+| 5 | U-120 | 未开始 | 已完成 | strict validate seven-plane pilot，并确认其定位为旧核心结构示例 | `docs/operations/aods-seven-plane-pilot-freshness-review.zh-CN.md` |
+| 6 | U-121 | 未开始 | 已完成 | 统计 open-source scenario fixture 和 corpus fixture 健康度 | `docs/operations/aods-open-source-scenario-pack-health-review.zh-CN.md` |
+| 7 | U-122 | 未开始 | 已完成 | 定义 benchmark generated / reports churn 的默认恢复和接受规则 | `docs/operations/aods-benchmark-generated-artifact-hygiene-policy.zh-CN.md` |
+| 8 | U-123 | 未开始 | 已完成 | 补齐 validate / hook / upgrade / compile / scaffold 子命令 help，并增加 focused regression | `lib/*.mjs`、`benchmarks/aods-eval-lab/test/scaffold.test.mjs`、`docs/operations/aods-cli-help-coverage-matrix.zh-CN.md` |
+| 9 | U-124 | 未开始 | 已完成 | 文档化 validate JSON base report、topology 和 citation fields | `docs/operations/aods-validate-json-report-schema-docs.zh-CN.md` |
+| 10 | U-125 | 未开始 | 已完成 | 审查 validate text / JSON 输出 parity、保留差异和后续候选修复 | `docs/operations/aods-validate-text-json-parity-audit.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-04
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、skill package focused test、fixture conventions focused test、`npm run validate:all` | 通过 | 上轮成果可接续；本地 skill 安装面已同步 |
+| U-116 | Fixture smoke output | `node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixture-manifest.json --json`；text smoke | 通过 | 9 fixtures、9 positive、0 negative、9 golden、issues=0；text 输出包含 PASS / fixtures / golden_exports |
+| U-117 | PR review state | `gh pr view 63 --json number,state,isDraft,headRefName,baseRefName,url,title,latestReviews,statusCheckRollup` | 通过 | PR `#63` open draft；reviews/checks 为空 |
+| U-118 | Compile determinism | `npm run compile:pilot` twice + `git diff --quiet -- examples/compiled-pilot` | 通过 | before / after first / after second 均 clean |
+| U-119 | Schema mirror | `cmp` + `shasum -a 256` root schema vs compiled-pilot schema | 通过 | manifest / companion / module schema 全部 MATCH |
+| U-120 | Seven-plane freshness | `node ./bin/aods.mjs validate ./examples/seven-plane-pilot --strict --json` | 通过 | 12 modules、23 sections、8 artifacts、0 errors、0 warnings |
+| U-121 | Open-source scenario health | `jq` scenario counts and corpus fixture query | 通过 | behavior drift=4、drift=9、loading=9、corpora=4 |
+| U-123 | CLI help regression | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 31/31 pass；所有子命令 help 覆盖 |
+| U-124/U-125 | Validate output query | `node ./bin/aods.mjs validate . --strict --json`；compiled-pilot `--reality --json`；text output | 通过 | base keys、topology keys、citation keys 和 text parity 已入账 |
+| U-116 - U-125 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-116 - U-125 | Benchmark test gate | `npm run benchmark:test` | 通过 | 81/81 pass；benchmark generated result churn 已还原 |
+| U-116 - U-125 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-04
+
+本轮没有新增任务 ID。U-126 到 U-135 仍按 U-092 综合任务池顺序作为下一轮固定 10 任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-116 - U-125 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-04
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-116、U-117、U-118、U-119、U-120、U-121、U-122、U-123、U-124、U-125 |
+| 完成任务 | 10 | fixture output、examples、compile/schema freshness、benchmark hygiene、CLI / validation docs 已完成 |
+| 返工项 | 0 | 上轮成果审查通过；检修项为本地 skill 安装面同步，不需要仓库返工 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 35 | 下一轮固定选择 U-126 到 U-135 |
+
 ## 回合摘要：R-2026-05-12-03
 
 | 项 | 内容 |
