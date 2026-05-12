@@ -2,6 +2,61 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-08
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-08 |
+| 开始时间 | 2026-05-13 04:45 Asia/Shanghai |
+| 结束时间 | 2026-05-13 05:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-07 复审；PR `#63` merge 后 issue close verification；version surface bump to `0.8.0` / `v0.8.0`；GitHub Release `v0.8.0` publication；post-release retrospective；next milestone candidates；不发布 npm、不启用 CI、不启动 runtime、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-267、U-269、U-270 |
+| 本轮状态 | 已完成；当前任务池清空 |
+
+## 上轮质量复审：R-2026-05-13-08
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致；工作树仅 `MEMORY.md` 未跟踪 |
+| PR merge state | 通过 | PR `#63` 已 squash merge，merge commit `468eb9f2d19623eb2016d842a6c687e91d7da929` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-267、U-269、U-270 |
+
+## 任务执行记录：R-2026-05-13-08
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-267 | 阻塞 | 已完成 | 合并后核对 PR `#63` close-on-merge issue refs 与剩余 open issue 列表 | 20 个 intended-close issues 已关闭；`#13/#41/#59/#60` 保持 open |
+| 2 | U-269 | 阻塞 | 已完成 | bump package / lockfile / README / packaged skill 到 `0.8.0` / `v0.8.0`，创建 GitHub Release `v0.8.0`，记录发布复盘 | Release `https://github.com/emosamastudio/aods/releases/tag/v0.8.0` |
+| 3 | U-270 | 阻塞 | 已完成 | 基于 v0.8 closeout 记录下一阶段候选路线 | `aods-v0.8-release-closeout.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-08
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | docs link、secret scan、package surface、generated clean、skill package tests、`validate:all` 全部通过 |
+| Release view | `gh release view v0.8.0 --json tagName,url,isDraft,isPrerelease,publishedAt,targetCommitish` | 通过 | published；non-draft；non-prerelease；target `main` |
+| Issue state | `gh issue list --state open --limit 100 --json number,title,labels` | 通过 | open issues remain `#13/#41/#59/#60` |
+| PR close refs | `gh pr view 63 --json state,mergedAt,mergeCommit,closingIssuesReferences` | 通过 | PR merged；20 close refs retained |
+| Diff hygiene | `git diff --check` | 通过 | 无 whitespace error |
+
+## 新发现任务：R-2026-05-13-08
+
+本轮没有新增任务 ID。当前任务池清空；下一轮应先从 open issues `#13/#41/#59/#60` 和 `aods-v0.8-release-closeout.zh-CN.md` 做新任务发现。
+
+## 回合结束摘要：R-2026-05-13-08
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 3 | U-267、U-269、U-270 |
+| 完成任务 | 3 | U-267、U-269、U-270 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 0 | 当前任务池清空 |
+
 ## 回合摘要：R-2026-05-13-07
 
 | 项 | 内容 |

@@ -140,6 +140,7 @@
 | `docs/operations/aods-post-conformance-release-hardening.zh-CN.md` | U-241 到 U-250 post-conformance release hardening，记录 release self-check、packed conformance smoke、PR body refresh、release notes / version plan 和 conformance fail/warn/text regressions。 |
 | `docs/operations/aods-package-terminology-drift-hardening.zh-CN.md` | U-251 到 U-260 package / terminology drift hardening，记录 packed conformance smoke follow-up、CI triage、post-merge reconciliation、owner go/no-go refresh、external conformance example 和 lifecycle alias terminology drift 边界。 |
 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | U-261 到 U-270 conformance expansion / release execution readiness closeout，记录 no-fetch / adapter conformance design、observability no-go、package/generated guard audits、skill publish plan、release dry-run，以及 post-merge/post-release 阻塞项。 |
+| `docs/operations/aods-v0.8-release-closeout.zh-CN.md` | v0.8 release closeout，记录 PR merge、issue close verification、GitHub Release、post-release retrospective 和 next milestone candidates。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

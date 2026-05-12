@@ -8,33 +8,31 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | 开发中 |
+| 状态 | v0.8 released; next milestone planning ready |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S31 conformance expansion / release execution readiness |
-| 当前回合 | R-2026-05-13-07 |
-| 未完成任务数量 | 3 |
-| 已完成任务数量 | 272 |
+| 当前阶段 | S31 conformance expansion / release execution closeout |
+| 当前回合 | R-2026-05-13-08 |
+| 未完成任务数量 | 0 |
+| 已完成任务数量 | 275 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-07 |
-| 开始时间 | 2026-05-13 04:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-08 |
+| 开始时间 | 2026-05-13 04:45 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-261、U-262、U-263、U-264、U-265、U-266、U-267、U-268、U-269、U-270 |
-| 本轮范围 | 上轮 U-251 到 U-260 复审；no-fetch conformance case design；adapter capability conformance expansion；observability store no-go refresh；package surface allowlist boundary；generated clean false-positive audit；`aods-use` skill release plan；post-merge / post-release / next milestone readiness 判断；v0.8 release execution dry-run refresh |
-| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、actual package version bump、CI workflow enablement、external fetch、arbitrary command executor、adapter handshake、telemetry store、自动 package diff 接受、自动恢复用户改动、skill 发布、runtime 启动、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`; conformance run JSON；package surface JSON；generated clean JSON；GitHub PR / issue / release read-only snapshot；`npm run release:hygiene`；`git diff --check`；staged set 排除 `MEMORY.md` |
-| 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
+| 选中任务 | U-267、U-269、U-270 |
+| 本轮范围 | 上轮质量复审；PR `#63` merge 后 issue close verification；package / README / skill version surface bump to `0.8.0` / `v0.8.0`；GitHub Release `v0.8.0` publication；post-release retrospective；next milestone candidate planning |
+| 排除范围 | npm publish、CI workflow enablement、external fetch、arbitrary command executor、adapter handshake、telemetry store、runtime 启动、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；GitHub PR / issue / release snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-267 | S31 | Post-merge issue close verification execution | P1 | 阻塞 | PR merge 后公开 issue close 状态核对执行 | U-253 | PR `#63` 当前仍 OPEN，merge 后执行 |
-| U-269 | S31 | Post-release retrospective update | P2 | 阻塞 | release 后复盘模板更新到 conformance-era 状态 | U-268 | v0.8 release 后执行 |
-| U-270 | S31 | Next milestone planning after v0.8 closeout | P2 | 阻塞 | v0.8 closeout 后下一阶段候选任务池明确 | U-269 | v0.8 closeout 后执行；不启动 runtime |
+| 无 | - | - | - | - | 当前任务池清空；下一轮先从 open issues `#13/#41/#59/#60` 和 release closeout 记录发现新任务 | - | `MEMORY.md` 仍不进仓库 |
 
 ## 已完成任务
 
@@ -312,14 +310,15 @@
 | 270 | U-265 | S31 | Generated clean false-positive audit | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | `npm run generated:check-clean -- --json` | false-positive / leak boundaries documented；dirty_entries=0 |
 | 271 | U-266 | S31 | aods-use skill release publish plan | P3 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md`、packaged skill files | skill package review | skill release/install sync route documented；不发布 skill |
 | 272 | U-268 | S31 | v0.8 release execution dry-run refresh | P1 | 2026-05-13 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | GitHub release/tag snapshot、package version review | v0.8 tag/release/rollback dry-run refreshed；不创建 tag/release |
+| 273 | U-267 | S31 | Post-merge issue close verification execution | P1 | 2026-05-13 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md`、PR `#63`、open issue snapshot | `gh pr view 63 --json state,mergedAt,mergeCommit,closingIssuesReferences`、`gh issue list --state open --limit 100 --json number,title,labels` | PR `#63` merged；20 intended close refs verified；`#13/#41/#59/#60` remain open by design |
+| 274 | U-269 | S31 | Post-release retrospective update | P2 | 2026-05-13 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md`、GitHub Release `v0.8.0` | `gh release view v0.8.0 --json tagName,url,isDraft,isPrerelease,publishedAt,targetCommitish`、`npm run release:hygiene` | release published；retrospective records what worked, what to keep, and remaining public backlog anchors |
+| 275 | U-270 | S31 | Next milestone planning after v0.8 closeout | P2 | 2026-05-13 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md` | release closeout review | next milestone candidates documented from open issues and no-runtime boundaries |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| U-267 | 阻塞 | PR `#63` 当前仍 `OPEN`，`mergedAt=null`，无法执行 post-merge issue close verification | PR merge 后执行 close/deferred issue reconciliation |
-| U-269 | 阻塞 | v0.8 release 尚未发生，latest release 仍为 `v0.7.0` | v0.8 GitHub Release 创建后更新 retrospective |
-| U-270 | 阻塞 | v0.8 尚未 closeout，不能基于未发生的 release 规划 final closeout | U-269 完成后制定 next milestone |
+| 无 | - | 当前无阻塞任务 | 下一轮先做任务发现，不直接启动 runtime |
 
 ## 负责人判断 / issue 分类
 
