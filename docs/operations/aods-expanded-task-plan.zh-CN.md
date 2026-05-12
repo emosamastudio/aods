@@ -124,6 +124,46 @@
 | U-158 | S20 | authority runtime | P3 | 已完成 | Cross-corpus authority resolver research | cross-corpus resolver 的 trust model、fetch policy、cache and failure posture 已明确；不实现 resolver |
 | U-159 | S20 | scheduler research | P3 | 已完成 | Dependency scheduler research | dependency ordering 是否进入 runtime scheduler 的 gate、risks、alternatives 已明确；不实现 scheduler |
 | U-160 | S20 | observability research | P3 | 已完成 | Telemetry / observability store research | dashboard/trace store/telemetry storage 的 need、inputs、privacy risk 已明确；不建 store |
+| U-161 | S21 | planning | P0 | 已完成 | Post-backlog task pool expansion and selection | U-160 后任务池已扩展到 U-200；本轮锁定 U-161 到 U-170 |
+| U-162 | S21 | public state | P1 | 已完成 | Public repository state refresh | repo visibility、default branch、active branch、latest pushed commit 已刷新；不写 GitHub |
+| U-163 | S21 | PR readiness | P1 | 已完成 | PR branch / merge / checks state refresh | PR draft、merge state、reviews、checks、diff size 已刷新；不 ready PR |
+| U-164 | S21 | public sync | P1 | 已完成 | PR close-on-merge recognition gap audit | intended close list 与 GitHub recognized refs 差异已明确；不更新 PR body |
+| U-165 | S21 | issue triage | P1 | 已完成 | Open issue coverage matrix refresh | open issues 分为 intended close 和 deferred 两类；不关闭 issue |
+| U-166 | S21 | release gate | P1 | 已完成 | Release / version surface no-go refresh | latest release、package version 和 release no-go posture 已明确 |
+| U-167 | S21 | PR docs | P1 | 已完成 | PR body stale scope audit | PR body summary、validation、issue sync stale points 已明确；不更新 PR body |
+| U-168 | S21 | approval | P1 | 已完成 | Public action approval packet | PR body update、issue comments、ready-for-review 的审批边界已明确 |
+| U-169 | S21 | milestone | P2 | 已完成 | Next milestone options after task pool closure | public closeout 与本地 conformance / diagnostics next slice 已排序 |
+| U-170 | S21 | public sync | P2 | 已完成 | Roadmap / changelog public follow-up plan | `#60/#13/#41/#59` 后续公开同步目标已明确 |
+| U-171 | S22 | fixtures | P1 | 未开始 | Negative fixture first-slice selection | 首批 negative fixtures、rule families、文件范围明确；不扩全量 |
+| U-172 | S22 | fixtures | P1 | 未开始 | Negative fixture implementation first slice | 首批 negative fixtures 落地并测试；不建 conformance runner |
+| U-173 | S22 | conformance | P2 | 未开始 | Conformance manifest v0 proposal | suite/case/expected outcome manifest proposal 明确；不实现 runner |
+| U-174 | S22 | conformance | P2 | 未开始 | Conformance report schema proposal | report fields 和 coverage summary 明确；不建 dashboard |
+| U-175 | S22 | docs | P2 | 未开始 | Fixture smoke to conformance docs update | smoke / manifest / runner 边界在 docs 中明确；不改 CLI |
+| U-176 | S22 | routing | P2 | 未开始 | Route dependency diagnostics design | route dependency diagnostics 设计明确；不改 ranking |
+| U-177 | S22 | validator | P2 | 未开始 | Validator dependency diagnostics implementation plan | missing target / cycle / optional fallback diagnostics plan 明确；不实现 scheduler |
+| U-178 | S22 | routing | P2 | 未开始 | Route dependency explanation expansion implementation | 最小 route JSON dependency detail 落地并测试；不建 graph DB |
+| U-179 | S22 | benchmark | P3 | 未开始 | Dependency query benchmark scenario | dependency-ordering route benchmark scenario 覆盖；不引外部依赖 |
+| U-180 | S22 | PR hygiene | P2 | 未开始 | PR generated artifact acceptance audit | PR generated artifacts 接受 / 还原策略明确；不默认提交 churn |
+| U-181 | S23 | public sync | P1 | 未开始 | PR body close syntax update | 每个 intended-close issue 被 GitHub 识别；需公开写授权 |
+| U-182 | S23 | public sync | P1 | 未开始 | PR body scope and validation refresh | PR body 覆盖 U-160 后状态；需公开写授权 |
+| U-183 | S23 | public sync | P1 | 未开始 | PR ready-for-review decision execution | body 修复和验证后执行或记录 ready/no-go；不 merge |
+| U-184 | S23 | public sync | P2 | 未开始 | Public comment for changelog delta issue | `#13` 同步本地修复状态；需公开写授权 |
+| U-185 | S23 | public sync | P2 | 未开始 | Public comment for capability negotiation issue | `#41` 同步 gates 和 no-go posture；需公开写授权 |
+| U-186 | S23 | public sync | P2 | 未开始 | Public comment for observability issue | `#59` 同步 route JSON / telemetry posture；需公开写授权 |
+| U-187 | S23 | public sync | P2 | 未开始 | Public comment for roadmap issue | `#60` 同步 next slice；需公开写授权 |
+| U-188 | S23 | release planning | P1 | 未开始 | Release version naming decision | 下一 release version / tag / branch 决策明确；不发布 release |
+| U-189 | S23 | release planning | P1 | 未开始 | Version bump and changelog preparation | version bump / changelog plan 明确；不创建 tag |
+| U-190 | S23 | release gate | P1 | 未开始 | Release candidate gate rerun after public sync | public sync 后 rerun release gates；不发布 release |
+| U-191 | S24 | release docs | P2 | 未开始 | Release notes finalization plan | release notes 覆盖 U-160 后变化；不发布 release |
+| U-192 | S24 | PR hygiene | P2 | 未开始 | PR split risk assessment | 167-file PR 是否拆分或继续单 PR 已评估；不改历史 |
+| U-193 | S24 | CI triage | P2 | 未开始 | GitHub checks setup triage | no-checks 状态的 minimal Actions gate 方案明确；不直接启用 CI |
+| U-194 | S24 | package | P2 | 未开始 | Package public surface diff guard | package files / docs / examples release surface guard 明确；不发布 npm |
+| U-195 | S24 | public sync | P2 | 未开始 | Post-merge reconciliation checklist refresh | merge 后 issue/release/branch cleanup checklist 更新；不 merge |
+| U-196 | S24 | docs tooling | P3 | 未开始 | Local docs link checker automation plan | docs link checker repeatable route 明确；不抓取外网 |
+| U-197 | S24 | security tooling | P3 | 未开始 | Secret-like scan repeatability plan | sensitive / credential scan repeatable local route 明确；不建 service |
+| U-198 | S24 | skill release | P3 | 未开始 | aods-use skill release alignment check | skill package 与 repo release / CLI surface 对齐复审；不发布 skill |
+| U-199 | S24 | handoff | P2 | 未开始 | Final handoff compaction pass | release closeout 前 handoff / MEMORY / round log 压缩；MEMORY 不进仓库 |
+| U-200 | S24 | planning | P2 | 未开始 | Post-public-closeout task discovery | PR / release / issue sync 后重新发现任务；只读优先 |
 
 ## 下一批推荐
 
@@ -154,7 +194,8 @@
 | Batch U | U-136 到 U-145 | 已完成；glossary/citation/docs quality/redaction/exposure docs 已收束 | route/citation/glossary evidence、local docs link checker、secret-like scan、`validate:all` |
 | Batch V | U-146 到 U-155 | 已完成；risk/audit boundary 和五类 far runtime decision gates 已收束 | route/stable-contracts evidence、compiled-pilot review、`validate:all` |
 | Batch W | U-156 到 U-160 | 已完成；conformance / adapter / resolver / scheduler / observability research 已收束 | route / stable-contracts / validation evidence、docs gate、`validate:all` |
-| Batch X | 无 | 当前任务池无未完成任务；新增任务必须先进入 task ledger | docs gate |
+| Batch X | U-161 到 U-170 | 已完成；post-backlog public state refresh、close-on-merge recognition gap 和 public action approval packet 已收束 | GitHub read-only state review、docs gate、`validate:all` |
+| Batch Y | U-171 到 U-180 | 下一轮推荐；negative fixtures、conformance proposal、dependency diagnostics、PR generated artifact audit | focused regression as scoped、fixture smoke、route evidence、`validate:all` |
 
 ## 当前非目标
 

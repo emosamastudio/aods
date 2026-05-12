@@ -119,6 +119,10 @@
 | `docs/operations/aods-cross-corpus-authority-resolver-research.zh-CN.md` | U-158 cross-corpus authority resolver research，定义 trust model、fetch policy、cache 和 failure posture。 |
 | `docs/operations/aods-dependency-scheduler-research.zh-CN.md` | U-159 dependency scheduler research，审查 dependency ordering 是否应进入 runtime scheduler。 |
 | `docs/operations/aods-telemetry-observability-store-research.zh-CN.md` | U-160 telemetry / observability store research，审查 report storage、dashboard 需求和隐私风险。 |
+| `docs/operations/aods-post-backlog-task-plan.zh-CN.md` | U-161 post-backlog task plan，把任务池扩展到 U-200 并锁定 U-161 到 U-170。 |
+| `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` | U-162 到 U-166 public state refresh，刷新 repo、PR、issue、release/version 状态。 |
+| `docs/operations/aods-pr-public-action-approval-packet.zh-CN.md` | U-167 到 U-168 PR public action approval packet，记录 PR body stale scope、close syntax gap 和公开动作审批包。 |
+| `docs/operations/aods-next-milestone-options.zh-CN.md` | U-169 到 U-170 next milestone options，定义 public closeout 与本地 conformance / diagnostics next slice。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

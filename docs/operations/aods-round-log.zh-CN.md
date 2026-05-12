@@ -2,6 +2,87 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-09
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-09 |
+| 开始时间 | 2026-05-12 21:22 Asia/Shanghai |
+| 结束时间 | 2026-05-12 21:46 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-156 到 U-160 复审；post-backlog task pool expansion、public repository state refresh、PR branch/check/close-on-merge recognition audit、open issue coverage matrix、release/version no-go refresh、PR body stale scope audit、public action approval packet、next milestone options、roadmap/changelog public follow-up plan；不执行公开写操作 |
+| 本轮选中任务 | U-161、U-162、U-163、U-164、U-165、U-166、U-167、U-168、U-169、U-170 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-09
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | U-161 到 U-170 operations docs、docs navigation、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、`MEMORY.md` local-only |
+| 禁止触碰 | 公开写操作、PR body update、PR ready/merge、issue comment/close、release、version bump、runtime 实现、conformance runner、adapter negotiation runtime、cross-corpus resolver、dependency scheduler、telemetry store、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | GitHub 只读查询；无外部写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 如出现则还原 |
+
+## 上轮质量复审：R-2026-05-12-09
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `febd439` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | 上轮 `validate:all`、`benchmark:test`、diff hygiene 和 push 记录完整 |
+| AODS validation | 通过 | 本轮复审重新运行 `npm run validate:all`，root / pilot / compiled-pilot 全部通过 |
+| AODS route | 通过 | task discovery query 命中 `spec-stable-surface-contracts` 和 `spec-boot-protocol` |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-161 到 U-170 |
+
+## 任务执行记录：R-2026-05-12-09
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-161 | 未开始 | 已完成 | 扩展 U-160 后任务池到 U-200，并锁定本轮 10 任务 | `docs/operations/aods-post-backlog-task-plan.zh-CN.md` |
+| 2 | U-162 | 未开始 | 已完成 | 只读刷新公开 repo state | `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` |
+| 3 | U-163 | 未开始 | 已完成 | 只读刷新 PR branch / merge / checks / diff state | `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` |
+| 4 | U-164 | 未开始 | 已完成 | 审查 PR close-on-merge recognition gap | `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` |
+| 5 | U-165 | 未开始 | 已完成 | 刷新 open issue coverage matrix | `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` |
+| 6 | U-166 | 未开始 | 已完成 | 刷新 release / version surface no-go | `docs/operations/aods-public-state-refresh-after-backlog-closure.zh-CN.md` |
+| 7 | U-167 | 未开始 | 已完成 | 审查 PR body stale scope | `docs/operations/aods-pr-public-action-approval-packet.zh-CN.md` |
+| 8 | U-168 | 未开始 | 已完成 | 制定 public action approval packet | `docs/operations/aods-pr-public-action-approval-packet.zh-CN.md` |
+| 9 | U-169 | 未开始 | 已完成 | 选择 U-160 后下一里程碑路线 | `docs/operations/aods-next-milestone-options.zh-CN.md` |
+| 10 | U-170 | 未开始 | 已完成 | 制定 roadmap / changelog public follow-up plan | `docs/operations/aods-next-milestone-options.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-09
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog`、`npm run validate:all` | 通过 | 上轮成果可接续；`MEMORY.md` 未跟踪 |
+| U-161 - U-170 | Route query evidence | `node ./bin/aods.mjs route . --query ... --stage plan --intent read --json` | 通过 | query-route 命中 stable contracts 和 boot protocol |
+| U-162 - U-166 | GitHub read-only state review | `gh repo view`、`gh pr view 63`、`gh pr checks 63`、`gh issue list`、`gh release list` | 通过 | 发现 PR close-on-merge recognition gap；未执行公开写操作 |
+| U-161 - U-170 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-161 - U-170 | Benchmark test gate | `npm run benchmark:test` | 通过 | 82/82 pass；benchmark generated result churn 已还原 |
+| U-161 - U-170 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-09
+
+本轮新增 U-171 到 U-200。下一轮默认选择 U-171 到 U-180；U-181 到 U-187 涉及公开写操作，必须按当前回合授权处理。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-161 | U-171 - U-180 | conformance / diagnostics next slice | P1-P3 | negative fixtures、conformance proposal、dependency diagnostics、PR generated artifact audit | 未完成任务表前 10 |
+| U-164 - U-168 | U-181 - U-187 | public sync actions | P1-P2 | PR body update、issue comments、ready-for-review 决策 | 需公开写授权 |
+| U-166 | U-188 - U-195 | release / PR hygiene | P1-P2 | version decision、RC gate、release notes、split risk、checks、post-merge reconciliation | public sync 后 |
+| U-170 | U-196 - U-200 | automation / handoff / rediscovery | P2-P3 | docs link checker、secret-like scan、skill alignment、handoff compaction、task rediscovery | release closeout 前后 |
+
+## 回合结束摘要：R-2026-05-12-09
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-161 到 U-170 |
+| 完成任务 | 10 | post-backlog task plan、public state refresh、approval packet、next milestone options 已完成 |
+| 返工项 | 0 | 上轮成果审查通过，本轮没有返工 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 30 | U-171 到 U-200 |
+| 剩余未完成任务 | 30 | 下一轮默认选择 U-171 到 U-180 |
+
 ## 回合摘要：R-2026-05-12-08
 
 | 项 | 内容 |
