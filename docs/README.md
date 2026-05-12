@@ -54,6 +54,16 @@
 | `docs/operations/aods-pr-review-response-matrix.zh-CN.md` | U-093 PR review response matrix，记录 PR review、covered issue 和 deferred issue 状态。 |
 | `docs/operations/aods-version-changelog-triage.zh-CN.md` | U-094 version bump and changelog route triage，明确下一 release 前必须完成的版本和 changelog 路线。 |
 | `docs/operations/aods-release-notes-completeness.zh-CN.md` | U-095 release notes completeness pass，提供下一 release notes skeleton 和发布前 blockers。 |
+| `docs/operations/aods-package-artifact-inventory-guard.zh-CN.md` | U-096 package artifact inventory guard，记录 `npm pack --dry-run --json` 包清单审查。 |
+| `docs/operations/aods-packed-install-smoke.zh-CN.md` | U-097 packed tarball install smoke，记录本地 tarball 安装、CLI help、strict validation 和 fixture smoke 结果。 |
+| `docs/operations/aods-public-issue-close-on-merge-audit.zh-CN.md` | U-098 public issue close-on-merge audit，核对 PR body close/deferred issue 列表。 |
+| `docs/operations/aods-post-merge-public-reconciliation-plan.zh-CN.md` | U-099 post-merge public state reconciliation plan，定义 merge 后 issue、release、docs、branch cleanup 顺序。 |
+| `docs/operations/aods-v0.12-release-candidate-gate.zh-CN.md` | U-100 v0.12 release candidate gate，记录 release self-check、package、install smoke 和 release blockers。 |
+| `docs/operations/aods-release-execution-playbook-dry-run.zh-CN.md` | U-101 release execution playbook dry run，定义授权后发布步骤、冲突检查和 rollback。 |
+| `docs/operations/aods-post-release-retrospective-next-milestone.zh-CN.md` | U-102 post-release retrospective and next milestone triage，提供发布后复盘模板和后续 milestone 候选。 |
+| `docs/operations/aods-implementation-evidence-locator-matrix-v2.zh-CN.md` | U-103 implementation evidence locator matrix v2，记录 repo locator、path locator、unchecked reason 和 evidence locator posture。 |
+| `docs/operations/aods-acceptance-criteria-coverage-report.zh-CN.md` | U-104 acceptance criteria coverage report，汇总 criteria、evidence refs、fixture 和 validator posture。 |
+| `docs/operations/aods-contract-requirement-evidence-trace-report.zh-CN.md` | U-105 contract requirement to evidence trace report，定义 requirement -> criteria -> evidence -> locator 的静态追踪边界。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

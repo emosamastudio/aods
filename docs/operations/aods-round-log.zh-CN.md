@@ -2,6 +2,76 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-02
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-02 |
+| 开始时间 | 2026-05-12 14:33 Asia/Shanghai |
+| 结束时间 | 2026-05-12 14:50 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | package inventory、packed install smoke、close-on-merge audit、post-merge plan、release candidate gate、release playbook dry run、post-release retrospective template、implementation evidence matrix、acceptance coverage、contract-to-evidence trace；不改代码、不 merge、不 release、不 bump version |
+| 本轮选中任务 | U-096、U-097、U-098、U-099、U-100、U-101、U-102、U-103、U-104、U-105 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-02
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | `docs/operations/aods-package-artifact-inventory-guard.zh-CN.md`、`aods-packed-install-smoke.zh-CN.md`、`aods-public-issue-close-on-merge-audit.zh-CN.md`、`aods-post-merge-public-reconciliation-plan.zh-CN.md`、`aods-v0.12-release-candidate-gate.zh-CN.md`、`aods-release-execution-playbook-dry-run.zh-CN.md`、`aods-post-release-retrospective-next-milestone.zh-CN.md`、`aods-implementation-evidence-locator-matrix-v2.zh-CN.md`、`aods-acceptance-criteria-coverage-report.zh-CN.md`、`aods-contract-requirement-evidence-trace-report.zh-CN.md`、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、round log、docs navigation |
+| 禁止触碰 | schema/validator/code 改动、runtime 实现、release 发布、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
+| 外部依赖 | GitHub PR / issue / release state 只读审查；本轮不做公开写操作 |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；benchmark generated result churn 已还原 |
+
+## 任务执行记录：R-2026-05-12-02
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-096 | 未开始 | 已完成 | 审查 `npm pack --dry-run --json` 文件清单，确认 expected package surface 与 exclusions | `docs/operations/aods-package-artifact-inventory-guard.zh-CN.md` |
+| 2 | U-097 | 未开始 | 已完成 | 从本地 tarball 安装到临时项目，执行 packaged CLI help、compiled-pilot strict reality validation、fixture smoke | `docs/operations/aods-packed-install-smoke.zh-CN.md` |
+| 3 | U-098 | 未开始 | 已完成 | 只读核对 PR `#63` body 的 close-on-merge 与 deferred issue 列表 | `docs/operations/aods-public-issue-close-on-merge-audit.zh-CN.md` |
+| 4 | U-099 | 未开始 | 已完成 | 制定 PR merge 后 issue、release、docs、branch cleanup 顺序和 failure handling | `docs/operations/aods-post-merge-public-reconciliation-plan.zh-CN.md` |
+| 5 | U-100 | 未开始 | 已完成 | 运行 release self-check 并形成 technical pass / public release blocked decision | `docs/operations/aods-v0.12-release-candidate-gate.zh-CN.md` |
+| 6 | U-101 | 未开始 | 已完成 | 写 release execution playbook dry run，包括 version/tag conflict checks 和 rollback guidance | `docs/operations/aods-release-execution-playbook-dry-run.zh-CN.md` |
+| 7 | U-102 | 未开始 | 已完成 | 写 post-release retrospective template 与 next milestone triage 入口 | `docs/operations/aods-post-release-retrospective-next-milestone.zh-CN.md` |
+| 8 | U-103 | 未开始 | 已完成 | 用 compiled-pilot reality summary 和 topology query 形成 evidence locator matrix v2 | `docs/operations/aods-implementation-evidence-locator-matrix-v2.zh-CN.md` |
+| 9 | U-104 | 未开始 | 已完成 | 提取 acceptance criteria / evidence refs，形成 coverage report | `docs/operations/aods-acceptance-criteria-coverage-report.zh-CN.md` |
+| 10 | U-105 | 未开始 | 已完成 | 定义 requirement -> criteria -> evidence -> locator 静态 trace report 边界 | `docs/operations/aods-contract-requirement-evidence-trace-report.zh-CN.md` |
+
+## 验证记录：R-2026-05-12-02
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| U-096 - U-105 | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog`、`npm run validate:all`、`npm run benchmark:test`、`git diff --check`、`gh pr view 63 --json ...` | 通过 | U-085 到 U-095 commit `38a07a5` 已在 origin；PR `#63` 仍为 open draft；benchmark generated churn 已还原；仅 `MEMORY.md` 未跟踪 |
+| U-096 | Package inventory | `npm pack --dry-run --json` | 通过 | `aods-0.7.0.tgz`；entryCount=51；package size 207,491 bytes；unpacked 1,061,701 bytes |
+| U-097 | Packed install smoke | local `npm pack --pack-destination` + temp `npm install --save-dev` + packaged CLI / validate / fixture smoke | 通过 | CLI help、compiled-pilot strict reality validate、fixture smoke JSON 均通过 |
+| U-098/U-099 | GitHub public state review | `gh pr view 63 --json body,state,isDraft,latestReviews,statusCheckRollup`、`gh issue list --state open --limit 100 --json ...` | 通过 | PR body close/deferred issue posture 已入账；本轮未做公开写操作 |
+| U-100/U-101 | Release gate | `npm run release:self-check`、`gh release list --limit 10`、`git tag --sort=-version:refname | head -10` | 通过 | technical gate pass；latest tag/release 仍为 `v0.7.0`；release blocked |
+| U-103 - U-105 | Evidence / acceptance trace | `node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality --json`、`jq` topology / criteria extraction | 通过 | 14 evidence；14 criteria；13 satisfied；1 planned；unchecked example repos visible |
+| U-096 - U-105 | Repo validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| U-096 - U-105 | Benchmark test gate | `npm run benchmark:test` | 通过 | 80/80 pass；benchmark generated result churn 已还原 |
+| U-096 - U-105 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 新发现任务：R-2026-05-12-02
+
+本轮没有新增任务 ID。U-106 到 U-115 仍按 U-092 综合任务池顺序作为下一轮固定 10 任务。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-096 - U-105 | 无 | 无新增 | - | - | - |
+
+## 回合结束摘要：R-2026-05-12-02
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-096、U-097、U-098、U-099、U-100、U-101、U-102、U-103、U-104、U-105 |
+| 完成任务 | 10 | package / release / public sync / drift evidence trace docs 已完成 |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | PR `#63` 仍为 draft；本轮未做公开写操作 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 55 | 下一轮固定选择 U-106 到 U-115 |
+
 ## 回合摘要：R-2026-05-12-01
 
 | 项 | 内容 |

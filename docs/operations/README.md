@@ -45,6 +45,16 @@
 | `aods-pr-review-response-matrix.zh-CN.md` | U-093 PR review response matrix，记录 PR review、covered issue 和 deferred issue 状态 | 高 |
 | `aods-version-changelog-triage.zh-CN.md` | U-094 version bump and changelog route triage，明确下一 release 前的版本和 changelog 路线 | 高 |
 | `aods-release-notes-completeness.zh-CN.md` | U-095 release notes completeness pass，提供下一 release notes skeleton 和发布前 blockers | 高 |
+| `aods-package-artifact-inventory-guard.zh-CN.md` | U-096 package artifact inventory guard，记录 pack dry-run JSON 清单审查 | 高 |
+| `aods-packed-install-smoke.zh-CN.md` | U-097 packed tarball install smoke，记录本地 tarball 安装和 CLI / validate / fixture 冒烟 | 高 |
+| `aods-public-issue-close-on-merge-audit.zh-CN.md` | U-098 public issue close-on-merge audit，核对 PR close/deferred issue 列表 | 高 |
+| `aods-post-merge-public-reconciliation-plan.zh-CN.md` | U-099 post-merge public state reconciliation plan，定义 merge 后公开状态核对顺序 | 高 |
+| `aods-v0.12-release-candidate-gate.zh-CN.md` | U-100 v0.12 release candidate gate，记录 release self-check、package、install smoke 和 blockers | 高 |
+| `aods-release-execution-playbook-dry-run.zh-CN.md` | U-101 release execution playbook dry run，定义授权后发布步骤、冲突检查和 rollback | 高 |
+| `aods-post-release-retrospective-next-milestone.zh-CN.md` | U-102 post-release retrospective and next milestone triage，提供发布后复盘模板和下一 milestone 入口 | 高 |
+| `aods-implementation-evidence-locator-matrix-v2.zh-CN.md` | U-103 implementation evidence locator matrix v2，记录 repo/path/evidence locator 和 unchecked posture | 高 |
+| `aods-acceptance-criteria-coverage-report.zh-CN.md` | U-104 acceptance criteria coverage report，汇总 criteria、evidence refs、fixture 和 validator posture | 高 |
+| `aods-contract-requirement-evidence-trace-report.zh-CN.md` | U-105 contract requirement to evidence trace report，定义 requirement 到 evidence 的静态追踪边界 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -94,9 +104,19 @@
 40. 读 `aods-pr-review-response-matrix.zh-CN.md`
 41. 读 `aods-version-changelog-triage.zh-CN.md`
 42. 读 `aods-release-notes-completeness.zh-CN.md`
-43. 读 `aods-v0.7-rc-gate.zh-CN.md`
-44. 读 `aods-handoff.zh-CN.md`
-45. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+43. 读 `aods-package-artifact-inventory-guard.zh-CN.md`
+44. 读 `aods-packed-install-smoke.zh-CN.md`
+45. 读 `aods-public-issue-close-on-merge-audit.zh-CN.md`
+46. 读 `aods-post-merge-public-reconciliation-plan.zh-CN.md`
+47. 读 `aods-v0.12-release-candidate-gate.zh-CN.md`
+48. 读 `aods-release-execution-playbook-dry-run.zh-CN.md`
+49. 读 `aods-post-release-retrospective-next-milestone.zh-CN.md`
+50. 读 `aods-implementation-evidence-locator-matrix-v2.zh-CN.md`
+51. 读 `aods-acceptance-criteria-coverage-report.zh-CN.md`
+52. 读 `aods-contract-requirement-evidence-trace-report.zh-CN.md`
+53. 读 `aods-v0.7-rc-gate.zh-CN.md`
+54. 读 `aods-handoff.zh-CN.md`
+55. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -144,4 +164,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-095 已完成 readiness / triage / release closeout docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。
+8. U-085 到 U-105 已完成 readiness / triage / release closeout / package smoke / evidence trace docs；当前仍不实现 runtime、不 merge PR、不发布 release、不 bump version。

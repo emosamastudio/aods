@@ -10,38 +10,28 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S14 release / public sync readiness after runtime gate |
-| 当前回合 | R-2026-05-12-01 |
-| 未完成任务数量 | 65 |
-| 已完成任务数量 | 100 |
+| 当前阶段 | S15 implementation drift / evidence trace after release dry run |
+| 当前回合 | R-2026-05-12-02 |
+| 未完成任务数量 | 55 |
+| 已完成任务数量 | 110 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-01 |
-| 开始时间 | 2026-05-12 13:59 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-02 |
+| 开始时间 | 2026-05-12 14:33 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095 |
-| 本轮范围 | 上轮 U-092 复审、runtime readiness gate、五类 runtime entry contract triage、PR final readiness、PR response matrix、version/changelog route、release notes completeness |
+| 选中任务 | U-096、U-097、U-098、U-099、U-100、U-101、U-102、U-103、U-104、U-105 |
+| 本轮范围 | 上轮 U-085 到 U-095 复审、package inventory、packed install smoke、close-on-merge audit、post-merge reconciliation plan、release candidate gate、release playbook dry run、post-release retrospective template、implementation evidence locator matrix、acceptance criteria coverage、contract requirement to evidence trace |
 | 排除范围 | schema/validator/code 改动、runtime 实现、release、version bump、PR ready/merge、issue close、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；GitHub PR / issue / release state review；version surface review；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 验证计划 | 上轮质量复审；package dry-run；packed install smoke；release:self-check；GitHub PR / issue / release state review；evidence / acceptance trace queries；`npm run validate:all`；`npm run benchmark:test`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-096 | S14 | Package artifact inventory guard update | P2 | 未开始 | `npm pack --dry-run --json` 文件清单与 expected package surface 有审查记录 | U-094 | packaging |
-| U-097 | S14 | Install smoke from packed tarball | P2 | 未开始 | 本地 tarball install / CLI smoke 路线和结果入账；不发布 npm | U-096 | packaging smoke |
-| U-098 | S14 | Public issue close-on-merge audit | P2 | 未开始 | PR body 中 close-on-merge issue 与本地覆盖矩阵一致；不提前关闭 issue | U-091 | public sync |
-| U-099 | S14 | Post-merge public state reconciliation plan | P2 | 未开始 | PR merge 后 issue、release、docs、branch cleanup 顺序明确；不实际 merge | U-098 | public sync |
-| U-100 | S14 | v0.12 release candidate gate | P1 | 未开始 | release:self-check、pack dry-run、validate、benchmark gate 与 blockers 形成 pass/fail decision；不发布 release | U-094 | release gate |
-| U-101 | S14 | Release execution playbook dry run | P1 | 未开始 | owner 授权前的 release steps、rollback、tag/version conflict checks 可审查；不创建 release | U-100 | release dry-run |
-| U-102 | S14 | Post-release retrospective and next milestone triage | P2 | 未开始 | release 后复盘模板、next milestone 候选和 public roadmap sync 入口明确；不替代实际 release | U-101 | retrospective |
-| U-103 | S15 | Implementation evidence locator matrix v2 | P1 | 未开始 | repo locator、path locator、unchecked reason、evidence locator 的状态矩阵明确；不 remote clone | U-077 | drift / evidence |
-| U-104 | S15 | Acceptance criteria coverage report | P1 | 未开始 | criteria 与 evidence refs、fixtures、validator rules、manual review posture 的覆盖摘要明确；不执行 arbitrary command | U-103 | drift / evidence |
-| U-105 | S15 | Contract requirement to evidence trace report | P1 | 未开始 | stable contract requirement 到 implementation evidence 的 traceability 输出边界明确；不做 semantic oracle | U-104 | drift / evidence |
 | U-106 | S15 | Stale evidence refresh workflow boundary | P2 | 未开始 | stale evidence 的 owner、refresh trigger、validation gate、manual review path 明确；不自动刷新外部证据 | U-105 | drift workflow |
 | U-107 | S15 | Missing reality locator remediation plan | P2 | 未开始 | unresolved / unchecked implementation repo locator 的最小修复路线明确；不 fetch sibling repo | U-103 | drift remediation |
 | U-108 | S15 | Implementation repo locator normalization | P2 | 未开始 | locator path / url / descriptive-only 的规范化和错误提示边界明确；不改变 root topology semantics | U-107 | topology |
@@ -202,6 +192,16 @@
 | 98 | U-093 | S14 | PR review response matrix | P1 | 2026-05-12 | `docs/operations/aods-pr-review-response-matrix.zh-CN.md`、GitHub issue snapshot | `gh pr view 63 --json ...`；`gh issue list --state open --limit 100 --json ...`；`npm run validate:all`；`git diff --check` | 当前无 GitHub review / check response；covered issues 等待 PR merge；`#41/#59/#60/#13` 保持 open |
 | 99 | U-094 | S14 | Version bump and changelog route triage | P1 | 2026-05-12 | `docs/operations/aods-version-changelog-triage.zh-CN.md`、version / release surface snapshot | `jq -r '.version' package.json`；`git tag --sort=-version:refname | head -20`；`gh release list --limit 20`；`rg -n "0\\.7\\.0|0\\.8|0\\.12|version|Release|release" ...`；`npm run validate:all`；`git diff --check` | 当前 package/tag/latest release 均为 `v0.7.0`；下一 release 必须先 version bump / tag / release branch decision；本轮不 bump、不发布 |
 | 100 | U-095 | S14 | Release notes completeness pass | P1 | 2026-05-12 | `docs/operations/aods-release-notes-completeness.zh-CN.md` | `npm run validate:all`；`npm run benchmark:test`；`git diff --check` | 下一 release notes skeleton 已覆盖 major changes、non-goals、known deferred runtime、validation evidence 和 blockers；本轮不发布 release |
+| 101 | U-096 | S14 | Package artifact inventory guard update | P2 | 2026-05-12 | `docs/operations/aods-package-artifact-inventory-guard.zh-CN.md`、package dry-run JSON | `npm pack --dry-run --json`；`npm run release:self-check`；`git diff --check` | package inventory pass：51 files、207.5 kB package size、1.1 MB unpacked；operations docs / benchmarks excluded as expected；不改 package strategy |
+| 102 | U-097 | S14 | Install smoke from packed tarball | P2 | 2026-05-12 | `docs/operations/aods-packed-install-smoke.zh-CN.md`、local tarball smoke | `npm pack --pack-destination /tmp/...`；local `npm install --save-dev`；packaged CLI help；packaged compiled-pilot strict reality validate；packaged fixture smoke JSON | local tarball install smoke pass；CLI / validate / fixture smoke 均通过；不发布 npm |
+| 103 | U-098 | S14 | Public issue close-on-merge audit | P2 | 2026-05-12 | `docs/operations/aods-public-issue-close-on-merge-audit.zh-CN.md`、PR `#63` body | `gh pr view 63 --json body,state,isDraft,latestReviews,statusCheckRollup`；`gh issue list --state open --limit 100 --json ...` | PR body close list 与本地覆盖矩阵一致；deferred refs `#41/#59/#60/#13` 保持 open；不提前关闭 issue |
+| 104 | U-099 | S14 | Post-merge public state reconciliation plan | P2 | 2026-05-12 | `docs/operations/aods-post-merge-public-reconciliation-plan.zh-CN.md` | GitHub PR / issue state review；release gate evidence review | PR merge 后 issue、release、docs、branch cleanup 顺序已明确；本轮不 merge |
+| 105 | U-100 | S14 | v0.12 release candidate gate | P1 | 2026-05-12 | `docs/operations/aods-v0.12-release-candidate-gate.zh-CN.md`、release self-check output | `npm run release:self-check`；`npm pack --dry-run --json`；packed install smoke；`gh release list --limit 10` | technical gate pass；public release blocked by draft PR、version `0.7.0`、latest tag/release `v0.7.0`、no release authorization |
+| 106 | U-101 | S14 | Release execution playbook dry run | P1 | 2026-05-12 | `docs/operations/aods-release-execution-playbook-dry-run.zh-CN.md` | release self-check evidence；version/tag/release surface review | 授权后的 release steps、conflict checks 和 rollback guidance 已定义；不创建 release |
+| 107 | U-102 | S14 | Post-release retrospective and next milestone triage | P2 | 2026-05-12 | `docs/operations/aods-post-release-retrospective-next-milestone.zh-CN.md` | release gate / roadmap review | 发布后复盘模板、next milestone 候选和 public roadmap sync 入口已定义；本轮无真实 release |
+| 108 | U-103 | S15 | Implementation evidence locator matrix v2 | P1 | 2026-05-12 | `docs/operations/aods-implementation-evidence-locator-matrix-v2.zh-CN.md`、compiled-pilot reality summary | `node ./bin/aods.mjs validate ./examples/compiled-pilot --strict --reality --json`；`jq` topology/evidence queries | 8 linked modules、14 evidence、13 current、1 planned、0 stale/blocked/missing locators；example repos remain unchecked |
+| 109 | U-104 | S15 | Acceptance criteria coverage report | P1 | 2026-05-12 | `docs/operations/aods-acceptance-criteria-coverage-report.zh-CN.md`、criteria/evidence query | `jq` acceptance_criteria extraction from compiled-pilot modules；validator reality summary | 14 criteria total；13 satisfied、1 planned、0 waived/blocked/manual_review；all check_type `evidence-ref`；不执行 arbitrary command |
+| 110 | U-105 | S15 | Contract requirement to evidence trace report | P1 | 2026-05-12 | `docs/operations/aods-contract-requirement-evidence-trace-report.zh-CN.md` | `jq` criteria/evidence trace queries；`validate --reality --json` | requirement -> criteria -> evidence -> locator 静态追踪边界已定义；不做 semantic oracle，不 remote clone |
 
 ## 失败或阻塞任务
 
@@ -286,3 +286,4 @@
 | 2026-05-08 | 100% | 100% | 99% | `U-084` 完成 | Batch O 已完成：五类未来 runtime 候选已拆清 metadata-only 边界、进入条件和非目标；新增 S13 任务 U-085 到 U-091，下一步优先 U-085 readiness gate matrix。 |
 | 2026-05-08 | 100% | 100% | 99% | `U-092` 完成 | 综合任务池已扩展到 U-160；执行规则改为每轮复审通过后选择 10 个未完成任务，少于 10 个时全选。下一轮应选择 U-085、U-086、U-087、U-088、U-089、U-090、U-091、U-093、U-094、U-095。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-085` 到 `U-095` 完成 | 本轮 10 任务已完成：runtime readiness gate、五类 runtime entry contract triage、PR final readiness、PR response matrix、version/changelog route 和 release notes completeness 已入账；不实现 runtime、不 merge、不发布、不 bump version。下一轮应选择 U-096 到 U-105。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-096` 到 `U-105` 完成 | 本轮 10 任务已完成：package inventory、packed install smoke、close-on-merge audit、post-merge reconciliation、release candidate gate、release playbook dry run、post-release retrospective template、implementation evidence locator matrix、acceptance coverage、requirement-to-evidence trace 已入账；不 merge、不发布、不 bump version。下一轮应选择 U-106 到 U-115。 |

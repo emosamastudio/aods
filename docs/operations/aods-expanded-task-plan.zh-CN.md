@@ -59,6 +59,16 @@
 | U-093 | S14 | release / public sync | P1 | 已完成 | PR review response matrix | PR review、covered issue、deferred issue 状态已形成矩阵；不改代码、不关闭 issue |
 | U-094 | S14 | release planning | P1 | 已完成 | Version bump and changelog route triage | 下一 release 前必须先 version bump、tag、changelog entry 和 README version surface；本轮不 bump、不发布 |
 | U-095 | S14 | release docs | P1 | 已完成 | Release notes completeness pass | release note skeleton 已覆盖 major changes、non-goals、known deferred runtime、validation evidence；本轮不发布 |
+| U-096 | S14 | packaging | P2 | 已完成 | Package artifact inventory guard update | `npm pack --dry-run --json` 文件清单与 expected package surface 已审查；不改 package strategy |
+| U-097 | S14 | packaging smoke | P2 | 已完成 | Install smoke from packed tarball | 本地 tarball install / CLI help / packaged validate / fixture smoke 已入账；不发布 npm |
+| U-098 | S14 | public sync | P2 | 已完成 | Public issue close-on-merge audit | PR body close-on-merge issue 与本地覆盖矩阵一致；不提前关闭 issue |
+| U-099 | S14 | public sync | P2 | 已完成 | Post-merge public state reconciliation plan | PR merge 后 issue、release、docs、branch cleanup 顺序已明确；不实际 merge |
+| U-100 | S14 | release gate | P1 | 已完成 | v0.12 release candidate gate | release:self-check、pack dry-run、install smoke 与 blockers 已形成 pass/no-go decision；不发布 release |
+| U-101 | S14 | release dry-run | P1 | 已完成 | Release execution playbook dry run | owner 授权前的 release steps、rollback、tag/version conflict checks 已可审查；不创建 release |
+| U-102 | S14 | retrospective | P2 | 已完成 | Post-release retrospective and next milestone triage | release 后复盘模板、next milestone 候选和 public roadmap sync 入口已明确；不替代实际 release |
+| U-103 | S15 | drift / evidence | P1 | 已完成 | Implementation evidence locator matrix v2 | repo locator、path locator、unchecked reason、evidence locator 的状态矩阵已明确；不 remote clone |
+| U-104 | S15 | drift / evidence | P1 | 已完成 | Acceptance criteria coverage report | criteria 与 evidence refs、fixtures、validator rules、manual review posture 的覆盖摘要已明确；不执行 arbitrary command |
+| U-105 | S15 | drift / evidence | P1 | 已完成 | Contract requirement to evidence trace report | stable contract requirement 到 implementation evidence 的 traceability 输出边界已明确；不做 semantic oracle |
 
 ## 下一批推荐
 
@@ -82,8 +92,8 @@
 | Batch N | U-082 + U-083 | 已完成；citation posture 进入 validate report，同时复审 changelog.delta 300 字符限制是否阻塞 release workflow | RED/GREEN scaffold regression、compiled-pilot citation report smoke、GitHub issue `#13` read-only review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch O | U-084 | 已完成；只做 runtime 边界和进入条件研究，不实现 runtime | route/read evidence、docs gate、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
 | Batch P | U-085 + U-086 + U-087 + U-088 + U-089 + U-090 + U-091 + U-093 + U-094 + U-095 | 已完成；五类 runtime readiness / entry contract 已收束，PR / release readiness 前置检查已完成 | docs gate、GitHub state review、`npm run validate:all`、`npm run benchmark:test`、`git diff --check` |
-| Batch Q | U-096 到 U-105 | 下一轮固定 10 任务；release/package/drift 前十项；按综合任务池顺序推进 | package dry-run、docs gate、`npm run validate:all`、`git diff --check` |
-| Batch R | U-106 到 U-115 | drift workflow 与 fixture coverage 前十项 | docs gate、fixture/benchmark relevant tests as scoped |
+| Batch Q | U-096 到 U-105 | 已完成；release/package/drift 前十项已收束为 package smoke、public sync dry-run 和 evidence trace docs | package dry-run、packed install smoke、release:self-check、docs gate、`npm run validate:all`、`git diff --check` |
+| Batch R | U-106 到 U-115 | 下一轮固定 10 任务；drift workflow 与 fixture coverage 前十项 | docs gate、fixture/benchmark relevant tests as scoped |
 | Batch S | U-116 到 U-125 | fixture output、examples、benchmark hygiene、CLI / validation docs | focused CLI / fixture tests as scoped |
 | Batch T | U-126 到 U-135 | route/validation DX、authoring、changelog ergonomics | focused tests as scoped |
 | Batch U | U-136 到 U-145 | glossary/citation/docs/risk/exposure | docs gate or stable-contracts tests as scoped |
