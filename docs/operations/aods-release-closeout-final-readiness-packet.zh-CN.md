@@ -50,8 +50,8 @@
 | Merge state | `CLEAN` | 当前可合并 |
 | Reviews | `0` | 尚无 reviewer 结论 |
 | Checks | `0` | `gh pr checks 63` reports no checks |
-| Changed files | `185` at public verification before this local docs commit | 本轮提交后需再次刷新 PR file count |
-| Head OID | `43e55958995fa8e977a7f7dc116084ab95ab8266` at public verification | 本轮 docs commit 推送后会变化 |
+| Changed files | `186` | 已在本轮 docs commit 推送后刷新 |
+| Head OID | `5e54c670cf90d23f075fb344fb5fe3c3dca48740` | 本轮 final readiness packet commit |
 
 ## Close-on-merge Audit
 
