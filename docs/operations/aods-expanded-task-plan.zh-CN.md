@@ -154,16 +154,46 @@
 | U-188 | S23 | release planning | P1 | 已完成 | Release version naming decision | 下一 public release 目标选择 `v0.8.0`；不发布 release |
 | U-189 | S23 | release planning | P1 | 已完成 | Version bump and changelog preparation | version bump / changelog plan 已明确；不创建 tag |
 | U-190 | S23 | release gate | P1 | 已完成 | Release candidate gate rerun after public sync | public sync 后 release:self-check 通过；release 仍 no-go |
-| U-191 | S24 | release docs | P2 | 未开始 | Release notes finalization plan | release notes 覆盖 U-160 后变化；不发布 release |
-| U-192 | S24 | PR hygiene | P2 | 未开始 | PR split risk assessment | 182-file PR 是否拆分或继续单 PR 已评估；不改历史 |
-| U-193 | S24 | CI triage | P2 | 未开始 | GitHub checks setup triage | no-checks 状态的 minimal Actions gate 方案明确；不直接启用 CI |
-| U-194 | S24 | package | P2 | 未开始 | Package public surface diff guard | package files / docs / examples release surface guard 明确；不发布 npm |
-| U-195 | S24 | public sync | P2 | 未开始 | Post-merge reconciliation checklist refresh | merge 后 issue/release/branch cleanup checklist 更新；不 merge |
-| U-196 | S24 | docs tooling | P3 | 未开始 | Local docs link checker automation plan | docs link checker repeatable route 明确；不抓取外网 |
-| U-197 | S24 | security tooling | P3 | 未开始 | Secret-like scan repeatability plan | sensitive / credential scan repeatable local route 明确；不建 service |
-| U-198 | S24 | skill release | P3 | 未开始 | aods-use skill release alignment check | skill package 与 repo release / CLI surface 对齐复审；不发布 skill |
-| U-199 | S24 | handoff | P2 | 未开始 | Final handoff compaction pass | release closeout 前 handoff / MEMORY / round log 压缩；MEMORY 不进仓库 |
-| U-200 | S24 | planning | P2 | 未开始 | Post-public-closeout task discovery | PR / release / issue sync 后重新发现任务；只读优先 |
+| U-191 | S24 | release docs | P2 | 已完成 | Release notes finalization plan | release notes 结构覆盖 changes / validation / non-goals / public issue handling；不发布 release |
+| U-192 | S24 | PR hygiene | P2 | 已完成 | PR split risk assessment | 182-file PR 建议继续单 PR review；不改历史 |
+| U-193 | S24 | CI triage | P2 | 已完成 | GitHub checks setup triage | no checks reported；本轮不直接启用 CI |
+| U-194 | S24 | package | P2 | 已完成 | Package public surface diff guard | package entry count 55，package surface guard 已刷新；不发布 npm |
+| U-195 | S24 | public sync | P2 | 已完成 | Post-merge reconciliation checklist refresh | merge 后 issue/release/branch cleanup checklist 已刷新；不 merge |
+| U-196 | S24 | docs tooling | P3 | 已完成 | Local docs link checker automation plan | 125 Markdown files、61 local links、0 missing；不抓取外网 |
+| U-197 | S24 | security tooling | P3 | 已完成 | Secret-like scan repeatability plan | 1 synthetic test hit，排除测试样本后 0 high-confidence hits；不建 service |
+| U-198 | S24 | skill release | P3 | 已完成 | aods-use skill release alignment check | packaged skill 已补齐 `upgrade` / release alignment trigger；不发布 skill |
+| U-199 | S24 | handoff | P2 | 已完成 | Final handoff compaction pass | handoff 入口已压缩；MEMORY 不进仓库 |
+| U-200 | S24 | planning | P2 | 已完成 | Post-public-closeout task discovery | 新增 U-201 到 U-230；下一轮默认 U-201 到 U-210 |
+| U-201 | S25 | public sync | P1 | 未开始 | PR body final freshness refresh | PR body 覆盖 U-191-U-200 后状态并保持 close refs；不 merge |
+| U-202 | S25 | public sync | P1 | 未开始 | Close-on-merge refs final audit | 20 个 close-on-merge refs 仍被 GitHub 识别；不关闭 issue |
+| U-203 | S25 | review policy | P1 | 未开始 | Review / checks policy decision record | PR review / checks / owner override policy 明确；不直接启用 CI |
+| U-204 | S25 | release docs | P1 | 未开始 | Release notes final body draft | GitHub Release body draft 覆盖 changes / non-goals / validation / caveats；不创建 release |
+| U-205 | S25 | version planning | P1 | 未开始 | Version bump dry-run patch plan | `0.8.0` version bump 所需文件和 diff plan 明确；不修改 package version |
+| U-206 | S25 | docs planning | P2 | 未开始 | README release link diff plan | README release links / version surface 改动计划明确；不创建 release link |
+| U-207 | S25 | package | P1 | 未开始 | Package inventory rerun after final docs | pack dry-run entry count / package surface refresh；不发布 npm |
+| U-208 | S25 | package smoke | P1 | 未开始 | Packed install smoke rerun | packed tarball CLI / validate / fixture smoke 再验证；local-only |
+| U-209 | S25 | release gate | P1 | 未开始 | Release self-check rerun | `npm run release:self-check` 再通过，generated churn 已还原；不发布 release |
+| U-210 | S25 | owner packet | P1 | 未开始 | Owner go/no-go packet refresh | merge / release / no-release 三选一决策包可交给 owner；不执行 release |
+| U-211 | S26 | docs tooling | P2 | 未开始 | Local docs link checker script implementation | 本地 Markdown relative link checker 脚本落地；不抓取外网 |
+| U-212 | S26 | docs tooling | P2 | 未开始 | Docs link checker npm script / docs | npm script / docs 说明可重复运行；不新增 CI |
+| U-213 | S26 | security tooling | P2 | 未开始 | Secret-like placeholder scan script implementation | 高置信 secret-like scan 脚本落地；不建 secret scanner service |
+| U-214 | S26 | security docs | P2 | 未开始 | Secret scan allowlist docs | 合成测试样本 allowlist 边界明确；不隐藏真实命中 |
+| U-215 | S26 | package tooling | P2 | 未开始 | Package public surface guard script | package entry allowlist / diff guard 脚本方案落地；不发布 npm |
+| U-216 | S26 | generated artifact tooling | P2 | 未开始 | Generated artifact hygiene check script | benchmark generated churn 检查可重复；不自动接受 generated churn |
+| U-217 | S26 | GitHub tooling | P3 | 未开始 | PR status snapshot command plan | read-only PR state snapshot 命令文档化；read-only GitHub |
+| U-218 | S26 | GitHub tooling | P3 | 未开始 | Issue close reconciliation command plan | merge 后 issue close/open verification command 明确；不关闭 issue |
+| U-219 | S26 | skill test | P2 | 未开始 | Skill alignment regression | packaged skill 与 CLI surface 的 drift check 有测试或脚本；不发布 skill |
+| U-220 | S26 | release tooling | P3 | 未开始 | Release hygiene aggregate command plan | 本地 release hygiene aggregate command 方案明确；不新增 CI |
+| U-221 | S27 | conformance | P1 | 未开始 | Conformance manifest schema implementation | conformance manifest schema first slice 落地；fixture-only first |
+| U-222 | S27 | conformance | P1 | 未开始 | Conformance report JSON schema implementation | conformance report JSON schema first slice 落地；不建 dashboard |
+| U-223 | S27 | conformance | P1 | 未开始 | Conformance runner read-only MVP | runner 只读取 fixture / validate 输出，不执行 arbitrary commands；不执行 commands |
+| U-224 | S27 | fixtures | P2 | 未开始 | Negative fixture second slice | 第二批 negative fixtures 小批量落地；小批量 |
+| U-225 | S27 | validation | P2 | 未开始 | Validator dependency diagnostics first slice | missing target / status diagnostics first slice 落地；不建 scheduler |
+| U-226 | S27 | docs parity | P3 | 未开始 | Route dependency docs parity pass | route dependency JSON docs 与实现同步；不改 ranking |
+| U-227 | S27 | fixture design | P3 | 未开始 | Dependency graph cycle fixture design | cycle fixture design 与 validator route 边界明确；不执行 graph runtime |
+| U-228 | S27 | fixture design | P3 | 未开始 | Adapter negotiation example fixture | metadata-only negotiation example fixture 设计；不实现 handshake |
+| U-229 | S27 | fixture design | P3 | 未开始 | Cross-corpus resolver no-fetch fixture | no-fetch resolver posture fixture 设计；不 remote fetch |
+| U-230 | S27 | research refresh | P3 | 未开始 | Observability report store no-go refresh | telemetry / report store no-go posture 复审；不建 telemetry store |
 
 ## 下一批推荐
 
@@ -197,7 +227,8 @@
 | Batch X | U-161 到 U-170 | 已完成；post-backlog public state refresh、close-on-merge recognition gap 和 public action approval packet 已收束 | GitHub read-only state review、docs gate、`validate:all` |
 | Batch Y | U-171 到 U-180 | 已完成；negative fixtures、conformance proposal、dependency diagnostics、PR generated artifact audit 已收束 | focused fixture regression、route dependency regression、fixture smoke、GitHub read-only audit、`validate:all` |
 | Batch Z | U-181 到 U-190 | 已完成；PR public sync、ready-for-review、release version decision 和 RC gate rerun 已收束 | PR body close refs recognized、issue comments、release:self-check |
-| Batch AA | U-191 到 U-200 | 下一轮推荐；release notes finalization、PR split/checks/package guard、handoff 和 rediscovery | docs gate、GitHub read-only state review、`validate:all` |
+| Batch AA | U-191 到 U-200 | 已完成；release closeout readiness、local hygiene repeatability、skill alignment、handoff 和 task discovery 已收束 | docs link checker、secret-like scan、pack dry-run、GitHub read-only state review、`validate:all` |
+| Batch AB | U-201 到 U-210 | 下一轮推荐；PR body / close refs final audit、release notes body、package / release gates、owner go/no-go | GitHub state review、package / release gates、docs gate |
 
 ## 当前非目标
 

@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics 和 public sync closeout。PR `#63` 已从 draft 切为 ready for review、merge clean、无 checks/reviews、182 changed files；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。下一轮默认选择 U-191 到 U-200：release notes finalization、review/check gate、package surface、post-merge checklist、handoff closeout。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-200 已连续完成 implementation drift、authoring quality、surface examples、glossary registry、external citation、runtime boundary、release readiness、fixture / CLI / validation docs、risk / audit、final research closure、post-backlog public state refresh、negative fixtures、conformance proposal、dependency diagnostics、public sync closeout、release closeout readiness、local hygiene repeatability、skill alignment 和 task discovery。PR `#63` 已 ready for review、merge clean、无 checks/reviews、182 changed files；GitHub 已识别 20 个 close-on-merge issue refs。latest release 和 package version 仍为 `0.7.0`，下一 public release 目标选择 `v0.8.0` / package `0.8.0`，但当前不 merge、不 release、不 bump version、不创建 tag。任务池已扩展到 U-230，下一轮默认选择 U-201 到 U-210：PR body / close refs final audit、review/check policy、release notes body、version / README dry-run plan、package / install / release gates 和 owner go/no-go packet。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -129,9 +129,12 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完
 | 114 | `docs/operations/aods-dependency-query-benchmark-and-generated-artifact-audit.zh-CN.md` | 读取 U-179 到 U-180 dependency query / generated artifact audit |
 | 115 | `docs/operations/aods-pr-public-sync-execution.zh-CN.md` | 读取 U-181 到 U-187 PR / issue public sync execution |
 | 116 | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` | 读取 U-188 到 U-190 release version / RC gate decision |
-| 117 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 118 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 119 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 117 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` | 读取 U-191 到 U-195 release closeout readiness |
+| 118 | `docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | 读取 U-196 到 U-198 local hygiene / skill alignment |
+| 119 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md` | 读取 U-199 到 U-200 handoff compaction / task discovery |
+| 120 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 121 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 122 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -339,21 +342,31 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完
 | U-188 | Release version naming decision | 下一 public release 目标选择 `v0.8.0` / package `0.8.0`；不发布 release |
 | U-189 | Version bump and changelog preparation | version bump / changelog plan 已明确；不修改 package version、不创建 tag |
 | U-190 | Release candidate gate rerun after public sync | `npm run release:self-check` 通过；dry-run package 仍为 `aods@0.7.0` / 55 files；release remains no-go |
+| U-191 | Release notes finalization plan | release notes 结构已覆盖 changes、validation、non-goals、public issue handling 和 release caveat；不发布 release |
+| U-192 | PR split risk assessment | 182-file PR 建议继续单 PR review；不改历史 |
+| U-193 | GitHub checks setup triage | 当前 no checks reported；本轮不启用 CI |
+| U-194 | Package public surface diff guard | package entry count 55；CLI/lib/schema/spec/examples/skill included，operations docs / benchmarks excluded |
+| U-195 | Post-merge reconciliation checklist refresh | merge 后 issue close、deferred issue、release、branch cleanup 顺序已刷新；不 merge |
+| U-196 | Local docs link checker automation plan | 125 Markdown files、61 local links、0 missing；不抓取外网 |
+| U-197 | Secret-like scan repeatability plan | 1 个合成测试 token 命中，排除该测试样本后 0 high-confidence hits；不建 secret scanner service |
+| U-198 | aods-use skill release alignment check | repo packaged skill 已补齐 `upgrade` / release alignment trigger；不发布 skill |
+| U-199 | Final handoff compaction pass | 接手入口压缩到当前 ledger / round log / handoff / 三份本轮 docs；`MEMORY.md` local-only |
+| U-200 | Post-public-closeout task discovery | 新增 U-201 到 U-230；下一轮默认 U-201 到 U-210 |
 
 ## 未完成工作
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-191 | Release notes finalization plan | 下一轮默认第 1 个；不发布 release |
-| 2 | U-192 | PR split risk assessment | 下一轮默认第 2 个；不改历史 |
-| 3 | U-193 | GitHub checks setup triage | 下一轮默认第 3 个；不直接启用 CI |
-| 4 | U-194 | Package public surface diff guard | 下一轮默认第 4 个；不发布 npm |
-| 5 | U-195 | Post-merge reconciliation checklist refresh | 下一轮默认第 5 个；不 merge |
-| 6 | U-196 | Local docs link checker automation plan | 下一轮默认第 6 个；不抓取外网 |
-| 7 | U-197 | Secret-like scan repeatability plan | 下一轮默认第 7 个；不建 secret scanner service |
-| 8 | U-198 | aods-use skill release alignment check | 下一轮默认第 8 个；不发布 skill |
-| 9 | U-199 | Final handoff compaction pass | 下一轮默认第 9 个；`MEMORY.md` 不进仓库 |
-| 10 | U-200 | Post-public-closeout task discovery | 下一轮默认第 10 个；只读优先 |
+| 1 | U-201 | PR body final freshness refresh | 下一轮默认第 1 个；可公开写，不 merge |
+| 2 | U-202 | Close-on-merge refs final audit | 下一轮默认第 2 个；不关闭 issue |
+| 3 | U-203 | Review / checks policy decision record | 下一轮默认第 3 个；不直接启用 CI |
+| 4 | U-204 | Release notes final body draft | 下一轮默认第 4 个；不创建 release |
+| 5 | U-205 | Version bump dry-run patch plan | 下一轮默认第 5 个；不修改 package version |
+| 6 | U-206 | README release link diff plan | 下一轮默认第 6 个；不创建 release link |
+| 7 | U-207 | Package inventory rerun after final docs | 下一轮默认第 7 个；不发布 npm |
+| 8 | U-208 | Packed install smoke rerun | 下一轮默认第 8 个；local-only |
+| 9 | U-209 | Release self-check rerun | 下一轮默认第 9 个；不发布 release |
+| 10 | U-210 | Owner go/no-go packet refresh | 下一轮默认第 10 个；不执行 release |
 
 ## 失败和风险
 
@@ -406,8 +419,8 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完
 | 10-task 批量执行扩散风险 | 每轮固定选择 10 个任务，容易把低风险 docs、public sync、schema、runtime decision 混成一个不可验证的大改动 | U-092 规定仍必须先过上一轮质量门禁；需要公开 merge/release/破坏性副作用的任务只做 readiness / dry-run / decision record |
 | public sync 过早关闭风险 | 已覆盖 issue 数量较多，直接关闭会早于 PR review / merge | PR `#63` 只设置 close-on-merge；`#13/#41/#59/#60` 保持 open；merge 前不手动关闭 issue |
 | PR close syntax recognition gap | U-181 已修复 close refs recognition，但后续 body 改动仍可能破坏 close-on-merge 识别 | 合并前重新运行 `gh pr view 63 --json closingIssuesReferences` |
-| PR scope stale 风险 | U-182 已刷新 PR body，但后续继续推进 U-191 到 U-200 会再次改变 release/readiness 状态 | 合并或发布前再次刷新 summary、validation、release position 和 deferred issue wording |
-| no-checks public review risk | PR `#63` 当前没有 GitHub checks reported | 本地 gates 继续入账；U-193 评估是否需要 minimal Actions gate |
+| PR scope stale 风险 | U-182 已刷新 PR body，但 U-191 到 U-200 又补充了 release closeout / local hygiene / task discovery 状态 | U-201 应再次刷新 summary、validation、release position 和 deferred issue wording |
+| no-checks public review risk | PR `#63` 当前没有 GitHub checks reported | U-193 已记录不直接启用 CI；后续 U-203 明确 review / checks / owner override policy |
 | generated artifact acceptance 风险 | PR `#63` 包含 generated schema mirror 和 benchmark generated result/report 文件 | schema mirror 可随源 schema 变更接受；benchmark result/report churn 在 ready 前必须复审，非预期则还原 |
 | negative fixture 过度扩散风险 | 首批 negative fixtures 只覆盖 fixture manifest contract，不代表完整 conformance coverage | 后续增加负例仍按小批量、focused regression 和 fixture smoke 逐步推进 |
 | route discoverability 残留风险 | `aods route --help` 曾返回 unknown arg | U-076 已修复；后续如扩 CLI discoverability，仍不得改变 route ranking |
@@ -418,6 +431,8 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完
 | cross-corpus resolver 过早实现风险 | authority resolver 容易触发 remote fetch、cache trust、conflict resolution 和跨仓库写入边界 | U-158 只记录 trust model、fetch policy、cache / failure posture；默认 no-fetch |
 | dependency scheduler 过早实现风险 | dependency ordering 容易扩成 package manager、workflow scheduler 或 cross-repo executor | U-159 结论为先强化 validator / route / compile / fixture 替代路径；不实现 scheduler |
 | observability store 过早实现风险 | route / validate / fixture report 容易扩成 telemetry collection、dashboard 或 trace store | U-160 结论为当前无 store 需求；后续必须先定义隐私、保留和 opt-in 边界 |
+| local hygiene gate 过重风险 | docs link、secret-like、package guard 如果直接进 CI，可能阻塞在误报或环境差异上 | U-196/U-197 先保留为 release 前人工 gate；自动化进入 U-211 到 U-220 单独裁剪 |
+| packaged skill drift 风险 | repo packaged `aods-use` 曾落后于 CLI `upgrade` / release alignment surface | U-198 已补齐 wording；后续 U-219 做 regression，防止 skill 与 CLI surface 再次漂移 |
 | hosted repeatability 外部捕获风险 | benchmark summary 测试依赖 optional hosted repeatability 数据，本轮 hosted 捕获运行 11 分钟无输出后终止 | 本轮以 focused regression、`validate:all` 和 diff hygiene 为通过 gate；后续若要恢复 full `benchmark:test` gate，需要可用 hosted relay / Keychain / 网络环境或先裁剪 benchmark 入口问题 |
 | batch execution 扩散风险 | 批量推进容易把 boundary triage、schema、validator、release 或 public sync 混进同一轮 | U-059 已限定批量准入：低冲突、依赖清晰、验证路径明确；release/public sync 仍需单独执行和 owner 授权 |
 
@@ -425,6 +440,6 @@ AODS 是独立权威规范路线。v0.7 已发布，U-027 到 U-190 已连续完
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-191 - U-200 | 下一轮默认 10 任务 | release notes、review/check gate、package version dry-run、post-merge checklist、handoff closeout |
-| 2 | PR `#63` review / checks | 公开评审入口 | PR 已 ready for review；合并前需确认 review/check policy |
-| 3 | Release go/no-go | 真实发布前决策 | version bump、tag、release notes、close-on-merge refs 和 owner approval 全部确认后再发布 |
+| 1 | U-201 - U-210 | 下一轮默认 10 任务 | PR body / close refs final audit、release notes body、package / release gates、owner go/no-go |
+| 2 | U-211 - U-220 | 本地 hygiene automation | docs link、secret-like、package、generated artifact、skill alignment checks 可重复 |
+| 3 | U-221 - U-230 | conformance / diagnostics next slice | conformance manifest/report/runner、negative fixtures、dependency diagnostics |

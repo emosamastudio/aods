@@ -10,38 +10,58 @@
 | 项目 | AODS |
 | 状态 | 开发中 |
 | 更新时间 | 2026-05-12 |
-| 当前阶段 | S23 public sync / release planning |
-| 当前回合 | R-2026-05-12-11 |
-| 未完成任务数量 | 10 |
-| 已完成任务数量 | 195 |
+| 当前阶段 | S25 release closeout dry-run |
+| 当前回合 | R-2026-05-12-12 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 205 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-12-11 |
-| 开始时间 | 2026-05-12 22:53 Asia/Shanghai |
+| 回合 ID | R-2026-05-12-12 |
+| 开始时间 | 2026-05-12 23:10 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-181、U-182、U-183、U-184、U-185、U-186、U-187、U-188、U-189、U-190 |
-| 本轮范围 | 上轮 U-171 到 U-180 复审；PR body close syntax update、PR body scope / validation refresh、PR ready-for-review decision、public comments for `#13/#41/#59/#60`、release version naming decision、version bump / changelog preparation、release candidate gate rerun |
-| 排除范围 | PR merge、issue close before merge、GitHub Release publication、tag creation、npm publish、runtime 实现、version bump commit、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；GitHub PR / issue / release read-write audit；close-on-merge recognition check；`npm run release:self-check`；`git diff --check`；staged set 排除 `MEMORY.md` 和非预期 generated churn |
+| 选中任务 | U-191、U-192、U-193、U-194、U-195、U-196、U-197、U-198、U-199、U-200 |
+| 本轮范围 | 上轮 U-181 到 U-190 复审；release notes finalization、PR split risk、GitHub checks setup triage、package public surface diff guard、post-merge reconciliation checklist、local docs link checker automation plan、secret-like scan repeatability plan、aods-use skill release alignment check、handoff compaction、post-public-closeout task discovery |
+| 排除范围 | PR merge、issue close、GitHub Release publication、tag creation、npm publish、package version bump、CI workflow enablement、secret scanner service、external link crawl、runtime 实现、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；AODS route / validation；GitHub PR / issue / checks read-only audit；npm pack dry-run；local docs link checker one-shot；secret-like scan；skill package diff review；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。需要公开 merge/release/破坏性副作用的任务只能完成 readiness / dry-run / decision record，真正外部写动作需要当前回合明确授权。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-191 | S24 | Release notes finalization plan | P2 | 未开始 | next release notes 覆盖 U-160 后全部 major changes / non-goals / blockers | U-188 | 不发布 release |
-| U-192 | S24 | PR split risk assessment | P2 | 未开始 | 评估 182-file PR 是否应拆分或继续单 PR | U-163、U-180 | 不改历史 |
-| U-193 | S24 | GitHub checks setup triage | P2 | 未开始 | no-checks 状态是否需要 minimal Actions gate 的方案明确 | U-163 | 不直接启用 CI |
-| U-194 | S24 | Package public surface diff guard | P2 | 未开始 | package files / public docs / examples release surface diff guard 明确 | U-188 | 不发布 npm |
-| U-195 | S24 | Post-merge reconciliation checklist refresh | P2 | 未开始 | merge 后 issue close verification、release、branch cleanup checklist 更新 | U-183、U-190 | 不 merge |
-| U-196 | S24 | Local docs link checker automation plan | P3 | 未开始 | 本地 docs link checker 是否纳入 repeatable script 的方案明确 | U-142 | 不抓取外网 |
-| U-197 | S24 | Secret-like scan repeatability plan | P3 | 未开始 | sensitive / credential scan 的 repeatable local route 明确 | U-143、U-144 | 不建 secret scanner service |
-| U-198 | S24 | aods-use skill release alignment check | P3 | 未开始 | skill package 与 repo release / CLI surface 对齐复审 | U-190 | 不发布 skill |
-| U-199 | S24 | Final handoff compaction pass | P2 | 未开始 | handoff / MEMORY / round log 在 release closeout 前压缩并保持可接手 | U-190 | MEMORY 不进仓库 |
-| U-200 | S24 | Post-public-closeout task discovery | P2 | 未开始 | PR / release / issue sync 后重新发现下一批任务 | U-195 | 只读优先 |
+| U-201 | S25 | PR body final freshness refresh | P1 | 未开始 | PR body 覆盖 U-191-U-200 后状态并保持 close refs | U-191、U-195 | 可公开写；不 merge |
+| U-202 | S25 | Close-on-merge refs final audit | P1 | 未开始 | 20 个 close-on-merge refs 仍被 GitHub 识别 | U-201 | 不关闭 issue |
+| U-203 | S25 | Review / checks policy decision record | P1 | 未开始 | PR review / checks / owner override policy 明确 | U-193 | 不直接启用 CI |
+| U-204 | S25 | Release notes final body draft | P1 | 未开始 | GitHub Release body draft 覆盖 changes / non-goals / validation / caveats | U-191 | 不创建 release |
+| U-205 | S25 | Version bump dry-run patch plan | P1 | 未开始 | `0.8.0` version bump 所需文件和 diff plan 明确 | U-188、U-194 | 不修改 package version |
+| U-206 | S25 | README release link diff plan | P2 | 未开始 | README release links / version surface 改动计划明确 | U-205 | 不创建 release link |
+| U-207 | S25 | Package inventory rerun after final docs | P1 | 未开始 | pack dry-run entry count / package surface refresh | U-194 | 不发布 npm |
+| U-208 | S25 | Packed install smoke rerun | P1 | 未开始 | packed tarball CLI / validate / fixture smoke 再验证 | U-207 | local-only |
+| U-209 | S25 | Release self-check rerun | P1 | 未开始 | `npm run release:self-check` 再通过，generated churn 已还原 | U-207 | 不发布 release |
+| U-210 | S25 | Owner go/no-go packet refresh | P1 | 未开始 | merge / release / no-release 三选一决策包可交给 owner | U-201、U-209 | 不执行 release |
+| U-211 | S26 | Local docs link checker script implementation | P2 | 未开始 | 本地 Markdown relative link checker 脚本落地 | U-196 | 不抓取外网 |
+| U-212 | S26 | Docs link checker npm script / docs | P2 | 未开始 | npm script / docs 说明可重复运行 | U-211 | 不新增 CI |
+| U-213 | S26 | Secret-like placeholder scan script implementation | P2 | 未开始 | 高置信 secret-like scan 脚本落地 | U-197 | 不建 secret scanner service |
+| U-214 | S26 | Secret scan allowlist docs | P2 | 未开始 | 合成测试样本 allowlist 边界明确 | U-213 | 不隐藏真实命中 |
+| U-215 | S26 | Package public surface guard script | P2 | 未开始 | package entry allowlist / diff guard 脚本方案落地 | U-194 | 不发布 npm |
+| U-216 | S26 | Generated artifact hygiene check script | P2 | 未开始 | benchmark generated churn 检查可重复 | U-180 | 不自动接受 generated churn |
+| U-217 | S26 | PR status snapshot command plan | P3 | 未开始 | read-only PR state snapshot 命令文档化 | U-203 | read-only GitHub |
+| U-218 | S26 | Issue close reconciliation command plan | P3 | 未开始 | merge 后 issue close/open verification command 明确 | U-195 | 不关闭 issue |
+| U-219 | S26 | Skill alignment regression | P2 | 未开始 | packaged skill 与 CLI surface 的 drift check 有测试或脚本 | U-198 | 不发布 skill |
+| U-220 | S26 | Release hygiene aggregate command plan | P3 | 未开始 | 本地 release hygiene aggregate command 方案明确 | U-211、U-213、U-215 | 不新增 CI |
+| U-221 | S27 | Conformance manifest schema implementation | P1 | 未开始 | conformance manifest schema first slice 落地 | U-173 | fixture-only first |
+| U-222 | S27 | Conformance report JSON schema implementation | P1 | 未开始 | conformance report JSON schema first slice 落地 | U-174、U-221 | 不建 dashboard |
+| U-223 | S27 | Conformance runner read-only MVP | P1 | 未开始 | runner 只读取 fixture / validate 输出，不执行 arbitrary commands | U-221、U-222 | 不执行 commands |
+| U-224 | S27 | Negative fixture second slice | P2 | 未开始 | 第二批 negative fixtures 小批量落地 | U-172、U-223 | 小批量 |
+| U-225 | S27 | Validator dependency diagnostics first slice | P2 | 未开始 | missing target / status diagnostics first slice 落地 | U-177 | 不建 scheduler |
+| U-226 | S27 | Route dependency docs parity pass | P3 | 未开始 | route dependency JSON docs 与实现同步 | U-178、U-225 | 不改 ranking |
+| U-227 | S27 | Dependency graph cycle fixture design | P3 | 未开始 | cycle fixture design 与 validator route 边界明确 | U-225 | 不执行 graph runtime |
+| U-228 | S27 | Adapter negotiation example fixture | P3 | 未开始 | metadata-only negotiation example fixture 设计 | U-157 | 不实现 handshake |
+| U-229 | S27 | Cross-corpus resolver no-fetch fixture | P3 | 未开始 | no-fetch resolver posture fixture 设计 | U-158 | 不 remote fetch |
+| U-230 | S27 | Observability report store no-go refresh | P3 | 未开始 | telemetry / report store no-go posture 复审 | U-160 | 不建 telemetry store |
 
 ## 已完成任务
 
@@ -242,6 +262,16 @@
 | 193 | U-188 | S23 | Release version naming decision | P1 | 2026-05-12 | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` | version / release surface review | 下一 public release 目标选择 `v0.8.0`；本轮不发布 release |
 | 194 | U-189 | S23 | Version bump and changelog preparation | P1 | 2026-05-12 | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md` | release notes / changelog route review | version bump / changelog plan 已明确；不修改 package version、不创建 tag |
 | 195 | U-190 | S23 | Release candidate gate rerun after public sync | P1 | 2026-05-12 | `docs/operations/aods-release-version-and-rc-gate.zh-CN.md`、release self-check output | `npm run release:self-check` | technical gate pass；pack `aods-0.7.0.tgz` 55 files；release remains no-go until version bump / merge / tag / publication |
+| 196 | U-191 | S24 | Release notes finalization plan | P2 | 2026-05-12 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` | release notes skeleton / PR body review | next release notes structure 已覆盖 major changes、validation、non-goals、public issue handling 和 caveat；不发布 release |
+| 197 | U-192 | S24 | PR split risk assessment | P2 | 2026-05-12 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md`、PR `#63` snapshot | `gh pr view 63 --json changedFiles,...` | 182-file PR 建议继续单 PR review；不改历史 |
+| 198 | U-193 | S24 | GitHub checks setup triage | P2 | 2026-05-12 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md`、`.github/` snapshot | `gh pr checks 63`、`ls .github/workflows` | 当前 no checks reported；本轮不新增 CI |
+| 199 | U-194 | S24 | Package public surface diff guard | P2 | 2026-05-12 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md`、npm pack dry-run output | `npm pack --dry-run --json` | package entry count 55；operations docs / benchmarks excluded；不发布 npm |
+| 200 | U-195 | S24 | Post-merge reconciliation checklist refresh | P2 | 2026-05-12 | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` | checklist review | merge 后 issue close / deferred issue / release / branch cleanup 顺序已刷新；不 merge |
+| 201 | U-196 | S24 | Local docs link checker automation plan | P3 | 2026-05-12 | `docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | Node local link one-shot | 125 Markdown files、61 local links、0 missing；不抓取外网 |
+| 202 | U-197 | S24 | Secret-like scan repeatability plan | P3 | 2026-05-12 | `docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | high-confidence `rg` scan | 1 synthetic test token hit；排除测试样本后 0 hits；不建 secret scanner service |
+| 203 | U-198 | S24 | aods-use skill release alignment check | P3 | 2026-05-12 | `skills/aods-use/SKILL.md`、`skills/aods-use/skill.json`、`docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` | packaged / local skill diff review | repo packaged skill 已补齐 `upgrade` / release alignment trigger；不发布 skill |
+| 204 | U-199 | S24 | Final handoff compaction pass | P2 | 2026-05-12 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md`、handoff / MEMORY / round log | handoff review | 接手入口压缩到当前 ledger / round log / handoff / 三份本轮 docs；`MEMORY.md` local-only |
+| 205 | U-200 | S24 | Post-public-closeout task discovery | P2 | 2026-05-12 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md`、task ledger | GitHub open issue / PR state review | 新增 U-201 到 U-230；下一轮默认 U-201 到 U-210 |
 
 ## 失败或阻塞任务
 
@@ -336,3 +366,4 @@
 | 2026-05-12 | 100% | 100% | 99% | `U-161` 到 `U-170` 完成 | 本轮完成 post-backlog 任务池扩展、公开仓库/PR/issue/release 状态刷新、PR close-on-merge recognition gap audit、public action approval packet 和下一里程碑选择；下一轮默认选择 U-171 到 U-180。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-171` 到 `U-180` 完成 | 本轮完成首批 negative fixtures、conformance manifest/report proposal、fixture/conformance docs、route dependency diagnostics 扩展、dependency query regression 和 PR generated artifact audit；下一轮默认选择 U-181 到 U-190。 |
 | 2026-05-12 | 100% | 100% | 99% | `U-181` 到 `U-190` 完成 | 本轮完成 PR body close syntax / scope refresh、ready-for-review、`#13/#41/#59/#60` public comments、release version naming 和 release candidate gate rerun；下一轮默认选择 U-191 到 U-200。 |
+| 2026-05-12 | 100% | 100% | 99% | `U-191` 到 `U-200` 完成 | 本轮完成 release closeout readiness、PR split/checks/package/post-merge guard、local docs link / secret scan repeatability、`aods-use` skill alignment、handoff compaction 和 U-201 到 U-230 task discovery；下一轮默认选择 U-201 到 U-210。 |

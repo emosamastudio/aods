@@ -2,6 +2,98 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-12-12
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-12-12 |
+| 开始时间 | 2026-05-12 23:10 Asia/Shanghai |
+| 结束时间 | 2026-05-12 23:31 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 U-181 到 U-190 复审；release notes finalization、PR split risk、GitHub checks setup triage、package public surface diff guard、post-merge reconciliation checklist、local docs link checker automation plan、secret-like scan repeatability plan、aods-use skill release alignment check、handoff compaction、post-public-closeout task discovery；不 merge、不 release、不 bump version、不创建 tag、不启用 CI、不发布 skill |
+| 本轮选中任务 | U-191、U-192、U-193、U-194、U-195、U-196、U-197、U-198、U-199、U-200 |
+| 本轮状态 | 已完成 |
+
+## 范围锁定：R-2026-05-12-12
+
+| 项 | 内容 |
+|---|---|
+| 允许触碰 | release closeout docs、operations docs、task ledger、expanded/comprehensive plans、v0.12 backlog、handoff、progress ledger、round log、repo packaged `skills/aods-use/`、`MEMORY.md` local-only |
+| 禁止触碰 | PR merge、issue close、GitHub Release、tag creation、package version bump、npm publish、CI workflow enablement、secret scanner service、external link crawl、runtime 实现、Polaris sibling repo、把 `MEMORY.md` staged/committed |
+| 外部依赖 | GitHub 只读查询；网络命令使用 `source ~/.zshrc && proxy_on && gh ...` |
+| Git 策略 | `MEMORY.md` 保持本地 untracked，不 stage；generated result churn 如出现则还原 |
+
+## 上轮质量复审：R-2026-05-12-12
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | 上轮 commit `88738f4` 与 origin 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| 上轮验证记录 | 通过 | 上轮 `validate:all`、PR close refs verification、diff hygiene 和 push 记录完整 |
+| AODS validation | 通过 | 本轮复审重新运行 `npm run validate:all`，root / pilot / compiled-pilot 全部通过 |
+| AODS route | 通过 | release / package / local hygiene query 命中 stable contracts、validation 和 boot protocol |
+| GitHub PR state | 通过 | PR `#63` ready、merge clean、182 changed files、0 reviews、0 checks、20 close refs recognized |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-191 到 U-200 |
+
+## 任务执行记录：R-2026-05-12-12
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-191 | 未开始 | 已完成 | 固化 release notes finalization structure | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
+| 2 | U-192 | 未开始 | 已完成 | 评估 182-file PR split risk，建议继续单 PR review | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
+| 3 | U-193 | 未开始 | 已完成 | 记录 GitHub checks setup triage，当前 no checks reported | `gh pr checks 63`、`docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
+| 4 | U-194 | 未开始 | 已完成 | 刷新 package public surface guard | `npm pack --dry-run --json`、`docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
+| 5 | U-195 | 未开始 | 已完成 | 刷新 post-merge reconciliation checklist | `docs/operations/aods-release-closeout-readiness-plan.zh-CN.md` |
+| 6 | U-196 | 未开始 | 已完成 | 复查 local docs link checker repeatability | `docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` |
+| 7 | U-197 | 未开始 | 已完成 | 复查 secret-like scan repeatability 和合成测试样本 allowlist | `docs/operations/aods-repeatable-local-hygiene-and-skill-alignment.zh-CN.md` |
+| 8 | U-198 | 未开始 | 已完成 | 修正 repo packaged `aods-use` skill 的 `upgrade` / release alignment trigger | `skills/aods-use/SKILL.md`、`skills/aods-use/skill.json` |
+| 9 | U-199 | 未开始 | 已完成 | 压缩 final handoff 入口 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md` |
+| 10 | U-200 | 未开始 | 已完成 | 新增 U-201 到 U-230 三批后续任务 | `docs/operations/aods-final-handoff-and-task-discovery.zh-CN.md`、task ledger |
+
+## 验证记录：R-2026-05-12-12
+
+| 任务 ID | 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|---|
+| quality review | Previous-round quality review | `git status -sb`、`git log -1 --oneline --decorate`、`git rev-parse HEAD origin/codex/aods-v0.8-backlog` | 通过 | 上轮 commit 与远端一致，`MEMORY.md` 未跟踪 |
+| quality review | AODS validation gate | `npm run validate:all` | 通过 | root strict、seven-plane strict、compiled-pilot strict reality 全部通过 |
+| quality review | AODS route | `node ./bin/aods.mjs route . --query "release notes PR split checks package docs link secret scan skill handoff task discovery" --stage plan --intent sync --json` | 通过 | query-route 命中 stable contracts / validation / boot protocol |
+| U-192 - U-193 | PR / checks state | `gh pr view 63 --json ...`、`gh pr checks 63` | 通过 | PR ready、merge clean、182 changed files、0 reviews、0 checks、20 close refs recognized；checks command reports no checks |
+| U-194 | Package dry-run | `npm pack --dry-run --json` | 通过 | package `aods@0.7.0`、entry count 55 |
+| U-196 | Docs link one-shot | Node local Markdown link checker | 通过 | 125 Markdown files、61 local links、0 missing |
+| U-197 | Secret-like scan | high-confidence `rg` scan | 通过 | 1 synthetic test token hit；排除该测试样本后 0 hits |
+| U-198 | Skill alignment | repo packaged / local skill review | 通过 | packaged skill 已补齐 `upgrade` / release alignment wording；不发布 skill |
+| U-198 | Skill package focused regression | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | 通过 | 初次 full benchmark 发现缺少 `Observed result after edit:` 契约句，补回后 focused regression 2/2 pass |
+| U-191 - U-200 | Benchmark regression | `npm run benchmark:test` | 通过 | 修复 skill trigger contract 后 85/85 pass；generated result churn 已还原 |
+| U-191 - U-200 | Diff whitespace | `git diff --check` | 通过 | 全树 diff whitespace clean |
+
+## 本轮返工记录：R-2026-05-12-12
+
+| 问题 | 根因 | 修复 | 再验证 |
+|---|---|---|---|
+| `benchmark:test` 中 `aods-use skill stays release-aligned...` 失败 | 本轮更新 packaged skill 时删除了测试要求保留的 `Observed result after edit:` trigger contract 句 | 补回该契约句，保留新增 `upgrade` / release alignment wording | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` 2/2 pass；`npm run benchmark:test` 85/85 pass |
+
+## 新发现任务：R-2026-05-12-12
+
+本轮新增 U-201 到 U-230。下一轮默认选择 U-201 到 U-210。
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-200 | U-201 - U-210 | release closeout dry-run next slice | P1-P2 | PR final freshness、close refs audit、release notes body、package / release gates、owner go/no-go | 未完成任务表前 10 |
+| U-200 | U-211 - U-220 | local hygiene automation | P2-P3 | docs link / secret / package / generated artifact / skill checks 可重复 | U-201 - U-210 后 |
+| U-200 | U-221 - U-230 | conformance / diagnostics next implementation slice | P1-P3 | conformance manifest/report/runner、negative fixture second slice、validator dependency diagnostics | U-211 - U-220 后 |
+
+## 回合结束摘要：R-2026-05-12-12
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-191 到 U-200 |
+| 完成任务 | 10 | release closeout readiness、local hygiene repeatability、skill alignment、handoff 和 task discovery 已完成 |
+| 返工项 | 1 | 本轮修复 packaged skill trigger contract 缺行，并重新通过 focused / benchmark regressions |
+| 失败任务 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 30 | U-201 到 U-230 |
+| 剩余未完成任务 | 30 | 下一轮默认选择 U-201 到 U-210 |
+
 ## 回合摘要：R-2026-05-12-11
 
 | 项 | 内容 |
