@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | route validate regression hardening complete |
+| 状态 | operations public sync hygiene complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S89 operations memory and public sync hygiene |
-| 当前回合 | R-2026-05-13-53 |
-| 未完成任务数量 | 20 |
-| 已完成任务数量 | 716 |
+| 当前阶段 | S90 final semantic candidate decisions |
+| 当前回合 | R-2026-05-13-54 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 726 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-53 |
-| 开始时间 | 2026-05-13 35:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-54 |
+| 开始时间 | 2026-05-13 22:24 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-702、U-703、U-704、U-705、U-706、U-707、U-708、U-709、U-710、U-711 |
-| 本轮范围 | 上轮质量复审；route adoption query miss regression；route overread regression；validate location envelope regression；remediation compatibility audit；docs sample refresh decision；CLI help / install smoke docs parity；strict warning troubleshooting sample decision；package allowlist decision；generated hygiene after package smoke；conformance report sample no-refresh revisit |
-| 排除范围 | route ranking rewrite、docs indexer、semantic judge、validator schema breaking change、conformance report schema change、package allowlist expansion、npm publish、version bump、tag creation、GitHub Release creation、workflow creation、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；focused route/validate regression test；package install smoke；release hygiene final；docs link check；package surface check；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-712、U-713、U-714、U-715、U-716、U-717、U-718、U-719、U-720、U-721 |
+| 本轮范围 | 上轮质量复审；knowledge base write decision；installed skill sync decision；operations topic table archive/generator revisit；task ledger archive sync；handoff next pool compression；round log short-entry discipline；AGENTS proxy / GitHub note parity；`#60` body checkbox reconciliation decision；`#64` runtime fixture comment decision；milestone no-go revisit |
+| 排除范围 | knowledge base structure creation、installed skill overwrite、operations generator、task ledger archive split、GitHub issue body edit/comment、milestone creation、schema/validator/runtime/package changes、npm publish、version bump、tag creation、GitHub Release creation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；knowledge base structure read；GitHub issue/milestone read；docs link check；package surface check；release hygiene final；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-712 | S89 | Knowledge base write after post-v0.9 retrospective | P3 | 未开始 | 判断是否把复盘写入知识库 | U-680 | KB |
-| U-713 | S89 | MEMORY installed skill sync execution decision | P3 | 未开始 | 复核是否仍不覆盖 installed skill | U-659 | local only |
-| U-714 | S89 | Operations topic table archive/generator revisit | P3 | 未开始 | 判断 operations topic table 是否需要归档或生成器 | U-655 | - |
-| U-715 | S89 | Task ledger new pool archive sync | P3 | 未开始 | 复核新任务池是否需要归档同步 | U-681 | - |
-| U-716 | S89 | Handoff next pool compression | P3 | 未开始 | 压缩 handoff 的下一任务池说明 | U-681 | - |
-| U-717 | S89 | Round log short-entry discipline check | P3 | 未开始 | 复核 round log 是否继续保持短记录 | U-652 | - |
-| U-718 | S89 | AGENTS proxy / GitHub note parity audit | P3 | 未开始 | 复核 AGENTS / MEMORY 对 proxy 和 GitHub 授权记录一致 | U-658 | - |
-| U-719 | S89 | Public issue `#60` body checkbox reconciliation decision | P3 | 未开始 | 判断 `#60` body 是否需要再次同步当前状态 | U-681 | GitHub |
-| U-720 | S89 | Public issue `#64` runtime fixture progress comment decision | P3 | 未开始 | 判断 `#64` 是否需要补充静态前置进展评论 | U-691 | GitHub |
-| U-721 | S89 | Milestone no-go revisit after new pool | P3 | 未开始 | 复核新任务池下是否仍不创建 milestone | U-681 | GitHub |
 | U-722 | S90 | Projection guidance source-first candidate | P2 | 未开始 | 判断 projection guidance 是否可进入 source-first candidate | U-672 | no replay |
 | U-723 | S90 | Event correction projection negative fixture | P2 | 未开始 | 设计缺 projection guidance evidence 的负例 | U-722 | no event store |
 | U-724 | S90 | Policy decision static shape second review | P3 | 未开始 | 第二次复核 policy decision static shape | U-674 | no engine |
@@ -60,16 +50,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 687 | U-682 | S86 | Provider discovery source-first candidate insertion plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | plan only, no authoring edit |
-| 688 | U-683 | S86 | Provider evidence negative fixture implementation plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | first negative fixture candidate sorted |
-| 689 | U-684 | S86 | Runtime protocol schema minimal slice decision | P2 | 2026-05-13 | provider discovery hardening doc | release hygiene | schema gate remains closed |
-| 690 | U-685 | S86 | Runtime protocol non-execution regression implementation plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | focused regression before conformance |
-| 691 | U-686 | S86 | Provider discovery docs short note decision | P3 | 2026-05-13 | provider discovery hardening doc | docs link check | no public docs note yet |
-| 692 | U-687 | S86 | Auth boundary source-first candidate plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | second candidate after provider evidence |
-| 693 | U-688 | S86 | Probe cost negative fixture plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | network cost boundary candidate |
-| 694 | U-689 | S86 | Fallback ranking overclaim regression plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | structured-field first, no text judge |
-| 695 | U-690 | S86 | Adapter handshake audit negative fixture plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | later candidate after auth/discovery shape |
-| 696 | U-691 | S86 | Runtime protocol `#64` progress sync decision | P3 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/64#issuecomment-4441211144` | `gh issue comment 64` | status comment posted without runtime overclaim |
 | 697 | U-692 | S87 | Package install smoke release gate integration decision | P2 | 2026-05-13 | release gate integration doc / `scripts/release-hygiene.mjs` | `npm run release:hygiene` | package smoke integrated into release hygiene |
 | 698 | U-693 | S87 | v0.9.1 version bump execution gate | P2 | 2026-05-13 | release gate integration doc | release hygiene | no bump/tag/release this round |
 | 699 | U-694 | S87 | v0.9.1 release notes final draft | P3 | 2026-05-13 | release gate integration doc | docs link check | draft ready, not published |
@@ -90,12 +70,22 @@
 | 714 | U-709 | S88 | Package surface allowlist update for new script decision | P3 | 2026-05-13 | route/validate regression hardening doc | package surface check | package entry count unchanged |
 | 715 | U-710 | S88 | Generated hygiene after package smoke script | P3 | 2026-05-13 | route/validate regression hardening doc | release hygiene | tarball/temp/generated clean verified |
 | 716 | U-711 | S88 | Conformance report sample no-refresh revisit | P3 | 2026-05-13 | route/validate regression hardening doc | docs link check | conformance sample unchanged |
+| 717 | U-712 | S89 | Knowledge base write after post-v0.9 retrospective | P3 | 2026-05-13 | operations public sync hygiene doc | knowledge structure read / docs link check | no KB write; required root navigation files absent |
+| 718 | U-713 | S89 | MEMORY installed skill sync execution decision | P3 | 2026-05-13 | operations public sync hygiene doc | skill diff / docs link check | installed skill not overwritten |
+| 719 | U-714 | S89 | Operations topic table archive/generator revisit | P3 | 2026-05-13 | operations public sync hygiene doc | docs link check | hand-maintained table retained |
+| 720 | U-715 | S89 | Task ledger new pool archive sync | P3 | 2026-05-13 | task ledger | task ledger count check | no archive split needed |
+| 721 | U-716 | S89 | Handoff next pool compression | P3 | 2026-05-13 | handoff | docs link check | next pool compressed to U-722..U-731 |
+| 722 | U-717 | S89 | Round log short-entry discipline check | P3 | 2026-05-13 | round log | docs link check | short-entry discipline retained |
+| 723 | U-718 | S89 | AGENTS proxy / GitHub note parity audit | P3 | 2026-05-13 | operations public sync hygiene doc / MEMORY | docs link check | proxy and GitHub authorization notes aligned |
+| 724 | U-719 | S89 | Public issue `#60` body checkbox reconciliation decision | P3 | 2026-05-13 | `gh issue view 60` | GitHub issue read / docs link check | no body/comment edit |
+| 725 | U-720 | S89 | Public issue `#64` runtime fixture progress comment decision | P3 | 2026-05-13 | `gh issue view 64` | GitHub issue read / docs link check | no new comment |
+| 726 | U-721 | S89 | Milestone no-go revisit after new pool | P3 | 2026-05-13 | `gh api repos/emosamastudio/aods/milestones` | GitHub milestone read / docs link check | zero milestones; no create |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-712 到 U-721 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-722 到 U-731 |
 
 ## 负责人判断 / issue 分类
 
@@ -104,7 +94,7 @@
 | public roadmap | #60 | 保持 open；v0.9 current-status body section 已插入 | 后续继续作为 roadmap index |
 | observability | #59 | 已关闭 metadata/reporting scope | 后续 runtime/dashboard/trace backend 不在当前 release 范围 |
 | capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` 已追加第二条静态前置进展，后续先做静态前置而非 runtime |
-| milestone | GitHub milestones | 当前无 milestone；v0.9 已发布；本轮决定继续不创建 | 新任务池仍由台账驱动 |
+| milestone | GitHub milestones | 当前无 milestone；v0.9 已发布；本轮再次决定继续不创建 | 新任务池仍由台账驱动 |
 
 ## 新发现任务暂存区
 
@@ -116,4 +106,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；route / validate focused regression 已新增并纳入 release hygiene；顶层 help 已补 `--explain-skipped`；docs samples、package allowlist 和 conformance sample 均无需刷新；下一轮默认 U-712 到 U-721。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；route / validate focused regression 已新增并纳入 release hygiene；operations / MEMORY / public issue / milestone sync hygiene 已完成；未改 GitHub issue body/comment，未创建 milestone；下一轮默认 U-722 到 U-731。

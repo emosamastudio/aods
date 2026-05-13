@@ -51,6 +51,7 @@
 | [aods-provider-discovery-hardening.zh-CN.md](./aods-provider-discovery-hardening.zh-CN.md) | U-682 到 U-691 provider discovery candidate / negative fixture / non-execution hardening |
 | [aods-release-gate-integration.zh-CN.md](./aods-release-gate-integration.zh-CN.md) | U-692 到 U-701 release gate integration / patch no-go / CI and npm owner gates |
 | [aods-route-validate-regression-hardening.zh-CN.md](./aods-route-validate-regression-hardening.zh-CN.md) | U-702 到 U-711 route / validate regression hardening and sample refresh decisions |
+| [aods-operations-public-sync-hygiene.zh-CN.md](./aods-operations-public-sync-hygiene.zh-CN.md) | U-712 到 U-721 operations memory / public issue / milestone sync hygiene |
 
 ## 当前公开示例入口
 
