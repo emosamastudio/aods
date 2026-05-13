@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { createRequire } from "node:module";
+
 import { runCompileCommand } from "../lib/compile.mjs";
 import { runConformanceCommand } from "../lib/conformance.mjs";
 import { runFixtureCommand } from "../lib/fixture-smoke.mjs";
@@ -9,10 +11,14 @@ import { runScaffoldCommand } from "../lib/scaffold.mjs";
 import { runUpgradeCommand } from "../lib/upgrade.mjs";
 import { runValidateCommand } from "../lib/validate.mjs";
 
+const require = createRequire(import.meta.url);
+const packageJson = require("../package.json");
+
 function printUsage() {
   console.log(`AODS CLI
 
 Usage:
+  aods --version
   aods validate [root] [--json] [--strict] [--reality] [--repo-root <path>]
   aods route [root] [--role <role-id>] [--touch <path>] [--query <text>] [--stage <stage>] [--intent <intent>] [--json]
   aods hook pre-commit [root] [--staged] [--repo-root <path>] [--file <path>]... [--json]
@@ -28,6 +34,7 @@ Usage:
   aods scaffold authoring-pair <source-file> --pair-id <pair-id> --agent-primary <module-id> --human-primary <path> [--agent-supporting <module-id>]... [--human-supporting <path>]... [--scope <scope>] [--sync-source <sync-source>] [--status <status>] [--source-path <relative-path>] [--generated-profile <profile>] [--generated-mode <mode>] [--generated-title <text>] [--route-intent <intent>] [--route-reason <text>] [--force]
 
 Commands:
+  version    Print the installed AODS package version.
   validate   Validate AODS corpus rooted at [root]. Default: current directory.
   route      Resolve minimal module load set for a role, touched file, lexical query, and optional task stage.
   hook       Run hookable enforcement helpers such as pre-commit validation.
@@ -63,6 +70,11 @@ Allowed values:
 
 async function main(argv) {
   const [command, ...args] = argv;
+
+  if (command === "-v" || command === "--version" || command === "version") {
+    console.log(packageJson.version);
+    return;
+  }
 
   if (!command || command === "-h" || command === "--help") {
     printUsage();

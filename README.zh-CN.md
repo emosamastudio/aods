@@ -120,6 +120,7 @@ npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.9.0
 2. 确认 CLI 可用：
 
 ```bash
+npx aods --version
 npx aods --help
 ```
 
@@ -427,6 +428,8 @@ npm run validate:all
 ```
 
 ### 安全采用 v0.9
+
+更短的安装和排障路径见 [`docs/adoption-quickstart.md`](./docs/adoption-quickstart.md) 和 [`docs/adoption-troubleshooting.md`](./docs/adoption-troubleshooting.md)。
 
 1. 从 `v0.9.0` GitHub Release tag 或当前 package source 安装。
 2. 如果项目能维护 `authoring.json`，优先走 source-first authoring。

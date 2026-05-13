@@ -120,6 +120,7 @@ npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.9.0
 2. Verify the CLI is available:
 
 ```bash
+npx aods --version
 npx aods --help
 ```
 
@@ -429,6 +430,8 @@ npm run validate:all
 ```
 
 ### Adopt v0.9 safely
+
+For a shorter install and troubleshooting path, see [`docs/adoption-quickstart.md`](./docs/adoption-quickstart.md) and [`docs/adoption-troubleshooting.md`](./docs/adoption-troubleshooting.md).
 
 1. Install from the `v0.9.0` GitHub Release tag or current package source.
 2. Use source-first authoring when your project can own an `authoring.json`.

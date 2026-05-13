@@ -17,6 +17,8 @@
 | 路径 | 作用 |
 |---|---|
 | `docs/README.md` | AODS 仓库内部维护入口。 |
+| `docs/adoption-quickstart.md` | 外部项目采用 AODS 的最短 release-tag 路径。 |
+| `docs/adoption-troubleshooting.md` | 外部采用常见失败模式和排障命令。 |
 | `docs/operations/README.md` | operations 子目录入口，列出当前权威治理面。 |
 | `docs/examples/README.md` | 面向公开文档和 issue 的短样例入口。 |
 | `docs/operations/aods-task-ledger.zh-CN.md` | 当前权威任务台账。 |
@@ -47,6 +49,7 @@
 | `docs/operations/aods-code-drift-validator-hardening-review.zh-CN.md` | U-602 到 U-611 code drift validator hardening review 记录。 |
 | `docs/operations/aods-static-records-adoption-followup.zh-CN.md` | U-612 到 U-621 static records / adoption follow-up 记录。 |
 | `docs/operations/aods-adoption-closeout-next-pool.zh-CN.md` | U-622 到 U-631 adoption closeout / next task pool 记录。 |
+| `docs/operations/aods-adoption-ergonomics-hardening.zh-CN.md` | U-632 到 U-641 adoption docs / CLI version ergonomics hardening 记录。 |
 | `docs/operations/archive/` | 拆分前的长入口、完整任务台账和完整交接归档。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |

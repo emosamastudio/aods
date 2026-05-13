@@ -2,6 +2,70 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-46
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-46 |
+| 开始时间 | 2026-05-13 28:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 28:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-45 复审；README troubleshooting short page implementation；external adoption quickstart doc split；compiled corpus smoke package sample docs；release source archive validation script decision；CLI version ergonomics review；npm publish criteria packet refresh；installed skill refresh owner action packet；docs examples package inclusion revisit；conformance public sample minimal doc decision；compiled-corpus validation troubleshooting sample；不实现 schema/validator/fixture/runtime、不执行 public issue write、不发布 npm、不覆盖 installed skill、不执行 adapter/provider/auth/dynamic probing/fallback executor/migration executor/database、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-632、U-633、U-634、U-635、U-636、U-637、U-638、U-639、U-640、U-641 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-46
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `bb98572 Record adoption closeout and next task pool` |
+| Task ledger state | 通过 | U-632 到 U-641 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 adoption closeout 后的 ergonomics hardening |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-632 到 U-641 |
+
+## 任务执行记录：R-2026-05-13-46
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-632 | 未开始 | 已完成 | 新增 troubleshooting 短页并从中英文 README 链接 | `docs/adoption-troubleshooting.md` |
+| 2 | U-633 | 未开始 | 已完成 | 拆出 external adoption quickstart | `docs/adoption-quickstart.md` |
+| 3 | U-634 | 未开始 | 已完成 | 记录 package 内 compiled-pilot validate / route 样例 | quickstart compiled-corpus section |
+| 4 | U-635 | 未开始 | 已完成 | 判断不新增 release archive validation script | adoption ergonomics hardening doc |
+| 5 | U-636 | 未开始 | 已完成 | 增加 CLI version 命令并补 regression | `bin/aods.mjs` / scaffold test |
+| 6 | U-637 | 未开始 | 已完成 | 刷新 npm publish owner gate | adoption ergonomics hardening doc |
+| 7 | U-638 | 未开始 | 已完成 | 整理 installed skill refresh owner action packet | adoption ergonomics hardening doc |
+| 8 | U-639 | 未开始 | 已完成 | 复核 `docs/examples/` 继续不进 package | package surface check |
+| 9 | U-640 | 未开始 | 已完成 | 决定 conformance public sample 保持 command-only | quickstart conformance smoke |
+| 10 | U-641 | 未开始 | 已完成 | 补 normal vs reality validation troubleshooting | `docs/adoption-troubleshooting.md` |
+
+## 返工记录：R-2026-05-13-46
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| 无 | 无需返工 | 上轮质量复审通过，本轮新增内容 focused regression 通过 |
+
+## 验证记录：R-2026-05-13-46
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| CLI version + scaffold regression | `node ./bin/aods.mjs --version && node ./bin/aods.mjs version && node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 39 tests pass；版本输出为 `0.9.0` |
+| Docs links | `npm run docs:check-links -- --json` | 通过 | 写入最终文档后复跑 |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | `docs/examples/` 仍不进入 package |
+| Release hygiene | `npm run release:hygiene` | 通过 | 最终 gate |
+
+## 回合结束摘要：R-2026-05-13-46
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-632 到 U-641 |
+| 完成任务 | 10 | U-632 到 U-641 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-642 到 U-651 |
+
 ## 回合摘要：R-2026-05-13-45
 
 | 项 | 内容 |

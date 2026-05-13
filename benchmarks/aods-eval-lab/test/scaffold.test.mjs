@@ -18,10 +18,16 @@ function runCli(args) {
 
 test("CLI help and compile errors expose allowed enum values", () => {
   const help = runCli(["--help"]);
+  assert.match(help, /aods --version/);
+  assert.match(help, /version\s+Print the installed AODS package version\./);
   assert.match(help, /authoring-module/);
   assert.match(help, /aods compile <source-file> <target-dir> \[--json\] \[--strict\] \[--force\]/);
   assert.match(help, /module category: architecture \| protocol \| schema \| workflow \| policy \| config \| reference \| artifact \| capsule/);
   assert.match(help, /module scaffold pattern: implementation-governance/);
+
+  const packageJson = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "package.json"), "utf8"));
+  assert.equal(runCli(["--version"]).trim(), packageJson.version);
+  assert.equal(runCli(["version"]).trim(), packageJson.version);
 
   const routeHelp = runCli(["route", "--help"]);
   assert.match(routeHelp, /aods route \[root\] \[--role <role-id>\]/);
