@@ -1,0 +1,47 @@
+{
+  "action": "conformance run",
+  "status": "pass",
+  "accepted": true,
+  "suite_id": "compiled-pilot-fixture-conformance",
+  "summary": {
+    "cases": 4,
+    "passed": 4,
+    "failed": 0,
+    "expected_failures": 2
+  },
+  "cases": [
+    {
+      "id": "fixture-manifest-smoke",
+      "kind": "fixture-smoke",
+      "status": "pass",
+      "expected_status": "pass",
+      "matched_rules": []
+    },
+    {
+      "id": "negative-fixture-invalid-kind",
+      "kind": "fixture-smoke",
+      "status": "fail",
+      "expected_status": "fail",
+      "matched_rules": [
+        "fixture-kind"
+      ]
+    },
+    {
+      "id": "negative-fixture-missing-input-path",
+      "kind": "fixture-smoke",
+      "status": "fail",
+      "expected_status": "fail",
+      "matched_rules": [
+        "fixture-input-path"
+      ]
+    },
+    {
+      "id": "compiled-pilot-strict-reality",
+      "kind": "validate",
+      "status": "pass",
+      "expected_status": "pass",
+      "matched_rules": []
+    }
+  ],
+  "issues": []
+}

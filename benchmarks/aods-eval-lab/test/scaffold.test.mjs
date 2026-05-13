@@ -351,7 +351,7 @@ test("compile --strict turns warning-only output into a failing gate", () => {
   assert.ok(strictJson.validation.warnings > 0);
 });
 
-test("changelog delta uses a soft warning before the hard schema limit", () => {
+test("changelog delta warns in normal validation, blocks strict validation, and hard-fails above schema limit", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-changelog-delta-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
 

@@ -432,6 +432,23 @@ node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixt
 
 The smoke command checks fixture manifest outcome fields and declared input/golden paths. The source-first pilot also declares a first slice of negative fixture manifests for missing golden paths and invalid expected-rule contracts. Smoke still does not execute golden update commands or act as a full conformance runner.
 
+Run the read-only conformance suite when you want fixture-smoke and validate cases in one report:
+
+```bash
+npm run conformance:compiled-pilot
+node ./bin/aods.mjs conformance run ./examples/compiled-pilot-source/fixtures/conformance-manifest.json --json
+```
+
+Conformance cases may expect failure. A suite can still pass when a negative fixture fails for the declared rule, because the failure is the expected outcome. The runner does not fetch remote repositories, call providers, or execute fixture update commands.
+
+Changelog entries use a two-step length policy:
+
+| `changelog[].delta` length | Normal validation | Strict validation |
+|---:|---|---|
+| `<= 300` characters | pass | pass |
+| `301-500` characters | warning | fail because strict treats warnings as failures |
+| `> 500` characters | schema error | schema error |
+
 Direct CLI usage:
 
 ```bash

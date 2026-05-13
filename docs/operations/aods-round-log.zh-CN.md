@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-13
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-13 |
+| 开始时间 | 2026-05-13 13:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 14:15 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-12 复审；changelog issue post-close audit；changelog docs example refresh；changelog regression naming cleanup；strict-warning behavior docs；conformance suite release docs；conformance report sample；conformance no-fetch public note；fixture expected-fail docs；generated clean guard docs；package surface allowlist docs；不实现 runtime、不 remote fetch、不执行 provider、不启用 CI、不发布 package、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-311、U-312、U-313、U-314、U-315、U-316、U-317、U-318、U-319、U-320 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-13
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Task ledger state | 通过 | U-311 到 U-330 已入未完成任务表，下一轮默认 U-311 到 U-320 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-311 到 U-320 |
+
+## 任务执行记录：R-2026-05-13-13
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-311 | 未开始 | 已完成 | 审查 `#13` post-close 后 changelog 当前行为 | `aods-changelog-conformance-docs-followup.zh-CN.md` |
+| 2 | U-312 | 未开始 | 已完成 | 给 README 增加 300 / 500 normal vs strict 行为表 | `README.md`、`README.zh-CN.md` |
+| 3 | U-313 | 未开始 | 已完成 | 清理 changelog 回归测试名称 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs` |
+| 4 | U-314 | 未开始 | 已完成 | 说明 warning 在 normal gate 与 strict gate 的差异 | `aods-changelog-conformance-docs-followup.zh-CN.md` |
+| 5 | U-315 | 未开始 | 已完成 | 写 conformance suite 本地运行示例 | `README.md`、`README.zh-CN.md`、operation docs |
+| 6 | U-316 | 未开始 | 已完成 | 保存小型 conformance JSON report sample | `aods-conformance-report-sample.json` |
+| 7 | U-317 | 未开始 | 已完成 | 明确 conformance no-fetch / no provider / no update command | `README.md`、`README.zh-CN.md`、operation docs |
+| 8 | U-318 | 未开始 | 已完成 | 解释 expected failures 仍可使 suite pass | `README.md`、`README.zh-CN.md`、operation docs |
+| 9 | U-319 | 未开始 | 已完成 | 记录 generated clean guard 检查目录和接受规则 | `aods-changelog-conformance-docs-followup.zh-CN.md` |
+| 10 | U-320 | 未开始 | 已完成 | 记录 package surface allowlist 更新流程 | `aods-changelog-conformance-docs-followup.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-13
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Conformance JSON source | `node ./bin/aods.mjs conformance run ./examples/compiled-pilot-source/fixtures/conformance-manifest.json --json` | 通过 | 4 cases、2 expected failures、suite pass |
+| Generated clean JSON | `npm run generated:check-clean -- --json` | 通过 | dirty_entries=[] |
+| Package surface JSON | `npm run package:check-surface -- --json` | 通过 | missing=[]、unexpected=[] |
+
+## 新发现任务：R-2026-05-13-13
+
+本轮没有新增任务 ID。剩余未完成任务为 U-321 到 U-330，下一轮默认选择 U-321 到 U-330。
+
+## 回合结束摘要：R-2026-05-13-13
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-311 到 U-320 |
+| 完成任务 | 10 | U-311 到 U-320 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-321 到 U-330 |
+
 ## 回合摘要：R-2026-05-13-12
 
 | 项 | 内容 |

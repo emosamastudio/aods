@@ -136,6 +136,7 @@
 | `aods-observability-next-slice.zh-CN.md` | U-281 到 U-290 validation / routing observability next slice，记录 validator location envelope、suggested-action coverage、route skipped-module boundary、README refresh 和 `#59` public status | 高 |
 | `aods-capability-governance-next-slice.zh-CN.md` | U-291 到 U-300 capability / governance next slice，记录 fallback metadata、static protocol surface、fixture plan、`#41` public status 和 `#60` tracker audit | 高 |
 | `aods-release-hygiene-skill-drift-followup.zh-CN.md` | U-301 到 U-310 release hygiene / install smoke / release artifact / skill drift follow-up，记录 post-v0.8 stale reference audit、CI decision 和本地 skill update route | 高 |
+| `aods-changelog-conformance-docs-followup.zh-CN.md` | U-311 到 U-320 changelog / conformance / generated / package docs follow-up，记录 `#13` post-close audit、300/500 行为、conformance sample、no-fetch、expected-failure、generated guard 和 package allowlist | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -274,8 +275,9 @@
 129. 读 `aods-observability-next-slice.zh-CN.md`
 130. 读 `aods-capability-governance-next-slice.zh-CN.md`
 131. 读 `aods-release-hygiene-skill-drift-followup.zh-CN.md`
-132. 读 `aods-v0.7-rc-gate.zh-CN.md`
-133. 读 `aods-handoff.zh-CN.md`
+132. 读 `aods-changelog-conformance-docs-followup.zh-CN.md`
+133. 读 `aods-v0.7-rc-gate.zh-CN.md`
+134. 读 `aods-handoff.zh-CN.md`
 133. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
@@ -324,4 +326,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-310 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery / final readiness packet / post-conformance release hardening / terminology drift boundary / release dry-run refresh / post-v0.8 hygiene / skill drift follow-up；v0.8 已发布，当前仍不实现 runtime、不发布新 release、不 bump version。
+8. U-085 到 U-320 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery / final readiness packet / post-conformance release hardening / terminology drift boundary / release dry-run refresh / post-v0.8 hygiene / skill drift / conformance docs follow-up；v0.8 已发布，当前仍不实现 runtime、不发布新 release、不 bump version。

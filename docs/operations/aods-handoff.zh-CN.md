@@ -3,11 +3,11 @@
 日期：2026-05-13
 分支：`main`
 最新提交：以 `git log -1 --oneline` 为准（v0.8 version bump commit 为 `661d66a`；PR `#63` squash merge commit 为 `468eb9f`）
-状态：v0.8 released；post-v0.8 hygiene follow-up complete
+状态：v0.8 released；changelog / conformance docs follow-up complete
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-310 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-311 到 U-330；下一轮默认选择 U-311 到 U-320，优先推进 changelog post-close audit、conformance release docs、generated/package guard docs 和 fixture semantics 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-320 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-321 到 U-330；下一轮默认选择 U-321 到 U-330，优先推进 code drift、terminology drift、glossary enforcement、docs density、external citation、resource surface、runtime no-go 和 next release naming 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -142,7 +142,8 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 127 | `docs/operations/aods-observability-next-slice.zh-CN.md` | 读取 U-281 到 U-290 validation / routing observability 结果 |
 | 128 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | 读取 U-291 到 U-300 capability / governance 结果 |
 | 129 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | 读取 U-301 到 U-310 release hygiene / skill drift follow-up |
-| 130 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 130 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | 读取 U-311 到 U-320 changelog / conformance docs follow-up |
+| 131 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
 | 130 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
 | 131 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
@@ -424,16 +425,16 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-311 | Changelog issue post-close audit | 下一轮默认首选 |
-| 2 | U-312 | Changelog docs example refresh | U-311 后执行 |
-| 3 | U-313 | Changelog regression naming cleanup | U-311 后执行 |
-| 4 | U-314 | Strict-warning behavior docs | U-312 后执行 |
-| 5 | U-315 | Conformance suite release docs | U-271 后执行 |
-| 6 | U-316 | Conformance report sample | U-315 后执行 |
-| 7 | U-317 | Conformance no-fetch public note | U-315 后执行 |
-| 8 | U-318 | Fixture expected-fail docs | U-315 后执行 |
-| 9 | U-319 | Generated clean guard docs | U-271 后执行 |
-| 10 | U-320 | Package surface allowlist docs | U-271 后执行 |
+| 1 | U-321 | Code drift next slice revisit | 下一轮默认首选 |
+| 2 | U-322 | Stable terminology drift implementation gate | U-321 后执行 |
+| 3 | U-323 | Glossary enforcement next slice | U-322 后执行 |
+| 4 | U-324 | Lifecycle alias negative fixture | U-323 后执行 |
+| 5 | U-325 | Docs density lint feasibility | U-280 后执行 |
+| 6 | U-326 | External citation public docs | U-280 后执行 |
+| 7 | U-327 | Resource surface docs follow-up | U-280 后执行 |
+| 8 | U-328 | Runtime no-go summary refresh | U-280 后执行 |
+| 9 | U-329 | v0.8 adoption checklist | U-280 后执行 |
+| 10 | U-330 | Next release naming guard | U-280 后执行 |
 
 ## 失败和风险
 
@@ -519,13 +520,13 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-311 | Changelog issue post-close audit | 确认 `#13` 关闭后无残留 blocker 引用 |
-| 2 | U-312 | Changelog docs example refresh | 300/500 行为示例 |
-| 3 | U-313 | Changelog regression naming cleanup | warning vs hard fail test naming review |
-| 4 | U-314 | Strict-warning behavior docs | normal validate vs strict validate 差异 |
-| 5 | U-315 | Conformance suite release docs | 外部使用者本地 conformance run 示例 |
-| 6 | U-316 | Conformance report sample | 小型 JSON report sample |
-| 7 | U-317 | Conformance no-fetch public note | runner no-fetch / no provider execution note |
-| 8 | U-318 | Fixture expected-fail docs | expected failures semantics |
-| 9 | U-319 | Generated clean guard docs | generated hygiene directory scope |
-| 10 | U-320 | Package surface allowlist docs | allowlist review flow |
+| 1 | U-321 | Code drift next slice revisit | 复查 implementation evidence / acceptance 后下一步 |
+| 2 | U-322 | Stable terminology drift implementation gate | 判断 start/begin fixture 是否应该落地 |
+| 3 | U-323 | Glossary enforcement next slice | 选择 structured term refs 的最小实现路线 |
+| 4 | U-324 | Lifecycle alias negative fixture | 如果 U-322 通过，则实现最小负例 |
+| 5 | U-325 | Docs density lint feasibility | 只做 feasibility，不做 linter |
+| 6 | U-326 | External citation public docs | citation registry adoption snippet |
+| 7 | U-327 | Resource surface docs follow-up | resource surface non-runtime warning |
+| 8 | U-328 | Runtime no-go summary refresh | 汇总 deferred runtime |
+| 9 | U-329 | v0.8 adoption checklist | 最短采用检查清单 |
+| 10 | U-330 | Next release naming guard | v0.8 后下一 release 版本面守卫 |

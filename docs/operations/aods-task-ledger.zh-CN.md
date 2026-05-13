@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 release hygiene / skill drift follow-up complete |
+| 状态 | post-v0.8 changelog / conformance docs follow-up complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S35 release hygiene / skill drift follow-up |
-| 当前回合 | R-2026-05-13-12 |
-| 未完成任务数量 | 20 |
-| 已完成任务数量 | 315 |
+| 当前阶段 | S36 conformance / generated / package docs follow-up |
+| 当前回合 | R-2026-05-13-13 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 325 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-12 |
-| 开始时间 | 2026-05-13 12:30 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-13 |
+| 开始时间 | 2026-05-13 13:30 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-301、U-302、U-303、U-304、U-305、U-306、U-307、U-308、U-309、U-310 |
-| 本轮范围 | 上轮质量复审；release-to-issue close report；post-v0.8 stale reference audit；handoff risk compression；operations index pruning plan；task ledger archive split plan；release hygiene CI reconsideration；v0.8 fresh install smoke；GitHub release artifact audit；installed `aods-use` skill drift check；skill install/update route plan |
-| 排除范围 | runtime implementation、CI workflow enablement、npm publish、local installed skill overwrite、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；v0.8 tag fresh install smoke；GitHub release / issue snapshot；repo packaged skill vs installed skill diff；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-311、U-312、U-313、U-314、U-315、U-316、U-317、U-318、U-319、U-320 |
+| 本轮范围 | 上轮质量复审；changelog issue post-close audit；changelog docs example refresh；changelog regression naming cleanup；strict-warning behavior docs；conformance suite release docs；conformance report sample；conformance no-fetch public note；fixture expected-fail docs；generated clean guard docs；package surface allowlist docs |
+| 排除范围 | runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；conformance JSON report smoke；generated/package JSON guard review；focused scaffold regression；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-311 | S35 | Changelog issue post-close audit | P2 | 未开始 | 确认 `#13` 关闭后无残留 blocker 引用 | U-274 | docs/GitHub |
-| U-312 | S35 | Changelog docs example refresh | P3 | 未开始 | 增加 300/500 行为示例 | U-311 | docs |
-| U-313 | S35 | Changelog regression naming cleanup | P3 | 未开始 | 审查 test name 是否清楚表达 warning vs hard fail | U-311 | tests |
-| U-314 | S35 | Strict-warning behavior docs | P3 | 未开始 | 明确 normal validate 与 strict validate 对 warning 的差异 | U-312 | docs |
-| U-315 | S36 | Conformance suite release docs | P2 | 未开始 | 为外部使用者写本地 conformance run 示例 | U-271 | docs |
-| U-316 | S36 | Conformance report sample | P2 | 未开始 | 保存一个小型 JSON report sample | U-315 | sample |
-| U-317 | S36 | Conformance no-fetch public note | P2 | 未开始 | 明确 runner 不 remote fetch / 不执行 provider | U-315 | docs |
-| U-318 | S36 | Fixture expected-fail docs | P2 | 未开始 | 解释 suite pass with expected failures 的语义 | U-315 | docs |
-| U-319 | S36 | Generated clean guard docs | P2 | 未开始 | 记录哪些目录被视为 generated hygiene | U-271 | docs |
-| U-320 | S36 | Package surface allowlist docs | P2 | 未开始 | 记录 allowlist 变更审查流程 | U-271 | docs |
 | U-321 | S37 | Code drift next slice revisit | P2 | 未开始 | 复查 implementation evidence / acceptance 后下一步 | U-280 | drift |
 | U-322 | S37 | Stable terminology drift implementation gate | P2 | 未开始 | 判断 start/begin fixture 是否应该落地 | U-321 | terminology |
 | U-323 | S37 | Glossary enforcement next slice | P2 | 未开始 | 选择 structured term refs 的最小实现路线 | U-322 | glossary |
@@ -372,12 +362,22 @@
 | 313 | U-308 | S35 | GitHub release artifact audit | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | `gh release view v0.8.0 --json ...`、`git ls-remote --tags origin v0.8.0` | release published, non-draft, non-prerelease; tag ref exists; no assets |
 | 314 | U-309 | S35 | `aods-use` installed-skill drift check | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | repo packaged skill vs `/Users/emosama/.agents/skills/aods-use` diff | installed skill lags repo packaged skill on version, release, upgrade, fixture/conformance and CLI discovery |
 | 315 | U-310 | S35 | Skill install/update route plan | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | docs review | owner-triggered copy + verify route documented; no local overwrite this round |
+| 316 | U-311 | S35 | Changelog issue post-close audit | P2 | 2026-05-13 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | changelog docs / issue state review | `#13` closed state and 300 warning / 500 hard limit current behavior documented |
+| 317 | U-312 | S35 | Changelog docs example refresh | P3 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | docs review | public docs now include 300 / 500 normal vs strict behavior table |
+| 318 | U-313 | S35 | Changelog regression naming cleanup | P3 | 2026-05-13 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs` | focused test name review | regression name now states normal warning, strict block, and schema hard fail |
+| 319 | U-314 | S35 | Strict-warning behavior docs | P3 | 2026-05-13 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | docs review | normal gate vs strict gate warning behavior documented |
+| 320 | U-315 | S36 | Conformance suite release docs | P2 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | conformance JSON report smoke | external local conformance run commands documented |
+| 321 | U-316 | S36 | Conformance report sample | P2 | 2026-05-13 | `docs/operations/aods-conformance-report-sample.json` | `node ./bin/aods.mjs conformance run ... --json` | compact sample report saved with 4 cases and 2 expected failures |
+| 322 | U-317 | S36 | Conformance no-fetch public note | P2 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | docs review | runner no-fetch / no provider / no update command boundary documented |
+| 323 | U-318 | S36 | Fixture expected-fail docs | P2 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | conformance report review | suite pass with expected failures semantics documented |
+| 324 | U-319 | S36 | Generated clean guard docs | P2 | 2026-05-13 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | `npm run generated:check-clean -- --json` | checked paths and dirty diff acceptance rule documented |
+| 325 | U-320 | S36 | Package surface allowlist docs | P2 | 2026-05-13 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | `npm run package:check-surface -- --json` | allowlist update flow documented; current package surface clean |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-311 到 U-320，不直接启动 runtime |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-321 到 U-330，不直接启动 runtime |
 
 ## 负责人判断 / issue 分类
 

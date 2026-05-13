@@ -430,6 +430,23 @@ node ./bin/aods.mjs fixture smoke ./examples/compiled-pilot-source/fixtures/fixt
 
 这个 smoke command 只检查 fixture manifest 的 outcome 字段和声明的 input / golden path。source-first pilot 现在也声明了首批 negative fixture manifests，用来覆盖缺失 golden path 和 expected-rule contract 错误。它仍不执行 golden update command，也不是完整 conformance runner。
 
+如果希望把 fixture smoke 和 validate cases 汇总成一个只读报告，可以运行 conformance suite：
+
+```bash
+npm run conformance:compiled-pilot
+node ./bin/aods.mjs conformance run ./examples/compiled-pilot-source/fixtures/conformance-manifest.json --json
+```
+
+Conformance case 可以声明预期失败。negative fixture 如果按声明的 rule 失败，suite 仍然可以通过，因为这个失败就是预期结果。runner 不会抓取远端仓库、调用 provider，也不会执行 fixture update command。
+
+Changelog entry 使用两级长度策略：
+
+| `changelog[].delta` 长度 | 普通校验 | strict 校验 |
+|---:|---|---|
+| `<= 300` 字符 | 通过 | 通过 |
+| `301-500` 字符 | warning | 失败，因为 strict 会把 warning 当成失败 |
+| `> 500` 字符 | schema error | schema error |
+
 直接使用 CLI：
 
 ```bash
