@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；operations split and release planning complete
+状态：v0.8 released；v0.9 release candidate preparation complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-431 已完成；当前任务池已扩展到 U-432 到 U-481，下一轮默认执行 U-432 到 U-441，重点是 v0.9 release planning。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-441 已完成；当前任务池剩余 U-442 到 U-481，下一轮默认执行 U-442 到 U-451，重点是 public issue close criteria 和 roadmap / milestone packet。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -39,7 +39,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Observability | 完成一轮 | route skipped opt-in、validate location sample、#59 sync 已完成 |
 | Capability metadata | 完成一轮 | unsupported reason、fallback posture、compatibility gate、example/conformance 已落地 |
 | Operations split | 完成 | 旧长入口和完整历史已归档；当前入口变短 |
-| Release planning | 已规划 | 下一步默认进入 v0.9.0 RC planning，不发布、不打 tag |
+| Release planning | 已完成候选准备 | v0.9.0 release notes draft、package dry-run、packed install smoke 和 go/no-go 已入账；仍不发布、不打 tag |
 
 ## 当前风险
 
@@ -49,16 +49,16 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | README benchmark 手改 | benchmark sync 区块必须改 generator |
 | capability 过度承诺 | 当前只做 metadata；runtime negotiation / provider discovery / fallback ranking 仍 deferred |
 | public issue 提前关闭 | `#60/#59/#41` 保持 open；先做 close criteria matrix |
-| release version surface 漂移 | 下一 release 先做 U-432 到 U-441，不直接 bump/tag/release |
+| release version surface 漂移 | 下一 release 必须在同一 version-bump commit 中同步 package / README / skill；当前仍为 v0.8.0 |
 | operations 历史丢失 | 完整旧 README / task ledger / handoff 已在 `docs/operations/archive/` |
 
 ## 下一轮建议
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-432 | v0.9.0 version surface audit |
-| 2 | U-433 | v0.9.0 changelog preparation |
-| 3 | U-434 | v0.9.0 release notes draft |
-| 4 | U-435 | package dry-run audit |
-| 5 | U-436 | packed install smoke |
-| 6 | U-437 到 U-441 | release branch decision、public issue close readiness、go/no-go、skill sync、post-release checklist |
+| 1 | U-442 | capability issue close criteria matrix |
+| 2 | U-443 | capability protocol boundary doc refresh |
+| 3 | U-444 | capability fallback negative conformance fixture |
+| 4 | U-445 | capability public close decision |
+| 5 | U-446 到 U-449 | observability close criteria、route sample decision、location docs、telemetry no-go |
+| 6 | U-450 到 U-451 | public roadmap body refresh packet、milestone mapping packet |

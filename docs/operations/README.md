@@ -23,6 +23,7 @@
 | [aods-observability-capability-implementation.zh-CN.md](./aods-observability-capability-implementation.zh-CN.md) | U-402 到 U-411 observability / capability implementation |
 | [aods-capability-sample-maintenance.zh-CN.md](./aods-capability-sample-maintenance.zh-CN.md) | U-412 到 U-421 capability / sample maintenance |
 | [aods-operations-split-release-planning.zh-CN.md](./aods-operations-split-release-planning.zh-CN.md) | U-422 到 U-431 operations split / release planning |
+| [aods-v0.9-release-candidate-prep.zh-CN.md](./aods-v0.9-release-candidate-prep.zh-CN.md) | U-432 到 U-441 v0.9 release candidate preparation |
 
 ## 当前公开示例入口
 

@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-26
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-26 |
+| 开始时间 | 2026-05-13 13:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 13:55 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-25 复审；v0.9.0 version surface audit；changelog preparation；release notes draft；package dry-run audit；packed install smoke；release branch decision；public issue close readiness；go/no-go packet；packaged skill release sync check；post-release checklist refresh；不 bump version、不打 tag、不创建 GitHub Release、不关闭 issue、不编辑 issue body、不创建 milestone、不实现 runtime、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-432、U-433、U-434、U-435、U-436、U-437、U-438、U-439、U-440、U-441 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-26
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `04e2b7a Split operations docs and plan release tasks` |
+| Task ledger state | 通过 | U-432 到 U-441 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-432 到 U-441 |
+
+## 任务执行记录：R-2026-05-13-26
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-432 | 未开始 | 已完成 | 审查 package / README / release / skill version surface | `aods-v0.9-release-candidate-prep.zh-CN.md` |
+| 2 | U-433 | 未开始 | 已完成 | 准备 v0.9 changelog 输入 | release candidate prep doc |
+| 3 | U-434 | 未开始 | 已完成 | 起草 v0.9 GitHub Release body | release candidate prep doc |
+| 4 | U-435 | 未开始 | 已完成 | 执行 package dry-run audit | `npm pack --dry-run` |
+| 5 | U-436 | 未开始 | 已完成 | 执行 packed install smoke，覆盖 CLI help / validate / fixture / conformance | temp install smoke |
+| 6 | U-437 | 未开始 | 已完成 | 建议后续直接从 main 做 version-bump release | release candidate prep doc |
+| 7 | U-438 | 未开始 | 已完成 | 判断 `#60/#59/#41` 均未达到关闭条件 | GitHub issue snapshot / release candidate prep doc |
+| 8 | U-439 | 未开始 | 已完成 | 形成 go/no-go：技术 gate go，公开 release no-go | release candidate prep doc |
+| 9 | U-440 | 未开始 | 已完成 | 确认 packaged skill 仍与 v0.8.0 release 对齐 | skill surface / release hygiene |
+| 10 | U-441 | 未开始 | 已完成 | 更新 post-release checklist，不执行 release | release candidate prep doc |
+
+## 验证记录：R-2026-05-13-26
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| GitHub release snapshot | `gh release list --limit 5` | 通过 | latest release 为 `v0.8.0` |
+| GitHub issue snapshot | `gh issue list --state open` | 通过 | open issues 为 `#60/#59/#41` |
+| Milestone snapshot | GitHub milestones API | 通过 | 当前无 milestone |
+| Package dry-run | `npm pack --dry-run` | 通过 | `aods@0.8.0`，61 files |
+| Packed install smoke | local tarball temp install | 通过 | CLI help / validate / fixture / conformance 通过 |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=178, checked_relative_links=87, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-26
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-432 到 U-441 |
+| 完成任务 | 10 | U-432 到 U-441 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-442 到 U-451 |
+
 ## 回合摘要：R-2026-05-13-25
 
 | 项 | 内容 |

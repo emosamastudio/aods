@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | operations split and release planning complete |
+| 状态 | v0.9 release candidate preparation complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S52 v0.9 release planning；S53 capability close criteria |
-| 当前回合 | R-2026-05-13-25 |
-| 未完成任务数量 | 50 |
-| 已完成任务数量 | 436 |
+| 当前阶段 | S53 capability close criteria；S54 observability close criteria；S55 public roadmap sync |
+| 当前回合 | R-2026-05-13-26 |
+| 未完成任务数量 | 40 |
+| 已完成任务数量 | 446 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-25 |
-| 开始时间 | 2026-05-13 16:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-26 |
+| 开始时间 | 2026-05-13 13:30 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-422、U-423、U-424、U-425、U-426、U-427、U-428、U-429、U-430、U-431 |
-| 本轮范围 | 上轮质量复审；operations README 短入口；task ledger history archive；handoff pruning；historical current/archive labels；split 后 link check；v0.9 RC planning；v0.8.1 patch decision；#60 body refresh decision；milestone creation decision；下一任务池扩展 |
-| 排除范围 | release/tag/package mutation、issue close、label edit、milestone creation、runtime implementation、schema/runtime semantic change、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；archive links；docs link check；release hygiene；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-432、U-433、U-434、U-435、U-436、U-437、U-438、U-439、U-440、U-441 |
+| 本轮范围 | 上轮质量复审；v0.9.0 version surface audit；changelog preparation；release notes draft；package dry-run audit；packed install smoke；release branch decision；public issue close readiness；go/no-go packet；packaged skill release sync check；post-release checklist refresh |
+| 排除范围 | version bump、tag、GitHub Release、issue close、issue body edit、label edit、milestone creation、runtime implementation、schema/runtime semantic change、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；release hygiene；npm pack dry-run；packed install smoke；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-432 | S52 | v0.9.0 version surface audit | P1 | 未开始 | 确认 package / README / skill / release tag 的下一版本候选一致 | U-427 | - |
-| U-433 | S52 | v0.9.0 changelog preparation | P1 | 未开始 | 准备 changelog / release notes 输入，不发布 | U-432 | - |
-| U-434 | S52 | v0.9.0 release notes draft | P1 | 未开始 | 形成 release body 草稿，覆盖 term refs / observability / capability | U-433 | - |
-| U-435 | S52 | v0.9.0 package dry-run audit | P1 | 未开始 | npm pack dry-run 与 package surface 一致 | U-432 | - |
-| U-436 | S52 | v0.9.0 packed install smoke | P1 | 未开始 | 本地 tarball install 后 CLI / validate / conformance smoke 通过 | U-435 | - |
-| U-437 | S52 | v0.9.0 release branch decision | P2 | 未开始 | 决定直接 main release 还是 release branch / PR | U-434,U-436 | - |
-| U-438 | S52 | v0.9.0 public issue close readiness | P2 | 未开始 | 判断 #41/#59/#60 是否有 close criteria | U-437 | 不提前关闭 |
-| U-439 | S52 | v0.9.0 go/no-go packet | P1 | 未开始 | 形成发布 go/no-go 决策包 | U-434,U-436,U-438 | - |
-| U-440 | S52 | Packaged skill release sync check | P2 | 未开始 | 确认 skills/aods-use 与 README / package 版本面一致 | U-432 | - |
-| U-441 | S52 | Post-release checklist refresh | P3 | 未开始 | 更新发布后检查清单，不执行 release | U-439 | - |
 | U-442 | S53 | Capability issue close criteria matrix | P2 | 未开始 | 定义 #41 关闭所需 metadata/runtime 边界证据 | U-415 | - |
 | U-443 | S53 | Capability protocol boundary doc refresh | P2 | 未开始 | 把 metadata-only 与 runtime protocol 的差异写清楚 | U-442 | - |
 | U-444 | S53 | Capability fallback negative conformance fixture | P2 | 未开始 | 缺 fallback metadata 的负例进入 conformance | U-412 | - |
@@ -90,16 +80,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 407 | U-402 | S47 | Validator location text parity review | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | validate text 保持紧凑，location envelope 只进入 JSON issue |
-| 408 | U-403 | S47 | Suggested-action next rule batch implementation | P1 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | capability unsupported / fallback rules 增加 remediation guidance |
-| 409 | U-404 | S47 | Validate JSON sample refresh after location envelope | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 新增最小 issue location envelope 样例 |
-| 410 | U-405 | S47 | Route skipped-module opt-in CLI design | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 新增 --explain-skipped，默认 route 输出不变 |
-| 411 | U-406 | S47 | Route skipped-module regression | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | JSON / text opt-in 输出 skipped modules，默认 compact |
-| 412 | U-407 | S47 | Observability compact sample pack refresh | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | validate / route 短样例与新字段对齐 |
-| 413 | U-408 | S47 | Observability public issue sync | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 同步 #59，不关闭 issue |
-| 414 | U-409 | S48 | Capability unsupported reason schema implementation | P1 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | capability metadata 可表达 unsupported / partial reason |
-| 415 | U-410 | S48 | Capability fallback posture schema implementation | P1 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | fallback posture、degraded behavior、consumer action 进入 metadata schema |
-| 416 | U-411 | S48 | Capability compatibility validator extension | P1 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | partial / unknown compatibility rows 必须声明 fallback 或 consumer metadata |
 | 417 | U-412 | S48 | Capability conformance fixture first slice | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | capability fallback metadata validate case 进入 conformance suite |
 | 418 | U-413 | S48 | Capability example pack refresh | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | adapter/capability module 展示 partial / unknown fallback metadata |
 | 419 | U-414 | S48 | Capability README guidance refresh | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | README 继续强调 metadata-only |
@@ -120,12 +100,22 @@
 | 434 | U-429 | S51 | Public roadmap issue body refresh decision | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | #60 body 暂不编辑，先形成 v0.9 packet 后再同步 |
 | 435 | U-430 | S51 | GitHub milestone creation decision | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 当前无 milestone；暂不创建，先用 U-451 形成映射包 |
 | 436 | U-431 | S51 | Next task pool expansion after implementation slices | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 新增 U-432 到 U-481，下一轮默认 U-432 到 U-441 |
+| 437 | U-432 | S52 | v0.9.0 version surface audit | P1 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene / npm pack dry-run / packed install smoke / git diff check | 当前发布面仍为 v0.8.0，v0.9.0 仅作为下一候选 |
+| 438 | U-433 | S52 | v0.9.0 changelog preparation | P1 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene / npm pack dry-run / packed install smoke / git diff check | release notes 输入覆盖 term refs / freshness / observability / capability |
+| 439 | U-434 | S52 | v0.9.0 release notes draft | P1 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene / npm pack dry-run / packed install smoke / git diff check | 形成 GitHub Release body 草稿，不发布 |
+| 440 | U-435 | S52 | v0.9.0 package dry-run audit | P1 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | `npm pack --dry-run` | package `aods@0.8.0` 61 files，dry-run 通过 |
+| 441 | U-436 | S52 | v0.9.0 packed install smoke | P1 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | packed install smoke | CLI help / packaged validate / fixture smoke / conformance run 通过 |
+| 442 | U-437 | S52 | v0.9.0 release branch decision | P2 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene / git diff check | 推荐后续直接从 main 做 version bump；需要 PR 审查时再开 release branch |
+| 443 | U-438 | S52 | v0.9.0 public issue close readiness | P2 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | GitHub issue snapshot | #60/#59/#41 都未达到关闭条件，本轮不关闭 |
+| 444 | U-439 | S52 | v0.9.0 go/no-go packet | P1 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene / npm pack dry-run / packed install smoke | 技术 gate go；公开 release no-go，需版本 bump/tag/release body |
+| 445 | U-440 | S52 | Packaged skill release sync check | P2 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene skill tests | skill 仍与 v0.8.0 对齐，下一 release bump 时同步 |
+| 446 | U-441 | S52 | Post-release checklist refresh | P3 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | docs link / release hygiene | 更新发布执行顺序，不执行 release |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-432 到 U-441 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-442 到 U-451 |
 
 ## 负责人判断 / issue 分类
 
@@ -142,8 +132,8 @@
 
 | 发现时间 | 来源 | 建议任务 ID | 阶段 | 优先级 | 任务 | 验收标准 | 依赖 | 与失败任务关系 |
 |---|---|---|---|---|---|---|---|---|
-| 2026-05-13 | U-431 | U-432 到 U-481 | S52-S62 | P1-P3 | release planning / public close criteria / drift fixtures / CI dry-run / benchmark policy / runtime prerequisite refresh / next discovery | 任务写入未完成任务表，下一轮默认 U-432 到 U-441 | U-431 | 无 |
+| 无 | - | - | - | - | 当前无新暂存任务 | 新任务必须先写入未完成任务表 | - | - |
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；下一阶段进入 v0.9 release planning 与 public issue close criteria。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；下一阶段进入 capability / observability close criteria 与 public roadmap refresh packet。
