@@ -2,6 +2,71 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-44
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-44 |
+| 开始时间 | 2026-05-13 26:20 Asia/Shanghai |
+| 结束时间 | 2026-05-13 27:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-43 复审；event correction static record next-slice review；remote adapter mismatch static protocol next-slice；workflow transition fixture entry criteria review；policy decision fixture entry criteria review；static records README consolidation decision；benchmark generated summary source audit after release；benchmark hosted cost language refresh decision；benchmark package artifact inventory sample update；public docs density audit after v0.9；source-first adoption quickstart rerun from fresh repo；不实现 schema/validator/fixture/workflow engine/policy engine/event store/replay/adapter/provider/auth/dynamic probing/fallback executor/migration executor/database、不编辑 public issue、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-612、U-613、U-614、U-615、U-616、U-617、U-618、U-619、U-620、U-621 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-44
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `1a39f61 Document code drift validator hardening review` |
+| Task ledger state | 通过 | U-612 到 U-621 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 static records / adoption follow-up |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-612 到 U-621 |
+
+## 任务执行记录：R-2026-05-13-44
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-612 | 未开始 | 已完成 | 复核 event correction static record next-slice | static records follow-up doc |
+| 2 | U-613 | 未开始 | 已完成 | 复核 remote adapter mismatch static protocol route | static records follow-up doc / `#64` scope |
+| 3 | U-614 | 未开始 | 已完成 | 判断 workflow transition 尚不进 fixture | static record entry criteria |
+| 4 | U-615 | 未开始 | 已完成 | 判断 policy decision 尚不进 fixture | static record entry criteria |
+| 5 | U-616 | 未开始 | 已完成 | 决定 static records 不扩写主 README | README density audit |
+| 6 | U-617 | 未开始 | 已完成 | 审查并刷新 benchmark generated summary assessed version | `npm run benchmark:summary` |
+| 7 | U-618 | 未开始 | 已完成 | 审查 hosted cost language | hosted repeatability report / summary source |
+| 8 | U-619 | 未开始 | 已完成 | 记录 package artifact inventory snapshot | `npm pack --dry-run --json` |
+| 9 | U-620 | 未开始 | 已完成 | 审查 public docs density | `wc -l` |
+| 10 | U-621 | 未开始 | 已完成 | 从 fresh repo 安装 v0.9 并跑 source-first quickstart route | install / compile / validate / route pass |
+
+## 返工记录：R-2026-05-13-44
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| benchmark executive summary assessed version 仍为 `0.7.0` | 运行 `npm run benchmark:summary` 从生成器刷新 generated results / reports | executive summary assessed version 为 `0.9.0` |
+
+## 验证记录：R-2026-05-13-44
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Package inventory | `npm pack --dry-run --json` | 通过 | `aods@0.9.0`，61 entries |
+| Benchmark summary refresh | `npm run benchmark:summary` | 通过 | assessed version 刷新到 `0.9.0` |
+| README density | `wc -l README.md README.zh-CN.md docs/operations/README.md docs/README.md` | 通过 | English README 641 lines，中文 README 639 lines |
+| Fresh install adoption smoke | temp repo install from `v0.9.0` + compile / validate / route | 通过 | package version `0.9.0`，compile ok，validate pass，route query-route |
+| Hosted language audit | reports / generator review | 通过 | hosted evidence 仍标记 supplemental and repeat-sensitive |
+
+## 回合结束摘要：R-2026-05-13-44
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-612 到 U-621 |
+| 完成任务 | 10 | U-612 到 U-621 |
+| 返工项 | 1 | benchmark executive summary stale assessed version 已刷新 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-622 到 U-631 |
+
 ## 回合摘要：R-2026-05-13-43
 
 | 项 | 内容 |
