@@ -93,6 +93,10 @@
           "$ref": "#/definitions/external_citation_refs",
           "description": "External citation IDs declared in module.meta.external_citations that support this section."
         },
+        "term_refs": {
+          "$ref": "#/definitions/term_refs",
+          "description": "Structured references to canonical glossary terms used by this section. Machine refs must use canonical glossary keys, not aliases."
+        },
         "criticality": {
           "type": "string",
           "enum": ["must", "should", "may"],
@@ -156,6 +160,10 @@
         "citation_refs": {
           "$ref": "#/definitions/external_citation_refs",
           "description": "External citation IDs declared in module.meta.external_citations that support this artifact."
+        },
+        "term_refs": {
+          "$ref": "#/definitions/term_refs",
+          "description": "Structured references to canonical glossary terms used by this artifact. Machine refs must use canonical glossary keys, not aliases."
         }
       },
       "allOf": [
@@ -1446,6 +1454,52 @@
         "pattern": "^[a-z0-9_-]{1,96}$"
       }
     },
+    "term_ref_scope": {
+      "type": "string",
+      "enum": ["section", "artifact", "contract", "lifecycle", "capability", "resource"]
+    },
+    "term_ref_usage": {
+      "type": "string",
+      "enum": ["required", "allowed", "deprecated-reference", "example-only"]
+    },
+    "term_ref": {
+      "type": "object",
+      "required": ["term_id", "scope", "usage"],
+      "additionalProperties": false,
+      "properties": {
+        "term_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]{1,96}$",
+          "description": "Canonical glossary key. Aliases and deprecated terms are not valid machine refs."
+        },
+        "scope": {
+          "$ref": "#/definitions/term_ref_scope"
+        },
+        "usage": {
+          "$ref": "#/definitions/term_ref_usage"
+        },
+        "target_ref": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Optional local section, artifact, field, or surface ref affected by this term reference."
+        },
+        "owner": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 300
+        }
+      }
+    },
+    "term_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/term_ref"
+      }
+    },
     "decision_provenance_meta": {
       "type": "object",
       "required": ["consumer_surface", "basis", "source_refs", "evidence_status", "consumption_gate"],
@@ -1609,6 +1663,10 @@
         "read_model": {
           "$ref": "#/definitions/read_model_contract",
           "description": "Read-model freshness and watermark profile for stable read-only surfaces."
+        },
+        "term_refs": {
+          "$ref": "#/definitions/term_refs",
+          "description": "Structured canonical glossary term refs that apply to this stable contract metadata."
         }
       }
     },

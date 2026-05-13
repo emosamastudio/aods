@@ -347,6 +347,10 @@
         "implementation": {
           "$ref": "#/definitions/implementation_ref",
           "description": "Optional implementation linkage summary. Mirrors module.meta.implementation summary fields."
+        },
+        "term_ref_summary": {
+          "$ref": "#/definitions/term_ref_summary_ref",
+          "description": "Lightweight manifest summary of structured term references declared in module sections, artifacts, and contract metadata."
         }
       }
     },
@@ -557,6 +561,34 @@
           "minimum": 0
         },
         "manual_review": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "term_ref_summary_ref": {
+      "type": "object",
+      "required": [
+        "total",
+        "stable_refs",
+        "deprecated_refs",
+        "unresolved_refs"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stable_refs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "deprecated_refs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unresolved_refs": {
           "type": "integer",
           "minimum": 0
         }

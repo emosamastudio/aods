@@ -99,7 +99,7 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 
 | Pattern | 入口 | 展示内容 |
 | --- | --- | --- |
-| Glossary registry | [`indexes/runtime.json`](./examples/compiled-pilot/indexes/runtime.json) | canonical term records、aliases、deprecated terms、owner、linked surfaces |
+| Glossary registry + structured term refs | [`indexes/runtime.json`](./examples/compiled-pilot/indexes/runtime.json) 和 [`shift-ops-resource-surface`](./examples/compiled-pilot/modules/shift-ops-resource-surface.json) | canonical term records、aliases、deprecated terms、owner、linked surfaces，以及必须使用 canonical term id 的机器引用 |
 | External citation / provenance | [`shift-ops-governance`](./examples/compiled-pilot/modules/shift-ops-governance.json) | external citation registry、local citation refs、unsupported assumptions、decision provenance refs |
 
 这些示例是 reference patterns，不表示 AODS 已经实现 command executor、event store、adapter negotiation runtime、resource scheduler、crawler 或 fact checker。

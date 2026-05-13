@@ -31,6 +31,26 @@
         ],
         "status": "current"
       },
+      "task-lifecycle-start": {
+        "definition": "The first lifecycle state for a task or declared operational object.",
+        "aliases": [
+          "begin"
+        ],
+        "deprecated_terms": [
+          {
+            "term": "task-begin",
+            "replacement": "task-lifecycle-start",
+            "reason": "Use task-lifecycle-start as the canonical lifecycle term.",
+            "status": "deprecated"
+          }
+        ],
+        "scope": "lifecycle",
+        "owner": "shift-ops-resource-surface",
+        "linked_surfaces": [
+          "shift-ops-resource-surface:resource-cleanup-evidence"
+        ],
+        "status": "current"
+      },
       "sev1": "Highest-severity operational incident"
     },
     "roles": [
@@ -2117,6 +2137,16 @@
           "artifact_refs": [
             "resource-cleanup-evidence-table"
           ],
+          "term_refs": [
+            {
+              "term_id": "task-lifecycle-start",
+              "scope": "lifecycle",
+              "usage": "required",
+              "target_ref": "lifecycle_signal",
+              "owner": "shift-ops-resource-surface",
+              "note": "Resource cleanup may depend on the first lifecycle signal without implying a scheduler."
+            }
+          ],
           "criticality": "must"
         }
       ],
@@ -2214,6 +2244,15 @@
           "artifact_id": "resource-cleanup-evidence-table",
           "type": "mapping-table",
           "usage": "Cleanup posture and evidence anchors for declared resource surfaces.",
+          "term_refs": [
+            {
+              "term_id": "task-lifecycle-start",
+              "scope": "lifecycle",
+              "usage": "allowed",
+              "target_ref": "lifecycle_signal",
+              "owner": "shift-ops-resource-surface"
+            }
+          ],
           "content": {
             "key_columns": [
               "field"

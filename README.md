@@ -99,7 +99,7 @@ Two supporting examples are also useful when adopting newer authoring patterns:
 
 | Pattern | Start here | What it demonstrates |
 | --- | --- | --- |
-| Glossary registry | [`indexes/runtime.json`](./examples/compiled-pilot/indexes/runtime.json) | canonical term records, aliases, deprecated terms, owner, and linked surfaces |
+| Glossary registry + structured term refs | [`indexes/runtime.json`](./examples/compiled-pilot/indexes/runtime.json) and [`shift-ops-resource-surface`](./examples/compiled-pilot/modules/shift-ops-resource-surface.json) | canonical term records, aliases, deprecated terms, owner, linked surfaces, and machine refs that must use canonical term ids |
 | External citation / provenance | [`shift-ops-governance`](./examples/compiled-pilot/modules/shift-ops-governance.json) | external citation registry, local citation refs, unsupported assumptions, and decision provenance refs |
 
 These examples are reference patterns, not a claim that AODS now implements a command executor, event store, adapter negotiation runtime, resource scheduler, crawler, or fact checker.

@@ -44,6 +44,7 @@ These packs are adoption examples. They are not a command executor, event store,
 - paired README governance with `shared_invariants`
 - implementation-governance detail with acceptance matrix, system gates, and review routing
 - optional `surface-inventory` reality checks for current compiled surfaces
+- structured `term_refs[]` that bind sections and artifacts to canonical glossary terms; aliases remain glossary metadata and are not valid machine references
 - explicit separation between change policy and incident response authority
 - deterministic generated human output from an agent-primary surface pair
 

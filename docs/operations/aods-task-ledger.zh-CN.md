@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | adoption sample pack / next task discovery complete |
+| 状态 | structured term refs implementation complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S43 public docs / sample adoption；S44 next implementation planning |
-| 当前回合 | R-2026-05-13-20 |
-| 未完成任务数量 | 50 |
-| 已完成任务数量 | 386 |
+| 当前阶段 | S45 structured term refs implementation |
+| 当前回合 | R-2026-05-13-21 |
+| 未完成任务数量 | 40 |
+| 已完成任务数量 | 396 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-20 |
-| 开始时间 | 2026-05-13 12:18 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-21 |
+| 开始时间 | 2026-05-13 13:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-372、U-373、U-374、U-375、U-376、U-377、U-378、U-379、U-380、U-381 |
-| 本轮范围 | 上轮质量复审；resource surface README adoption decision；docs current-authority metadata checker boundary；paired-surface sample refresh decision；validate / route JSON sample packs；conformance sample package inclusion decision；benchmark archive policy revisit；secret placeholder scan review；GitHub label / milestone hygiene review；next task pool expansion |
-| 排除范围 | CI workflow creation、release/tag/package mutation、issue close、label/milestone edit、schema implementation、validator implementation、runtime implementation、remote fetch、provider execution、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；sample JSON parse；docs links；package surface unchanged；GitHub issue label/milestone read-only query；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-382、U-383、U-384、U-385、U-386、U-387、U-388、U-389、U-390、U-391 |
+| 本轮范围 | 上轮质量复审；structured term refs schema；compile manifest summary；validator resolution gate；source-first example；alias negative regression；deprecated strict behavior；public docs refresh；route query coverage；package surface decision；public issue sync |
+| 排除范围 | prose semantic scanner、automatic rewrite、runtime resolver、remote fetch、provider execution、issue close、label/milestone edit、release/tag/package mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；focused tests；`npm run compile:pilot`；route query；`npm run validate:all`；`npm run package:check-surface -- --json`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-382 | S45 | Structured term refs schema implementation | P1 | 未开始 | `term_refs[]` schema 进入 module/authoring/compiled pilot mirror | U-342 | 下一轮首选 |
-| U-383 | S45 | Structured term refs compile manifest summary | P1 | 未开始 | compiler 汇总 term refs，不破坏 source-first compile | U-382 | - |
-| U-384 | S45 | Structured term refs validator resolution gate | P1 | 未开始 | validator 检查 term id、scope、surface ref、deprecated replacement | U-382 | - |
-| U-385 | S45 | Structured term refs source-first example | P1 | 未开始 | compiled-pilot 展示 lifecycle term refs 正例 | U-382、U-383 | - |
-| U-386 | S45 | Lifecycle alias negative fixture implementation | P1 | 未开始 | `start` vs deprecated `begin` 进入结构化负例或 validator regression | U-384、U-385 | - |
-| U-387 | S45 | Deprecated term strict behavior regression | P2 | 未开始 | strict / non-strict 行为由 focused regression 固化 | U-384 | - |
-| U-388 | S45 | Term refs public docs refresh | P2 | 未开始 | README 或 example docs 指向 term_refs adoption path，不塞长 JSON | U-385 | - |
-| U-389 | S45 | Term refs route query coverage | P3 | 未开始 | route query 能找到 glossary / stable contract authority | U-388 | - |
-| U-390 | S45 | Term refs package surface decision | P3 | 未开始 | 判断新示例是否进入 package allowlist | U-385 | - |
-| U-391 | S45 | Term refs public issue sync decision | P3 | 未开始 | 判断是否评论 `#60/#41/#59` 中相关状态 | U-386 | - |
 | U-392 | S46 | Evidence freshness schema next slice | P1 | 未开始 | current evidence 可声明 reviewed_at / expires_at / refresh cadence | U-347 | - |
 | U-393 | S46 | Evidence freshness validator warning gate | P1 | 未开始 | stale/expired/missing-review 信息进入 deterministic warning | U-392 | - |
 | U-394 | S46 | Evidence freshness fixture implementation | P2 | 未开始 | fresh / stale / missing review fixture 覆盖 | U-393 | - |
@@ -473,12 +463,22 @@
 | 384 | U-379 | S43 | Security placeholder scan pattern review | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | `npm run security:scan-placeholders` | 保持高信号 secret-like patterns，不加泛词扫描 |
 | 385 | U-380 | S43 | GitHub issue label / milestone hygiene review | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | `gh issue list --json labels,milestone` | `#60/#59/#41` labels 保持，milestone 暂不创建 |
 | 386 | U-381 | S44 | Next task pool expansion after S38 | P2 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | task ledger update | 新增 U-382 到 U-431，下一轮默认 U-382 到 U-391 |
+| 387 | U-382 | S45 | Structured term refs schema implementation | P1 | 2026-05-13 | `schema/module.schema.json`、compiled pilot schema mirrors | focused schema validation via compile / validate | `term_refs[]` 进入 section、artifact、contract metadata |
+| 388 | U-383 | S45 | Structured term refs compile manifest summary | P1 | 2026-05-13 | `lib/compile.mjs`、`lib/corpus-helpers.mjs` | `npm run compile:pilot` | manifest `term_ref_summary` 汇总 total / stable / deprecated / unresolved |
+| 389 | U-384 | S45 | Structured term refs validator resolution gate | P1 | 2026-05-13 | `lib/validate.mjs` | focused regression / `npm run validate:all` | alias machine refs、unresolved refs、summary mismatch 阻断；deprecated stable refs warning |
+| 390 | U-385 | S45 | Structured term refs source-first example | P1 | 2026-05-13 | `examples/compiled-pilot-source/authoring.json`、generated compiled pilot | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | resource surface 展示 lifecycle canonical term ref |
+| 391 | U-386 | S45 | Lifecycle alias negative fixture implementation | P1 | 2026-05-13 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs` | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | `begin` 作为机器引用被 `term-ref-alias-used` 拦截 |
+| 392 | U-387 | S45 | Deprecated term strict behavior regression | P2 | 2026-05-13 | `lib/validate.mjs` strict warning behavior | focused regression / strict gate | deprecated stable term refs 走 warning，strict gate 阻断 |
+| 393 | U-388 | S45 | Term refs public docs refresh | P2 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`examples/compiled-pilot-source/README.md`、`spec/validation-rules.json` | `npm run validate:all` | 公开说明 canonical term id 机器引用边界 |
+| 394 | U-389 | S45 | Term refs route query coverage | P3 | 2026-05-13 | route JSON output | `node ./bin/aods.mjs route . --query "structured term refs glossary alias lifecycle deprecated term refs" --stage plan --intent read --json` | query 能发现 glossary / validation authority |
+| 395 | U-390 | S45 | Term refs package surface decision | P3 | 2026-05-13 | package surface check | `npm run package:check-surface -- --json` | 新能力复用既有 package entries，无 allowlist 变更 |
+| 396 | U-391 | S45 | Term refs public issue sync decision | P3 | 2026-05-13 | https://github.com/emosamastudio/aods/issues/60#issuecomment-4437377073 | `gh issue comment 60 ...` | 只同步状态，不关闭 issue、不编辑 body |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-382 到 U-391 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-392 到 U-401 |
 
 ## 负责人判断 / issue 分类
 

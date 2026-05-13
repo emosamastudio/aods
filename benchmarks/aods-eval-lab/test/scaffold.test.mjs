@@ -2287,3 +2287,79 @@ test("authoring-pair can declare deterministic generated human output", () => {
     /generated human_primary is out of sync with deterministic render/
   );
 });
+
+test("structured term refs compile and reject alias machine refs", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-term-refs-"));
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const compiledRoot = path.join(tempDir, "compiled");
+  const invalidRoot = path.join(tempDir, "invalid-compiled");
+  const source = {
+    authoring_v: 1,
+    corpus: {
+      sys: "term-ref-demo",
+      glossary: {
+        "task-lifecycle-start": {
+          definition: "The first task lifecycle state.",
+          aliases: ["begin"],
+          deprecated_terms: [
+            {
+              term: "task-begin",
+              replacement: "task-lifecycle-start",
+              reason: "Use the canonical lifecycle term.",
+              status: "deprecated"
+            }
+          ],
+          scope: "lifecycle",
+          owner: "demo-module",
+          status: "current"
+        }
+      }
+    },
+    modules: [
+      {
+        id: "demo-root",
+        category: "reference",
+        layer: "root",
+        scope: "Root module with structured term refs.",
+        sections: [
+          {
+            sid: "task-lifecycle",
+            topic: "task lifecycle",
+            content: "Task lifecycle uses canonical structured term refs.",
+            term_refs: [
+              {
+                term_id: "task-lifecycle-start",
+                scope: "lifecycle",
+                usage: "required",
+                target_ref: "task-lifecycle",
+                owner: "demo-module"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  runCli(["validate", compiledRoot, "--strict"]);
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(compiledRoot, "manifest.json"), "utf8"));
+  assert.deepEqual(manifest.modules[0].term_ref_summary, {
+    total: 1,
+    stable_refs: 1,
+    deprecated_refs: 0,
+    unresolved_refs: 0
+  });
+
+  source.modules[0].sections[0].term_refs[0].term_id = "begin";
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+  const invalidResult = spawnSync("node", [CLI_PATH, "compile", sourcePath, invalidRoot, "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidResult.status, 0);
+  assert.match(invalidResult.stdout, /term-ref-alias-used/);
+  assert.match(invalidResult.stdout, /canonical glossary key, not alias: begin/);
+});

@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-21
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-21 |
+| 开始时间 | 2026-05-13 13:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 13:35 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-20 复审；structured term refs schema / compile / validate；source-first example；alias negative regression；deprecated strict behavior；public docs；route query；package surface decision；`#60` public sync；不实现 prose semantic scanner、不自动 rewrite、不实现 runtime resolver、不关闭 issue、不改 label/milestone、不发布 package、不创建 tag、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-382、U-383、U-384、U-385、U-386、U-387、U-388、U-389、U-390、U-391 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-21
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅本轮改动和 `MEMORY.md` |
+| Latest commit | 通过 | 最新提交为 `eee0bcd Document adoption samples and next task pool` |
+| Task ledger state | 通过 | U-382 到 U-391 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-382 到 U-391 |
+
+## 任务执行记录：R-2026-05-13-21
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-382 | 未开始 | 已完成 | 增加 section / artifact / contract `term_refs[]` schema | `schema/module.schema.json` |
+| 2 | U-383 | 未开始 | 已完成 | compile 生成 manifest `term_ref_summary` | `lib/compile.mjs` |
+| 3 | U-384 | 未开始 | 已完成 | validate 检查 canonical term id、alias、deprecated、unresolved、summary mirror | `lib/validate.mjs` |
+| 4 | U-385 | 未开始 | 已完成 | compiled-pilot source 增加 lifecycle canonical term ref 正例 | `examples/compiled-pilot-source/authoring.json` |
+| 5 | U-386 | 未开始 | 已完成 | 增加 alias machine ref strict fail regression | `scaffold.test.mjs` |
+| 6 | U-387 | 未开始 | 已完成 | 固化 deprecated stable ref strict behavior | `term-ref-deprecated-stable` validator path |
+| 7 | U-388 | 未开始 | 已完成 | 更新 spec、README 和 example docs | public docs diff |
+| 8 | U-389 | 未开始 | 已完成 | 验证 route query 能找到相关 authority | route JSON command |
+| 9 | U-390 | 未开始 | 已完成 | 确认 package surface 无新增 allowlist | package surface JSON |
+| 10 | U-391 | 未开始 | 已完成 | 评论 `#60`，不关闭 issue、不编辑 body | GitHub issue comment |
+
+## 验证记录：R-2026-05-13-21
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Focused scaffold regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 覆盖 alias machine ref strict fail |
+| Focused example regression | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 覆盖 source-first example 与 manifest summary |
+| Compile pilot | `npm run compile:pilot` | 通过 | generated corpus 已同步 |
+| Route query | `node ./bin/aods.mjs route . --query "structured term refs glossary alias lifecycle deprecated term refs" --stage plan --intent read --json` | 通过 | 找到 glossary / validation authority |
+| Repo validation | `npm run validate:all` | 通过 | repo-level gate 通过 |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | package allowlist 无需变更 |
+
+## 回合结束摘要：R-2026-05-13-21
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-382 到 U-391 |
+| 完成任务 | 10 | U-382 到 U-391 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-392 到 U-401 |
+
 ## 回合摘要：R-2026-05-13-20
 
 | 项 | 内容 |

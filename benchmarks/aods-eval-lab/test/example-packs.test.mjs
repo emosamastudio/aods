@@ -305,6 +305,16 @@ test("compiled pilot includes resource surface example pack", () => {
   assert.ok(manifestModule);
   assert.equal(manifestModule.implementation.evidence_summary.total, 2);
   assert.equal(manifestModule.implementation.acceptance_summary.total, 2);
+  assert.deepEqual(manifestModule.term_ref_summary, {
+    total: 2,
+    stable_refs: 2,
+    deprecated_refs: 0,
+    unresolved_refs: 0
+  });
+  const cleanupSection = module.sections.find((entry) => entry.sid === "resource-cleanup-evidence");
+  assert.deepEqual(cleanupSection.term_refs.map((entry) => entry.term_id), ["task-lifecycle-start"]);
+  const cleanupArtifact = module.artifacts.find((entry) => entry.artifact_id === "resource-cleanup-evidence-table");
+  assert.deepEqual(cleanupArtifact.term_refs.map((entry) => entry.term_id), ["task-lifecycle-start"]);
 
   const fixtureManifest = JSON.parse(fs.readFileSync(FIXTURE_MANIFEST_PATH, "utf8"));
   const fixture = fixtureManifest.fixtures.find((entry) => entry.id === "positive-resource-surface-pack");
@@ -337,6 +347,9 @@ test("compiled pilot includes glossary registry canonical example pack", () => {
     "shift-ops-readiness-read-model:release-readiness-read-model"
   ]);
   assert.equal(releaseWindow.status, "current");
+  const taskLifecycleStart = source.corpus.glossary["task-lifecycle-start"];
+  assert.equal(taskLifecycleStart.aliases[0], "begin");
+  assert.equal(taskLifecycleStart.deprecated_terms[0].term, "task-begin");
 
   const manifest = JSON.parse(fs.readFileSync(COMPILED_MANIFEST_PATH, "utf8"));
   const companionPath = path.join(REPO_ROOT, "examples", "compiled-pilot", manifest.companion_index);
