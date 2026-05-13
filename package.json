@@ -71,6 +71,7 @@
     "docs:check-links": "node ./scripts/check-doc-links.mjs",
     "security:scan-placeholders": "node ./scripts/scan-secret-placeholders.mjs",
     "package:check-surface": "node ./scripts/check-package-surface.mjs",
+    "package:install-smoke": "node ./scripts/package-install-smoke.mjs",
     "generated:check-clean": "node ./scripts/check-generated-clean.mjs",
     "release:hygiene": "node ./scripts/release-hygiene.mjs",
     "release:self-check": "npm run validate:repo && npm pack --dry-run"

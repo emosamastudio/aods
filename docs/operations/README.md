@@ -47,6 +47,7 @@
 | [aods-runtime-protocol-static-records.zh-CN.md](./aods-runtime-protocol-static-records.zh-CN.md) | U-642 到 U-651 runtime/protocol static record proposals and gate decisions |
 | [aods-operations-hygiene-sync.zh-CN.md](./aods-operations-hygiene-sync.zh-CN.md) | U-652 到 U-661 operations archive / memory / public tracker hygiene |
 | [aods-release-maintenance-planning.zh-CN.md](./aods-release-maintenance-planning.zh-CN.md) | U-662 到 U-671 release maintenance / npm / CI / hosted gates |
+| [aods-final-static-retrospective.zh-CN.md](./aods-final-static-retrospective.zh-CN.md) | U-672 到 U-681 final static invariant / retrospective / next task pool |
 
 ## 当前公开示例入口
 
