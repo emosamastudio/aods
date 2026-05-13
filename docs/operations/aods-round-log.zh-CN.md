@@ -3,6 +3,71 @@
 状态：当前回合短记录
 完整历史归档：`docs/operations/archive/aods-round-log-archive-2026-05-13.zh-CN.md`
 
+## 回合摘要：R-2026-05-13-58
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-58 |
+| 开始时间 | 2026-05-13 23:19 Asia/Shanghai |
+| 结束时间 | 2026-05-13 23:25 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-57 复审；policy decision minimal field checklist；policy no-engine docs audit；missing evidence fixture plan；promotion no-go；workflow vocabulary authority audit；illegal alias fixture plan；workflow no-engine docs audit；source-first promotion no-go；migration dry-run package boundary audit；README wording audit；不实现 policy engine / permission broker / approval workflow / workflow engine / scheduler / executor / migration executor，不扩 schema / validator / source-first / package / README quickstart；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-752、U-753、U-754、U-755、U-756、U-757、U-758、U-759、U-760、U-761 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-58
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `3f3bae9 Require projection guidance for corrections` |
+| Task ledger state | 通过 | U-752 到 U-761 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 projection guidance static guard implementation complete |
+| 返工项 | 无 | 上轮成果合格，直接进入 policy / workflow / migration boundary hardening |
+
+## 任务执行记录：R-2026-05-13-58
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-752 | 未开始 | 已完成 | 列出 policy claim / decision / receipt / approval 最小字段边界 | policy workflow migration boundary hardening doc |
+| 2 | U-753 | 未开始 | 已完成 | 复核 README / adoption / policy docs 未误导为 policy engine | policy workflow migration boundary hardening doc |
+| 3 | U-754 | 未开始 | 已完成 | 设计缺 evidence / approval overclaim / execution overclaim 未来负例 | policy workflow migration boundary hardening doc |
+| 4 | U-755 | 未开始 | 已完成 | 判断 policy decision 仍不进 schema / validator / source-first | policy workflow migration boundary hardening doc |
+| 5 | U-756 | 未开始 | 已完成 | 复核 lifecycle canonical term、alias、deprecated term 与 `term_refs[]` 权威边界 | policy workflow migration boundary hardening doc |
+| 6 | U-757 | 未开始 | 已完成 | 设计 begin-vs-start 非法别名未来负例 | policy workflow migration boundary hardening doc |
+| 7 | U-758 | 未开始 | 已完成 | 复核 workflow docs 未误导为 engine / scheduler / executor | policy workflow migration boundary hardening doc |
+| 8 | U-759 | 未开始 | 已完成 | 判断 workflow transition 仍不进 source-first example | policy workflow migration boundary hardening doc |
+| 9 | U-760 | 未开始 | 已完成 | 确认 migration dry-run helper 仍是 benchmark-only，不进 package surface | policy workflow migration boundary hardening doc |
+| 10 | U-761 | 未开始 | 已完成 | 复核 README 只有 upgrade dry-run，没有 `aods migrate` 承诺 | policy workflow migration boundary hardening doc |
+
+## 返工记录：R-2026-05-13-58
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| 无 | 无需返工 | 上轮质量复审通过，本轮只做边界 hardening 和文档同步 |
+
+## 验证记录：R-2026-05-13-58
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Docs links | `npm run docs:check-links -- --json` | 通过 | markdown link check |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | package entry count unchanged |
+| Task ledger count | `awk` count check | 通过 | unfinished=20, recent_completed=30 |
+| Git diff check | `git diff --check` | 通过 | no whitespace errors |
+| Release hygiene | `npm run release:hygiene` | 通过 | aggregate release gate |
+
+## 回合结束摘要：R-2026-05-13-58
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-752 到 U-761 |
+| 完成任务 | 10 | U-752 到 U-761 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-762 到 U-771 |
+
 ## 回合摘要：R-2026-05-13-57
 
 | 项 | 内容 |
