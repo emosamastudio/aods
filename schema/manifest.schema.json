@@ -743,7 +743,8 @@
           "enum": [
             "read-model",
             "command",
-            "implementation-linkage"
+            "implementation-linkage",
+            "capability"
           ]
         }
       }

@@ -166,6 +166,8 @@ That pattern creates a starter module with four governance structures already wi
 
 Implementation evidence is declarative. Evidence anchors can record `reviewed_at`, `expires_at`, and `refresh_cadence`; validation may warn when a time-bound anchor is expired or missing review dates, but it does not execute the optional refresh command. Manual-review acceptance criteria remain visible as review debt so a human decision is not confused with automated proof.
 
+Capability metadata is also declarative. A capability contract can state `supported`, `partial`, `unsupported`, or `unknown`, plus `unsupported_reason`, `fallback_posture`, degraded behavior, and consumer action. Compatibility checks compare metadata and fallback posture only; they do not discover providers, rank fallbacks, or execute adapters.
+
 ### Optional: install the release-aligned Copilot skill
 
 If you want another agent to work inside an AODS repo without loading the whole standard first, copy `skills/aods-use/` from the same release tag into that agent's skills directory.
@@ -485,7 +487,7 @@ node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 
 Use `--touch` when you already know which file changed. Use `--query` when you only know the task in plain words and want the CLI to find the likely authority modules by lexical and structural anchors from module metadata, paired docs, and compact artifact semantics. Add `--stage` when the task phase is clear (`orientation`, `plan`, `action`, `verification`, `evidence`) but the exact file target is not.
 
-For machine consumers, add `--json`. Route JSON includes `explanation.source`, `explanation.reason`, and `explanation.dependency` so tools can inspect why modules were selected without scraping prose. Dependency edges report whether declared deps are `selected`, `unselected`, or `missing`; they do not automatically expand the route or act as a scheduler.
+For machine consumers, add `--json`. Route JSON includes `explanation.source`, `explanation.reason`, and `explanation.dependency` so tools can inspect why modules were selected without scraping prose. Dependency edges report whether declared deps are `selected`, `unselected`, or `missing`; they do not automatically expand the route or act as a scheduler. Add `--explain-skipped` only when a tool needs skipped-module diagnostics; default route output stays compact.
 
 Routing precedence:
 

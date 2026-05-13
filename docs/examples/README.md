@@ -7,5 +7,7 @@ These files are hand-curated from current CLI output shapes. They are not genera
 | File | Purpose |
 |---|---|
 | `validate-summary.sample.json` | Minimal successful `validate --json` shape for public docs. |
+| `validate-issue-location.sample.json` | Minimal issue `location` envelope shape for `validate --json` consumers. |
 | `route-explanation.sample.json` | Minimal `route --json` explanation shape showing selected and unselected dependencies. |
+| `route-skipped-modules.sample.json` | Minimal `route --explain-skipped --json` shape for opt-in skipped-module diagnostics. |
 | `unchecked-repo-reality.sample.json` | Minimal `validate --reality --json` topology shape when a linked implementation repo is intentionally unchecked. |

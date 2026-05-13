@@ -26,6 +26,7 @@ test("CLI help and compile errors expose allowed enum values", () => {
   const routeHelp = runCli(["route", "--help"]);
   assert.match(routeHelp, /aods route \[root\] \[--role <role-id>\]/);
   assert.match(routeHelp, /--stage <stage>/);
+  assert.match(routeHelp, /--explain-skipped/);
   assert.match(routeHelp, /route stage: any \| orientation \| plan \| action \| verification \| evidence/);
   assert.match(routeHelp, /route intent: any \| read \| write \| validate \| sync/);
 
@@ -228,6 +229,26 @@ test("route dependency query exposes dependency diagnostics", () => {
     route.explanation.dependency.edges.map((edge) => edge.dependency_status),
     ["unselected", "unselected"]
   );
+});
+
+test("route explain-skipped is opt-in and keeps default output compact", () => {
+  const query = "paired docs drift rules";
+  const compact = JSON.parse(runCli(["route", ".", "--query", query, "--stage", "plan", "--intent", "read", "--json"]));
+  assert.equal(compact.skipped_modules, undefined);
+  assert.equal(compact.explanation.skipped, undefined);
+
+  const expanded = JSON.parse(runCli(["route", ".", "--query", query, "--stage", "plan", "--intent", "read", "--explain-skipped", "--json"]));
+  assert.ok(Array.isArray(expanded.skipped_modules));
+  assert.ok(expanded.skipped_modules.length > 0);
+  assert.equal(expanded.explanation.skipped.skipped_module_count, expanded.skipped_modules.length);
+  assert.deepEqual(
+    expanded.explanation.skipped.skipped_module_ids,
+    expanded.skipped_modules.map((entry) => entry.id)
+  );
+
+  const text = runCli(["route", ".", "--query", query, "--stage", "plan", "--intent", "read", "--explain-skipped"]);
+  assert.match(text, /skipped_modules=/);
+  assert.match(text, /skip .* reason=not-selected-by-route/);
 });
 
 test("compile --strict turns warning-only output into a failing gate", () => {
@@ -1702,6 +1723,107 @@ test("capability compatibility matrix rejects mislabeled profile version and exp
     entry.message.includes("schema_version_policy") &&
     entry.message.includes("exposure_class")
   ));
+});
+
+test("capability unsupported and fallback metadata are validated without runtime negotiation", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-capability-fallback-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    contract: {
+      profile: "capability",
+      required_fields: [
+        "capability_id",
+        "support_status",
+        "fallback_posture"
+      ],
+      capability: {
+        capability_id: "readiness.query",
+        support_status: "partial",
+        fallback_posture: "manual-review",
+        degraded_behavior: "return cached readiness only",
+        consumer_action: "manual-review"
+      }
+    }
+  };
+  detailModule.sections[0].artifact_refs = [
+    ...(detailModule.sections[0].artifact_refs ?? []),
+    "capability-fallback-matrix"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "capability-fallback-matrix",
+      type: "mapping-table",
+      usage: "Metadata-only capability fallback cases.",
+      content: {
+        key_columns: [
+          "case_id"
+        ],
+        columns: [
+          "case_id",
+          "provider_capability_id",
+          "required_capability_id",
+          "provider_contract_profile",
+          "accepted_contract_profile",
+          "provider_schema_version_policy",
+          "required_schema_version_policy",
+          "provider_exposure_class",
+          "required_exposure_class",
+          "expected_result",
+          "fallback_posture",
+          "degraded_behavior",
+          "consumer_action"
+        ],
+        rows: [
+          [
+            "readiness-partial",
+            "readiness.query",
+            "readiness.query",
+            "read-model",
+            "read-model",
+            "versioned",
+            "versioned",
+            "adapter-facing",
+            "adapter-facing",
+            "partial",
+            "manual-review",
+            "return cached readiness only",
+            "manual-review"
+          ]
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const validReport = JSON.parse(runCli(["validate", compiledRoot, "--json"]));
+  assert.equal(validReport.status, "pass");
+  assert.equal(validReport.levels.L2.errors.some((entry) => entry.rule === "capability-fallback-metadata-required"), false);
+
+  detailModule.meta.contract.capability = {
+    capability_id: "readiness.query",
+    support_status: "partial"
+  };
+  const fallbackArtifact = detailModule.artifacts.find((entry) => entry.artifact_id === "capability-fallback-matrix");
+  fallbackArtifact.content.rows[0][10] = "";
+  fallbackArtifact.content.rows[0][11] = "";
+  fallbackArtifact.content.rows[0][12] = "";
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+  const invalidCompile = spawnSync("node", [CLI_PATH, "compile", sourcePath, path.join(tempDir, "invalid-compiled"), "--force"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidCompile.status, 0);
+  assert.match(invalidCompile.stdout, /capability-unsupported-reason-required/);
+  assert.match(invalidCompile.stdout, /capability-fallback-posture-required/);
+  assert.match(invalidCompile.stdout, /capability-fallback-metadata-required/);
 });
 
 test("reality validation reports actionable unchecked implementation repo locators", () => {

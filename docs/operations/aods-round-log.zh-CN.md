@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-23
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-23 |
+| 开始时间 | 2026-05-13 14:25 Asia/Shanghai |
+| 结束时间 | 2026-05-13 15:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-22 复审；validator location text parity；suggested-action next rule batch；validate JSON location sample；route skipped-module opt-in；route skipped regression；observability sample refresh；`#59` public sync；capability unsupported reason / fallback posture schema；capability compatibility validator extension；不实现 runtime negotiation、不做 provider discovery、不做 fallback ranking、不执行 adapter、不关闭 issue、不改 label/milestone、不发布 package、不创建 tag、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-402、U-403、U-404、U-405、U-406、U-407、U-408、U-409、U-410、U-411 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-23
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `546f4d7 Implement evidence freshness diagnostics` |
+| Task ledger state | 通过 | U-402 到 U-411 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-402 到 U-411 |
+
+## 任务执行记录：R-2026-05-13-23
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-402 | 未开始 | 已完成 | 复审 validate text / JSON 边界，保持 text output compact | focused regression / manual text review |
+| 2 | U-403 | 未开始 | 已完成 | 增加 capability unsupported / fallback remediation guidance | `lib/validate.mjs` |
+| 3 | U-404 | 未开始 | 已完成 | 新增 validate issue location sample | `docs/examples/validate-issue-location.sample.json` |
+| 4 | U-405 | 未开始 | 已完成 | 新增 route `--explain-skipped` opt-in | `lib/route.mjs` |
+| 5 | U-406 | 未开始 | 已完成 | 增加 route skipped default compact / opt-in regression | `scaffold.test.mjs` |
+| 6 | U-407 | 未开始 | 已完成 | 刷新 docs examples README 和 skipped route sample | `docs/examples/README.md` |
+| 7 | U-408 | 未开始 | 已完成 | 评论 `#59`，不关闭 issue、不编辑 body | https://github.com/emosamastudio/aods/issues/59#issuecomment-4437540362 |
+| 8 | U-409 | 未开始 | 已完成 | capability schema 增加 unsupported reason | `schema/module.schema.json` |
+| 9 | U-410 | 未开始 | 已完成 | capability schema 增加 fallback posture / degraded behavior / consumer action | `schema/module.schema.json` |
+| 10 | U-411 | 未开始 | 已完成 | compatibility matrix partial / unknown 行要求 fallback metadata | `lib/validate.mjs` |
+
+## 验证记录：R-2026-05-13-23
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 38/38 pass |
+| Compile pilot | `npm run compile:pilot` | 通过 | generated corpus 已同步 |
+| Example packs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 9/9 pass |
+| JSON sample parse | docs examples parse smoke | 通过 | validate / route / unchecked repo samples 可解析 |
+| Route opt-in smoke | `route --explain-skipped --json` | 通过 | skipped modules 与 explanation present |
+| Repo validation | `npm run validate:all` | 通过 | root / pilots strict pass |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | 61/61 entries aligned |
+
+## 回合结束摘要：R-2026-05-13-23
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-402 到 U-411 |
+| 完成任务 | 10 | U-402 到 U-411 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-412 到 U-421 |
+
 ## 回合摘要：R-2026-05-13-22
 
 | 项 | 内容 |

@@ -166,6 +166,8 @@ npx aods scaffold authoring-module ./aods/authoring.json release-governance --pa
 
 实现证据是声明式的。证据锚点可以记录 `reviewed_at`、`expires_at` 和 `refresh_cadence`；校验可以在 time-bound 证据过期或缺少复审日期时给出 warning，但不会执行可选刷新命令。manual-review 验收项会继续作为人工复审债务显示，避免把人工判断误当成自动证明。
 
+能力元数据也是声明式的。capability contract 可以声明 `supported`、`partial`、`unsupported` 或 `unknown`，并补充 `unsupported_reason`、`fallback_posture`、降级行为和消费者动作。兼容性检查只比较元数据和 fallback posture；不会发现 provider、不会排序 fallback、不会执行 adapter。
+
 ### 可选：安装与发布版本对齐的 Copilot skill
 
 如果你希望别的 agent 在 AODS 仓库里工作时，不用先加载整套规范再开始，可以把同一 release tag 下的 `skills/aods-use/` 复制到对应 agent 的 skills 目录。
@@ -482,6 +484,8 @@ node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 ```
 
 如果你已经知道改动落在哪个文件，用 `--touch`。如果你只知道“我要找哪类问题”，可以直接用自然语言的 `--query`，CLI 会按 module metadata、成对文档关系和 compact artifact semantics 里的词法 + 结构锚点去找最可能的权威模块。如果你已经知道当前任务所处阶段，但还不知道目标文件，可以额外给 `--stage`（`orientation`、`plan`、`action`、`verification`、`evidence`）来细化路由。
+
+面向机器消费时加 `--json`。只有工具需要解释未加载内容时才加 `--explain-skipped`；默认路由输出保持紧凑。
 
 Routing precedence：
 

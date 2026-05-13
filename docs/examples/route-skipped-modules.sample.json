@@ -1,0 +1,29 @@
+{
+  "strategy": "query-route",
+  "explanation": {
+    "skipped": {
+      "source": "manifest.modules[] minus recommended_modules",
+      "skipped_module_count": 2,
+      "skipped_module_ids": [
+        "spec-aop",
+        "spec-surface-governance"
+      ]
+    }
+  },
+  "skipped_modules": [
+    {
+      "id": "spec-aop",
+      "path": "spec/aop.json",
+      "layer": "detail",
+      "category": "reference",
+      "skip_reason": "not-selected-by-route"
+    },
+    {
+      "id": "spec-surface-governance",
+      "path": "spec/surface-governance.json",
+      "layer": "capsule",
+      "category": "capsule",
+      "skip_reason": "not-selected-by-route"
+    }
+  ]
+}

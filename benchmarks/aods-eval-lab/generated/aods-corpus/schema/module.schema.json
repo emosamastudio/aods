@@ -1649,7 +1649,7 @@
       "properties": {
         "profile": {
           "type": "string",
-          "enum": ["read-model", "command", "implementation-linkage"],
+          "enum": ["read-model", "command", "implementation-linkage", "capability"],
           "description": "v0.7 minimum contract completeness profile for stable consumption."
         },
         "required_fields": {
@@ -1667,6 +1667,61 @@
         "term_refs": {
           "$ref": "#/definitions/term_refs",
           "description": "Structured canonical glossary term refs that apply to this stable contract metadata."
+        },
+        "capability": {
+          "$ref": "#/definitions/capability_contract",
+          "description": "Metadata-only capability support and fallback posture. This does not create negotiation runtime behavior."
+        }
+      }
+    },
+    "capability_support_status": {
+      "type": "string",
+      "enum": ["supported", "unsupported", "partial", "unknown"]
+    },
+    "capability_fallback_posture": {
+      "type": "string",
+      "enum": ["none", "manual-review", "degraded", "alternate-provider", "blocked"]
+    },
+    "capability_contract": {
+      "type": "object",
+      "required": ["capability_id", "support_status"],
+      "additionalProperties": false,
+      "properties": {
+        "capability_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.:-]{1,96}$",
+          "description": "Stable capability identifier for provider or consumer metadata comparison."
+        },
+        "support_status": {
+          "$ref": "#/definitions/capability_support_status"
+        },
+        "unsupported_reason": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Required when support_status=unsupported or partial; explains why the capability cannot be consumed as fully supported."
+        },
+        "fallback_posture": {
+          "$ref": "#/definitions/capability_fallback_posture",
+          "description": "Metadata-only fallback posture for consumers. This does not select or execute providers."
+        },
+        "degraded_behavior": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "Expected behavior when the capability is consumed in degraded mode."
+        },
+        "consumer_action": {
+          "type": "string",
+          "enum": ["use", "downgrade", "manual-review", "block", "choose-alternate"],
+          "description": "Recommended consumer posture for this capability metadata."
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]{1,64}$"
+          },
+          "description": "Optional implementation evidence ids that support the capability posture."
         }
       }
     },

@@ -1,0 +1,30 @@
+{
+  "status": "fail",
+  "levels": {
+    "L3": {
+      "warnings": [
+        {
+          "level": "L3",
+          "module_id": "demo-detail",
+          "sid": null,
+          "location": {
+            "module_id": "demo-detail",
+            "sid": null,
+            "path": null,
+            "evidence_id": "expired-review-date"
+          },
+          "rule": "implementation-evidence-expired",
+          "message": "implementation evidence is past expires_at: expired-review-date",
+          "path": null,
+          "evidence_id": "expired-review-date",
+          "expires_at": "2000-01-02",
+          "remediation": {
+            "action": "refresh-evidence",
+            "gate": "warning",
+            "guidance": "Review the expired evidence anchor or downgrade the implementation posture before relying on it."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | evidence freshness and validator location implementation complete |
+| 状态 | observability and capability metadata implementation complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S46 evidence freshness；S47 validator observability |
-| 当前回合 | R-2026-05-13-22 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 406 |
+| 当前阶段 | S47 validator observability；S48 capability metadata |
+| 当前回合 | R-2026-05-13-23 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 416 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-22 |
-| 开始时间 | 2026-05-13 13:40 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-23 |
+| 开始时间 | 2026-05-13 14:25 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-392、U-393、U-394、U-395、U-396、U-397、U-398、U-399、U-400、U-401 |
-| 本轮范围 | 上轮质量复审；evidence freshness schema；validator warning gate；fresh / expired / missing-review regression；README adoption note；unchecked repo reason code；unchecked repo JSON sample；manual-review acceptance criteria docs；acceptance/evidence freshness cross-check design；public issue sync；validator location envelope |
-| 排除范围 | evidence command execution、remote fetch、CI execution、automatic evidence refresh、runtime resolver、issue close、label/milestone edit、release/tag/package mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；focused tests；`npm run compile:pilot`；sample JSON parse；`npm run validate:all`；`npm run package:check-surface -- --json`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-402、U-403、U-404、U-405、U-406、U-407、U-408、U-409、U-410、U-411 |
+| 本轮范围 | 上轮质量复审；validator location text parity review；suggested-action next batch；validate / route sample refresh；route skipped-module opt-in；observability public issue sync；capability unsupported reason schema；fallback posture schema；capability compatibility validator extension |
+| 排除范围 | runtime negotiation、provider discovery、fallback ranking、adapter execution、issue close、label/milestone edit、release/tag/package mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；focused tests；`npm run compile:pilot`；sample JSON parse；route opt-in smoke；`npm run validate:all`；`npm run package:check-surface -- --json`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-402 | S47 | Validator location text parity review | P2 | 未开始 | text output 保持可读且不膨胀 | U-401 | - |
-| U-403 | S47 | Suggested-action next rule batch implementation | P1 | 未开始 | 为高频 rule 增补 remediation / suggested action | U-336 | - |
-| U-404 | S47 | Validate JSON sample refresh after location envelope | P2 | 未开始 | 更新 `docs/examples/validate-summary.sample.json` 或新增 issue sample | U-401 | - |
-| U-405 | S47 | Route skipped-module opt-in CLI design | P2 | 未开始 | 设计 `--explain-skipped` 或等价 opt-in，不改变默认输出 | U-337 | - |
-| U-406 | S47 | Route skipped-module regression | P2 | 未开始 | opt-in 输出 selected/skipped，默认仍 compact | U-405 | - |
-| U-407 | S47 | Observability compact sample pack refresh | P3 | 未开始 | route / validate samples 与实现字段对齐 | U-404、U-406 | - |
-| U-408 | S47 | Observability public issue sync | P3 | 未开始 | 判断是否更新 `#59` 状态 | U-401、U-403、U-406 | - |
-| U-409 | S48 | Capability unsupported reason schema implementation | P1 | 未开始 | capability metadata 可表达 unsupported reason | U-339 | - |
-| U-410 | S48 | Capability fallback posture schema implementation | P1 | 未开始 | fallback posture / degraded behavior / consumer action 进入 schema | U-340 | - |
-| U-411 | S48 | Capability compatibility validator extension | P1 | 未开始 | unsupported / fallback metadata 与 compatibility matrix 联动检查 | U-409、U-410 | - |
 | U-412 | S48 | Capability conformance fixture first slice | P2 | 未开始 | unsupported / partial / unknown 结果进入 conformance fixture | U-411 | - |
 | U-413 | S48 | Capability example pack refresh | P2 | 未开始 | compiled-pilot adapter/capability module 展示 unsupported / fallback | U-409、U-410 | - |
 | U-414 | S48 | Capability README guidance refresh | P3 | 未开始 | README 继续强调 metadata-only，不承诺 runtime negotiation | U-413 | - |
@@ -473,12 +463,22 @@
 | 404 | U-399 | S46 | Acceptance criteria freshness cross-check design | P3 | 2026-05-13 | `docs/operations/aods-evidence-freshness-and-location-implementation.zh-CN.md` | design review | criteria 与 evidence freshness 保持非执行检查 |
 | 405 | U-400 | S46 | Evidence freshness public issue sync | P3 | 2026-05-13 | https://github.com/emosamastudio/aods/issues/60#issuecomment-4437453826 | `gh issue comment 60 ...` | 只同步状态，不关闭 issue、不编辑 body |
 | 406 | U-401 | S47 | Validator location envelope implementation | P1 | 2026-05-13 | `lib/validate.mjs` | focused regression | validate JSON issue 增加统一 `location` envelope |
+| 407 | U-402 | S47 | Validator location text parity review | P2 | 2026-05-13 | validate text output review | focused regression / manual text review | text 输出保持紧凑，location envelope 只进入 JSON issue |
+| 408 | U-403 | S47 | Suggested-action next rule batch implementation | P1 | 2026-05-13 | `lib/validate.mjs` | focused regression | capability unsupported / fallback rules 增加 remediation guidance |
+| 409 | U-404 | S47 | Validate JSON sample refresh after location envelope | P2 | 2026-05-13 | `docs/examples/validate-issue-location.sample.json` | JSON parse | 新增最小 issue location envelope 样例 |
+| 410 | U-405 | S47 | Route skipped-module opt-in CLI design | P2 | 2026-05-13 | `lib/route.mjs`、README | route opt-in smoke | 新增 `--explain-skipped`，默认 route 输出不变 |
+| 411 | U-406 | S47 | Route skipped-module regression | P2 | 2026-05-13 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs` | focused regression | JSON / text opt-in 输出 skipped modules，默认 compact |
+| 412 | U-407 | S47 | Observability compact sample pack refresh | P3 | 2026-05-13 | `docs/examples/README.md`、`docs/examples/route-skipped-modules.sample.json` | JSON parse | validate / route 短样例与新字段对齐 |
+| 413 | U-408 | S47 | Observability public issue sync | P3 | 2026-05-13 | https://github.com/emosamastudio/aods/issues/59#issuecomment-4437540362 | `gh issue comment 59 ...` | 只同步状态，不关闭 issue、不编辑 body |
+| 414 | U-409 | S48 | Capability unsupported reason schema implementation | P1 | 2026-05-13 | `schema/module.schema.json`、schema mirrors | focused regression / `npm run validate:all` | capability metadata 可表达 unsupported / partial reason |
+| 415 | U-410 | S48 | Capability fallback posture schema implementation | P1 | 2026-05-13 | `schema/module.schema.json`、README | focused regression / `npm run validate:all` | fallback posture、degraded behavior、consumer action 进入 metadata schema |
+| 416 | U-411 | S48 | Capability compatibility validator extension | P1 | 2026-05-13 | `lib/validate.mjs`、focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | partial / unknown compatibility rows 必须声明 fallback 或 consumer metadata |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-402 到 U-411 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-412 到 U-421 |
 
 ## 负责人判断 / issue 分类
 
