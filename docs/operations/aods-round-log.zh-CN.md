@@ -3,6 +3,71 @@
 状态：当前回合短记录
 完整历史归档：`docs/operations/archive/aods-round-log-archive-2026-05-13.zh-CN.md`
 
+## 回合摘要：R-2026-05-13-51
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-51 |
+| 开始时间 | 2026-05-13 33:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 33:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-50 复审；provider discovery source-first candidate insertion plan；provider evidence negative fixture implementation plan；runtime protocol schema minimal slice decision；non-execution regression implementation plan；provider discovery docs note decision；auth boundary source-first candidate plan；probe cost negative fixture plan；fallback ranking overclaim regression plan；adapter handshake audit negative fixture plan；`#64` progress sync；不改 authoring source、不编译生成示例、不实现 schema/validator/runtime/conformance/package promotion；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-682、U-683、U-684、U-685、U-686、U-687、U-688、U-689、U-690、U-691 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-51
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `3bca138 Close static retrospective and add install smoke` |
+| Task ledger state | 通过 | U-682 到 U-691 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 provider discovery hardening and release gate follow-up |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-682 到 U-691 |
+
+## 任务执行记录：R-2026-05-13-51
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-682 | 未开始 | 已完成 | 制定 provider discovery source-first insertion plan，不改 authoring | provider discovery hardening doc |
+| 2 | U-683 | 未开始 | 已完成 | 设计 missing provider evidence negative fixture 路径 | provider discovery hardening doc |
+| 3 | U-684 | 未开始 | 已完成 | 记录 provider discovery 最小 schema slice，但 gate 继续关闭 | provider discovery hardening doc |
+| 4 | U-685 | 未开始 | 已完成 | 设计 runtime/protocol non-execution focused regression | provider discovery hardening doc |
+| 5 | U-686 | 未开始 | 已完成 | 判断暂不新增 public docs note | provider discovery hardening doc |
+| 6 | U-687 | 未开始 | 已完成 | 制定 auth boundary 第二 source-first candidate plan | provider discovery hardening doc |
+| 7 | U-688 | 未开始 | 已完成 | 制定 probe cost negative fixture plan | provider discovery hardening doc |
+| 8 | U-689 | 未开始 | 已完成 | 制定 fallback ranking overclaim regression plan | provider discovery hardening doc |
+| 9 | U-690 | 未开始 | 已完成 | 制定 adapter handshake audit negative fixture plan | provider discovery hardening doc |
+| 10 | U-691 | 未开始 | 已完成 | 向 `#64` 同步第二条静态前置进展，不关闭 issue | `https://github.com/emosamastudio/aods/issues/64#issuecomment-4441211144` |
+
+## 返工记录：R-2026-05-13-51
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| 无 | 无需返工 | 上轮质量复审通过，本轮验证通过 |
+
+## 验证记录：R-2026-05-13-51
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| GitHub issue read | `gh issue view 64 --json ...` | 通过 | 已确认现有 body/comment 后再追加 |
+| GitHub issue comment | `gh issue comment 64` | 通过 | 评论链接已记录 |
+| Docs links | `npm run docs:check-links -- --json` | 通过 | 写入最终文档后复跑 |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | 本轮未扩大 package |
+| Release hygiene | `npm run release:hygiene` | 通过 | 最终 gate |
+
+## 回合结束摘要：R-2026-05-13-51
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-682 到 U-691 |
+| 完成任务 | 10 | U-682 到 U-691 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-692 到 U-701 |
+
 ## 回合摘要：R-2026-05-13-50
 
 | 项 | 内容 |
@@ -135,8 +200,8 @@
 
 | 回合 | 范围 | 结果 | 详情 |
 |---|---|---|---|
+| R-2026-05-13-51 | U-682 到 U-691 | provider discovery hardening 完成；`#64` 已追加静态前置进展；schema/runtime 仍未实现 | `docs/operations/aods-provider-discovery-hardening.zh-CN.md` |
 | R-2026-05-13-50 | U-672 到 U-681 | final static retrospective 完成；package install smoke 脚本新增并通过；任务池扩展到 U-731 | `docs/operations/aods-final-static-retrospective.zh-CN.md` |
-| R-2026-05-13-49 | U-662 到 U-671 | release maintenance planning 完成；v0.9.1 patch gate 和 npm / CI / hosted gates 已记录 | `docs/operations/aods-release-maintenance-planning.zh-CN.md` |
 | R-2026-05-13-48 | U-652 到 U-661 | operations hygiene sync 完成；round log 已归档拆分，`#60` body 已刷新 | `docs/operations/aods-operations-hygiene-sync.zh-CN.md` |
 
 ## 历史查阅

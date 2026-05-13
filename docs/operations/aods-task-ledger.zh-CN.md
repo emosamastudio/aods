@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | final static retrospective complete |
+| 状态 | provider discovery hardening complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S86 provider discovery and release gate hardening |
-| 当前回合 | R-2026-05-13-50 |
-| 未完成任务数量 | 50 |
-| 已完成任务数量 | 686 |
+| 当前阶段 | S87 release gate integration and patch decision |
+| 当前回合 | R-2026-05-13-51 |
+| 未完成任务数量 | 40 |
+| 已完成任务数量 | 696 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-50 |
-| 开始时间 | 2026-05-13 32:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-51 |
+| 开始时间 | 2026-05-13 33:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-672、U-673、U-674、U-675、U-676、U-677、U-678、U-679、U-680、U-681 |
-| 本轮范围 | 上轮质量复审；projection guidance static invariant；provider discovery example candidate；policy / workflow source-first candidate decisions；migration dry-run package no-go revisit；route query failure regression plan；validate location compatibility regression plan；package install smoke automation；post-v0.9 retrospective；next milestone/no-milestone decision；下一任务池扩展 |
-| 排除范围 | schema implementation、validator implementation、runtime negotiation、provider call、auth exchange、dynamic probing、fallback executor、workflow engine、policy engine、migration executor、npm publish、version bump、tag creation、GitHub Release creation、milestone creation、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；package install smoke；docs link check；package surface check；release hygiene final；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-682、U-683、U-684、U-685、U-686、U-687、U-688、U-689、U-690、U-691 |
+| 本轮范围 | 上轮质量复审；provider discovery source-first candidate insertion plan；provider evidence negative fixture plan；runtime protocol schema minimal slice decision；non-execution regression plan；provider discovery docs note decision；auth boundary source-first candidate plan；probe cost negative fixture plan；fallback ranking overclaim regression plan；adapter handshake audit negative fixture plan；`#64` progress sync |
+| 排除范围 | source-first authoring edit、compile output change、schema implementation、validator implementation、conformance promotion、package example promotion、runtime negotiation、provider call、auth exchange、network probing、fallback executor、adapter call、npm publish、version bump、tag creation、GitHub Release creation、milestone creation、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；GitHub issue read/comment evidence；docs link check；package surface check；release hygiene final；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-682 | S86 | Provider discovery source-first candidate insertion plan | P2 | 未开始 | 明确 provider discovery 静态候选进入 source-first example 的最小改动 | U-673 | no provider call |
-| U-683 | S86 | Provider evidence negative fixture implementation plan | P2 | 未开始 | 设计缺少 discovery evidence 的负例实现路径 | U-673 | no runtime |
-| U-684 | S86 | Runtime protocol schema minimal slice decision | P2 | 未开始 | 决定是否存在可进入 schema 的最小静态字段子集 | U-642/U-651 | no negotiation |
-| U-685 | S86 | Runtime protocol non-execution regression implementation plan | P2 | 未开始 | 设计防止 static record 被误读为 execution 的回归 | U-651 | - |
-| U-686 | S86 | Provider discovery docs short note decision | P3 | 未开始 | 判断是否新增短 docs note 说明 declared discovery 边界 | U-673 | - |
-| U-687 | S86 | Auth boundary source-first candidate plan | P2 | 未开始 | 判断 auth boundary 是否可进入 source-first candidate | U-643 | no auth exchange |
-| U-688 | S86 | Probe cost negative fixture plan | P2 | 未开始 | 设计 probe cost / no-network 姿态负例 | U-644 | no network |
-| U-689 | S86 | Fallback ranking overclaim regression plan | P2 | 未开始 | 设计防止 fallback metadata 被解读为 ranking 的回归 | U-646 | no executor |
-| U-690 | S86 | Adapter handshake audit negative fixture plan | P2 | 未开始 | 设计 adapter handshake 缺 audit anchor 的负例 | U-647 | no adapter call |
-| U-691 | S86 | Runtime protocol `#64` progress sync decision | P3 | 未开始 | 判断是否在 `#64` 追加静态前置进展 | U-682/U-690 | GitHub |
 | U-692 | S87 | Package install smoke release gate integration decision | P2 | 未开始 | 决定 `package:install-smoke` 是否纳入 release hygiene / release self-check | U-679 | - |
 | U-693 | S87 | v0.9.1 version bump execution gate | P2 | 未开始 | 判断是否进入 `0.9.1` bump/tag/release 准备 | U-662/U-692 | no publish by default |
 | U-694 | S87 | v0.9.1 release notes final draft | P3 | 未开始 | 将 patch candidate skeleton 更新为可发布草稿 | U-666 | - |
@@ -90,16 +80,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 657 | U-652 | S83 | Round log archive split execution | P2 | 2026-05-13 | round log archive | docs link check | current round log shortened, full history archived |
-| 658 | U-653 | S83 | Task ledger automation script feasibility | P3 | 2026-05-13 | operations hygiene sync doc | task ledger count check | no script until repeated drift |
-| 659 | U-654 | S83 | Handoff summary shrink pass | P3 | 2026-05-13 | `docs/operations/aods-handoff.zh-CN.md` | docs link check | completed summary compressed |
-| 660 | U-655 | S83 | Operations README topic table pruning | P3 | 2026-05-13 | operations hygiene sync doc | docs link check | no generator; archive link updated |
-| 661 | U-656 | S83 | Local MEMORY compaction action | P3 | 2026-05-13 | local `MEMORY.md` | local-only review | compacted and kept untracked |
-| 662 | U-657 | S83 | Knowledge base write decision after closeout | P3 | 2026-05-13 | operations hygiene sync doc | docs link check | no KB write this round |
-| 663 | U-658 | S83 | AGENTS / MEMORY drift check | P3 | 2026-05-13 | operations hygiene sync doc | docs link check | no conflict found |
-| 664 | U-659 | S83 | aods-use installed skill sync explicit plan | P3 | 2026-05-13 | operations hygiene sync doc | skill diff review | no installed skill overwrite |
-| 665 | U-660 | S83 | `#60` body refresh execution decision | P2 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/60` | `gh issue edit 60` | current-status section inserted |
-| 666 | U-661 | S83 | `#64` label / body audit after static records | P3 | 2026-05-13 | issue #64 audit | `gh issue view 64` | no label/body edit needed |
 | 667 | U-662 | S84 | v0.9.1 patch release candidate gate | P2 | 2026-05-13 | release maintenance planning doc | release hygiene | patch candidate prepared; no bump/tag/release |
 | 668 | U-663 | S84 | v0.10 semantic scope proposal | P2 | 2026-05-13 | release maintenance planning doc | docs link check | v0.10 not triggered until schema/validator/package contract expansion |
 | 669 | U-664 | S84 | Next changelog skeleton | P3 | 2026-05-13 | release maintenance planning doc | docs link check | skeleton prepared without adding root changelog |
@@ -120,12 +100,22 @@
 | 684 | U-679 | S85 | Package install smoke automation script | P2 | 2026-05-13 | `scripts/package-install-smoke.mjs` | `npm run package:install-smoke -- --json` | packed install/version/help/validate/route smoke |
 | 685 | U-680 | S85 | Final post-v0.9 retrospective packet | P3 | 2026-05-13 | final static retrospective doc | docs link check | post-v0.9 first stage closed |
 | 686 | U-681 | S85 | Next milestone / no-milestone final decision | P3 | 2026-05-13 | final static retrospective doc | GitHub milestone audit | no milestone; new pool U-682..U-731 |
+| 687 | U-682 | S86 | Provider discovery source-first candidate insertion plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | plan only, no authoring edit |
+| 688 | U-683 | S86 | Provider evidence negative fixture implementation plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | first negative fixture candidate sorted |
+| 689 | U-684 | S86 | Runtime protocol schema minimal slice decision | P2 | 2026-05-13 | provider discovery hardening doc | release hygiene | schema gate remains closed |
+| 690 | U-685 | S86 | Runtime protocol non-execution regression implementation plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | focused regression before conformance |
+| 691 | U-686 | S86 | Provider discovery docs short note decision | P3 | 2026-05-13 | provider discovery hardening doc | docs link check | no public docs note yet |
+| 692 | U-687 | S86 | Auth boundary source-first candidate plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | second candidate after provider evidence |
+| 693 | U-688 | S86 | Probe cost negative fixture plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | network cost boundary candidate |
+| 694 | U-689 | S86 | Fallback ranking overclaim regression plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | structured-field first, no text judge |
+| 695 | U-690 | S86 | Adapter handshake audit negative fixture plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | later candidate after auth/discovery shape |
+| 696 | U-691 | S86 | Runtime protocol `#64` progress sync decision | P3 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/64#issuecomment-4441211144` | `gh issue comment 64` | status comment posted without runtime overclaim |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-682 到 U-691 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-692 到 U-701 |
 
 ## 负责人判断 / issue 分类
 
@@ -133,7 +123,7 @@
 |---|---|---|---|
 | public roadmap | #60 | 保持 open；v0.9 current-status body section 已插入 | 后续继续作为 roadmap index |
 | observability | #59 | 已关闭 metadata/reporting scope | 后续 runtime/dashboard/trace backend 不在当前 release 范围 |
-| capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` body 已更新，后续先做静态前置而非 runtime |
+| capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` 已追加第二条静态前置进展，后续先做静态前置而非 runtime |
 | milestone | GitHub milestones | 当前无 milestone；v0.9 已发布；本轮决定继续不创建 | 新任务池仍由台账驱动 |
 
 ## 新发现任务暂存区
@@ -146,4 +136,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；post-v0.9 第一阶段已完成；projection guidance、provider discovery、policy/workflow、migration dry-run、route/query 和 validate location 后续边界已收束；`package:install-smoke` 已新增并通过；继续无 milestone；下一任务池已扩展到 U-682 到 U-731，下一轮默认 U-682 到 U-691。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；provider discovery 已选为下一 source-first candidate，missing evidence 是第一 negative fixture candidate；runtime/protocol schema gate 继续关闭；public docs 暂不新增；`#64` 已同步第二条静态前置进展；下一轮默认 U-692 到 U-701。

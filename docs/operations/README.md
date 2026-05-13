@@ -48,6 +48,7 @@
 | [aods-operations-hygiene-sync.zh-CN.md](./aods-operations-hygiene-sync.zh-CN.md) | U-652 到 U-661 operations archive / memory / public tracker hygiene |
 | [aods-release-maintenance-planning.zh-CN.md](./aods-release-maintenance-planning.zh-CN.md) | U-662 到 U-671 release maintenance / npm / CI / hosted gates |
 | [aods-final-static-retrospective.zh-CN.md](./aods-final-static-retrospective.zh-CN.md) | U-672 到 U-681 final static invariant / retrospective / next task pool |
+| [aods-provider-discovery-hardening.zh-CN.md](./aods-provider-discovery-hardening.zh-CN.md) | U-682 到 U-691 provider discovery candidate / negative fixture / non-execution hardening |
 
 ## 当前公开示例入口
 
