@@ -46,6 +46,7 @@
 | [aods-adoption-ergonomics-hardening.zh-CN.md](./aods-adoption-ergonomics-hardening.zh-CN.md) | U-632 到 U-641 adoption docs / CLI version ergonomics hardening |
 | [aods-runtime-protocol-static-records.zh-CN.md](./aods-runtime-protocol-static-records.zh-CN.md) | U-642 到 U-651 runtime/protocol static record proposals and gate decisions |
 | [aods-operations-hygiene-sync.zh-CN.md](./aods-operations-hygiene-sync.zh-CN.md) | U-652 到 U-661 operations archive / memory / public tracker hygiene |
+| [aods-release-maintenance-planning.zh-CN.md](./aods-release-maintenance-planning.zh-CN.md) | U-662 到 U-671 release maintenance / npm / CI / hosted gates |
 
 ## 当前公开示例入口
 

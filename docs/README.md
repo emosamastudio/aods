@@ -52,6 +52,7 @@
 | `docs/operations/aods-adoption-ergonomics-hardening.zh-CN.md` | U-632 到 U-641 adoption docs / CLI version ergonomics hardening 记录。 |
 | `docs/operations/aods-runtime-protocol-static-records.zh-CN.md` | U-642 到 U-651 runtime/protocol static record proposals and gate decisions 记录。 |
 | `docs/operations/aods-operations-hygiene-sync.zh-CN.md` | U-652 到 U-661 operations archive / memory / public tracker hygiene 记录。 |
+| `docs/operations/aods-release-maintenance-planning.zh-CN.md` | U-662 到 U-671 release maintenance / npm / CI / hosted gates 记录。 |
 | `docs/operations/archive/` | 拆分前的长入口、完整任务台账和完整交接归档。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |
