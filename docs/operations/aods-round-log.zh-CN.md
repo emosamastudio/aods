@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-11
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-11 |
+| 开始时间 | 2026-05-13 11:45 Asia/Shanghai |
+| 结束时间 | 2026-05-13 12:15 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-10 复审；capability unsupported-feature audit；fallback semantics boundary；capability protocol surface sketch；capability conformance fixture plan；matrix docs refresh；`#41` public status refresh；`#60` tracker audit；next milestone split；closed issue traceability table；public tracker update plan；不实现 adapter handshake、不执行 fallback、不 remote fetch、不改 `#60` body、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-291、U-292、U-293、U-294、U-295、U-296、U-297、U-298、U-299、U-300 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-11
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Task ledger state | 通过 | U-291 到 U-330 已入未完成任务表，下一轮默认 U-291 到 U-300 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-291 到 U-300 |
+
+## 任务执行记录：R-2026-05-13-11
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-291 | 未开始 | 已完成 | 审查 capability unsupported / partial / unknown 表达能力 | `aods-capability-governance-next-slice.zh-CN.md` |
+| 2 | U-292 | 未开始 | 已完成 | 设计 fallback metadata boundary | `aods-capability-governance-next-slice.zh-CN.md` |
+| 3 | U-293 | 未开始 | 已完成 | 设计静态 capability protocol surface sketch | `aods-capability-governance-next-slice.zh-CN.md` |
+| 4 | U-294 | 未开始 | 已完成 | 规划 capability conformance fixture set | `aods-capability-governance-next-slice.zh-CN.md` |
+| 5 | U-295 | 未开始 | 已完成 | 补 capability matrix adoption guidance | `aods-capability-governance-next-slice.zh-CN.md` |
+| 6 | U-296 | 未开始 | 已完成 | 评论 `#41`，同步当前覆盖和 deferred runtime scope | `https://github.com/emosamastudio/aods/issues/41#issuecomment-4436791747` |
+| 7 | U-297 | 未开始 | 已完成 | 审计 `#60` tracker body 与当前 closed issue 状态差异 | `aods-capability-governance-next-slice.zh-CN.md` |
+| 8 | U-298 | 未开始 | 已完成 | 拆分 next milestone candidates | `aods-capability-governance-next-slice.zh-CN.md` |
+| 9 | U-299 | 未开始 | 已完成 | 生成初版 closed issue traceability table | `aods-capability-governance-next-slice.zh-CN.md` |
+| 10 | U-300 | 未开始 | 已完成 | 决定 `#60` 先 comment-only，不编辑 body | `aods-capability-governance-next-slice.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-11
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | docs link、secret scan、package surface、generated clean、skill tests、`validate:all` 全部通过 |
+| Capability source review | `rg` / `sed` over `spec/stable-surface-contracts.json`、`lib/validate.mjs`、compiled-pilot source | 通过 | metadata-only compatibility coverage and partial/unknown vocabulary confirmed |
+| Public issue review | `gh issue view 60 --json body`、`gh issue view 41 --json body` | 通过 | tracker mismatch and #41 remaining scope documented |
+| GitHub issue sync | `gh issue comment 41 ...` | 通过 | `#41` status updated; issue remains open |
+
+## 新发现任务：R-2026-05-13-11
+
+本轮没有新增任务 ID。剩余未完成任务为 U-301 到 U-330，下一轮默认选择 U-301 到 U-310。
+
+## 回合结束摘要：R-2026-05-13-11
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-291 到 U-300 |
+| 完成任务 | 10 | U-291 到 U-300 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-301 到 U-310 |
+
 ## 回合摘要：R-2026-05-13-10
 
 | 项 | 内容 |

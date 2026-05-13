@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-290 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59` 已同步 observability 当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-291 到 U-330；下一轮默认选择 U-291 到 U-300，优先推进 capability / governance 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-300 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-301 到 U-330；下一轮默认选择 U-301 到 U-310，优先推进 release-to-issue report、stale docs audit、handoff/index pruning、release hygiene 和 skill drift 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -140,9 +140,10 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 125 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md` | 读取 v0.8 release closeout、issue close verification 和下一 milestone candidates |
 | 126 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | 读取 U-271 到 U-280、`#13/#60` 公开同步和 U-281 到 U-330 新任务池 |
 | 127 | `docs/operations/aods-observability-next-slice.zh-CN.md` | 读取 U-281 到 U-290 validation / routing observability 结果 |
-| 128 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 129 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 130 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 128 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | 读取 U-291 到 U-300 capability / governance 结果 |
+| 129 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 130 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 131 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -422,16 +423,16 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-291 | Capability unsupported-feature audit | 下一轮默认首选 |
-| 2 | U-292 | Capability fallback semantics boundary | U-291 后执行 |
-| 3 | U-293 | Capability protocol surface sketch | U-292 后执行 |
-| 4 | U-294 | Capability conformance fixture plan | U-293 后执行 |
-| 5 | U-295 | Capability matrix docs refresh | U-291 后执行 |
-| 6 | U-296 | `#41` public status refresh | U-291/U-293 后执行 |
-| 7 | U-297 | Governance roadmap issue body audit | `#60` tracker |
-| 8 | U-298 | Governance roadmap next milestone split | U-297 后执行 |
-| 9 | U-299 | Closed issue traceability table | U-297 后执行 |
-| 10 | U-300 | Public tracker update plan | U-297 后执行 |
+| 1 | U-301 | Release-to-issue close report | 下一轮默认首选 |
+| 2 | U-302 | Post-v0.8 docs stale reference audit | U-271 后执行 |
+| 3 | U-303 | Handoff stale risk compression | U-302 后执行 |
+| 4 | U-304 | Operations index pruning plan | U-302 后执行 |
+| 5 | U-305 | Task ledger archive split plan | U-280 后执行 |
+| 6 | U-306 | Release hygiene CI reconsideration | U-271 后执行 |
+| 7 | U-307 | Package install smoke repeat | U-306 后执行 |
+| 8 | U-308 | GitHub release artifact audit | U-306 后执行 |
+| 9 | U-309 | `aods-use` installed-skill drift check | U-271 后执行 |
+| 10 | U-310 | Skill install/update route plan | U-309 后执行 |
 
 ## 失败和风险
 
@@ -507,13 +508,13 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-291 | Capability unsupported-feature audit | unsupported / partial / unknown 表达能力审查 |
-| 2 | U-292 | Capability fallback semantics boundary | fallback metadata 设计，不执行 fallback |
-| 3 | U-293 | Capability protocol surface sketch | 静态协议 surface 设计，不实现 handshake |
-| 4 | U-294 | Capability conformance fixture plan | mismatch fixture plan |
-| 5 | U-295 | Capability matrix docs refresh | adoption guidance |
-| 6 | U-296 | `#41` public status refresh | issue comment 同步 |
-| 7 | U-297 | Governance roadmap issue body audit | tracker checklist 与已关闭 issue 对齐审计 |
-| 8 | U-298 | Governance roadmap next milestone split | S33/S34/S35 候选 milestone |
-| 9 | U-299 | Closed issue traceability table | closed issue -> task -> release evidence |
-| 10 | U-300 | Public tracker update plan | comment-only vs edit body decision |
+| 1 | U-301 | Release-to-issue close report | v0.8 closed issue report |
+| 2 | U-302 | Post-v0.8 docs stale reference audit | 非历史 stale 引用表 |
+| 3 | U-303 | Handoff stale risk compression | 当前入口更短 |
+| 4 | U-304 | Operations index pruning plan | 分层索引方案 |
+| 5 | U-305 | Task ledger archive split plan | archive 视图方案 |
+| 6 | U-306 | Release hygiene CI reconsideration | 是否启用轻量 CI 的 decision |
+| 7 | U-307 | Package install smoke repeat | v0.8 tag fresh install smoke |
+| 8 | U-308 | GitHub release artifact audit | release tag/source/README 核对 |
+| 9 | U-309 | `aods-use` installed-skill drift check | repo vs local skill 差异 |
+| 10 | U-310 | Skill install/update route plan | 不直接覆盖本地 skill |

@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 observability planning |
+| 状态 | post-v0.8 capability / governance planning |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S32 validation / routing observability planning |
-| 当前回合 | R-2026-05-13-10 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 295 |
+| 当前阶段 | S33 capability fallback / governance tracker planning |
+| 当前回合 | R-2026-05-13-11 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 305 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-10 |
-| 开始时间 | 2026-05-13 10:55 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-11 |
+| 开始时间 | 2026-05-13 11:45 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-281、U-282、U-283、U-284、U-285、U-286、U-287、U-288、U-289、U-290 |
-| 本轮范围 | 上轮质量复审；validator source-location audit；validator issue location schema / regression plan；validator suggested-action coverage audit / next slice；route skipped-module semantics and boundary；route explanation README refresh；observability example-output plan；`#59` public status refresh |
+| 选中任务 | U-291、U-292、U-293、U-294、U-295、U-296、U-297、U-298、U-299、U-300 |
+| 本轮范围 | 上轮质量复审；capability unsupported-feature audit；fallback semantics boundary；capability protocol surface sketch；capability conformance fixture plan；matrix docs refresh；`#41` public status refresh；`#60` tracker audit；next milestone split；closed issue traceability table；public tracker update plan |
 | 排除范围 | runtime implementation、adapter handshake、telemetry store、CI workflow enablement、npm publish、external fetch、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；validate / route JSON smoke；GitHub open issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；capability / tracker source review；GitHub open issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-291 | S33 | Capability unsupported-feature audit | P1 | 未开始 | 审查现有 metadata 是否能表达 unsupported / partial / unknown | U-279 | #41 |
-| U-292 | S33 | Capability fallback semantics boundary | P1 | 未开始 | 设计 fallback metadata，不做 fallback execution | U-291 | metadata-only |
-| U-293 | S33 | Capability protocol surface sketch | P1 | 未开始 | 定义 future provider/consumer exchange 的静态 surface，不实现 handshake | U-292 | no runtime |
-| U-294 | S33 | Capability conformance fixture plan | P1 | 未开始 | 规划 provider/consumer mismatch fixture | U-293 | conformance |
-| U-295 | S33 | Capability matrix docs refresh | P2 | 未开始 | 将 matrix columns / expected_result 写成 adoption guidance | U-291 | docs |
-| U-296 | S33 | `#41` public status refresh | P2 | 未开始 | 在 issue 上同步 metadata coverage 与 deferred runtime scope | U-291,U-293 | GitHub comment |
-| U-297 | S34 | Governance roadmap issue body audit | P1 | 未开始 | 检查 `#60` tracker checklist 与 closed issue mismatch | U-275 | public tracker |
-| U-298 | S34 | Governance roadmap next milestone split | P1 | 未开始 | 将 `#60` 拆成 S33/S34/S35 候选 milestone | U-297 | planning |
-| U-299 | S34 | Closed issue traceability table | P1 | 未开始 | 生成 closed issues -> local task -> release evidence 表 | U-297 | docs |
-| U-300 | S34 | Public tracker update plan | P1 | 未开始 | 规划是否编辑 `#60` body 或继续 comment-only | U-297 | GitHub |
 | U-301 | S34 | Release-to-issue close report | P2 | 未开始 | 写 v0.8 closed issues public report | U-299 | docs |
 | U-302 | S34 | Post-v0.8 docs stale reference audit | P2 | 未开始 | 找出仍说 PR open / release no-go 的非历史段落 | U-271 | docs |
 | U-303 | S34 | Handoff stale risk compression | P2 | 未开始 | 精简 handoff 中过长的历史风险，保留当前入口 | U-302 | docs |
@@ -372,6 +362,16 @@
 | 293 | U-288 | S32 | Route explanation docs refresh | P2 | 2026-05-13 | `README.md`、`docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | README now documents route JSON explanation fields |
 | 294 | U-289 | S32 | Observability example output pack | P2 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | sample pack plan documented; no generated sample churn |
 | 295 | U-290 | S32 | `#59` public status refresh | P2 | 2026-05-13 | GitHub issue `#59` comment | `gh issue comment 59 ...` | public issue updated with current coverage and remaining work |
+| 296 | U-291 | S33 | Capability unsupported-feature audit | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | capability spec / validator / example review | provider/consumer metadata covered；partial/unknown vocabulary exists；unsupported reason gap documented |
+| 297 | U-292 | S33 | Capability fallback semantics boundary | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | fallback metadata boundary defined without fallback execution |
+| 298 | U-293 | S33 | Capability protocol surface sketch | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | static protocol surface sketch documented；no handshake implementation |
+| 299 | U-294 | S33 | Capability conformance fixture plan | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | compatible/incompatible/partial/unknown/unsupported fixture plan documented |
+| 300 | U-295 | S33 | Capability matrix docs refresh | P2 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | adoption guidance for partial / unknown / incompatible rows documented |
+| 301 | U-296 | S33 | `#41` public status refresh | P2 | 2026-05-13 | GitHub issue `#41` comment | `gh issue comment 41 ...` | public issue updated with metadata coverage and deferred runtime scope |
+| 302 | U-297 | S34 | Governance roadmap issue body audit | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | `gh issue view 60 --json body` | tracker checklist mismatch documented |
+| 303 | U-298 | S34 | Governance roadmap next milestone split | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | S33/S34/S35/S36/S37 candidate milestones documented |
+| 304 | U-299 | S34 | Closed issue traceability table | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | initial closed issue -> evidence table documented |
+| 305 | U-300 | S34 | Public tracker update plan | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | comment-only plan chosen for `#60` before body edit |
 
 ## 失败或阻塞任务
 
