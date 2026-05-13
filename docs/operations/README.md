@@ -33,6 +33,7 @@
 | [aods-runtime-fixture-implementation-candidates.zh-CN.md](./aods-runtime-fixture-implementation-candidates.zh-CN.md) | U-502 到 U-511 runtime fixture implementation candidates |
 | [aods-release-hygiene-adoption-refresh.zh-CN.md](./aods-release-hygiene-adoption-refresh.zh-CN.md) | U-512 到 U-521 release hygiene / adoption / docs parity refresh |
 | [aods-final-go-no-go-and-next-pool.zh-CN.md](./aods-final-go-no-go-and-next-pool.zh-CN.md) | U-522 到 U-531 final go/no-go / public split / next task pool |
+| [aods-public-split-focused-regressions.zh-CN.md](./aods-public-split-focused-regressions.zh-CN.md) | U-532 到 U-541 public split execution / focused regressions |
 
 ## 当前公开示例入口
 
@@ -58,4 +59,4 @@
 2. 语义改动后先跑最小正确验证，再跑 `npm run validate:all`；发布前跑 `npm run release:hygiene`。
 3. `MEMORY.md` 是本地记忆文件，必须保持不进仓库。
 4. GitHub 公开动作已授权，但每次仍要记录链接和意图；默认不提前关闭 issue。
-5. runtime negotiation、provider discovery、fallback ranking、adapter execution 仍是 deferred，不因 capability metadata 示例而自动实现。
+5. runtime negotiation、provider discovery、fallback ranking、adapter execution 仍是 deferred，不因 capability metadata 示例或 focused regression 自动实现。

@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-36
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-36 |
+| 开始时间 | 2026-05-13 19:50 Asia/Shanghai |
+| 结束时间 | 2026-05-13 20:35 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-35 复审；`#59` public close execution；runtime/protocol follow-up issue creation；`#41` metadata close execution；`#60` roadmap pre-release comment；milestone execution decision；remote adapter mismatch focused regression plan/implementation/docs；event correction metadata shape/regression；source-first compile；operations ledger/handoff/progress/round-log refresh；不创建 milestone、不 bump version、不打 tag、不创建 GitHub Release、不发布 package、不实现 adapter runtime、不实现 event store/replay、不改 installed skill、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-532、U-533、U-534、U-535、U-536、U-537、U-538、U-539、U-540、U-541 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-36
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `d7bf0ec Document final go no-go task pool` |
+| Task ledger state | 通过 | U-532 到 U-541 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-532 到 U-541 |
+
+## 任务执行记录：R-2026-05-13-36
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-532 | 未开始 | 已完成 | 关闭 `#59` metadata/reporting scope | GitHub issue `#59` closed |
+| 2 | U-533 | 未开始 | 已完成 | 创建 runtime/protocol follow-up issue | GitHub issue `#64` |
+| 3 | U-534 | 未开始 | 已完成 | 关闭 `#41` metadata-first scope | GitHub issue `#41` closed |
+| 4 | U-535 | 未开始 | 已完成 | 在 `#60` 发布 pre-release roadmap comment | `https://github.com/emosamastudio/aods/issues/60#issuecomment-4438866046` |
+| 5 | U-536 | 未开始 | 已完成 | 审查 milestone 状态，决定本轮不创建 | GitHub milestones API 返回 `[]` |
+| 6 | U-537 | 未开始 | 已完成 | 制定 remote adapter mismatch 最小回归方案 | `aods-public-split-focused-regressions.zh-CN.md` |
+| 7 | U-538 | 未开始 | 已完成 | 实现 capability_id mismatch focused regression | `lib/validate.mjs` / scaffold test / source-first example |
+| 8 | U-539 | 未开始 | 已完成 | 同步 metadata-only docs wording | source-first README / compiled README / operations doc |
+| 9 | U-540 | 未开始 | 已完成 | 选择 event correction graph 静态记录形状 | `spec/validation-rules.json` / source-first example |
+| 10 | U-541 | 未开始 | 已完成 | 实现 missing target 和 supersession cycle 回归 | validator / scaffold test / example pack test |
+
+## 验证记录：R-2026-05-13-36
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Public issue snapshot | `gh issue list --repo emosamastudio/aods --state all --json ...` | 通过 | `#41/#59` closed；`#60/#64` open |
+| Milestone snapshot | GitHub milestones API | 通过 | milestones=[] |
+| Source-first compile | `npm run compile:pilot` | 通过 | compiled pilot 与 authoring source 同步 |
+| Focused tests | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 48 tests passed |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=188, checked_relative_links=99, missing=0 |
+| Pre-commit release hygiene | `npm run release:hygiene` | 预期 generated dirty | source-first 语义改动已重新生成 compiled pilot；提交后复跑 release hygiene |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+| Task ledger count check | local count script | 通过 | unfinished=40, completedRecent=30 |
+
+## 回合结束摘要：R-2026-05-13-36
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-532 到 U-541 |
+| 完成任务 | 10 | U-532 到 U-541 |
+| 返工项 | 1 | 将 event correction graph 示例中未登记的 event_type 改回已有词表值 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-542 到 U-551 |
+
 ## 回合摘要：R-2026-05-13-35
 
 | 项 | 内容 |

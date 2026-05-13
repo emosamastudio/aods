@@ -166,6 +166,11 @@ test("compiled pilot includes event correction supersession example pack", () =>
   assert.ok(module.sections.some((entry) => entry.sid === "change-event-projection-guidance"));
   assert.ok(module.artifacts.some((entry) => entry.artifact_id === "change-event-field-table"));
   assert.ok(module.artifacts.some((entry) => entry.artifact_id === "change-event-correction-table"));
+  const correctionGraph = module.artifacts.find((entry) => entry.artifact_id === "change-event-correction-graph");
+  assert.ok(correctionGraph);
+  assert.ok(correctionGraph.content.columns.includes("correction_of"));
+  assert.ok(correctionGraph.content.columns.includes("supersedes"));
+  assert.ok(correctionGraph.content.rows.some((row) => row[0] === "evt-change-corrected" && row[2] === "evt-change-accepted"));
   assert.ok(module.artifacts.some((entry) => entry.artifact_id === "change-event-projection-guidance-table"));
 
   const compiled = JSON.parse(fs.readFileSync(EVENT_MODULE_PATH, "utf8"));
@@ -217,6 +222,7 @@ test("compiled pilot includes adapter capability exposure example pack", () => {
   assert.ok(compatibilityMatrix);
   assert.ok(compatibilityMatrix.content.columns.includes("fallback_posture"));
   assert.ok(compatibilityMatrix.content.columns.includes("consumer_action"));
+  assert.ok(compatibilityMatrix.content.rows.some((row) => row[0] === "provider-capability-mismatch" && row[9] === "incompatible"));
   assert.ok(compatibilityMatrix.content.rows.some((row) => row[0] === "readiness-partial-cached" && row[9] === "partial"));
   assert.ok(compatibilityMatrix.content.rows.some((row) => row[0] === "change-audit-unknown" && row[9] === "unknown"));
 

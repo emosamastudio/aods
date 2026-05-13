@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；final v0.9 go/no-go complete
+状态：v0.8 released；public split and focused regressions complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`，无 milestone，latest release 仍为 `v0.8.0`。U-027 到 U-531 已完成；当前任务池为 U-532 到 U-581，下一轮默认执行 U-532 到 U-541，重点是 public close/split execution packet、runtime/protocol follow-up issue decision、`#41/#59/#60` public action、milestone decision、remote adapter mismatch focused regression plan/implementation、event correction metadata shape 和 focused regression。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#64`，`#41/#59` 已关闭，无 milestone，latest release 仍为 `v0.8.0`。U-027 到 U-541 已完成；当前任务池为 U-542 到 U-581，下一轮默认执行 U-542 到 U-551，重点是 event correction docs/package boundary、migration dry-run static report、workflow/policy static shape、focused regression conformance promotion gate 和 v0.9 version bump patch plan refresh。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -40,7 +40,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Capability metadata | 完成一轮 | unsupported reason、fallback posture、compatibility gate、example/conformance 已落地 |
 | Operations split | 完成 | 旧长入口和完整历史已归档；当前入口变短 |
 | Release planning | 已完成候选准备 | v0.9.0 release notes draft、package dry-run、packed install smoke 和 go/no-go 已入账；仍不发布、不打 tag |
-| Public close criteria / sync | 已完成 | `#41/#59/#60` 均保持 open；已评论同步边界和状态，不关闭、不编辑 body |
+| Public close criteria / sync | 已完成 | `#59/#41` 已按 metadata scope 关闭；`#60` 保持 open；runtime/protocol follow-up 已拆到 `#64` |
 | Examples / CI / benchmark policy | 已完成 | source-first README 已补 conformance step；package sample 边界已明确；local hygiene CI 和 hosted repeatability 仍不默认启用 |
 | Runtime prerequisites / public state | 已完成刷新 | benchmark generated/reports clean；五类 runtime 仍 no-go；公开状态为 `#60/#59/#41` open、latest release `v0.8.0`、无 milestone |
 | Public close / release readiness | 已完成 | `#59` metadata/reporting scope close-ready；`#41` metadata-first close-ready but should split runtime first；package dry-run 和 packed install smoke 通过；不发布、不 bump |
@@ -48,6 +48,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Runtime fixture implementation candidates | 已完成判断 | remote adapter mismatch、event correction graph、migration dry-run report 是下一步最稳候选；workflow / policy 继续等静态记录形状 |
 | Release hygiene / adoption refresh | 已完成 | release hygiene 仍 green；generated/secret/package guards 无漂移；source-first temp-repo smoke route 已记录；README quickstart smoke 通过；中文 README parity 已修复 |
 | Final go/no-go / next pool | 已完成 | benchmark summary generated churn 已撤回；hosted repeatability 不进 gate；`#59` close-ready、`#41` 需 runtime follow-up、`#60` 保持 open；v0.9 仍 no-go；U-532 到 U-581 已排队 |
+| Public split / focused regressions | 已完成 | `#59/#41` 已关闭、`#64` 已创建、`#60` 已评论；remote adapter mismatch 和 event correction graph 静态回归已落地；仍不实现 adapter runtime 或 event store |
 
 ## 当前风险
 
@@ -56,7 +57,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | `MEMORY.md` 误入仓库 | stage 前必须排除；当前保持 untracked |
 | README benchmark 手改 | benchmark sync 区块必须改 generator |
 | capability 过度承诺 | 当前只做 metadata；runtime negotiation / provider discovery / fallback ranking 仍 deferred |
-| public issue 提前关闭 | `#60/#59/#41` 保持 open；按 packet 先同步公开边界，不直接关闭 |
+| public issue 提前关闭 | `#59/#41` 已按范围关闭；`#60/#64` 保持 open；后续关闭必须继续按台账 packet 执行 |
 | release version surface 漂移 | 下一 release 必须在同一 version-bump commit 中同步 package / README / skill；当前仍为 v0.8.0 |
 | operations 历史丢失 | 完整旧 README / task ledger / handoff 已在 `docs/operations/archive/` |
 
@@ -64,6 +65,6 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-532 到 U-536 | `#59/#41/#60` public close/split execution packet 和 milestone decision |
-| 2 | U-537 到 U-541 | remote adapter mismatch focused regression plan/implementation/docs 和 event correction metadata shape/regression |
-| 3 | U-542 到 U-581 | event docs、migration helper、workflow/policy static shapes、release execution 和 post-release closeout |
+| 1 | U-542 到 U-545 | event correction docs/package boundary 和 migration dry-run static report shape/helper/docs |
+| 2 | U-546 到 U-550 | workflow / policy static record design、fixture re-evaluation、focused regression conformance promotion gate |
+| 3 | U-551 到 U-581 | v0.9 release execution prep、post-regression audits、release execution 和 post-release closeout |

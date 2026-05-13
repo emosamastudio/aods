@@ -66,6 +66,7 @@ When updating an older source-first example, use this order:
 - optional `surface-inventory` reality checks for current compiled surfaces
 - structured `term_refs[]` that bind sections and artifacts to canonical glossary terms; aliases remain glossary metadata and are not valid machine references
 - explicit separation between change policy and incident response authority
+- static adapter capability mismatch and event correction graph examples that validate metadata without executing adapters or replaying events
 - deterministic generated human output from an agent-primary surface pair
 
 ## Generated human surface example

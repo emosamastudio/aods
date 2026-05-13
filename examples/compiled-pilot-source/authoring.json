@@ -1201,7 +1201,8 @@
             "shift-ops-change-event-log:change-event"
           ],
           "artifact_refs": [
-            "change-event-correction-table"
+            "change-event-correction-table",
+            "change-event-correction-graph"
           ],
           "criticality": "must"
         },
@@ -1301,6 +1302,46 @@
                 "retraction_reason",
                 "reason original event should be hidden, marked, or preserved",
                 "event_type == change.retracted"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "change-event-correction-graph",
+          "type": "mapping-table",
+          "usage": "Static correction and supersession links for append-only event examples; no event store or replay.",
+          "content": {
+            "key_columns": [
+              "event_id"
+            ],
+            "columns": [
+              "event_id",
+              "event_type",
+              "correction_of",
+              "supersedes",
+              "projection_guidance"
+            ],
+            "rows": [
+              [
+                "evt-change-accepted",
+                "change.accepted",
+                "",
+                "",
+                "historical"
+              ],
+              [
+                "evt-change-corrected",
+                "change.corrected",
+                "evt-change-accepted",
+                "",
+                "advisory"
+              ],
+              [
+                "evt-change-replaced",
+                "change.corrected",
+                "",
+                "evt-change-corrected",
+                "replacement"
               ]
             ]
           }
@@ -1673,6 +1714,22 @@
                 "strict",
                 "versioned",
                 "local-only",
+                "adapter-facing",
+                "incompatible",
+                "",
+                "blocked",
+                "no adapter behavior may be assumed",
+                "block"
+              ],
+              [
+                "provider-capability-mismatch",
+                "readiness.query",
+                "change.submit",
+                "read-model",
+                "read-model",
+                "versioned",
+                "versioned",
+                "adapter-facing",
                 "adapter-facing",
                 "incompatible",
                 "",

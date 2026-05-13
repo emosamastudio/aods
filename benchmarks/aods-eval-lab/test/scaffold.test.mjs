@@ -1689,6 +1689,18 @@ test("capability compatibility matrix rejects mislabeled profile version and exp
             "local-only",
             "adapter-facing",
             "incompatible"
+          ],
+          [
+            "provider-capability-mismatch",
+            "readiness.query",
+            "change.submit",
+            "read-model",
+            "read-model",
+            "versioned",
+            "versioned",
+            "adapter-facing",
+            "adapter-facing",
+            "incompatible"
           ]
         ]
       }
@@ -1709,6 +1721,7 @@ test("capability compatibility matrix rejects mislabeled profile version and exp
   const matrix = compiledModule.artifacts.find((entry) => entry.artifact_id === "capability-compatibility-matrix");
   const expectedResultIndex = matrix.content.columns.indexOf("expected_result");
   matrix.content.rows[1][expectedResultIndex] = "compatible";
+  matrix.content.rows[2][expectedResultIndex] = "compatible";
   fs.writeFileSync(compiledModulePath, `${JSON.stringify(compiledModule, null, 2)}\n`);
 
   const invalidValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
@@ -1722,6 +1735,101 @@ test("capability compatibility matrix rejects mislabeled profile version and exp
     entry.message.includes("contract_profile") &&
     entry.message.includes("schema_version_policy") &&
     entry.message.includes("exposure_class")
+  ));
+  assert.ok(invalidReport.levels.L2.errors.some((entry) =>
+    entry.rule === "capability-compatibility-mismatch" &&
+    entry.message.includes("provider-capability-mismatch") &&
+    entry.message.includes("capability_id")
+  ));
+});
+
+test("event correction graph rejects missing targets and supersession cycles without replay", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-event-correction-graph-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.sections[0].artifact_refs = [
+    ...(detailModule.sections[0].artifact_refs ?? []),
+    "event-correction-graph"
+  ];
+  detailModule.artifacts = [
+    ...(detailModule.artifacts ?? []),
+    {
+      artifact_id: "event-correction-graph",
+      type: "mapping-table",
+      usage: "Static event correction and supersession links; no event store or replay.",
+      content: {
+        key_columns: [
+          "event_id"
+        ],
+        columns: [
+          "event_id",
+          "event_type",
+          "correction_of",
+          "supersedes",
+          "projection_guidance"
+        ],
+        rows: [
+          [
+            "evt-1",
+            "change.submitted",
+            "",
+            "",
+            "historical"
+          ],
+          [
+            "evt-2",
+            "change.corrected",
+            "evt-1",
+            "",
+            "advisory"
+          ],
+          [
+            "evt-3",
+            "change.corrected",
+            "",
+            "evt-2",
+            "replacement"
+          ]
+        ]
+      }
+    }
+  ];
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const validReport = JSON.parse(runCli(["validate", compiledRoot, "--json"]));
+  assert.equal(validReport.status, "pass");
+  assert.equal(validReport.levels.L2.errors.some((entry) => entry.rule === "event-correction-target"), false);
+  assert.equal(validReport.levels.L2.errors.some((entry) => entry.rule === "event-supersession-cycle"), false);
+
+  const compiledModulePath = path.join(compiledRoot, "modules", `${detailModule.id}.json`);
+  const compiledModule = JSON.parse(fs.readFileSync(compiledModulePath, "utf8"));
+  const graph = compiledModule.artifacts.find((entry) => entry.artifact_id === "event-correction-graph");
+  const correctionOfIndex = graph.content.columns.indexOf("correction_of");
+  const supersedesIndex = graph.content.columns.indexOf("supersedes");
+  graph.content.rows[1][correctionOfIndex] = "evt-missing";
+  graph.content.rows[0][supersedesIndex] = "evt-3";
+  graph.content.rows[2][supersedesIndex] = "evt-1";
+  fs.writeFileSync(compiledModulePath, `${JSON.stringify(compiledModule, null, 2)}\n`);
+
+  const invalidValidate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.notEqual(invalidValidate.status, 0);
+  const invalidReport = JSON.parse(invalidValidate.stdout);
+  assert.ok(invalidReport.levels.L2.errors.some((entry) =>
+    entry.rule === "event-correction-target" &&
+    entry.correction_of === "evt-missing"
+  ));
+  assert.ok(invalidReport.levels.L2.errors.some((entry) =>
+    entry.rule === "event-supersession-cycle" &&
+    entry.cycle_path.includes("evt-1") &&
+    entry.cycle_path.includes("evt-3")
   ));
 });
 

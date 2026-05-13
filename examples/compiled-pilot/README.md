@@ -108,6 +108,7 @@ Projection guidance states whether read models, timelines, exports, and audit vi
 Artifacts:
 - `change-event-field-table` (mapping-table): Canonical field guide for append-only change events.
 - `change-event-correction-table` (mapping-table): Correction and supersession fields for append-only event surfaces.
+- `change-event-correction-graph` (mapping-table): Static correction and supersession links for append-only event examples; no event store or replay.
 - `change-event-projection-guidance-table` (mapping-table): Consumer guidance for corrected event projection.
 
 ### shift-ops-adapter-capability

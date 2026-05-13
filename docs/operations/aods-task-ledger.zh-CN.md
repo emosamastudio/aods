@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | final go/no-go complete；next task pool expanded |
+| 状态 | public split and focused regressions complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S69 public close / runtime split；S70 focused regressions；S71 release execution |
-| 当前回合 | R-2026-05-13-35 |
-| 未完成任务数量 | 50 |
-| 已完成任务数量 | 536 |
+| 当前阶段 | S70 focused regressions complete；S71 release execution pending |
+| 当前回合 | R-2026-05-13-36 |
+| 未完成任务数量 | 40 |
+| 已完成任务数量 | 546 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-35 |
-| 开始时间 | 2026-05-13 19:05 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-36 |
+| 开始时间 | 2026-05-13 19:50 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-522、U-523、U-524、U-525、U-526、U-527、U-528、U-529、U-530、U-531 |
-| 本轮范围 | 上轮质量复审；benchmark summary source no-churn check；hosted repeatability retry policy research；open issue label hygiene read-only audit；milestone naming decision packet；runtime issue split proposal；metadata close versus runtime follow-up proposal；post-release closeout playbook refresh；next task pool expansion；archive pruning risk review；final v0.9 go/no-go packet |
-| 排除范围 | generated benchmark churn commit、hosted benchmark execution、GitHub issue close、GitHub issue create、GitHub milestone create、version bump、tag、GitHub Release、package publish、runtime implementation、schema implementation、validator implementation、conformance case implementation、installed skill mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；release hygiene；benchmark summary churn inspection；GitHub issue/release/milestone snapshot；task ledger count check；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-532、U-533、U-534、U-535、U-536、U-537、U-538、U-539、U-540、U-541 |
+| 本轮范围 | 上轮质量复审；`#59` public close execution；runtime/protocol follow-up issue creation；`#41` metadata close execution；`#60` roadmap pre-release comment；milestone execution decision；remote adapter mismatch focused regression；event correction graph focused regression；docs / operations / source-first example sync |
+| 排除范围 | hosted benchmark execution、GitHub milestone create、version bump、tag、GitHub Release、package publish、adapter runtime implementation、event store / replay implementation、migration executor、installed skill mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；release hygiene；GitHub issue/milestone snapshot；source-first compile；focused tests；validate:all；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-532 | S69 | Public close execution packet for `#59` | P1 | 未开始 | 准备并执行或明确推迟 `#59` metadata/reporting close comment | U-527 | - |
-| U-533 | S69 | Capability runtime follow-up issue creation decision | P1 | 未开始 | 决定是否创建 `#41` runtime/protocol follow-up issue | U-526/U-527 | - |
-| U-534 | S69 | Capability metadata close execution packet for `#41` | P1 | 未开始 | 在 follow-up 决策后准备 close/comment packet | U-533 | - |
-| U-535 | S69 | Roadmap tracker `#60` final pre-release comment | P2 | 未开始 | 准备或发布 v0.9 pre-release roadmap comment | U-532/U-534 | - |
-| U-536 | S69 | Milestone creation execution decision | P3 | 未开始 | 若 public split 清晰，决定是否创建 `v0.9.0` milestone | U-535 | - |
-| U-537 | S70 | Remote adapter mismatch regression plan | P1 | 未开始 | 定义最小测试位置和 fixture row | U-505 | - |
-| U-538 | S70 | Remote adapter mismatch regression implementation | P1 | 未开始 | focused regression 覆盖 provider mismatch | U-537 | - |
-| U-539 | S70 | Remote adapter mismatch docs sync | P2 | 未开始 | 同步 README / operations 说明，避免 runtime gateway 承诺 | U-538 | - |
-| U-540 | S70 | Event correction metadata shape decision | P1 | 未开始 | 选择 correction target / supersession cycle 最小静态 shape | U-503 | - |
-| U-541 | S70 | Event correction focused regression implementation | P1 | 未开始 | 增加 correction missing target / cycle focused tests | U-540 | - |
 | U-542 | S70 | Event correction docs and package boundary sync | P2 | 未开始 | 说明仍不实现 event store / replay | U-541 | - |
 | U-543 | S70 | Migration dry-run static report shape decision | P2 | 未开始 | 定义 benchmark-only report fields | U-506 | - |
 | U-544 | S70 | Migration dry-run benchmark helper implementation | P2 | 未开始 | 增加静态 report helper / fixture，不加 migrate command | U-543 | - |
@@ -90,16 +80,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 507 | U-502 | S65 | Workflow fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | not first candidate；needs static workflow transition record |
-| 508 | U-503 | S65 | Event fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | correction target / supersession cycle are ready candidates after shape decision |
-| 509 | U-504 | S65 | Policy fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | defer until static policy decision shape exists |
-| 510 | U-505 | S65 | Remote fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | adapter mismatch is ready candidate via existing capability matrix |
-| 511 | U-506 | S65 | Migration fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | dry-run static report is benchmark-only candidate, not validator yet |
-| 512 | U-507 | S65 | Runtime fixture conformance grouping | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | keep out of conformance until package-consumable shape exists |
-| 513 | U-508 | S66 | Task ledger window automation reconsideration | P3 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | count check / release hygiene | no automation；unfinished=30 completedRecent=30 before completion |
-| 514 | U-509 | S66 | Operations index stale link audit | P3 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | docs link / release hygiene | index updated; no stale link |
-| 515 | U-510 | S66 | Handoff compaction refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | docs link / release hygiene | handoff refreshed for U-027..U-511 complete and next U-512..U-521 |
-| 516 | U-511 | S66 | Installed skill update decision | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | skill diff review / release hygiene | do not overwrite installed skill this round |
 | 517 | U-512 | S66 | Release hygiene CI owner packet final | P3 | 2026-05-13 | 当前台账 / round log / release hygiene adoption refresh doc | release hygiene | keep as local owner gate；future single job only |
 | 518 | U-513 | S66 | Generated clean protected path audit | P3 | 2026-05-13 | 当前台账 / round log / release hygiene adoption refresh doc | `npm run generated:check-clean -- --json` | dirty_entries=[]；protected paths still correct |
 | 519 | U-514 | S66 | Secret scan false positive audit | P3 | 2026-05-13 | 当前台账 / round log / release hygiene adoption refresh doc | `npm run security:scan-placeholders -- --json` | hits=0；no new allowlist |
@@ -120,21 +100,30 @@
 | 534 | U-529 | S68 | Next task pool expansion after U-482 | P2 | 2026-05-13 | 当前台账 / round log / final go/no-go doc | task ledger count check | added U-532 to U-581 |
 | 535 | U-530 | S68 | Archive pruning risk review | P3 | 2026-05-13 | 当前台账 / round log / final go/no-go doc | docs link / release hygiene | no archive pruning this round |
 | 536 | U-531 | S68 | Final v0.9 go/no-go packet | P1 | 2026-05-13 | 当前台账 / round log / final go/no-go doc | release hygiene / GitHub snapshot | v0.9 remains no-go until public close/split and version bump |
-
+| 537 | U-532 | S69 | Public close execution packet for `#59` | P1 | 2026-05-13 | GitHub issue `#59` closed / 当前台账 / round log | `gh issue close 59` | metadata/reporting scope closed；runtime/dashboard/trace backend not implemented |
+| 538 | U-533 | S69 | Capability runtime follow-up issue creation decision | P1 | 2026-05-13 | GitHub issue `#64` created / public split focused regressions doc | `gh issue create` | runtime/protocol follow-up split to `#64` |
+| 539 | U-534 | S69 | Capability metadata close execution packet for `#41` | P1 | 2026-05-13 | GitHub issue `#41` closed / current issue snapshot | `gh issue close 41` | metadata-first scope closed after `#64` split |
+| 540 | U-535 | S69 | Roadmap tracker `#60` final pre-release comment | P2 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/60#issuecomment-4438866046` | `gh issue comment 60` | roadmap remains open；release still no-go |
+| 541 | U-536 | S69 | Milestone creation execution decision | P3 | 2026-05-13 | GitHub milestones API / public split focused regressions doc | milestones API | milestones=[]；no milestone created this round |
+| 542 | U-537 | S70 | Remote adapter mismatch regression plan | P1 | 2026-05-13 | scaffold focused test plan / public split focused regressions doc | focused test review | use capability_id mismatch row, no remote gateway |
+| 543 | U-538 | S70 | Remote adapter mismatch regression implementation | P1 | 2026-05-13 | validator / scaffold test / source-first example | focused tests | `provider-capability-mismatch` row covered by `capability-compatibility-mismatch` |
+| 544 | U-539 | S70 | Remote adapter mismatch docs sync | P2 | 2026-05-13 | source-first README / compiled README / operations doc | docs link / compile | metadata-only docs synced；no adapter execution promised |
+| 545 | U-540 | S70 | Event correction metadata shape decision | P1 | 2026-05-13 | validation rules / source-first example / operations doc | compile / validate | static `event_id` + `correction_of` + `supersedes` mapping-table selected |
+| 546 | U-541 | S70 | Event correction focused regression implementation | P1 | 2026-05-13 | validator / scaffold test / example pack test | focused tests | missing target and supersession cycle covered without replay/store |
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-532 到 U-541 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-542 到 U-551 |
 
 ## 负责人判断 / issue 分类
 
 | 分类 | Issue | 判断 | 下一步 |
 |---|---|---|---|
-| public roadmap | #60 | 保持 open；v0.9 pre-release roadmap comment 仍待执行 | 下一轮 public close/split execution packet |
-| observability | #59 | close-ready for metadata/reporting scope；本轮不关闭 | 下一轮准备 close/comment execution |
-| capability | #41 | metadata-first scope close-ready；runtime/protocol 需先拆 follow-up | 下一轮决定是否创建 runtime/protocol follow-up |
-| milestone | GitHub milestones | 当前无 milestone；本轮不创建 | release scope 接近执行时再决定 |
+| public roadmap | #60 | 保持 open；v0.9 pre-release roadmap comment 已发布 | 下一轮进入 release execution prep 与后续 focused regression sync |
+| observability | #59 | 已关闭 metadata/reporting scope | 后续 runtime/dashboard/trace backend 不在当前 release 范围 |
+| capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` 作为后续 runtime/protocol follow-up |
+| milestone | GitHub milestones | 当前无 milestone；本轮仍不创建 | version bump / release execution 前再决定 |
 
 ## 新发现任务暂存区
 
@@ -146,4 +135,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；public close criteria / roadmap sync packet 已完成且公开同步已执行；source-first / package examples、local hygiene CI design 和 benchmark policy 已完成；benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective、下一任务池扩展、public close readiness、release readiness 复核、runtime fixture prerequisite design、implementation candidate review、release hygiene adoption refresh、中文 README parity repair、final go/no-go 和下一任务池扩展已完成；v0.9 仍 no-go，下一阶段进入 public close/split、focused regressions 和 release execution。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；public close criteria / roadmap sync packet 已完成且公开同步已执行；source-first / package examples、local hygiene CI design 和 benchmark policy 已完成；benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective、下一任务池扩展、public close readiness、release readiness 复核、runtime fixture prerequisite design、implementation candidate review、release hygiene adoption refresh、中文 README parity repair、final go/no-go 和下一任务池扩展已完成；v0.9 仍 no-go；public close/split 已执行，remote adapter mismatch 和 event correction graph focused regressions 已落地；下一阶段进入 event docs、migration dry-run static report、workflow/policy static shape 和 release execution。
