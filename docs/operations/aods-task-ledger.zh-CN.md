@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | public close release readiness complete |
+| 状态 | runtime fixture prerequisite design complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S64 runtime fixture prerequisites；S65 operations / package hygiene；S66 adoption / docs parity；S68 public split / final go-no-go |
-| 当前回合 | R-2026-05-13-31 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 496 |
+| 当前阶段 | S65 runtime fixture implementation candidates；S66 operations / package hygiene；S67 adoption / docs parity；S68 public split / final go-no-go |
+| 当前回合 | R-2026-05-13-32 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 506 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-31 |
-| 开始时间 | 2026-05-13 16:30 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-32 |
+| 开始时间 | 2026-05-13 17:10 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-482、U-483、U-484、U-485、U-486、U-487、U-488、U-489、U-490、U-491 |
-| 本轮范围 | 上轮质量复审；observability public close readiness packet；capability metadata close scope packet；roadmap tracker v0.9 refresh packet；v0.9 release readiness recheck；version bump no-go/go decision refresh；release notes final body sync；package dry-run rerun；packed install smoke rerun；GitHub release source install smoke route；public milestone creation decision packet |
-| 排除范围 | issue close、issue body edit、issue comment publish、milestone creation、version bump、tag、GitHub Release、npm publish、runtime implementation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；release hygiene；GitHub issue snapshots；package dry-run；packed install smoke；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-492、U-493、U-494、U-495、U-496、U-497、U-498、U-499、U-500、U-501 |
+| 本轮范围 | 上轮质量复审；workflow lifecycle / receipt fixture design；event duplicate / correction fixture design；policy decision / approval audit fixture design；remote exposure / adapter mismatch fixture design；migration dry-run / destructive approval fixture design |
+| 排除范围 | runtime implementation、schema implementation、validator implementation、conformance case implementation、workflow engine、event store、policy engine、remote gateway、migration executor、remote call、destructive action、issue close、version bump、tag、GitHub Release、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；release hygiene；runtime gate docs review；fixture/conformance shape review；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-492 | S64 | Workflow lifecycle negative fixture design | P2 | 未开始 | 设计 invalid transition / alias lifecycle negative fixture，不实现 runtime | U-473 | - |
-| U-493 | S64 | Workflow receipt audit fixture design | P2 | 未开始 | 设计 missing receipt / audit anchor negative fixture | U-473 | - |
-| U-494 | S64 | Event duplicate ordering fixture design | P2 | 未开始 | 设计 duplicate / out-of-order event negative fixture | U-474 | - |
-| U-495 | S64 | Event correction projection fixture design | P2 | 未开始 | 设计 correction / supersession projection fixture | U-474 | - |
-| U-496 | S64 | Policy decision negative fixture design | P2 | 未开始 | 设计 missing actor/target/evidence policy negative fixture | U-475 | - |
-| U-497 | S64 | Policy approval audit fixture design | P2 | 未开始 | 设计 approval receipt / audit anchor fixture | U-475 | - |
-| U-498 | S64 | Remote exposure upgrade fixture design | P2 | 未开始 | 设计 local-only blocked / remote-read allowed fixture | U-476 | - |
-| U-499 | S64 | Remote adapter mismatch fixture design | P2 | 未开始 | 设计 provider capability vs consumer requirement mismatch fixture | U-476 | - |
-| U-500 | S64 | Migration dry-run report fixture design | P2 | 未开始 | 设计 source/target/mapping dry-run report fixture | U-477 | - |
-| U-501 | S64 | Migration destructive approval fixture design | P2 | 未开始 | 设计 destructive approval / rollback negative fixture | U-477 | - |
 | U-502 | S65 | Workflow fixture implementation candidate | P1 | 未开始 | 判断 U-492/U-493 是否可落地 focused regression | U-492/U-493 | - |
 | U-503 | S65 | Event fixture implementation candidate | P1 | 未开始 | 判断 U-494/U-495 是否可落地 focused regression | U-494/U-495 | - |
 | U-504 | S65 | Policy fixture implementation candidate | P1 | 未开始 | 判断 U-496/U-497 是否可落地 focused regression | U-496/U-497 | - |
@@ -80,16 +70,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 467 | U-462 | S59 | Source-first quickstart sample audit | P2 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | release hygiene / docs link / git diff check | source-first README 补入 conformance step 和 fixture/conformance 边界 |
-| 468 | U-463 | S59 | Package sample documentation pass | P2 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | package surface dry-run / release hygiene | package example 与 docs snippet 边界已写清 |
-| 469 | U-464 | S59 | Examples upgrade guidance | P3 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | docs link / release hygiene | 旧 source-first examples 升级路线已写入 source README |
-| 470 | U-465 | S59 | Local hygiene CI design | P2 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | release hygiene / dry-run gates | 记录 CI 形状但不启用 GitHub Actions |
-| 471 | U-466 | S59 | Generated clean CI dry-run | P2 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | `npm run generated:check-clean -- --json` | 通过，dirty_entries=[] |
-| 472 | U-467 | S59 | Docs link CI dry-run | P2 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | `npm run docs:check-links -- --json` | 通过，missing=0 |
-| 473 | U-468 | S59 | Secret scan CI dry-run | P2 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | `npm run security:scan-placeholders -- --json` | 通过，hits=0 |
-| 474 | U-469 | S60 | Benchmark summary refresh decision | P3 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | release hygiene / git diff check | 无 benchmark source/metric 变更，本轮不刷新 README sync 区块 |
-| 475 | U-470 | S60 | Hosted repeatability gate decision | P3 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | release hygiene / git diff check | hosted repeatability 仍为 supplemental lane，不进默认 release gate |
-| 476 | U-471 | S60 | Benchmark archive policy implementation | P3 | 2026-05-13 | 当前台账 / round log / examples CI benchmark policy doc | release hygiene / git diff check | 保持 generated/reports 作为 committed baseline |
 | 477 | U-472 | S60 | Benchmark result clean audit | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | `npm run generated:check-clean -- --json` | benchmark generated/reports dirty_entries=[] |
 | 478 | U-473 | S61 | Workflow runtime prerequisite refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | release hygiene / docs link / git diff check | 仍 no-go；先 lifecycle/transition/receipt fixtures |
 | 479 | U-474 | S61 | Event store prerequisite refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | release hygiene / docs link / git diff check | 仍 no-go；先 duplicate/out-of-order/correction fixtures |
@@ -110,12 +90,22 @@
 | 494 | U-489 | S63 | Packed install smoke rerun | P2 | 2026-05-13 | 当前台账 / round log / public close release readiness doc | local tarball install smoke | help / validate / fixture / conformance pass |
 | 495 | U-490 | S63 | GitHub release source install smoke route | P2 | 2026-05-13 | 当前台账 / round log / public close release readiness doc | docs link / release hygiene | tag 后 smoke route 已记录；v0.9 tag 前不运行 |
 | 496 | U-491 | S63 | Public milestone creation decision packet | P3 | 2026-05-13 | 当前台账 / round log / public close release readiness doc | milestones API / release hygiene | 当前无 milestones；本轮不创建 |
+| 497 | U-492 | S64 | Workflow lifecycle negative fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | invalid transition / missing guard / terminal restart fixture designs ready |
+| 498 | U-493 | S64 | Workflow receipt audit fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | missing receipt / audit anchor / dependency conflict designs ready |
+| 499 | U-494 | S64 | Event duplicate ordering fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | duplicate id / out-of-order / global clock claim designs ready |
+| 500 | U-495 | S64 | Event correction projection fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | missing correction target / supersession cycle / projection guidance designs ready |
+| 501 | U-496 | S64 | Policy decision negative fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | missing actor / missing target / stale evidence designs ready |
+| 502 | U-497 | S64 | Policy approval audit fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | missing approval receipt / audit anchor / ambiguous decision designs ready |
+| 503 | U-498 | S64 | Remote exposure upgrade fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | local-only remote read / remote-write receipt / auth boundary designs ready |
+| 504 | U-499 | S64 | Remote adapter mismatch fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | provider mismatch / runtime probing / rate-cost posture designs ready |
+| 505 | U-500 | S64 | Migration dry-run report fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | missing source authority / mapping / semantic gap designs ready |
+| 506 | U-501 | S64 | Migration destructive approval fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | destructive approval / rollback / dry-run-only designs ready |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-492 到 U-501 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-502 到 U-511 |
 
 ## 负责人判断 / issue 分类
 
@@ -136,4 +126,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；public close criteria / roadmap sync packet 已完成且公开同步已执行；source-first / package examples、local hygiene CI design 和 benchmark policy 已完成；benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective、下一任务池扩展、public close readiness 和 release readiness 复核已完成；下一阶段进入 runtime fixture prerequisites 和 package hygiene。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；public close criteria / roadmap sync packet 已完成且公开同步已执行；source-first / package examples、local hygiene CI design 和 benchmark policy 已完成；benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective、下一任务池扩展、public close readiness、release readiness 复核和 runtime fixture prerequisite design 已完成；下一阶段进入 runtime fixture implementation candidate review 和 package hygiene。

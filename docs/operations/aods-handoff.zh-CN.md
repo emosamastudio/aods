@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；public close release readiness complete
+状态：v0.8 released；runtime fixture prerequisite design complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-491 已完成；当前任务池剩余 U-492 到 U-531，下一轮默认执行 U-492 到 U-501，重点是 workflow/event/policy/remote/migration runtime prerequisite fixture design。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-501 已完成；当前任务池剩余 U-502 到 U-531，下一轮默认执行 U-502 到 U-511，重点是判断哪些 runtime fixture designs 可以落地为 focused regression，并刷新 operations / package hygiene。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -44,6 +44,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Examples / CI / benchmark policy | 已完成 | source-first README 已补 conformance step；package sample 边界已明确；local hygiene CI 和 hosted repeatability 仍不默认启用 |
 | Runtime prerequisites / public state | 已完成刷新 | benchmark generated/reports clean；五类 runtime 仍 no-go；公开状态为 `#60/#59/#41` open、latest release `v0.8.0`、无 milestone |
 | Public close / release readiness | 已完成 | `#59` metadata/reporting scope close-ready；`#41` metadata-first close-ready but should split runtime first；package dry-run 和 packed install smoke 通过；不发布、不 bump |
+| Runtime fixture prerequisites | 已完成设计 | workflow/event/policy/remote/migration 各 2 个任务的负例设计已落地；下一步判断 implementation candidate |
 
 ## 当前风险
 
@@ -60,8 +61,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-492 到 U-493 | workflow lifecycle / receipt fixture design |
-| 2 | U-494 到 U-495 | event duplicate / correction fixture design |
-| 3 | U-496 到 U-497 | policy decision / approval audit fixture design |
-| 4 | U-498 到 U-499 | remote exposure / adapter mismatch fixture design |
-| 5 | U-500 到 U-501 | migration dry-run / destructive approval fixture design |
+| 1 | U-502 到 U-506 | workflow/event/policy/remote/migration fixture implementation candidate review |
+| 2 | U-507 | runtime fixture conformance grouping decision |
+| 3 | U-508 到 U-510 | task ledger automation / operations index / handoff compaction refresh |
+| 4 | U-511 | installed skill update decision |

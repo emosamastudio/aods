@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-32
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-32 |
+| 开始时间 | 2026-05-13 17:10 Asia/Shanghai |
+| 结束时间 | 2026-05-13 17:40 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-31 复审；workflow lifecycle negative fixture design；workflow receipt audit fixture design；event duplicate ordering fixture design；event correction projection fixture design；policy decision negative fixture design；policy approval audit fixture design；remote exposure upgrade fixture design；remote adapter mismatch fixture design；migration dry-run report fixture design；migration destructive approval fixture design；不实现 runtime、不实现 schema/validator/conformance case、不执行 command/remote/migration/destructive action、不关闭 issue、不 bump version、不发布、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-492、U-493、U-494、U-495、U-496、U-497、U-498、U-499、U-500、U-501 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-32
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `0f1b0d5 Prepare public close and release readiness` |
+| Task ledger state | 通过 | U-492 到 U-501 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-492 到 U-501 |
+
+## 任务执行记录：R-2026-05-13-32
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-492 | 未开始 | 已完成 | 设计 workflow lifecycle negative fixtures | `aods-runtime-fixture-prerequisite-design.zh-CN.md` |
+| 2 | U-493 | 未开始 | 已完成 | 设计 workflow receipt / audit fixtures | runtime fixture prerequisite design doc |
+| 3 | U-494 | 未开始 | 已完成 | 设计 event duplicate / ordering fixtures | runtime fixture prerequisite design doc |
+| 4 | U-495 | 未开始 | 已完成 | 设计 event correction / projection fixtures | runtime fixture prerequisite design doc |
+| 5 | U-496 | 未开始 | 已完成 | 设计 policy decision negative fixtures | runtime fixture prerequisite design doc |
+| 6 | U-497 | 未开始 | 已完成 | 设计 policy approval / audit fixtures | runtime fixture prerequisite design doc |
+| 7 | U-498 | 未开始 | 已完成 | 设计 remote exposure upgrade fixtures | runtime fixture prerequisite design doc |
+| 8 | U-499 | 未开始 | 已完成 | 设计 remote adapter mismatch fixtures | runtime fixture prerequisite design doc |
+| 9 | U-500 | 未开始 | 已完成 | 设计 migration dry-run report fixtures | runtime fixture prerequisite design doc |
+| 10 | U-501 | 未开始 | 已完成 | 设计 migration destructive approval fixtures | runtime fixture prerequisite design doc |
+
+## 验证记录：R-2026-05-13-32
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Runtime gate docs review | `aods-*-minimal-poc-decision-gate` docs | 通过 | 设计均保持 no-runtime boundary |
+| Fixture/conformance shape review | fixture and conformance manifests / runner code | 通过 | 下一步应先 focused regression，再考虑 conformance |
+| Task ledger count check | local count script | 通过 | unfinished=30, completedRecent=30 |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=184, checked_relative_links=94, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-32
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-492 到 U-501 |
+| 完成任务 | 10 | U-492 到 U-501 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-502 到 U-511 |
+
 ## 回合摘要：R-2026-05-13-31
 
 | 项 | 内容 |
