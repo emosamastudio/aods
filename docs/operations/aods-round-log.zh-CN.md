@@ -2,6 +2,70 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-34
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-34 |
+| 开始时间 | 2026-05-13 18:25 Asia/Shanghai |
+| 结束时间 | 2026-05-13 19:00 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-33 复审；release hygiene CI owner packet final；generated clean protected path audit；secret scan false positive audit；package allowlist release sync audit；source-first external adoption smoke plan；docs examples package promotion decision；validate/route sample refresh audit；README quickstart smoke rerun；Chinese README parity audit；changelog next release draft refresh；不启用 GitHub Actions、不跑 hosted benchmark gate、不 remote fetch、不关闭 issue、不 bump version、不打 tag、不创建 GitHub Release、不发布 package、不改 installed skill、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-512、U-513、U-514、U-515、U-516、U-517、U-518、U-519、U-520、U-521 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-34
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `e646507 Review runtime fixture candidates` |
+| Task ledger state | 通过 | U-512 到 U-521 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-512 到 U-521 |
+
+## 任务执行记录：R-2026-05-13-34
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-512 | 未开始 | 已完成 | 汇总 release hygiene CI owner packet，保持本地 owner gate | `aods-release-hygiene-adoption-refresh.zh-CN.md` |
+| 2 | U-513 | 未开始 | 已完成 | 审查 generated clean protected paths | `npm run generated:check-clean -- --json` |
+| 3 | U-514 | 未开始 | 已完成 | 审查 secret-like scan false positive / allowlist | `npm run security:scan-placeholders -- --json` |
+| 4 | U-515 | 未开始 | 已完成 | 审查 package allowlist release sync | `npm run package:check-surface -- --json` |
+| 5 | U-516 | 未开始 | 已完成 | 写入 source-first external adoption temp-repo smoke plan | release hygiene adoption refresh doc |
+| 6 | U-517 | 未开始 | 已完成 | 决定 docs examples 继续不进入 package | release hygiene adoption refresh doc |
+| 7 | U-518 | 未开始 | 已完成 | 审查 validate / route samples 是否需刷新 | docs examples JSON parse / release hygiene adoption refresh doc |
+| 8 | U-519 | 未开始 | 已完成 | 复跑 README quickstart smoke | help / validate / route / fixture / conformance / scaffold / compile commands |
+| 9 | U-520 | 未开始 | 已完成 | 修复中文 README 与英文 README 的高价值差异 | `README.zh-CN.md` |
+| 10 | U-521 | 未开始 | 已完成 | 刷新下一 release draft body，不发布 | release hygiene adoption refresh doc |
+
+## 验证记录：R-2026-05-13-34
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Generated clean audit | `npm run generated:check-clean -- --json` | 通过 | dirty_entries=[] |
+| Secret-like scan audit | `npm run security:scan-placeholders -- --json` | 通过 | scanned_files=980, hits=0 |
+| Package surface audit | `npm run package:check-surface -- --json` | 通过 | aods@0.8.0, entry_count=61, missing=0, unexpected=0 |
+| Docs examples JSON parse | `docs/examples/*.sample.json` parse loop | 通过 | all samples parse |
+| README quickstart smoke | local CLI command set | 通过 | help / validate / route / fixture / conformance / scaffold / compile / validate compiled output passed |
+| Task ledger count check | local count script | 通过 | unfinished=10, completedRecent=30 |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=186, checked_relative_links=97, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-34
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-512 到 U-521 |
+| 完成任务 | 10 | U-512 到 U-521 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-522 到 U-531 |
+
 ## 回合摘要：R-2026-05-13-33
 
 | 项 | 内容 |

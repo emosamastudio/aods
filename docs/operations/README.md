@@ -31,6 +31,7 @@
 | [aods-public-close-release-readiness.zh-CN.md](./aods-public-close-release-readiness.zh-CN.md) | U-482 到 U-491 public close / release readiness |
 | [aods-runtime-fixture-prerequisite-design.zh-CN.md](./aods-runtime-fixture-prerequisite-design.zh-CN.md) | U-492 到 U-501 runtime fixture prerequisite design |
 | [aods-runtime-fixture-implementation-candidates.zh-CN.md](./aods-runtime-fixture-implementation-candidates.zh-CN.md) | U-502 到 U-511 runtime fixture implementation candidates |
+| [aods-release-hygiene-adoption-refresh.zh-CN.md](./aods-release-hygiene-adoption-refresh.zh-CN.md) | U-512 到 U-521 release hygiene / adoption / docs parity refresh |
 
 ## 当前公开示例入口
 

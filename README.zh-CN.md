@@ -83,6 +83,7 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 - 编译产物：[`examples/compiled-pilot/`](./examples/compiled-pilot/)
 - 生成的人类概览：[`examples/compiled-pilot/README.md`](./examples/compiled-pilot/README.md)
 - 示例 fixture manifest：[`examples/compiled-pilot-source/fixtures/fixture-manifest.json`](./examples/compiled-pilot-source/fixtures/fixture-manifest.json)
+- 示例 conformance manifest：[`examples/compiled-pilot-source/fixtures/conformance-manifest.json`](./examples/compiled-pilot-source/fixtures/conformance-manifest.json)
 
 当前 pilot 里已经有这些 canonical packs：
 
@@ -485,7 +486,7 @@ node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 
 如果你已经知道改动落在哪个文件，用 `--touch`。如果你只知道“我要找哪类问题”，可以直接用自然语言的 `--query`，CLI 会按 module metadata、成对文档关系和 compact artifact semantics 里的词法 + 结构锚点去找最可能的权威模块。如果你已经知道当前任务所处阶段，但还不知道目标文件，可以额外给 `--stage`（`orientation`、`plan`、`action`、`verification`、`evidence`）来细化路由。
 
-面向机器消费时加 `--json`。只有工具需要解释未加载内容时才加 `--explain-skipped`；默认路由输出保持紧凑。
+面向机器消费时加 `--json`。Route JSON 包含 `explanation.source`、`explanation.reason` 和 `explanation.dependency`，工具可以不用解析 prose 就知道 module 为什么被选中。依赖边会标明声明的 deps 是 `selected`、`unselected` 还是 `missing`；它们不会自动扩大加载范围，也不是 scheduler。只有工具需要解释未加载内容时才加 `--explain-skipped`；默认路由输出保持紧凑。
 
 Routing precedence：
 
