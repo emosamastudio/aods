@@ -30,6 +30,7 @@
 | [aods-runtime-prereq-public-state-retro.zh-CN.md](./aods-runtime-prereq-public-state-retro.zh-CN.md) | U-472 到 U-481 runtime prerequisites / public state / retrospective |
 | [aods-public-close-release-readiness.zh-CN.md](./aods-public-close-release-readiness.zh-CN.md) | U-482 到 U-491 public close / release readiness |
 | [aods-runtime-fixture-prerequisite-design.zh-CN.md](./aods-runtime-fixture-prerequisite-design.zh-CN.md) | U-492 到 U-501 runtime fixture prerequisite design |
+| [aods-runtime-fixture-implementation-candidates.zh-CN.md](./aods-runtime-fixture-implementation-candidates.zh-CN.md) | U-502 到 U-511 runtime fixture implementation candidates |
 
 ## 当前公开示例入口
 

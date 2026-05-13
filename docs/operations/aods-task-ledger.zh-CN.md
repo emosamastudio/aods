@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | runtime fixture prerequisite design complete |
+| 状态 | runtime fixture implementation candidates complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S65 runtime fixture implementation candidates；S66 operations / package hygiene；S67 adoption / docs parity；S68 public split / final go-no-go |
-| 当前回合 | R-2026-05-13-32 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 506 |
+| 当前阶段 | S66 operations / package hygiene；S67 adoption / docs parity；S68 public split / final go-no-go |
+| 当前回合 | R-2026-05-13-33 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 516 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-32 |
-| 开始时间 | 2026-05-13 17:10 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-33 |
+| 开始时间 | 2026-05-13 17:45 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-492、U-493、U-494、U-495、U-496、U-497、U-498、U-499、U-500、U-501 |
-| 本轮范围 | 上轮质量复审；workflow lifecycle / receipt fixture design；event duplicate / correction fixture design；policy decision / approval audit fixture design；remote exposure / adapter mismatch fixture design；migration dry-run / destructive approval fixture design |
-| 排除范围 | runtime implementation、schema implementation、validator implementation、conformance case implementation、workflow engine、event store、policy engine、remote gateway、migration executor、remote call、destructive action、issue close、version bump、tag、GitHub Release、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；release hygiene；runtime gate docs review；fixture/conformance shape review；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-502、U-503、U-504、U-505、U-506、U-507、U-508、U-509、U-510、U-511 |
+| 本轮范围 | 上轮质量复审；workflow/event/policy/remote/migration fixture implementation candidate review；runtime fixture conformance grouping decision；task ledger window automation reconsideration；operations index stale link audit；handoff compaction refresh；installed skill update decision |
+| 排除范围 | runtime implementation、schema implementation、validator implementation、conformance case implementation、workflow engine、event store、policy engine、remote gateway、migration executor、remote call、destructive action、issue close、version bump、tag、GitHub Release、installed skill mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；release hygiene；candidate docs review；task ledger count check；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-502 | S65 | Workflow fixture implementation candidate | P1 | 未开始 | 判断 U-492/U-493 是否可落地 focused regression | U-492/U-493 | - |
-| U-503 | S65 | Event fixture implementation candidate | P1 | 未开始 | 判断 U-494/U-495 是否可落地 focused regression | U-494/U-495 | - |
-| U-504 | S65 | Policy fixture implementation candidate | P1 | 未开始 | 判断 U-496/U-497 是否可落地 focused regression | U-496/U-497 | - |
-| U-505 | S65 | Remote fixture implementation candidate | P1 | 未开始 | 判断 U-498/U-499 是否可落地 focused regression | U-498/U-499 | - |
-| U-506 | S65 | Migration fixture implementation candidate | P1 | 未开始 | 判断 U-500/U-501 是否可落地 focused regression | U-500/U-501 | - |
-| U-507 | S65 | Runtime fixture conformance grouping | P2 | 未开始 | 判断 runtime prerequisite fixtures 是否应进入 conformance suite | U-502 到 U-506 | - |
-| U-508 | S66 | Task ledger window automation reconsideration | P3 | 未开始 | 审查 30 行窗口是否再次漂移，决定是否脚本化 | U-480 | - |
-| U-509 | S66 | Operations index stale link audit | P3 | 未开始 | 复查 current operations index 与专题记录链接 | U-480 | - |
-| U-510 | S66 | Handoff compaction refresh | P3 | 未开始 | 再压缩 handoff 当前状态和下一步 | U-481 | - |
-| U-511 | S66 | Installed skill update decision | P2 | 未开始 | 再次判断是否同步本地 installed `aods-use` skill | U-485 | - |
 | U-512 | S66 | Release hygiene CI owner packet final | P3 | 未开始 | 汇总 CI owner packet，但不启用 Actions | U-465 | - |
 | U-513 | S66 | Generated clean protected path audit | P3 | 未开始 | 审查 generated clean path 是否覆盖当前高风险输出 | U-472 | - |
 | U-514 | S66 | Secret scan false positive audit | P3 | 未开始 | 审查 secret-like scanner allowlist 是否仍为空且合理 | U-468 | - |
@@ -70,16 +60,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 477 | U-472 | S60 | Benchmark result clean audit | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | `npm run generated:check-clean -- --json` | benchmark generated/reports dirty_entries=[] |
-| 478 | U-473 | S61 | Workflow runtime prerequisite refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | release hygiene / docs link / git diff check | 仍 no-go；先 lifecycle/transition/receipt fixtures |
-| 479 | U-474 | S61 | Event store prerequisite refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | release hygiene / docs link / git diff check | 仍 no-go；先 duplicate/out-of-order/correction fixtures |
-| 480 | U-475 | S61 | Policy engine prerequisite refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | release hygiene / docs link / git diff check | 仍 no-go；先 decision/receipt/approval/audit fixtures |
-| 481 | U-476 | S61 | Remote gateway prerequisite refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | release hygiene / docs link / git diff check | 仍 no-go；先 exposure/auth/rate/adapter mismatch fixtures |
-| 482 | U-477 | S61 | Migration tool prerequisite refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | release hygiene / docs link / git diff check | 仍 no-go；先 source/target/mapping/rollback/destructive approval fixtures |
-| 483 | U-478 | S62 | Public state refresh after operations split | P2 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | GitHub issue/release/milestone snapshot | open issues #60/#59/#41；latest release v0.8.0；无 milestone |
-| 484 | U-479 | S62 | Next issue triage after v0.9 plan | P2 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | GitHub snapshot / release hygiene | 下一优先级：public close packets、release readiness、runtime fixture prerequisites |
-| 485 | U-480 | S62 | Post-operations split retrospective | P3 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | docs link / release hygiene | current operations 短入口有效；暂不脚本化维护 |
-| 486 | U-481 | S62 | Next task pool expansion after U-432 | P2 | 2026-05-13 | 当前台账 / round log / runtime prereq public state retro doc | docs link / release hygiene | 新增 U-482 到 U-531；下一轮默认 U-482 到 U-491 |
 | 487 | U-482 | S63 | Observability public close readiness packet | P2 | 2026-05-13 | 当前台账 / round log / public close release readiness doc | GitHub issue snapshot / release hygiene | #59 metadata/reporting scope close-ready；不关闭 |
 | 488 | U-483 | S63 | Capability metadata close scope packet | P2 | 2026-05-13 | 当前台账 / round log / public close release readiness doc | GitHub issue snapshot / release hygiene | #41 metadata-first close-ready only if runtime/protocol split first |
 | 489 | U-484 | S63 | Roadmap tracker v0.9 refresh packet | P2 | 2026-05-13 | 当前台账 / round log / public close release readiness doc | GitHub issue snapshot / release hygiene | #60 保持 umbrella tracker；准备 comment packet，不发布 |
@@ -100,12 +80,22 @@
 | 504 | U-499 | S64 | Remote adapter mismatch fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | provider mismatch / runtime probing / rate-cost posture designs ready |
 | 505 | U-500 | S64 | Migration dry-run report fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | missing source authority / mapping / semantic gap designs ready |
 | 506 | U-501 | S64 | Migration destructive approval fixture design | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture prerequisite design doc | release hygiene / docs link / git diff check | destructive approval / rollback / dry-run-only designs ready |
+| 507 | U-502 | S65 | Workflow fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | not first candidate；needs static workflow transition record |
+| 508 | U-503 | S65 | Event fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | correction target / supersession cycle are ready candidates after shape decision |
+| 509 | U-504 | S65 | Policy fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | defer until static policy decision shape exists |
+| 510 | U-505 | S65 | Remote fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | adapter mismatch is ready candidate via existing capability matrix |
+| 511 | U-506 | S65 | Migration fixture implementation candidate | P1 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | dry-run static report is benchmark-only candidate, not validator yet |
+| 512 | U-507 | S65 | Runtime fixture conformance grouping | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | release hygiene / docs link / git diff check | keep out of conformance until package-consumable shape exists |
+| 513 | U-508 | S66 | Task ledger window automation reconsideration | P3 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | count check / release hygiene | no automation；unfinished=30 completedRecent=30 before completion |
+| 514 | U-509 | S66 | Operations index stale link audit | P3 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | docs link / release hygiene | index updated; no stale link |
+| 515 | U-510 | S66 | Handoff compaction refresh | P3 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | docs link / release hygiene | handoff refreshed for U-027..U-511 complete and next U-512..U-521 |
+| 516 | U-511 | S66 | Installed skill update decision | P2 | 2026-05-13 | 当前台账 / round log / runtime fixture implementation candidates doc | skill diff review / release hygiene | do not overwrite installed skill this round |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-502 到 U-511 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-512 到 U-521 |
 
 ## 负责人判断 / issue 分类
 
@@ -126,4 +116,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；public close criteria / roadmap sync packet 已完成且公开同步已执行；source-first / package examples、local hygiene CI design 和 benchmark policy 已完成；benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective、下一任务池扩展、public close readiness、release readiness 复核和 runtime fixture prerequisite design 已完成；下一阶段进入 runtime fixture implementation candidate review 和 package hygiene。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；public close criteria / roadmap sync packet 已完成且公开同步已执行；source-first / package examples、local hygiene CI design 和 benchmark policy 已完成；benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective、下一任务池扩展、public close readiness、release readiness 复核、runtime fixture prerequisite design 和 implementation candidate review 已完成；下一阶段进入 package hygiene、adoption smoke、docs parity 和 public split / final go-no-go。
