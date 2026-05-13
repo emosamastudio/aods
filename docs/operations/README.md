@@ -25,6 +25,7 @@
 | [aods-operations-split-release-planning.zh-CN.md](./aods-operations-split-release-planning.zh-CN.md) | U-422 到 U-431 operations split / release planning |
 | [aods-v0.9-release-candidate-prep.zh-CN.md](./aods-v0.9-release-candidate-prep.zh-CN.md) | U-432 到 U-441 v0.9 release candidate preparation |
 | [aods-public-close-criteria-roadmap-sync.zh-CN.md](./aods-public-close-criteria-roadmap-sync.zh-CN.md) | U-442 到 U-451 public close criteria / roadmap sync packet |
+| [aods-public-sync-authority-drift-maintenance.zh-CN.md](./aods-public-sync-authority-drift-maintenance.zh-CN.md) | U-452 到 U-461 public sync / authority drift maintenance |
 
 ## 当前公开示例入口
 

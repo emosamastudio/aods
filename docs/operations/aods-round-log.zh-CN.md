@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-28
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-28 |
+| 开始时间 | 2026-05-13 14:25 Asia/Shanghai |
+| 结束时间 | 2026-05-13 15:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-27 复审；public roadmap sync execution；current authority checker spike；implementation repo path fixture decision；stale evidence negative fixture decision；acceptance freshness cross gate decision；archive link checker audit；historical stale-current label expansion；operations index generator decision；task ledger maintenance script decision；GitHub release install smoke plan；不关闭 issue、不编辑 issue body、不创建 milestone、不发布、不 bump version、不打 tag、不实现新 checker/script、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-452、U-453、U-454、U-455、U-456、U-457、U-458、U-459、U-460、U-461 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-28
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `9ebb0b3 Define public close criteria packet` |
+| Task ledger state | 通过 | U-452 到 U-461 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-452 到 U-461 |
+
+## 任务执行记录：R-2026-05-13-28
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-452 | 未开始 | 已完成 | 评论同步 `#60/#59/#41` 公开状态，不关闭 issue | GitHub comment URLs |
+| 2 | U-453 | 未开始 | 已完成 | 评估 current-authority checker 最小输入/输出，决定暂不实现 | `aods-public-sync-authority-drift-maintenance.zh-CN.md` |
+| 3 | U-454 | 未开始 | 已完成 | 审查 implementation repo path fixture 现有覆盖，决定不新增重复 fixture | maintenance doc / existing scaffold regression |
+| 4 | U-455 | 未开始 | 已完成 | 审查 stale evidence negative fixture 现有覆盖，决定暂不升 conformance | maintenance doc / existing scaffold regression |
+| 5 | U-456 | 未开始 | 已完成 | 决定 acceptance freshness 不加全局 hard gate | maintenance doc |
+| 6 | U-457 | 未开始 | 已完成 | archive link checker audit | `npm run docs:check-links -- --json` |
+| 7 | U-458 | 未开始 | 已完成 | historical stale-current label expansion 决策：不批量改历史 | maintenance doc |
+| 8 | U-459 | 未开始 | 已完成 | operations index generator 决策：暂不实现 | maintenance doc |
+| 9 | U-460 | 未开始 | 已完成 | task ledger maintenance script 决策：暂不实现 | maintenance doc |
+| 10 | U-461 | 未开始 | 已完成 | 规划 GitHub release source install smoke | maintenance doc |
+
+## 验证记录：R-2026-05-13-28
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Public sync | `gh issue comment 60/59/41` | 通过 | `#60/#59/#41` 均 comment 成功 |
+| Docs link check | `npm run docs:check-links -- --json` | 通过 | markdown_files=179, checked_relative_links=88, missing=0 |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=180, checked_relative_links=89, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-28
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-452 到 U-461 |
+| 完成任务 | 10 | U-452 到 U-461 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-462 到 U-471 |
+
 ## 回合摘要：R-2026-05-13-27
 
 | 项 | 内容 |
