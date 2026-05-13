@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-12
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-12 |
+| 开始时间 | 2026-05-13 12:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 13:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-11 复审；release-to-issue close report；post-v0.8 docs stale reference audit；handoff stale risk compression；operations index pruning plan；task ledger archive split plan；release hygiene CI reconsideration；v0.8 package install smoke repeat；GitHub release artifact audit；`aods-use` installed skill drift check；skill update route plan；不启用 CI、不覆盖本地 skill、不创建新 release/tag、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-301、U-302、U-303、U-304、U-305、U-306、U-307、U-308、U-309、U-310 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-12
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Task ledger state | 通过 | U-301 到 U-330 已入未完成任务表，下一轮默认 U-301 到 U-310 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41`；`#13` closed/completed |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-301 到 U-310 |
+
+## 任务执行记录：R-2026-05-13-12
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-301 | 未开始 | 已完成 | 汇总 v0.8 close-on-merge、`#13` post-release close 和 remaining open anchors | `aods-release-hygiene-skill-drift-followup.zh-CN.md` |
+| 2 | U-302 | 未开始 | 已完成 | 审查 post-v0.8 stale references 并修正 current authority surfaces | `README.md`、`aods-v0.8-release-closeout.zh-CN.md`、`aods-release-hygiene-skill-drift-followup.zh-CN.md` |
+| 3 | U-303 | 未开始 | 已完成 | 在 handoff 添加 current-priority risk snapshot | `aods-handoff.zh-CN.md` |
+| 4 | U-304 | 未开始 | 已完成 | 规划 operations index pruning route | `aods-release-hygiene-skill-drift-followup.zh-CN.md` |
+| 5 | U-305 | 未开始 | 已完成 | 规划 task ledger archive split route | `aods-release-hygiene-skill-drift-followup.zh-CN.md` |
+| 6 | U-306 | 未开始 | 已完成 | 基于 v0.8 release hygiene 重新判断 CI | `aods-release-hygiene-skill-drift-followup.zh-CN.md` |
+| 7 | U-307 | 未开始 | 已完成 | 从 GitHub tag 做 fresh install smoke | `npm install ...#v0.8.0`、`npx aods --help` |
+| 8 | U-308 | 未开始 | 已完成 | 核对 GitHub Release 和 tag ref | `gh release view v0.8.0`、`git ls-remote --tags origin v0.8.0` |
+| 9 | U-309 | 未开始 | 已完成 | 比较 repo packaged skill 与本地 installed skill | skill diff output |
+| 10 | U-310 | 未开始 | 已完成 | 规划 owner-triggered skill install/update route | `aods-release-hygiene-skill-drift-followup.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-12
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | docs link、secret scan、package surface、generated clean、skill tests、`validate:all` 全部通过 |
+| Fresh install smoke | `npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.8.0`、`npx aods --help` | 通过 | packaged CLI help lists current command surface |
+| Release artifact audit | `gh release view v0.8.0 --json ...`、`git ls-remote --tags origin v0.8.0` | 通过 | release published；tag exists；assets none |
+| Open issue snapshot | `gh issue list --state open --limit 20 --json ...` | 通过 | only `#60/#59/#41` open |
+| Skill drift check | `diff -u` local installed skill vs repo packaged skill | 通过 | drift documented；no overwrite performed |
+
+## 新发现任务：R-2026-05-13-12
+
+本轮没有新增任务 ID。剩余未完成任务为 U-311 到 U-330，下一轮默认选择 U-311 到 U-320。
+
+## 回合结束摘要：R-2026-05-13-12
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-301 到 U-310 |
+| 完成任务 | 10 | U-301 到 U-310 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-311 到 U-320 |
+
 ## 回合摘要：R-2026-05-13-11
 
 | 项 | 内容 |

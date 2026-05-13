@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 capability / governance planning |
+| 状态 | post-v0.8 release hygiene / skill drift follow-up complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S33 capability fallback / governance tracker planning |
-| 当前回合 | R-2026-05-13-11 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 305 |
+| 当前阶段 | S35 release hygiene / skill drift follow-up |
+| 当前回合 | R-2026-05-13-12 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 315 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-11 |
-| 开始时间 | 2026-05-13 11:45 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-12 |
+| 开始时间 | 2026-05-13 12:30 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-291、U-292、U-293、U-294、U-295、U-296、U-297、U-298、U-299、U-300 |
-| 本轮范围 | 上轮质量复审；capability unsupported-feature audit；fallback semantics boundary；capability protocol surface sketch；capability conformance fixture plan；matrix docs refresh；`#41` public status refresh；`#60` tracker audit；next milestone split；closed issue traceability table；public tracker update plan |
-| 排除范围 | runtime implementation、adapter handshake、telemetry store、CI workflow enablement、npm publish、external fetch、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；capability / tracker source review；GitHub open issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-301、U-302、U-303、U-304、U-305、U-306、U-307、U-308、U-309、U-310 |
+| 本轮范围 | 上轮质量复审；release-to-issue close report；post-v0.8 stale reference audit；handoff risk compression；operations index pruning plan；task ledger archive split plan；release hygiene CI reconsideration；v0.8 fresh install smoke；GitHub release artifact audit；installed `aods-use` skill drift check；skill install/update route plan |
+| 排除范围 | runtime implementation、CI workflow enablement、npm publish、local installed skill overwrite、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；v0.8 tag fresh install smoke；GitHub release / issue snapshot；repo packaged skill vs installed skill diff；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-301 | S34 | Release-to-issue close report | P2 | 未开始 | 写 v0.8 closed issues public report | U-299 | docs |
-| U-302 | S34 | Post-v0.8 docs stale reference audit | P2 | 未开始 | 找出仍说 PR open / release no-go 的非历史段落 | U-271 | docs |
-| U-303 | S34 | Handoff stale risk compression | P2 | 未开始 | 精简 handoff 中过长的历史风险，保留当前入口 | U-302 | docs |
-| U-304 | S34 | Operations index pruning plan | P2 | 未开始 | 规划 operations README 是否需要分层索引 | U-302 | docs |
-| U-305 | S34 | Task ledger archive split plan | P2 | 未开始 | 规划已完成 285+ 任务是否需要 archive 视图 | U-280 | docs |
-| U-306 | S35 | Release hygiene CI reconsideration | P2 | 未开始 | 基于 v0.8 结果重新判断是否启用轻量 CI | U-271 | no CI by default |
-| U-307 | S35 | Package install smoke repeat | P2 | 未开始 | 对 v0.8 GitHub tag 做 fresh install smoke | U-306 | network |
-| U-308 | S35 | GitHub release artifact audit | P2 | 未开始 | 核对 release tag / source archive / README links | U-306 | GitHub |
-| U-309 | S35 | `aods-use` installed-skill drift check | P2 | 未开始 | 比较 repo packaged skill 与本地安装 skill | U-271 | no overwrite |
-| U-310 | S35 | Skill install/update route plan | P2 | 未开始 | 规划是否更新用户本地 skill，不直接覆盖 | U-309 | skill route |
 | U-311 | S35 | Changelog issue post-close audit | P2 | 未开始 | 确认 `#13` 关闭后无残留 blocker 引用 | U-274 | docs/GitHub |
 | U-312 | S35 | Changelog docs example refresh | P3 | 未开始 | 增加 300/500 行为示例 | U-311 | docs |
 | U-313 | S35 | Changelog regression naming cleanup | P3 | 未开始 | 审查 test name 是否清楚表达 warning vs hard fail | U-311 | tests |
@@ -372,12 +362,22 @@
 | 303 | U-298 | S34 | Governance roadmap next milestone split | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | S33/S34/S35/S36/S37 candidate milestones documented |
 | 304 | U-299 | S34 | Closed issue traceability table | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | initial closed issue -> evidence table documented |
 | 305 | U-300 | S34 | Public tracker update plan | P1 | 2026-05-13 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | docs review | comment-only plan chosen for `#60` before body edit |
+| 306 | U-301 | S34 | Release-to-issue close report | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | issue state / release closeout review | v0.8 closed issue set, `#13` post-release close, and remaining `#60/#59/#41` anchors documented |
+| 307 | U-302 | S34 | Post-v0.8 docs stale reference audit | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md`、operations index、v0.8 closeout | stale reference scan / docs review | current authority surfaces patched; historical readiness records left unchanged |
+| 308 | U-303 | S34 | Handoff stale risk compression | P2 | 2026-05-13 | `docs/operations/aods-handoff.zh-CN.md` | docs review | current-priority risk snapshot added before long historical risk table |
+| 309 | U-304 | S34 | Operations index pruning plan | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | docs review | staged index pruning plan documented; no broad archive split this round |
+| 310 | U-305 | S34 | Task ledger archive split plan | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | docs review | live ledger vs archive split plan documented; not executed in same round |
+| 311 | U-306 | S35 | Release hygiene CI reconsideration | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | release hygiene gate review | decision remains no CI by default; re-entry triggers documented |
+| 312 | U-307 | S35 | Package install smoke repeat | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | `npm install --save-dev git+https://github.com/emosamastudio/aods.git#v0.8.0`、`npx aods --help` | fresh install from v0.8 tag passed with CLI help available |
+| 313 | U-308 | S35 | GitHub release artifact audit | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | `gh release view v0.8.0 --json ...`、`git ls-remote --tags origin v0.8.0` | release published, non-draft, non-prerelease; tag ref exists; no assets |
+| 314 | U-309 | S35 | `aods-use` installed-skill drift check | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | repo packaged skill vs `/Users/emosama/.agents/skills/aods-use` diff | installed skill lags repo packaged skill on version, release, upgrade, fixture/conformance and CLI discovery |
+| 315 | U-310 | S35 | Skill install/update route plan | P2 | 2026-05-13 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | docs review | owner-triggered copy + verify route documented; no local overwrite this round |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮先做任务发现，不直接启动 runtime |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-311 到 U-320，不直接启动 runtime |
 
 ## 负责人判断 / issue 分类
 

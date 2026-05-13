@@ -30,10 +30,11 @@ The remaining open public issues are intentionally deferred:
 
 | Issue | Reason |
 |---|---|
-| `#13` | changelog ergonomics follow-up, not release-blocking |
 | `#41` | capability negotiation remains future protocol/runtime work |
 | `#59` | observability metadata follow-up remains open |
 | `#60` | governance roadmap remains umbrella / next-stage planning |
+
+Post-release note: `#13` was closed as completed after v0.8 because the 300-character warning / 500-character hard limit path had already shipped.
 
 ## Verification
 
@@ -63,7 +64,7 @@ What to keep:
 
 What remains:
 
-- Open public issues `#13/#41/#59/#60` are the only current public backlog anchors.
+- Open public issues `#60/#59/#41` are the only current public backlog anchors.
 - Next milestone planning should start from those issues and the existing runtime / governance no-go boundaries, not by reopening already closed conformance-era work.
 
 ## Next milestone candidates

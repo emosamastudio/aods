@@ -3,11 +3,11 @@
 日期：2026-05-13
 分支：`main`
 最新提交：以 `git log -1 --oneline` 为准（v0.8 version bump commit 为 `661d66a`；PR `#63` squash merge commit 为 `468eb9f`）
-状态：v0.8 released；下一轮任务发现待启动
+状态：v0.8 released；post-v0.8 hygiene follow-up complete
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-300 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-301 到 U-330；下一轮默认选择 U-301 到 U-310，优先推进 release-to-issue report、stale docs audit、handoff/index pruning、release hygiene 和 skill drift 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-310 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-311 到 U-330；下一轮默认选择 U-311 到 U-320，优先推进 changelog post-close audit、conformance release docs、generated/package guard docs 和 fixture semantics 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -141,7 +141,8 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 126 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | 读取 U-271 到 U-280、`#13/#60` 公开同步和 U-281 到 U-330 新任务池 |
 | 127 | `docs/operations/aods-observability-next-slice.zh-CN.md` | 读取 U-281 到 U-290 validation / routing observability 结果 |
 | 128 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | 读取 U-291 到 U-300 capability / governance 结果 |
-| 129 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 129 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | 读取 U-301 到 U-310 release hygiene / skill drift follow-up |
+| 130 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
 | 130 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
 | 131 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
@@ -423,18 +424,28 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-301 | Release-to-issue close report | 下一轮默认首选 |
-| 2 | U-302 | Post-v0.8 docs stale reference audit | U-271 后执行 |
-| 3 | U-303 | Handoff stale risk compression | U-302 后执行 |
-| 4 | U-304 | Operations index pruning plan | U-302 后执行 |
-| 5 | U-305 | Task ledger archive split plan | U-280 后执行 |
-| 6 | U-306 | Release hygiene CI reconsideration | U-271 后执行 |
-| 7 | U-307 | Package install smoke repeat | U-306 后执行 |
-| 8 | U-308 | GitHub release artifact audit | U-306 后执行 |
-| 9 | U-309 | `aods-use` installed-skill drift check | U-271 后执行 |
-| 10 | U-310 | Skill install/update route plan | U-309 后执行 |
+| 1 | U-311 | Changelog issue post-close audit | 下一轮默认首选 |
+| 2 | U-312 | Changelog docs example refresh | U-311 后执行 |
+| 3 | U-313 | Changelog regression naming cleanup | U-311 后执行 |
+| 4 | U-314 | Strict-warning behavior docs | U-312 后执行 |
+| 5 | U-315 | Conformance suite release docs | U-271 后执行 |
+| 6 | U-316 | Conformance report sample | U-315 后执行 |
+| 7 | U-317 | Conformance no-fetch public note | U-315 后执行 |
+| 8 | U-318 | Fixture expected-fail docs | U-315 后执行 |
+| 9 | U-319 | Generated clean guard docs | U-271 后执行 |
+| 10 | U-320 | Package surface allowlist docs | U-271 后执行 |
 
 ## 失败和风险
+
+## 当前优先风险快照
+
+| 项 | 当前处理 |
+|---|---|
+| local-only memory file | `MEMORY.md` 保持 untracked，任何 staged set 都必须排除 |
+| release surface drift | future release 前继续跑 `npm run release:hygiene` |
+| public issue state drift | 当前公开 open anchors 只按 `#60/#59/#41` 处理 |
+| installed skill drift | repo packaged `aods-use` 比本地安装版新；未经 owner 明确要求不覆盖本地 skill |
+| runtime scope creep | workflow / event / policy / remote / migration runtime 继续服从 entry gate，不直接实现 |
 
 | 项 | 原因 | 后续处理 |
 |---|---|---|
@@ -508,13 +519,13 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-301 | Release-to-issue close report | v0.8 closed issue report |
-| 2 | U-302 | Post-v0.8 docs stale reference audit | 非历史 stale 引用表 |
-| 3 | U-303 | Handoff stale risk compression | 当前入口更短 |
-| 4 | U-304 | Operations index pruning plan | 分层索引方案 |
-| 5 | U-305 | Task ledger archive split plan | archive 视图方案 |
-| 6 | U-306 | Release hygiene CI reconsideration | 是否启用轻量 CI 的 decision |
-| 7 | U-307 | Package install smoke repeat | v0.8 tag fresh install smoke |
-| 8 | U-308 | GitHub release artifact audit | release tag/source/README 核对 |
-| 9 | U-309 | `aods-use` installed-skill drift check | repo vs local skill 差异 |
-| 10 | U-310 | Skill install/update route plan | 不直接覆盖本地 skill |
+| 1 | U-311 | Changelog issue post-close audit | 确认 `#13` 关闭后无残留 blocker 引用 |
+| 2 | U-312 | Changelog docs example refresh | 300/500 行为示例 |
+| 3 | U-313 | Changelog regression naming cleanup | warning vs hard fail test naming review |
+| 4 | U-314 | Strict-warning behavior docs | normal validate vs strict validate 差异 |
+| 5 | U-315 | Conformance suite release docs | 外部使用者本地 conformance run 示例 |
+| 6 | U-316 | Conformance report sample | 小型 JSON report sample |
+| 7 | U-317 | Conformance no-fetch public note | runner no-fetch / no provider execution note |
+| 8 | U-318 | Fixture expected-fail docs | expected failures semantics |
+| 9 | U-319 | Generated clean guard docs | generated hygiene directory scope |
+| 10 | U-320 | Package surface allowlist docs | allowlist review flow |

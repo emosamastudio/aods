@@ -144,6 +144,7 @@
 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | U-271 到 U-280 post-v0.8 next task discovery，记录 `#13` close、`#60` refresh、`#59/#41` coverage audit 和 U-281 到 U-330 新任务池。 |
 | `docs/operations/aods-observability-next-slice.zh-CN.md` | U-281 到 U-290 validation / routing observability next slice，记录 validator location envelope、suggested-action coverage、route skipped-module boundary、README refresh 和 `#59` public status。 |
 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | U-291 到 U-300 capability / governance next slice，记录 fallback metadata、static protocol surface、fixture plan、`#41` public status 和 `#60` tracker audit。 |
+| `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | U-301 到 U-310 release hygiene / install smoke / release artifact / skill drift follow-up，记录 post-v0.8 stale reference audit、CI decision 和本地 skill update route。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界
