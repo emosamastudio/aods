@@ -52,6 +52,18 @@
         "status": "pass",
         "rules": []
       }
+    },
+    {
+      "id": "compiled-pilot-capability-fallback-metadata",
+      "kind": "validate",
+      "target": {
+        "path": "../../compiled-pilot",
+        "strict": true
+      },
+      "expected": {
+        "status": "pass",
+        "rules": []
+      }
     }
   ]
 }

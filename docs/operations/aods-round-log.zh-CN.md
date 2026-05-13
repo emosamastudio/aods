@@ -2,6 +2,65 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-24
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-24 |
+| 开始时间 | 2026-05-13 15:10 Asia/Shanghai |
+| 结束时间 | 2026-05-13 15:50 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-23 复审；capability conformance fixture；capability example pack refresh；README guidance；`#41` public sync；sample package promotion decision；public sample JSON generation policy；docs examples link checker coverage；security placeholder fixture decision；package surface allowlist docs refresh；benchmark generated archive split decision；不实现 runtime negotiation、不做 provider discovery、不做 fallback ranking、不执行 adapter、不发布 package、不创建 tag、不关闭 issue、不改 label/milestone、不重写 benchmark generator、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-412、U-413、U-414、U-415、U-416、U-417、U-418、U-419、U-420、U-421 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-24
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `e04e47b Implement observability capability diagnostics` |
+| Task ledger state | 通过 | U-412 到 U-421 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-412 到 U-421 |
+
+## 任务执行记录：R-2026-05-13-24
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-412 | 未开始 | 已完成 | conformance suite 增加 capability fallback metadata validate case | `conformance-manifest.json` |
+| 2 | U-413 | 未开始 | 已完成 | adapter/capability example pack 增加 partial / unknown fallback metadata | `authoring.json`、compiled output |
+| 3 | U-414 | 未开始 | 已完成 | README 增加 capability fallback metadata guidance | `README.md`、`README.zh-CN.md` |
+| 4 | U-415 | 未开始 | 已完成 | 评论 `#41`，不关闭 issue、不编辑 body | https://github.com/emosamastudio/aods/issues/41#issuecomment-4437606295 |
+| 5 | U-416 | 未开始 | 已完成 | 决定 package sample promotion 边界 | maintenance doc / package surface check |
+| 6 | U-417 | 未开始 | 已完成 | 明确 public sample JSON 为 hand-curated snippets | `docs/examples/README.md` |
+| 7 | U-418 | 未开始 | 已完成 | 将 docs examples JSON 变成 Markdown links 供 link checker 覆盖 | `docs/examples/README.md` |
+| 8 | U-419 | 未开始 | 已完成 | security placeholder scan 0 hits，拒绝低信号 fixture 扩张 | maintenance doc / scan |
+| 9 | U-420 | 未开始 | 已完成 | package allowlist 维护边界入账 | maintenance doc / package check |
+| 10 | U-421 | 未开始 | 已完成 | benchmark generated archive 不拆分决策入账 | maintenance doc / generated clean gate |
+
+## 验证记录：R-2026-05-13-24
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Source JSON parse | authoring / fixture / conformance manifests parse | 通过 | JSON 语法有效 |
+| Compile pilot | `npm run compile:pilot` | 通过 | generated corpus 已同步 |
+| Example packs | `node --test ./benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 9/9 pass |
+| Fixture / conformance | `node --test ./benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 14/14 pass；曾更新旧 case count 断言 |
+| Docs examples links | `npm run docs:check-links -- --json` | 通过 | `docs/examples` sample links 被检查 |
+
+## 回合结束摘要：R-2026-05-13-24
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-412 到 U-421 |
+| 完成任务 | 10 | U-412 到 U-421 |
+| 返工项 | 1 | conformance text output 旧 case count 断言从 4 更新到 5 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-422 到 U-431 |
+
 ## 回合摘要：R-2026-05-13-23
 
 | 项 | 内容 |

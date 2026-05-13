@@ -112,6 +112,26 @@
       ]
     },
     {
+      "id": "positive-capability-fallback-metadata-pack",
+      "kind": "positive",
+      "input": {
+        "kind": "authoring-source",
+        "path": "../authoring.json"
+      },
+      "expected_status": "pass",
+      "expected_rules": [],
+      "golden_exports": [
+        {
+          "id": "capability-fallback-metadata-module",
+          "kind": "compiled-module",
+          "path": "../../compiled-pilot/modules/shift-ops-adapter-capability.json",
+          "schema_version": "aods_v3",
+          "update_command": "npm run compile:pilot",
+          "review_gate": "manual-diff"
+        }
+      ]
+    },
+    {
       "id": "positive-artifact-export-policy-gate-pack",
       "kind": "positive",
       "input": {

@@ -91,7 +91,7 @@ Current canonical packs in that pilot:
 | Read-model + implementation linkage | [`shift-ops-readiness-read-model`](./examples/compiled-pilot/modules/shift-ops-readiness-read-model.json) | freshness, watermark, implementation evidence, and acceptance criteria |
 | Command + receipt | [`shift-ops-change-command`](./examples/compiled-pilot/modules/shift-ops-change-command.json) | write-capable command metadata, receipt shape, audit/risk posture |
 | Event + correction/supersession | [`shift-ops-change-event-log`](./examples/compiled-pilot/modules/shift-ops-change-event-log.json) | append-only event shape, correction links, projection guidance |
-| Adapter + capability/exposure | [`shift-ops-adapter-capability`](./examples/compiled-pilot/modules/shift-ops-adapter-capability.json) | metadata-only capability claims, consumer requirements, exposure and audit notes |
+| Adapter + capability/exposure | [`shift-ops-adapter-capability`](./examples/compiled-pilot/modules/shift-ops-adapter-capability.json) | metadata-only capability claims, fallback posture, consumer requirements, exposure and audit notes |
 | Artifact/export/policy gate | [`shift-ops-artifact-export-policy`](./examples/compiled-pilot/modules/shift-ops-artifact-export-policy.json) | generated artifact export, golden export review, validation policy gates |
 | Resource surface | [`shift-ops-resource-surface`](./examples/compiled-pilot/modules/shift-ops-resource-surface.json) | declared resource identity, scope, risk, exposure, cleanup posture, evidence linkage |
 
@@ -454,7 +454,7 @@ npm run conformance:compiled-pilot
 node ./bin/aods.mjs conformance run ./examples/compiled-pilot-source/fixtures/conformance-manifest.json --json
 ```
 
-Conformance cases may expect failure. A suite can still pass when a negative fixture fails for the declared rule, because the failure is the expected outcome. The runner does not fetch remote repositories, call providers, or execute fixture update commands.
+Conformance cases may expect failure. A suite can still pass when a negative fixture fails for the declared rule, because the failure is the expected outcome. The compiled pilot also includes a capability fallback metadata case so partial / unknown capability rows stay covered. The runner does not fetch remote repositories, call providers, or execute fixture update commands.
 
 Changelog entries use a two-step length policy:
 

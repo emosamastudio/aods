@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | observability and capability metadata implementation complete |
+| 状态 | capability sample maintenance complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S47 validator observability；S48 capability metadata |
-| 当前回合 | R-2026-05-13-23 |
-| 未完成任务数量 | 20 |
-| 已完成任务数量 | 416 |
+| 当前阶段 | S49 sample / package maintenance；S50 operations split |
+| 当前回合 | R-2026-05-13-24 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 426 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-23 |
-| 开始时间 | 2026-05-13 14:25 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-24 |
+| 开始时间 | 2026-05-13 15:10 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-402、U-403、U-404、U-405、U-406、U-407、U-408、U-409、U-410、U-411 |
-| 本轮范围 | 上轮质量复审；validator location text parity review；suggested-action next batch；validate / route sample refresh；route skipped-module opt-in；observability public issue sync；capability unsupported reason schema；fallback posture schema；capability compatibility validator extension |
-| 排除范围 | runtime negotiation、provider discovery、fallback ranking、adapter execution、issue close、label/milestone edit、release/tag/package mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；focused tests；`npm run compile:pilot`；sample JSON parse；route opt-in smoke；`npm run validate:all`；`npm run package:check-surface -- --json`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-412、U-413、U-414、U-415、U-416、U-417、U-418、U-419、U-420、U-421 |
+| 本轮范围 | 上轮质量复审；capability conformance fixture；capability example pack refresh；README guidance；`#41` public sync；conformance sample package promotion decision；public sample JSON generation policy；docs examples link checker coverage；security placeholder scan fixture decision；package surface allowlist docs refresh；benchmark generated archive split decision |
+| 排除范围 | runtime negotiation、provider discovery、fallback ranking、adapter execution、new package release、tag creation、issue close、label/milestone edit、benchmark generator rewrite、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；source JSON parse；`npm run compile:pilot`；example-pack regression；fixture / conformance regression；docs link JSON check；`npm run validate:all`；`npm run package:check-surface -- --json`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-412 | S48 | Capability conformance fixture first slice | P2 | 未开始 | unsupported / partial / unknown 结果进入 conformance fixture | U-411 | - |
-| U-413 | S48 | Capability example pack refresh | P2 | 未开始 | compiled-pilot adapter/capability module 展示 unsupported / fallback | U-409、U-410 | - |
-| U-414 | S48 | Capability README guidance refresh | P3 | 未开始 | README 继续强调 metadata-only，不承诺 runtime negotiation | U-413 | - |
-| U-415 | S48 | Capability public issue sync | P3 | 未开始 | 判断是否更新 `#41` 状态 | U-412、U-413 | - |
-| U-416 | S49 | Conformance sample package promotion design | P3 | 未开始 | 决定 docs sample / examples sample 的 package 策略 | U-377 | - |
-| U-417 | S49 | Public sample JSON generation policy | P3 | 未开始 | 明确 docs sample 是 curated 还是 generated | U-375、U-376 | - |
-| U-418 | S49 | Docs example link checker coverage | P3 | 未开始 | docs/examples 被 docs link checker 覆盖 | U-375、U-376 | - |
-| U-419 | S49 | Security placeholder scan fixture hardening | P3 | 未开始 | 增加或拒绝低噪声 placeholder scan fixture | U-379 | - |
-| U-420 | S49 | Package surface allowlist maintenance docs refresh | P3 | 未开始 | package allowlist 变更流程与 docs samples 决策一致 | U-377 | - |
-| U-421 | S49 | Benchmark generated archive split execution decision | P3 | 未开始 | 判断是否真的拆 archive/index，不执行生成器大改 | U-378 | - |
 | U-422 | S50 | Operations index split execution | P2 | 未开始 | 将超长 operations README 拆分或建立 current index | U-355 | - |
 | U-423 | S50 | Task ledger archive split execution | P2 | 未开始 | 将历史完成任务归档，当前台账保持轻量 | U-354 | - |
 | U-424 | S50 | Handoff pruning execution | P2 | 未开始 | handoff 只保留当前入口、状态、风险和下一步 | U-356 | - |
@@ -473,12 +463,22 @@
 | 414 | U-409 | S48 | Capability unsupported reason schema implementation | P1 | 2026-05-13 | `schema/module.schema.json`、schema mirrors | focused regression / `npm run validate:all` | capability metadata 可表达 unsupported / partial reason |
 | 415 | U-410 | S48 | Capability fallback posture schema implementation | P1 | 2026-05-13 | `schema/module.schema.json`、README | focused regression / `npm run validate:all` | fallback posture、degraded behavior、consumer action 进入 metadata schema |
 | 416 | U-411 | S48 | Capability compatibility validator extension | P1 | 2026-05-13 | `lib/validate.mjs`、focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | partial / unknown compatibility rows 必须声明 fallback 或 consumer metadata |
+| 417 | U-412 | S48 | Capability conformance fixture first slice | P2 | 2026-05-13 | `examples/compiled-pilot-source/fixtures/conformance-manifest.json` | fixture conventions regression | capability fallback metadata validate case 进入 conformance suite |
+| 418 | U-413 | S48 | Capability example pack refresh | P2 | 2026-05-13 | `examples/compiled-pilot-source/authoring.json`、compiled output | example-pack regression / `npm run compile:pilot` | adapter/capability module 展示 partial / unknown fallback metadata |
+| 419 | U-414 | S48 | Capability README guidance refresh | P3 | 2026-05-13 | `README.md`、`README.zh-CN.md` | docs review / link check | README 继续强调 metadata-only，不承诺 runtime negotiation |
+| 420 | U-415 | S48 | Capability public issue sync | P3 | 2026-05-13 | https://github.com/emosamastudio/aods/issues/41#issuecomment-4437606295 | `gh issue comment 41 ...` | 只同步状态，不关闭 issue、不编辑 body |
+| 421 | U-416 | S49 | Conformance sample package promotion design | P3 | 2026-05-13 | `docs/operations/aods-capability-sample-maintenance.zh-CN.md` | package surface check | packaged examples/fixtures 继续随包；docs examples 不提升为 package surface |
+| 422 | U-417 | S49 | Public sample JSON generation policy | P3 | 2026-05-13 | `docs/examples/README.md`、maintenance doc | docs link check | public samples 明确为 hand-curated snippets，非 generated golden outputs |
+| 423 | U-418 | S49 | Docs example link checker coverage | P3 | 2026-05-13 | `docs/examples/README.md` | `npm run docs:check-links -- --json` | docs/examples JSON files 通过 Markdown links 被 link checker 覆盖 |
+| 424 | U-419 | S49 | Security placeholder scan fixture hardening | P3 | 2026-05-13 | maintenance doc / security scan | `npm run security:scan-placeholders` | 当前 0 hits；不新增低信号 placeholder fixture |
+| 425 | U-420 | S49 | Package surface allowlist maintenance docs refresh | P3 | 2026-05-13 | maintenance doc | `npm run package:check-surface -- --json` | allowlist 无新增；docs examples 继续不进入 package |
+| 426 | U-421 | S49 | Benchmark generated archive split execution decision | P3 | 2026-05-13 | maintenance doc / generated clean gate | `npm run generated:check-clean` | 当前不拆 archive/index，不执行生成器大改 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-412 到 U-421 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-422 到 U-431 |
 
 ## 负责人判断 / issue 分类
 

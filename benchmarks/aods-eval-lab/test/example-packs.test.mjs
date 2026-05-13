@@ -193,6 +193,11 @@ test("compiled pilot includes adapter capability exposure example pack", () => {
   assert.ok(module.tags.includes("adapter"));
   assert.ok(module.tags.includes("capability"));
   assert.ok(module.tags.includes("exposure"));
+  assert.equal(module.meta.contract.profile, "capability");
+  assert.equal(module.meta.contract.capability.capability_id, "readiness.query");
+  assert.equal(module.meta.contract.capability.support_status, "partial");
+  assert.equal(module.meta.contract.capability.fallback_posture, "manual-review");
+  assert.equal(module.meta.contract.capability.consumer_action, "manual-review");
   assert.equal(module.meta.implementation.repo_id, "shift-ops-worker");
   assert.deepEqual(module.meta.implementation.evidence.map((entry) => entry.id), [
     "adapter-capability-contract-test",
@@ -208,14 +213,23 @@ test("compiled pilot includes adapter capability exposure example pack", () => {
   assert.ok(module.artifacts.some((entry) => entry.artifact_id === "adapter-capability-table"));
   assert.ok(module.artifacts.some((entry) => entry.artifact_id === "adapter-consumer-requirement-table"));
   assert.ok(module.artifacts.some((entry) => entry.artifact_id === "adapter-exposure-audit-table"));
+  const compatibilityMatrix = module.artifacts.find((entry) => entry.artifact_id === "adapter-capability-compatibility-matrix");
+  assert.ok(compatibilityMatrix);
+  assert.ok(compatibilityMatrix.content.columns.includes("fallback_posture"));
+  assert.ok(compatibilityMatrix.content.columns.includes("consumer_action"));
+  assert.ok(compatibilityMatrix.content.rows.some((row) => row[0] === "readiness-partial-cached" && row[9] === "partial"));
+  assert.ok(compatibilityMatrix.content.rows.some((row) => row[0] === "change-audit-unknown" && row[9] === "unknown"));
 
   const compiled = JSON.parse(fs.readFileSync(ADAPTER_MODULE_PATH, "utf8"));
+  assert.equal(compiled.meta.contract.profile, "capability");
+  assert.equal(compiled.meta.contract.capability.support_status, "partial");
   assert.equal(compiled.meta.implementation.evidence.length, 2);
   assert.equal(compiled.meta.implementation.acceptance_criteria.length, 2);
 
   const manifest = JSON.parse(fs.readFileSync(COMPILED_MANIFEST_PATH, "utf8"));
   const manifestModule = manifest.modules.find((entry) => entry.id === "shift-ops-adapter-capability");
   assert.ok(manifestModule);
+  assert.deepEqual(manifestModule.contract, { profile: "capability" });
   assert.equal(manifestModule.implementation.evidence_summary.total, 2);
   assert.equal(manifestModule.implementation.acceptance_summary.total, 2);
 
@@ -225,6 +239,10 @@ test("compiled pilot includes adapter capability exposure example pack", () => {
   assert.equal(fixture.kind, "positive");
   assert.equal(fixture.input.path, "../authoring.json");
   assert.ok(fixture.golden_exports.some((entry) => entry.id === "adapter-capability-exposure-module"));
+  assert.ok(fixtureManifest.fixtures.some((entry) =>
+    entry.id === "positive-capability-fallback-metadata-pack" &&
+    entry.golden_exports.some((golden) => golden.id === "capability-fallback-metadata-module")
+  ));
 });
 
 test("compiled pilot includes artifact export policy gate example pack", () => {

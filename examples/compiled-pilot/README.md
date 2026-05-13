@@ -116,11 +116,11 @@ Canonical adapter + capability/exposure example for shift operations integration
 
 #### adapter provider capability claim
 
-Provider capability claim names adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, and evidence_anchor. Capability claim is metadata only and does not create runtime discovery, auth exchange, fallback ranking, or dynamic probing.
+Provider capability claim names adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, fallback_posture, degraded_behavior, consumer_action, and evidence_anchor. Capability claim is metadata only and does not create runtime discovery, auth exchange, fallback ranking, or dynamic probing.
 
 #### adapter consumer requirement
 
-Consumer requirement names required capability_id, accepted contract_profile, required_schema_version_policy, transport_scope need, freshness requirement, redaction floor, exposure class, and blocking posture. Compatibility result may be compatible, incompatible, partial, or unknown; it does not select providers or execute adapters.
+Consumer requirement names required capability_id, accepted contract_profile, required_schema_version_policy, transport_scope need, freshness requirement, redaction floor, exposure class, blocking posture, and fallback posture. Compatibility result may be compatible, incompatible, partial, or unknown; partial and unknown rows must declare fallback or consumer metadata, and the comparison does not select providers or execute adapters.
 
 #### adapter exposure and audit posture
 

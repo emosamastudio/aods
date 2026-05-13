@@ -91,7 +91,7 @@ AODS 走的是一条明确的路径，而不是泛化地宣称“所有场景都
 | Read-model + implementation linkage | [`shift-ops-readiness-read-model`](./examples/compiled-pilot/modules/shift-ops-readiness-read-model.json) | freshness、watermark、implementation evidence、acceptance criteria |
 | Command + receipt | [`shift-ops-change-command`](./examples/compiled-pilot/modules/shift-ops-change-command.json) | write-capable command metadata、receipt shape、audit/risk posture |
 | Event + correction/supersession | [`shift-ops-change-event-log`](./examples/compiled-pilot/modules/shift-ops-change-event-log.json) | append-only event shape、correction links、projection guidance |
-| Adapter + capability/exposure | [`shift-ops-adapter-capability`](./examples/compiled-pilot/modules/shift-ops-adapter-capability.json) | metadata-only capability claims、consumer requirements、exposure、audit notes |
+| Adapter + capability/exposure | [`shift-ops-adapter-capability`](./examples/compiled-pilot/modules/shift-ops-adapter-capability.json) | metadata-only capability claims、fallback posture、consumer requirements、exposure、audit notes |
 | Artifact/export/policy gate | [`shift-ops-artifact-export-policy`](./examples/compiled-pilot/modules/shift-ops-artifact-export-policy.json) | generated artifact export、golden export review、validation policy gates |
 | Resource surface | [`shift-ops-resource-surface`](./examples/compiled-pilot/modules/shift-ops-resource-surface.json) | resource identity、scope、risk、exposure、cleanup posture、evidence linkage |
 
@@ -452,7 +452,7 @@ npm run conformance:compiled-pilot
 node ./bin/aods.mjs conformance run ./examples/compiled-pilot-source/fixtures/conformance-manifest.json --json
 ```
 
-Conformance case 可以声明预期失败。negative fixture 如果按声明的 rule 失败，suite 仍然可以通过，因为这个失败就是预期结果。runner 不会抓取远端仓库、调用 provider，也不会执行 fixture update command。
+Conformance case 可以声明预期失败。negative fixture 如果按声明的 rule 失败，suite 仍然可以通过，因为这个失败就是预期结果。compiled pilot 也包含 capability fallback metadata case，用来覆盖 partial / unknown capability rows。runner 不会抓取远端仓库、调用 provider，也不会执行 fixture update command。
 
 Changelog entry 使用两级长度策略：
 

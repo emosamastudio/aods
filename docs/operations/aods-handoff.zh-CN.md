@@ -3,11 +3,11 @@
 日期：2026-05-13
 分支：`main`
 最新提交：以 `git log -1 --oneline` 为准（v0.8 version bump commit 为 `661d66a`；PR `#63` squash merge commit 为 `468eb9f`）
-状态：v0.8 released；observability and capability metadata implementation complete
+状态：v0.8 released；capability sample maintenance complete
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-411 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。本轮完成 route skipped-module opt-in、validate issue location sample、observability sample refresh、`#59` public sync、capability unsupported reason / fallback posture schema 和 compatibility fallback metadata gate；下一轮默认选择 U-412 到 U-421。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-421 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。本轮完成 capability fallback conformance slice、adapter/capability example pack refresh、README guidance、`#41` public sync、docs sample link coverage、sample/package policy、security placeholder decision 和 generated archive no-split decision；下一轮默认选择 U-422 到 U-431。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -153,9 +153,10 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 138 | `docs/operations/aods-structured-term-refs-implementation.zh-CN.md` | 读取 U-382 到 U-391 structured term refs implementation |
 | 139 | `docs/operations/aods-evidence-freshness-and-location-implementation.zh-CN.md` | 读取 U-392 到 U-401 evidence freshness / validator location implementation |
 | 140 | `docs/operations/aods-observability-capability-implementation.zh-CN.md` | 读取 U-402 到 U-411 observability / capability implementation |
-| 141 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 142 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 143 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 141 | `docs/operations/aods-capability-sample-maintenance.zh-CN.md` | 读取 U-412 到 U-421 capability / sample maintenance |
+| 142 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 143 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 144 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -525,8 +526,8 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-412 | Capability conformance fixture first slice | unsupported / partial / unknown 结果进入 conformance fixture |
-| 2 | U-413 | Capability example pack refresh | compiled-pilot adapter/capability module 展示 unsupported / fallback |
-| 3 | U-414 | Capability README guidance refresh | 继续强调 metadata-only，不承诺 runtime negotiation |
-| 4 | U-415 | Capability public issue sync | 判断是否更新 `#41` 状态 |
-| 5 | U-416 到 U-421 | Sample / package / docs / archive maintenance | 处理 docs sample policy、link coverage、package allowlist 和 benchmark archive decision |
+| 1 | U-422 | Operations index split execution | 将超长 operations README 拆分或建立 current index |
+| 2 | U-423 | Task ledger archive split execution | 将历史完成任务归档，当前台账保持轻量 |
+| 3 | U-424 | Handoff pruning execution | handoff 只保留当前入口、状态、风险和下一步 |
+| 4 | U-425 到 U-426 | Historical label / navigation check | stale-current label pilot 和 split 后 link check |
+| 5 | U-427 到 U-431 | Release / roadmap / task pool planning | v0.9 / v0.8.1 / roadmap / milestone / next task discovery |

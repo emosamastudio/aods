@@ -88,13 +88,13 @@ test("fixture smoke command reports declared fixture and golden export coverage 
   assert.equal(report.accepted, true);
   assert.equal(report.manifest.path, FIXTURE_MANIFEST_PATH);
   assert.equal(report.summary.fixtures, fixtureManifest.fixtures.length);
-  assert.equal(report.summary.kind.positive, 9);
+  assert.equal(report.summary.kind.positive, 10);
   assert.equal(report.summary.kind.negative, 5);
   assert.equal(report.summary.expected_status.pass, positiveFixtures.length);
   assert.equal(report.summary.expected_status.fail, negativeFixtures.length);
   assert.equal(report.summary.expected_status.warn, 0);
   assert.equal(report.summary.expected_rules, 5);
-  assert.equal(report.summary.golden_exports, 9);
+  assert.equal(report.summary.golden_exports, 10);
   assert.deepEqual(report.issues, []);
 });
 
@@ -125,12 +125,13 @@ test("conformance runner consumes declared fixture and validate cases without ar
   assert.equal(report.status, "pass");
   assert.equal(report.accepted, true);
   assert.equal(report.suite_id, "compiled-pilot-fixture-conformance");
-  assert.equal(report.summary.cases, 4);
-  assert.equal(report.summary.passed, 4);
+  assert.equal(report.summary.cases, 5);
+  assert.equal(report.summary.passed, 5);
   assert.equal(report.summary.failed, 0);
   assert.equal(report.summary.expected_failures, 2);
   assert.deepEqual(report.issues, []);
   assert.ok(report.cases.some((testCase) => testCase.id === "compiled-pilot-strict-reality"));
+  assert.ok(report.cases.some((testCase) => testCase.id === "compiled-pilot-capability-fallback-metadata"));
 });
 
 test("conformance manifest and report match their checked-in schemas", () => {
@@ -305,8 +306,8 @@ test("conformance text output keeps the stable smoke fields", () => {
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.match(result.stdout, /^PASS conformance run /);
   assert.match(result.stdout, /suite: compiled-pilot-fixture-conformance/);
-  assert.match(result.stdout, /cases: 4/);
-  assert.match(result.stdout, /passed: 4/);
+  assert.match(result.stdout, /cases: 5/);
+  assert.match(result.stdout, /passed: 5/);
   assert.match(result.stdout, /failed: 0/);
 });
 
