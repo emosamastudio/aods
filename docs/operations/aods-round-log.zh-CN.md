@@ -2,6 +2,72 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-40
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-40 |
+| 开始时间 | 2026-05-13 23:10 Asia/Shanghai |
+| 结束时间 | 2026-05-13 23:55 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-39 复审；v0.9 tag / GitHub Release；GitHub tag source install smoke；public issue close execution decision；`#60` post-release refresh；release artifact audit；handoff / ledger closeout；installed skill sync decision；next roadmap task discovery；KB decision；post-v0.9 retrospective；不发布 npm、不创建 milestone、不改 installed skill、不实现 workflow engine、policy engine、adapter runtime、event store/replay、migration executor、不连接数据库、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-572、U-573、U-574、U-575、U-576、U-577、U-578、U-579、U-580、U-581 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-40
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `ea9e44c Bump release surfaces to 0.9.0` |
+| Task ledger state | 通过 | U-572 到 U-581 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-572 到 U-581 |
+
+## 任务执行记录：R-2026-05-13-40
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-572 | 未开始 | 已完成 | 创建 `v0.9.0` tag 和 GitHub Release | `https://github.com/emosamastudio/aods/releases/tag/v0.9.0` |
+| 2 | U-573 | 未开始 | 已完成 | 从 GitHub tag 安装并验证 CLI / validate / fixture / conformance | installed `aods@0.9.0` |
+| 3 | U-574 | 未开始 | 已完成 | 审查 release 后 public issue closeout | no open metadata-scoped issue to close |
+| 4 | U-575 | 未开始 | 已完成 | 评论 `#60` post-release 状态 | `https://github.com/emosamastudio/aods/issues/60#issuecomment-4439759877` |
+| 5 | U-576 | 未开始 | 已完成 | 审查 release artifact / tag / package dry-run | release view / tag deref / pack dry-run pass |
+| 6 | U-577 | 未开始 | 已完成 | 刷新 handoff / ledger / progress / round log | current operations docs |
+| 7 | U-578 | 未开始 | 已完成 | 决定不改 local installed skill | release closeout doc |
+| 8 | U-579 | 未开始 | 已完成 | 新增 post-v0.9 task pool | U-582 到 U-631 |
+| 9 | U-580 | 未开始 | 已完成 | 判断本轮不写 KB | release closeout doc |
+| 10 | U-581 | 未开始 | 已完成 | 完成 post-v0.9 retrospective | release closeout doc |
+
+## 验证记录：R-2026-05-13-40
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Tag push | `git tag -a v0.9.0` / `git push origin v0.9.0` | 通过 | tag pushed |
+| GitHub Release | `gh release create v0.9.0` | 通过 | published non-draft / non-prerelease |
+| Source install smoke | `npm install ...#v0.9.0` | 通过 | help / validate / fixture / conformance pass |
+| Release artifact audit | `gh release view v0.9.0 --json ...` | 通过 | assets=[]，tarball/zipball available |
+| Tag target audit | `git ls-remote --tags origin 'v0.9.0^{}'` | 通过 | tag derefs to `ea9e44c` |
+| Package dry-run | `npm pack --dry-run --json` | 通过 | `aods@0.9.0`, entryCount=61 |
+| Open issue snapshot | `gh issue list --state open` | 通过 | `#60/#64` open |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown links valid |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+| Task ledger count check | local count script | 通过 | unfinished=50, completedRecent=30 |
+
+## 回合结束摘要：R-2026-05-13-40
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-572 到 U-581 |
+| 完成任务 | 10 | U-572 到 U-581 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 50 | U-582 到 U-631 |
+| 剩余未完成任务 | 50 | 下一轮默认 U-582 到 U-591 |
+
 ## 回合摘要：R-2026-05-13-39
 
 | 项 | 内容 |

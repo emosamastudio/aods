@@ -37,6 +37,7 @@
 | [aods-static-records-release-prep.zh-CN.md](./aods-static-records-release-prep.zh-CN.md) | U-542 到 U-551 static records / release prep |
 | [aods-release-execution-prep-final.zh-CN.md](./aods-release-execution-prep-final.zh-CN.md) | U-552 到 U-561 release execution prep final |
 | [aods-post-regression-audits-version-bump.zh-CN.md](./aods-post-regression-audits-version-bump.zh-CN.md) | U-562 到 U-571 post-regression audits / v0.9 version bump |
+| [aods-v0.9-release-closeout.zh-CN.md](./aods-v0.9-release-closeout.zh-CN.md) | U-572 到 U-581 v0.9 release closeout / next task discovery |
 
 ## 当前公开示例入口
 

@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.9 version surfaces bumped；release execution pending
+状态：v0.9 released；post-release next pool ready
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#64`，`#41/#59` 已关闭，无 milestone。U-027 到 U-571 已完成；package / README / skill surface 已 bump 到 `0.9.0` / `v0.9.0`，但远端 latest release 仍为 `v0.8.0`，`v0.9.0` tag / GitHub Release / source install smoke 尚未执行。当前任务池为 U-572 到 U-581，下一轮默认执行 U-572 到 U-581，重点是创建 tag / GitHub Release、从 tag 安装验证、public issue closeout、roadmap refresh 和 post-release artifact audit。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.9 已发布，GitHub Release `v0.9.0` 已创建，tag source install smoke 已通过。当前 open issue 为 `#60/#64`，`#41/#59` 已关闭，无 milestone。U-027 到 U-581 已完成；当前任务池为 U-582 到 U-631，下一轮默认执行 U-582 到 U-591，重点是 roadmap body refresh、`#64` body refresh、public issue label/milestone audit、runtime/protocol static record shape、trust boundary、adapter handshake metadata feasibility、provider discovery non-execution invariant、fallback ranking deferral 和 runtime/protocol negative fixture candidates。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -28,7 +28,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | 分支 | `main` |
 | 最新提交 | 以 `git log -1 --oneline` 为准 |
 | 预期 dirty | 仅 `MEMORY.md` 未跟踪 |
-| 发布面 | package / README / skill surface 已为 `0.9.0` / `v0.9.0`；远端 tag / release 待执行 |
+| 发布面 | package / README / skill surface 已为 `0.9.0` / `v0.9.0`；GitHub Release `v0.9.0` 已 published |
 
 ## 当前完成摘要
 
@@ -52,6 +52,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Static records / release prep | 已完成 | event correction package boundary、migration dry-run benchmark-only helper、workflow / policy static record shape、focused regression conformance promotion gate 和 v0.9 version bump plan 已落地；仍不 bump、不发布 |
 | Release execution prep final | 已完成 | release notes final draft、pack dry-run、packed install smoke、source install route、CI/hosted/archive decisions、final no-go 和 `#64` body draft 已完成；release 仍等待 version bump |
 | Post-regression audits / version bump | 已完成 | focused regression issue linkage、public no-runtime wording、source-first smoke、package/generated/security audits 已完成；version surface 已 bump 到 `0.9.0` / `v0.9.0`；tag / GitHub Release 待执行 |
+| v0.9 release closeout | 已完成 | tag / GitHub Release 已创建；tag source install smoke 通过；`#60` post-release comment 已发布；`#60/#64` 保持 open；next pool U-582 到 U-631 已建立 |
 
 ## 当前风险
 
@@ -61,7 +62,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | README benchmark 手改 | benchmark sync 区块必须改 generator |
 | capability 过度承诺 | 当前只做 metadata；runtime negotiation / provider discovery / fallback ranking 仍 deferred |
 | public issue 提前关闭 | `#59/#41` 已按范围关闭；`#60/#64` 保持 open；后续关闭必须继续按台账 packet 执行 |
-| release version surface 漂移 | package / README / skill 已同步到 v0.9；当前剩余风险是远端 latest release 仍为 v0.8.0，下一轮必须先创建 v0.9 tag / release |
+| release version surface 漂移 | package / README / skill / GitHub Release 均为 v0.9；后续要避免 README 提前指向未发布版本 |
 | migration dry-run 过度承诺 | 目前只在 benchmark helper / fixture 中记录静态报告；不提供 migrate command、不连接数据库、不进 package adoption surface |
 | operations 历史丢失 | 完整旧 README / task ledger / handoff 已在 `docs/operations/archive/` |
 
@@ -69,6 +70,6 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-572 到 U-573 | 创建 `v0.9.0` tag / GitHub Release，并从 tag 执行 source install smoke |
-| 2 | U-574 到 U-577 | release 后关闭 public metadata-scoped issue、刷新 roadmap、审查 release artifact、更新交接台账 |
-| 3 | U-578 到 U-581 | installed skill sync decision、下一任务发现、KB decision note 判断和 post-v0.9 retrospective |
+| 1 | U-582 到 U-585 | `#60/#64` public body / label / milestone hygiene |
+| 2 | U-586 到 U-591 | runtime/protocol static prerequisite plan、trust boundary、non-execution invariant 和 negative fixtures |
+| 3 | U-592 到 U-631 | release/adoption evidence、code drift hardening、static records follow-up、docs density、external adoption smoke 和下一版本命名 |
