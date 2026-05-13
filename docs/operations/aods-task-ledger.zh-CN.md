@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 roadmap / observability / capability gates complete |
+| 状态 | structured term refs / evidence freshness gates complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S38 post-v0.8 roadmap / observability / capability gates |
-| 当前回合 | R-2026-05-13-16 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 346 |
+| 当前阶段 | S39 structured terminology refs / S40 evidence freshness |
+| 当前回合 | R-2026-05-13-17 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 356 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-16 |
-| 开始时间 | 2026-05-13 11:40 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-17 |
+| 开始时间 | 2026-05-13 11:50 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-332、U-333、U-334、U-335、U-336、U-337、U-338、U-339、U-340、U-341 |
-| 本轮范围 | 上轮质量复审；`#60` tracker refresh packet；closed issue reconciliation matrix；`#59` validator location / suggested-action implementation gates；route skipped-module opt-in feasibility；observability sample pack plan；`#41` unsupported reason / fallback metadata gates；capability conformance fixture first decision |
-| 排除范围 | GitHub issue body/comment mutation、schema implementation、validator implementation、fixture implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for roadmap / observability / capability surfaces；GitHub issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-342、U-343、U-344、U-345、U-346、U-347、U-348、U-349、U-350、U-351 |
+| 本轮范围 | 上轮质量复审；structured term refs schema / validator / source-first mirror plan；lifecycle alias negative fixture plan；deprecated term strict behavior decision；term refs public docs；evidence freshness next slice；evidence freshness fixture plan；manual-review acceptance docs refresh；unchecked repo remediation docs update |
+| 排除范围 | schema implementation、validator implementation、compile implementation、fixture file implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for terminology / evidence / reality surfaces；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-342 | S39 | Structured term refs schema design | P1 | 未开始 | 定义 term_refs 最小字段、owner、scope、target surface | U-331 | - |
-| U-343 | S39 | Structured term refs validator design | P1 | 未开始 | 设计 unresolved / deprecated / alias mismatch deterministic gates | U-342 | - |
-| U-344 | S39 | Structured term refs source-first mirror plan | P1 | 未开始 | 明确 authoring source、compile、manifest summary mirror 同步路径 | U-342 | - |
-| U-345 | S39 | Lifecycle alias negative fixture implementation plan | P2 | 未开始 | 用 term_refs 重新设计 `start` vs `begin` 负例 | U-342、U-343 | - |
-| U-346 | S39 | Glossary deprecated term strict behavior decision | P2 | 未开始 | 决定 deprecated term 是 warning、strict block 还是 profile-dependent | U-343 | - |
-| U-347 | S39 | Glossary term refs public docs | P2 | 未开始 | 给 README / operations docs 增加 term refs 使用边界 | U-342 | - |
-| U-348 | S40 | Code drift evidence freshness next slice | P2 | 未开始 | 选出 evidence freshness 的下一批 validator/report 小切片 | U-331 | - |
-| U-349 | S40 | Evidence freshness fixture plan | P2 | 未开始 | 规划 stale/current/blocked evidence fixture 覆盖 | U-348 | - |
-| U-350 | S40 | Implementation acceptance manual-review docs refresh | P3 | 未开始 | 更新 manual review posture 和 acceptance criteria 使用说明 | U-331 | - |
-| U-351 | S40 | Reality unchecked repo remediation docs update | P3 | 未开始 | 更新 unchecked repo locator 的修复流程 | U-331 | - |
 | U-352 | S41 | Package skill install update execution decision | P2 | 未开始 | 决定是否更新本地 installed skill，并记录 owner-trigger rule | U-331 | - |
 | U-353 | S41 | Packaged skill drift regression follow-up | P2 | 未开始 | 扩充 packaged skill 与 CLI/help/release surface 漂移检查 | U-352 | - |
 | U-354 | S41 | Task ledger archive split execution plan | P3 | 未开始 | 规划台账历史拆分，不破坏当前权威入口 | U-331 | - |
@@ -423,12 +413,22 @@
 | 344 | U-339 | S38 | `#41` unsupported reason schema gate design | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | `#41` issue snapshot；capability matrix review | unsupported reason metadata-only 字段已锁定 |
 | 345 | U-340 | S38 | `#41` fallback metadata schema gate design | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | `#41` issue snapshot；partial / unknown boundary review | fallback posture / degraded behavior / consumer action 字段已锁定 |
 | 346 | U-341 | S38 | Capability conformance fixture first implementation decision | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | fixture candidate review | 首批 fixture 选定 unsupported missing reason、partial missing fallback、unknown manual review |
+| 347 | U-342 | S39 | Structured term refs schema design | P1 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | route query；glossary / lifecycle docs review | `term_refs[]` 最小字段、scope、usage 和放置位置已锁定 |
+| 348 | U-343 | S39 | Structured term refs validator design | P1 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | glossary registry / validation rule review | unresolved、alias-used、deprecated-stable、replacement-missing 等 gates 已设计 |
+| 349 | U-344 | S39 | Structured term refs source-first mirror plan | P1 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | authoring / compile / manifest summary path review | authoring -> compiled module -> manifest summary 同步路径已明确 |
+| 350 | U-345 | S39 | Lifecycle alias negative fixture implementation plan | P2 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | lifecycle alias fixture shape review | `start` canonical / `begin` alias machine-ref 负例已改为结构化输入 |
+| 351 | U-346 | S39 | Glossary deprecated term strict behavior decision | P2 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | deprecated term behavior matrix | 采用 profile-dependent 行为：stable strict fail，internal warning |
+| 352 | U-347 | S39 | Glossary term refs public docs | P2 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | docs snippet review | public docs snippet 和 alias/machine-ref 边界已写清 |
+| 353 | U-348 | S40 | Code drift evidence freshness next slice | P2 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | evidence hygiene / stale workflow review | 下一切片选 stale reason envelope、age summary、manual review posture、reality locator posture |
+| 354 | U-349 | S40 | Evidence freshness fixture plan | P2 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | fixture candidate review | 首批 current/stale/remote-unchecked evidence fixtures 已规划 |
+| 355 | U-350 | S40 | Implementation acceptance manual-review docs refresh | P3 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | acceptance / manual review posture review | validator/fixture/manual review/waiver docs 更新要点已明确 |
+| 356 | U-351 | S40 | Reality unchecked repo remediation docs update | P3 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | unchecked repo remediation docs review | unchecked reason -> repair action matrix 已明确 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-342 到 U-351 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-352 到 U-361 |
 
 ## 负责人判断 / issue 分类
 

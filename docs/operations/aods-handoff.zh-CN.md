@@ -3,11 +3,11 @@
 日期：2026-05-13
 分支：`main`
 最新提交：以 `git log -1 --oneline` 为准（v0.8 version bump commit 为 `661d66a`；PR `#63` squash merge commit 为 `468eb9f`）
-状态：v0.8 released；post-v0.8 roadmap / observability / capability gates complete
+状态：v0.8 released；structured term refs / evidence freshness gates complete
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-341 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。本轮已锁定 `#60` tracker refresh packet、`#59` validator location / suggested-action gates、route skipped-module opt-in、observability sample pack plan、`#41` unsupported reason / fallback gates 和 capability fixture 首批候选；下一轮默认选择 U-342 到 U-351，进入 structured term refs 和 evidence freshness。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-351 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。本轮已锁定 structured term refs 的 schema / validator / source-first mirror 路线，`start` vs `begin` 生命周期别名负例改为结构化输入，同时明确 evidence freshness、manual review acceptance 和 unchecked repo remediation 的下一批口径；下一轮默认选择 U-352 到 U-361。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -146,9 +146,10 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 131 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | 读取 U-321 到 U-330 drift / adoption / release guard follow-up |
 | 132 | `docs/operations/aods-post-v0.8-second-task-discovery.zh-CN.md` | 读取 U-331 第二轮任务发现和 U-332 到 U-381 新任务池 |
 | 133 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | 读取 U-332 到 U-341 roadmap / observability / capability gates |
-| 134 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 135 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 136 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 134 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | 读取 U-342 到 U-351 structured term refs / evidence freshness gates |
+| 135 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 136 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 137 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 

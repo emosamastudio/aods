@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-17
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-17 |
+| 开始时间 | 2026-05-13 11:50 Asia/Shanghai |
+| 结束时间 | 2026-05-13 12:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-16 复审；structured term refs schema / validator / source-first mirror plan；lifecycle alias negative fixture plan；deprecated term strict behavior decision；term refs public docs；evidence freshness next slice；evidence freshness fixture plan；manual-review acceptance docs refresh；unchecked repo remediation docs update；不实现 schema/validator/compile/fixture、不扫描 prose、不执行 evidence command、不抓取远端、不发布 package、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-342、U-343、U-344、U-345、U-346、U-347、U-348、U-349、U-350、U-351 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-17
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `25a498b Document roadmap observability capability gates` |
+| Task ledger state | 通过 | U-332 到 U-341 已完成，下一轮默认 U-342 到 U-351 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-342 到 U-351 |
+
+## 任务执行记录：R-2026-05-13-17
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-342 | 未开始 | 已完成 | 设计 `term_refs[]` 最小字段和放置位置 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 2 | U-343 | 未开始 | 已完成 | 设计 unresolved / alias / deprecated term validator gates | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 3 | U-344 | 未开始 | 已完成 | 规划 authoring -> compiled -> manifest summary mirror 路线 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 4 | U-345 | 未开始 | 已完成 | 重新设计 `start` vs `begin` 结构化负例 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 5 | U-346 | 未开始 | 已完成 | 决定 deprecated term 采用 profile-dependent strict behavior | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 6 | U-347 | 未开始 | 已完成 | 写 term refs public docs snippet 和边界 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 7 | U-348 | 未开始 | 已完成 | 选择 evidence freshness 下一切片 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 8 | U-349 | 未开始 | 已完成 | 规划 evidence freshness 首批 fixtures | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 9 | U-350 | 未开始 | 已完成 | 更新 implementation acceptance manual-review docs 要点 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+| 10 | U-351 | 未开始 | 已完成 | 更新 reality unchecked repo remediation docs 要点 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-17
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Route query | `node ./bin/aods.mjs route . --query "structured term refs glossary deprecated alias lifecycle terminology drift evidence freshness acceptance manual review reality unchecked repo remediation" --stage plan --intent read --json` | 通过 | selected validation / authority governance / stable contracts |
+| Existing boundary review | `rg` + operations docs review | 通过 | glossary、lifecycle、evidence freshness、unchecked repo remediation 当前边界已读取 |
+
+## 新发现任务：R-2026-05-13-17
+
+本轮没有新增任务 ID。剩余未完成任务为 U-352 到 U-381，下一轮默认选择 U-352 到 U-361。
+
+## 回合结束摘要：R-2026-05-13-17
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-342 到 U-351 |
+| 完成任务 | 10 | U-342 到 U-351 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-352 到 U-361 |
+
 ## 回合摘要：R-2026-05-13-16
 
 | 项 | 内容 |

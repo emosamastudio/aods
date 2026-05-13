@@ -140,6 +140,7 @@
 | `aods-drift-adoption-release-guard.zh-CN.md` | U-321 到 U-330 drift / terminology / adoption / release guard follow-up，记录 code drift next slice、terminology gate deferral、glossary route、runtime no-go、v0.8 adoption checklist 和 next release naming guard | 高 |
 | `aods-post-v0.8-second-task-discovery.zh-CN.md` | U-331 post-v0.8 第二轮任务发现，记录 `#60/#59/#41` 快照和 U-332 到 U-381 新任务池 | 高 |
 | `aods-roadmap-observability-capability-next-gates.zh-CN.md` | U-332 到 U-341 roadmap / observability / capability next gates，记录 `#60` tracker refresh packet、`#59` location / suggested-action gates 和 `#41` unsupported / fallback gates | 高 |
+| `aods-structured-term-refs-evidence-freshness.zh-CN.md` | U-342 到 U-351 structured term refs / evidence freshness gates，记录术语引用设计、生命周期别名负例、证据新鲜度和 unchecked repo 修复路线 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -282,9 +283,10 @@
 133. 读 `aods-drift-adoption-release-guard.zh-CN.md`
 134. 读 `aods-post-v0.8-second-task-discovery.zh-CN.md`
 135. 读 `aods-roadmap-observability-capability-next-gates.zh-CN.md`
-136. 读 `aods-v0.7-rc-gate.zh-CN.md`
-137. 读 `aods-handoff.zh-CN.md`
-138. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+136. 读 `aods-structured-term-refs-evidence-freshness.zh-CN.md`
+137. 读 `aods-v0.7-rc-gate.zh-CN.md`
+138. 读 `aods-handoff.zh-CN.md`
+139. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
