@@ -8,6 +8,7 @@ const STEPS = [
   ["npm", ["run", "package:install-smoke"]],
   ["npm", ["run", "generated:check-clean"]],
   ["node", ["--test", "benchmarks/aods-eval-lab/test/skill-package.test.mjs"]],
+  ["node", ["--test", "benchmarks/aods-eval-lab/test/route-validate-regression.test.mjs"]],
   ["npm", ["run", "validate:all"]]
 ];
 

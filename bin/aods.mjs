@@ -20,7 +20,7 @@ function printUsage() {
 Usage:
   aods --version
   aods validate [root] [--json] [--strict] [--reality] [--repo-root <path>]
-  aods route [root] [--role <role-id>] [--touch <path>] [--query <text>] [--stage <stage>] [--intent <intent>] [--json]
+  aods route [root] [--role <role-id>] [--touch <path>] [--query <text>] [--stage <stage>] [--intent <intent>] [--explain-skipped] [--json]
   aods hook pre-commit [root] [--staged] [--repo-root <path>] [--file <path>]... [--json]
   aods upgrade [root] [--json] [--dry-run] [--no-bump]
   aods compile <source-file> <target-dir> [--json] [--strict] [--force]

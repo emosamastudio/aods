@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | release gate integration complete |
+| 状态 | route validate regression hardening complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S88 route and validate regression hardening |
-| 当前回合 | R-2026-05-13-52 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 706 |
+| 当前阶段 | S89 operations memory and public sync hygiene |
+| 当前回合 | R-2026-05-13-53 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 716 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-52 |
-| 开始时间 | 2026-05-13 34:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-53 |
+| 开始时间 | 2026-05-13 35:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-692、U-693、U-694、U-695、U-696、U-697、U-698、U-699、U-700、U-701 |
-| 本轮范围 | 上轮质量复审；package install smoke release gate integration；v0.9.1 version bump gate；v0.9.1 release notes final draft；packed install smoke execution；source tag install smoke plan；npm publish dry-run/token audit；CI workflow draft no-enable packet；branch cleanup execution packet；tag/source release note wording；next release go/no-go packet |
-| 排除范围 | version bump、tag creation、GitHub Release creation、npm publish、npm token inspection、remote branch deletion、workflow creation、hosted repeatability run、schema implementation、validator implementation、runtime implementation、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；remote branch/tag audit；package install smoke；release hygiene final；docs link check；package surface check；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-702、U-703、U-704、U-705、U-706、U-707、U-708、U-709、U-710、U-711 |
+| 本轮范围 | 上轮质量复审；route adoption query miss regression；route overread regression；validate location envelope regression；remediation compatibility audit；docs sample refresh decision；CLI help / install smoke docs parity；strict warning troubleshooting sample decision；package allowlist decision；generated hygiene after package smoke；conformance report sample no-refresh revisit |
+| 排除范围 | route ranking rewrite、docs indexer、semantic judge、validator schema breaking change、conformance report schema change、package allowlist expansion、npm publish、version bump、tag creation、GitHub Release creation、workflow creation、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；focused route/validate regression test；package install smoke；release hygiene final；docs link check；package surface check；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-702 | S88 | Route adoption query miss regression implementation | P2 | 未开始 | 实现或最终 no-go adoption query miss 回归 | U-677 | - |
-| U-703 | S88 | Route overread regression implementation | P2 | 未开始 | 实现或最终 no-go over-selection 回归 | U-677 | - |
-| U-704 | S88 | Validate location envelope regression implementation | P2 | 未开始 | 实现或最终 no-go location envelope 兼容回归 | U-678 | - |
-| U-705 | S88 | Remediation guidance compatibility audit | P3 | 未开始 | 复核 remediation hint 是否破坏 JSON consumer | U-678 | - |
-| U-706 | S88 | Docs sample refresh after route regression | P3 | 未开始 | 若 route regression 改输出，同步 docs sample | U-702/U-703 | - |
-| U-707 | S88 | CLI help install smoke docs parity | P3 | 未开始 | 复核 help/version 文档和 package smoke 一致 | U-679 | - |
-| U-708 | S88 | Strict warning troubleshooting sample update | P3 | 未开始 | 判断是否补充 strict warning 采用样例 | U-632/U-641 | - |
-| U-709 | S88 | Package surface allowlist update for new script decision | P3 | 未开始 | 决定新 smoke script 是否影响 package surface allowlist | U-679 | - |
-| U-710 | S88 | Generated hygiene after package smoke script | P3 | 未开始 | 确认 package smoke 不留下 tarball / temp churn | U-679 | - |
-| U-711 | S88 | Conformance report sample no-refresh revisit | P3 | 未开始 | 复核 conformance sample 是否仍无需刷新 | U-632 | - |
 | U-712 | S89 | Knowledge base write after post-v0.9 retrospective | P3 | 未开始 | 判断是否把复盘写入知识库 | U-680 | KB |
 | U-713 | S89 | MEMORY installed skill sync execution decision | P3 | 未开始 | 复核是否仍不覆盖 installed skill | U-659 | local only |
 | U-714 | S89 | Operations topic table archive/generator revisit | P3 | 未开始 | 判断 operations topic table 是否需要归档或生成器 | U-655 | - |
@@ -70,16 +60,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 677 | U-672 | S85 | Projection guidance static invariant design | P2 | 2026-05-13 | final static retrospective doc | docs link check | guidance only, no replay/event store |
-| 678 | U-673 | S85 | Adapter provider discovery example candidate | P2 | 2026-05-13 | final static retrospective doc | docs link check | next source-first candidate, no provider call |
-| 679 | U-674 | S85 | Policy decision static record source-first candidate | P3 | 2026-05-13 | final static retrospective doc | docs link check | deferred until shape stabilizes |
-| 680 | U-675 | S85 | Workflow transition static record source-first candidate | P3 | 2026-05-13 | final static retrospective doc | docs link check | deferred to avoid engine overclaim |
-| 681 | U-676 | S85 | Migration dry-run package promotion no-go revisit | P3 | 2026-05-13 | final static retrospective doc | package surface check | remains benchmark-only |
-| 682 | U-677 | S85 | Route query failure modes regression plan | P2 | 2026-05-13 | final static retrospective doc | docs link check | adoption miss / overread plan |
-| 683 | U-678 | S85 | Validate issue location compatibility regression | P3 | 2026-05-13 | final static retrospective doc | docs link check | shape compatibility retained |
-| 684 | U-679 | S85 | Package install smoke automation script | P2 | 2026-05-13 | `scripts/package-install-smoke.mjs` | `npm run package:install-smoke -- --json` | packed install/version/help/validate/route smoke |
-| 685 | U-680 | S85 | Final post-v0.9 retrospective packet | P3 | 2026-05-13 | final static retrospective doc | docs link check | post-v0.9 first stage closed |
-| 686 | U-681 | S85 | Next milestone / no-milestone final decision | P3 | 2026-05-13 | final static retrospective doc | GitHub milestone audit | no milestone; new pool U-682..U-731 |
 | 687 | U-682 | S86 | Provider discovery source-first candidate insertion plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | plan only, no authoring edit |
 | 688 | U-683 | S86 | Provider evidence negative fixture implementation plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | first negative fixture candidate sorted |
 | 689 | U-684 | S86 | Runtime protocol schema minimal slice decision | P2 | 2026-05-13 | provider discovery hardening doc | release hygiene | schema gate remains closed |
@@ -100,12 +80,22 @@
 | 704 | U-699 | S87 | Branch cleanup execution packet | P3 | 2026-05-13 | release gate integration doc | `git ls-remote --heads origin` | cleanup candidates reviewed, no deletion |
 | 705 | U-700 | S87 | Tag/source release note final wording | P3 | 2026-05-13 | release gate integration doc | docs link check | wording ready for future release notes |
 | 706 | U-701 | S87 | Next release go/no-go packet | P2 | 2026-05-13 | release gate integration doc | release hygiene | v0.9.1/npm/CI/branch cleanup all no-go |
+| 707 | U-702 | S88 | Route adoption query miss regression implementation | P2 | 2026-05-13 | route/validate regression test | focused test | adoption-style query stays query-route |
+| 708 | U-703 | S88 | Route overread regression implementation | P2 | 2026-05-13 | route/validate regression test | focused test | narrow query does not load full corpus |
+| 709 | U-704 | S88 | Validate location envelope regression implementation | P2 | 2026-05-13 | route/validate regression test | focused test | location envelope keys and remediation retained |
+| 710 | U-705 | S88 | Remediation guidance compatibility audit | P3 | 2026-05-13 | route/validate regression hardening doc | focused test | remediation schema unchanged |
+| 711 | U-706 | S88 | Docs sample refresh after route regression | P3 | 2026-05-13 | route/validate regression hardening doc | docs link check | no sample refresh needed |
+| 712 | U-707 | S88 | CLI help install smoke docs parity | P3 | 2026-05-13 | top-level help + focused test | focused test / package smoke | route help now includes `--explain-skipped` |
+| 713 | U-708 | S88 | Strict warning troubleshooting sample update | P3 | 2026-05-13 | route/validate regression hardening doc | docs link check | no new strict warning sample |
+| 714 | U-709 | S88 | Package surface allowlist update for new script decision | P3 | 2026-05-13 | route/validate regression hardening doc | package surface check | package entry count unchanged |
+| 715 | U-710 | S88 | Generated hygiene after package smoke script | P3 | 2026-05-13 | route/validate regression hardening doc | release hygiene | tarball/temp/generated clean verified |
+| 716 | U-711 | S88 | Conformance report sample no-refresh revisit | P3 | 2026-05-13 | route/validate regression hardening doc | docs link check | conformance sample unchanged |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-702 到 U-711 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-712 到 U-721 |
 
 ## 负责人判断 / issue 分类
 
@@ -126,4 +116,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；package install smoke 已纳入 release hygiene；v0.9.1 release notes draft 和 tag/source smoke plan 已准备；npm publish、CI enablement、branch cleanup、v0.9.1 execution 和 v0.10 继续 no-go；下一轮默认 U-702 到 U-711。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；route / validate focused regression 已新增并纳入 release hygiene；顶层 help 已补 `--explain-skipped`；docs samples、package allowlist 和 conformance sample 均无需刷新；下一轮默认 U-712 到 U-721。

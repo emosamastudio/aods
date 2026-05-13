@@ -3,6 +3,72 @@
 状态：当前回合短记录
 完整历史归档：`docs/operations/archive/aods-round-log-archive-2026-05-13.zh-CN.md`
 
+## 回合摘要：R-2026-05-13-53
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-53 |
+| 开始时间 | 2026-05-13 35:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 35:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-52 复审；route adoption-style query miss regression；route overread regression；validate location envelope regression；remediation compatibility audit；docs sample refresh decision；CLI help / install smoke docs parity；strict warning troubleshooting sample decision；package allowlist decision；generated hygiene after package smoke；conformance report sample no-refresh revisit；不重写 route ranking、不引入 docs indexer、不改 conformance report schema；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-702、U-703、U-704、U-705、U-706、U-707、U-708、U-709、U-710、U-711 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-53
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `91f4f90 Integrate package install smoke into release hygiene` |
+| Task ledger state | 通过 | U-702 到 U-711 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 route and validate regression hardening |
+| 返工项 | 无 | 上轮成果合格；网络查询卡住后已按 `proxy_on` 经验复查远端 |
+
+## 任务执行记录：R-2026-05-13-53
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-702 | 未开始 | 已完成 | 新增 adoption-style query regression | route/validate regression test |
+| 2 | U-703 | 未开始 | 已完成 | 新增 narrow query overread regression | route/validate regression test |
+| 3 | U-704 | 未开始 | 已完成 | 新增 validate issue location envelope regression | route/validate regression test |
+| 4 | U-705 | 未开始 | 已完成 | 复核 remediation guidance 兼容性 | route/validate regression hardening doc |
+| 5 | U-706 | 未开始 | 已完成 | 判断 docs examples 不需刷新 | route/validate regression hardening doc |
+| 6 | U-707 | 未开始 | 已完成 | 顶层 help 补 `--explain-skipped` 并加回归 | `bin/aods.mjs` / route regression test |
+| 7 | U-708 | 未开始 | 已完成 | 判断 strict warning troubleshooting sample 不需新增 | route/validate regression hardening doc |
+| 8 | U-709 | 未开始 | 已完成 | 复核 package allowlist 不需更新 | package surface check |
+| 9 | U-710 | 未开始 | 已完成 | 复核 package smoke 无 tarball/generated 漂移 | package smoke / release hygiene |
+| 10 | U-711 | 未开始 | 已完成 | 判断 conformance report sample 不需刷新 | route/validate regression hardening doc |
+
+## 返工记录：R-2026-05-13-53
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| focused regression 初版假定 validate 负例退出码为 0 | 改为允许 expected failure exit code 并解析 JSON report | focused regression test 通过 |
+| location envelope 初版要求 `sid/path` 必须为 string | 改为验证 key 兼容存在，允许 null | focused regression test 通过 |
+
+## 验证记录：R-2026-05-13-53
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Focused regression | `node --test benchmarks/aods-eval-lab/test/route-validate-regression.test.mjs` | 通过 | 4 tests |
+| Docs links | `npm run docs:check-links -- --json` | 通过 | 写入最终文档后复跑 |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | entry count unchanged |
+| Package install smoke | `npm run package:install-smoke -- --json` | 通过 | no tarball left in worktree |
+| Release hygiene | `npm run release:hygiene` | 通过 | includes focused route/validate regression |
+
+## 回合结束摘要：R-2026-05-13-53
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-702 到 U-711 |
+| 完成任务 | 10 | U-702 到 U-711 |
+| 返工项 | 2 | 均为测试断言修正 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-712 到 U-721 |
+
 ## 回合摘要：R-2026-05-13-52
 
 | 项 | 内容 |
@@ -265,8 +331,8 @@
 
 | 回合 | 范围 | 结果 | 详情 |
 |---|---|---|---|
+| R-2026-05-13-53 | U-702 到 U-711 | route / validate focused regressions 完成；顶层 help parity 修复；样例刷新 no-go | `docs/operations/aods-route-validate-regression-hardening.zh-CN.md` |
 | R-2026-05-13-52 | U-692 到 U-701 | release gate integration 完成；package install smoke 已进 release hygiene；下一 release 仍 no-go | `docs/operations/aods-release-gate-integration.zh-CN.md` |
-| R-2026-05-13-51 | U-682 到 U-691 | provider discovery hardening 完成；`#64` 已追加静态前置进展；schema/runtime 仍未实现 | `docs/operations/aods-provider-discovery-hardening.zh-CN.md` |
 | R-2026-05-13-48 | U-652 到 U-661 | operations hygiene sync 完成；round log 已归档拆分，`#60` body 已刷新 | `docs/operations/aods-operations-hygiene-sync.zh-CN.md` |
 
 ## 历史查阅
