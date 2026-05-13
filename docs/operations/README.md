@@ -56,6 +56,7 @@
 | [aods-provider-discovery-static-guard-implementation.zh-CN.md](./aods-provider-discovery-static-guard-implementation.zh-CN.md) | U-732 到 U-741 provider discovery source-first static guard implementation |
 | [aods-projection-guidance-static-guard-implementation.zh-CN.md](./aods-projection-guidance-static-guard-implementation.zh-CN.md) | U-742 到 U-751 projection guidance static guard implementation |
 | [aods-policy-workflow-migration-boundary-hardening.zh-CN.md](./aods-policy-workflow-migration-boundary-hardening.zh-CN.md) | U-752 到 U-761 policy / workflow / migration boundary hardening |
+| [aods-runtime-release-gate-refresh.zh-CN.md](./aods-runtime-release-gate-refresh.zh-CN.md) | U-762 到 U-771 runtime protocol / release gate refresh |
 
 ## 当前公开示例入口
 
