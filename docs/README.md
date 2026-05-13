@@ -142,6 +142,7 @@
 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | U-261 到 U-270 conformance expansion / release execution readiness closeout，记录 no-fetch / adapter conformance design、observability no-go、package/generated guard audits、skill publish plan、release dry-run，以及 post-merge/post-release 阻塞项。 |
 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md` | v0.8 release closeout，记录 PR merge、issue close verification、GitHub Release、post-release retrospective 和 next milestone candidates。 |
 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | U-271 到 U-280 post-v0.8 next task discovery，记录 `#13` close、`#60` refresh、`#59/#41` coverage audit 和 U-281 到 U-330 新任务池。 |
+| `docs/operations/aods-observability-next-slice.zh-CN.md` | U-281 到 U-290 validation / routing observability next slice，记录 validator location envelope、suggested-action coverage、route skipped-module boundary、README refresh 和 `#59` public status。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

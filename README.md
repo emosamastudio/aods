@@ -455,6 +455,8 @@ node ./bin/aods.mjs route . --touch spec/validation-rules.json --role doc-author
 
 Use `--touch` when you already know which file changed. Use `--query` when you only know the task in plain words and want the CLI to find the likely authority modules by lexical and structural anchors from module metadata, paired docs, and compact artifact semantics. Add `--stage` when the task phase is clear (`orientation`, `plan`, `action`, `verification`, `evidence`) but the exact file target is not.
 
+For machine consumers, add `--json`. Route JSON includes `explanation.source`, `explanation.reason`, and `explanation.dependency` so tools can inspect why modules were selected without scraping prose. Dependency edges report whether declared deps are `selected`, `unselected`, or `missing`; they do not automatically expand the route or act as a scheduler.
+
 Routing precedence:
 
 1. `boot_by_touch`

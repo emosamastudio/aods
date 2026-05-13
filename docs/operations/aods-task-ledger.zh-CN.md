@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 next milestone planning |
+| 状态 | post-v0.8 observability planning |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S32 post-v0.8 public backlog and observability planning |
-| 当前回合 | R-2026-05-13-09 |
-| 未完成任务数量 | 50 |
-| 已完成任务数量 | 285 |
+| 当前阶段 | S32 validation / routing observability planning |
+| 当前回合 | R-2026-05-13-10 |
+| 未完成任务数量 | 40 |
+| 已完成任务数量 | 295 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-09 |
-| 开始时间 | 2026-05-13 05:35 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-10 |
+| 开始时间 | 2026-05-13 10:55 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-271、U-272、U-273、U-274、U-275、U-276、U-277、U-278、U-279、U-280 |
-| 本轮范围 | 上轮质量复审；post-v0.8 open issue snapshot；`#13` changelog close execution；`#60` roadmap public status refresh；`#59/#41` current coverage audit；新增 U-281 到 U-330 任务池 |
+| 选中任务 | U-281、U-282、U-283、U-284、U-285、U-286、U-287、U-288、U-289、U-290 |
+| 本轮范围 | 上轮质量复审；validator source-location audit；validator issue location schema / regression plan；validator suggested-action coverage audit / next slice；route skipped-module semantics and boundary；route explanation README refresh；observability example-output plan；`#59` public status refresh |
 | 排除范围 | runtime implementation、adapter handshake、telemetry store、CI workflow enablement、npm publish、external fetch、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；GitHub open issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；validate / route JSON smoke；GitHub open issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-281 | S32 | Validator source-location audit | P1 | 未开始 | 列出当前 validation issue 是否含 file/json pointer/sid/module 信息，以及缺口 | U-277 | 下一轮默认首选 |
-| U-282 | S32 | Validator issue location minimal schema | P1 | 未开始 | 设计 `location` / `json_pointer` / `source_path` 输出边界 | U-281 | 不改 runtime |
-| U-283 | S32 | Validator location regression plan | P1 | 未开始 | 规划 positive / negative fixture，不改 runtime | U-282 | focused plan |
-| U-284 | S32 | Validator suggested-action coverage audit | P1 | 未开始 | 统计哪些 rule 已有 remediation，哪些只有 prose message | U-277 | #59 |
-| U-285 | S32 | Validator suggested-action next slice | P1 | 未开始 | 选择 3 个高价值 rule 补 remediation 的最小实现路线 | U-284 | 不启动 dashboard |
-| U-286 | S32 | Route skipped-module semantics audit | P2 | 未开始 | 判断 `route --json` 是否需要 skipped modules，而不是默认输出全量未选模块 | U-276 | #59 |
-| U-287 | S32 | Route skipped-module boundary design | P2 | 未开始 | 设计 no-dashboard / no-ranking-change 的 skipped explanation | U-286 | 不改 ranking |
-| U-288 | S32 | Route explanation docs refresh | P2 | 未开始 | 把 current explanation shape 写成 public README 或 docs snippet | U-276 | docs |
-| U-289 | S32 | Observability example output pack | P2 | 未开始 | 增加 validate / route JSON sample 文档，不改变 CLI | U-281 | docs |
-| U-290 | S32 | `#59` public status refresh | P2 | 未开始 | 在 issue 上同步当前已覆盖与剩余切片 | U-281,U-284,U-286 | GitHub comment |
 | U-291 | S33 | Capability unsupported-feature audit | P1 | 未开始 | 审查现有 metadata 是否能表达 unsupported / partial / unknown | U-279 | #41 |
 | U-292 | S33 | Capability fallback semantics boundary | P1 | 未开始 | 设计 fallback metadata，不做 fallback execution | U-291 | metadata-only |
 | U-293 | S33 | Capability protocol surface sketch | P1 | 未开始 | 定义 future provider/consumer exchange 的静态 surface，不实现 handshake | U-292 | no runtime |
@@ -372,6 +362,16 @@
 | 283 | U-278 | S32 | `#41` capability coverage audit | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | capability metadata / matrix review | metadata-only compatibility matrix 已覆盖；runtime negotiation 未覆盖 |
 | 284 | U-279 | S32 | `#41` next slice decision | P1 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | docs review | 下一步优先 protocol surface design，不做 handshake implementation |
 | 285 | U-280 | S32 | Next task pool expansion | P0 | 2026-05-13 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md`、task ledger | task ledger review | U-281 到 U-330 已进入未完成任务表 |
+| 286 | U-281 | S32 | Validator source-location audit | P1 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | validate JSON smoke、`lib/validate.mjs` issue field review | current issue fields and missing unified location envelope documented |
+| 287 | U-282 | S32 | Validator issue location minimal schema | P1 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | proposed `location.source_path/json_pointer/module_id/sid/artifact_id/surface_ref` boundary |
+| 288 | U-283 | S32 | Validator location regression plan | P1 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | focused fixture plan documented; runtime unchanged |
+| 289 | U-284 | S32 | Validator suggested-action coverage audit | P1 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | `lib/validate.mjs` remediation review | remediation coverage gap documented |
+| 290 | U-285 | S32 | Validator suggested-action next slice | P1 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | next three rule groups selected: module path/parse, duplicate repo id, route/role missing refs |
+| 291 | U-286 | S32 | Route skipped-module semantics audit | P2 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | route JSON smoke | default full skipped-module output rejected as noisy |
+| 292 | U-287 | S32 | Route skipped-module boundary design | P2 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | opt-in `explanation.skipped` boundary documented; no ranking change |
+| 293 | U-288 | S32 | Route explanation docs refresh | P2 | 2026-05-13 | `README.md`、`docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | README now documents route JSON explanation fields |
+| 294 | U-289 | S32 | Observability example output pack | P2 | 2026-05-13 | `docs/operations/aods-observability-next-slice.zh-CN.md` | docs review | sample pack plan documented; no generated sample churn |
+| 295 | U-290 | S32 | `#59` public status refresh | P2 | 2026-05-13 | GitHub issue `#59` comment | `gh issue comment 59 ...` | public issue updated with current coverage and remaining work |
 
 ## 失败或阻塞任务
 

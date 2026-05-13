@@ -7,7 +7,7 @@
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-280 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。任务池已扩展到 U-330；下一轮默认选择 U-281 到 U-290，优先推进 validation / routing observability 的低风险切片。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-290 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59` 已同步 observability 当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-291 到 U-330；下一轮默认选择 U-291 到 U-300，优先推进 capability / governance 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -139,9 +139,10 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 124 | `docs/operations/aods-conformance-release-readiness-closeout.zh-CN.md` | 读取 U-261 到 U-270 conformance expansion / release execution readiness closeout |
 | 125 | `docs/operations/aods-v0.8-release-closeout.zh-CN.md` | 读取 v0.8 release closeout、issue close verification 和下一 milestone candidates |
 | 126 | `docs/operations/aods-post-v0.8-next-task-discovery.zh-CN.md` | 读取 U-271 到 U-280、`#13/#60` 公开同步和 U-281 到 U-330 新任务池 |
-| 127 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 128 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 129 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 127 | `docs/operations/aods-observability-next-slice.zh-CN.md` | 读取 U-281 到 U-290 validation / routing observability 结果 |
+| 128 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 129 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 130 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 
@@ -421,16 +422,16 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-281 | Validator source-location audit | 下一轮默认首选 |
-| 2 | U-282 | Validator issue location minimal schema | U-281 后执行 |
-| 3 | U-283 | Validator location regression plan | U-282 后执行 |
-| 4 | U-284 | Validator suggested-action coverage audit | 可与 U-281 同轮 |
-| 5 | U-285 | Validator suggested-action next slice | U-284 后执行 |
-| 6 | U-286 | Route skipped-module semantics audit | `#59` route explanation residual |
-| 7 | U-287 | Route skipped-module boundary design | U-286 后执行 |
-| 8 | U-288 | Route explanation docs refresh | U-276 后执行 |
-| 9 | U-289 | Observability example output pack | U-281 后执行 |
-| 10 | U-290 | `#59` public status refresh | U-281/U-284/U-286 后执行 |
+| 1 | U-291 | Capability unsupported-feature audit | 下一轮默认首选 |
+| 2 | U-292 | Capability fallback semantics boundary | U-291 后执行 |
+| 3 | U-293 | Capability protocol surface sketch | U-292 后执行 |
+| 4 | U-294 | Capability conformance fixture plan | U-293 后执行 |
+| 5 | U-295 | Capability matrix docs refresh | U-291 后执行 |
+| 6 | U-296 | `#41` public status refresh | U-291/U-293 后执行 |
+| 7 | U-297 | Governance roadmap issue body audit | `#60` tracker |
+| 8 | U-298 | Governance roadmap next milestone split | U-297 后执行 |
+| 9 | U-299 | Closed issue traceability table | U-297 后执行 |
+| 10 | U-300 | Public tracker update plan | U-297 后执行 |
 
 ## 失败和风险
 
@@ -506,13 +507,13 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-281 | Validator source-location audit | 缺口表落到 operations docs |
-| 2 | U-282 | Validator issue location minimal schema | 输出边界明确，不改 runtime |
-| 3 | U-283 | Validator location regression plan | focused fixture 计划明确 |
-| 4 | U-284 | Validator suggested-action coverage audit | remediation 覆盖表落地 |
-| 5 | U-285 | Validator suggested-action next slice | 选择 3 个 rule 的最小实现路线 |
-| 6 | U-286 | Route skipped-module semantics audit | 不改变 ranking |
-| 7 | U-287 | Route skipped-module boundary design | 不建 dashboard |
-| 8 | U-288 | Route explanation docs refresh | docs snippet 明确 |
-| 9 | U-289 | Observability example output pack | sample 文档落地 |
-| 10 | U-290 | `#59` public status refresh | issue comment 同步 |
+| 1 | U-291 | Capability unsupported-feature audit | unsupported / partial / unknown 表达能力审查 |
+| 2 | U-292 | Capability fallback semantics boundary | fallback metadata 设计，不执行 fallback |
+| 3 | U-293 | Capability protocol surface sketch | 静态协议 surface 设计，不实现 handshake |
+| 4 | U-294 | Capability conformance fixture plan | mismatch fixture plan |
+| 5 | U-295 | Capability matrix docs refresh | adoption guidance |
+| 6 | U-296 | `#41` public status refresh | issue comment 同步 |
+| 7 | U-297 | Governance roadmap issue body audit | tracker checklist 与已关闭 issue 对齐审计 |
+| 8 | U-298 | Governance roadmap next milestone split | S33/S34/S35 候选 milestone |
+| 9 | U-299 | Closed issue traceability table | closed issue -> task -> release evidence |
+| 10 | U-300 | Public tracker update plan | comment-only vs edit body decision |
