@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | v0.9 released；post-release next pool ready |
+| 状态 | post-v0.9 roadmap and runtime prerequisite packet complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S74 post-v0.9 roadmap and runtime prerequisite planning |
-| 当前回合 | R-2026-05-13-40 |
-| 未完成任务数量 | 50 |
-| 已完成任务数量 | 586 |
+| 当前阶段 | S75 post-release adoption and artifact evidence hardening |
+| 当前回合 | R-2026-05-13-41 |
+| 未完成任务数量 | 40 |
+| 已完成任务数量 | 596 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-40 |
-| 开始时间 | 2026-05-13 23:10 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-41 |
+| 开始时间 | 2026-05-13 24:05 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-572、U-573、U-574、U-575、U-576、U-577、U-578、U-579、U-580、U-581 |
-| 本轮范围 | 上轮质量复审；v0.9 tag and GitHub Release；GitHub tag source install smoke；public issue close execution decision；`#60` post-release refresh；release artifact audit；handoff/ledger closeout；installed skill sync decision；next roadmap task discovery；KB decision；post-v0.9 retrospective |
-| 排除范围 | npm publish、milestone create、installed skill mutation、workflow engine、policy engine、adapter runtime implementation、event store / replay implementation、migration executor、database connection、CI enablement、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；release hygiene；tag/release snapshot；source install smoke from tag；package dry-run；release artifact audit；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-582、U-583、U-584、U-585、U-586、U-587、U-588、U-589、U-590、U-591 |
+| 本轮范围 | 上轮质量复审；`#60` roadmap body refresh packet；`#64` runtime/protocol issue body refresh execution；public open issue label / priority audit；milestone decision；runtime/protocol static record shape plan；trust boundary matrix；adapter handshake metadata schema feasibility；provider discovery non-execution invariant；fallback ranking deferral contract；runtime/protocol negative fixture candidates |
+| 排除范围 | `#60` body edit、issue close、milestone create、schema implementation、validator implementation、fixture implementation、runtime implementation、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、database connection、CI enablement、installed skill mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；release hygiene；`#64` body view after edit；open issue label snapshot；milestones API；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-582 | S74 | `#60` roadmap body refresh packet after v0.9 | P1 | 未开始 | 准备 issue body current-status refresh，避免读者只看旧 checklist | U-575 | - |
-| U-583 | S74 | `#64` runtime/protocol issue body refresh execution | P1 | 未开始 | 用已草拟 body 更新 `#64`，明确 metadata baseline 与 runtime entry criteria | U-581 | - |
-| U-584 | S74 | Public open issue label / priority audit after v0.9 | P2 | 未开始 | 复核 `#60/#64` labels 是否仍匹配当前路线 | U-575 | - |
-| U-585 | S74 | Milestone creation decision after v0.9 | P3 | 未开始 | 决定是否仍保持无 milestone | U-584 | - |
-| U-586 | S74 | Runtime/protocol static record shape plan | P1 | 未开始 | 定义 provider discovery / auth / probing / fallback 的静态记录边界 | U-583 | no runtime implementation |
-| U-587 | S74 | Runtime/protocol trust boundary matrix | P1 | 未开始 | 列出 credential / cost / production mutation / network risk boundaries | U-586 | - |
-| U-588 | S74 | Adapter handshake metadata schema feasibility | P2 | 未开始 | 判断是否需要 schema 级 metadata，而不是 runtime adapter | U-586 | - |
-| U-589 | S74 | Provider discovery non-execution invariant plan | P2 | 未开始 | 明确 validate/conformance 不触发 provider calls | U-586 | - |
-| U-590 | S74 | Fallback ranking deferral contract | P2 | 未开始 | 记录 fallback posture 与 runtime ranking 的边界 | U-586 | - |
-| U-591 | S74 | Runtime/protocol negative fixture candidate list | P2 | 未开始 | 设计不执行 runtime 的负例集合 | U-586 | - |
 | U-592 | S75 | Release source archive repeatability audit | P2 | 未开始 | 复查 GitHub source tarball / zipball 与 tag source 一致性 | U-576 | - |
 | U-593 | S75 | README install command post-release smoke | P2 | 未开始 | 用 README command 从 tag 安装并验证 CLI help | U-572 | - |
 | U-594 | S75 | Package README release link audit | P3 | 未开始 | 确认 packaged README links point to live v0.9 release | U-576 | - |
@@ -90,16 +80,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 557 | U-552 | S71 | v0.9 release notes body final refresh | P1 | 2026-05-13 | release execution prep final doc | docs link | body includes public split, focused regressions, static reports, non-goals |
-| 558 | U-553 | S71 | npm pack dry-run final rerun | P1 | 2026-05-13 | `npm pack --dry-run --json` | pack dry-run | aods@0.8.0, entry_count=61, unpackedSize=1145313 |
-| 559 | U-554 | S71 | packed install smoke final rerun | P1 | 2026-05-13 | temp tarball install smoke | help / validate / fixture / conformance | installed aods@0.8.0 smoke pass |
-| 560 | U-555 | S71 | GitHub release source install smoke final route | P2 | 2026-05-13 | release execution prep final doc | route review | route prepared; do not run before v0.9.0 tag exists |
-| 561 | U-556 | S71 | Release hygiene CI enablement decision final | P3 | 2026-05-13 | release execution prep final doc | release hygiene | no CI enablement this round; local gate remains authority |
-| 562 | U-557 | S71 | Hosted repeatability owner-run packet | P3 | 2026-05-13 | release execution prep final doc | packet review | optional supplemental only; not v0.9 gate |
-| 563 | U-558 | S71 | Archive current operations pruning decision | P3 | 2026-05-13 | release execution prep final doc | docs review | no pruning before release/post-release reconciliation |
-| 564 | U-559 | S71 | Handoff pre-release compaction | P3 | 2026-05-13 | handoff / task ledger / progress / round log | docs link | handoff advanced to U-561 complete and next U-562..U-571 |
-| 565 | U-560 | S71 | Final release go/no-go rerun | P1 | 2026-05-13 | release execution prep final doc | release hygiene / pack / install smoke | release remains NO-GO until version bump/tag/source install |
-| 566 | U-561 | S72 | Runtime follow-up issue body draft | P2 | 2026-05-13 | release execution prep final doc / #64 snapshot | issue body draft review | draft prepared; no body edit this round |
 | 567 | U-562 | S72 | Remote regression issue/body linkage audit | P3 | 2026-05-13 | post-regression audits / #64 snapshot | issue body review | static metadata baseline only；no issue body edit |
 | 568 | U-563 | S72 | Event correction issue/body linkage audit | P3 | 2026-05-13 | post-regression audits doc | scope review | static correction graph only；no event store/replay issue linkage |
 | 569 | U-564 | S72 | Migration dry-run issue/body linkage audit | P3 | 2026-05-13 | post-regression audits doc | scope review | benchmark-only helper；no public issue linkage |
@@ -120,20 +100,30 @@
 | 584 | U-579 | S73 | Next roadmap task discovery after v0.9 | P2 | 2026-05-13 | task ledger U-582..U-631 | issue / release state review | 50 post-release tasks added |
 | 585 | U-580 | S73 | Knowledge base project decision note | P3 | 2026-05-13 | release closeout doc | decision review | no KB write because owner did not explicitly request it |
 | 586 | U-581 | S73 | Final post-v0.9 retrospective | P3 | 2026-05-13 | release closeout doc | retrospective review | release / public split / runtime deferral summarized |
+| 587 | U-582 | S74 | `#60` roadmap body refresh packet after v0.9 | P1 | 2026-05-13 | post-v0.9 roadmap/runtime prereqs doc | issue body review | packet prepared; no `#60` body edit this round |
+| 588 | U-583 | S74 | `#64` runtime/protocol issue body refresh execution | P1 | 2026-05-13 | `#64` updated body | `gh issue edit 64` / `gh issue view 64` | metadata baseline and runtime entry criteria now explicit |
+| 589 | U-584 | S74 | Public open issue label / priority audit after v0.9 | P2 | 2026-05-13 | issue snapshots | `gh issue view 60/64` | labels kept |
+| 590 | U-585 | S74 | Milestone creation decision after v0.9 | P3 | 2026-05-13 | milestones API / prereqs doc | `gh api repos/.../milestones` | keep no milestone |
+| 591 | U-586 | S74 | Runtime/protocol static record shape plan | P1 | 2026-05-13 | prereqs doc | design review | provider discovery/auth/probing/selection/fallback/handshake records defined |
+| 592 | U-587 | S74 | Runtime/protocol trust boundary matrix | P1 | 2026-05-13 | prereqs doc | design review | credential/cost/network/mutation/provider/audit/fallback/exposure boundaries listed |
+| 593 | U-588 | S74 | Adapter handshake metadata schema feasibility | P2 | 2026-05-13 | prereqs doc | design review | feasible later; no schema this round |
+| 594 | U-589 | S74 | Provider discovery non-execution invariant plan | P2 | 2026-05-13 | prereqs doc | release hygiene | validate/fixture/conformance must not call providers |
+| 595 | U-590 | S74 | Fallback ranking deferral contract | P2 | 2026-05-13 | prereqs doc | design review | fallback metadata remains non-executing |
+| 596 | U-591 | S74 | Runtime/protocol negative fixture candidate list | P2 | 2026-05-13 | prereqs doc | design review | seven candidate negative fixtures listed; not implemented |
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-582 到 U-591 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-592 到 U-601 |
 
 ## 负责人判断 / issue 分类
 
 | 分类 | Issue | 判断 | 下一步 |
 |---|---|---|---|
-| public roadmap | #60 | 保持 open；v0.9 post-release status comment 已发布 | 下一轮准备 issue body current-status refresh packet |
+| public roadmap | #60 | 保持 open；v0.9 post-release status comment 已发布；body refresh packet 已准备 | 后续若 owner 接受，再执行 body edit |
 | observability | #59 | 已关闭 metadata/reporting scope | 后续 runtime/dashboard/trace backend 不在当前 release 范围 |
-| capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` 作为后续 runtime/protocol follow-up |
-| milestone | GitHub milestones | 当前无 milestone；v0.9 已发布 | 下一轮复核是否仍无需 milestone |
+| capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` body 已更新，后续先做静态前置而非 runtime |
+| milestone | GitHub milestones | 当前无 milestone；v0.9 已发布；本轮决定继续不创建 | 下一轮默认进入 release/adoption evidence 和 code drift hardening |
 
 ## 新发现任务暂存区
 
@@ -145,4 +135,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；package / README / skill surface 已同步到 `0.9.0` / `v0.9.0`；GitHub Release `v0.9.0` 已 published；tag source install smoke 通过；`#60/#64` 保持 open；下一阶段进入 post-v0.9 roadmap body refresh、runtime/protocol static prerequisites、release/adoption evidence hardening 和 code drift validator hardening。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；package / README / skill surface 已同步到 `0.9.0` / `v0.9.0`；GitHub Release `v0.9.0` 已 published；tag source install smoke 通过；`#60/#64` 保持 open；`#64` body 已更新；runtime/protocol static record shape、trust boundary、non-execution invariant、fallback deferral 和 negative fixture candidates 已形成设计包；下一阶段进入 release/adoption evidence hardening 和 code drift validator hardening。

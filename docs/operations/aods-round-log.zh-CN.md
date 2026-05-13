@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-41
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-41 |
+| 开始时间 | 2026-05-13 24:05 Asia/Shanghai |
+| 结束时间 | 2026-05-13 24:40 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-40 复审；`#60` roadmap body refresh packet；`#64` runtime/protocol issue body refresh execution；public open issue label / priority audit；milestone decision；runtime/protocol static record shape plan；trust boundary matrix；adapter handshake metadata schema feasibility；provider discovery non-execution invariant；fallback ranking deferral contract；runtime/protocol negative fixture candidates；不编辑 `#60` body、不关闭 issue、不创建 milestone、不实现 schema/validator/fixture/runtime、不执行 adapter、不调用 provider、不交换 auth、不 dynamic probing、不 fallback executor、不连接数据库、不启用 CI、不改 installed skill、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-582、U-583、U-584、U-585、U-586、U-587、U-588、U-589、U-590、U-591 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-41
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `ab97a5c Record v0.9 release closeout` |
+| Task ledger state | 通过 | U-582 到 U-591 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-582 到 U-591 |
+
+## 任务执行记录：R-2026-05-13-41
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-582 | 未开始 | 已完成 | 准备 `#60` roadmap body refresh packet | `aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md` |
+| 2 | U-583 | 未开始 | 已完成 | 更新 `#64` runtime/protocol issue body | `https://github.com/emosamastudio/aods/issues/64` |
+| 3 | U-584 | 未开始 | 已完成 | 审查 `#60/#64` labels / priority | issue snapshots |
+| 4 | U-585 | 未开始 | 已完成 | 复核 milestone 决策 | milestones API empty；keep no milestone |
+| 5 | U-586 | 未开始 | 已完成 | 定义 runtime/protocol static record shape | prereqs doc |
+| 6 | U-587 | 未开始 | 已完成 | 定义 runtime/protocol trust boundary matrix | prereqs doc |
+| 7 | U-588 | 未开始 | 已完成 | 判断 adapter handshake metadata schema feasibility | feasible later；no schema this round |
+| 8 | U-589 | 未开始 | 已完成 | 定义 provider discovery non-execution invariant | prereqs doc |
+| 9 | U-590 | 未开始 | 已完成 | 定义 fallback ranking deferral contract | prereqs doc |
+| 10 | U-591 | 未开始 | 已完成 | 设计 runtime/protocol negative fixture candidates | prereqs doc |
+
+## 验证记录：R-2026-05-13-41
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| `#60` snapshot | `gh issue view 60 --json ...` | 通过 | body refresh packet prepared only |
+| `#64` body edit | `gh issue edit 64 --body ...` | 通过 | body updated |
+| `#64` body verification | `gh issue view 64 --json body,labels,state,url` | 通过 | updated body visible |
+| Milestone snapshot | `gh api repos/emosamastudio/aods/milestones` | 通过 | no milestones |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown links valid |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+| Task ledger count check | local count script | 通过 | unfinished=40, completedRecent=30 |
+
+## 回合结束摘要：R-2026-05-13-41
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-582 到 U-591 |
+| 完成任务 | 10 | U-582 到 U-591 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-592 到 U-601 |
+
 ## 回合摘要：R-2026-05-13-40
 
 | 项 | 内容 |

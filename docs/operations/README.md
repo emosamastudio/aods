@@ -38,6 +38,7 @@
 | [aods-release-execution-prep-final.zh-CN.md](./aods-release-execution-prep-final.zh-CN.md) | U-552 到 U-561 release execution prep final |
 | [aods-post-regression-audits-version-bump.zh-CN.md](./aods-post-regression-audits-version-bump.zh-CN.md) | U-562 到 U-571 post-regression audits / v0.9 version bump |
 | [aods-v0.9-release-closeout.zh-CN.md](./aods-v0.9-release-closeout.zh-CN.md) | U-572 到 U-581 v0.9 release closeout / next task discovery |
+| [aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md](./aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md) | U-582 到 U-591 post-v0.9 roadmap / runtime protocol prerequisites |
 
 ## 当前公开示例入口
 
