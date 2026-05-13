@@ -3,11 +3,11 @@
 日期：2026-05-13
 分支：`main`
 最新提交：以 `git log -1 --oneline` 为准（v0.8 version bump commit 为 `661d66a`；PR `#63` squash merge commit 为 `468eb9f`）
-状态：v0.8 released；post-v0.8 task pool complete
+状态：v0.8 released；post-v0.8 second task discovery complete
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-330 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。post-v0.8 任务池已清空；下一轮必须先做任务发现，优先从 `#60/#59/#41`、structured term refs、release naming 和 runtime no-go 边界中重新裁剪。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-331 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。post-v0.8 第二轮任务发现已把任务池扩展到 U-332 到 U-381；下一轮默认选择 U-332 到 U-341，先处理 `#60` 公开 tracker、`#59` observability 和 `#41` capability negotiation 的高价值低风险切片。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -144,9 +144,10 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 129 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | 读取 U-301 到 U-310 release hygiene / skill drift follow-up |
 | 130 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | 读取 U-311 到 U-320 changelog / conformance docs follow-up |
 | 131 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | 读取 U-321 到 U-330 drift / adoption / release guard follow-up |
-| 132 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 130 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 131 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 132 | `docs/operations/aods-post-v0.8-second-task-discovery.zh-CN.md` | 读取 U-331 第二轮任务发现和 U-332 到 U-381 新任务池 |
+| 133 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 134 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 135 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 

@@ -8,31 +8,80 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 drift / adoption / release guard follow-up complete |
+| 状态 | post-v0.8 second task discovery complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S37 drift / terminology / adoption / release guard follow-up |
-| 当前回合 | R-2026-05-13-14 |
-| 未完成任务数量 | 0 |
-| 已完成任务数量 | 335 |
+| 当前阶段 | S38 post-v0.8 second task discovery |
+| 当前回合 | R-2026-05-13-15 |
+| 未完成任务数量 | 50 |
+| 已完成任务数量 | 336 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-14 |
-| 开始时间 | 2026-05-13 14:25 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-15 |
+| 开始时间 | 2026-05-13 11:35 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-321、U-322、U-323、U-324、U-325、U-326、U-327、U-328、U-329、U-330 |
-| 本轮范围 | 上轮质量复审；code drift next slice revisit；stable terminology drift implementation gate decision；glossary enforcement next slice；lifecycle alias negative fixture decision；docs density lint feasibility；external citation public docs；resource surface docs follow-up；runtime no-go summary refresh；v0.8 adoption checklist；next release naming guard |
-| 排除范围 | schema implementation、validator implementation、lifecycle alias negative fixture implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for drift / terminology / release surfaces；GitHub release / issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-331 |
+| 本轮范围 | 上轮质量复审；公开 issue `#60/#59/#41` 快照；post-v0.8 第二轮任务发现；structured term refs / release naming / runtime no-go / observability / capability 后续任务池扩展 |
+| 排除范围 | schema implementation、validator implementation、fixture implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for governance / observability / capability next tasks；GitHub issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| 无 | - | 当前无未完成任务 | - | - | 下一轮先做任务发现 | - | 不直接启动 runtime |
+| U-332 | S38 | `#60` public tracker body refresh plan | P1 | 未开始 | 形成 issue body/comment refresh packet，明确旧 checklist 已完成和保留项 | U-331 | 下一轮默认选择 |
+| U-333 | S38 | Closed issue checklist reconciliation matrix | P1 | 未开始 | `#60` 旧 checklist 与 v0.8 close-on-merge 结果逐项对齐 | U-332 | 下一轮默认选择 |
+| U-334 | S38 | `#60` public update execution decision | P1 | 未开始 | 决定 comment、body edit 或组合方式并记录风险 | U-333 | 下一轮默认选择 |
+| U-335 | S38 | `#59` validator location implementation gate | P1 | 未开始 | 明确 location envelope 最小字段、实现条件和回归测试 | U-331 | 下一轮默认选择 |
+| U-336 | S38 | `#59` suggested-action implementation gate | P1 | 未开始 | 选出高价值 deterministic rules 的 remediation coverage 下一批 | U-335 | 下一轮默认选择 |
+| U-337 | S38 | Route skipped-module opt-in implementation feasibility | P2 | 未开始 | 明确 CLI flag / JSON field / output-size guard，不做 full trace | U-331 | 下一轮默认选择 |
+| U-338 | S38 | Observability sample output pack implementation plan | P2 | 未开始 | 规划 validate/route JSON 示例包与公开 docs 入口 | U-335、U-337 | 下一轮默认选择 |
+| U-339 | S38 | `#41` unsupported reason schema gate design | P1 | 未开始 | 定义 unsupported reason metadata-only schema / validator 边界 | U-331 | 下一轮默认选择 |
+| U-340 | S38 | `#41` fallback metadata schema gate design | P1 | 未开始 | 定义 fallback posture、degraded behavior、consumer action 字段 | U-339 | 下一轮默认选择 |
+| U-341 | S38 | Capability conformance fixture first implementation decision | P1 | 未开始 | 选择 partial / unknown / unsupported-feature 的首批 fixture | U-339、U-340 | 下一轮默认选择 |
+| U-342 | S39 | Structured term refs schema design | P1 | 未开始 | 定义 term_refs 最小字段、owner、scope、target surface | U-331 | - |
+| U-343 | S39 | Structured term refs validator design | P1 | 未开始 | 设计 unresolved / deprecated / alias mismatch deterministic gates | U-342 | - |
+| U-344 | S39 | Structured term refs source-first mirror plan | P1 | 未开始 | 明确 authoring source、compile、manifest summary mirror 同步路径 | U-342 | - |
+| U-345 | S39 | Lifecycle alias negative fixture implementation plan | P2 | 未开始 | 用 term_refs 重新设计 `start` vs `begin` 负例 | U-342、U-343 | - |
+| U-346 | S39 | Glossary deprecated term strict behavior decision | P2 | 未开始 | 决定 deprecated term 是 warning、strict block 还是 profile-dependent | U-343 | - |
+| U-347 | S39 | Glossary term refs public docs | P2 | 未开始 | 给 README / operations docs 增加 term refs 使用边界 | U-342 | - |
+| U-348 | S40 | Code drift evidence freshness next slice | P2 | 未开始 | 选出 evidence freshness 的下一批 validator/report 小切片 | U-331 | - |
+| U-349 | S40 | Evidence freshness fixture plan | P2 | 未开始 | 规划 stale/current/blocked evidence fixture 覆盖 | U-348 | - |
+| U-350 | S40 | Implementation acceptance manual-review docs refresh | P3 | 未开始 | 更新 manual review posture 和 acceptance criteria 使用说明 | U-331 | - |
+| U-351 | S40 | Reality unchecked repo remediation docs update | P3 | 未开始 | 更新 unchecked repo locator 的修复流程 | U-331 | - |
+| U-352 | S41 | Package skill install update execution decision | P2 | 未开始 | 决定是否更新本地 installed skill，并记录 owner-trigger rule | U-331 | - |
+| U-353 | S41 | Packaged skill drift regression follow-up | P2 | 未开始 | 扩充 packaged skill 与 CLI/help/release surface 漂移检查 | U-352 | - |
+| U-354 | S41 | Task ledger archive split execution plan | P3 | 未开始 | 规划台账历史拆分，不破坏当前权威入口 | U-331 | - |
+| U-355 | S41 | Operations index current-pack split execution plan | P3 | 未开始 | 规划 operations README 当前/历史分层 | U-354 | - |
+| U-356 | S41 | Current handoff pack pruning | P3 | 未开始 | 压缩 handoff 必读列表，只保留当前高价值入口 | U-355 | - |
+| U-357 | S41 | Historical docs stale-current label audit | P3 | 未开始 | 给旧 release/readiness 文档补 stale/current 标签策略 | U-355 | - |
+| U-358 | S42 | README adoption checklist command smoke | P3 | 未开始 | 验证 README adoption checklist 的命令仍可运行 | U-331 | - |
+| U-359 | S42 | v0.8.1 vs v0.9.0 release trigger matrix | P2 | 未开始 | 建立 patch/minor/docs-only release trigger 表 | U-331 | - |
+| U-360 | S42 | Next release notes skeleton refresh | P2 | 未开始 | 更新下一 release notes skeleton，不创建 tag | U-359 | - |
+| U-361 | S42 | GitHub release asset policy decision | P3 | 未开始 | 决定继续只用 GitHub source archive 还是附加 pack artifact | U-331 | - |
+| U-362 | S42 | CI minimal workflow owner packet | P2 | 未开始 | 给 docs link / generated clean / package surface / validate gate 做 owner packet | U-331 | - |
+| U-363 | S42 | Docs link checker CI feasibility rerun | P3 | 未开始 | 复查 docs link checker 是否适合进入 CI | U-362 | - |
+| U-364 | S42 | Package surface CI feasibility rerun | P3 | 未开始 | 复查 package surface guard 是否适合进入 CI | U-362 | - |
+| U-365 | S42 | Generated clean CI feasibility rerun | P3 | 未开始 | 复查 generated clean guard 是否适合进入 CI | U-362 | - |
+| U-366 | S43 | Runtime no-go public issue sync decision | P3 | 未开始 | 决定是否把 runtime no-go 再同步到 `#60` | U-331 | - |
+| U-367 | S43 | Capability negotiation public status refresh | P3 | 未开始 | 更新 `#41` 的当前覆盖/剩余工作状态 | U-339、U-340 | - |
+| U-368 | S43 | Observability public status refresh | P3 | 未开始 | 更新 `#59` 的当前覆盖/剩余工作状态 | U-335、U-336 | - |
+| U-369 | S43 | Governance roadmap public status refresh | P3 | 未开始 | 更新 `#60` 的 roadmap 状态 | U-332、U-333、U-334 | - |
+| U-370 | S43 | Conformance external adoption example follow-up | P3 | 未开始 | 审查 external adoption example 是否需要更短路径 | U-331 | - |
+| U-371 | S43 | External citation adoption example in README | P3 | 未开始 | 评估是否把 citation snippet 从 operations 提到 public README | U-331 | - |
+| U-372 | S43 | Resource surface adoption example in README | P3 | 未开始 | 评估是否把 resource surface snippet 从 operations 提到 public README | U-331 | - |
+| U-373 | S43 | Docs density current-authority metadata check | P3 | 未开始 | 规划 authority/currentness metadata checker，不做 prose linter | U-331 | - |
+| U-374 | S43 | Paired-surface sync current sample refresh | P3 | 未开始 | 更新 paired sync sample 与现有 validator JSON 字段 | U-331 | - |
+| U-375 | S43 | Validation JSON sample pack for public docs | P2 | 未开始 | 保存最小 validate JSON sample，避免 README 过长 | U-338 | - |
+| U-376 | S43 | Route JSON sample pack for public docs | P2 | 未开始 | 保存最小 route JSON sample，覆盖 selected/dependency/no full trace | U-338 | - |
+| U-377 | S43 | Conformance report sample package inclusion decision | P3 | 未开始 | 决定 sample JSON 是否进入 npm package | U-331 | - |
+| U-378 | S43 | Benchmark generated artifact archive policy revisit | P3 | 未开始 | 复查 generated report 是否需要归档策略 | U-331 | - |
+| U-379 | S43 | Security placeholder scan pattern review | P3 | 未开始 | 复查 secret-like placeholder 扫描误报/漏报 | U-331 | - |
+| U-380 | S43 | GitHub issue label / milestone hygiene review | P3 | 未开始 | 审查 open issue label/milestone 是否需要调整 | U-331 | - |
+| U-381 | S43 | Next task pool expansion after S38 | P2 | 未开始 | 当前 50 项消耗后再次发现任务 | U-332 到 U-380 | - |
 
 ## 已完成任务
 
@@ -373,12 +422,13 @@
 | 333 | U-328 | S37 | Runtime no-go summary refresh | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | runtime boundary docs review | deferred runtime list and entry conditions refreshed |
 | 334 | U-329 | S37 | v0.8 adoption checklist | P3 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | docs review | shortest v0.8 adoption checklist added to public docs |
 | 335 | U-330 | S37 | Next release naming guard | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | package / release list review | next release naming guard documented: docs-only no release, feature v0.9.0, patch v0.8.1 |
+| 336 | U-331 | S38 | Post-v0.8 second task discovery and task pool expansion | P0 | 2026-05-13 | `docs/operations/aods-post-v0.8-second-task-discovery.zh-CN.md` | 上轮质量复审；`#60/#59/#41` public issue snapshot；route query；release hygiene | 任务池扩展为 U-332 到 U-381；下一轮默认 U-332 到 U-341 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮先做任务发现，不直接启动 runtime |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-332 到 U-341 |
 
 ## 负责人判断 / issue 分类
 
@@ -398,7 +448,7 @@
 
 | 发现时间 | 来源 | 建议任务 ID | 阶段 | 优先级 | 任务 | 验收标准 | 依赖 | 与失败任务关系 |
 |---|---|---|---|---|---|---|---|---|
-| 无 | - | - | - | - | 无 | 无 | 无 | 无 |
+| 2026-05-13 | U-331 | U-332 到 U-381 | S38-S43 | P1-P3 | post-v0.8 第二轮任务池扩展 | 任务写入未完成任务表，下一轮默认 U-332 到 U-341 | U-331 | 无 |
 
 ## 进度记录
 

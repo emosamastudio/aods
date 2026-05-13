@@ -2,6 +2,59 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-15
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-15 |
+| 开始时间 | 2026-05-13 11:35 Asia/Shanghai |
+| 结束时间 | 2026-05-13 11:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-14 复审；公开 issue `#60/#59/#41` 快照；post-v0.8 第二轮任务发现；structured term refs、release naming、runtime no-go、observability、capability 后续任务池扩展；不实现 schema/validator/fixture、不实现 runtime、不 remote fetch、不执行 provider、不启用 CI、不发布 package、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-331 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-15
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `dc62037 Document drift adoption release guard` |
+| Task ledger state | 通过 | U-321 到 U-330 已完成，未完成任务数量为 0 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-331 |
+
+## 任务执行记录：R-2026-05-13-15
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-331 | 未开始 | 已完成 | 读取 `#60/#59/#41` 当前公开状态，重新裁剪 post-v0.8 后续任务池 | `aods-post-v0.8-second-task-discovery.zh-CN.md`、task ledger U-332 到 U-381 |
+
+## 验证记录：R-2026-05-13-15
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Route query | `node ./bin/aods.mjs route . --query "post v0.8 next tasks governance roadmap observability capability negotiation structured term refs release naming runtime no-go" --stage plan --intent read --json` | 通过 | selected stable contracts / authority governance |
+| Public issue snapshot | `gh issue view 60/59/41 --json ...` | 通过 | 三个 open issue 的当前覆盖和剩余工作已读取 |
+
+## 新发现任务：R-2026-05-13-15
+
+本轮新增 U-332 到 U-381，共 50 个任务。新增任务已写入未完成任务表；下一轮默认选择 U-332 到 U-341。
+
+## 回合结束摘要：R-2026-05-13-15
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 1 | U-331 |
+| 完成任务 | 1 | U-331 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 50 | U-332 到 U-381 |
+| 剩余未完成任务 | 50 | 下一轮默认 U-332 到 U-341 |
+
 ## 回合摘要：R-2026-05-13-14
 
 | 项 | 内容 |
