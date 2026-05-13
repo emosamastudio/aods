@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-38
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-38 |
+| 开始时间 | 2026-05-13 21:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 22:10 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-37 复审；v0.9 release notes final body；npm pack dry-run；packed install smoke；GitHub release source install route；release hygiene CI final decision；hosted repeatability owner packet；archive pruning decision；handoff compaction；final release go/no-go；runtime follow-up issue body draft；不创建 milestone、不 bump version、不打 tag、不创建 GitHub Release、不发布 package、不启用 CI、不运行 hosted capture、不编辑 issue body、不改 installed skill、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-552、U-553、U-554、U-555、U-556、U-557、U-558、U-559、U-560、U-561 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-38
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `b597c58 Add static records release prep` |
+| Task ledger state | 通过 | U-552 到 U-561 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-552 到 U-561 |
+
+## 任务执行记录：R-2026-05-13-38
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-552 | 未开始 | 已完成 | 刷新 v0.9 release notes body | `aods-release-execution-prep-final.zh-CN.md` |
+| 2 | U-553 | 未开始 | 已完成 | 复跑 npm pack dry-run | `aods@0.8.0`, entry_count=61 |
+| 3 | U-554 | 未开始 | 已完成 | 复跑 packed install smoke | help / validate / fixture / conformance pass |
+| 4 | U-555 | 未开始 | 已完成 | 准备 GitHub source install route | route documented; do not run before tag exists |
+| 5 | U-556 | 未开始 | 已完成 | 最终决定不启用 CI | local `release:hygiene` remains owner gate |
+| 6 | U-557 | 未开始 | 已完成 | 准备 hosted repeatability owner-run packet | supplemental only, not v0.9 gate |
+| 7 | U-558 | 未开始 | 已完成 | 决定 release 前不 prune current operations | prune after release reconciliation only |
+| 8 | U-559 | 未开始 | 已完成 | 压缩 handoff / ledger 状态 | handoff now points to U-562 到 U-571 |
+| 9 | U-560 | 未开始 | 已完成 | 复跑 final release go/no-go | release remains NO-GO until version bump/tag/source install |
+| 10 | U-561 | 未开始 | 已完成 | 草拟 `#64` body update | draft in release prep final doc; no issue edit |
+
+## 验证记录：R-2026-05-13-38
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| npm pack dry-run | `npm pack --dry-run --json` | 通过 | package `aods@0.8.0`, entry_count=61, unpackedSize=1145313 |
+| Packed install smoke | local tarball install in `/tmp/aods-pack-smoke-73VH20` | 通过 | help / validate / fixture / conformance pass |
+| GitHub release snapshot | `gh release list --repo emosamastudio/aods --limit 5` | 通过 | latest remains `v0.8.0` |
+| `#64` snapshot | `gh issue view 64 --json ...` | 通过 | issue open; body draft prepared locally only |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=190, checked_relative_links=101, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+| Task ledger count check | local count script | 通过 | unfinished=20, completedRecent=30 |
+
+## 回合结束摘要：R-2026-05-13-38
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-552 到 U-561 |
+| 完成任务 | 10 | U-552 到 U-561 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-562 到 U-571 |
+
 ## 回合摘要：R-2026-05-13-37
 
 | 项 | 内容 |

@@ -39,6 +39,7 @@
 | `docs/operations/aods-final-go-no-go-and-next-pool.zh-CN.md` | U-522 到 U-531 final go/no-go / public split / next task pool 记录。 |
 | `docs/operations/aods-public-split-focused-regressions.zh-CN.md` | U-532 到 U-541 public split execution / focused regressions 记录。 |
 | `docs/operations/aods-static-records-release-prep.zh-CN.md` | U-542 到 U-551 static records / release prep 记录。 |
+| `docs/operations/aods-release-execution-prep-final.zh-CN.md` | U-552 到 U-561 release execution prep final 记录。 |
 | `docs/operations/archive/` | 拆分前的长入口、完整任务台账和完整交接归档。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |

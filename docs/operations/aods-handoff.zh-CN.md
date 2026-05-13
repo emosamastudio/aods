@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；static records and release prep complete
+状态：v0.8 released；release execution prep final complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#64`，`#41/#59` 已关闭，无 milestone，latest release 仍为 `v0.8.0`。U-027 到 U-551 已完成；当前任务池为 U-552 到 U-581，下一轮默认执行 U-552 到 U-561，重点是 v0.9 release notes、npm pack dry-run、packed install smoke、GitHub release source install route、release hygiene CI final decision、hosted repeatability owner packet、archive pruning decision、handoff compaction、final go/no-go 和 runtime follow-up issue body draft。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#64`，`#41/#59` 已关闭，无 milestone，latest release 仍为 `v0.8.0`。U-027 到 U-561 已完成；当前任务池为 U-562 到 U-581，下一轮默认执行 U-562 到 U-571，重点是 focused regression issue linkage audit、public docs no-runtime wording audit、source-first post-regression smoke、package surface audit、docs examples refresh decision、benchmark/generated/security audits 和 v0.9 version bump implementation。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -50,6 +50,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Final go/no-go / next pool | 已完成 | benchmark summary generated churn 已撤回；hosted repeatability 不进 gate；`#59` close-ready、`#41` 需 runtime follow-up、`#60` 保持 open；v0.9 仍 no-go；U-532 到 U-581 已排队 |
 | Public split / focused regressions | 已完成 | `#59/#41` 已关闭、`#64` 已创建、`#60` 已评论；remote adapter mismatch 和 event correction graph 静态回归已落地；仍不实现 adapter runtime 或 event store |
 | Static records / release prep | 已完成 | event correction package boundary、migration dry-run benchmark-only helper、workflow / policy static record shape、focused regression conformance promotion gate 和 v0.9 version bump plan 已落地；仍不 bump、不发布 |
+| Release execution prep final | 已完成 | release notes final draft、pack dry-run、packed install smoke、source install route、CI/hosted/archive decisions、final no-go 和 `#64` body draft 已完成；release 仍等待 version bump |
 
 ## 当前风险
 
@@ -67,6 +68,6 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-552 到 U-555 | v0.9 release notes body、npm pack dry-run、packed install smoke、GitHub release source install route |
-| 2 | U-556 到 U-560 | release hygiene CI final decision、hosted repeatability owner packet、archive pruning decision、handoff compaction、final go/no-go |
-| 3 | U-561 到 U-581 | runtime follow-up issue body、post-regression audits、release execution 和 post-release closeout |
+| 1 | U-562 到 U-565 | focused regression issue linkage audit 和 public docs no-runtime wording audit |
+| 2 | U-566 到 U-570 | source-first post-regression smoke、package surface audit、docs examples refresh decision、generated/security audits |
+| 3 | U-571 到 U-581 | v0.9 version bump implementation、tag/release execution、source install smoke 和 post-release closeout |
