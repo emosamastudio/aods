@@ -1,0 +1,40 @@
+{
+  "migration_dry_run_report_v": 1,
+  "report_id": "shift-ops-db-schema-change-dry-run",
+  "source_authority": "shift-ops-governance:implementation-governance",
+  "target_authority": "shift-ops-governance:runtime-contract-table",
+  "migration_kind": "db-schema-change",
+  "dry_run_status": "warn",
+  "change_summary": [
+    {
+      "object": "release_packets.approval_snapshot",
+      "operation": "add-column",
+      "expected_effect": "capture immutable approval evidence"
+    }
+  ],
+  "object_counts": {
+    "tables_touched": 1,
+    "columns_added": 1,
+    "destructive_operations": 0
+  },
+  "risk_labels": [
+    "schema-change",
+    "requires-approval",
+    "rollback-required"
+  ],
+  "approval_requirements": {
+    "approver_count": 2,
+    "owner": "database-owner",
+    "evidence_ref": "change request + approval record"
+  },
+  "rollback_plan": {
+    "owner": "database-owner",
+    "checkpoint": "rollback checkpoint recorded before execution"
+  },
+  "non_execution_guards": [
+    "benchmark-only",
+    "no-database-connection",
+    "no-migration-command",
+    "no-mutation"
+  ]
+}

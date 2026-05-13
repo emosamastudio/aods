@@ -34,6 +34,7 @@
 | [aods-release-hygiene-adoption-refresh.zh-CN.md](./aods-release-hygiene-adoption-refresh.zh-CN.md) | U-512 到 U-521 release hygiene / adoption / docs parity refresh |
 | [aods-final-go-no-go-and-next-pool.zh-CN.md](./aods-final-go-no-go-and-next-pool.zh-CN.md) | U-522 到 U-531 final go/no-go / public split / next task pool |
 | [aods-public-split-focused-regressions.zh-CN.md](./aods-public-split-focused-regressions.zh-CN.md) | U-532 到 U-541 public split execution / focused regressions |
+| [aods-static-records-release-prep.zh-CN.md](./aods-static-records-release-prep.zh-CN.md) | U-542 到 U-551 static records / release prep |
 
 ## 当前公开示例入口
 

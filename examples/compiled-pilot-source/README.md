@@ -41,11 +41,11 @@ Run `npm run validate:all` before treating changes as repository-ready. If a cha
 
 The fixture manifest includes conventional positive examples plus a first slice of negative fixture-manifest inputs. The smoke step checks those declarations and paths; it does not execute update commands or replace the conformance runner.
 
-These packs are adoption examples. They are not a command executor, event store, adapter runtime, resource scheduler, crawler, or fact checker.
+These packs are adoption examples. Event correction graph content is a static packaged example and validator target; it is not an event store, event replay mechanism, command executor, adapter runtime, resource scheduler, crawler, or fact checker.
 
 ## Package boundary
 
-The npm/GitHub package includes this source-first pilot, the compiled pilot output, fixture manifests, conformance manifests, CLI code, schema, spec, README files, license, and release-aligned skill package. It does not include `docs/examples/*.sample.json`, benchmark generated corpora, benchmark reports, or operations history. Those files are repository documentation and regression evidence, not package adoption surface.
+The npm/GitHub package includes this source-first pilot, the compiled pilot output, fixture manifests, conformance manifests, CLI code, schema, spec, README files, license, and release-aligned skill package. It does not include `docs/examples/*.sample.json`, benchmark generated corpora, benchmark-only migration dry-run reports, benchmark reports, or operations history. Those files are repository documentation and regression evidence, not package adoption surface.
 
 ## Upgrading older examples
 

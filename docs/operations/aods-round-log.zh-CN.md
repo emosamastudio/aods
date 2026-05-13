@@ -2,6 +2,66 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-37
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-37 |
+| 开始时间 | 2026-05-13 20:45 Asia/Shanghai |
+| 结束时间 | 2026-05-13 21:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-36 复审；event correction docs/package boundary；migration dry-run static report shape/helper/docs；workflow transition static record design and fixture re-evaluation；policy decision static record design and fixture re-evaluation；runtime fixture conformance promotion gate；v0.9 version bump patch plan refresh；不创建 milestone、不 bump version、不打 tag、不创建 GitHub Release、不发布 package、不实现 workflow engine、不实现 policy engine、不实现 adapter runtime、不实现 event store/replay、不新增 migrate command、不连接数据库、不改 installed skill、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-542、U-543、U-544、U-545、U-546、U-547、U-548、U-549、U-550、U-551 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-37
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `5c2f1a0 Implement public split focused regressions` |
+| Task ledger state | 通过 | U-542 到 U-551 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-542 到 U-551 |
+
+## 任务执行记录：R-2026-05-13-37
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-542 | 未开始 | 已完成 | 同步 event correction package boundary | source-first README / static records doc |
+| 2 | U-543 | 未开始 | 已完成 | 定义 migration dry-run static report fields | static records doc / helper |
+| 3 | U-544 | 未开始 | 已完成 | 增加 benchmark-only helper、fixture、test | `migration-dry-run-report.mjs` / fixture / test |
+| 4 | U-545 | 未开始 | 已完成 | 同步 benchmark-only / no executor docs | benchmark README / operations doc |
+| 5 | U-546 | 未开始 | 已完成 | 设计 workflow transition static record shape | static records doc |
+| 6 | U-547 | 未开始 | 已完成 | 复评 workflow fixture candidate | defer until static artifact exists |
+| 7 | U-548 | 未开始 | 已完成 | 设计 policy decision static record shape | static records doc |
+| 8 | U-549 | 未开始 | 已完成 | 复评 policy fixture candidate | defer until evidence/audit refs are bound |
+| 9 | U-550 | 未开始 | 已完成 | 判断 focused regression conformance promotion | remote/event need negative fixture packs; migration remains benchmark-only |
+| 10 | U-551 | 未开始 | 已完成 | 刷新 v0.9 version bump patch plan | package / lockfile / README / skill surfaces listed |
+
+## 验证记录：R-2026-05-13-37
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Migration dry-run focused test | `node --test benchmarks/aods-eval-lab/test/migration-dry-run-report.test.mjs` | 通过 | 2 tests passed |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=189, checked_relative_links=100, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+| Task ledger count check | local count script | 通过 | unfinished=30, completedRecent=30 |
+
+## 回合结束摘要：R-2026-05-13-37
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-542 到 U-551 |
+| 完成任务 | 10 | U-542 到 U-551 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-552 到 U-561 |
+
 ## 回合摘要：R-2026-05-13-36
 
 | 项 | 内容 |

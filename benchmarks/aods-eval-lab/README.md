@@ -59,6 +59,7 @@ npm test
 
 - `fixtures/source/` canonical benchmark dataset
 - `fixtures/scenarios/` touch-routing and drift scenarios
+- `fixtures/migration-dry-run/` benchmark-only static migration dry-run reports; these record expected posture, approvals, rollback, and no-execution guards without providing a migration command
 - `fixtures/open-source/corpora.json` reproducible manifest for fetched open-source benchmark sources plus curated scenario seeds
 - `generated/human-docs/` verbose human baseline
 - `generated/aods-corpus/` generated AODS corpus under test
