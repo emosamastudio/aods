@@ -9,40 +9,80 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | static records adoption follow-up complete |
+| 状态 | adoption closeout next pool complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S79 adoption / closeout follow-up |
-| 当前回合 | R-2026-05-13-44 |
-| 未完成任务数量 | 10 |
-| 已完成任务数量 | 626 |
+| 当前阶段 | S81 adoption hardening |
+| 当前回合 | R-2026-05-13-45 |
+| 未完成任务数量 | 50 |
+| 已完成任务数量 | 636 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-44 |
-| 开始时间 | 2026-05-13 26:20 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-45 |
+| 开始时间 | 2026-05-13 27:10 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-612、U-613、U-614、U-615、U-616、U-617、U-618、U-619、U-620、U-621 |
-| 本轮范围 | 上轮质量复审；event correction static record next-slice review；remote adapter mismatch static protocol next-slice；workflow transition fixture entry criteria review；policy decision fixture entry criteria review；static records README consolidation decision；benchmark generated summary source audit after release；benchmark hosted cost language refresh decision；benchmark package artifact inventory sample update；public docs density audit after v0.9；source-first adoption quickstart rerun from fresh repo |
-| 排除范围 | schema implementation、validator implementation、fixture implementation、workflow engine、policy engine、event store、event replay、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、migration executor、database connection、public issue edits、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；runtime/static records docs review；benchmark summary source audit；npm pack dry-run JSON；README density count；fresh repo v0.9 install / compile / validate / route；docs link check；targeted generated review；final hygiene after commit；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-622、U-623、U-624、U-625、U-626、U-627、U-628、U-629、U-630、U-631 |
+| 本轮范围 | 上轮质量复审；compiled-corpus adoption smoke from release source；external adoption failure-mode packet；README troubleshooting section decision；post-v0.9 retrospective issue comment decision；release branch/tag cleanup audit；local MEMORY compaction decision；operations archive split follow-up；v0.10 naming / scope trigger decision；next owner go/no-go packet；next task pool expansion |
+| 排除范围 | schema implementation、validator implementation、fixture implementation、workflow engine、policy engine、event store、event replay、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、migration executor、database connection、remote branch deletion、public issue comment/edit、npm publish、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；fresh compiled-corpus adoption smoke from release tag；remote branch/tag readonly audit；issue #60/#64 readonly audit；MEMORY / round-log size audit；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-622 | S79 | Compiled-corpus adoption smoke from release source | P2 | 未开始 | 从 release source 验证 compiled corpus validate path | U-593 | - |
-| U-623 | S79 | External adoption failure-mode packet | P3 | 未开始 | 整理用户采用时最可能失败的 5 类问题 | U-621 | - |
-| U-624 | S79 | README troubleshooting section decision | P3 | 未开始 | 判断是否需要新增 troubleshooting 或保持 docs 精简 | U-623 | - |
-| U-625 | S80 | Post-v0.9 retrospective issue comment decision | P3 | 未开始 | 决定是否把 retrospective 摘要同步到 `#60` | U-581 | - |
-| U-626 | S80 | Release branch/tag cleanup audit | P3 | 未开始 | 确认无临时分支或错误 tag | U-572 | - |
-| U-627 | S80 | Local MEMORY compaction decision | P3 | 未开始 | 判断本地 MEMORY 是否需要压缩，仍不进仓库 | U-581 | local-only |
-| U-628 | S80 | Operations archive split follow-up | P3 | 未开始 | 决定是否归档旧 round log sections | U-600 | - |
-| U-629 | S80 | v0.10 naming / scope trigger decision | P2 | 未开始 | 判断下一 release 目标应为 v0.9.1 还是 v0.10.0 | U-601 | - |
-| U-630 | S80 | Next owner go/no-go packet | P2 | 未开始 | 汇总下一阶段推荐路线和 no-go 边界 | U-629 | - |
-| U-631 | S80 | Next task pool expansion after first post-release slice | P3 | 未开始 | 若 U-582 到 U-591 后仍需扩展，新增下一批任务 | U-630 | - |
+| U-632 | S81 | README troubleshooting short page implementation | P2 | 未开始 | 新增短 troubleshooting 文档并从 README 链接，避免主 README 继续变长 | U-624 | - |
+| U-633 | S81 | External adoption quickstart doc split | P3 | 未开始 | 判断 source-first / compiled-corpus adoption 是否拆成独立短页 | U-623 | - |
+| U-634 | S81 | Compiled corpus smoke package sample docs | P3 | 未开始 | 记录从 package 内 compiled-pilot validate / route 的最小样例 | U-622 | - |
+| U-635 | S81 | Release source archive validation script decision | P3 | 未开始 | 判断是否需要脚本化 tag archive validate smoke | U-622 | - |
+| U-636 | S81 | CLI version ergonomics review | P2 | 未开始 | 评估是否新增 `aods --version` 或 `aods version`，避免采用者查版本失败 | U-623 | - |
+| U-637 | S81 | npm publish criteria packet refresh | P3 | 未开始 | 刷新何时可 npm publish 的 owner gate | U-596 | - |
+| U-638 | S81 | Installed skill refresh owner action packet | P3 | 未开始 | 整理 local installed skill 更新步骤，不自动覆盖 | U-597 | local-only |
+| U-639 | S81 | Docs examples package inclusion revisit | P3 | 未开始 | 复核 `docs/examples/` 是否继续不进 npm package | U-619 | - |
+| U-640 | S81 | Conformance public sample minimal doc decision | P3 | 未开始 | 判断是否补短 conformance JSON sample 或继续只给命令 | U-609 | - |
+| U-641 | S81 | Compiled-corpus validation troubleshooting sample | P2 | 未开始 | 给 normal validate vs reality validate 的常见误解提供短样例 | U-623 | - |
+| U-642 | S82 | Provider discovery static record proposal | P2 | 未开始 | 设计 provider discovery 静态记录字段，不做 live discovery | U-613 | no runtime |
+| U-643 | S82 | Auth boundary static record proposal | P2 | 未开始 | 设计 credential / exchange / redaction / audit boundary 静态记录 | U-642 | no auth |
+| U-644 | S82 | Probing posture no-network fixture design | P2 | 未开始 | 设计 network/cost/mutation posture 负例，不执行 probe | U-642 | no network |
+| U-645 | S82 | Provider selection no-auto-select design | P3 | 未开始 | 设计 provider selection 静态策略，不自动选择 provider | U-642 | no provider call |
+| U-646 | S82 | Fallback policy no-ranking fixture design | P3 | 未开始 | 设计 fallback policy 静态记录，禁止 runtime ranking overclaim | U-645 | no fallback executor |
+| U-647 | S82 | Adapter handshake static metadata proposal | P2 | 未开始 | 设计 adapter handshake 静态元数据，不调用 adapter | U-643 | no adapter |
+| U-648 | S82 | `#64` status comment decision | P3 | 未开始 | 判断是否给 runtime/protocol tracker 追加静态前置状态评论 | U-647 | GitHub |
+| U-649 | S82 | Runtime protocol negative fixture candidate sort | P2 | 未开始 | 排序 provider/auth/probe/fallback/handshake 负例候选 | U-642/U-647 | - |
+| U-650 | S82 | Static protocol package boundary decision | P3 | 未开始 | 判断哪些 runtime/protocol 静态记录可进入 package examples | U-649 | - |
+| U-651 | S82 | Runtime protocol schema gate decision | P2 | 未开始 | 决定是否进入 schema/validator 实现前置 | U-650 | no implementation yet |
+| U-652 | S83 | Round log archive split execution | P2 | 未开始 | 拆分过长 round log，保留当前入口短历史 | U-628 | - |
+| U-653 | S83 | Task ledger automation script feasibility | P3 | 未开始 | 评估台账计数 / recent window 自动检查脚本 | U-652 | - |
+| U-654 | S83 | Handoff summary shrink pass | P3 | 未开始 | 压缩 handoff completed summary，降低接手成本 | U-652 | - |
+| U-655 | S83 | Operations README topic table pruning | P3 | 未开始 | 判断专题表是否拆归档或生成 | U-654 | - |
+| U-656 | S83 | Local MEMORY compaction action | P3 | 未开始 | 若超过阈值则本地压缩 MEMORY，仍不进仓库 | U-627 | local-only |
+| U-657 | S83 | Knowledge base write decision after closeout | P3 | 未开始 | 判断是否需要 KB 项目决策记录；无明确触发则不写 | U-630 | KB |
+| U-658 | S83 | AGENTS / MEMORY drift check | P3 | 未开始 | 复核工作规约与本地记忆是否冲突 | U-656 | local-only |
+| U-659 | S83 | aods-use installed skill sync explicit plan | P3 | 未开始 | 整理 repo skill 到 installed skill 的显式同步步骤 | U-638 | local-only |
+| U-660 | S83 | `#60` body refresh execution decision | P2 | 未开始 | 决定是否执行 roadmap body current-status 插入 | U-625 | GitHub |
+| U-661 | S83 | `#64` label / body audit after static records | P3 | 未开始 | 审查 runtime/protocol tracker 是否需 label/body refresh | U-648 | GitHub |
+| U-662 | S84 | v0.9.1 patch release candidate gate | P2 | 未开始 | 若只含 docs/adoption/ergonomics，准备 v0.9.1 gate | U-629 | - |
+| U-663 | S84 | v0.10 semantic scope proposal | P2 | 未开始 | 若进入 schema/validator/static records package surface，定义 v0.10 scope | U-651 | - |
+| U-664 | S84 | Next changelog skeleton | P3 | 未开始 | 准备下一 release changelog skeleton | U-662/U-663 | - |
+| U-665 | S84 | Package tarball inventory diff baseline | P3 | 未开始 | 保存 v0.9.0 pack inventory baseline 用于下一 release diff | U-619 | - |
+| U-666 | S84 | Release notes post-v0.9 delta draft | P3 | 未开始 | 草拟下一 release notes delta，不发布 | U-664 | - |
+| U-667 | S84 | Branch cleanup owner packet | P3 | 未开始 | 整理旧远端分支删除候选，不执行删除 | U-626 | GitHub |
+| U-668 | S84 | Tag/source mismatch docs note decision | P3 | 未开始 | 判断是否说明 release tag 早于后续 ops docs commits | U-626 | - |
+| U-669 | S84 | npm publish owner gate packet | P3 | 未开始 | 梳理 npm 发布前置授权、token、rollback | U-637 | npm |
+| U-670 | S84 | CI enablement owner packet refresh | P3 | 未开始 | 重新评估 docs/package/generated hygiene CI 是否开启 | U-598 | CI |
+| U-671 | S84 | Hosted repeatability rerun trigger | P3 | 未开始 | 定义何时 rerun hosted repeatability，默认不跑 | U-618 | hosted |
+| U-672 | S85 | Projection guidance static invariant design | P2 | 未开始 | 设计 event correction projection guidance 静态约束 | U-612 | no replay |
+| U-673 | S85 | Adapter provider discovery example candidate | P2 | 未开始 | 判断是否在 source-first example 增加 provider discovery static record | U-642 | no provider call |
+| U-674 | S85 | Policy decision static record source-first candidate | P3 | 未开始 | 判断 policy decision 静态记录是否可进 example | U-615 | no engine |
+| U-675 | S85 | Workflow transition static record source-first candidate | P3 | 未开始 | 判断 workflow transition 静态记录是否可进 example | U-614 | no engine |
+| U-676 | S85 | Migration dry-run package promotion no-go revisit | P3 | 未开始 | 复核 migration helper 是否继续 benchmark-only | U-611 | no executor |
+| U-677 | S85 | Route query failure modes regression plan | P2 | 未开始 | 设计 adoption query miss / overread 的 focused regression | U-623 | - |
+| U-678 | S85 | Validate issue location compatibility regression | P3 | 未开始 | 复核 location envelope backward compatibility | U-608 | - |
+| U-679 | S85 | Package install smoke automation script | P2 | 未开始 | 评估是否脚本化 release tag install smoke | U-621/U-622 | - |
+| U-680 | S85 | Final post-v0.9 retrospective packet | P3 | 未开始 | 整理 v0.9 后第一阶段复盘 | U-630 | - |
+| U-681 | S85 | Next milestone / no-milestone final decision | P3 | 未开始 | 结合下一 release 命名决定是否继续 no milestone | U-630 | GitHub |
 
 ## 最近已完成任务
 
@@ -50,16 +90,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 597 | U-592 | S75 | Release source archive repeatability audit | P2 | 2026-05-13 | archive tar/zip audit | `gh api .../tarball` / `gh api .../zipball` | archives contain `aods@0.9.0`; tag source intentionally before later ops commits |
-| 598 | U-593 | S75 | README install command post-release smoke | P2 | 2026-05-13 | temp install from README command | `npm install ...#v0.9.0` / CLI help | installed `aods@0.9.0` |
-| 599 | U-594 | S75 | Package README release link audit | P3 | 2026-05-13 | packed README grep | `npm pack` / `rg v0.9.0` | English and Chinese README release links/install snippets point to v0.9 |
-| 600 | U-595 | S75 | Release notes public non-goal wording audit | P3 | 2026-05-13 | release body grep | `gh release view v0.9.0 --json body` | runtime/gateway/migration/provider non-goals explicit |
-| 601 | U-596 | S75 | npm publish decision after GitHub release | P2 | 2026-05-13 | adoption evidence doc | decision review | no npm publish without dedicated registry authorization |
-| 602 | U-597 | S75 | Installed skill package-vs-local drift audit | P2 | 2026-05-13 | skill diff | `diff -u` | repo skill v0.9 newer; no local overwrite |
-| 603 | U-598 | S75 | Release hygiene CI reconsideration after v0.9 | P3 | 2026-05-13 | adoption evidence doc | release hygiene | no CI enablement this round |
-| 604 | U-599 | S75 | Hosted repeatability post-release rerun decision | P3 | 2026-05-13 | adoption evidence doc | decision review | no hosted rerun; supplemental only |
-| 605 | U-600 | S75 | Operations archive pruning after release | P3 | 2026-05-13 | adoption evidence doc | docs review | no pruning until post-release slices settle |
-| 606 | U-601 | S76 | Code drift validator next-slice triage | P1 | 2026-05-13 | adoption evidence doc / focused tests | scaffold + example-packs tests | next route U-602/U-603 review then U-604 lifecycle alias |
 | 607 | U-602 | S76 | Implementation repo duplicate-id regression review | P1 | 2026-05-13 | code drift validator hardening review | focused scaffold regression | L2 coverage already present |
 | 608 | U-603 | S76 | Contract metadata mirror regression audit | P1 | 2026-05-13 | code drift validator hardening review | focused scaffold regression | redaction / contract / schema_versioning summaries covered |
 | 609 | U-604 | S76 | Lifecycle alias terminology drift fixture revisit | P2 | 2026-05-13 | code drift validator hardening review | route query / source example review | detects alias only through structured term refs, not prose |
@@ -80,11 +110,21 @@
 | 624 | U-619 | S78 | Benchmark package artifact inventory sample update | P3 | 2026-05-13 | pack inventory snapshot | `npm pack --dry-run --json` | aods@0.9.0, 61 entries |
 | 625 | U-620 | S78 | Public docs density audit after v0.9 | P3 | 2026-05-13 | README density audit | `wc -l` | no split this round; prefer linked docs later |
 | 626 | U-621 | S79 | Source-first adoption quickstart rerun from fresh repo | P2 | 2026-05-13 | fresh install smoke | install / compile / validate / route | v0.9 source-first adoption pass |
+| 627 | U-622 | S79 | Compiled-corpus adoption smoke from release source | P2 | 2026-05-13 | adoption closeout doc | install / validate / route | package compiled corpus validates from `v0.9.0` |
+| 628 | U-623 | S79 | External adoption failure-mode packet | P3 | 2026-05-13 | adoption closeout doc | failure-mode review | five likely adoption failures listed |
+| 629 | U-624 | S79 | README troubleshooting section decision | P3 | 2026-05-13 | adoption closeout doc | docs density review | no main README expansion; short doc later |
+| 630 | U-625 | S80 | Post-v0.9 retrospective issue comment decision | P3 | 2026-05-13 | issue #60 audit | `gh issue view 60` | no new comment this round |
+| 631 | U-626 | S80 | Release branch/tag cleanup audit | P3 | 2026-05-13 | branch/tag audit | `git ls-remote --heads/--tags` | no deletion; old branches need owner packet |
+| 632 | U-627 | S80 | Local MEMORY compaction decision | P3 | 2026-05-13 | size audit | `wc -l MEMORY.md` | no compaction; local-only |
+| 633 | U-628 | S80 | Operations archive split follow-up | P3 | 2026-05-13 | size audit | `wc -l docs/operations/aods-round-log.zh-CN.md` | add follow-up task for archive split |
+| 634 | U-629 | S80 | v0.10 naming / scope trigger decision | P2 | 2026-05-13 | adoption closeout doc | release naming review | v0.9.1 for maintenance; v0.10 for semantic/schema changes |
+| 635 | U-630 | S80 | Next owner go/no-go packet | P2 | 2026-05-13 | adoption closeout doc | owner packet review | adoption / ops hygiene first; runtime no-go |
+| 636 | U-631 | S80 | Next task pool expansion after first post-release slice | P3 | 2026-05-13 | task ledger U-632..U-681 | task discovery | 50 new tasks added |
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-622 到 U-631 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-632 到 U-641 |
 
 ## 负责人判断 / issue 分类
 
@@ -105,4 +145,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；static records / adoption follow-up 已完成；event correction 与 remote adapter 保持静态记录路线，workflow / policy 尚不进 fixture；benchmark executive summary 已刷新到 assessed version `0.9.0`；fresh repo source-first adoption smoke 通过；下一阶段进入 adoption / closeout follow-up。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；adoption closeout / next task pool 已完成；compiled-corpus adoption smoke 通过；外部采用失败模式和 troubleshooting 决策已记录；release branch/tag、MEMORY、operations archive、版本命名和 owner go/no-go 已完成收口判断；任务池扩展到 U-632 到 U-681，下一轮默认 U-632 到 U-641。

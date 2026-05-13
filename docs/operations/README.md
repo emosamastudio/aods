@@ -42,6 +42,7 @@
 | [aods-post-v0.9-release-adoption-evidence.zh-CN.md](./aods-post-v0.9-release-adoption-evidence.zh-CN.md) | U-592 到 U-601 post-v0.9 release / adoption evidence and code-drift triage |
 | [aods-code-drift-validator-hardening-review.zh-CN.md](./aods-code-drift-validator-hardening-review.zh-CN.md) | U-602 到 U-611 code drift validator hardening review |
 | [aods-static-records-adoption-followup.zh-CN.md](./aods-static-records-adoption-followup.zh-CN.md) | U-612 到 U-621 static records / adoption follow-up |
+| [aods-adoption-closeout-next-pool.zh-CN.md](./aods-adoption-closeout-next-pool.zh-CN.md) | U-622 到 U-631 adoption closeout / next task pool |
 
 ## 当前公开示例入口
 

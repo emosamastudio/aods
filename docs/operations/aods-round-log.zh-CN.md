@@ -2,6 +2,70 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-45
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-45 |
+| 开始时间 | 2026-05-13 27:10 Asia/Shanghai |
+| 结束时间 | 2026-05-13 27:55 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-44 复审；compiled-corpus adoption smoke from release source；external adoption failure-mode packet；README troubleshooting section decision；post-v0.9 retrospective issue comment decision；release branch/tag cleanup audit；local MEMORY compaction decision；operations archive split follow-up；v0.10 naming / scope trigger decision；next owner go/no-go packet；next task pool expansion；不实现 schema/validator/fixture/runtime、不删除远端分支、不编辑或评论 public issue、不发布 npm、不执行 adapter/provider/auth/dynamic probing/fallback executor/migration executor/database、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-622、U-623、U-624、U-625、U-626、U-627、U-628、U-629、U-630、U-631 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-45
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `9c88458 Record static records adoption follow-up` |
+| Task ledger state | 通过 | U-622 到 U-631 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 adoption / closeout follow-up |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-622 到 U-631 |
+
+## 任务执行记录：R-2026-05-13-45
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-622 | 未开始 | 已完成 | 从 `v0.9.0` package 内验证 compiled corpus | validate pass / route query-route |
+| 2 | U-623 | 未开始 | 已完成 | 整理外部采用 5 类失败模式 | adoption closeout doc |
+| 3 | U-624 | 未开始 | 已完成 | 决定不扩写主 README troubleshooting | adoption closeout doc |
+| 4 | U-625 | 未开始 | 已完成 | 判断本轮不向 `#60` 发 retrospective comment | issue #60 readonly audit |
+| 5 | U-626 | 未开始 | 已完成 | 审计 release branch/tag cleanup | `git ls-remote` |
+| 6 | U-627 | 未开始 | 已完成 | 判断 `MEMORY.md` 暂不压缩 | size audit |
+| 7 | U-628 | 未开始 | 已完成 | 判断 round log archive split 需后续专门任务 | size audit |
+| 8 | U-629 | 未开始 | 已完成 | 定义 v0.9.1 vs v0.10.0 trigger | adoption closeout doc |
+| 9 | U-630 | 未开始 | 已完成 | 汇总 next owner go/no-go packet | adoption closeout doc |
+| 10 | U-631 | 未开始 | 已完成 | 扩展 U-632 到 U-681 | task ledger |
+
+## 返工记录：R-2026-05-13-45
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| 无 | 无需返工 | 上轮质量复审通过，本轮无仓库返工 |
+
+## 验证记录：R-2026-05-13-45
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Compiled-corpus adoption smoke | install `v0.9.0` + validate package compiled-pilot + route query | 通过 | validate status pass；selected adapter capability / capsule |
+| Remote branch/tag audit | `git ls-remote --heads origin` / `git ls-remote --tags origin 'v0.*'` | 通过 | no wrong v0.9 tag；old branches retained |
+| Public issue snapshot | `gh issue view 60/64 --json ...` | 通过 | `#60/#64` open；no public write this round |
+| Size audit | `wc -l MEMORY.md docs/operations/aods-round-log.zh-CN.md ...` | 通过 | MEMORY 381 lines；round log 7576 lines |
+
+## 回合结束摘要：R-2026-05-13-45
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-622 到 U-631 |
+| 完成任务 | 10 | U-622 到 U-631 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 50 | U-632 到 U-681 |
+| 剩余未完成任务 | 50 | 下一轮默认 U-632 到 U-641 |
+
 ## 回合摘要：R-2026-05-13-44
 
 | 项 | 内容 |
