@@ -119,6 +119,10 @@ Canonical adapter + capability/exposure example for shift operations integration
 
 Provider capability claim names adapter_id, capability_id, contract_profile, schema_version_policy, transport_scope, freshness_posture, redaction_posture, limits, fallback_posture, degraded_behavior, consumer_action, and evidence_anchor. Capability claim is metadata only and does not create runtime discovery, auth exchange, fallback ranking, or dynamic probing.
 
+#### adapter provider discovery declaration
+
+Provider discovery declaration names provider_discovery_id, provider_id, capability_id, discovery_source, transport_scope, freshness_posture, evidence_refs, and network_allowed. Discovery is declared static metadata only; validation must not query providers, exchange credentials, probe endpoints, rank fallbacks, or execute adapters.
+
 #### adapter consumer requirement
 
 Consumer requirement names required capability_id, accepted contract_profile, required_schema_version_policy, transport_scope need, freshness requirement, redaction floor, exposure class, blocking posture, and fallback posture. Compatibility result may be compatible, incompatible, partial, or unknown; partial and unknown rows must declare fallback or consumer metadata, and the comparison does not select providers or execute adapters.
@@ -129,6 +133,7 @@ Adapter-facing exposure requires exposure_class, auth_boundary, redaction_floor,
 
 Artifacts:
 - `adapter-capability-table` (mapping-table): Canonical provider capability fields for adapter-facing surfaces.
+- `adapter-provider-discovery-table` (mapping-table): Declared provider discovery metadata for adapter-facing capability claims without live lookup.
 - `adapter-consumer-requirement-table` (mapping-table): Canonical consumer requirement fields for metadata-only capability comparison.
 - `adapter-capability-compatibility-matrix` (mapping-table): Metadata-only capability compatibility cases for provider and consumer claims.
 - `adapter-exposure-audit-table` (mapping-table): Exposure and audit posture for adapter-facing capability claims.

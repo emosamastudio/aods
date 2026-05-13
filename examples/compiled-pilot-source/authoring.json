@@ -1542,6 +1542,20 @@
           "criticality": "must"
         },
         {
+          "sid": "adapter-provider-discovery",
+          "topic": "adapter provider discovery declaration",
+          "content": "Provider discovery declaration names provider_discovery_id, provider_id, capability_id, discovery_source, transport_scope, freshness_posture, evidence_refs, and network_allowed. Discovery is declared static metadata only; validation must not query providers, exchange credentials, probe endpoints, rank fallbacks, or execute adapters.",
+          "content_type": "rules",
+          "refs": [
+            "shift-ops-adapter-capability:adapter-provider-capability",
+            "shift-ops-governance:implementation-governance"
+          ],
+          "artifact_refs": [
+            "adapter-provider-discovery-table"
+          ],
+          "criticality": "must"
+        },
+        {
           "sid": "adapter-consumer-requirement",
           "topic": "adapter consumer requirement",
           "content": "Consumer requirement names required capability_id, accepted contract_profile, required_schema_version_policy, transport_scope need, freshness requirement, redaction floor, exposure class, blocking posture, and fallback posture. Compatibility result may be compatible, incompatible, partial, or unknown; partial and unknown rows must declare fallback or consumer metadata, and the comparison does not select providers or execute adapters.",
@@ -1613,6 +1627,38 @@
                 "fallback_posture",
                 "metadata-only fallback posture when support is partial or unknown",
                 "yes for partial or unknown"
+              ]
+            ]
+          }
+        },
+        {
+          "artifact_id": "adapter-provider-discovery-table",
+          "type": "mapping-table",
+          "usage": "Declared provider discovery metadata for adapter-facing capability claims without live lookup.",
+          "content": {
+            "key_columns": [
+              "provider_discovery_id"
+            ],
+            "columns": [
+              "provider_discovery_id",
+              "provider_id",
+              "capability_id",
+              "discovery_source",
+              "transport_scope",
+              "freshness_posture",
+              "evidence_refs",
+              "network_allowed"
+            ],
+            "rows": [
+              [
+                "readiness-worker-declared-provider",
+                "shift-ops-worker-adapter",
+                "readiness.query",
+                "fixture",
+                "none",
+                "current",
+                "adapter-capability-contract-test",
+                "false"
               ]
             ]
           }

@@ -53,6 +53,7 @@
 | [aods-route-validate-regression-hardening.zh-CN.md](./aods-route-validate-regression-hardening.zh-CN.md) | U-702 到 U-711 route / validate regression hardening and sample refresh decisions |
 | [aods-operations-public-sync-hygiene.zh-CN.md](./aods-operations-public-sync-hygiene.zh-CN.md) | U-712 到 U-721 operations memory / public issue / milestone sync hygiene |
 | [aods-final-semantic-candidate-decisions.zh-CN.md](./aods-final-semantic-candidate-decisions.zh-CN.md) | U-722 到 U-731 final semantic candidate decisions / next task pool expansion |
+| [aods-provider-discovery-static-guard-implementation.zh-CN.md](./aods-provider-discovery-static-guard-implementation.zh-CN.md) | U-732 到 U-741 provider discovery source-first static guard implementation |
 
 ## 当前公开示例入口
 
