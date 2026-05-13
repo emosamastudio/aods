@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | runtime protocol static records planned |
+| 状态 | operations hygiene synced |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S83 operations hygiene |
-| 当前回合 | R-2026-05-13-47 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 656 |
+| 当前阶段 | S84 release maintenance planning |
+| 当前回合 | R-2026-05-13-48 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 666 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-47 |
-| 开始时间 | 2026-05-13 29:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-48 |
+| 开始时间 | 2026-05-13 30:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-642、U-643、U-644、U-645、U-646、U-647、U-648、U-649、U-650、U-651 |
-| 本轮范围 | 上轮质量复审；provider discovery static record proposal；auth boundary static record proposal；probing posture no-network fixture design；provider selection no-auto-select design；fallback policy no-ranking fixture design；adapter handshake static metadata proposal；`#64` status comment decision；runtime protocol negative fixture candidate sort；static protocol package boundary decision；runtime protocol schema gate decision |
-| 排除范围 | schema implementation、validator implementation、fixture implementation、conformance promotion、package example promotion、workflow engine、policy engine、event store、event replay、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、migration executor、database connection、production mutation、npm publish、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；runtime/protocol proposal review；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-652、U-653、U-654、U-655、U-656、U-657、U-658、U-659、U-660、U-661 |
+| 本轮范围 | 上轮质量复审；round log archive split execution；task ledger automation script feasibility；handoff summary shrink pass；operations README topic table pruning；local MEMORY compaction action；knowledge base write decision after closeout；AGENTS / MEMORY drift check；aods-use installed skill sync explicit plan；`#60` body refresh execution decision；`#64` label / body audit after static records |
+| 排除范围 | schema implementation、validator implementation、fixture implementation、conformance promotion、package example promotion、runtime、npm publish、installed skill overwrite、knowledge-base write、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；round log archive link check；task ledger count check；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-652 | S83 | Round log archive split execution | P2 | 未开始 | 拆分过长 round log，保留当前入口短历史 | U-628 | - |
-| U-653 | S83 | Task ledger automation script feasibility | P3 | 未开始 | 评估台账计数 / recent window 自动检查脚本 | U-652 | - |
-| U-654 | S83 | Handoff summary shrink pass | P3 | 未开始 | 压缩 handoff completed summary，降低接手成本 | U-652 | - |
-| U-655 | S83 | Operations README topic table pruning | P3 | 未开始 | 判断专题表是否拆归档或生成 | U-654 | - |
-| U-656 | S83 | Local MEMORY compaction action | P3 | 未开始 | 若超过阈值则本地压缩 MEMORY，仍不进仓库 | U-627 | local-only |
-| U-657 | S83 | Knowledge base write decision after closeout | P3 | 未开始 | 判断是否需要 KB 项目决策记录；无明确触发则不写 | U-630 | KB |
-| U-658 | S83 | AGENTS / MEMORY drift check | P3 | 未开始 | 复核工作规约与本地记忆是否冲突 | U-656 | local-only |
-| U-659 | S83 | aods-use installed skill sync explicit plan | P3 | 未开始 | 整理 repo skill 到 installed skill 的显式同步步骤 | U-638 | local-only |
-| U-660 | S83 | `#60` body refresh execution decision | P2 | 未开始 | 决定是否执行 roadmap body current-status 插入 | U-625 | GitHub |
-| U-661 | S83 | `#64` label / body audit after static records | P3 | 未开始 | 审查 runtime/protocol tracker 是否需 label/body refresh | U-648 | GitHub |
 | U-662 | S84 | v0.9.1 patch release candidate gate | P2 | 未开始 | 若只含 docs/adoption/ergonomics，准备 v0.9.1 gate | U-629 | - |
 | U-663 | S84 | v0.10 semantic scope proposal | P2 | 未开始 | 若进入 schema/validator/static records package surface，定义 v0.10 scope | U-651 | - |
 | U-664 | S84 | Next changelog skeleton | P3 | 未开始 | 准备下一 release changelog skeleton | U-662/U-663 | - |
@@ -70,16 +60,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 627 | U-622 | S79 | Compiled-corpus adoption smoke from release source | P2 | 2026-05-13 | adoption closeout doc | install / validate / route | package compiled corpus validates from `v0.9.0` |
-| 628 | U-623 | S79 | External adoption failure-mode packet | P3 | 2026-05-13 | adoption closeout doc | failure-mode review | five likely adoption failures listed |
-| 629 | U-624 | S79 | README troubleshooting section decision | P3 | 2026-05-13 | adoption closeout doc | docs density review | no main README expansion; short doc later |
-| 630 | U-625 | S80 | Post-v0.9 retrospective issue comment decision | P3 | 2026-05-13 | issue #60 audit | `gh issue view 60` | no new comment this round |
-| 631 | U-626 | S80 | Release branch/tag cleanup audit | P3 | 2026-05-13 | branch/tag audit | `git ls-remote --heads/--tags` | no deletion; old branches need owner packet |
-| 632 | U-627 | S80 | Local MEMORY compaction decision | P3 | 2026-05-13 | size audit | `wc -l MEMORY.md` | no compaction; local-only |
-| 633 | U-628 | S80 | Operations archive split follow-up | P3 | 2026-05-13 | size audit | `wc -l docs/operations/aods-round-log.zh-CN.md` | add follow-up task for archive split |
-| 634 | U-629 | S80 | v0.10 naming / scope trigger decision | P2 | 2026-05-13 | adoption closeout doc | release naming review | v0.9.1 for maintenance; v0.10 for semantic/schema changes |
-| 635 | U-630 | S80 | Next owner go/no-go packet | P2 | 2026-05-13 | adoption closeout doc | owner packet review | adoption / ops hygiene first; runtime no-go |
-| 636 | U-631 | S80 | Next task pool expansion after first post-release slice | P3 | 2026-05-13 | task ledger U-632..U-681 | task discovery | 50 new tasks added |
 | 637 | U-632 | S81 | README troubleshooting short page implementation | P2 | 2026-05-13 | `docs/adoption-troubleshooting.md` | docs link check | linked from README without expanding main README |
 | 638 | U-633 | S81 | External adoption quickstart doc split | P3 | 2026-05-13 | `docs/adoption-quickstart.md` | docs link check | source-first and compiled-corpus paths split |
 | 639 | U-634 | S81 | Compiled corpus smoke package sample docs | P3 | 2026-05-13 | compiled-corpus quickstart section | docs link check | package compiled-pilot validate / route sample documented |
@@ -100,18 +80,28 @@
 | 654 | U-649 | S82 | Runtime protocol negative fixture candidate sort | P2 | 2026-05-13 | runtime protocol static records doc | docs link check | provider evidence / auth / probe cost first |
 | 655 | U-650 | S82 | Static protocol package boundary decision | P3 | 2026-05-13 | runtime protocol static records doc | package surface check | do not promote to package examples yet |
 | 656 | U-651 | S82 | Runtime protocol schema gate decision | P2 | 2026-05-13 | runtime protocol static records doc | release hygiene | no schema/validator implementation until shape and source-first candidate stabilize |
+| 657 | U-652 | S83 | Round log archive split execution | P2 | 2026-05-13 | round log archive | docs link check | current round log shortened, full history archived |
+| 658 | U-653 | S83 | Task ledger automation script feasibility | P3 | 2026-05-13 | operations hygiene sync doc | task ledger count check | no script until repeated drift |
+| 659 | U-654 | S83 | Handoff summary shrink pass | P3 | 2026-05-13 | `docs/operations/aods-handoff.zh-CN.md` | docs link check | completed summary compressed |
+| 660 | U-655 | S83 | Operations README topic table pruning | P3 | 2026-05-13 | operations hygiene sync doc | docs link check | no generator; archive link updated |
+| 661 | U-656 | S83 | Local MEMORY compaction action | P3 | 2026-05-13 | local `MEMORY.md` | local-only review | compacted and kept untracked |
+| 662 | U-657 | S83 | Knowledge base write decision after closeout | P3 | 2026-05-13 | operations hygiene sync doc | docs link check | no KB write this round |
+| 663 | U-658 | S83 | AGENTS / MEMORY drift check | P3 | 2026-05-13 | operations hygiene sync doc | docs link check | no conflict found |
+| 664 | U-659 | S83 | aods-use installed skill sync explicit plan | P3 | 2026-05-13 | operations hygiene sync doc | skill diff review | no installed skill overwrite |
+| 665 | U-660 | S83 | `#60` body refresh execution decision | P2 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/60` | `gh issue edit 60` | current-status section inserted |
+| 666 | U-661 | S83 | `#64` label / body audit after static records | P3 | 2026-05-13 | issue #64 audit | `gh issue view 64` | no label/body edit needed |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-652 到 U-661 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-662 到 U-671 |
 
 ## 负责人判断 / issue 分类
 
 | 分类 | Issue | 判断 | 下一步 |
 |---|---|---|---|
-| public roadmap | #60 | 保持 open；v0.9 post-release status comment 已发布；body refresh packet 已准备 | 后续若 owner 接受，再执行 body edit |
+| public roadmap | #60 | 保持 open；v0.9 current-status body section 已插入 | 后续继续作为 roadmap index |
 | observability | #59 | 已关闭 metadata/reporting scope | 后续 runtime/dashboard/trace backend 不在当前 release 范围 |
 | capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` body 已更新，后续先做静态前置而非 runtime |
 | milestone | GitHub milestones | 当前无 milestone；v0.9 已发布；本轮决定继续不创建 | 后续按 owner go/no-go packet 决定 |
@@ -126,4 +116,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；runtime/protocol static records proposal 已完成；provider discovery、auth boundary、probing posture、provider selection、fallback policy 和 adapter handshake 均有静态字段草案；negative fixture 顺序、package boundary 和 schema gate 已决策；仍不实现 runtime、schema、validator、fixture、conformance 或 package example promotion。剩余任务为 U-652 到 U-681，下一轮默认 U-652 到 U-661。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；operations hygiene sync 已完成；round log 已归档拆分，handoff 已压缩，local MEMORY 已压缩但不进仓库；`#60` body current-status 已插入，`#64` labels/body 审查后不改；剩余任务为 U-662 到 U-681，下一轮默认 U-662 到 U-671。

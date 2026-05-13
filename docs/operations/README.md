@@ -10,7 +10,7 @@
 |---:|---|---|
 | 1 | [aods-task-ledger.zh-CN.md](./aods-task-ledger.zh-CN.md) | 当前任务权威、下一轮任务池和最近完成项 |
 | 2 | [aods-handoff.zh-CN.md](./aods-handoff.zh-CN.md) | 当前状态、风险、下一步 |
-| 3 | [aods-round-log.zh-CN.md](./aods-round-log.zh-CN.md) | 最近回合记录；完整历史仍在本文件内 |
+| 3 | [aods-round-log.zh-CN.md](./aods-round-log.zh-CN.md) | 当前回合和最近回合短记录；完整历史在 archive |
 | 4 | [aods-progress-ledger.zh-CN.md](./aods-progress-ledger.zh-CN.md) | 阶段进度口径 |
 | 5 | [aods-work-rules.zh-CN.md](./aods-work-rules.zh-CN.md) | 项目专属工作规约 |
 
@@ -45,6 +45,7 @@
 | [aods-adoption-closeout-next-pool.zh-CN.md](./aods-adoption-closeout-next-pool.zh-CN.md) | U-622 到 U-631 adoption closeout / next task pool |
 | [aods-adoption-ergonomics-hardening.zh-CN.md](./aods-adoption-ergonomics-hardening.zh-CN.md) | U-632 到 U-641 adoption docs / CLI version ergonomics hardening |
 | [aods-runtime-protocol-static-records.zh-CN.md](./aods-runtime-protocol-static-records.zh-CN.md) | U-642 到 U-651 runtime/protocol static record proposals and gate decisions |
+| [aods-operations-hygiene-sync.zh-CN.md](./aods-operations-hygiene-sync.zh-CN.md) | U-652 到 U-661 operations archive / memory / public tracker hygiene |
 
 ## 当前公开示例入口
 
@@ -63,6 +64,7 @@
 | [archive/aods-operations-readme-archive-2026-05-13.zh-CN.md](./archive/aods-operations-readme-archive-2026-05-13.zh-CN.md) | 拆分前完整 operations README |
 | [archive/aods-task-ledger-archive-2026-05-13.zh-CN.md](./archive/aods-task-ledger-archive-2026-05-13.zh-CN.md) | 拆分前完整任务台账 |
 | [archive/aods-handoff-archive-2026-05-13.zh-CN.md](./archive/aods-handoff-archive-2026-05-13.zh-CN.md) | 拆分前完整 handoff |
+| [archive/aods-round-log-archive-2026-05-13.zh-CN.md](./archive/aods-round-log-archive-2026-05-13.zh-CN.md) | 拆分前完整 round log |
 
 ## 维护边界
 
