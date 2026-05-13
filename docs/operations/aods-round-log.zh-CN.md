@@ -2,6 +2,71 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-19
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-19 |
+| 开始时间 | 2026-05-13 12:05 Asia/Shanghai |
+| 结束时间 | 2026-05-13 12:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-18 复审；CI minimal workflow owner packet；docs link / package surface / generated clean CI feasibility reruns；runtime no-go public issue sync decision；`#41/#59/#60` public status refresh；conformance external adoption example follow-up；external citation README decision；不启用 CI、不创建 workflow、不关闭 issue、不改 label/milestone、不发布 package、不创建 tag、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-362、U-363、U-364、U-365、U-366、U-367、U-368、U-369、U-370、U-371 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-19
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `d727358 Document skill index release maintenance gates` |
+| Task ledger state | 通过 | U-352 到 U-361 已完成，下一轮默认 U-362 到 U-371 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-362 到 U-371 |
+
+## 任务执行记录：R-2026-05-13-19
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-362 | 未开始 | 已完成 | 制定 CI minimal workflow owner packet | `aods-ci-public-sync-adoption-followup.zh-CN.md` |
+| 2 | U-363 | 未开始 | 已完成 | 复跑 docs link checker CI feasibility | `npm run docs:check-links` |
+| 3 | U-364 | 未开始 | 已完成 | 复跑 package surface CI feasibility | `npm run package:check-surface -- --json` |
+| 4 | U-365 | 未开始 | 已完成 | 复跑 generated clean CI feasibility | `npm run generated:check-clean -- --json` |
+| 5 | U-366 | 未开始 | 已完成 | 决定并执行 runtime no-go public sync | `#60` comment `4437175500` |
+| 6 | U-367 | 未开始 | 已完成 | 更新 `#41` capability negotiation public status | `#41` comment `4437172240` |
+| 7 | U-368 | 未开始 | 已完成 | 更新 `#59` observability public status | `#59` comment `4437174015` |
+| 8 | U-369 | 未开始 | 已完成 | 更新 `#60` governance roadmap public status | `#60` comment `4437175500` |
+| 9 | U-370 | 未开始 | 已完成 | 审查 conformance external adoption example 是否需要更短路径 | `aods-ci-public-sync-adoption-followup.zh-CN.md` |
+| 10 | U-371 | 未开始 | 已完成 | 决定 external citation snippet 暂不进入 README | `aods-ci-public-sync-adoption-followup.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-19
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Docs link checker | `npm run docs:check-links` | 通过 | missing=0 |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | missing=[] unexpected=[] |
+| Generated clean | `npm run generated:check-clean -- --json` | 通过 | dirty_entries=[] |
+| Route query | `node ./bin/aods.mjs route . --query "CI minimal workflow docs link package surface generated clean public issue sync runtime no-go capability observability citation adoption" --stage plan --intent read --json` | 通过 | selected stable contracts / validation |
+| Public sync | `gh issue comment 41/59/60` | 通过 | comments posted; no issue close / label / milestone changes |
+
+## 新发现任务：R-2026-05-13-19
+
+本轮没有新增任务 ID。剩余未完成任务为 U-372 到 U-381，下一轮默认选择 U-372 到 U-381。
+
+## 回合结束摘要：R-2026-05-13-19
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-362 到 U-371 |
+| 完成任务 | 10 | U-362 到 U-371 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-372 到 U-381 |
+
 ## 回合摘要：R-2026-05-13-18
 
 | 项 | 内容 |

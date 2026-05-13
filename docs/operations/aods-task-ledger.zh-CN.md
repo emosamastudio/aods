@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | skill / index / release maintenance gates complete |
+| 状态 | CI / public sync / adoption follow-up complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S41 skill / governance-surface maintenance；S42 release trigger policy |
-| 当前回合 | R-2026-05-13-18 |
-| 未完成任务数量 | 20 |
-| 已完成任务数量 | 366 |
+| 当前阶段 | S42 CI owner packet；S43 public sync / adoption docs |
+| 当前回合 | R-2026-05-13-19 |
+| 未完成任务数量 | 10 |
+| 已完成任务数量 | 376 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-18 |
-| 开始时间 | 2026-05-13 12:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-19 |
+| 开始时间 | 2026-05-13 12:05 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-352、U-353、U-354、U-355、U-356、U-357、U-358、U-359、U-360、U-361 |
-| 本轮范围 | 上轮质量复审；package skill install update decision；packaged skill drift regression follow-up；task ledger archive split plan；operations index current-pack split plan；handoff pruning；historical stale-current label policy；README adoption checklist smoke；v0.8.1 vs v0.9.0 release trigger matrix；next release notes skeleton；GitHub release asset policy |
-| 排除范围 | installed skill overwrite、archive split execution、historical docs bulk rewrite、CI workflow enablement、schema implementation、validator implementation、runtime implementation、remote fetch、provider execution、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；skill diff snapshot；README adoption command smoke；GitHub release asset snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-362、U-363、U-364、U-365、U-366、U-367、U-368、U-369、U-370、U-371 |
+| 本轮范围 | 上轮质量复审；CI minimal workflow owner packet；docs link / package surface / generated clean CI feasibility reruns；runtime no-go public sync decision；`#41/#59/#60` public status refresh；conformance external adoption example follow-up；external citation README decision |
+| 排除范围 | CI workflow creation、release/tag/package mutation、issue close、label/milestone edit、schema implementation、validator implementation、runtime implementation、remote fetch、provider execution、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；focused docs/package/generated checks；GitHub issue comment URLs；route query；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-362 | S42 | CI minimal workflow owner packet | P2 | 未开始 | 给 docs link / generated clean / package surface / validate gate 做 owner packet | U-331 | - |
-| U-363 | S42 | Docs link checker CI feasibility rerun | P3 | 未开始 | 复查 docs link checker 是否适合进入 CI | U-362 | - |
-| U-364 | S42 | Package surface CI feasibility rerun | P3 | 未开始 | 复查 package surface guard 是否适合进入 CI | U-362 | - |
-| U-365 | S42 | Generated clean CI feasibility rerun | P3 | 未开始 | 复查 generated clean guard 是否适合进入 CI | U-362 | - |
-| U-366 | S43 | Runtime no-go public issue sync decision | P3 | 未开始 | 决定是否把 runtime no-go 再同步到 `#60` | U-331 | - |
-| U-367 | S43 | Capability negotiation public status refresh | P3 | 未开始 | 更新 `#41` 的当前覆盖/剩余工作状态 | U-339、U-340 | - |
-| U-368 | S43 | Observability public status refresh | P3 | 未开始 | 更新 `#59` 的当前覆盖/剩余工作状态 | U-335、U-336 | - |
-| U-369 | S43 | Governance roadmap public status refresh | P3 | 未开始 | 更新 `#60` 的 roadmap 状态 | U-332、U-333、U-334 | - |
-| U-370 | S43 | Conformance external adoption example follow-up | P3 | 未开始 | 审查 external adoption example 是否需要更短路径 | U-331 | - |
-| U-371 | S43 | External citation adoption example in README | P3 | 未开始 | 评估是否把 citation snippet 从 operations 提到 public README | U-331 | - |
 | U-372 | S43 | Resource surface adoption example in README | P3 | 未开始 | 评估是否把 resource surface snippet 从 operations 提到 public README | U-331 | - |
 | U-373 | S43 | Docs density current-authority metadata check | P3 | 未开始 | 规划 authority/currentness metadata checker，不做 prose linter | U-331 | - |
 | U-374 | S43 | Paired-surface sync current sample refresh | P3 | 未开始 | 更新 paired sync sample 与现有 validator JSON 字段 | U-331 | - |
@@ -423,12 +413,22 @@
 | 364 | U-359 | S42 | v0.8.1 vs v0.9.0 release trigger matrix | P2 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | release trigger review | patch/minor/docs-only trigger matrix 已定义；structured term refs implementation 候选 v0.9.0 |
 | 365 | U-360 | S42 | Next release notes skeleton refresh | P2 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | release notes skeleton review | v0.9.0 candidate notes skeleton 已更新；未创建 tag |
 | 366 | U-361 | S42 | GitHub release asset policy decision | P3 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | `gh release view v0.8.0 --json ...` | release assets 默认继续为空；source archive/tag 足够 |
+| 367 | U-362 | S42 | CI minimal workflow owner packet | P2 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | release hygiene / focused local checks | 最小 CI owner packet 建议先保留 local release gate，后续可用 single release:hygiene job |
+| 368 | U-363 | S42 | Docs link checker CI feasibility rerun | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `npm run docs:check-links` | markdown_files=167 checked_relative_links=61 missing=0；适合 CI |
+| 369 | U-364 | S42 | Package surface CI feasibility rerun | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `npm run package:check-surface -- --json` | entry_count=61 missing=[] unexpected=[]；适合 CI |
+| 370 | U-365 | S42 | Generated clean CI feasibility rerun | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `npm run generated:check-clean -- --json` | dirty_entries=[]；建议 archive/index split 后再进 CI |
+| 371 | U-366 | S43 | Runtime no-go public issue sync decision | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `#60` public comment | runtime no-go 已同步到 `#60` |
+| 372 | U-367 | S43 | Capability negotiation public status refresh | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `gh issue comment 41` | comment `4437172240` 已同步 remaining metadata-first slices |
+| 373 | U-368 | S43 | Observability public status refresh | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `gh issue comment 59` | comment `4437174015` 已同步 location / suggested-action / skipped opt-in / sample packs |
+| 374 | U-369 | S43 | Governance roadmap public status refresh | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `gh issue comment 60` | comment `4437175500` 已同步 roadmap status；未编辑 body |
+| 375 | U-370 | S43 | Conformance external adoption example follow-up | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | README / example docs review | README 保持短命令路径，完整示例继续放 compiled-pilot source README |
+| 376 | U-371 | S43 | External citation adoption example in README | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | README / citation docs review | 暂不把 citation JSON 塞进 README，等 sample packs 决策 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-362 到 U-371 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-372 到 U-381 |
 
 ## 负责人判断 / issue 分类
 

@@ -151,6 +151,7 @@
 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | U-332 到 U-341 roadmap / observability / capability next gates，记录 `#60` tracker refresh packet、`#59` location / suggested-action gates 和 `#41` unsupported / fallback gates。 |
 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | U-342 到 U-351 structured term refs / evidence freshness gates，记录术语引用设计、生命周期别名负例、证据新鲜度和 unchecked repo 修复路线。 |
 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | U-352 到 U-361 skill / index / release maintenance gates，记录 installed skill update decision、索引压缩计划、采用命令冒烟、发布触发矩阵和 release asset policy。 |
+| `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | U-362 到 U-371 CI / public sync / adoption follow-up，记录 CI owner packet、`#41/#59/#60` 公开同步和 README/sample adoption 决策。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界
