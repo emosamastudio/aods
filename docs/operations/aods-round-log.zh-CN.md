@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-35
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-35 |
+| 开始时间 | 2026-05-13 19:05 Asia/Shanghai |
+| 结束时间 | 2026-05-13 19:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-34 复审；benchmark summary source no-churn check；hosted repeatability retry policy research；open issue label hygiene read-only audit；milestone naming decision packet；runtime issue split proposal；metadata close versus runtime follow-up proposal；post-release closeout playbook refresh；next task pool expansion；archive pruning risk review；final v0.9 go/no-go packet；不提交 generated benchmark churn、不执行 hosted benchmark、不关闭 issue、不创建 issue、不创建 milestone、不 bump version、不打 tag、不创建 GitHub Release、不发布 package、不改 installed skill、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-522、U-523、U-524、U-525、U-526、U-527、U-528、U-529、U-530、U-531 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-35
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `f654a51 Refresh release hygiene adoption docs` |
+| Task ledger state | 通过 | U-522 到 U-531 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-522 到 U-531 |
+
+## 任务执行记录：R-2026-05-13-35
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-522 | 未开始 | 已完成 | 复跑 benchmark summary，确认 source 无需改，撤回 generated churn | `aods-final-go-no-go-and-next-pool.zh-CN.md` |
+| 2 | U-523 | 未开始 | 已完成 | 研究 hosted repeatability retry / timeout / cost policy | final go/no-go doc |
+| 3 | U-524 | 未开始 | 已完成 | 只读审查 open issue labels | `gh issue list` snapshot |
+| 4 | U-525 | 未开始 | 已完成 | 审查 milestone naming 和当前 milestone 状态 | GitHub milestones API |
+| 5 | U-526 | 未开始 | 已完成 | 准备 runtime issue split proposal | final go/no-go doc |
+| 6 | U-527 | 未开始 | 已完成 | 汇总 metadata close versus runtime follow-up proposal | final go/no-go doc |
+| 7 | U-528 | 未开始 | 已完成 | 刷新 post-release closeout playbook | final go/no-go doc |
+| 8 | U-529 | 未开始 | 已完成 | 扩展 U-532 到 U-581 下一任务池 | task ledger |
+| 9 | U-530 | 未开始 | 已完成 | 审查 archive pruning risk，决定不 prune | final go/no-go doc |
+| 10 | U-531 | 未开始 | 已完成 | 形成 final v0.9 no-go packet | final go/no-go doc |
+
+## 验证记录：R-2026-05-13-35
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Benchmark summary churn inspection | `npm run benchmark:summary` + `git diff` | 通过 | generated timestamp/version churn 已撤回；source 不改 |
+| Public issue snapshot | `gh issue list --repo emosamastudio/aods --state open --json ...` | 通过 | open issues are `#60/#59/#41` |
+| Release snapshot | `gh release list --repo emosamastudio/aods --limit 10` | 通过 | latest release `v0.8.0` |
+| Milestone snapshot | GitHub milestones API | 通过 | milestones=[] |
+| Task ledger count check | local count script | 通过 | unfinished=50, completedRecent=30 |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=187, checked_relative_links=98, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-35
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-522 到 U-531 |
+| 完成任务 | 10 | U-522 到 U-531 |
+| 返工项 | 1 | 撤回 `npm run benchmark:summary` 造成的 generated churn |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 50 | U-532 到 U-581 |
+| 剩余未完成任务 | 50 | 下一轮默认 U-532 到 U-541 |
+
 ## 回合摘要：R-2026-05-13-34
 
 | 项 | 内容 |

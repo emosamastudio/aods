@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；release hygiene adoption refresh complete
+状态：v0.8 released；final v0.9 go/no-go complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-521 已完成；当前任务池剩余 U-522 到 U-531，下一轮默认执行 U-522 到 U-531，重点是 benchmark summary source no-churn、hosted repeatability retry policy、open issue label hygiene、milestone naming、runtime issue split proposal、metadata close versus runtime follow-up、post-release closeout playbook、next task pool expansion、archive pruning risk review 和 final v0.9 go/no-go。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`，无 milestone，latest release 仍为 `v0.8.0`。U-027 到 U-531 已完成；当前任务池为 U-532 到 U-581，下一轮默认执行 U-532 到 U-541，重点是 public close/split execution packet、runtime/protocol follow-up issue decision、`#41/#59/#60` public action、milestone decision、remote adapter mismatch focused regression plan/implementation、event correction metadata shape 和 focused regression。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -47,6 +47,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Runtime fixture prerequisites | 已完成设计 | workflow/event/policy/remote/migration 各 2 个任务的负例设计已落地；下一步判断 implementation candidate |
 | Runtime fixture implementation candidates | 已完成判断 | remote adapter mismatch、event correction graph、migration dry-run report 是下一步最稳候选；workflow / policy 继续等静态记录形状 |
 | Release hygiene / adoption refresh | 已完成 | release hygiene 仍 green；generated/secret/package guards 无漂移；source-first temp-repo smoke route 已记录；README quickstart smoke 通过；中文 README parity 已修复 |
+| Final go/no-go / next pool | 已完成 | benchmark summary generated churn 已撤回；hosted repeatability 不进 gate；`#59` close-ready、`#41` 需 runtime follow-up、`#60` 保持 open；v0.9 仍 no-go；U-532 到 U-581 已排队 |
 
 ## 当前风险
 
@@ -63,6 +64,6 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-522 到 U-523 | benchmark summary source no-churn check、hosted repeatability retry policy research |
-| 2 | U-524 到 U-528 | open issue label hygiene、milestone naming、runtime split proposal、metadata close/follow-up proposal、post-release closeout playbook |
-| 3 | U-529 到 U-531 | next task pool expansion、archive pruning risk review、final v0.9 go/no-go packet |
+| 1 | U-532 到 U-536 | `#59/#41/#60` public close/split execution packet 和 milestone decision |
+| 2 | U-537 到 U-541 | remote adapter mismatch focused regression plan/implementation/docs 和 event correction metadata shape/regression |
+| 3 | U-542 到 U-581 | event docs、migration helper、workflow/policy static shapes、release execution 和 post-release closeout |
