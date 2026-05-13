@@ -2,6 +2,73 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-39
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-39 |
+| 开始时间 | 2026-05-13 22:20 Asia/Shanghai |
+| 结束时间 | 2026-05-13 23:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-38 复审；remote/event/migration focused regression issue linkage audit；public docs no-runtime wording audit；source-first post-regression smoke；package surface / docs examples / generated / security audits；v0.9 version bump implementation；operations ledger/handoff/progress/round-log refresh；不打 tag、不创建 GitHub Release、不发布 package、不关闭 public issue、不启用 CI、不改 installed skill、不实现 workflow engine、policy engine、adapter runtime、event store/replay、migration executor、不连接数据库、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-562、U-563、U-564、U-565、U-566、U-567、U-568、U-569、U-570、U-571 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-39
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `a0f7853 Finalize release execution prep` |
+| Task ledger state | 通过 | U-562 到 U-571 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-562 到 U-571 |
+
+## 任务执行记录：R-2026-05-13-39
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-562 | 未开始 | 已完成 | 审查 remote regression 是否需要 issue linkage | `aods-post-regression-audits-version-bump.zh-CN.md` |
+| 2 | U-563 | 未开始 | 已完成 | 审查 event correction regression 是否需要 issue linkage | post-regression audits doc |
+| 3 | U-564 | 未开始 | 已完成 | 审查 migration dry-run helper 是否需要 public issue | post-regression audits doc |
+| 4 | U-565 | 未开始 | 已完成 | 审查 public docs 是否误承诺 runtime | README / docs wording audit |
+| 5 | U-566 | 未开始 | 已完成 | 复跑 source-first compile / validate / fixture / conformance | source-first smoke pass |
+| 6 | U-567 | 未开始 | 已完成 | 复查 package surface 和 pack dry-run | `aods@0.9.0`, entry_count=61 |
+| 7 | U-568 | 未开始 | 已完成 | 判断 docs/examples 是否需要新增 regression sample | no new sample |
+| 8 | U-569 | 未开始 | 已完成 | 复查 generated clean | dirty_entries=[] |
+| 9 | U-570 | 未开始 | 已完成 | 复查 secret-like placeholder scan | hits=0 |
+| 10 | U-571 | 未开始 | 已完成 | bump package / lockfile / README / packaged skill 到 v0.9 | package / README / skill surfaces |
+
+## 验证记录：R-2026-05-13-39
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Public docs no-runtime audit | `rg` over README / docs / examples / benchmark docs | 通过 | 未发现已实现 runtime / executor / database connection overclaim |
+| Source-first smoke | `npm run compile:pilot && npm run validate:compiled-pilot && npm run fixture:smoke && npm run conformance:compiled-pilot` | 通过 | compile / validate / fixture / conformance pass |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | entry_count=61，missing=0，unexpected=0 |
+| Generated clean | `npm run generated:check-clean -- --json` | 通过 | dirty_entries=[] |
+| Secret-like scan | `npm run security:scan-placeholders -- --json` | 通过 | hits=0 |
+| Skill package tests | `node --test benchmarks/aods-eval-lab/test/skill-package.test.mjs` | 通过 | packaged skill version aligned to package version |
+| npm pack dry-run | `npm pack --dry-run --json` | 通过 | package `aods@0.9.0`, entry_count=61 |
+| Packed install smoke | local tarball install in temp dir | 通过 | help / validate / fixture / conformance pass |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown links valid |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+| Task ledger count check | local count script | 通过 | unfinished=10, completedRecent=30 |
+
+## 回合结束摘要：R-2026-05-13-39
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-562 到 U-571 |
+| 完成任务 | 10 | U-562 到 U-571 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-572 到 U-581 |
+
 ## 回合摘要：R-2026-05-13-38
 
 | 项 | 内容 |

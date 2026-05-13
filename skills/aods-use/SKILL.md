@@ -9,8 +9,8 @@ Use this skill as an AODS workflow adapter, not as a second copy of the AODS spe
 
 ## Version alignment
 
-- Release version: `v0.8.0`
-- Package version: `0.8.0`
+- Release version: `v0.9.0`
+- Package version: `0.9.0`
 - Compatibility markers: `aods_v=3`, `authoring_v=1`
 - Source of truth: installed AODS CLI plus repo `schema/`, `spec/`, and manifest surfaces
 
