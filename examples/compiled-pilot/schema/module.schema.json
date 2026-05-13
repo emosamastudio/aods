@@ -1785,6 +1785,21 @@
         "freshness_policy": {
           "$ref": "#/definitions/implementation_evidence_freshness_policy"
         },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date",
+          "description": "Date when this evidence anchor was last reviewed. Declarative only; validators do not execute refresh commands."
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date",
+          "description": "Date after which this evidence anchor should be treated as expired until reviewed again."
+        },
+        "refresh_cadence": {
+          "type": "string",
+          "enum": ["none", "daily", "weekly", "monthly", "quarterly", "on-release", "on-change"],
+          "description": "Declared review cadence for maintaining the evidence anchor."
+        },
         "status": {
           "$ref": "#/definitions/implementation_evidence_status"
         },

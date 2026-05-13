@@ -164,6 +164,8 @@ npx aods scaffold authoring-module ./aods/authoring.json release-governance --pa
 - 运行时契约表
 - scripted / expert / human 三类 review 路由树
 
+实现证据是声明式的。证据锚点可以记录 `reviewed_at`、`expires_at` 和 `refresh_cadence`；校验可以在 time-bound 证据过期或缺少复审日期时给出 warning，但不会执行可选刷新命令。manual-review 验收项会继续作为人工复审债务显示，避免把人工判断误当成自动证明。
+
 ### 可选：安装与发布版本对齐的 Copilot skill
 
 如果你希望别的 agent 在 AODS 仓库里工作时，不用先加载整套规范再开始，可以把同一 release tag 下的 `skills/aods-use/` 复制到对应 agent 的 skills 目录。

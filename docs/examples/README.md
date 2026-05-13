@@ -8,3 +8,4 @@ These files are hand-curated from current CLI output shapes. They are not genera
 |---|---|
 | `validate-summary.sample.json` | Minimal successful `validate --json` shape for public docs. |
 | `route-explanation.sample.json` | Minimal `route --json` explanation shape showing selected and unselected dependencies. |
+| `unchecked-repo-reality.sample.json` | Minimal `validate --reality --json` topology shape when a linked implementation repo is intentionally unchecked. |

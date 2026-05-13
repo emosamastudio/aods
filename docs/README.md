@@ -155,6 +155,7 @@
 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | U-362 到 U-371 CI / public sync / adoption follow-up，记录 CI owner packet、`#41/#59/#60` 公开同步和 README/sample adoption 决策。 |
 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | U-372 到 U-381 adoption sample pack / public hygiene / next task discovery，记录短 JSON 样例、包纳入决策、公开标签复查和 U-382 到 U-431 新任务池。 |
 | `docs/operations/aods-structured-term-refs-implementation.zh-CN.md` | U-382 到 U-391 structured term refs implementation，记录 schema、compile、validate、source-first example、public docs、route query 和 issue sync。 |
+| `docs/operations/aods-evidence-freshness-and-location-implementation.zh-CN.md` | U-392 到 U-401 evidence freshness / unchecked repo / validator location implementation，记录声明式证据新鲜度、unchecked repo reason code 和 issue location envelope。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

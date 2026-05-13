@@ -922,7 +922,9 @@ test("authoring source compiles implementation linkage and reports topology-awar
       {
         repo_id: "demo-api",
         locator: "external/demo-api",
-        reason: "locator path does not exist under --repo-root"
+        reason: "locator path does not exist under --repo-root",
+        reason_code: "missing-local-path",
+        remediation_hint: "create or map the local implementation repo path before treating reality checks as complete"
       }
     ],
     unchecked_reason: "demo-api locator path does not exist under --repo-root: external/demo-api"
@@ -1519,6 +1521,96 @@ test("reality validation summarizes stale and current implementation evidence po
   assert.ok(report.levels.L3.warnings.some((entry) => entry.rule === "implementation-current-evidence-missing" && entry.remediation?.action === "refresh-current-evidence"));
 });
 
+test("time-bound implementation evidence reports freshness warnings and issue locations", () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-implementation-evidence-freshness-"));
+  runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
+
+  const sourcePath = path.join(tempDir, "authoring.json");
+  const source = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+  source.corpus.project_topology = {
+    design_repo: {
+      id: "demo-docs",
+      locator: "docs",
+      role: "design",
+      status: "current"
+    },
+    implementation_repos: [
+      {
+        id: "demo-api",
+        locator: "external/demo-api",
+        role: "service",
+        status: "current"
+      }
+    ]
+  };
+  const detailModule = source.modules.find((entry) => entry.layer === "detail");
+  detailModule.meta = {
+    ...(detailModule.meta ?? {}),
+    implementation: {
+      repo_id: "demo-api",
+      paths: [
+        "src/handlers/change.js"
+      ],
+      status: "current",
+      authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`,
+      evidence: [
+        {
+          id: "missing-review-date",
+          kind: "test",
+          locator: "test/change.test.js",
+          status: "current",
+          freshness_policy: "time-bound",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        },
+        {
+          id: "expired-review-date",
+          kind: "manual-review",
+          locator: "review/change-handler",
+          status: "current",
+          freshness_policy: "time-bound",
+          reviewed_at: "2000-01-01",
+          expires_at: "2000-01-02",
+          refresh_cadence: "monthly",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ],
+      acceptance_criteria: [
+        {
+          id: "change-handler-contract",
+          surface_ref: `${detailModule.id}:${detailModule.sections[0].sid}`,
+          requirement: "Change handler tests prove the declared approval contract still matches implementation behavior.",
+          check_type: "evidence-ref",
+          evidence_refs: [
+            "missing-review-date"
+          ],
+          blocking: "strict",
+          status: "satisfied",
+          authority_surface: `${detailModule.id}:${detailModule.sections[0].sid}`
+        }
+      ]
+    }
+  };
+  fs.writeFileSync(sourcePath, `${JSON.stringify(source, null, 2)}\n`);
+
+  const compiledRoot = path.join(tempDir, "compiled");
+  runCli(["compile", sourcePath, compiledRoot, "--force"]);
+  const validate = spawnSync("node", [CLI_PATH, "validate", compiledRoot, "--json"], {
+    cwd: REPO_ROOT,
+    encoding: "utf8"
+  });
+  assert.equal(validate.status, 0);
+  const report = JSON.parse(validate.stdout);
+  const missingReview = report.levels.L3.warnings.find((entry) => entry.rule === "implementation-evidence-review-missing");
+  const expired = report.levels.L3.warnings.find((entry) => entry.rule === "implementation-evidence-expired");
+  assert.equal(missingReview.evidence_id, "missing-review-date");
+  assert.equal(missingReview.location.module_id, detailModule.id);
+  assert.equal(missingReview.location.evidence_id, "missing-review-date");
+  assert.equal(expired.evidence_id, "expired-review-date");
+  assert.equal(expired.expires_at, "2000-01-02");
+  assert.equal(expired.location.module_id, detailModule.id);
+  assert.equal(expired.location.evidence_id, "expired-review-date");
+});
+
 test("capability compatibility matrix rejects mislabeled profile version and exposure matches", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-capability-compatibility-"));
   runCli(["scaffold", "authoring", tempDir, "--sys", "demo-system", "--force"]);
@@ -1705,12 +1797,16 @@ test("reality validation reports actionable unchecked implementation repo locato
     {
       repo_id: "missing-api",
       locator: "external/missing-api",
-      reason: "locator path does not exist under --repo-root"
+      reason: "locator path does not exist under --repo-root",
+      reason_code: "missing-local-path",
+      remediation_hint: "create or map the local implementation repo path before treating reality checks as complete"
     },
     {
       repo_id: "remote-api",
       locator: "https://github.com/example/remote-api",
-      reason: "remote locator cannot be resolved from --repo-root"
+      reason: "remote locator cannot be resolved from --repo-root",
+      reason_code: "remote-locator",
+      remediation_hint: "clone or map the repo locally and pass --repo-root; validators do not fetch remote repos"
     }
   ]);
   assert.match(report.topology.unchecked_reason, /missing-api locator path does not exist under --repo-root: external\/missing-api/);

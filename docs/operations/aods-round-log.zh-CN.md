@@ -2,6 +2,63 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-22
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-22 |
+| 开始时间 | 2026-05-13 13:40 Asia/Shanghai |
+| 结束时间 | 2026-05-13 14:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-21 复审；evidence freshness schema / validator；freshness regression；README adoption note；unchecked repo reason code；unchecked repo JSON sample；manual-review acceptance criteria docs；acceptance/evidence freshness cross-check design；`#60` public sync；validator location envelope；不执行 evidence command、不 fetch remote、不跑 CI、不自动刷新证据、不实现 runtime resolver、不关闭 issue、不改 label/milestone、不发布 package、不创建 tag、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-392、U-393、U-394、U-395、U-396、U-397、U-398、U-399、U-400、U-401 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-22
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `08d8a56 Implement structured term refs` |
+| Task ledger state | 通过 | U-392 到 U-401 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-392 到 U-401 |
+
+## 任务执行记录：R-2026-05-13-22
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-392 | 未开始 | 已完成 | 增加 evidence `reviewed_at` / `expires_at` / `refresh_cadence` schema | `schema/module.schema.json` |
+| 2 | U-393 | 未开始 | 已完成 | 增加 time-bound missing review / expired warning | `lib/validate.mjs` |
+| 3 | U-394 | 未开始 | 已完成 | 增加 freshness focused regression | `scaffold.test.mjs` |
+| 4 | U-395 | 未开始 | 已完成 | README 说明 freshness 是声明式、不执行命令 | `README.md`、`README.zh-CN.md` |
+| 5 | U-396 | 未开始 | 已完成 | unchecked repo JSON 增加 reason_code / remediation_hint | `lib/validate.mjs` |
+| 6 | U-397 | 未开始 | 已完成 | 新增 unchecked repo JSON sample | `docs/examples/unchecked-repo-reality.sample.json` |
+| 7 | U-398 | 未开始 | 已完成 | README 增加 manual-review guidance | `README.md`、`README.zh-CN.md` |
+| 8 | U-399 | 未开始 | 已完成 | 记录 criteria / freshness 非执行 cross-check 边界 | `aods-evidence-freshness-and-location-implementation.zh-CN.md` |
+| 9 | U-400 | 未开始 | 已完成 | 评论 `#60`，不关闭 issue、不编辑 body | GitHub issue comment |
+| 10 | U-401 | 未开始 | 已完成 | validate JSON issue 增加统一 location envelope | `lib/validate.mjs` |
+
+## 验证记录：R-2026-05-13-22
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Focused regression | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | 通过 | 覆盖 evidence freshness、unchecked repo reason code、issue location |
+| Compile pilot | `npm run compile:pilot` | 通过 | generated corpus 已同步 |
+| JSON sample parse | `node -e "JSON.parse(...unchecked-repo-reality.sample.json...)"` | 通过 | sample JSON 可解析 |
+
+## 回合结束摘要：R-2026-05-13-22
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-392 到 U-401 |
+| 完成任务 | 10 | U-392 到 U-401 |
+| 返工项 | 1 | 更新旧 unchecked repo regression 预期以匹配新增字段 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-402 到 U-411 |
+
 ## 回合摘要：R-2026-05-13-21
 
 | 项 | 内容 |

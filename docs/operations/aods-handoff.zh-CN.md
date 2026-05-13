@@ -3,11 +3,11 @@
 日期：2026-05-13
 分支：`main`
 最新提交：以 `git log -1 --oneline` 为准（v0.8 version bump commit 为 `661d66a`；PR `#63` squash merge commit 为 `468eb9f`）
-状态：v0.8 released；structured term refs implementation complete
+状态：v0.8 released；evidence freshness and validator location implementation complete
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-391 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。本轮完成 structured term refs 的 schema、compile summary、validator gate、source-first example、public docs、route coverage、package surface decision 和 `#60` public sync；下一轮默认选择 U-392 到 U-401。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-401 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，当前公开 open issues 为 `#60/#59/#41`。本轮完成 implementation evidence freshness schema / validator warning、unchecked repo reason code / remediation hint、public JSON sample、manual-review README guidance、validate JSON issue location envelope 和 `#60` public sync；下一轮默认选择 U-402 到 U-411。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -151,9 +151,10 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 136 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | 读取 U-362 到 U-371 CI / public sync / adoption follow-up |
 | 137 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | 读取 U-372 到 U-381 adoption sample pack / next task discovery |
 | 138 | `docs/operations/aods-structured-term-refs-implementation.zh-CN.md` | 读取 U-382 到 U-391 structured term refs implementation |
-| 139 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
-| 140 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
-| 141 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
+| 139 | `docs/operations/aods-evidence-freshness-and-location-implementation.zh-CN.md` | 读取 U-392 到 U-401 evidence freshness / validator location implementation |
+| 140 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 141 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
+| 142 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
 ## 当前 Git 状态
 

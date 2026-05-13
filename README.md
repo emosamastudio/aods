@@ -164,6 +164,8 @@ That pattern creates a starter module with four governance structures already wi
 - a runtime contract table
 - a scripted / expert / human review routing tree
 
+Implementation evidence is declarative. Evidence anchors can record `reviewed_at`, `expires_at`, and `refresh_cadence`; validation may warn when a time-bound anchor is expired or missing review dates, but it does not execute the optional refresh command. Manual-review acceptance criteria remain visible as review debt so a human decision is not confused with automated proof.
+
 ### Optional: install the release-aligned Copilot skill
 
 If you want another agent to work inside an AODS repo without loading the whole standard first, copy `skills/aods-use/` from the same release tag into that agent's skills directory.

@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | structured term refs implementation complete |
+| 状态 | evidence freshness and validator location implementation complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S45 structured term refs implementation |
-| 当前回合 | R-2026-05-13-21 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 396 |
+| 当前阶段 | S46 evidence freshness；S47 validator observability |
+| 当前回合 | R-2026-05-13-22 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 406 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-21 |
-| 开始时间 | 2026-05-13 13:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-22 |
+| 开始时间 | 2026-05-13 13:40 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-382、U-383、U-384、U-385、U-386、U-387、U-388、U-389、U-390、U-391 |
-| 本轮范围 | 上轮质量复审；structured term refs schema；compile manifest summary；validator resolution gate；source-first example；alias negative regression；deprecated strict behavior；public docs refresh；route query coverage；package surface decision；public issue sync |
-| 排除范围 | prose semantic scanner、automatic rewrite、runtime resolver、remote fetch、provider execution、issue close、label/milestone edit、release/tag/package mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；focused tests；`npm run compile:pilot`；route query；`npm run validate:all`；`npm run package:check-surface -- --json`；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-392、U-393、U-394、U-395、U-396、U-397、U-398、U-399、U-400、U-401 |
+| 本轮范围 | 上轮质量复审；evidence freshness schema；validator warning gate；fresh / expired / missing-review regression；README adoption note；unchecked repo reason code；unchecked repo JSON sample；manual-review acceptance criteria docs；acceptance/evidence freshness cross-check design；public issue sync；validator location envelope |
+| 排除范围 | evidence command execution、remote fetch、CI execution、automatic evidence refresh、runtime resolver、issue close、label/milestone edit、release/tag/package mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；focused tests；`npm run compile:pilot`；sample JSON parse；`npm run validate:all`；`npm run package:check-surface -- --json`；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-392 | S46 | Evidence freshness schema next slice | P1 | 未开始 | current evidence 可声明 reviewed_at / expires_at / refresh cadence | U-347 | - |
-| U-393 | S46 | Evidence freshness validator warning gate | P1 | 未开始 | stale/expired/missing-review 信息进入 deterministic warning | U-392 | - |
-| U-394 | S46 | Evidence freshness fixture implementation | P2 | 未开始 | fresh / stale / missing review fixture 覆盖 | U-393 | - |
-| U-395 | S46 | Evidence freshness README adoption note | P3 | 未开始 | 公开说明 freshness 是声明式，不执行外部命令 | U-393 | - |
-| U-396 | S46 | Unchecked repo remediation schema refinement | P2 | 未开始 | unchecked repo reason 更易消费，不自动 fetch | U-350 | - |
-| U-397 | S46 | Unchecked repo validator JSON sample | P3 | 未开始 | 保存最小 unchecked repo JSON 样例 | U-396 | - |
-| U-398 | S46 | Manual-review acceptance criteria docs implementation | P2 | 未开始 | manual-review criteria guidance 进入 public docs / examples | U-351 | - |
-| U-399 | S46 | Acceptance criteria freshness cross-check design | P3 | 未开始 | 设计 criteria 与 evidence freshness 的非执行检查 | U-392 | - |
-| U-400 | S46 | Evidence freshness public issue sync | P3 | 未开始 | 判断是否同步到 `#60` tracker | U-393 | - |
-| U-401 | S47 | Validator location envelope implementation | P1 | 未开始 | validate JSON issue 统一 location envelope | U-335 | - |
 | U-402 | S47 | Validator location text parity review | P2 | 未开始 | text output 保持可读且不膨胀 | U-401 | - |
 | U-403 | S47 | Suggested-action next rule batch implementation | P1 | 未开始 | 为高频 rule 增补 remediation / suggested action | U-336 | - |
 | U-404 | S47 | Validate JSON sample refresh after location envelope | P2 | 未开始 | 更新 `docs/examples/validate-summary.sample.json` 或新增 issue sample | U-401 | - |
@@ -473,12 +463,22 @@
 | 394 | U-389 | S45 | Term refs route query coverage | P3 | 2026-05-13 | route JSON output | `node ./bin/aods.mjs route . --query "structured term refs glossary alias lifecycle deprecated term refs" --stage plan --intent read --json` | query 能发现 glossary / validation authority |
 | 395 | U-390 | S45 | Term refs package surface decision | P3 | 2026-05-13 | package surface check | `npm run package:check-surface -- --json` | 新能力复用既有 package entries，无 allowlist 变更 |
 | 396 | U-391 | S45 | Term refs public issue sync decision | P3 | 2026-05-13 | https://github.com/emosamastudio/aods/issues/60#issuecomment-4437377073 | `gh issue comment 60 ...` | 只同步状态，不关闭 issue、不编辑 body |
+| 397 | U-392 | S46 | Evidence freshness schema next slice | P1 | 2026-05-13 | `schema/module.schema.json`、compiled pilot schema mirrors | `npm run compile:pilot`、focused regression | current evidence 可声明 `reviewed_at` / `expires_at` / `refresh_cadence` |
+| 398 | U-393 | S46 | Evidence freshness validator warning gate | P1 | 2026-05-13 | `lib/validate.mjs` | `node --test ./benchmarks/aods-eval-lab/test/scaffold.test.mjs` | time-bound 缺复审日期和过期证据进入 deterministic warning |
+| 399 | U-394 | S46 | Evidence freshness fixture implementation | P2 | 2026-05-13 | `benchmarks/aods-eval-lab/test/scaffold.test.mjs` | focused regression | fresh / expired / missing-review fixture 覆盖 |
+| 400 | U-395 | S46 | Evidence freshness README adoption note | P3 | 2026-05-13 | `README.md`、`README.zh-CN.md` | docs review / validate | 公开说明 freshness 是声明式，不执行命令 |
+| 401 | U-396 | S46 | Unchecked repo remediation schema refinement | P2 | 2026-05-13 | `lib/validate.mjs` | focused regression | unchecked repo JSON 增加 `reason_code` / `remediation_hint` |
+| 402 | U-397 | S46 | Unchecked repo validator JSON sample | P3 | 2026-05-13 | `docs/examples/unchecked-repo-reality.sample.json` | JSON parse | 保存最小 unchecked repo JSON 样例 |
+| 403 | U-398 | S46 | Manual-review acceptance criteria docs implementation | P2 | 2026-05-13 | `README.md`、`README.zh-CN.md` | docs review | manual-review criteria guidance 进入公开说明 |
+| 404 | U-399 | S46 | Acceptance criteria freshness cross-check design | P3 | 2026-05-13 | `docs/operations/aods-evidence-freshness-and-location-implementation.zh-CN.md` | design review | criteria 与 evidence freshness 保持非执行检查 |
+| 405 | U-400 | S46 | Evidence freshness public issue sync | P3 | 2026-05-13 | https://github.com/emosamastudio/aods/issues/60#issuecomment-4437453826 | `gh issue comment 60 ...` | 只同步状态，不关闭 issue、不编辑 body |
+| 406 | U-401 | S47 | Validator location envelope implementation | P1 | 2026-05-13 | `lib/validate.mjs` | focused regression | validate JSON issue 增加统一 `location` envelope |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-392 到 U-401 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-402 到 U-411 |
 
 ## 负责人判断 / issue 分类
 

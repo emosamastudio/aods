@@ -652,6 +652,8 @@
               "locator": "services/readiness/tests/export.spec.ts",
               "status": "current",
               "freshness_policy": "on-contract-change",
+              "reviewed_at": "2026-05-13",
+              "refresh_cadence": "on-change",
               "authority_surface": "shift-ops-readiness-read-model:release-readiness-read-model"
             },
             {

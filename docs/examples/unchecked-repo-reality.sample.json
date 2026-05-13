@@ -1,0 +1,27 @@
+{
+  "topology": {
+    "linked_modules": 1,
+    "unlinked_modules": 0,
+    "checked_paths": 0,
+    "missing_paths": 0,
+    "evidence_total": 2,
+    "modules_with_evidence": 1,
+    "modules_without_evidence": 0,
+    "current_evidence": 1,
+    "planned_evidence": 1,
+    "stale_evidence": 0,
+    "blocked_evidence": 0,
+    "checked_evidence_locators": 0,
+    "missing_evidence_locators": 0,
+    "unchecked_repos": [
+      {
+        "repo_id": "demo-api",
+        "locator": "external/demo-api",
+        "reason": "locator path does not exist under --repo-root",
+        "reason_code": "missing-local-path",
+        "remediation_hint": "create or map the local implementation repo path before treating reality checks as complete"
+      }
+    ],
+    "unchecked_reason": "demo-api locator path does not exist under --repo-root: external/demo-api"
+  }
+}
