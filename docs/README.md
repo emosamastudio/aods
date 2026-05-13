@@ -31,6 +31,7 @@
 | `docs/operations/aods-public-close-criteria-roadmap-sync.zh-CN.md` | U-442 到 U-451 public close criteria / roadmap sync packet 记录。 |
 | `docs/operations/aods-public-sync-authority-drift-maintenance.zh-CN.md` | U-452 到 U-461 public sync / authority drift maintenance 记录。 |
 | `docs/operations/aods-examples-ci-benchmark-policy.zh-CN.md` | U-462 到 U-471 examples / CI / benchmark policy 记录。 |
+| `docs/operations/aods-runtime-prereq-public-state-retro.zh-CN.md` | U-472 到 U-481 runtime prerequisites / public state / retrospective 记录。 |
 | `docs/operations/archive/` | 拆分前的长入口、完整任务台账和完整交接归档。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |

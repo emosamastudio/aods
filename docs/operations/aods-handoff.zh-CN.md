@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；examples CI benchmark policy complete
+状态：v0.8 released；runtime prerequisites public state retrospective complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-471 已完成；当前任务池剩余 U-472 到 U-481，下一轮默认执行 U-472 到 U-481，重点是 benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective 和下一任务池扩展。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-481 已完成；当前任务池剩余 U-482 到 U-531，下一轮默认执行 U-482 到 U-491，重点是 public close readiness、v0.9 release readiness、package dry-run / install smoke 和 milestone decision packet。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -42,6 +42,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Release planning | 已完成候选准备 | v0.9.0 release notes draft、package dry-run、packed install smoke 和 go/no-go 已入账；仍不发布、不打 tag |
 | Public close criteria / sync | 已完成 | `#41/#59/#60` 均保持 open；已评论同步边界和状态，不关闭、不编辑 body |
 | Examples / CI / benchmark policy | 已完成 | source-first README 已补 conformance step；package sample 边界已明确；local hygiene CI 和 hosted repeatability 仍不默认启用 |
+| Runtime prerequisites / public state | 已完成刷新 | benchmark generated/reports clean；五类 runtime 仍 no-go；公开状态为 `#60/#59/#41` open、latest release `v0.8.0`、无 milestone |
 
 ## 当前风险
 
@@ -58,9 +59,9 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-472 | benchmark result clean audit |
-| 2 | U-473 | workflow runtime prerequisite refresh |
-| 3 | U-474 | event store prerequisite refresh |
-| 4 | U-475 | policy engine prerequisite refresh |
-| 5 | U-476 到 U-477 | remote gateway / migration prerequisite refresh |
-| 6 | U-478 到 U-481 | public state refresh、issue triage、retrospective、next task pool expansion |
+| 1 | U-482 | observability public close readiness packet |
+| 2 | U-483 | capability metadata close scope packet |
+| 3 | U-484 | roadmap tracker v0.9 refresh packet |
+| 4 | U-485 到 U-487 | v0.9 release readiness / version decision / release notes final body |
+| 5 | U-488 到 U-490 | package dry-run / packed install smoke / GitHub source install route |
+| 6 | U-491 | public milestone creation decision packet |
