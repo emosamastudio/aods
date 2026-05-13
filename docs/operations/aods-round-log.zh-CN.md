@@ -2,6 +2,74 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-43
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-43 |
+| 开始时间 | 2026-05-13 25:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 26:15 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-42 复审；implementation repo duplicate-id regression review；contract metadata mirror regression audit；lifecycle alias terminology drift fixture revisit；glossary deprecated-term strict sample refresh；route query coverage after structured term refs；evidence freshness post-release fixture gap audit；validation JSON issue contract stability audit；conformance report public sample refresh decision；fixture smoke package boundary audit；migration dry-run helper promotion gate review；不实现 schema/validator/compiler/fixture/runtime、不刷新 conformance public sample、不把 migration helper 提升到 package docs、不执行 adapter/provider/auth/dynamic probing/fallback executor/migration executor/database、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-602、U-603、U-604、U-605、U-606、U-607、U-608、U-609、U-610、U-611 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-43
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `d963fc0 Record post-v0.9 adoption evidence` |
+| Task ledger state | 通过 | U-602 到 U-611 为当前默认任务 |
+| Release/tag state | 通过 | `v0.9.0` release/tag 存在，`#60/#64` 仍为当前 open issue |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-602 到 U-611 |
+
+## 任务执行记录：R-2026-05-13-43
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-602 | 未开始 | 已完成 | 复核 duplicate implementation repo id L2 coverage | `implementation-repo-id-unique` / focused scaffold regression |
+| 2 | U-603 | 未开始 | 已完成 | 复核 stable contract metadata mirror coverage | compiler builders / validator mirror rules / focused scaffold regression |
+| 3 | U-604 | 未开始 | 已完成 | 复审 lifecycle alias terminology drift 检测边界 | structured term refs route / source example |
+| 4 | U-605 | 未开始 | 已完成 | 验证 deprecated term strict behavior | temp compile + strict validate reports `term-ref-deprecated-stable` |
+| 5 | U-606 | 未开始 | 已完成 | 审查 structured term refs route query coverage | root route hits validation / authority governance |
+| 6 | U-607 | 未开始 | 已完成 | 审查 evidence freshness fixture gap | scaffold regression / validate issue sample |
+| 7 | U-608 | 未开始 | 已完成 | 复核 validation JSON issue contract stability | `docs/examples/validate-issue-location.sample.json` |
+| 8 | U-609 | 未开始 | 已完成 | 决定不刷新 conformance public sample | conformance JSON output pass |
+| 9 | U-610 | 未开始 | 已完成 | 审查 fixture smoke package boundary | fixture smoke / package surface / secret scan pass |
+| 10 | U-611 | 未开始 | 已完成 | 判断 migration dry-run helper 不提升 package docs | migration dry-run helper regression pass |
+
+## 返工记录：R-2026-05-13-43
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| 无 | 无需返工 | 上轮质量复审通过，本轮只记录两个临时 smoke 脚本写法修正，不涉及仓库文件 |
+
+## 验证记录：R-2026-05-13-43
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Focused regression set | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs benchmarks/aods-eval-lab/test/example-packs.test.mjs benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs benchmarks/aods-eval-lab/test/migration-dry-run-report.test.mjs` | 通过 | 65 tests passed |
+| Root route query | `node ./bin/aods.mjs route . --query ... --json` | 通过 | 命中 validation / authority governance |
+| Compiled pilot route query | `node ./bin/aods.mjs route ./examples/compiled-pilot --query ... --json` | 通过 | 命中 root / capsule / readiness；示例不承载完整 glossary governance |
+| Deprecated term strict smoke | temp source-first compile + strict validate | 通过 | strict validate fails on `term-ref-deprecated-stable` |
+| Fixture smoke JSON | `npm run fixture:smoke -- --json` | 通过 | 15 fixtures、10 positive、5 negative、10 golden exports |
+| Conformance JSON | `npm run conformance:compiled-pilot -- --json` | 通过 | 5 cases、2 expected failures、0 issues |
+| Package surface JSON | `npm run package:check-surface -- --json` | 通过 | entry_count=61、missing=[]、unexpected=[] |
+| Secret placeholder scan | `npm run security:scan-placeholders -- --json` | 通过 | scanned_files=992、hits=0 |
+
+## 回合结束摘要：R-2026-05-13-43
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-602 到 U-611 |
+| 完成任务 | 10 | U-602 到 U-611 |
+| 返工项 | 0 | 无仓库返工 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-612 到 U-621 |
+
 ## 回合摘要：R-2026-05-13-42
 
 | 项 | 内容 |

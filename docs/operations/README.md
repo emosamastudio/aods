@@ -40,6 +40,7 @@
 | [aods-v0.9-release-closeout.zh-CN.md](./aods-v0.9-release-closeout.zh-CN.md) | U-572 到 U-581 v0.9 release closeout / next task discovery |
 | [aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md](./aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md) | U-582 到 U-591 post-v0.9 roadmap / runtime protocol prerequisites |
 | [aods-post-v0.9-release-adoption-evidence.zh-CN.md](./aods-post-v0.9-release-adoption-evidence.zh-CN.md) | U-592 到 U-601 post-v0.9 release / adoption evidence and code-drift triage |
+| [aods-code-drift-validator-hardening-review.zh-CN.md](./aods-code-drift-validator-hardening-review.zh-CN.md) | U-602 到 U-611 code drift validator hardening review |
 
 ## 当前公开示例入口
 
