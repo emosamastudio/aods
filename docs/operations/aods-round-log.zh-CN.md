@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-16
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-16 |
+| 开始时间 | 2026-05-13 11:40 Asia/Shanghai |
+| 结束时间 | 2026-05-13 11:55 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-15 复审；`#60` tracker refresh packet；closed issue reconciliation matrix；`#59` validator location / suggested-action implementation gates；route skipped-module opt-in feasibility；observability sample pack plan；`#41` unsupported reason / fallback metadata gates；capability conformance fixture first decision；不编辑 GitHub issue body/comment、不实现 schema/validator/fixture、不实现 runtime、不 remote fetch、不执行 provider、不启用 CI、不发布 package、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-332、U-333、U-334、U-335、U-336、U-337、U-338、U-339、U-340、U-341 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-16
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `87e89bb Plan next post-v0.8 task batch` |
+| Task ledger state | 通过 | U-331 已完成，U-332 到 U-381 已入未完成任务表 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-332 到 U-341 |
+
+## 任务执行记录：R-2026-05-13-16
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-332 | 未开始 | 已完成 | 规划 `#60` body 顶部 current status refresh | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 2 | U-333 | 未开始 | 已完成 | 对齐 `#60` 旧 checklist 与 v0.8 后 issue close 状态 | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 3 | U-334 | 未开始 | 已完成 | 决定公开 issue 更新留给 U-369 统一执行 | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 4 | U-335 | 未开始 | 已完成 | 锁定 validator location envelope 最小字段 | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 5 | U-336 | 未开始 | 已完成 | 排序 suggested-action 下一批 deterministic rules | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 6 | U-337 | 未开始 | 已完成 | 判断 route skipped-module 输出应为 opt-in | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 7 | U-338 | 未开始 | 已完成 | 规划 observability sample output pack | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 8 | U-339 | 未开始 | 已完成 | 设计 unsupported reason metadata-only gate | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 9 | U-340 | 未开始 | 已完成 | 设计 fallback metadata gate | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+| 10 | U-341 | 未开始 | 已完成 | 选择 capability conformance 首批 fixture | `aods-roadmap-observability-capability-next-gates.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-16
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Route query | `node ./bin/aods.mjs route . --query "roadmap tracker observability validation location suggested action skipped modules capability unsupported fallback partial unknown conformance" --stage plan --intent read --json` | 通过 | selected stable contracts |
+| Public issue snapshot | `gh issue view 60/59/41 --json ...` | 通过 | 三个 open issue 的当前 comments 和 remaining work 已读取 |
+
+## 新发现任务：R-2026-05-13-16
+
+本轮没有新增任务 ID。剩余未完成任务为 U-342 到 U-381，下一轮默认选择 U-342 到 U-351。
+
+## 回合结束摘要：R-2026-05-13-16
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-332 到 U-341 |
+| 完成任务 | 10 | U-332 到 U-341 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-342 到 U-351 |
+
 ## 回合摘要：R-2026-05-13-15
 
 | 项 | 内容 |

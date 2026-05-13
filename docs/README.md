@@ -148,6 +148,7 @@
 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | U-311 到 U-320 changelog / conformance / generated / package docs follow-up，记录 `#13` post-close audit、300/500 行为、conformance sample、no-fetch、expected-failure、generated guard 和 package allowlist。 |
 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | U-321 到 U-330 drift / terminology / adoption / release guard follow-up，记录 code drift next slice、terminology gate deferral、glossary route、runtime no-go、v0.8 adoption checklist 和 next release naming guard。 |
 | `docs/operations/aods-post-v0.8-second-task-discovery.zh-CN.md` | U-331 post-v0.8 第二轮任务发现，记录 `#60/#59/#41` 快照和 U-332 到 U-381 新任务池。 |
+| `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | U-332 到 U-341 roadmap / observability / capability next gates，记录 `#60` tracker refresh packet、`#59` location / suggested-action gates 和 `#41` unsupported / fallback gates。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界

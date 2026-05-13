@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 second task discovery complete |
+| 状态 | post-v0.8 roadmap / observability / capability gates complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S38 post-v0.8 second task discovery |
-| 当前回合 | R-2026-05-13-15 |
-| 未完成任务数量 | 50 |
-| 已完成任务数量 | 336 |
+| 当前阶段 | S38 post-v0.8 roadmap / observability / capability gates |
+| 当前回合 | R-2026-05-13-16 |
+| 未完成任务数量 | 40 |
+| 已完成任务数量 | 346 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-15 |
-| 开始时间 | 2026-05-13 11:35 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-16 |
+| 开始时间 | 2026-05-13 11:40 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-331 |
-| 本轮范围 | 上轮质量复审；公开 issue `#60/#59/#41` 快照；post-v0.8 第二轮任务发现；structured term refs / release naming / runtime no-go / observability / capability 后续任务池扩展 |
-| 排除范围 | schema implementation、validator implementation、fixture implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for governance / observability / capability next tasks；GitHub issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-332、U-333、U-334、U-335、U-336、U-337、U-338、U-339、U-340、U-341 |
+| 本轮范围 | 上轮质量复审；`#60` tracker refresh packet；closed issue reconciliation matrix；`#59` validator location / suggested-action implementation gates；route skipped-module opt-in feasibility；observability sample pack plan；`#41` unsupported reason / fallback metadata gates；capability conformance fixture first decision |
+| 排除范围 | GitHub issue body/comment mutation、schema implementation、validator implementation、fixture implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for roadmap / observability / capability surfaces；GitHub issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-332 | S38 | `#60` public tracker body refresh plan | P1 | 未开始 | 形成 issue body/comment refresh packet，明确旧 checklist 已完成和保留项 | U-331 | 下一轮默认选择 |
-| U-333 | S38 | Closed issue checklist reconciliation matrix | P1 | 未开始 | `#60` 旧 checklist 与 v0.8 close-on-merge 结果逐项对齐 | U-332 | 下一轮默认选择 |
-| U-334 | S38 | `#60` public update execution decision | P1 | 未开始 | 决定 comment、body edit 或组合方式并记录风险 | U-333 | 下一轮默认选择 |
-| U-335 | S38 | `#59` validator location implementation gate | P1 | 未开始 | 明确 location envelope 最小字段、实现条件和回归测试 | U-331 | 下一轮默认选择 |
-| U-336 | S38 | `#59` suggested-action implementation gate | P1 | 未开始 | 选出高价值 deterministic rules 的 remediation coverage 下一批 | U-335 | 下一轮默认选择 |
-| U-337 | S38 | Route skipped-module opt-in implementation feasibility | P2 | 未开始 | 明确 CLI flag / JSON field / output-size guard，不做 full trace | U-331 | 下一轮默认选择 |
-| U-338 | S38 | Observability sample output pack implementation plan | P2 | 未开始 | 规划 validate/route JSON 示例包与公开 docs 入口 | U-335、U-337 | 下一轮默认选择 |
-| U-339 | S38 | `#41` unsupported reason schema gate design | P1 | 未开始 | 定义 unsupported reason metadata-only schema / validator 边界 | U-331 | 下一轮默认选择 |
-| U-340 | S38 | `#41` fallback metadata schema gate design | P1 | 未开始 | 定义 fallback posture、degraded behavior、consumer action 字段 | U-339 | 下一轮默认选择 |
-| U-341 | S38 | Capability conformance fixture first implementation decision | P1 | 未开始 | 选择 partial / unknown / unsupported-feature 的首批 fixture | U-339、U-340 | 下一轮默认选择 |
 | U-342 | S39 | Structured term refs schema design | P1 | 未开始 | 定义 term_refs 最小字段、owner、scope、target surface | U-331 | - |
 | U-343 | S39 | Structured term refs validator design | P1 | 未开始 | 设计 unresolved / deprecated / alias mismatch deterministic gates | U-342 | - |
 | U-344 | S39 | Structured term refs source-first mirror plan | P1 | 未开始 | 明确 authoring source、compile、manifest summary mirror 同步路径 | U-342 | - |
@@ -423,12 +413,22 @@
 | 334 | U-329 | S37 | v0.8 adoption checklist | P3 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | docs review | shortest v0.8 adoption checklist added to public docs |
 | 335 | U-330 | S37 | Next release naming guard | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | package / release list review | next release naming guard documented: docs-only no release, feature v0.9.0, patch v0.8.1 |
 | 336 | U-331 | S38 | Post-v0.8 second task discovery and task pool expansion | P0 | 2026-05-13 | `docs/operations/aods-post-v0.8-second-task-discovery.zh-CN.md` | 上轮质量复审；`#60/#59/#41` public issue snapshot；route query；release hygiene | 任务池扩展为 U-332 到 U-381；下一轮默认 U-332 到 U-341 |
+| 337 | U-332 | S38 | `#60` public tracker body refresh plan | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | `#60` issue body/comments read-only snapshot | 建议 body 顶部新增 current status，但公开执行留给 U-369 |
+| 338 | U-333 | S38 | Closed issue checklist reconciliation matrix | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | `#60` dependency map vs post-v0.8 close state | P0/P1/P2/P3 checklist 已映射到 completed / remaining anchors |
+| 339 | U-334 | S38 | `#60` public update execution decision | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | public action matrix | 决定本轮不改 GitHub；U-369 统一执行 body/comment refresh |
+| 340 | U-335 | S38 | `#59` validator location implementation gate | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | `#59` issue snapshot；route query | location envelope 最小字段和非目标已锁定 |
+| 341 | U-336 | S38 | `#59` suggested-action implementation gate | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | remediation coverage review | 下一批 deterministic rules 已排序 |
+| 342 | U-337 | S38 | Route skipped-module opt-in implementation feasibility | P2 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | route JSON current output review | 选择 `--include-skipped` opt-in，不做默认 full trace |
+| 343 | U-338 | S38 | Observability sample output pack implementation plan | P2 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | validate / route output boundary review | 计划新增 compact sample JSON 文件，不把长 JSON 塞进 README |
+| 344 | U-339 | S38 | `#41` unsupported reason schema gate design | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | `#41` issue snapshot；capability matrix review | unsupported reason metadata-only 字段已锁定 |
+| 345 | U-340 | S38 | `#41` fallback metadata schema gate design | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | `#41` issue snapshot；partial / unknown boundary review | fallback posture / degraded behavior / consumer action 字段已锁定 |
+| 346 | U-341 | S38 | Capability conformance fixture first implementation decision | P1 | 2026-05-13 | `docs/operations/aods-roadmap-observability-capability-next-gates.zh-CN.md` | fixture candidate review | 首批 fixture 选定 unsupported missing reason、partial missing fallback、unknown manual review |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-332 到 U-341 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-342 到 U-351 |
 
 ## 负责人判断 / issue 分类
 
