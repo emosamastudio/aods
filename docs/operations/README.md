@@ -28,6 +28,7 @@
 | [aods-public-sync-authority-drift-maintenance.zh-CN.md](./aods-public-sync-authority-drift-maintenance.zh-CN.md) | U-452 到 U-461 public sync / authority drift maintenance |
 | [aods-examples-ci-benchmark-policy.zh-CN.md](./aods-examples-ci-benchmark-policy.zh-CN.md) | U-462 到 U-471 examples / CI / benchmark policy |
 | [aods-runtime-prereq-public-state-retro.zh-CN.md](./aods-runtime-prereq-public-state-retro.zh-CN.md) | U-472 到 U-481 runtime prerequisites / public state / retrospective |
+| [aods-public-close-release-readiness.zh-CN.md](./aods-public-close-release-readiness.zh-CN.md) | U-482 到 U-491 public close / release readiness |
 
 ## 当前公开示例入口
 

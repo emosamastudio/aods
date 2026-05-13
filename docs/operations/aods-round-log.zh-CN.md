@@ -2,6 +2,69 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-31
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-31 |
+| 开始时间 | 2026-05-13 16:30 Asia/Shanghai |
+| 结束时间 | 2026-05-13 17:05 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-30 复审；observability public close readiness packet；capability metadata close scope packet；roadmap tracker v0.9 refresh packet；v0.9 release readiness recheck；version bump no-go/go decision refresh；release notes final body sync；package dry-run rerun；packed install smoke rerun；GitHub release source install smoke route；public milestone creation decision packet；不关闭 issue、不发布 comment、不编辑 issue body、不创建 milestone、不 bump version、不打 tag、不创建 release、不发布 npm、不实现 runtime、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-482、U-483、U-484、U-485、U-486、U-487、U-488、U-489、U-490、U-491 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-31
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `e720294 Refresh runtime prerequisites and task pool` |
+| Task ledger state | 通过 | U-482 到 U-491 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-482 到 U-491 |
+
+## 任务执行记录：R-2026-05-13-31
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-482 | 未开始 | 已完成 | 准备 `#59` close readiness packet | `aods-public-close-release-readiness.zh-CN.md` |
+| 2 | U-483 | 未开始 | 已完成 | 准备 `#41` metadata close scope packet | public close release readiness doc |
+| 3 | U-484 | 未开始 | 已完成 | 准备 `#60` v0.9 roadmap refresh packet | public close release readiness doc |
+| 4 | U-485 | 未开始 | 已完成 | v0.9 release readiness recheck | `npm run release:hygiene` |
+| 5 | U-486 | 未开始 | 已完成 | version bump no-go/go decision refresh | package / lockfile version audit |
+| 6 | U-487 | 未开始 | 已完成 | release notes final body sync | public close release readiness doc |
+| 7 | U-488 | 未开始 | 已完成 | package dry-run rerun | `npm pack --dry-run --json` |
+| 8 | U-489 | 未开始 | 已完成 | packed install smoke rerun | local tarball install smoke |
+| 9 | U-490 | 未开始 | 已完成 | GitHub release source install smoke route | public close release readiness doc |
+| 10 | U-491 | 未开始 | 已完成 | public milestone creation decision packet | milestones API / public close release readiness doc |
+
+## 验证记录：R-2026-05-13-31
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Public issue snapshots | `gh issue view 59/41/60` | 通过 | `#59/#41/#60` 均 open，recent public comments 已读取 |
+| Package dry-run | `npm pack --dry-run --json` | 通过 | `aods@0.8.0`，entry_count=61，unpackedSize=1,136,618 |
+| Packed install smoke | local tarball temp install | 通过 | help first line `AODS CLI`；validate L4 pass；fixture golden_exports=10；conformance failed=0 |
+| Version surface audit | package / lockfile parse | 通过 | package、lockfile root、lockfile package all `0.8.0` |
+| Milestone snapshot | GitHub milestones API | 通过 | 当前 milestone count=0 |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=183, checked_relative_links=93, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-31
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-482 到 U-491 |
+| 完成任务 | 10 | U-482 到 U-491 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 40 | 下一轮默认 U-492 到 U-501 |
+
 ## 回合摘要：R-2026-05-13-30
 
 | 项 | 内容 |
