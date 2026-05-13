@@ -8,40 +8,80 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | CI / public sync / adoption follow-up complete |
+| 状态 | adoption sample pack / next task discovery complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S42 CI owner packet；S43 public sync / adoption docs |
-| 当前回合 | R-2026-05-13-19 |
-| 未完成任务数量 | 10 |
-| 已完成任务数量 | 376 |
+| 当前阶段 | S43 public docs / sample adoption；S44 next implementation planning |
+| 当前回合 | R-2026-05-13-20 |
+| 未完成任务数量 | 50 |
+| 已完成任务数量 | 386 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-19 |
-| 开始时间 | 2026-05-13 12:05 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-20 |
+| 开始时间 | 2026-05-13 12:18 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-362、U-363、U-364、U-365、U-366、U-367、U-368、U-369、U-370、U-371 |
-| 本轮范围 | 上轮质量复审；CI minimal workflow owner packet；docs link / package surface / generated clean CI feasibility reruns；runtime no-go public sync decision；`#41/#59/#60` public status refresh；conformance external adoption example follow-up；external citation README decision |
+| 选中任务 | U-372、U-373、U-374、U-375、U-376、U-377、U-378、U-379、U-380、U-381 |
+| 本轮范围 | 上轮质量复审；resource surface README adoption decision；docs current-authority metadata checker boundary；paired-surface sample refresh decision；validate / route JSON sample packs；conformance sample package inclusion decision；benchmark archive policy revisit；secret placeholder scan review；GitHub label / milestone hygiene review；next task pool expansion |
 | 排除范围 | CI workflow creation、release/tag/package mutation、issue close、label/milestone edit、schema implementation、validator implementation、runtime implementation、remote fetch、provider execution、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；focused docs/package/generated checks；GitHub issue comment URLs；route query；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；sample JSON parse；docs links；package surface unchanged；GitHub issue label/milestone read-only query；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-372 | S43 | Resource surface adoption example in README | P3 | 未开始 | 评估是否把 resource surface snippet 从 operations 提到 public README | U-331 | - |
-| U-373 | S43 | Docs density current-authority metadata check | P3 | 未开始 | 规划 authority/currentness metadata checker，不做 prose linter | U-331 | - |
-| U-374 | S43 | Paired-surface sync current sample refresh | P3 | 未开始 | 更新 paired sync sample 与现有 validator JSON 字段 | U-331 | - |
-| U-375 | S43 | Validation JSON sample pack for public docs | P2 | 未开始 | 保存最小 validate JSON sample，避免 README 过长 | U-338 | - |
-| U-376 | S43 | Route JSON sample pack for public docs | P2 | 未开始 | 保存最小 route JSON sample，覆盖 selected/dependency/no full trace | U-338 | - |
-| U-377 | S43 | Conformance report sample package inclusion decision | P3 | 未开始 | 决定 sample JSON 是否进入 npm package | U-331 | - |
-| U-378 | S43 | Benchmark generated artifact archive policy revisit | P3 | 未开始 | 复查 generated report 是否需要归档策略 | U-331 | - |
-| U-379 | S43 | Security placeholder scan pattern review | P3 | 未开始 | 复查 secret-like placeholder 扫描误报/漏报 | U-331 | - |
-| U-380 | S43 | GitHub issue label / milestone hygiene review | P3 | 未开始 | 审查 open issue label/milestone 是否需要调整 | U-331 | - |
-| U-381 | S43 | Next task pool expansion after S38 | P2 | 未开始 | 当前 50 项消耗后再次发现任务 | U-332 到 U-380 | - |
+| U-382 | S45 | Structured term refs schema implementation | P1 | 未开始 | `term_refs[]` schema 进入 module/authoring/compiled pilot mirror | U-342 | 下一轮首选 |
+| U-383 | S45 | Structured term refs compile manifest summary | P1 | 未开始 | compiler 汇总 term refs，不破坏 source-first compile | U-382 | - |
+| U-384 | S45 | Structured term refs validator resolution gate | P1 | 未开始 | validator 检查 term id、scope、surface ref、deprecated replacement | U-382 | - |
+| U-385 | S45 | Structured term refs source-first example | P1 | 未开始 | compiled-pilot 展示 lifecycle term refs 正例 | U-382、U-383 | - |
+| U-386 | S45 | Lifecycle alias negative fixture implementation | P1 | 未开始 | `start` vs deprecated `begin` 进入结构化负例或 validator regression | U-384、U-385 | - |
+| U-387 | S45 | Deprecated term strict behavior regression | P2 | 未开始 | strict / non-strict 行为由 focused regression 固化 | U-384 | - |
+| U-388 | S45 | Term refs public docs refresh | P2 | 未开始 | README 或 example docs 指向 term_refs adoption path，不塞长 JSON | U-385 | - |
+| U-389 | S45 | Term refs route query coverage | P3 | 未开始 | route query 能找到 glossary / stable contract authority | U-388 | - |
+| U-390 | S45 | Term refs package surface decision | P3 | 未开始 | 判断新示例是否进入 package allowlist | U-385 | - |
+| U-391 | S45 | Term refs public issue sync decision | P3 | 未开始 | 判断是否评论 `#60/#41/#59` 中相关状态 | U-386 | - |
+| U-392 | S46 | Evidence freshness schema next slice | P1 | 未开始 | current evidence 可声明 reviewed_at / expires_at / refresh cadence | U-347 | - |
+| U-393 | S46 | Evidence freshness validator warning gate | P1 | 未开始 | stale/expired/missing-review 信息进入 deterministic warning | U-392 | - |
+| U-394 | S46 | Evidence freshness fixture implementation | P2 | 未开始 | fresh / stale / missing review fixture 覆盖 | U-393 | - |
+| U-395 | S46 | Evidence freshness README adoption note | P3 | 未开始 | 公开说明 freshness 是声明式，不执行外部命令 | U-393 | - |
+| U-396 | S46 | Unchecked repo remediation schema refinement | P2 | 未开始 | unchecked repo reason 更易消费，不自动 fetch | U-350 | - |
+| U-397 | S46 | Unchecked repo validator JSON sample | P3 | 未开始 | 保存最小 unchecked repo JSON 样例 | U-396 | - |
+| U-398 | S46 | Manual-review acceptance criteria docs implementation | P2 | 未开始 | manual-review criteria guidance 进入 public docs / examples | U-351 | - |
+| U-399 | S46 | Acceptance criteria freshness cross-check design | P3 | 未开始 | 设计 criteria 与 evidence freshness 的非执行检查 | U-392 | - |
+| U-400 | S46 | Evidence freshness public issue sync | P3 | 未开始 | 判断是否同步到 `#60` tracker | U-393 | - |
+| U-401 | S47 | Validator location envelope implementation | P1 | 未开始 | validate JSON issue 统一 location envelope | U-335 | - |
+| U-402 | S47 | Validator location text parity review | P2 | 未开始 | text output 保持可读且不膨胀 | U-401 | - |
+| U-403 | S47 | Suggested-action next rule batch implementation | P1 | 未开始 | 为高频 rule 增补 remediation / suggested action | U-336 | - |
+| U-404 | S47 | Validate JSON sample refresh after location envelope | P2 | 未开始 | 更新 `docs/examples/validate-summary.sample.json` 或新增 issue sample | U-401 | - |
+| U-405 | S47 | Route skipped-module opt-in CLI design | P2 | 未开始 | 设计 `--explain-skipped` 或等价 opt-in，不改变默认输出 | U-337 | - |
+| U-406 | S47 | Route skipped-module regression | P2 | 未开始 | opt-in 输出 selected/skipped，默认仍 compact | U-405 | - |
+| U-407 | S47 | Observability compact sample pack refresh | P3 | 未开始 | route / validate samples 与实现字段对齐 | U-404、U-406 | - |
+| U-408 | S47 | Observability public issue sync | P3 | 未开始 | 判断是否更新 `#59` 状态 | U-401、U-403、U-406 | - |
+| U-409 | S48 | Capability unsupported reason schema implementation | P1 | 未开始 | capability metadata 可表达 unsupported reason | U-339 | - |
+| U-410 | S48 | Capability fallback posture schema implementation | P1 | 未开始 | fallback posture / degraded behavior / consumer action 进入 schema | U-340 | - |
+| U-411 | S48 | Capability compatibility validator extension | P1 | 未开始 | unsupported / fallback metadata 与 compatibility matrix 联动检查 | U-409、U-410 | - |
+| U-412 | S48 | Capability conformance fixture first slice | P2 | 未开始 | unsupported / partial / unknown 结果进入 conformance fixture | U-411 | - |
+| U-413 | S48 | Capability example pack refresh | P2 | 未开始 | compiled-pilot adapter/capability module 展示 unsupported / fallback | U-409、U-410 | - |
+| U-414 | S48 | Capability README guidance refresh | P3 | 未开始 | README 继续强调 metadata-only，不承诺 runtime negotiation | U-413 | - |
+| U-415 | S48 | Capability public issue sync | P3 | 未开始 | 判断是否更新 `#41` 状态 | U-412、U-413 | - |
+| U-416 | S49 | Conformance sample package promotion design | P3 | 未开始 | 决定 docs sample / examples sample 的 package 策略 | U-377 | - |
+| U-417 | S49 | Public sample JSON generation policy | P3 | 未开始 | 明确 docs sample 是 curated 还是 generated | U-375、U-376 | - |
+| U-418 | S49 | Docs example link checker coverage | P3 | 未开始 | docs/examples 被 docs link checker 覆盖 | U-375、U-376 | - |
+| U-419 | S49 | Security placeholder scan fixture hardening | P3 | 未开始 | 增加或拒绝低噪声 placeholder scan fixture | U-379 | - |
+| U-420 | S49 | Package surface allowlist maintenance docs refresh | P3 | 未开始 | package allowlist 变更流程与 docs samples 决策一致 | U-377 | - |
+| U-421 | S49 | Benchmark generated archive split execution decision | P3 | 未开始 | 判断是否真的拆 archive/index，不执行生成器大改 | U-378 | - |
+| U-422 | S50 | Operations index split execution | P2 | 未开始 | 将超长 operations README 拆分或建立 current index | U-355 | - |
+| U-423 | S50 | Task ledger archive split execution | P2 | 未开始 | 将历史完成任务归档，当前台账保持轻量 | U-354 | - |
+| U-424 | S50 | Handoff pruning execution | P2 | 未开始 | handoff 只保留当前入口、状态、风险和下一步 | U-356 | - |
+| U-425 | S50 | Historical stale-current label pilot | P3 | 未开始 | 给历史 docs 加 current/stale 标记试点 | U-357 | - |
+| U-426 | S50 | Operations navigation link check after split | P2 | 未开始 | split 后 docs links / release hygiene 通过 | U-422、U-423、U-424 | - |
+| U-427 | S51 | v0.9.0 release candidate planning | P2 | 未开始 | 若 term refs / observability / capability 实现完成，规划 v0.9.0 RC | U-391、U-408、U-415 | - |
+| U-428 | S51 | v0.8.1 patch release decision | P3 | 未开始 | 判断是否只有 docs/sample patch 需要 v0.8.1 | U-416、U-420 | - |
+| U-429 | S51 | Public roadmap issue body refresh decision | P3 | 未开始 | 判断是否编辑 `#60` body 而非继续评论 | U-400、U-408、U-415 | - |
+| U-430 | S51 | GitHub milestone creation decision | P3 | 未开始 | 判断是否创建 v0.9 milestone 并挂 open issues | U-427 | - |
+| U-431 | S51 | Next task pool expansion after implementation slices | P2 | 未开始 | U-382 到 U-430 消耗后重新发现任务 | U-382 到 U-430 | - |
 
 ## 已完成任务
 
@@ -423,12 +463,22 @@
 | 374 | U-369 | S43 | Governance roadmap public status refresh | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | `gh issue comment 60` | comment `4437175500` 已同步 roadmap status；未编辑 body |
 | 375 | U-370 | S43 | Conformance external adoption example follow-up | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | README / example docs review | README 保持短命令路径，完整示例继续放 compiled-pilot source README |
 | 376 | U-371 | S43 | External citation adoption example in README | P3 | 2026-05-13 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | README / citation docs review | 暂不把 citation JSON 塞进 README，等 sample packs 决策 |
+| 377 | U-372 | S43 | Resource surface adoption example in README | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | README review | README 保持表格链接，不内联 resource JSON |
+| 378 | U-373 | S43 | Docs density current-authority metadata check | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | docs checker boundary review | 仅规划 current-authority metadata checker，不做 prose linter |
+| 379 | U-374 | S43 | Paired-surface sync current sample refresh | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | paired sample review | README 保持概念说明；operations sample 继续作为维护示例 |
+| 380 | U-375 | S43 | Validation JSON sample pack for public docs | P2 | 2026-05-13 | `docs/examples/validate-summary.sample.json` | `node ./bin/aods.mjs validate . --json` | 增加 compact validate summary sample |
+| 381 | U-376 | S43 | Route JSON sample pack for public docs | P2 | 2026-05-13 | `docs/examples/route-explanation.sample.json` | `node ./bin/aods.mjs route . --query ... --json` | 增加 compact route explanation sample |
+| 382 | U-377 | S43 | Conformance report sample package inclusion decision | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | package surface review | 不把 docs sample JSON 纳入 npm package |
+| 383 | U-378 | S43 | Benchmark generated artifact archive policy revisit | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | generated hygiene review | 保持 current generated clean policy，不执行 archive split |
+| 384 | U-379 | S43 | Security placeholder scan pattern review | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | `npm run security:scan-placeholders` | 保持高信号 secret-like patterns，不加泛词扫描 |
+| 385 | U-380 | S43 | GitHub issue label / milestone hygiene review | P3 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | `gh issue list --json labels,milestone` | `#60/#59/#41` labels 保持，milestone 暂不创建 |
+| 386 | U-381 | S44 | Next task pool expansion after S38 | P2 | 2026-05-13 | `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | task ledger update | 新增 U-382 到 U-431，下一轮默认 U-382 到 U-391 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-372 到 U-381 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-382 到 U-391 |
 
 ## 负责人判断 / issue 分类
 
@@ -449,6 +499,7 @@
 | 发现时间 | 来源 | 建议任务 ID | 阶段 | 优先级 | 任务 | 验收标准 | 依赖 | 与失败任务关系 |
 |---|---|---|---|---|---|---|---|---|
 | 2026-05-13 | U-331 | U-332 到 U-381 | S38-S43 | P1-P3 | post-v0.8 第二轮任务池扩展 | 任务写入未完成任务表，下一轮默认 U-332 到 U-341 | U-331 | 无 |
+| 2026-05-13 | U-381 | U-382 到 U-431 | S45-S51 | P1-P3 | structured term refs / evidence freshness / observability / capability / sample-package / operations split / release planning 任务池扩展 | 任务写入未完成任务表，下一轮默认 U-382 到 U-391 | U-381 | 无 |
 
 ## 进度记录
 

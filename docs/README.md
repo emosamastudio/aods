@@ -18,6 +18,7 @@
 |---|---|
 | `docs/README.md` | AODS 仓库内部维护入口。 |
 | `docs/operations/README.md` | operations 子目录入口，列出当前权威治理面。 |
+| `docs/examples/README.md` | 面向公开文档和 issue 的短样例入口。 |
 | `docs/operations/aods-task-ledger.zh-CN.md` | 当前权威任务台账。 |
 | `docs/operations/aods-work-rules.zh-CN.md` | AODS 项目专属工作规约。 |
 | `docs/operations/aods-round-log.zh-CN.md` | 当前回合和历史回合锁定记录。 |
@@ -152,6 +153,7 @@
 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | U-342 到 U-351 structured term refs / evidence freshness gates，记录术语引用设计、生命周期别名负例、证据新鲜度和 unchecked repo 修复路线。 |
 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | U-352 到 U-361 skill / index / release maintenance gates，记录 installed skill update decision、索引压缩计划、采用命令冒烟、发布触发矩阵和 release asset policy。 |
 | `docs/operations/aods-ci-public-sync-adoption-followup.zh-CN.md` | U-362 到 U-371 CI / public sync / adoption follow-up，记录 CI owner packet、`#41/#59/#60` 公开同步和 README/sample adoption 决策。 |
+| `docs/operations/aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | U-372 到 U-381 adoption sample pack / public hygiene / next task discovery，记录短 JSON 样例、包纳入决策、公开标签复查和 U-382 到 U-431 新任务池。 |
 | `docs/operations/aods-comprehensive-task-plan.zh-CN.md` | U-092 综合任务池和每轮 10 任务执行规则。 |
 
 ## 当前维护边界
@@ -171,3 +173,4 @@
 | Glossary registry | `examples/compiled-pilot/indexes/runtime.json` | canonical term、alias、deprecated term、owner 和 linked surfaces 示例。 |
 | External citation | `examples/compiled-pilot/modules/shift-ops-governance.json` | external citation registry、citation refs、decision provenance 与 unsupported assumption 示例。 |
 | Fixture smoke | `examples/compiled-pilot-source/fixtures/fixture-manifest.json` | 可用 `npm run fixture:smoke` 冒烟检查 expected outcome 与 input / golden path；当前包含 9 个 positive 和 5 个 negative fixture 声明。 |
+| Public sample snippets | `docs/examples/` | 短 `validate --json` / `route --json` 样例，供公开文档引用；当前不进 npm package。 |

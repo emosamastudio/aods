@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "total_modules": 7,
+    "total_sections": 63,
+    "total_artifacts": 69,
+    "total_surface_pairs": 1,
+    "errors": 0,
+    "warnings": 0
+  },
+  "levels": {
+    "L1": {
+      "pass": true,
+      "errors": [],
+      "warnings": []
+    },
+    "L2": {
+      "pass": true,
+      "errors": [],
+      "warnings": []
+    },
+    "L3": {
+      "pass": true,
+      "errors": [],
+      "warnings": []
+    },
+    "L4": {
+      "pass": true,
+      "errors": [],
+      "warnings": []
+    }
+  }
+}

@@ -143,6 +143,7 @@
 | `aods-structured-term-refs-evidence-freshness.zh-CN.md` | U-342 到 U-351 structured term refs / evidence freshness gates，记录术语引用设计、生命周期别名负例、证据新鲜度和 unchecked repo 修复路线 | 高 |
 | `aods-skill-index-release-maintenance.zh-CN.md` | U-352 到 U-361 skill / index / release maintenance gates，记录 installed skill update decision、索引压缩计划、采用命令冒烟、发布触发矩阵和 release asset policy | 高 |
 | `aods-ci-public-sync-adoption-followup.zh-CN.md` | U-362 到 U-371 CI / public sync / adoption follow-up，记录 CI owner packet、`#41/#59/#60` 公开同步和 README/sample adoption 决策 | 高 |
+| `aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` | U-372 到 U-381 adoption sample pack / public hygiene / next task discovery，记录短 JSON 样例、包纳入决策、公开标签复查和 U-382 到 U-431 新任务池 | 高 |
 | `aods-v0.7-rc-gate.zh-CN.md` | v0.7 release candidate gate、版本面判断和 release note skeleton | 高 |
 | `aods-round-log.zh-CN.md` | 当前回合锁定、范围和验证记录 | 高 |
 | `aods-progress-ledger.zh-CN.md` | 阶段口径与阶段进度 | 中 |
@@ -288,9 +289,10 @@
 136. 读 `aods-structured-term-refs-evidence-freshness.zh-CN.md`
 137. 读 `aods-skill-index-release-maintenance.zh-CN.md`
 138. 读 `aods-ci-public-sync-adoption-followup.zh-CN.md`
-139. 读 `aods-v0.7-rc-gate.zh-CN.md`
-140. 读 `aods-handoff.zh-CN.md`
-141. 接续当前回合时再读 `aods-round-log.zh-CN.md`
+139. 读 `aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md`
+140. 读 `aods-v0.7-rc-gate.zh-CN.md`
+141. 读 `aods-handoff.zh-CN.md`
+142. 接续当前回合时再读 `aods-round-log.zh-CN.md`
 
 ## 当前维护范围
 
@@ -328,6 +330,7 @@
 | Resource surface | `examples/compiled-pilot/modules/shift-ops-resource-surface.json` | 展示 resource identity、scope、risk、exposure、cleanup、evidence linkage。 |
 | Glossary registry | `examples/compiled-pilot/indexes/runtime.json` | 展示 canonical term v2 record、alias、deprecated term、linked surfaces。 |
 | External citation / provenance | `examples/compiled-pilot/modules/shift-ops-governance.json` | 展示 external citation registry、citation refs、unsupported assumptions。 |
+| Public sample snippets | `docs/examples/` | 展示短 `validate --json` / `route --json` 输出形状；当前不进 npm package。 |
 
 ## AODS-specific maintenance notes
 
@@ -338,4 +341,4 @@
 5. `validate` 的 citation hygiene 摘要只统计已声明 posture，不抓取 URL、不做事实核验。
 6. U-084 后，workflow / event / policy / remote / migration 相关事项必须先满足 runtime readiness gate，再进入实现；默认仍是 metadata-only 边界。
 7. U-092 后，每轮质量复审通过时必须从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。
-8. U-085 到 U-371 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery / final readiness packet / post-conformance release hardening / terminology drift boundary / release dry-run refresh / post-v0.8 hygiene / skill drift / conformance docs / adoption release guard / CI owner packet / public sync / adoption sample follow-up；下一轮默认 U-372 到 U-381，不实现 runtime、不发布新 release、不 bump version。
+8. U-085 到 U-381 已完成 readiness / triage / release closeout / package smoke / evidence trace / fixture coverage / output contract / CLI validation docs / route validation DX / changelog ergonomics / glossary / citation / docs quality / redaction / exposure / risk / audit / runtime PoC decision gates / conformance / adapter / resolver / scheduler / observability research / public state refresh / public action approval packet / negative fixture first slice / dependency diagnostics / PR public sync / release version decision / release closeout guard / local hygiene repeatability / skill alignment / task discovery / final readiness packet / post-conformance release hardening / terminology drift boundary / release dry-run refresh / post-v0.8 hygiene / skill drift / conformance docs / adoption release guard / CI owner packet / public sync / adoption sample follow-up / next task discovery；下一轮默认 U-382 到 U-391，不实现 runtime、不发布新 release、不 bump version。

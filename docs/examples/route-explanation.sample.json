@@ -1,0 +1,60 @@
+{
+  "query": "paired docs drift rules",
+  "role": "doc-author",
+  "intent": "read",
+  "explanation": {
+    "source": {
+      "kind": "query-route",
+      "role": "doc-author",
+      "touch": null,
+      "query": "paired docs drift rules",
+      "stage": null,
+      "stage_source": null,
+      "intent": "read"
+    },
+    "reason": {
+      "strategy": "query-route",
+      "fallback": false,
+      "selected_module_ids": [
+        "spec-authority-governance",
+        "spec-aop",
+        "spec-validation"
+      ],
+      "matched_touch_routes": [],
+      "matched_query_module_ids": [
+        "spec-authority-governance",
+        "spec-aop",
+        "spec-validation"
+      ]
+    },
+    "dependency": {
+      "source": "manifest.modules[].deps",
+      "mode": "declared-module-deps",
+      "edge_count": 5,
+      "selected_edge_count": 2,
+      "unselected_edge_count": 3,
+      "missing_edge_count": 0,
+      "coverage": {
+        "selected": 2,
+        "unselected": 3,
+        "missing": 0
+      },
+      "edges": [
+        {
+          "module_id": "spec-validation",
+          "dependency_id": "spec-aop",
+          "dependency_selected": true,
+          "dependency_exists": true,
+          "dependency_status": "selected"
+        },
+        {
+          "module_id": "spec-validation",
+          "dependency_id": "spec-surface-governance",
+          "dependency_selected": false,
+          "dependency_exists": true,
+          "dependency_status": "unselected"
+        }
+      ]
+    }
+  }
+}

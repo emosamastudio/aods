@@ -2,6 +2,72 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-20
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-20 |
+| 开始时间 | 2026-05-13 12:18 Asia/Shanghai |
+| 结束时间 | 2026-05-13 12:40 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-19 复审；resource surface README adoption decision；docs current-authority metadata checker boundary；paired-surface sample refresh decision；validate / route JSON sample packs；conformance report package inclusion decision；benchmark generated artifact archive policy revisit；security placeholder scan review；GitHub issue label / milestone hygiene review；next task pool expansion；不启用 CI、不创建 workflow、不关闭 issue、不改 label/milestone、不发布 package、不创建 tag、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-372、U-373、U-374、U-375、U-376、U-377、U-378、U-379、U-380、U-381 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-20
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `9790dc9 Document CI public sync adoption follow-up` |
+| Task ledger state | 通过 | U-362 到 U-371 已完成，下一轮默认 U-372 到 U-381 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-372 到 U-381 |
+
+## 任务执行记录：R-2026-05-13-20
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-372 | 未开始 | 已完成 | 决定 resource surface 不内联到 README，只保留示例链接 | `aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` |
+| 2 | U-373 | 未开始 | 已完成 | 规划 current-authority metadata checker 边界，不做 prose linter | `aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` |
+| 3 | U-374 | 未开始 | 已完成 | 复查 paired-surface sample，决定 README 保持概念说明 | `aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` |
+| 4 | U-375 | 未开始 | 已完成 | 新增 validate JSON compact sample | `docs/examples/validate-summary.sample.json` |
+| 5 | U-376 | 未开始 | 已完成 | 新增 route JSON compact sample | `docs/examples/route-explanation.sample.json` |
+| 6 | U-377 | 未开始 | 已完成 | 决定 docs sample JSON 暂不进入 npm package | `aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` |
+| 7 | U-378 | 未开始 | 已完成 | 复查 benchmark generated artifact archive policy | `aods-adoption-sample-pack-and-next-task-discovery.zh-CN.md` |
+| 8 | U-379 | 未开始 | 已完成 | 复查 secret-like placeholder scan patterns | `scripts/scan-secret-placeholders.mjs` review |
+| 9 | U-380 | 未开始 | 已完成 | 只读审查 open issue labels / milestones，决定不改 | `gh issue list --json labels,milestone` |
+| 10 | U-381 | 未开始 | 已完成 | 扩展下一任务池 U-382 到 U-431 | `aods-task-ledger.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-20
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Validate JSON sample source | `node ./bin/aods.mjs validate . --json` | 通过 | sample 从当前成功输出裁剪 |
+| Route JSON sample source | `node ./bin/aods.mjs route . --query "paired docs drift rules" --role doc-author --intent read --json` | 通过 | sample 覆盖 source / reason / dependency |
+| Conformance report sample source | `node ./bin/aods.mjs conformance run ./examples/compiled-pilot-source/fixtures/conformance-manifest.json --json` | 通过 | 作为 package inclusion decision 输入 |
+| Public issue hygiene | `gh issue list --repo emosamastudio/aods --state open --json number,title,labels,milestone,assignees,updatedAt --limit 20` | 通过 | labels 保持，milestone 为空 |
+
+## 新发现任务：R-2026-05-13-20
+
+| 来源任务 | 新任务 ID | 任务 | 优先级 | 验收标准 | 插入位置 |
+|---|---|---|---|---|---|
+| U-381 | U-382 到 U-431 | structured term refs、evidence freshness、observability、capability、sample/package、operations split、release planning 后续任务池 | P1-P3 | 写入任务台账，下一轮默认 U-382 到 U-391 | 未完成任务表 |
+
+## 回合结束摘要：R-2026-05-13-20
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-372 到 U-381 |
+| 完成任务 | 10 | U-372 到 U-381 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 50 | U-382 到 U-431 |
+| 剩余未完成任务 | 50 | 下一轮默认 U-382 到 U-391 |
+
 ## 回合摘要：R-2026-05-13-19
 
 | 项 | 内容 |
