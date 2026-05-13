@@ -2,6 +2,74 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-18
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-18 |
+| 开始时间 | 2026-05-13 12:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 12:15 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-17 复审；package skill install update decision；packaged skill drift regression follow-up；task ledger archive split plan；operations index current-pack split plan；current handoff pack pruning；historical stale-current label policy；README adoption checklist command smoke；v0.8.1 vs v0.9.0 release trigger matrix；next release notes skeleton；GitHub release asset policy；不覆盖 installed skill、不执行 archive split、不批量重写历史 docs、不启用 CI、不发布 package、不创建 tag、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-352、U-353、U-354、U-355、U-356、U-357、U-358、U-359、U-360、U-361 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-18
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `8237134 Plan structured term refs and evidence freshness` |
+| Task ledger state | 通过 | U-342 到 U-351 已完成，下一轮默认 U-352 到 U-361 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-352 到 U-361 |
+
+## 任务执行记录：R-2026-05-13-18
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-352 | 未开始 | 已完成 | 决定本轮不覆盖 installed skill，记录 owner-triggered update route | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 2 | U-353 | 未开始 | 已完成 | 规划 packaged skill drift regression 扩展 | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 3 | U-354 | 未开始 | 已完成 | 规划 task ledger archive split | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 4 | U-355 | 未开始 | 已完成 | 规划 operations index current-pack split | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 5 | U-356 | 未开始 | 已完成 | 规划 current handoff pack pruning | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 6 | U-357 | 未开始 | 已完成 | 定义 historical stale-current label policy | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 7 | U-358 | 未开始 | 已完成 | 跑 README adoption checklist command smoke | `aods --help`、`compile:pilot`、strict validate、route JSON、docs links、package surface |
+| 8 | U-359 | 未开始 | 已完成 | 建立 v0.8.1 vs v0.9.0 release trigger matrix | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 9 | U-360 | 未开始 | 已完成 | 更新 next release notes skeleton | `aods-skill-index-release-maintenance.zh-CN.md` |
+| 10 | U-361 | 未开始 | 已完成 | 决定 GitHub release assets 默认继续为空 | `gh release view v0.8.0 --json ...` |
+
+## 验证记录：R-2026-05-13-18
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Skill drift snapshot | `diff -u /Users/emosama/.agents/skills/aods-use/SKILL.md skills/aods-use/SKILL.md` | 通过 | drift 仍存在；本轮只记录不覆盖 |
+| Adoption CLI help | `node ./bin/aods.mjs --help` | 通过 | CLI families visible |
+| Adoption compile | `npm run compile:pilot` | 通过 | compiled-pilot regenerated cleanly |
+| Adoption validate | `node ./bin/aods.mjs validate ./examples/compiled-pilot --strict` | 通过 | errors=0 warnings=0 |
+| Adoption route | `node ./bin/aods.mjs route . --query "adopt v0.8 safely compile validate route fixture conformance" --stage plan --intent read --json` | 通过 | selected validation / stable contracts / authority governance |
+| Docs link | `npm run docs:check-links` | 通过 | missing=0 |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | missing=[] unexpected=[] |
+| Release asset snapshot | `gh release view v0.8.0 --json ...` | 通过 | assets=[]，draft=false，prerelease=false |
+
+## 新发现任务：R-2026-05-13-18
+
+本轮没有新增任务 ID。剩余未完成任务为 U-362 到 U-381，下一轮默认选择 U-362 到 U-371。
+
+## 回合结束摘要：R-2026-05-13-18
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-352 到 U-361 |
+| 完成任务 | 10 | U-352 到 U-361 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 20 | 下一轮默认 U-362 到 U-371 |
+
 ## 回合摘要：R-2026-05-13-17
 
 | 项 | 内容 |

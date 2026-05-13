@@ -8,40 +8,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | structured term refs / evidence freshness gates complete |
+| 状态 | skill / index / release maintenance gates complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S39 structured terminology refs / S40 evidence freshness |
-| 当前回合 | R-2026-05-13-17 |
-| 未完成任务数量 | 30 |
-| 已完成任务数量 | 356 |
+| 当前阶段 | S41 skill / governance-surface maintenance；S42 release trigger policy |
+| 当前回合 | R-2026-05-13-18 |
+| 未完成任务数量 | 20 |
+| 已完成任务数量 | 366 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-17 |
-| 开始时间 | 2026-05-13 11:50 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-18 |
+| 开始时间 | 2026-05-13 12:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-342、U-343、U-344、U-345、U-346、U-347、U-348、U-349、U-350、U-351 |
-| 本轮范围 | 上轮质量复审；structured term refs schema / validator / source-first mirror plan；lifecycle alias negative fixture plan；deprecated term strict behavior decision；term refs public docs；evidence freshness next slice；evidence freshness fixture plan；manual-review acceptance docs refresh；unchecked repo remediation docs update |
-| 排除范围 | schema implementation、validator implementation、compile implementation、fixture file implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for terminology / evidence / reality surfaces；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-352、U-353、U-354、U-355、U-356、U-357、U-358、U-359、U-360、U-361 |
+| 本轮范围 | 上轮质量复审；package skill install update decision；packaged skill drift regression follow-up；task ledger archive split plan；operations index current-pack split plan；handoff pruning；historical stale-current label policy；README adoption checklist smoke；v0.8.1 vs v0.9.0 release trigger matrix；next release notes skeleton；GitHub release asset policy |
+| 排除范围 | installed skill overwrite、archive split execution、historical docs bulk rewrite、CI workflow enablement、schema implementation、validator implementation、runtime implementation、remote fetch、provider execution、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；skill diff snapshot；README adoption command smoke；GitHub release asset snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-352 | S41 | Package skill install update execution decision | P2 | 未开始 | 决定是否更新本地 installed skill，并记录 owner-trigger rule | U-331 | - |
-| U-353 | S41 | Packaged skill drift regression follow-up | P2 | 未开始 | 扩充 packaged skill 与 CLI/help/release surface 漂移检查 | U-352 | - |
-| U-354 | S41 | Task ledger archive split execution plan | P3 | 未开始 | 规划台账历史拆分，不破坏当前权威入口 | U-331 | - |
-| U-355 | S41 | Operations index current-pack split execution plan | P3 | 未开始 | 规划 operations README 当前/历史分层 | U-354 | - |
-| U-356 | S41 | Current handoff pack pruning | P3 | 未开始 | 压缩 handoff 必读列表，只保留当前高价值入口 | U-355 | - |
-| U-357 | S41 | Historical docs stale-current label audit | P3 | 未开始 | 给旧 release/readiness 文档补 stale/current 标签策略 | U-355 | - |
-| U-358 | S42 | README adoption checklist command smoke | P3 | 未开始 | 验证 README adoption checklist 的命令仍可运行 | U-331 | - |
-| U-359 | S42 | v0.8.1 vs v0.9.0 release trigger matrix | P2 | 未开始 | 建立 patch/minor/docs-only release trigger 表 | U-331 | - |
-| U-360 | S42 | Next release notes skeleton refresh | P2 | 未开始 | 更新下一 release notes skeleton，不创建 tag | U-359 | - |
-| U-361 | S42 | GitHub release asset policy decision | P3 | 未开始 | 决定继续只用 GitHub source archive 还是附加 pack artifact | U-331 | - |
 | U-362 | S42 | CI minimal workflow owner packet | P2 | 未开始 | 给 docs link / generated clean / package surface / validate gate 做 owner packet | U-331 | - |
 | U-363 | S42 | Docs link checker CI feasibility rerun | P3 | 未开始 | 复查 docs link checker 是否适合进入 CI | U-362 | - |
 | U-364 | S42 | Package surface CI feasibility rerun | P3 | 未开始 | 复查 package surface guard 是否适合进入 CI | U-362 | - |
@@ -423,12 +413,22 @@
 | 354 | U-349 | S40 | Evidence freshness fixture plan | P2 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | fixture candidate review | 首批 current/stale/remote-unchecked evidence fixtures 已规划 |
 | 355 | U-350 | S40 | Implementation acceptance manual-review docs refresh | P3 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | acceptance / manual review posture review | validator/fixture/manual review/waiver docs 更新要点已明确 |
 | 356 | U-351 | S40 | Reality unchecked repo remediation docs update | P3 | 2026-05-13 | `docs/operations/aods-structured-term-refs-evidence-freshness.zh-CN.md` | unchecked repo remediation docs review | unchecked reason -> repair action matrix 已明确 |
+| 357 | U-352 | S41 | Package skill install update execution decision | P2 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | installed vs packaged skill diff | 本轮不覆盖 installed skill；记录 owner-triggered update route |
+| 358 | U-353 | S41 | Packaged skill drift regression follow-up | P2 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | packaged skill / CLI help / release surface review | 回归扩展建议覆盖 CLI family、version alignment、read-only drift detector 和 narrow trigger |
+| 359 | U-354 | S41 | Task ledger archive split execution plan | P3 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | live ledger size review | archive split plan 已定义；本轮不执行拆分 |
+| 360 | U-355 | S41 | Operations index current-pack split execution plan | P3 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | operations index review | current authority / implementation planning / historical milestone / archive index 分层已定义 |
+| 361 | U-356 | S41 | Current handoff pack pruning | P3 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | handoff read-order review | handoff 保留项和可摘要项已定义 |
+| 362 | U-357 | S41 | Historical docs stale-current label audit | P3 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | historical docs label policy review | current / historical snapshot / decision record label policy 已定义 |
+| 363 | U-358 | S42 | README adoption checklist command smoke | P3 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | `aods --help`、`npm run compile:pilot`、strict validate、route JSON、docs link、package surface | public adoption checklist local source commands pass |
+| 364 | U-359 | S42 | v0.8.1 vs v0.9.0 release trigger matrix | P2 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | release trigger review | patch/minor/docs-only trigger matrix 已定义；structured term refs implementation 候选 v0.9.0 |
+| 365 | U-360 | S42 | Next release notes skeleton refresh | P2 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | release notes skeleton review | v0.9.0 candidate notes skeleton 已更新；未创建 tag |
+| 366 | U-361 | S42 | GitHub release asset policy decision | P3 | 2026-05-13 | `docs/operations/aods-skill-index-release-maintenance.zh-CN.md` | `gh release view v0.8.0 --json ...` | release assets 默认继续为空；source archive/tag 足够 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-352 到 U-361 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-362 到 U-371 |
 
 ## 负责人判断 / issue 分类
 
