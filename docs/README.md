@@ -26,6 +26,8 @@
 | `docs/operations/aods-handoff.zh-CN.md` | 接手入口和风险边界。 |
 | `docs/operations/aods-observability-capability-implementation.zh-CN.md` | U-402 到 U-411 observability / capability implementation 记录。 |
 | `docs/operations/aods-capability-sample-maintenance.zh-CN.md` | U-412 到 U-421 capability / sample maintenance 记录。 |
+| `docs/operations/aods-operations-split-release-planning.zh-CN.md` | U-422 到 U-431 operations split / release planning 记录。 |
+| `docs/operations/archive/` | 拆分前的长入口、完整任务台账和完整交接归档。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |
 | `docs/operations/aods-v0.10-backlog.zh-CN.md` | v0.10 risk/exposure/audit hardening 候选路线和 U-041 triage 记录。 |

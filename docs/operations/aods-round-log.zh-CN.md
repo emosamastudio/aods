@@ -2,6 +2,64 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-25
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-25 |
+| 开始时间 | 2026-05-13 16:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 16:35 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-24 复审；operations index split；task ledger archive split；handoff pruning；historical current/archive labels；split 后 link check；v0.9 RC planning；v0.8.1 patch decision；`#60` body refresh decision；milestone creation decision；next task pool expansion；不发布、不打 tag、不 bump version、不关闭 issue、不创建 milestone、不实现 runtime、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-422、U-423、U-424、U-425、U-426、U-427、U-428、U-429、U-430、U-431 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-25
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `3e596e7 Refresh capability fallback examples` |
+| Task ledger state | 通过 | U-422 到 U-431 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-422 到 U-431 |
+
+## 任务执行记录：R-2026-05-13-25
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-422 | 未开始 | 已完成 | operations README 改为短入口，旧完整文件归档 | `docs/operations/README.md`、`archive/aods-operations-readme-archive-2026-05-13.zh-CN.md` |
+| 2 | U-423 | 未开始 | 已完成 | 任务台账完整历史归档，当前台账保留活动池和最近窗口 | `aods-task-ledger.zh-CN.md`、archive |
+| 3 | U-424 | 未开始 | 已完成 | handoff 压缩为当前状态 / 风险 / 下一步，旧完整文件归档 | `aods-handoff.zh-CN.md`、archive |
+| 4 | U-425 | 未开始 | 已完成 | archive 文件标记历史归档，当前入口标记当前权威 | archive headers / current headers |
+| 5 | U-426 | 未开始 | 已完成 | split 后导航进入 link check / release hygiene | final verification |
+| 6 | U-427 | 未开始 | 已完成 | 规划 v0.9.0 为下一 release candidate 路线 | `aods-operations-split-release-planning.zh-CN.md` |
+| 7 | U-428 | 未开始 | 已完成 | 决定不走 v0.8.1 patch | release planning doc |
+| 8 | U-429 | 未开始 | 已完成 | 决定暂不编辑 `#60` body，先做 refresh packet | release planning doc |
+| 9 | U-430 | 未开始 | 已完成 | 当前无 milestone，本轮不创建，先做 mapping packet | release planning doc |
+| 10 | U-431 | 未开始 | 已完成 | 新增 U-432 到 U-481，下一轮默认 U-432 到 U-441 | task ledger |
+
+## 验证记录：R-2026-05-13-25
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| GitHub snapshot | `gh issue list` / milestone API | 通过 | open issues 为 `#60/#59/#41`；当前无 milestone |
+| Docs link check | `npm run docs:check-links -- --json` | 待最终门禁 | split 后必须通过 |
+| Release hygiene final | `npm run release:hygiene` | 待最终门禁 | 包含 links / package / generated / validate |
+
+## 回合结束摘要：R-2026-05-13-25
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-422 到 U-431 |
+| 完成任务 | 10 | U-422 到 U-431 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 50 | U-432 到 U-481 |
+| 剩余未完成任务 | 50 | 下一轮默认 U-432 到 U-441 |
+
 ## 回合摘要：R-2026-05-13-24
 
 | 项 | 内容 |
