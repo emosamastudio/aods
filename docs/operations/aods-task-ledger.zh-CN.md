@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | provider discovery hardening complete |
+| 状态 | release gate integration complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S87 release gate integration and patch decision |
-| 当前回合 | R-2026-05-13-51 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 696 |
+| 当前阶段 | S88 route and validate regression hardening |
+| 当前回合 | R-2026-05-13-52 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 706 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-51 |
-| 开始时间 | 2026-05-13 33:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-52 |
+| 开始时间 | 2026-05-13 34:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-682、U-683、U-684、U-685、U-686、U-687、U-688、U-689、U-690、U-691 |
-| 本轮范围 | 上轮质量复审；provider discovery source-first candidate insertion plan；provider evidence negative fixture plan；runtime protocol schema minimal slice decision；non-execution regression plan；provider discovery docs note decision；auth boundary source-first candidate plan；probe cost negative fixture plan；fallback ranking overclaim regression plan；adapter handshake audit negative fixture plan；`#64` progress sync |
-| 排除范围 | source-first authoring edit、compile output change、schema implementation、validator implementation、conformance promotion、package example promotion、runtime negotiation、provider call、auth exchange、network probing、fallback executor、adapter call、npm publish、version bump、tag creation、GitHub Release creation、milestone creation、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；GitHub issue read/comment evidence；docs link check；package surface check；release hygiene final；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-692、U-693、U-694、U-695、U-696、U-697、U-698、U-699、U-700、U-701 |
+| 本轮范围 | 上轮质量复审；package install smoke release gate integration；v0.9.1 version bump gate；v0.9.1 release notes final draft；packed install smoke execution；source tag install smoke plan；npm publish dry-run/token audit；CI workflow draft no-enable packet；branch cleanup execution packet；tag/source release note wording；next release go/no-go packet |
+| 排除范围 | version bump、tag creation、GitHub Release creation、npm publish、npm token inspection、remote branch deletion、workflow creation、hosted repeatability run、schema implementation、validator implementation、runtime implementation、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；remote branch/tag audit；package install smoke；release hygiene final；docs link check；package surface check；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-692 | S87 | Package install smoke release gate integration decision | P2 | 未开始 | 决定 `package:install-smoke` 是否纳入 release hygiene / release self-check | U-679 | - |
-| U-693 | S87 | v0.9.1 version bump execution gate | P2 | 未开始 | 判断是否进入 `0.9.1` bump/tag/release 准备 | U-662/U-692 | no publish by default |
-| U-694 | S87 | v0.9.1 release notes final draft | P3 | 未开始 | 将 patch candidate skeleton 更新为可发布草稿 | U-666 | - |
-| U-695 | S87 | v0.9.1 packed install smoke execution | P2 | 未开始 | 如进入 patch gate，跑 packed install smoke 并记录结果 | U-693 | - |
-| U-696 | S87 | v0.9.1 source tag install smoke plan | P3 | 未开始 | 设计 tag/source install smoke 命令和验收 | U-693 | tag only |
-| U-697 | S87 | npm publish dry-run / token audit | P3 | 未开始 | 复核 npm publish 是否仍保持 owner gate | U-669 | no token in repo |
-| U-698 | S87 | CI workflow draft no-enable packet | P3 | 未开始 | 准备最小 CI 草案但不启用 | U-670 | no workflow creation |
-| U-699 | S87 | Branch cleanup execution packet | P3 | 未开始 | 复核远端分支清理是否进入执行 | U-667 | GitHub |
-| U-700 | S87 | Tag/source release note final wording | P3 | 未开始 | 准备 tag 与 main 差异的 release note wording | U-668 | - |
-| U-701 | S87 | Next release go/no-go packet | P2 | 未开始 | 汇总 patch / npm / CI / branch cleanup 发布判断 | U-692/U-700 | - |
 | U-702 | S88 | Route adoption query miss regression implementation | P2 | 未开始 | 实现或最终 no-go adoption query miss 回归 | U-677 | - |
 | U-703 | S88 | Route overread regression implementation | P2 | 未开始 | 实现或最终 no-go over-selection 回归 | U-677 | - |
 | U-704 | S88 | Validate location envelope regression implementation | P2 | 未开始 | 实现或最终 no-go location envelope 兼容回归 | U-678 | - |
@@ -80,16 +70,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 667 | U-662 | S84 | v0.9.1 patch release candidate gate | P2 | 2026-05-13 | release maintenance planning doc | release hygiene | patch candidate prepared; no bump/tag/release |
-| 668 | U-663 | S84 | v0.10 semantic scope proposal | P2 | 2026-05-13 | release maintenance planning doc | docs link check | v0.10 not triggered until schema/validator/package contract expansion |
-| 669 | U-664 | S84 | Next changelog skeleton | P3 | 2026-05-13 | release maintenance planning doc | docs link check | skeleton prepared without adding root changelog |
-| 670 | U-665 | S84 | Package tarball inventory diff baseline | P3 | 2026-05-13 | `npm pack --dry-run --json` | package dry-run | aods@0.9.0, 61 entries |
-| 671 | U-666 | S84 | Release notes post-v0.9 delta draft | P3 | 2026-05-13 | release maintenance planning doc | docs link check | delta drafted, no release |
-| 672 | U-667 | S84 | Branch cleanup owner packet | P3 | 2026-05-13 | remote branch audit | `git ls-remote --heads origin` | cleanup candidates listed, no deletion |
-| 673 | U-668 | S84 | Tag/source mismatch docs note decision | P3 | 2026-05-13 | release maintenance planning doc | tag audit | no README note; release notes should explain delta |
-| 674 | U-669 | S84 | npm publish owner gate packet | P3 | 2026-05-13 | release maintenance planning doc | package dry-run | no npm publish |
-| 675 | U-670 | S84 | CI enablement owner packet refresh | P3 | 2026-05-13 | release maintenance planning doc | `.github` audit | no workflow enablement |
-| 676 | U-671 | S84 | Hosted repeatability rerun trigger | P3 | 2026-05-13 | release maintenance planning doc | hosted report path audit | no hosted rerun |
 | 677 | U-672 | S85 | Projection guidance static invariant design | P2 | 2026-05-13 | final static retrospective doc | docs link check | guidance only, no replay/event store |
 | 678 | U-673 | S85 | Adapter provider discovery example candidate | P2 | 2026-05-13 | final static retrospective doc | docs link check | next source-first candidate, no provider call |
 | 679 | U-674 | S85 | Policy decision static record source-first candidate | P3 | 2026-05-13 | final static retrospective doc | docs link check | deferred until shape stabilizes |
@@ -110,12 +90,22 @@
 | 694 | U-689 | S86 | Fallback ranking overclaim regression plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | structured-field first, no text judge |
 | 695 | U-690 | S86 | Adapter handshake audit negative fixture plan | P2 | 2026-05-13 | provider discovery hardening doc | docs link check | later candidate after auth/discovery shape |
 | 696 | U-691 | S86 | Runtime protocol `#64` progress sync decision | P3 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/64#issuecomment-4441211144` | `gh issue comment 64` | status comment posted without runtime overclaim |
+| 697 | U-692 | S87 | Package install smoke release gate integration decision | P2 | 2026-05-13 | release gate integration doc / `scripts/release-hygiene.mjs` | `npm run release:hygiene` | package smoke integrated into release hygiene |
+| 698 | U-693 | S87 | v0.9.1 version bump execution gate | P2 | 2026-05-13 | release gate integration doc | release hygiene | no bump/tag/release this round |
+| 699 | U-694 | S87 | v0.9.1 release notes final draft | P3 | 2026-05-13 | release gate integration doc | docs link check | draft ready, not published |
+| 700 | U-695 | S87 | v0.9.1 packed install smoke execution | P2 | 2026-05-13 | release gate integration doc | `npm run package:install-smoke -- --json` | current 0.9.0 proof, not v0.9.1 release proof |
+| 701 | U-696 | S87 | v0.9.1 source tag install smoke plan | P3 | 2026-05-13 | release gate integration doc | docs link check | tag smoke plan ready |
+| 702 | U-697 | S87 | npm publish dry-run / token audit | P3 | 2026-05-13 | release gate integration doc | package surface check | no npm token inspected, publish remains gated |
+| 703 | U-698 | S87 | CI workflow draft no-enable packet | P3 | 2026-05-13 | release gate integration doc | docs link check | draft only, no workflow created |
+| 704 | U-699 | S87 | Branch cleanup execution packet | P3 | 2026-05-13 | release gate integration doc | `git ls-remote --heads origin` | cleanup candidates reviewed, no deletion |
+| 705 | U-700 | S87 | Tag/source release note final wording | P3 | 2026-05-13 | release gate integration doc | docs link check | wording ready for future release notes |
+| 706 | U-701 | S87 | Next release go/no-go packet | P2 | 2026-05-13 | release gate integration doc | release hygiene | v0.9.1/npm/CI/branch cleanup all no-go |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-692 到 U-701 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-702 到 U-711 |
 
 ## 负责人判断 / issue 分类
 
@@ -136,4 +126,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；provider discovery 已选为下一 source-first candidate，missing evidence 是第一 negative fixture candidate；runtime/protocol schema gate 继续关闭；public docs 暂不新增；`#64` 已同步第二条静态前置进展；下一轮默认 U-692 到 U-701。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；package install smoke 已纳入 release hygiene；v0.9.1 release notes draft 和 tag/source smoke plan 已准备；npm publish、CI enablement、branch cleanup、v0.9.1 execution 和 v0.10 继续 no-go；下一轮默认 U-702 到 U-711。

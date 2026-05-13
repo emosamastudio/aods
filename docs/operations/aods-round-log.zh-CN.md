@@ -3,6 +3,71 @@
 状态：当前回合短记录
 完整历史归档：`docs/operations/archive/aods-round-log-archive-2026-05-13.zh-CN.md`
 
+## 回合摘要：R-2026-05-13-52
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-52 |
+| 开始时间 | 2026-05-13 34:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 34:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-51 复审；package install smoke release gate integration；v0.9.1 bump gate；release notes final draft；packed install smoke execution；source tag install smoke plan；npm publish dry-run/token audit；CI workflow draft no-enable packet；branch cleanup execution packet；tag/source release note wording；next release go/no-go；不 bump version、不打 tag、不创建 GitHub Release、不 npm publish、不读取 token、不删分支、不创建 workflow；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-692、U-693、U-694、U-695、U-696、U-697、U-698、U-699、U-700、U-701 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-52
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `9da1eb4 Plan provider discovery hardening` |
+| Task ledger state | 通过 | U-692 到 U-701 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 release gate integration and patch decision |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-692 到 U-701 |
+
+## 任务执行记录：R-2026-05-13-52
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-692 | 未开始 | 已完成 | 将 `package:install-smoke` 纳入 `release:hygiene` | `scripts/release-hygiene.mjs` |
+| 2 | U-693 | 未开始 | 已完成 | 判断 v0.9.1 bump/tag/release 本轮 no-go | release gate integration doc |
+| 3 | U-694 | 未开始 | 已完成 | 准备 v0.9.1 release notes final draft | release gate integration doc |
+| 4 | U-695 | 未开始 | 已完成 | 执行当前 package packed install smoke | `npm run package:install-smoke -- --json` |
+| 5 | U-696 | 未开始 | 已完成 | 准备 v0.9.1 source tag install smoke plan | release gate integration doc |
+| 6 | U-697 | 未开始 | 已完成 | 复核 npm publish 继续 owner gate，不读取 token | release gate integration doc |
+| 7 | U-698 | 未开始 | 已完成 | 准备 CI workflow draft，不创建 workflow | release gate integration doc |
+| 8 | U-699 | 未开始 | 已完成 | 复核 branch cleanup，不删除远端分支 | `git ls-remote --heads origin` |
+| 9 | U-700 | 未开始 | 已完成 | 准备 tag/source release note wording | release gate integration doc |
+| 10 | U-701 | 未开始 | 已完成 | 汇总 next release go/no-go，继续 no-go | release gate integration doc |
+
+## 返工记录：R-2026-05-13-52
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| 无 | 无需返工 | 上轮质量复审通过，本轮验证通过 |
+
+## 验证记录：R-2026-05-13-52
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Remote branch/tag audit | `git ls-remote --heads origin` / `git ls-remote --tags origin 'v0.*'` | 通过 | cleanup candidates reviewed, no deletion |
+| Package install smoke | `npm run package:install-smoke -- --json` | 通过 | current `0.9.0` package proof |
+| Release hygiene | `npm run release:hygiene` | 通过 | now includes package install smoke |
+| Docs links | `npm run docs:check-links -- --json` | 通过 | 写入最终文档后复跑 |
+| Package surface | `npm run package:check-surface -- --json` | 通过 | package entry count unchanged |
+
+## 回合结束摘要：R-2026-05-13-52
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-692 到 U-701 |
+| 完成任务 | 10 | U-692 到 U-701 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-702 到 U-711 |
+
 ## 回合摘要：R-2026-05-13-51
 
 | 项 | 内容 |
@@ -200,8 +265,8 @@
 
 | 回合 | 范围 | 结果 | 详情 |
 |---|---|---|---|
+| R-2026-05-13-52 | U-692 到 U-701 | release gate integration 完成；package install smoke 已进 release hygiene；下一 release 仍 no-go | `docs/operations/aods-release-gate-integration.zh-CN.md` |
 | R-2026-05-13-51 | U-682 到 U-691 | provider discovery hardening 完成；`#64` 已追加静态前置进展；schema/runtime 仍未实现 | `docs/operations/aods-provider-discovery-hardening.zh-CN.md` |
-| R-2026-05-13-50 | U-672 到 U-681 | final static retrospective 完成；package install smoke 脚本新增并通过；任务池扩展到 U-731 | `docs/operations/aods-final-static-retrospective.zh-CN.md` |
 | R-2026-05-13-48 | U-652 到 U-661 | operations hygiene sync 完成；round log 已归档拆分，`#60` body 已刷新 | `docs/operations/aods-operations-hygiene-sync.zh-CN.md` |
 
 ## 历史查阅

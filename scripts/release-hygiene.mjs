@@ -5,6 +5,7 @@ const STEPS = [
   ["npm", ["run", "docs:check-links"]],
   ["npm", ["run", "security:scan-placeholders"]],
   ["npm", ["run", "package:check-surface"]],
+  ["npm", ["run", "package:install-smoke"]],
   ["npm", ["run", "generated:check-clean"]],
   ["node", ["--test", "benchmarks/aods-eval-lab/test/skill-package.test.mjs"]],
   ["npm", ["run", "validate:all"]]

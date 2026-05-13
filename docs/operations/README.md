@@ -49,6 +49,7 @@
 | [aods-release-maintenance-planning.zh-CN.md](./aods-release-maintenance-planning.zh-CN.md) | U-662 到 U-671 release maintenance / npm / CI / hosted gates |
 | [aods-final-static-retrospective.zh-CN.md](./aods-final-static-retrospective.zh-CN.md) | U-672 到 U-681 final static invariant / retrospective / next task pool |
 | [aods-provider-discovery-hardening.zh-CN.md](./aods-provider-discovery-hardening.zh-CN.md) | U-682 到 U-691 provider discovery candidate / negative fixture / non-execution hardening |
+| [aods-release-gate-integration.zh-CN.md](./aods-release-gate-integration.zh-CN.md) | U-692 到 U-701 release gate integration / patch no-go / CI and npm owner gates |
 
 ## 当前公开示例入口
 
