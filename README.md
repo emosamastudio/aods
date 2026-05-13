@@ -423,6 +423,17 @@ npm run validate:compiled-pilot
 npm run validate:all
 ```
 
+### Adopt v0.8 safely
+
+1. Install from the `v0.8.0` GitHub Release tag or current package source.
+2. Use source-first authoring when your project can own an `authoring.json`.
+3. Run `aods compile` and `aods validate --strict` before publishing.
+4. Add `--reality --repo-root <repo>` only when declared current surfaces need local path checks.
+5. Use `aods route --query ... --json` to load the smallest authority set for a task.
+6. Add fixture smoke or conformance manifests after the example surfaces stabilize.
+7. Treat warnings as release blockers by running strict gates.
+8. Do not claim runtime behavior unless that runtime is separately implemented and evidenced.
+
 ### Smoke fixture manifests
 
 ```bash

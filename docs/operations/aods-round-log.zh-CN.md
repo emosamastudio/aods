@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-14
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-14 |
+| 开始时间 | 2026-05-13 14:25 Asia/Shanghai |
+| 结束时间 | 2026-05-13 15:10 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-13 复审；code drift next slice revisit；stable terminology drift implementation gate decision；glossary enforcement next slice；lifecycle alias negative fixture decision；docs density lint feasibility；external citation public docs；resource surface docs follow-up；runtime no-go summary refresh；v0.8 adoption checklist；next release naming guard；不实现 schema/validator/fixture、不实现 runtime、不 remote fetch、不执行 provider、不启用 CI、不发布 package、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-321、U-322、U-323、U-324、U-325、U-326、U-327、U-328、U-329、U-330 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-14
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Task ledger state | 通过 | U-321 到 U-330 已入未完成任务表，下一轮默认 U-321 到 U-330 |
+| Public issue state | 通过 | open issues 为 `#60/#59/#41` |
+| Release hygiene gate | 通过 | `npm run release:hygiene` 在 `aods@0.8.0` 上通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-321 到 U-330 |
+
+## 任务执行记录：R-2026-05-13-14
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-321 | 未开始 | 已完成 | 复查 code drift 当前覆盖和下一切片 | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 2 | U-322 | 未开始 | 已完成 | 判断 stable terminology drift hard gate 是否可落地 | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 3 | U-323 | 未开始 | 已完成 | 规划 glossary structured term refs 最小路线 | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 4 | U-324 | 未开始 | 已完成 | 决定 lifecycle alias negative fixture 暂缓实现 | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 5 | U-325 | 未开始 | 已完成 | 评估 docs density lint 可行性 | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 6 | U-326 | 未开始 | 已完成 | 提供 external citation adoption snippet | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 7 | U-327 | 未开始 | 已完成 | 提供 resource surface non-runtime warning | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 8 | U-328 | 未开始 | 已完成 | 汇总 deferred runtime no-go | `aods-drift-adoption-release-guard.zh-CN.md` |
+| 9 | U-329 | 未开始 | 已完成 | 给 public README 增加 v0.8 adoption checklist | `README.md`、`README.zh-CN.md` |
+| 10 | U-330 | 未开始 | 已完成 | 规划下一 release naming guard | `aods-drift-adoption-release-guard.zh-CN.md` |
+
+## 验证记录：R-2026-05-13-14
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene gate | `npm run release:hygiene` | 通过 | 上轮质量复审 gate 通过 |
+| Route query | `node ./bin/aods.mjs route . --query "implementation evidence acceptance terminology drift glossary lifecycle alias external citation resource surface runtime release version" --stage plan --intent read --json` | 通过 | selected validation / authority governance / stable contracts |
+| Public issue snapshot | `gh issue list --state open --limit 20 --json ...` | 通过 | only `#60/#59/#41` open |
+| Release snapshot | `gh release list --limit 10` | 通过 | latest release `v0.8.0` |
+
+## 新发现任务：R-2026-05-13-14
+
+本轮没有新增任务 ID。剩余未完成任务为 0；下一轮必须先做任务发现，不直接启动 runtime。
+
+## 回合结束摘要：R-2026-05-13-14
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-321 到 U-330 |
+| 完成任务 | 10 | U-321 到 U-330 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 0 | 下一轮先做任务发现 |
+
 ## 回合摘要：R-2026-05-13-13
 
 | 项 | 内容 |

@@ -8,40 +8,31 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.8 changelog / conformance docs follow-up complete |
+| 状态 | post-v0.8 drift / adoption / release guard follow-up complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S36 conformance / generated / package docs follow-up |
-| 当前回合 | R-2026-05-13-13 |
-| 未完成任务数量 | 10 |
-| 已完成任务数量 | 325 |
+| 当前阶段 | S37 drift / terminology / adoption / release guard follow-up |
+| 当前回合 | R-2026-05-13-14 |
+| 未完成任务数量 | 0 |
+| 已完成任务数量 | 335 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-13 |
-| 开始时间 | 2026-05-13 13:30 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-14 |
+| 开始时间 | 2026-05-13 14:25 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-311、U-312、U-313、U-314、U-315、U-316、U-317、U-318、U-319、U-320 |
-| 本轮范围 | 上轮质量复审；changelog issue post-close audit；changelog docs example refresh；changelog regression naming cleanup；strict-warning behavior docs；conformance suite release docs；conformance report sample；conformance no-fetch public note；fixture expected-fail docs；generated clean guard docs；package surface allowlist docs |
-| 排除范围 | runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；`npm run release:hygiene`；conformance JSON report smoke；generated/package JSON guard review；focused scaffold regression；`git diff --check`；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-321、U-322、U-323、U-324、U-325、U-326、U-327、U-328、U-329、U-330 |
+| 本轮范围 | 上轮质量复审；code drift next slice revisit；stable terminology drift implementation gate decision；glossary enforcement next slice；lifecycle alias negative fixture decision；docs density lint feasibility；external citation public docs；resource surface docs follow-up；runtime no-go summary refresh；v0.8 adoption checklist；next release naming guard |
+| 排除范围 | schema implementation、validator implementation、lifecycle alias negative fixture implementation、runtime implementation、remote fetch、provider execution、CI workflow enablement、npm publish、release/tag mutation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；`npm run release:hygiene`；route query for drift / terminology / release surfaces；GitHub release / issue snapshot；`git diff --check`；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-321 | S37 | Code drift next slice revisit | P2 | 未开始 | 复查 implementation evidence / acceptance 后下一步 | U-280 | drift |
-| U-322 | S37 | Stable terminology drift implementation gate | P2 | 未开始 | 判断 start/begin fixture 是否应该落地 | U-321 | terminology |
-| U-323 | S37 | Glossary enforcement next slice | P2 | 未开始 | 选择 structured term refs 的最小实现路线 | U-322 | glossary |
-| U-324 | S37 | Lifecycle alias negative fixture | P2 | 未开始 | 如果 U-322 通过，则实现最小负例 | U-323 | fixture |
-| U-325 | S37 | Docs density lint feasibility | P3 | 未开始 | 只做 feasibility，不做 linter | U-280 | docs |
-| U-326 | S37 | External citation public docs | P3 | 未开始 | 提供 citation registry adoption snippet | U-280 | docs |
-| U-327 | S37 | Resource surface docs follow-up | P3 | 未开始 | 提供 resource surface non-runtime warning | U-280 | docs |
-| U-328 | S37 | Runtime no-go summary refresh | P3 | 未开始 | 汇总哪些 runtime 仍 deferred | U-280 | docs |
-| U-329 | S37 | v0.8 adoption checklist | P3 | 未开始 | 写最短采用检查清单 | U-280 | docs |
-| U-330 | S37 | Next release naming guard | P3 | 未开始 | 规划 v0.8 后下一 release 的版本面守卫 | U-280 | release |
+| 无 | - | 当前无未完成任务 | - | - | 下一轮先做任务发现 | - | 不直接启动 runtime |
 
 ## 已完成任务
 
@@ -372,12 +363,22 @@
 | 323 | U-318 | S36 | Fixture expected-fail docs | P2 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | conformance report review | suite pass with expected failures semantics documented |
 | 324 | U-319 | S36 | Generated clean guard docs | P2 | 2026-05-13 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | `npm run generated:check-clean -- --json` | checked paths and dirty diff acceptance rule documented |
 | 325 | U-320 | S36 | Package surface allowlist docs | P2 | 2026-05-13 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | `npm run package:check-surface -- --json` | allowlist update flow documented; current package surface clean |
+| 326 | U-321 | S37 | Code drift next slice revisit | P2 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | route query / drift docs review | next slice chosen as structured terminology references rather than broad scanner |
+| 327 | U-322 | S37 | Stable terminology drift implementation gate | P2 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | terminology drift boundary review | hard gate deferred until structured term refs exist |
+| 328 | U-323 | S37 | Glossary enforcement next slice | P2 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | glossary docs review | minimum future route for `term_refs[]` schema / validator / compile / fixture documented |
+| 329 | U-324 | S37 | Lifecycle alias negative fixture | P2 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | fixture boundary review | fixture implementation deferred because current input would require prose matching |
+| 330 | U-325 | S37 | Docs density lint feasibility | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | docs review | density linter rejected for now; current authority metadata checks are better first step |
+| 331 | U-326 | S37 | External citation public docs | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | citation docs review | adoption snippet documented with no-fetch / no fact-check boundary |
+| 332 | U-327 | S37 | Resource surface docs follow-up | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | resource example docs review | resource surface non-runtime warning documented |
+| 333 | U-328 | S37 | Runtime no-go summary refresh | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | runtime boundary docs review | deferred runtime list and entry conditions refreshed |
+| 334 | U-329 | S37 | v0.8 adoption checklist | P3 | 2026-05-13 | `README.md`、`README.zh-CN.md`、`docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | docs review | shortest v0.8 adoption checklist added to public docs |
+| 335 | U-330 | S37 | Next release naming guard | P3 | 2026-05-13 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | package / release list review | next release naming guard documented: docs-only no release, feature v0.9.0, patch v0.8.1 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-321 到 U-330，不直接启动 runtime |
+| 无 | - | 当前无阻塞任务 | 下一轮先做任务发现，不直接启动 runtime |
 
 ## 负责人判断 / issue 分类
 

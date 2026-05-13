@@ -3,11 +3,11 @@
 日期：2026-05-13
 分支：`main`
 最新提交：以 `git log -1 --oneline` 为准（v0.8 version bump commit 为 `661d66a`；PR `#63` squash merge commit 为 `468eb9f`）
-状态：v0.8 released；changelog / conformance docs follow-up complete
+状态：v0.8 released；post-v0.8 task pool complete
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-320 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。任务池剩余 U-321 到 U-330；下一轮默认选择 U-321 到 U-330，优先推进 code drift、terminology drift、glossary enforcement、docs density、external citation、resource surface、runtime no-go 和 next release naming 后续切片。`MEMORY.md` 仍保持 untracked，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub Release `v0.8.0` 已创建，package / README / packaged skill release surface 已统一到 `0.8.0` / `v0.8.0`。U-027 到 U-330 已完成，20 个 close-on-merge issues 已关闭，`#13` 已按 completed 关闭，`#59/#41` 已同步当前覆盖和剩余工作，当前公开 open issues 为 `#60/#59/#41`。post-v0.8 任务池已清空；下一轮必须先做任务发现，优先从 `#60/#59/#41`、structured term refs、release naming 和 runtime no-go 边界中重新裁剪。`MEMORY.md` 仍保持 untracked，不进仓库。
 
 ## 必读顺序
 
@@ -143,7 +143,8 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 | 128 | `docs/operations/aods-capability-governance-next-slice.zh-CN.md` | 读取 U-291 到 U-300 capability / governance 结果 |
 | 129 | `docs/operations/aods-release-hygiene-skill-drift-followup.zh-CN.md` | 读取 U-301 到 U-310 release hygiene / skill drift follow-up |
 | 130 | `docs/operations/aods-changelog-conformance-docs-followup.zh-CN.md` | 读取 U-311 到 U-320 changelog / conformance docs follow-up |
-| 131 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
+| 131 | `docs/operations/aods-drift-adoption-release-guard.zh-CN.md` | 读取 U-321 到 U-330 drift / adoption / release guard follow-up |
+| 132 | `docs/operations/aods-v0.7-rc-gate.zh-CN.md` | 读取 v0.7 RC gate 结论和 release note skeleton |
 | 130 | `docs/operations/aods-task-ledger.zh-CN.md` | 选择下一轮任务 |
 | 131 | `docs/operations/aods-round-log.zh-CN.md` | 查看当前回合和新增任务记录 |
 
@@ -425,16 +426,11 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 备注 |
 |---:|---|---|---|
-| 1 | U-321 | Code drift next slice revisit | 下一轮默认首选 |
-| 2 | U-322 | Stable terminology drift implementation gate | U-321 后执行 |
-| 3 | U-323 | Glossary enforcement next slice | U-322 后执行 |
-| 4 | U-324 | Lifecycle alias negative fixture | U-323 后执行 |
-| 5 | U-325 | Docs density lint feasibility | U-280 后执行 |
-| 6 | U-326 | External citation public docs | U-280 后执行 |
-| 7 | U-327 | Resource surface docs follow-up | U-280 后执行 |
-| 8 | U-328 | Runtime no-go summary refresh | U-280 后执行 |
-| 9 | U-329 | v0.8 adoption checklist | U-280 后执行 |
-| 10 | U-330 | Next release naming guard | U-280 后执行 |
+| 1 | 待发现 | Post-v0.8 next task discovery | 下一轮必须先新增任务池 |
+| 2 | 待发现 | Public tracker refresh decision | 从 `#60/#59/#41` 重新裁剪 |
+| 3 | 待发现 | Structured term refs design | 只有结构化输入后再做 lifecycle alias negative fixture |
+| 4 | 待发现 | Release naming follow-up | 若有 package-impact change，再定 `v0.8.1` 或 `v0.9.0` |
+| 5 | 待发现 | Runtime no-go follow-up | 不直接实现 runtime |
 
 ## 失败和风险
 
@@ -520,13 +516,8 @@ AODS 是独立权威规范路线。v0.8 已发布：PR `#63` 已 merge，GitHub 
 
 | 顺序 | 任务 ID | 目标 | 验收标准 |
 |---:|---|---|---|
-| 1 | U-321 | Code drift next slice revisit | 复查 implementation evidence / acceptance 后下一步 |
-| 2 | U-322 | Stable terminology drift implementation gate | 判断 start/begin fixture 是否应该落地 |
-| 3 | U-323 | Glossary enforcement next slice | 选择 structured term refs 的最小实现路线 |
-| 4 | U-324 | Lifecycle alias negative fixture | 如果 U-322 通过，则实现最小负例 |
-| 5 | U-325 | Docs density lint feasibility | 只做 feasibility，不做 linter |
-| 6 | U-326 | External citation public docs | citation registry adoption snippet |
-| 7 | U-327 | Resource surface docs follow-up | resource surface non-runtime warning |
-| 8 | U-328 | Runtime no-go summary refresh | 汇总 deferred runtime |
-| 9 | U-329 | v0.8 adoption checklist | 最短采用检查清单 |
-| 10 | U-330 | Next release naming guard | v0.8 后下一 release 版本面守卫 |
+| 1 | 待发现 | Post-v0.8 next task discovery | 先建立新任务池 |
+| 2 | 待发现 | Public tracker refresh decision | `#60/#59/#41` 下一轮公开同步判断 |
+| 3 | 待发现 | Structured term refs design | 为 terminology drift hard gate 提供结构化输入 |
+| 4 | 待发现 | Release naming follow-up | 判断下一次版本面是否需要 `v0.8.1` 或 `v0.9.0` |
+| 5 | 待发现 | Runtime no-go follow-up | 继续保持 runtime entry gate，不直接实现 |

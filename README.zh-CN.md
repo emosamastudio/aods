@@ -421,6 +421,17 @@ npm run validate:compiled-pilot
 npm run validate:all
 ```
 
+### 安全采用 v0.8
+
+1. 从 `v0.8.0` GitHub Release tag 或当前 package source 安装。
+2. 如果项目能维护 `authoring.json`，优先走 source-first authoring。
+3. 发布前运行 `aods compile` 和 `aods validate --strict`。
+4. 只有在声明了 current surface 并需要本地路径检查时，才加 `--reality --repo-root <repo>`。
+5. 用 `aods route --query ... --json` 为任务加载最小权威上下文。
+6. 示例面稳定后，再加入 fixture smoke 或 conformance manifest。
+7. 发布门禁前用 strict gate，把 warning 当成需要处理的问题。
+8. 除非 runtime 已单独实现并有证据，否则不要宣称 runtime 行为。
+
 ### 冒烟检查 fixture manifest
 
 ```bash
