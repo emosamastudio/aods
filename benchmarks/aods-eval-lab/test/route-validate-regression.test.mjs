@@ -160,6 +160,54 @@ test("provider discovery remains static and requires evidence", (t) => {
   assert.match(networkIssue.remediation.guidance, /static/);
 });
 
+test("event correction rows require projection guidance without replay semantics", (t) => {
+  const eventModulePath = path.join(
+    REPO_ROOT,
+    "examples",
+    "compiled-pilot",
+    "modules",
+    "shift-ops-change-event-log.json"
+  );
+  const eventModule = JSON.parse(fs.readFileSync(eventModulePath, "utf8"));
+  const correctionGraph = eventModule.artifacts.find(
+    (entry) => entry.artifact_id === "change-event-correction-graph"
+  );
+
+  assert.ok(correctionGraph);
+  const columns = correctionGraph.content.columns;
+  const projectionGuidanceIndex = columns.indexOf("projection_guidance");
+  const correctedRow = correctionGraph.content.rows.find((row) => row[0] === "evt-change-corrected");
+  const replacedRow = correctionGraph.content.rows.find((row) => row[0] === "evt-change-replaced");
+
+  assert.equal(correctedRow[projectionGuidanceIndex], "advisory");
+  assert.equal(replacedRow[projectionGuidanceIndex], "replacement");
+
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-projection-guidance-regression-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const corpusRoot = path.join(tempDir, "compiled-pilot-missing-projection-guidance");
+  fs.cpSync(path.join(REPO_ROOT, "examples", "compiled-pilot"), corpusRoot, { recursive: true });
+
+  const modulePath = path.join(corpusRoot, "modules", "shift-ops-change-event-log.json");
+  const module = JSON.parse(fs.readFileSync(modulePath, "utf8"));
+  const artifact = module.artifacts.find((entry) => entry.artifact_id === "change-event-correction-graph");
+  const negativeProjectionIndex = artifact.content.columns.indexOf("projection_guidance");
+  const negativeCorrectedRow = artifact.content.rows.find((row) => row[0] === "evt-change-corrected");
+  negativeCorrectedRow[negativeProjectionIndex] = "";
+  fs.writeFileSync(modulePath, `${JSON.stringify(module, null, 2)}\n`);
+
+  const report = runCli(["validate", corpusRoot, "--strict", "--json"], { expectedStatus: 1 });
+  const issues = Object.values(report.levels).flatMap((level) => [...level.errors, ...level.warnings]);
+  const issue = issues.find((entry) => entry.rule === "event-projection-guidance-required");
+
+  assert.ok(issue);
+  assert.equal(issue.module_id, "shift-ops-change-event-log");
+  assert.equal(issue.artifact_id, "change-event-correction-graph");
+  assert.equal(issue.event_id, "evt-change-corrected");
+  assert.equal(issue.remediation.action, "add-event-projection-guidance");
+  assert.match(issue.remediation.guidance, /without replaying history/);
+});
+
 test("top-level help documents route skipped-module diagnostics flag", () => {
   const result = spawnSync("node", [CLI_PATH, "--help"], {
     cwd: REPO_ROOT,

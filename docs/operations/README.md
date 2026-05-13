@@ -54,6 +54,7 @@
 | [aods-operations-public-sync-hygiene.zh-CN.md](./aods-operations-public-sync-hygiene.zh-CN.md) | U-712 到 U-721 operations memory / public issue / milestone sync hygiene |
 | [aods-final-semantic-candidate-decisions.zh-CN.md](./aods-final-semantic-candidate-decisions.zh-CN.md) | U-722 到 U-731 final semantic candidate decisions / next task pool expansion |
 | [aods-provider-discovery-static-guard-implementation.zh-CN.md](./aods-provider-discovery-static-guard-implementation.zh-CN.md) | U-732 到 U-741 provider discovery source-first static guard implementation |
+| [aods-projection-guidance-static-guard-implementation.zh-CN.md](./aods-projection-guidance-static-guard-implementation.zh-CN.md) | U-742 到 U-751 projection guidance static guard implementation |
 
 ## 当前公开示例入口
 

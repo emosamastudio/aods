@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | provider discovery static guard implementation complete |
+| 状态 | projection guidance static guard implementation complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S92 projection guidance static guard implementation |
-| 当前回合 | R-2026-05-13-56 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 746 |
+| 当前阶段 | S93 policy workflow migration boundary hardening |
+| 当前回合 | R-2026-05-13-57 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 756 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-56 |
-| 开始时间 | 2026-05-13 23:01 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-57 |
+| 开始时间 | 2026-05-13 23:11 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-732、U-733、U-734、U-735、U-736、U-737、U-738、U-739、U-740、U-741 |
-| 本轮范围 | 上轮质量复审；provider discovery source-first preflight；provider discovery positive source-first candidate；generated output review；missing evidence negative fixture；validator issue shape；focused regression；non-execution assertion；docs wording decision；package boundary decision；`#64` progress sync |
-| 排除范围 | live provider lookup、auth exchange、network probing、provider ranking、fallback executor、adapter call、remote gateway、database mutation、conformance promotion、README quickstart expansion、package adoption surface expansion、npm publish、version bump、tag creation、GitHub Release creation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；compile pilot；focused regression；compiled-pilot strict reality validation；route query smoke；GitHub comment link; docs link check；package surface check；release hygiene final；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-742、U-743、U-744、U-745、U-746、U-747、U-748、U-749、U-750、U-751 |
+| 本轮范围 | 上轮质量复审；projection guidance existing coverage audit；missing negative fixture design；validator issue shape；focused regression；no-replay wording audit；route query behavior；conformance promotion no-go；package sample boundary；public issue sync decision；implementation retrospective |
+| 排除范围 | event store、event replay、read-model refresh、history migration、current-truth inference、conformance promotion、README quickstart expansion、package adoption surface expansion、GitHub comment、npm publish、version bump、tag creation、GitHub Release creation、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；focused regression；compiled-pilot strict reality validation；route query smoke；docs link check；package surface check；release hygiene final；task ledger count check；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-742 | S92 | Projection guidance existing coverage audit | P2 | 未开始 | 复核 compiled-pilot 当前 projection guidance 覆盖点 | U-723 | no replay |
-| U-743 | S92 | Projection guidance missing negative fixture design | P2 | 未开始 | 定义缺 projection guidance 的 event correction 负例 | U-742 | no event store |
-| U-744 | S92 | Projection guidance validator issue shape | P2 | 未开始 | 定义 issue code / severity / remediation | U-743 | JSON output |
-| U-745 | S92 | Projection guidance focused regression | P2 | 未开始 | 增加负例 regression，证明 correction 改变含义时必须有 guidance | U-744 | test |
-| U-746 | S92 | Projection guidance no-replay wording audit | P3 | 未开始 | 复核 README/docs 是否仍明确不做 replay/runtime | U-745 | docs |
-| U-747 | S92 | Projection guidance route query behavior | P3 | 未开始 | 确认 route 查询 event correction 时能找到正确示例但不过读 | U-745 | route |
-| U-748 | S92 | Projection guidance conformance promotion no-go | P3 | 未开始 | focused regression 后复核是否仍不进 conformance | U-745 | conformance no-go |
-| U-749 | S92 | Projection guidance package sample boundary | P3 | 未开始 | 判断 package sample 是否无需刷新 | U-745 | package |
-| U-750 | S92 | Projection guidance public issue sync decision | P3 | 未开始 | 判断是否需要公开同步，默认不新增评论 | U-745 | GitHub |
-| U-751 | S92 | Projection guidance implementation retrospective | P3 | 未开始 | 总结 event correction static guard 的价值和边界 | U-745 | ops |
 | U-752 | S93 | Policy decision minimal field checklist | P3 | 未开始 | 列出 policy claim / decision / receipt / approval 最小字段边界 | U-724 | no engine |
 | U-753 | S93 | Policy decision no-engine docs audit | P3 | 未开始 | 复核文档是否误导为 policy engine | U-752 | docs |
 | U-754 | S93 | Policy decision missing evidence fixture plan | P3 | 未开始 | 设计缺 decision evidence 的未来负例 | U-752 | plan only |
@@ -80,16 +70,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 717 | U-712 | S89 | Knowledge base write after post-v0.9 retrospective | P3 | 2026-05-13 | operations public sync hygiene doc | knowledge structure read / docs link check | no KB write; required root navigation files absent |
-| 718 | U-713 | S89 | MEMORY installed skill sync execution decision | P3 | 2026-05-13 | operations public sync hygiene doc | skill diff / docs link check | installed skill not overwritten |
-| 719 | U-714 | S89 | Operations topic table archive/generator revisit | P3 | 2026-05-13 | operations public sync hygiene doc | docs link check | hand-maintained table retained |
-| 720 | U-715 | S89 | Task ledger new pool archive sync | P3 | 2026-05-13 | task ledger | task ledger count check | no archive split needed |
-| 721 | U-716 | S89 | Handoff next pool compression | P3 | 2026-05-13 | handoff | docs link check | next pool compressed to U-722..U-731 |
-| 722 | U-717 | S89 | Round log short-entry discipline check | P3 | 2026-05-13 | round log | docs link check | short-entry discipline retained |
-| 723 | U-718 | S89 | AGENTS proxy / GitHub note parity audit | P3 | 2026-05-13 | operations public sync hygiene doc / MEMORY | docs link check | proxy and GitHub authorization notes aligned |
-| 724 | U-719 | S89 | Public issue `#60` body checkbox reconciliation decision | P3 | 2026-05-13 | `gh issue view 60` | GitHub issue read / docs link check | no body/comment edit |
-| 725 | U-720 | S89 | Public issue `#64` runtime fixture progress comment decision | P3 | 2026-05-13 | `gh issue view 64` | GitHub issue read / docs link check | no new comment |
-| 726 | U-721 | S89 | Milestone no-go revisit after new pool | P3 | 2026-05-13 | `gh api repos/emosamastudio/aods/milestones` | GitHub milestone read / docs link check | zero milestones; no create |
 | 727 | U-722 | S90 | Projection guidance source-first candidate | P2 | 2026-05-13 | final semantic candidate decisions doc | historical topic read / docs link check | no standalone source-first正例；推进缺 guidance 负例 |
 | 728 | U-723 | S90 | Event correction projection negative fixture | P2 | 2026-05-13 | final semantic candidate decisions doc | docs link check | queued `event-projection-guidance-required` |
 | 729 | U-724 | S90 | Policy decision static shape second review | P3 | 2026-05-13 | final semantic candidate decisions doc | docs link check | deferred; no policy engine/schema |
@@ -110,12 +90,22 @@
 | 744 | U-739 | S91 | Provider discovery docs wording after fixture | P3 | 2026-05-13 | provider discovery static guard implementation doc | docs link check | operations-only wording, README unchanged |
 | 745 | U-740 | S91 | Provider discovery package boundary after implementation | P3 | 2026-05-13 | package surface check | `npm run package:check-surface -- --json` | entry_count remains 61 |
 | 746 | U-741 | S91 | Provider discovery `#64` progress sync after implementation | P3 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/64#issuecomment-4442371004` | `gh issue comment 64` | static prerequisite sync only |
+| 747 | U-742 | S92 | Projection guidance existing coverage audit | P2 | 2026-05-13 | projection guidance static guard implementation doc | source/read audit | `projection_guidance` column already present |
+| 748 | U-743 | S92 | Projection guidance missing negative fixture design | P2 | 2026-05-13 | focused regression | focused test | removes guidance from corrected row |
+| 749 | U-744 | S92 | Projection guidance validator issue shape | P2 | 2026-05-13 | `lib/validate.mjs` | focused test | `event-projection-guidance-required` |
+| 750 | U-745 | S92 | Projection guidance focused regression | P2 | 2026-05-13 | route/validate regression test | focused regression | 6 tests pass |
+| 751 | U-746 | S92 | Projection guidance no-replay wording audit | P3 | 2026-05-13 | remediation / README audit | docs link check | no replay wording retained |
+| 752 | U-747 | S92 | Projection guidance route query behavior | P3 | 2026-05-13 | route query smoke | route query | selected only `shift-ops-change-event-log` |
+| 753 | U-748 | S92 | Projection guidance conformance promotion no-go | P3 | 2026-05-13 | projection guidance static guard implementation doc | release hygiene | remains focused-regression-only |
+| 754 | U-749 | S92 | Projection guidance package sample boundary | P3 | 2026-05-13 | package surface check | package surface check | package surface unchanged |
+| 755 | U-750 | S92 | Projection guidance public issue sync decision | P3 | 2026-05-13 | projection guidance static guard implementation doc | docs link check | no GitHub comment |
+| 756 | U-751 | S92 | Projection guidance implementation retrospective | P3 | 2026-05-13 | projection guidance static guard implementation doc | docs link check | value/boundary summarized |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-742 到 U-751 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-752 到 U-761 |
 
 ## 负责人判断 / issue 分类
 
@@ -136,4 +126,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；provider discovery source-first 静态记录、missing evidence / network-disabled validator rules 和 focused regression 已完成；`#64` 已同步静态前置进展；package surface 未扩大；下一轮默认 U-742 到 U-751。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；projection guidance static guard 已完成，`event-projection-guidance-required` 确保 correction / supersession 行声明 projection guidance 且不触发 replay；package surface 未扩大；下一轮默认 U-752 到 U-761。
