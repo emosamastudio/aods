@@ -2,6 +2,78 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-42
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-42 |
+| 开始时间 | 2026-05-13 24:45 Asia/Shanghai |
+| 结束时间 | 2026-05-13 25:25 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-41 复审；release source archive repeatability audit；README install command post-release smoke；package README release link audit；release notes non-goal wording audit；npm publish decision；installed skill package-vs-local drift audit；release hygiene CI reconsideration；hosted repeatability post-release rerun decision；operations archive pruning decision；code drift validator next-slice triage；source-first README non-goal phrase rework；不发布 npm、不启用 CI、不运行 hosted repeatability、不归档 operations、不覆盖 installed skill、不实现 schema/validator/fixture/runtime、不调用 provider、不交换 auth、不 dynamic probing、不 fallback executor、不连接数据库、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-592、U-593、U-594、U-595、U-596、U-597、U-598、U-599、U-600、U-601 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-42
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `f986315 Document post-v0.9 runtime prerequisites` |
+| Task ledger state | 通过 | U-592 到 U-601 为当前默认任务 |
+| Release/tag state | 通过 | `v0.9.0` release/tag 存在 |
+| 返工项 | 1 | 本轮 focused test 发现 source-first README phrase drift，已修复并复测通过 |
+
+## 任务执行记录：R-2026-05-13-42
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-592 | 未开始 | 已完成 | 审查 release source tarball / zipball | archive audit |
+| 2 | U-593 | 未开始 | 已完成 | 用 README install command 从 tag 安装并验证 help | installed `aods@0.9.0` |
+| 3 | U-594 | 未开始 | 已完成 | 审查 packaged README release links | packed README grep |
+| 4 | U-595 | 未开始 | 已完成 | 审查 release notes non-goal wording | release body grep |
+| 5 | U-596 | 未开始 | 已完成 | 决定不 npm publish | adoption evidence doc |
+| 6 | U-597 | 未开始 | 已完成 | 比较 packaged skill 与 local installed skill | skill diff |
+| 7 | U-598 | 未开始 | 已完成 | 决定不启用 CI | adoption evidence doc |
+| 8 | U-599 | 未开始 | 已完成 | 决定不运行 hosted repeatability | adoption evidence doc |
+| 9 | U-600 | 未开始 | 已完成 | 决定暂不 prune operations archive | adoption evidence doc |
+| 10 | U-601 | 未开始 | 已完成 | 选择下一 code drift validator route | U-602/U-603 review then U-604 |
+
+## 返工记录：R-2026-05-13-42
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| `example-packs.test.mjs` 要求 source-first README 包含稳定 non-goal phrase，但 README 中间插入了 event replay wording | 将句子拆成稳定 phrase + 独立 “does not replay events” 句子 | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs benchmarks/aods-eval-lab/test/example-packs.test.mjs` 通过，48 tests passed |
+
+## 验证记录：R-2026-05-13-42
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release view | `gh release view v0.9.0 --json ...` | 通过 | release body / tarball / zipball available |
+| Tag audit | `git ls-remote --tags origin 'v0.9.0^{}'` | 通过 | tag derefs to `ea9e44c` |
+| Archive audit | `gh api .../tarball` / `gh api .../zipball` | 通过 | package `aods@0.9.0` and README v0.9 links present |
+| README install smoke | `npm install ...#v0.9.0` / CLI help | 通过 | installed `aods@0.9.0` |
+| Packaged README audit | `npm pack` + `rg v0.9.0` | 通过 | English and Chinese README release surfaces present |
+| Release non-goal audit | `gh release view ... --json body` + `rg` | 通过 | no runtime overclaim |
+| Skill drift audit | `diff -u` repo skill vs local installed skill | 通过 | drift recorded; no overwrite |
+| Focused tests after rework | `node --test benchmarks/aods-eval-lab/test/scaffold.test.mjs benchmarks/aods-eval-lab/test/example-packs.test.mjs` | 通过 | 48 tests passed |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown links valid |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+| Task ledger count check | local count script | 通过 | unfinished=30, completedRecent=30 |
+
+## 回合结束摘要：R-2026-05-13-42
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-592 到 U-601 |
+| 完成任务 | 10 | U-592 到 U-601 |
+| 返工项 | 1 | source-first README non-goal phrase drift |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-602 到 U-611 |
+
 ## 回合摘要：R-2026-05-13-41
 
 | 项 | 内容 |

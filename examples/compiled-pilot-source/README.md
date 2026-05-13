@@ -41,7 +41,7 @@ Run `npm run validate:all` before treating changes as repository-ready. If a cha
 
 The fixture manifest includes conventional positive examples plus a first slice of negative fixture-manifest inputs. The smoke step checks those declarations and paths; it does not execute update commands or replace the conformance runner.
 
-These packs are adoption examples. Event correction graph content is a static packaged example and validator target; it is not an event store, event replay mechanism, command executor, adapter runtime, resource scheduler, crawler, or fact checker.
+These packs are adoption examples. Event correction graph content is a static packaged example and validator target; it is not a command executor, event store, adapter runtime, resource scheduler, crawler, or fact checker. It also does not replay events.
 
 ## Package boundary
 

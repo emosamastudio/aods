@@ -39,6 +39,7 @@
 | [aods-post-regression-audits-version-bump.zh-CN.md](./aods-post-regression-audits-version-bump.zh-CN.md) | U-562 到 U-571 post-regression audits / v0.9 version bump |
 | [aods-v0.9-release-closeout.zh-CN.md](./aods-v0.9-release-closeout.zh-CN.md) | U-572 到 U-581 v0.9 release closeout / next task discovery |
 | [aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md](./aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md) | U-582 到 U-591 post-v0.9 roadmap / runtime protocol prerequisites |
+| [aods-post-v0.9-release-adoption-evidence.zh-CN.md](./aods-post-v0.9-release-adoption-evidence.zh-CN.md) | U-592 到 U-601 post-v0.9 release / adoption evidence and code-drift triage |
 
 ## 当前公开示例入口
 

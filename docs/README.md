@@ -43,6 +43,7 @@
 | `docs/operations/aods-post-regression-audits-version-bump.zh-CN.md` | U-562 到 U-571 post-regression audits / v0.9 version bump 记录。 |
 | `docs/operations/aods-v0.9-release-closeout.zh-CN.md` | U-572 到 U-581 v0.9 release closeout / next task discovery 记录。 |
 | `docs/operations/aods-post-v0.9-roadmap-runtime-prereqs.zh-CN.md` | U-582 到 U-591 post-v0.9 roadmap / runtime protocol prerequisites 记录。 |
+| `docs/operations/aods-post-v0.9-release-adoption-evidence.zh-CN.md` | U-592 到 U-601 post-v0.9 release / adoption evidence and code-drift triage 记录。 |
 | `docs/operations/archive/` | 拆分前的长入口、完整任务台账和完整交接归档。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |

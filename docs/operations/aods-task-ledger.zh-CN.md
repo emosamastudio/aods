@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | post-v0.9 roadmap and runtime prerequisite packet complete |
+| 状态 | post-v0.9 release adoption evidence complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S75 post-release adoption and artifact evidence hardening |
-| 当前回合 | R-2026-05-13-41 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 596 |
+| 当前阶段 | S76 code drift validator hardening |
+| 当前回合 | R-2026-05-13-42 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 606 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-41 |
-| 开始时间 | 2026-05-13 24:05 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-42 |
+| 开始时间 | 2026-05-13 24:45 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-582、U-583、U-584、U-585、U-586、U-587、U-588、U-589、U-590、U-591 |
-| 本轮范围 | 上轮质量复审；`#60` roadmap body refresh packet；`#64` runtime/protocol issue body refresh execution；public open issue label / priority audit；milestone decision；runtime/protocol static record shape plan；trust boundary matrix；adapter handshake metadata schema feasibility；provider discovery non-execution invariant；fallback ranking deferral contract；runtime/protocol negative fixture candidates |
-| 排除范围 | `#60` body edit、issue close、milestone create、schema implementation、validator implementation、fixture implementation、runtime implementation、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、database connection、CI enablement、installed skill mutation、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；release hygiene；`#64` body view after edit；open issue label snapshot；milestones API；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-592、U-593、U-594、U-595、U-596、U-597、U-598、U-599、U-600、U-601 |
+| 本轮范围 | 上轮质量复审；release source archive repeatability audit；README install command post-release smoke；package README release link audit；release notes non-goal wording audit；npm publish decision；installed skill package-vs-local drift audit；release hygiene CI reconsideration；hosted repeatability rerun decision；operations archive pruning decision；code drift validator next-slice triage；source-first README non-goal phrase rework |
+| 排除范围 | npm publish、CI enablement、hosted repeatability execution、operations archive pruning、installed skill mutation、schema implementation、validator implementation、fixture implementation、runtime implementation、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、database connection、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；release archive tar/zip audit；README install smoke；package README link audit；release notes audit；installed skill diff; focused scaffold/example-packs test; docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-592 | S75 | Release source archive repeatability audit | P2 | 未开始 | 复查 GitHub source tarball / zipball 与 tag source 一致性 | U-576 | - |
-| U-593 | S75 | README install command post-release smoke | P2 | 未开始 | 用 README command 从 tag 安装并验证 CLI help | U-572 | - |
-| U-594 | S75 | Package README release link audit | P3 | 未开始 | 确认 packaged README links point to live v0.9 release | U-576 | - |
-| U-595 | S75 | Release notes public non-goal wording audit | P3 | 未开始 | 审查 release body 是否无 runtime overclaim | U-572 | - |
-| U-596 | S75 | npm publish decision after GitHub release | P2 | 未开始 | 决定是否继续仅 GitHub source release | U-576 | no npm publish unless explicitly authorized |
-| U-597 | S75 | Installed skill package-vs-local drift audit | P2 | 未开始 | 比较 repo packaged skill 与 local installed skill | U-578 | no overwrite by default |
-| U-598 | S75 | Release hygiene CI reconsideration after v0.9 | P3 | 未开始 | 再判断是否添加 local-only CI job | U-572 | - |
-| U-599 | S75 | Hosted repeatability post-release rerun decision | P3 | 未开始 | 决定是否 owner-run hosted repeatability as supplemental evidence | U-572 | no gate |
-| U-600 | S75 | Operations archive pruning after release | P3 | 未开始 | 判断是否归档/压缩当前 round log 和 handoff 历史 | U-577 | - |
-| U-601 | S76 | Code drift validator next-slice triage | P1 | 未开始 | 从 open roadmap / recent regressions 选择下一 validator hardening slice | U-579 | - |
 | U-602 | S76 | Implementation repo duplicate-id regression review | P1 | 未开始 | 确认 duplicate implementation repo id 是否仍需要 L2 validator coverage | U-601 | - |
 | U-603 | S76 | Contract metadata mirror regression audit | P1 | 未开始 | 确认 authoring meta mirror families 是否仍有 compiler drift risk | U-601 | - |
 | U-604 | S76 | Lifecycle alias terminology drift fixture revisit | P2 | 未开始 | 复审 `start` vs `begin` 检测是否可用 term_refs 落地 | U-601 | - |
@@ -85,16 +75,6 @@
 | 569 | U-564 | S72 | Migration dry-run issue/body linkage audit | P3 | 2026-05-13 | post-regression audits doc | scope review | benchmark-only helper；no public issue linkage |
 | 570 | U-565 | S72 | Public docs no-runtime wording audit | P2 | 2026-05-13 | README / docs wording audit | `rg` no-runtime audit | no overclaim found |
 | 571 | U-566 | S72 | Source-first example post-regression smoke | P2 | 2026-05-13 | compile / validate / fixture / conformance outputs | `npm run compile:pilot && npm run validate:compiled-pilot && npm run fixture:smoke && npm run conformance:compiled-pilot` | source-first smoke pass |
-| 572 | U-567 | S72 | Package surface post-regression audit | P2 | 2026-05-13 | package surface / pack dry-run | `npm run package:check-surface -- --json`、`npm pack --dry-run --json` | package entries remain 61 |
-| 573 | U-568 | S72 | Docs examples post-regression refresh decision | P3 | 2026-05-13 | post-regression audits doc | docs/examples review | no new public sample needed |
-| 574 | U-569 | S72 | Benchmark generated post-regression audit | P3 | 2026-05-13 | generated clean output | `npm run generated:check-clean -- --json` | no generated churn |
-| 575 | U-570 | S72 | Security placeholder post-regression audit | P3 | 2026-05-13 | secret-like scan output | `npm run security:scan-placeholders -- --json` | hits=0 |
-| 576 | U-571 | S73 | v0.9 version bump implementation | P1 | 2026-05-13 | package / lockfile / README / skill surfaces | version surface audit / skill tests | surfaces bumped to `0.9.0` / `v0.9.0`；tag/release pending |
-| 577 | U-572 | S73 | v0.9 tag and GitHub release execution | P1 | 2026-05-13 | GitHub Release `v0.9.0` | `git tag` / `git push origin v0.9.0` / `gh release create` | release published non-draft/non-prerelease |
-| 578 | U-573 | S73 | GitHub release source install smoke execution | P1 | 2026-05-13 | temp install from tag | `npm install ...#v0.9.0` + help / validate / fixture / conformance | installed package `aods@0.9.0` |
-| 579 | U-574 | S73 | Public issue close execution after release | P1 | 2026-05-13 | issue snapshot / release closeout doc | `gh issue list` | no open metadata-scoped issue to close；`#60/#64` remain open |
-| 580 | U-575 | S73 | Roadmap tracker post-release refresh | P2 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/60#issuecomment-4439759877` | `gh issue comment 60` | post-release status synced |
-| 581 | U-576 | S73 | Post-release package artifact audit | P2 | 2026-05-13 | release view / tag deref / pack dry-run | `gh release view v0.9.0` / `git ls-remote --tags` / `npm pack --dry-run --json` | source archive available, assets empty by policy, package entryCount=61 |
 | 582 | U-577 | S73 | Post-release handoff and ledger closeout | P2 | 2026-05-13 | handoff / ledger / progress / round log | docs link / count check | release state and next pool recorded |
 | 583 | U-578 | S73 | Installed skill sync decision after release | P2 | 2026-05-13 | release closeout doc | decision review | no local installed skill mutation this round |
 | 584 | U-579 | S73 | Next roadmap task discovery after v0.9 | P2 | 2026-05-13 | task ledger U-582..U-631 | issue / release state review | 50 post-release tasks added |
@@ -110,11 +90,21 @@
 | 594 | U-589 | S74 | Provider discovery non-execution invariant plan | P2 | 2026-05-13 | prereqs doc | release hygiene | validate/fixture/conformance must not call providers |
 | 595 | U-590 | S74 | Fallback ranking deferral contract | P2 | 2026-05-13 | prereqs doc | design review | fallback metadata remains non-executing |
 | 596 | U-591 | S74 | Runtime/protocol negative fixture candidate list | P2 | 2026-05-13 | prereqs doc | design review | seven candidate negative fixtures listed; not implemented |
+| 597 | U-592 | S75 | Release source archive repeatability audit | P2 | 2026-05-13 | archive tar/zip audit | `gh api .../tarball` / `gh api .../zipball` | archives contain `aods@0.9.0`; tag source intentionally before later ops commits |
+| 598 | U-593 | S75 | README install command post-release smoke | P2 | 2026-05-13 | temp install from README command | `npm install ...#v0.9.0` / CLI help | installed `aods@0.9.0` |
+| 599 | U-594 | S75 | Package README release link audit | P3 | 2026-05-13 | packed README grep | `npm pack` / `rg v0.9.0` | English and Chinese README release links/install snippets point to v0.9 |
+| 600 | U-595 | S75 | Release notes public non-goal wording audit | P3 | 2026-05-13 | release body grep | `gh release view v0.9.0 --json body` | runtime/gateway/migration/provider non-goals explicit |
+| 601 | U-596 | S75 | npm publish decision after GitHub release | P2 | 2026-05-13 | adoption evidence doc | decision review | no npm publish without dedicated registry authorization |
+| 602 | U-597 | S75 | Installed skill package-vs-local drift audit | P2 | 2026-05-13 | skill diff | `diff -u` | repo skill v0.9 newer; no local overwrite |
+| 603 | U-598 | S75 | Release hygiene CI reconsideration after v0.9 | P3 | 2026-05-13 | adoption evidence doc | release hygiene | no CI enablement this round |
+| 604 | U-599 | S75 | Hosted repeatability post-release rerun decision | P3 | 2026-05-13 | adoption evidence doc | decision review | no hosted rerun; supplemental only |
+| 605 | U-600 | S75 | Operations archive pruning after release | P3 | 2026-05-13 | adoption evidence doc | docs review | no pruning until post-release slices settle |
+| 606 | U-601 | S76 | Code drift validator next-slice triage | P1 | 2026-05-13 | adoption evidence doc / focused tests | scaffold + example-packs tests | next route U-602/U-603 review then U-604 lifecycle alias |
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-592 到 U-601 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-602 到 U-611 |
 
 ## 负责人判断 / issue 分类
 
@@ -123,7 +113,7 @@
 | public roadmap | #60 | 保持 open；v0.9 post-release status comment 已发布；body refresh packet 已准备 | 后续若 owner 接受，再执行 body edit |
 | observability | #59 | 已关闭 metadata/reporting scope | 后续 runtime/dashboard/trace backend 不在当前 release 范围 |
 | capability | #41 | 已关闭 metadata-first scope；runtime/protocol 已拆到 `#64` | `#64` body 已更新，后续先做静态前置而非 runtime |
-| milestone | GitHub milestones | 当前无 milestone；v0.9 已发布；本轮决定继续不创建 | 下一轮默认进入 release/adoption evidence 和 code drift hardening |
+| milestone | GitHub milestones | 当前无 milestone；v0.9 已发布；本轮决定继续不创建 | 下一轮默认进入 code drift validator hardening |
 
 ## 新发现任务暂存区
 
@@ -135,4 +125,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；package / README / skill surface 已同步到 `0.9.0` / `v0.9.0`；GitHub Release `v0.9.0` 已 published；tag source install smoke 通过；`#60/#64` 保持 open；`#64` body 已更新；runtime/protocol static record shape、trust boundary、non-execution invariant、fallback deferral 和 negative fixture candidates 已形成设计包；下一阶段进入 release/adoption evidence hardening 和 code drift validator hardening。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；package / README / skill surface 已同步到 `0.9.0` / `v0.9.0`；GitHub Release `v0.9.0` 已 published；tag source install smoke、README install smoke、archive tar/zip audit、packaged README link audit 和 release notes non-goal audit 通过；本地 installed skill drift 已记录但不覆盖；CI、hosted repeatability、npm publish 和 archive pruning 均保持 no-go；下一阶段进入 code drift validator hardening。
