@@ -25,7 +25,13 @@ npm run validate:compiled-pilot
 npm run fixture:smoke
 ```
 
-5. Route to the smallest relevant authority before changing a pack:
+5. Run the read-only conformance suite when a change touches fixtures, validation expectations, or packaged example behavior:
+
+```bash
+npm run conformance:compiled-pilot
+```
+
+6. Route to the smallest relevant authority before changing a pack:
 
 ```bash
 node ./bin/aods.mjs route ./examples/compiled-pilot --query "release readiness evidence and acceptance criteria" --intent read --stage orientation
@@ -33,9 +39,23 @@ node ./bin/aods.mjs route ./examples/compiled-pilot --query "release readiness e
 
 Run `npm run validate:all` before treating changes as repository-ready. If a change updates example semantics, review the generated diff in `examples/compiled-pilot/` and the fixture manifest together.
 
-The fixture manifest includes conventional positive examples plus a first slice of negative fixture-manifest inputs. The smoke step checks those declarations and paths; it does not execute update commands or replace a full conformance runner.
+The fixture manifest includes conventional positive examples plus a first slice of negative fixture-manifest inputs. The smoke step checks those declarations and paths; it does not execute update commands or replace the conformance runner.
 
 These packs are adoption examples. They are not a command executor, event store, adapter runtime, resource scheduler, crawler, or fact checker.
+
+## Package boundary
+
+The npm/GitHub package includes this source-first pilot, the compiled pilot output, fixture manifests, conformance manifests, CLI code, schema, spec, README files, license, and release-aligned skill package. It does not include `docs/examples/*.sample.json`, benchmark generated corpora, benchmark reports, or operations history. Those files are repository documentation and regression evidence, not package adoption surface.
+
+## Upgrading older examples
+
+When updating an older source-first example, use this order:
+
+1. Keep `authoring.json` as the writable source of authority.
+2. Run `npm run compile:pilot` or the equivalent `aods compile <source> <target> --force`.
+3. Run strict validation on the compiled output.
+4. Add or refresh fixture and conformance cases only after the generated diff is reviewed.
+5. Keep generated output and authoring source in the same change.
 
 ## What this pilot demonstrates
 

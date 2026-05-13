@@ -4,6 +4,8 @@ This directory contains compact public sample snippets for docs and issue discus
 
 These files are hand-curated from current CLI output shapes. They are not generated golden outputs, and they are not part of the npm package surface unless a future release task explicitly promotes them.
 
+Packaged adoption examples live under `examples/compiled-pilot-source/` and `examples/compiled-pilot/`. This directory is only for short public snippets used in README text and issue comments.
+
 | File | Purpose |
 |---|---|
 | [`validate-summary.sample.json`](./validate-summary.sample.json) | Minimal successful `validate --json` shape for public docs. |

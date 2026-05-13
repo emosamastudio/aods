@@ -26,6 +26,7 @@
 | [aods-v0.9-release-candidate-prep.zh-CN.md](./aods-v0.9-release-candidate-prep.zh-CN.md) | U-432 到 U-441 v0.9 release candidate preparation |
 | [aods-public-close-criteria-roadmap-sync.zh-CN.md](./aods-public-close-criteria-roadmap-sync.zh-CN.md) | U-442 到 U-451 public close criteria / roadmap sync packet |
 | [aods-public-sync-authority-drift-maintenance.zh-CN.md](./aods-public-sync-authority-drift-maintenance.zh-CN.md) | U-452 到 U-461 public sync / authority drift maintenance |
+| [aods-examples-ci-benchmark-policy.zh-CN.md](./aods-examples-ci-benchmark-policy.zh-CN.md) | U-462 到 U-471 examples / CI / benchmark policy |
 
 ## 当前公开示例入口
 

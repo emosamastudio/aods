@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；public sync and authority drift maintenance complete
+状态：v0.8 released；examples CI benchmark policy complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-461 已完成；当前任务池剩余 U-462 到 U-481，下一轮默认执行 U-462 到 U-471，重点是 source-first / package examples、local hygiene CI design 和 benchmark policy。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-471 已完成；当前任务池剩余 U-472 到 U-481，下一轮默认执行 U-472 到 U-481，重点是 benchmark clean audit、runtime prerequisite refresh、public state refresh、retrospective 和下一任务池扩展。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -41,6 +41,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Operations split | 完成 | 旧长入口和完整历史已归档；当前入口变短 |
 | Release planning | 已完成候选准备 | v0.9.0 release notes draft、package dry-run、packed install smoke 和 go/no-go 已入账；仍不发布、不打 tag |
 | Public close criteria / sync | 已完成 | `#41/#59/#60` 均保持 open；已评论同步边界和状态，不关闭、不编辑 body |
+| Examples / CI / benchmark policy | 已完成 | source-first README 已补 conformance step；package sample 边界已明确；local hygiene CI 和 hosted repeatability 仍不默认启用 |
 
 ## 当前风险
 
@@ -57,8 +58,9 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-462 | source-first quickstart sample audit |
-| 2 | U-463 | package sample documentation pass |
-| 3 | U-464 | examples upgrade guidance |
-| 4 | U-465 到 U-468 | local hygiene CI design / generated clean / docs link / secret scan dry-runs |
-| 5 | U-469 到 U-471 | benchmark summary / hosted repeatability / archive policy decisions |
+| 1 | U-472 | benchmark result clean audit |
+| 2 | U-473 | workflow runtime prerequisite refresh |
+| 3 | U-474 | event store prerequisite refresh |
+| 4 | U-475 | policy engine prerequisite refresh |
+| 5 | U-476 到 U-477 | remote gateway / migration prerequisite refresh |
+| 6 | U-478 到 U-481 | public state refresh、issue triage、retrospective、next task pool expansion |

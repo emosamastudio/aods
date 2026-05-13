@@ -2,6 +2,68 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-29
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-29 |
+| 开始时间 | 2026-05-13 15:10 Asia/Shanghai |
+| 结束时间 | 2026-05-13 15:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-28 复审；source-first quickstart sample audit；package sample documentation pass；examples upgrade guidance；local hygiene CI design；generated clean CI dry-run；docs link CI dry-run；secret scan CI dry-run；benchmark summary refresh decision；hosted repeatability gate decision；benchmark archive policy implementation decision；不启用 GitHub Actions、不发布、不 bump version、不打 tag、不刷新 benchmark generated artifacts、不启用 hosted runtime gate、不实现 runtime、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-462、U-463、U-464、U-465、U-466、U-467、U-468、U-469、U-470、U-471 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-29
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `4309307 Sync public roadmap and maintenance decisions` |
+| Task ledger state | 通过 | U-462 到 U-471 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-462 到 U-471 |
+
+## 任务执行记录：R-2026-05-13-29
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-462 | 未开始 | 已完成 | source-first quickstart audit，补入 conformance step 和 fixture/conformance 边界 | `examples/compiled-pilot-source/README.md` |
+| 2 | U-463 | 未开始 | 已完成 | package sample documentation pass，写清 package examples 与 docs snippets 边界 | `examples/compiled-pilot-source/README.md` / `docs/examples/README.md` |
+| 3 | U-464 | 未开始 | 已完成 | examples upgrade guidance，补旧 source-first examples 升级路线 | `examples/compiled-pilot-source/README.md` |
+| 4 | U-465 | 未开始 | 已完成 | local hygiene CI design，记录可迁移 gate 形状但不启用 Actions | `aods-examples-ci-benchmark-policy.zh-CN.md` |
+| 5 | U-466 | 未开始 | 已完成 | generated clean CI dry-run | `npm run generated:check-clean -- --json` |
+| 6 | U-467 | 未开始 | 已完成 | docs link CI dry-run | `npm run docs:check-links -- --json` |
+| 7 | U-468 | 未开始 | 已完成 | secret scan CI dry-run | `npm run security:scan-placeholders -- --json` |
+| 8 | U-469 | 未开始 | 已完成 | benchmark summary refresh decision：无指标/源码变化，不刷新 README sync 区块 | policy doc / benchmark summary source review |
+| 9 | U-470 | 未开始 | 已完成 | hosted repeatability gate decision：仍为 supplemental lane | policy doc |
+| 10 | U-471 | 未开始 | 已完成 | benchmark archive policy implementation decision：保持 generated/reports committed baseline | policy doc / benchmark README review |
+
+## 验证记录：R-2026-05-13-29
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| Generated clean dry-run | `npm run generated:check-clean -- --json` | 通过 | dirty_entries=[] |
+| Docs link dry-run | `npm run docs:check-links -- --json` | 通过 | markdown_files=180, checked_relative_links=89, missing=0 |
+| Secret scan dry-run | `npm run security:scan-placeholders -- --json` | 通过 | hits=0 |
+| Package surface dry-run | `npm run package:check-surface -- --json` | 通过 | entry_count=61, missing=0, unexpected=0 |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=181, checked_relative_links=91, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-29
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-462 到 U-471 |
+| 完成任务 | 10 | U-462 到 U-471 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 10 | 下一轮默认 U-472 到 U-481 |
+
 ## 回合摘要：R-2026-05-13-28
 
 | 项 | 内容 |

@@ -83,6 +83,7 @@ The quickest way to inspect current AODS authoring patterns is the source-first 
 - compiled output: [`examples/compiled-pilot/`](./examples/compiled-pilot/)
 - generated human overview: [`examples/compiled-pilot/README.md`](./examples/compiled-pilot/README.md)
 - example fixture manifest: [`examples/compiled-pilot-source/fixtures/fixture-manifest.json`](./examples/compiled-pilot-source/fixtures/fixture-manifest.json)
+- example conformance manifest: [`examples/compiled-pilot-source/fixtures/conformance-manifest.json`](./examples/compiled-pilot-source/fixtures/conformance-manifest.json)
 
 Current canonical packs in that pilot:
 
