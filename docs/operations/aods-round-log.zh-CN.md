@@ -2,6 +2,70 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-47
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-47 |
+| 开始时间 | 2026-05-13 29:00 Asia/Shanghai |
+| 结束时间 | 2026-05-13 29:45 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-46 复审；provider discovery static record proposal；auth boundary static record proposal；probing posture no-network fixture design；provider selection no-auto-select design；fallback policy no-ranking fixture design；adapter handshake static metadata proposal；`#64` status comment decision；runtime protocol negative fixture candidate sort；static protocol package boundary decision；runtime protocol schema gate decision；不实现 schema/validator/fixture/conformance/package example promotion/runtime、不执行 provider call/auth exchange/dynamic probing/fallback executor/adapter call/database/production mutation、不发布 npm、不覆盖 installed skill、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-642、U-643、U-644、U-645、U-646、U-647、U-648、U-649、U-650、U-651 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-47
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `23d4922 Add adoption troubleshooting and CLI version` |
+| Task ledger state | 通过 | U-642 到 U-651 为当前默认任务 |
+| Handoff state | 通过 | handoff 指向 runtime/protocol static record proposals |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-642 到 U-651 |
+
+## 任务执行记录：R-2026-05-13-47
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-642 | 未开始 | 已完成 | 设计 provider discovery 静态记录字段 | runtime protocol static records doc |
+| 2 | U-643 | 未开始 | 已完成 | 设计 auth boundary 静态记录字段 | runtime protocol static records doc |
+| 3 | U-644 | 未开始 | 已完成 | 设计 probing posture no-network 负例 | runtime protocol static records doc |
+| 4 | U-645 | 未开始 | 已完成 | 设计 provider selection no-auto-select 边界 | runtime protocol static records doc |
+| 5 | U-646 | 未开始 | 已完成 | 设计 fallback policy no-ranking 边界 | runtime protocol static records doc |
+| 6 | U-647 | 未开始 | 已完成 | 设计 adapter handshake 静态元数据 | runtime protocol static records doc |
+| 7 | U-648 | 未开始 | 已完成 | 向 `#64` 追加短状态评论但不 overclaim | `https://github.com/emosamastudio/aods/issues/64#issuecomment-4440776438` |
+| 8 | U-649 | 未开始 | 已完成 | 排序 runtime/protocol 负例候选 | runtime protocol static records doc |
+| 9 | U-650 | 未开始 | 已完成 | 决定 static protocol 不进 package examples | runtime protocol static records doc |
+| 10 | U-651 | 未开始 | 已完成 | 决定暂不进入 schema / validator implementation | runtime protocol static records doc |
+
+## 返工记录：R-2026-05-13-47
+
+| 问题 | 修复 | 复核 |
+|---|---|---|
+| 无 | 无需返工 | 上轮质量复审通过，本轮仅做静态 proposal / decision |
+
+## 验证记录：R-2026-05-13-47
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Route orientation | `node ./bin/aods.mjs route . --query "runtime protocol adapter capability provider discovery auth probing fallback handshake" --intent read --stage orientation --json` | 通过 | 命中 stable surface contracts / boot protocol / authority governance |
+| Issue sync | `gh issue view 64 --json ...` / `gh issue comment 64` | 通过 | `#64` open；新增静态前置状态评论，不声明 runtime shipped |
+| Docs links | `npm run docs:check-links -- --json` | 通过 | 写入最终文档后复跑 |
+| Release hygiene | `npm run release:hygiene` | 通过 | 最终 gate |
+
+## 回合结束摘要：R-2026-05-13-47
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-642 到 U-651 |
+| 完成任务 | 10 | U-642 到 U-651 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-652 到 U-661 |
+
 ## 回合摘要：R-2026-05-13-46
 
 | 项 | 内容 |

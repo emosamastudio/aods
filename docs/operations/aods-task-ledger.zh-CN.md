@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | adoption ergonomics hardening complete |
+| 状态 | runtime protocol static records planned |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S82 runtime/protocol static records |
-| 当前回合 | R-2026-05-13-46 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 646 |
+| 当前阶段 | S83 operations hygiene |
+| 当前回合 | R-2026-05-13-47 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 656 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-46 |
-| 开始时间 | 2026-05-13 28:00 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-47 |
+| 开始时间 | 2026-05-13 29:00 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-632、U-633、U-634、U-635、U-636、U-637、U-638、U-639、U-640、U-641 |
-| 本轮范围 | 上轮质量复审；README troubleshooting short page implementation；external adoption quickstart doc split；compiled corpus smoke package sample docs；release source archive validation script decision；CLI version ergonomics review；npm publish criteria packet refresh；installed skill refresh owner action packet；docs examples package inclusion revisit；conformance public sample minimal doc decision；compiled-corpus validation troubleshooting sample |
-| 排除范围 | schema implementation、validator semantic implementation、fixture implementation、workflow engine、policy engine、event store、event replay、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、migration executor、database connection、public issue write、npm publish、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；CLI version focused regression；docs link check；package surface check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-642、U-643、U-644、U-645、U-646、U-647、U-648、U-649、U-650、U-651 |
+| 本轮范围 | 上轮质量复审；provider discovery static record proposal；auth boundary static record proposal；probing posture no-network fixture design；provider selection no-auto-select design；fallback policy no-ranking fixture design；adapter handshake static metadata proposal；`#64` status comment decision；runtime protocol negative fixture candidate sort；static protocol package boundary decision；runtime protocol schema gate decision |
+| 排除范围 | schema implementation、validator implementation、fixture implementation、conformance promotion、package example promotion、workflow engine、policy engine、event store、event replay、adapter execution、provider calls、auth exchange、dynamic probing、fallback executor、migration executor、database connection、production mutation、npm publish、installed skill overwrite、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；runtime/protocol proposal review；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-642 | S82 | Provider discovery static record proposal | P2 | 未开始 | 设计 provider discovery 静态记录字段，不做 live discovery | U-613 | no runtime |
-| U-643 | S82 | Auth boundary static record proposal | P2 | 未开始 | 设计 credential / exchange / redaction / audit boundary 静态记录 | U-642 | no auth |
-| U-644 | S82 | Probing posture no-network fixture design | P2 | 未开始 | 设计 network/cost/mutation posture 负例，不执行 probe | U-642 | no network |
-| U-645 | S82 | Provider selection no-auto-select design | P3 | 未开始 | 设计 provider selection 静态策略，不自动选择 provider | U-642 | no provider call |
-| U-646 | S82 | Fallback policy no-ranking fixture design | P3 | 未开始 | 设计 fallback policy 静态记录，禁止 runtime ranking overclaim | U-645 | no fallback executor |
-| U-647 | S82 | Adapter handshake static metadata proposal | P2 | 未开始 | 设计 adapter handshake 静态元数据，不调用 adapter | U-643 | no adapter |
-| U-648 | S82 | `#64` status comment decision | P3 | 未开始 | 判断是否给 runtime/protocol tracker 追加静态前置状态评论 | U-647 | GitHub |
-| U-649 | S82 | Runtime protocol negative fixture candidate sort | P2 | 未开始 | 排序 provider/auth/probe/fallback/handshake 负例候选 | U-642/U-647 | - |
-| U-650 | S82 | Static protocol package boundary decision | P3 | 未开始 | 判断哪些 runtime/protocol 静态记录可进入 package examples | U-649 | - |
-| U-651 | S82 | Runtime protocol schema gate decision | P2 | 未开始 | 决定是否进入 schema/validator 实现前置 | U-650 | no implementation yet |
 | U-652 | S83 | Round log archive split execution | P2 | 未开始 | 拆分过长 round log，保留当前入口短历史 | U-628 | - |
 | U-653 | S83 | Task ledger automation script feasibility | P3 | 未开始 | 评估台账计数 / recent window 自动检查脚本 | U-652 | - |
 | U-654 | S83 | Handoff summary shrink pass | P3 | 未开始 | 压缩 handoff completed summary，降低接手成本 | U-652 | - |
@@ -80,16 +70,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 617 | U-612 | S77 | Event correction static record next-slice review | P2 | 2026-05-13 | static records adoption follow-up | docs / regression review | no replay/store; next invariant only if narrow |
-| 618 | U-613 | S77 | Remote adapter mismatch static protocol next-slice | P2 | 2026-05-13 | static records adoption follow-up | docs / #64 scope review | protocol-record-only; no adapter execution |
-| 619 | U-614 | S77 | Workflow transition fixture entry criteria review | P3 | 2026-05-13 | static records adoption follow-up | design review | not fixture-ready |
-| 620 | U-615 | S77 | Policy decision fixture entry criteria review | P3 | 2026-05-13 | static records adoption follow-up | design review | not fixture-ready |
-| 621 | U-616 | S77 | Static records README consolidation decision | P3 | 2026-05-13 | README density audit | `wc -l` | use linked short doc later, not main README expansion |
-| 622 | U-617 | S78 | Benchmark generated summary source audit after release | P3 | 2026-05-13 | refreshed generated summary | `npm run benchmark:summary` | fixed stale assessed_version 0.7.0 -> 0.9.0 |
-| 623 | U-618 | S78 | Benchmark hosted cost language refresh decision | P3 | 2026-05-13 | static records adoption follow-up | hosted report/source review | wording still accurate |
-| 624 | U-619 | S78 | Benchmark package artifact inventory sample update | P3 | 2026-05-13 | pack inventory snapshot | `npm pack --dry-run --json` | aods@0.9.0, 61 entries |
-| 625 | U-620 | S78 | Public docs density audit after v0.9 | P3 | 2026-05-13 | README density audit | `wc -l` | no split this round; prefer linked docs later |
-| 626 | U-621 | S79 | Source-first adoption quickstart rerun from fresh repo | P2 | 2026-05-13 | fresh install smoke | install / compile / validate / route | v0.9 source-first adoption pass |
 | 627 | U-622 | S79 | Compiled-corpus adoption smoke from release source | P2 | 2026-05-13 | adoption closeout doc | install / validate / route | package compiled corpus validates from `v0.9.0` |
 | 628 | U-623 | S79 | External adoption failure-mode packet | P3 | 2026-05-13 | adoption closeout doc | failure-mode review | five likely adoption failures listed |
 | 629 | U-624 | S79 | README troubleshooting section decision | P3 | 2026-05-13 | adoption closeout doc | docs density review | no main README expansion; short doc later |
@@ -110,12 +90,22 @@
 | 644 | U-639 | S81 | Docs examples package inclusion revisit | P3 | 2026-05-13 | package surface check | `npm run package:check-surface -- --json` | `docs/examples/` remains out of package |
 | 645 | U-640 | S81 | Conformance public sample minimal doc decision | P3 | 2026-05-13 | `docs/adoption-quickstart.md` | docs link check | command-only smoke, no long JSON sample |
 | 646 | U-641 | S81 | Compiled-corpus validation troubleshooting sample | P2 | 2026-05-13 | `docs/adoption-troubleshooting.md` | docs link check | normal vs reality validation sample documented |
+| 647 | U-642 | S82 | Provider discovery static record proposal | P2 | 2026-05-13 | runtime protocol static records doc | docs link check | static declared discovery only, no live lookup |
+| 648 | U-643 | S82 | Auth boundary static record proposal | P2 | 2026-05-13 | runtime protocol static records doc | docs link check | credential class / secret posture / exchange owner fields proposed |
+| 649 | U-644 | S82 | Probing posture no-network fixture design | P2 | 2026-05-13 | runtime protocol static records doc | docs link check | no-network fixture candidate sorted |
+| 650 | U-645 | S82 | Provider selection no-auto-select design | P3 | 2026-05-13 | runtime protocol static records doc | docs link check | auto-select stays forbidden |
+| 651 | U-646 | S82 | Fallback policy no-ranking fixture design | P3 | 2026-05-13 | runtime protocol static records doc | docs link check | runtime ranking / failover stays forbidden |
+| 652 | U-647 | S82 | Adapter handshake static metadata proposal | P2 | 2026-05-13 | runtime protocol static records doc | docs link check | input/output/auth/audit static fields proposed, no adapter call |
+| 653 | U-648 | S82 | `#64` status comment decision | P3 | 2026-05-13 | `https://github.com/emosamastudio/aods/issues/64#issuecomment-4440776438` | `gh issue comment 64` | short status comment posted without runtime overclaim |
+| 654 | U-649 | S82 | Runtime protocol negative fixture candidate sort | P2 | 2026-05-13 | runtime protocol static records doc | docs link check | provider evidence / auth / probe cost first |
+| 655 | U-650 | S82 | Static protocol package boundary decision | P3 | 2026-05-13 | runtime protocol static records doc | package surface check | do not promote to package examples yet |
+| 656 | U-651 | S82 | Runtime protocol schema gate decision | P2 | 2026-05-13 | runtime protocol static records doc | release hygiene | no schema/validator implementation until shape and source-first candidate stabilize |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-642 到 U-651 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-652 到 U-661 |
 
 ## 负责人判断 / issue 分类
 
@@ -136,4 +126,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；adoption ergonomics hardening 已完成；quickstart / troubleshooting 短页已落地；compiled-corpus package sample、conformance command-only sample、normal vs reality validation troubleshooting 已记录；CLI 已支持 `--version` / `version`；npm publish、installed skill overwrite 和 release archive script 仍保持 owner gate / 后续任务；剩余任务为 U-642 到 U-681，下一轮默认 U-642 到 U-651。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.9 已发布；runtime/protocol static records proposal 已完成；provider discovery、auth boundary、probing posture、provider selection、fallback policy 和 adapter handshake 均有静态字段草案；negative fixture 顺序、package boundary 和 schema gate 已决策；仍不实现 runtime、schema、validator、fixture、conformance 或 package example promotion。剩余任务为 U-652 到 U-681，下一轮默认 U-652 到 U-661。

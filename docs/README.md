@@ -50,6 +50,7 @@
 | `docs/operations/aods-static-records-adoption-followup.zh-CN.md` | U-612 到 U-621 static records / adoption follow-up 记录。 |
 | `docs/operations/aods-adoption-closeout-next-pool.zh-CN.md` | U-622 到 U-631 adoption closeout / next task pool 记录。 |
 | `docs/operations/aods-adoption-ergonomics-hardening.zh-CN.md` | U-632 到 U-641 adoption docs / CLI version ergonomics hardening 记录。 |
+| `docs/operations/aods-runtime-protocol-static-records.zh-CN.md` | U-642 到 U-651 runtime/protocol static record proposals and gate decisions 记录。 |
 | `docs/operations/archive/` | 拆分前的长入口、完整任务台账和完整交接归档。 |
 | `docs/operations/aods-v0.8-backlog.zh-CN.md` | v0.8 backlog triage、open issue 排序和下一 drift 切片。 |
 | `docs/operations/aods-v0.9-backlog.zh-CN.md` | v0.9 write/event/governance 候选路线和 U-035 执行记录。 |
