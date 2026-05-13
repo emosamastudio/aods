@@ -2,6 +2,67 @@
 
 状态：当前回合记录
 
+## 回合摘要：R-2026-05-13-27
+
+| 项 | 内容 |
+|---|---|
+| 回合 ID | R-2026-05-13-27 |
+| 开始时间 | 2026-05-13 13:45 Asia/Shanghai |
+| 结束时间 | 2026-05-13 14:20 Asia/Shanghai |
+| 执行者 | 主 agent |
+| 参与 subagent | 无 |
+| 本轮上限 | 上轮 R-2026-05-13-26 复审；capability issue close criteria；capability protocol boundary；capability fallback negative conformance fixture；capability public close decision；observability close criteria；route sample generation decision；validate issue location schema docs；telemetry no-go reaffirmation；public roadmap body refresh packet；public milestone mapping packet；不关闭 issue、不编辑 issue body、不创建 milestone、不发布、不 bump version、不打 tag、不实现 runtime、不建 telemetry store/dashboard、不触碰 Polaris sibling repo；`MEMORY.md` 不进仓库 |
+| 本轮选中任务 | U-442、U-443、U-444、U-445、U-446、U-447、U-448、U-449、U-450、U-451 |
+| 本轮状态 | 已完成 |
+
+## 上轮质量复审：R-2026-05-13-27
+
+| 检查 | 结果 | 说明 |
+|---|---|---|
+| Git state | 通过 | main 与 origin/main 一致，工作树仅 `MEMORY.md` 未跟踪 |
+| Latest commit | 通过 | 最新提交为 `6448bf6 Prepare v0.9 release candidate packet` |
+| Task ledger state | 通过 | U-442 到 U-451 为当前默认任务 |
+| Release hygiene gate | 通过 | 开工前 `npm run release:hygiene` 通过 |
+| 返工项 | 无 | 上轮成果合格，直接进入 U-442 到 U-451 |
+
+## 任务执行记录：R-2026-05-13-27
+
+| 顺序 | 任务 ID | 开始状态 | 结束状态 | 执行动作 | 验收证据 |
+|---:|---|---|---|---|---|
+| 1 | U-442 | 未开始 | 已完成 | 定义 `#41` close criteria matrix | `aods-public-close-criteria-roadmap-sync.zh-CN.md` |
+| 2 | U-443 | 未开始 | 已完成 | 写清 metadata-only capability 与 runtime protocol 边界 | public close criteria doc |
+| 3 | U-444 | 未开始 | 已完成 | 增加缺 fallback metadata 的 expected-failure conformance regression | `fixture-conventions.test.mjs` |
+| 4 | U-445 | 未开始 | 已完成 | 判定 `#41` 保持 open，先公开边界或拆 runtime issue | public close criteria doc |
+| 5 | U-446 | 未开始 | 已完成 | 定义 `#59` close criteria matrix | public close criteria doc |
+| 6 | U-447 | 未开始 | 已完成 | 判定 route samples 继续 hand-curated，不上生成器 | public close criteria doc |
+| 7 | U-448 | 未开始 | 已完成 | 文档化 validate issue `location` envelope 字段语义 | public close criteria doc |
+| 8 | U-449 | 未开始 | 已完成 | 再次确认 no telemetry store / dashboard / trace backend | public close criteria doc |
+| 9 | U-450 | 未开始 | 已完成 | 准备 `#60` comment-style refresh packet，不编辑 body | public close criteria doc |
+| 10 | U-451 | 未开始 | 已完成 | 准备 milestone mapping packet，不创建 milestone | public close criteria doc |
+
+## 验证记录：R-2026-05-13-27
+
+| 验证项 | 命令或方式 | 结果 | 说明 |
+|---|---|---|---|
+| Release hygiene | `npm run release:hygiene` | 开工前通过 | 上轮质量复审 gate |
+| GitHub issue snapshot | `gh issue view 41/59/60` | 通过 | 三个公开 issue 均 open |
+| Milestone snapshot | GitHub milestones API | 通过 | 当前无 milestone |
+| Focused conformance regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 通过 | 15/15 pass |
+| Final docs link gate | `npm run docs:check-links -- --json` | 通过 | markdown_files=179, checked_relative_links=88, missing=0 |
+| Final release hygiene | `npm run release:hygiene` | 通过 | links / placeholder scan / package surface / generated clean / skill tests / validate:all 全部通过 |
+| Final diff check | `git diff --check` | 通过 | 无 whitespace 问题 |
+
+## 回合结束摘要：R-2026-05-13-27
+
+| 项 | 数量 | 说明 |
+|---|---:|---|
+| 选中任务 | 10 | U-442 到 U-451 |
+| 完成任务 | 10 | U-442 到 U-451 |
+| 返工项 | 0 | 无 |
+| 阻塞任务 | 0 | 无 |
+| 新增任务 | 0 | 无 |
+| 剩余未完成任务 | 30 | 下一轮默认 U-452 到 U-461 |
+
 ## 回合摘要：R-2026-05-13-26
 
 | 项 | 内容 |

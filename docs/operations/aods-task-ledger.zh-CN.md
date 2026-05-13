@@ -9,40 +9,30 @@
 | 项 | 内容 |
 |---|---|
 | 项目 | AODS |
-| 状态 | v0.9 release candidate preparation complete |
+| 状态 | public close criteria and roadmap sync packet complete |
 | 更新时间 | 2026-05-13 |
-| 当前阶段 | S53 capability close criteria；S54 observability close criteria；S55 public roadmap sync |
-| 当前回合 | R-2026-05-13-26 |
-| 未完成任务数量 | 40 |
-| 已完成任务数量 | 446 |
+| 当前阶段 | S55 public roadmap sync；S56 current authority / drift fixture decisions |
+| 当前回合 | R-2026-05-13-27 |
+| 未完成任务数量 | 30 |
+| 已完成任务数量 | 456 |
 
 ## 当前回合锁定记录
 
 | 字段 | 内容 |
 |---|---|
-| 回合 ID | R-2026-05-13-26 |
-| 开始时间 | 2026-05-13 13:30 Asia/Shanghai |
+| 回合 ID | R-2026-05-13-27 |
+| 开始时间 | 2026-05-13 13:45 Asia/Shanghai |
 | 执行者 | 主 agent |
-| 选中任务 | U-432、U-433、U-434、U-435、U-436、U-437、U-438、U-439、U-440、U-441 |
-| 本轮范围 | 上轮质量复审；v0.9.0 version surface audit；changelog preparation；release notes draft；package dry-run audit；packed install smoke；release branch decision；public issue close readiness；go/no-go packet；packaged skill release sync check；post-release checklist refresh |
-| 排除范围 | version bump、tag、GitHub Release、issue close、issue body edit、label edit、milestone creation、runtime implementation、schema/runtime semantic change、Polaris sibling repo、`MEMORY.md` |
-| 验证计划 | 上轮质量复审；release hygiene；npm pack dry-run；packed install smoke；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
+| 选中任务 | U-442、U-443、U-444、U-445、U-446、U-447、U-448、U-449、U-450、U-451 |
+| 本轮范围 | 上轮质量复审；capability issue close criteria；capability protocol boundary doc refresh；capability fallback negative conformance fixture；capability public close decision；observability close criteria；route sample generation decision；validate issue location schema docs；telemetry no-go reaffirmation；public roadmap body refresh packet；public milestone mapping packet |
+| 排除范围 | issue close、issue body edit、label edit、milestone creation、version bump、tag、GitHub Release、runtime implementation、telemetry store、dashboard、provider discovery、fallback ranking、adapter execution、Polaris sibling repo、`MEMORY.md` |
+| 验证计划 | 上轮质量复审；release hygiene；focused conformance regression；docs link check；release hygiene final；git diff check；staged set 排除 `MEMORY.md` |
 | 新任务处理规则 | 每轮质量复审通过后，从未完成任务表按顺序选择 10 个任务执行；若未完成任务少于 10 个则全部选择。新发现任务必须先进入未完成任务表，不直接插入已锁定回合。 |
 
 ## 未完成任务
 
 | 任务 ID | 阶段 | 任务 | 优先级 | 状态 | 验收标准 | 依赖 | 备注 |
 |---|---|---|---|---|---|---|---|
-| U-442 | S53 | Capability issue close criteria matrix | P2 | 未开始 | 定义 #41 关闭所需 metadata/runtime 边界证据 | U-415 | - |
-| U-443 | S53 | Capability protocol boundary doc refresh | P2 | 未开始 | 把 metadata-only 与 runtime protocol 的差异写清楚 | U-442 | - |
-| U-444 | S53 | Capability fallback negative conformance fixture | P2 | 未开始 | 缺 fallback metadata 的负例进入 conformance | U-412 | - |
-| U-445 | S53 | Capability public close decision | P3 | 未开始 | 根据 U-442 到 U-444 判断 #41 是否关闭或继续 open | U-444 | - |
-| U-446 | S54 | Observability issue close criteria matrix | P2 | 未开始 | 定义 #59 关闭所需 validate / route / sample 证据 | U-408 | - |
-| U-447 | S54 | Route explanation sample generation decision | P3 | 未开始 | 判断 route samples 是否需要生成器而非手工样例 | U-417 | - |
-| U-448 | S54 | Validate issue location schema docs | P2 | 未开始 | 文档化 location envelope 字段语义 | U-404 | - |
-| U-449 | S54 | Observability telemetry no-go reaffirmation | P3 | 未开始 | 再次确认无 telemetry store / dashboard 默认实现 | U-446 | - |
-| U-450 | S55 | Public roadmap body refresh packet | P2 | 未开始 | 准备 #60 body refresh 草稿或继续 comment-only 决策 | U-429 | - |
-| U-451 | S55 | Public milestone mapping packet | P3 | 未开始 | 把 open issues 映射到 v0.9 / later，不创建或创建前先记录 | U-430 | - |
 | U-452 | S55 | Public roadmap sync execution | P3 | 未开始 | 按 U-450/U-451 决策同步公开状态 | U-450,U-451 | - |
 | U-453 | S56 | Current authority checker spike | P2 | 未开始 | 评估 current-authority checker 最小输入/输出 | U-374 | - |
 | U-454 | S56 | Implementation repo path fixture | P2 | 未开始 | 为 repo locator / path locator 增加更小负例或决定不加 | U-396 | - |
@@ -80,16 +70,6 @@
 
 | 完成顺序 | 任务 ID | 阶段 | 任务 | 优先级 | 完成时间 | 验收证据 | 验证命令 | 备注 |
 |---:|---|---|---|---|---|---|---|---|
-| 417 | U-412 | S48 | Capability conformance fixture first slice | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | capability fallback metadata validate case 进入 conformance suite |
-| 418 | U-413 | S48 | Capability example pack refresh | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | adapter/capability module 展示 partial / unknown fallback metadata |
-| 419 | U-414 | S48 | Capability README guidance refresh | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | README 继续强调 metadata-only |
-| 420 | U-415 | S48 | Capability public issue sync | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 同步 #41，不关闭 issue |
-| 421 | U-416 | S49 | Conformance sample package promotion design | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | packaged examples/fixtures 继续随包；docs examples 不提升为 package surface |
-| 422 | U-417 | S49 | Public sample JSON generation policy | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | public samples 为 hand-curated snippets，非 generated golden outputs |
-| 423 | U-418 | S49 | Docs example link checker coverage | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | docs/examples JSON files 被 link checker 覆盖 |
-| 424 | U-419 | S49 | Security placeholder scan fixture hardening | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 0 hits；不新增低信号 placeholder fixture |
-| 425 | U-420 | S49 | Package surface allowlist maintenance docs refresh | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | allowlist 无新增；docs examples 继续不进入 package |
-| 426 | U-421 | S49 | Benchmark generated archive split execution decision | P3 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 当前不拆 archive/index，不执行生成器大改 |
 | 427 | U-422 | S50 | Operations index split execution | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 旧 operations README 归档，新 README 变成短入口 |
 | 428 | U-423 | S50 | Task ledger archive split execution | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 旧完整任务台账归档，当前台账保留 recent window + active pool |
 | 429 | U-424 | S50 | Handoff pruning execution | P2 | 2026-05-13 | 当前台账 / round log / supporting doc | release hygiene / docs link / git diff check | 旧完整 handoff 归档，当前 handoff 压缩为入口/状态/风险/下一步 |
@@ -110,21 +90,31 @@
 | 444 | U-439 | S52 | v0.9.0 go/no-go packet | P1 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene / npm pack dry-run / packed install smoke | 技术 gate go；公开 release no-go，需版本 bump/tag/release body |
 | 445 | U-440 | S52 | Packaged skill release sync check | P2 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | release hygiene skill tests | skill 仍与 v0.8.0 对齐，下一 release bump 时同步 |
 | 446 | U-441 | S52 | Post-release checklist refresh | P3 | 2026-05-13 | 当前台账 / round log / release candidate prep doc | docs link / release hygiene | 更新发布执行顺序，不执行 release |
+| 447 | U-442 | S53 | Capability issue close criteria matrix | P2 | 2026-05-13 | 当前台账 / round log / public close criteria doc | release hygiene / focused conformance / docs link / git diff check | #41 metadata criteria 多数满足，runtime/protocol 边界仍需公开收束 |
+| 448 | U-443 | S53 | Capability protocol boundary doc refresh | P2 | 2026-05-13 | 当前台账 / round log / public close criteria doc | release hygiene / focused conformance / docs link / git diff check | 写清 metadata-only contract 与 runtime negotiation 的边界 |
+| 449 | U-444 | S53 | Capability fallback negative conformance fixture | P2 | 2026-05-13 | fixture-conventions focused regression | `node --test benchmarks/aods-eval-lab/test/fixture-conventions.test.mjs` | 缺 fallback metadata 的 expected-failure conformance case 通过 |
+| 450 | U-445 | S53 | Capability public close decision | P3 | 2026-05-13 | 当前台账 / round log / public close criteria doc | release hygiene / docs link / git diff check | #41 本轮不关闭；先 public boundary note 或拆 runtime issue |
+| 451 | U-446 | S54 | Observability issue close criteria matrix | P2 | 2026-05-13 | 当前台账 / round log / public close criteria doc | release hygiene / docs link / git diff check | #59 多数满足，location semantics 和 no-go 公开同步后再判断 |
+| 452 | U-447 | S54 | Route explanation sample generation decision | P3 | 2026-05-13 | 当前台账 / round log / public close criteria doc | release hygiene / docs link / git diff check | 继续 hand-curated samples，不上生成器 |
+| 453 | U-448 | S54 | Validate issue location schema docs | P2 | 2026-05-13 | 当前台账 / round log / public close criteria doc | release hygiene / docs link / git diff check | 文档化 location.module_id/sid/path/artifact_id/field/evidence_id 语义 |
+| 454 | U-449 | S54 | Observability telemetry no-go reaffirmation | P3 | 2026-05-13 | 当前台账 / round log / public close criteria doc | release hygiene / docs link / git diff check | 再次确认 no telemetry store / dashboard / trace backend |
+| 455 | U-450 | S55 | Public roadmap body refresh packet | P2 | 2026-05-13 | 当前台账 / round log / public close criteria doc | GitHub issue snapshot / docs link | 准备 #60 comment-style refresh packet，不直接编辑 body |
+| 456 | U-451 | S55 | Public milestone mapping packet | P3 | 2026-05-13 | 当前台账 / round log / public close criteria doc | GitHub milestone API / docs link | 当前无 milestone；暂不创建，先按 v0.9 candidate/later-runtime 映射 |
 
 ## 失败或阻塞任务
 
 | 任务 ID | 状态 | 阻塞原因 | 下一步 |
 |---|---|---|---|
-| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-442 到 U-451 |
+| 无 | - | 当前无阻塞任务 | 下一轮默认选择 U-452 到 U-461 |
 
 ## 负责人判断 / issue 分类
 
 | 分类 | Issue | 判断 | 下一步 |
 |---|---|---|---|
-| public roadmap | #60 | 保持 open；暂不编辑 body | U-450 形成 body refresh packet 后再决定 |
-| observability | #59 | 保持 open；已有 location / route skipped / sample 进展 | U-446 定义 close criteria |
-| capability | #41 | 保持 open；metadata-only fallback 已落地，runtime protocol 仍 deferred | U-442 定义 close criteria |
-| milestone | GitHub milestones | 当前无 milestone | U-451 先形成 mapping packet，不在本轮创建 |
+| public roadmap | #60 | 保持 open；本轮准备 comment-style refresh packet，不编辑 body | U-452 按 packet 执行公开同步 |
+| observability | #59 | 保持 open；close criteria 已定义，需 public no-go / location semantics 同步 | U-452 决定是否评论同步 |
+| capability | #41 | 保持 open；metadata-first criteria 多数满足，runtime/protocol scope 仍需公开收束 | U-452 决定是否评论同步或拆 runtime issue |
+| milestone | GitHub milestones | 当前无 milestone；本轮准备 mapping packet，不创建 | release scope 明确后再决定是否创建 v0.9.0 milestone |
 
 ## 新发现任务暂存区
 
@@ -136,4 +126,4 @@
 
 ## 进度记录
 
-完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；下一阶段进入 capability / observability close criteria 与 public roadmap refresh packet。
+完整历史见 `docs/operations/aods-progress-ledger.zh-CN.md`。当前摘要：v0.8 已发布；term refs、evidence freshness、validator observability、capability fallback metadata 和 sample maintenance 已完成；operations 文档已拆分归档；v0.9 release candidate preparation 已完成但未发布；public close criteria / roadmap sync packet 已完成但未执行公开关闭；下一阶段进入 public sync execution 与 current-authority / drift fixture decisions。

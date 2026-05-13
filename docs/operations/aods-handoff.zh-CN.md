@@ -2,12 +2,12 @@
 
 日期：2026-05-13
 分支：`main`
-状态：v0.8 released；v0.9 release candidate preparation complete
+状态：v0.8 released；public close criteria and roadmap sync packet complete
 历史归档：`docs/operations/archive/aods-handoff-archive-2026-05-13.zh-CN.md`
 
 ## 一句话结论
 
-AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-441 已完成；当前任务池剩余 U-442 到 U-481，下一轮默认执行 U-442 到 U-451，重点是 public issue close criteria 和 roadmap / milestone packet。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
+AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#59/#41`。U-027 到 U-451 已完成；当前任务池剩余 U-452 到 U-481，下一轮默认执行 U-452 到 U-461，重点是 public sync execution、current-authority / drift fixture decisions 和 GitHub release install smoke plan。`MEMORY.md` 仍是本地未跟踪文件，不进仓库。
 
 ## 必读顺序
 
@@ -40,6 +40,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | Capability metadata | 完成一轮 | unsupported reason、fallback posture、compatibility gate、example/conformance 已落地 |
 | Operations split | 完成 | 旧长入口和完整历史已归档；当前入口变短 |
 | Release planning | 已完成候选准备 | v0.9.0 release notes draft、package dry-run、packed install smoke 和 go/no-go 已入账；仍不发布、不打 tag |
+| Public close criteria | 已完成 packet | `#41/#59/#60` 均保持 open；已准备 close criteria、roadmap refresh 和 milestone mapping |
 
 ## 当前风险
 
@@ -48,7 +49,7 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 | `MEMORY.md` 误入仓库 | stage 前必须排除；当前保持 untracked |
 | README benchmark 手改 | benchmark sync 区块必须改 generator |
 | capability 过度承诺 | 当前只做 metadata；runtime negotiation / provider discovery / fallback ranking 仍 deferred |
-| public issue 提前关闭 | `#60/#59/#41` 保持 open；先做 close criteria matrix |
+| public issue 提前关闭 | `#60/#59/#41` 保持 open；按 packet 先同步公开边界，不直接关闭 |
 | release version surface 漂移 | 下一 release 必须在同一 version-bump commit 中同步 package / README / skill；当前仍为 v0.8.0 |
 | operations 历史丢失 | 完整旧 README / task ledger / handoff 已在 `docs/operations/archive/` |
 
@@ -56,9 +57,9 @@ AODS 是独立权威规范路线。v0.8 已发布，当前 open issue 为 `#60/#
 
 | 顺序 | 任务 | 目标 |
 |---:|---|---|
-| 1 | U-442 | capability issue close criteria matrix |
-| 2 | U-443 | capability protocol boundary doc refresh |
-| 3 | U-444 | capability fallback negative conformance fixture |
-| 4 | U-445 | capability public close decision |
-| 5 | U-446 到 U-449 | observability close criteria、route sample decision、location docs、telemetry no-go |
-| 6 | U-450 到 U-451 | public roadmap body refresh packet、milestone mapping packet |
+| 1 | U-452 | public roadmap sync execution |
+| 2 | U-453 | current authority checker spike |
+| 3 | U-454 | implementation repo path fixture decision |
+| 4 | U-455 | stale evidence negative fixture decision |
+| 5 | U-456 到 U-460 | acceptance freshness gate、archive link audit、historical labels、operations index / task-ledger script decisions |
+| 6 | U-461 | GitHub release install smoke plan |

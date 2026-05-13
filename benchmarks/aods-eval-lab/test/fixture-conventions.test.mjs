@@ -134,6 +134,77 @@ test("conformance runner consumes declared fixture and validate cases without ar
   assert.ok(report.cases.some((testCase) => testCase.id === "compiled-pilot-capability-fallback-metadata"));
 });
 
+test("conformance runner captures missing capability fallback metadata as an expected negative case", (t) => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "aods-capability-conformance-negative-"));
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+
+  const negativeCorpusRoot = path.join(tempDir, "compiled-pilot-missing-capability-fallback");
+  fs.cpSync(path.join(REPO_ROOT, "examples", "compiled-pilot"), negativeCorpusRoot, { recursive: true });
+
+  const modulePath = path.join(negativeCorpusRoot, "modules", "shift-ops-adapter-capability.json");
+  const module = JSON.parse(fs.readFileSync(modulePath, "utf8"));
+  const fallbackArtifact = module.artifacts.find(
+    (entry) => entry.artifact_id === "adapter-capability-compatibility-matrix"
+  );
+  const partialRow = fallbackArtifact.content.rows.find((row) => row[0] === "readiness-partial-cached");
+  partialRow[10] = "";
+  partialRow[11] = "";
+  partialRow[12] = "";
+  partialRow[13] = "";
+  module.meta.contract.capability = {
+    capability_id: "readiness.query",
+    support_status: "partial"
+  };
+  fs.writeFileSync(modulePath, `${JSON.stringify(module, null, 2)}\n`);
+
+  const conformanceManifestPath = path.join(tempDir, "conformance-manifest.json");
+  fs.writeFileSync(
+    conformanceManifestPath,
+    `${JSON.stringify(
+      {
+        aods_conformance_manifest_v: 0,
+        suite_id: "capability-fallback-negative-conformance",
+        description: "Expected-failure case for missing capability fallback metadata.",
+        cases: [
+          {
+            id: "missing-capability-fallback-metadata",
+            kind: "validate",
+            target: {
+              path: negativeCorpusRoot,
+              strict: true
+            },
+            expected: {
+              status: "fail",
+              rules: [
+                "capability-fallback-metadata-required",
+                "capability-fallback-posture-required",
+                "capability-unsupported-reason-required"
+              ]
+            }
+          }
+        ]
+      },
+      null,
+      2
+    )}\n`
+  );
+
+  const result = spawnSync(
+    "node",
+    [CLI_PATH, "conformance", "run", conformanceManifestPath, "--json"],
+    { cwd: REPO_ROOT, encoding: "utf8" }
+  );
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.status, "pass");
+  assert.equal(report.summary.cases, 1);
+  assert.equal(report.summary.expected_failures, 1);
+  assert.equal(report.cases[0].status, "fail");
+  assert.deepEqual(report.cases[0].missing_rules, []);
+  assert.deepEqual(report.cases[0].unexpected_rules, []);
+});
+
 test("conformance manifest and report match their checked-in schemas", () => {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   const manifestSchema = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "schema", "conformance-manifest.schema.json"), "utf8"));
